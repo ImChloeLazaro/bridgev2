@@ -60,7 +60,7 @@ const NavigationBar = ({roleSentFromServer}) => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="flex items-center gap-6">
-          <UserDropdown signout={() => console.log('signout')}/>
+          <UserDropdown signout={() => console.log('signout me')}/>
           {userRoles.includes(role) && (
             <RoleBadge/>
           )}
