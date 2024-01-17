@@ -5,11 +5,11 @@ import SignInGoogle from "./SignInGoogle";
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 
 // ### BACKEND
-// import { Amplify } from "aws-amplify";
-// import config from "../../../src/amplifyconfiguration.json"
-// import { signInWithRedirect } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import config from "../../amplifyconfiguration.json"
+import { signInWithRedirect } from "aws-amplify/auth";
 
-// Amplify.configure(config)
+Amplify.configure(config)
 
 const SignInCard = () => {
   return (
@@ -52,8 +52,7 @@ const SignInCard = () => {
             </div>
           </div>
           {/* // ### BACKEND */}
-          {/* <SignInGoogle handler={signInWithRedirect}/> */}
-          <SignInGoogle />
+          <SignInGoogle handler={signInWithRedirect}/>
         </CardBody>
       </Card>
     </div>
