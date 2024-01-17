@@ -10,6 +10,11 @@
       "StackName": "amplify-bridgev2-dev-150517",
       "StackId": "arn:aws:cloudformation:ap-southeast-1:675436869821:stack/amplify-bridgev2-dev-150517/a1687390-b4ed-11ee-ae4b-02781317fc18",
       "AmplifyAppId": "dyk54a7v2s19"
+    },
+    "categories": {
+      "auth": {
+        "bridgev2907806c3": {}
+      }
     }
   }
 }
