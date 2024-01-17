@@ -8,7 +8,6 @@ import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import { Amplify } from "aws-amplify";
 import config from "../../amplifyconfiguration.json"
 import { signInWithRedirect } from "aws-amplify/auth";
-
 Amplify.configure(config)
 
 const SignInCard = () => {
