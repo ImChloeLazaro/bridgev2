@@ -1,20 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-bridgev2-dev-104059-authRole",
-      "UnauthRoleArn": "arn:aws:iam::675436869821:role/amplify-bridgev2-dev-104059-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::675436869821:role/amplify-bridgev2-dev-104059-authRole",
+      "AuthRoleName": "amplify-bridgev2-dev-150517-authRole",
+      "UnauthRoleArn": "arn:aws:iam::675436869821:role/amplify-bridgev2-dev-150517-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::675436869821:role/amplify-bridgev2-dev-150517-authRole",
       "Region": "ap-southeast-1",
-      "DeploymentBucketName": "amplify-bridgev2-dev-104059-deployment",
-      "UnauthRoleName": "amplify-bridgev2-dev-104059-unauthRole",
-      "StackName": "amplify-bridgev2-dev-104059",
-      "StackId": "arn:aws:cloudformation:ap-southeast-1:675436869821:stack/amplify-bridgev2-dev-104059/b5af5690-b4c8-11ee-9271-0aaa2521154e",
-      "AmplifyAppId": "d3cykr73sk7wvl"
-    },
-    "categories": {
-      "auth": {
-        "bridgev23caec76c": {}
-      }
+      "DeploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+      "UnauthRoleName": "amplify-bridgev2-dev-150517-unauthRole",
+      "StackName": "amplify-bridgev2-dev-150517",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:675436869821:stack/amplify-bridgev2-dev-150517/a1687390-b4ed-11ee-ae4b-02781317fc18",
+      "AmplifyAppId": "dyk54a7v2s19"
     }
   }
 }
