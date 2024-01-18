@@ -3,7 +3,6 @@ import "../aws-auth"
 import '@aws-amplify/ui-react/styles.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { fetchUserAttributes } from "aws-amplify/auth";
-
 import { useEffect, useState } from "react";
 
 const User = ({ signOut }) => {

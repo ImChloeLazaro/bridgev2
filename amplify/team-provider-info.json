@@ -15,6 +15,22 @@
     "categories": {
       "auth": {
         "bridgev2907806c3": {}
+      },
+      "function": {
+        "shortcuthandler": {
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
+          "test": "hello world",
+          "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+          "s3Key": "amplify-builds/shortcuthandler-6750595548337051326d-build.zip"
+        },
+        "profilehandler": {
+          "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+          "s3Key": "amplify-builds/profilehandler-37754f4a75396c433553-build.zip",
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
+        }
+      },
+      "api": {
+        "bridgeApi": {}
       }
     }
   }

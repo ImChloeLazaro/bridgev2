@@ -1,4 +1,4 @@
-import { post } from "aws-amplify/api";
+import { post, get } from "aws-amplify/api";
 import CTAButtons from "../../components/CTAButtons";
 import React, { useState } from "react";
 import { MdAdd } from "react-icons/md";
@@ -27,10 +27,29 @@ const ShortcutsHeader = () => {
   const [shortcutCount] = useAtom(shortcutCountAtom);
   const setShortcuts = useSetAtom(shortcutsAtom);
 
+  const access = async () => {
+    try {
+      const restOperation = get({
+        apiName: 'bridgeApi',
+        path: '/shortcut',
+        options: {
+          queryParams: {
+            id: '123'
+          }
+        }
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json()
+      console.log(response);
+    } catch (e) {
+      console.log('POST call failed: ', e);
+    }
+  }
+  access()
   const handleAddShortcut = async () => {
     try {
       const restOperation = post({
-        apiName: 'userAPI',
+        apiName: 'bridgeApi',
         path: '/shortcut',
         options: {
           body: {
