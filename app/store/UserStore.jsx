@@ -1,0 +1,44 @@
+import { atom } from "jotai";
+let index = 0;
+
+// export const userAtom = atom({
+//   id: 1000,
+//   name: "Cyrus Jarod Layugan",
+//   profileURL: "/Tatiana Philips.png", // link to picture
+//   email: "cyrus.layugan@aretex.com.au",
+//   status: "active", // true active : false inactive
+//   role: ["user", "admin"],
+//   team: "DMS-FAST",
+//   position: "Jr. IT Systems Analyst",
+//   clients: ["NON-BLOOMS"],
+//   benefits: {
+//     HMO: true,
+//     Philhealth: false,
+//   },
+//   onboarding: {
+//     startdate: "09-09-2023",
+//     status: "probationary",
+//   },
+//   shortcuts: [
+//     {
+//       id: (index += 1),
+//       key: `sct-${index}`,
+//       label: "Timesheet",
+//       link: "#",
+//     },
+//     {
+//       id: (index += 1),
+//       key: `sct-${index}`,
+//       label: "Timecharges",
+//       link: "#",
+//     },
+//     {
+//       id: (index += 1),
+//       key: `sct-${index}`,
+//       label: "OT File",
+//       link: "#",
+//     },
+//   ],
+// });
+
+export const userAtom = atom({});
