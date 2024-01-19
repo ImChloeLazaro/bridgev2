@@ -1,3 +1,4 @@
+import { post, get } from "aws-amplify/api";
 import CTAButtons from "../../../components/CTAButtons";
 import React, { useState } from "react";
 import { MdAdd } from "react-icons/md";
@@ -16,7 +17,7 @@ import {
   addShortcutLinkAtom,
   shortcutCountAtom,
 } from "../../store/ShortcutsStore";
-import CloseButton from "../../../components/CloseButton";
+// import CloseButton from "@/app/components/CloseButton";
 
 const ShortcutsHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,19 +27,56 @@ const ShortcutsHeader = () => {
   const [shortcutCount] = useAtom(shortcutCountAtom);
   const setShortcuts = useSetAtom(shortcutsAtom);
 
-  const handleAddShortcut = () => {
-    setShortcuts((prev) => [
-      ...prev,
-      {
-        id: shortcutCount + 1,
-        key: `sct-${shortcutCount + 1}`,
-        label: addShortcutName,
-        link: addShortcutLink,
-      },
-    ]);
-    setAddShortcutName("");
-    setAddShortcutLink("");
-    setIsOpen(false);
+  const access = async () => {
+    try {
+      const restOperation = get({
+        apiName: 'bridgeApi',
+        path: '/shortcut',
+        options: {
+          queryParams: {
+            id: '123'
+          }
+        }
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json()
+      console.log(response);
+    } catch (e) {
+      console.log('POST call failed: ', e);
+    }
+  }
+  access()
+  const handleAddShortcut = async () => {
+    try {
+      const restOperation = post({
+        apiName: 'bridgeApi',
+        path: '/shortcut',
+        options: {
+          body: {
+            userid: 'test1',
+            title: addShortcutName,
+            url: addShortcutLink
+          }
+        }
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json()
+      console.log(response);
+      setShortcuts((prev) => [
+        ...prev,
+        {
+          id: shortcutCount + 1,
+          key: `sct-${shortcutCount + 1}`,
+          label: addShortcutName,
+          link: addShortcutLink,
+        },
+      ]);
+      setAddShortcutName("");
+      setAddShortcutLink("");
+      setIsOpen(false);
+    } catch (e) {
+      console.log('POST call failed: ', e);
+    }
   };
 
   const handleCloseWindow = () => {
@@ -76,7 +114,7 @@ const ShortcutsHeader = () => {
                 >
                   {properties.title}
                 </p>
-                <CloseButton onPress={handleCloseWindow} />
+                {/* <CloseButton onPress={handleCloseWindow} /> */}
               </div>
               <div className="flex flex-col gap-3 w-full">
                 <Input
