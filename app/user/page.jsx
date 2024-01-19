@@ -2,31 +2,18 @@
 import "../aws-auth";
 import "@aws-amplify/ui-react/styles.css";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { fetchUserAttributes } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 
 import { useAtom } from "jotai";
-import { userAtom } from "../store/UserStore";
+import { AuthenticationStore } from "../navigation/store/AuthenticationStrore";
+import { authatom } from "../navigation/store/ShortcutsStore";
 
+import { redirect } from "next/navigation";
 const User = ({ signOut }) => {
-  const [userState, setUserState] = useState({});
-  const [user, setUser] = useAtom(userAtom);
-
-  const fetchData = async () => {
-    try {
-      const userdata = await fetchUserAttributes();
-      setUser(userdata);
-      console.log(userdata);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [data, setData] = useAtom(AuthenticationStore);
   return (
     <>
-      <p className="m-1">Hello : {user.name} </p>
+      <p className="m-1">Hello : {data.user.name} </p>
       <button
         className="bg-red-500 m-1 p-1 rounded text-white font-semibold"
         onClick={signOut}

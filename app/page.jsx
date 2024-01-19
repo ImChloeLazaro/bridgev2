@@ -1,7 +1,7 @@
 "use client";
+import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import SignInCard from "./sign-in/components/SignInCard";
-
 function App() {
   return <SignInCard/>
 }

@@ -1,10 +1,10 @@
 import React from "react";
 import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
-
 import { useAtom, useAtomValue } from "jotai";
 import { shortcutsAtom, disableDraggableAtom } from "../../store/ShortcutsStore";
-
+import { get } from "aws-amplify/api";
+import { AuthenticationStore } from "../../store/AuthenticationStrore";
 import {
   closestCenter,
   closestCorners,
@@ -28,6 +28,26 @@ import {
 import { SortableItem } from "./SortableItem";
 
 const Shortcuts = () => {
+  // const FetchUserShortcut = async () => {
+  //   const [data, setdata] = useAtom(AuthenticationStore)
+  //   try {
+  //         const restOperation = get({
+  //           apiName: 'bridgeApi',
+  //           path: '/shortcut',
+  //           options: {
+  //             queryParams: {
+  //               id: data.user.sub
+  //             }
+  //           }
+  //         });
+  //         const { body } = await restOperation.response;
+  //         const response = await body.json()
+  //         console.log(response.result);
+  //       } catch (e) {
+  //         console.log('POST call failed: ', e);
+  //       }
+  // }
+  // FetchUserShortcut()
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
 
