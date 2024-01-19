@@ -1,4 +1,4 @@
-import { post } from "aws-amplify/api";
+import { post, get } from "aws-amplify/api";
 import CTAButtons from "../../../components/CTAButtons";
 import React, { useState } from "react";
 import { MdAdd } from "react-icons/md";
@@ -17,14 +17,9 @@ import {
   addShortcutLinkAtom,
   shortcutCountAtom,
 } from "../../store/ShortcutsStore";
-
-import { AuthenticationStore } from "../../store/AuthenticationStrore";
 // import CloseButton from "@/app/components/CloseButton";
 
 const ShortcutsHeader = () => {
-
-  const [data, setData] = useAtom(AuthenticationStore)
-
   const [isOpen, setIsOpen] = useState(false);
   const [addShortcutName, setAddShortcutName] = useAtom(addShortcutNameAtom);
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
@@ -32,15 +27,33 @@ const ShortcutsHeader = () => {
   const [shortcutCount] = useAtom(shortcutCountAtom);
   const setShortcuts = useSetAtom(shortcutsAtom);
 
+  const access = async () => {
+    try {
+      const restOperation = get({
+        apiName: 'bridgeApi',
+        path: '/shortcut',
+        options: {
+          queryParams: {
+            id: '123'
+          }
+        }
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json()
+      console.log(response);
+    } catch (e) {
+      console.log('POST call failed: ', e);
+    }
+  }
+  access()
   const handleAddShortcut = async () => {
-    console.log(data.user.sub);
     try {
       const restOperation = post({
         apiName: 'bridgeApi',
         path: '/shortcut',
         options: {
           body: {
-            usersub: data.user.sub,
+            userid: 'test1',
             title: addShortcutName,
             url: addShortcutLink
           }

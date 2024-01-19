@@ -1,5 +1,4 @@
 import { atom } from "jotai";
-
 let index = 0;
 
 export const shortcutsAtom = atom([

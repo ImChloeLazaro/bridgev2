@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE)
 
 const shortcutSchema = mongoose.Schema({
-  usersub: String,
+  suerid: String,
   title: String,
   url: String,
   createdBy: {
@@ -29,21 +29,12 @@ const shortcutSchema = mongoose.Schema({
 const shortcutModel = mongoose.model('shortcut', shortcutSchema)
 
 app.get('/shortcut', async function (req, res) {
-   const sub = req.query;
-    try {
-      const fetchshortcut = await shortcutModel.find({
-        usersub : sub.id
-      })
-      res.json({
-        result: fetchshortcut
-      });
-    } catch (error) {
-      res.status(500).
-      json({
-        message: error
-      })
-    }
-
+   const query = req.query;
+   res.json({
+    message: 'access complete',
+    event: req.apiGateway.event, // to view all event data
+    query: query
+  });
 });
 
 app.get('/shortcut/*', function (req, res) {
@@ -51,11 +42,11 @@ app.get('/shortcut/*', function (req, res) {
 });
 
 app.post('/shortcut', async function (req, res) {
-  const { usersub, title, url } = req.body
+  const { userid, title, url } = req.body
 
   try {
     const shortcutQuery = await shortcutModel.create({
-      usersub,
+      userid,
       title,
       url,
     })

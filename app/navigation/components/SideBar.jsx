@@ -8,8 +8,8 @@ import {
   routesHR,
 } from "./RoutesIconDetails";
 
-import SideBarHeader from "./sidebar/SideBarHeader";
-import Shortcuts from "./shortcuts/Shortcuts";
+import SideBarHeader from "./SideBarHeader";
+import Shortcuts from "./Shortcuts";
 
 import { useAtom } from "jotai";
 import { roleAtom, activeRouteAtom } from "../store/NavSideBarStore";

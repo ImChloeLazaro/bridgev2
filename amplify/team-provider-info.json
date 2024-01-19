@@ -21,11 +21,11 @@
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "test": "hello world",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/shortcuthandler-70664d477466384d4b6a-build.zip"
+          "s3Key": "amplify-builds/shortcuthandler-6750595548337051326d-build.zip"
         },
         "profilehandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/profilehandler-4c667656454865483237-build.zip",
+          "s3Key": "amplify-builds/profilehandler-37754f4a75396c433553-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         }
       },
