@@ -1,0 +1,30 @@
+import React from "react";
+import { BsImage } from "react-icons/bs";
+import { Button, useDisclosure } from "@nextui-org/react";
+import ManagePostModal from "./ManagePostModal";
+
+const PostMediaButton = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  return (
+    <>
+      <Button
+        disableRipple
+        disableAnimation
+        size="lg"
+        startContent={<BsImage size={24} />}
+        className="bg-transparent font-medium text-lg text-black-default hover:text-orange-default/90"
+        onPress={onOpen}
+      >
+        Media
+      </Button>
+      <ManagePostModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        type={"post media"}
+      />
+    </>
+  );
+};
+
+export default PostMediaButton;
