@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { focusAtom } from "jotai-optics";
+// import { focusAtom } from "jotai-optics";
 
 // export const onboardingAtom = atom({
 //   application: {
