@@ -1,3 +1,5 @@
+"use client";
+
 import { SwitchRoles } from "./SwitchRoles";
 import React from "react";
 import {
@@ -17,7 +19,7 @@ const userProfile = {
 };
 
 import "../../../aws-auth";
-import { fetchUserAttributes } from "aws-amplify/auth";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../../../store/UserStore";
 
@@ -102,4 +104,4 @@ const UserDropdown = () => {
   );
 };
 
-export default UserDropdown;
+export default withAuthenticator(UserDropdown);
