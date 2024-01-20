@@ -26,6 +26,19 @@
           "delete"
         ]
       }
+    },
+    "/post": {
+      "name": "/post",
+      "lambdaFunction": "posthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

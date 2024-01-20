@@ -27,6 +27,10 @@
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
           "s3Key": "amplify-builds/profilehandler-4c667656454865483237-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
+        },
+        "posthandler": {
+          "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+          "s3Key": "amplify-builds/posthandler-5053614f7232484e5141-build.zip"
         }
       },
       "api": {
