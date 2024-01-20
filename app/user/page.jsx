@@ -5,25 +5,26 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useEffect, useState } from "react";
 
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../store/UserStore";
 
 const User = ({ signOut }) => {
   const [userState, setUserState] = useState({});
-  const [user, setUser] = useAtom(userAtom);
+  // const [user, setUser] = useAtom(userAtom);
+  const user = useAtomValue(userAtom);
 
-  const fetchData = async () => {
-    try {
-      const userdata = await fetchUserAttributes();
-      setUser(userdata);
-      console.log(userdata);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // const fetchData = async () => {
+  //   try {
+  //     const userdata = await fetchUserAttributes();
+  //     setUser(userdata);
+  //     console.log(userdata);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
   return (
     <>
       <p className="m-1">Hello : {user.name} </p>

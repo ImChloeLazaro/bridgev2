@@ -1,4 +1,8 @@
 import { atom } from "jotai";
+
+import "../aws-auth";
+import { fetchUserAttributes } from "aws-amplify/auth";
+
 let index = 0;
 
 // export const userAtom = atom({
@@ -41,4 +45,4 @@ let index = 0;
 //   ],
 // });
 
-export const userAtom = atom({});
+export const userAtom = atom(async () => await fetchUserAttributes());
