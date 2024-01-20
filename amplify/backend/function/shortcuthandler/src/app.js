@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE)
 
 const shortcutSchema = mongoose.Schema({
-  suerid: String,
+  sub: String,
   title: String,
   url: String,
   createdBy: {
@@ -42,11 +42,11 @@ app.get('/shortcut/*', function (req, res) {
 });
 
 app.post('/shortcut', async function (req, res) {
-  const { userid, title, url } = req.body
+  const { sub, title, url } = req.body
 
   try {
     const shortcutQuery = await shortcutModel.create({
-      userid,
+      sub,
       title,
       url,
     })

@@ -18,8 +18,13 @@ import {
   shortcutCountAtom,
 } from "../../store/ShortcutsStore";
 // import CloseButton from "@/app/components/CloseButton";
+import { AuthenticationStore } from "../../store/AuthenticationStrore";
 
 const ShortcutsHeader = () => {
+  
+  const [userdata, setUserData] = useAtom(AuthenticationStore)
+
+  console.log(userdata)
   const [isOpen, setIsOpen] = useState(false);
   const [addShortcutName, setAddShortcutName] = useAtom(addShortcutNameAtom);
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
@@ -34,7 +39,7 @@ const ShortcutsHeader = () => {
         path: '/shortcut',
         options: {
           queryParams: {
-            id: '123'
+            id: userdata.user.sub
           }
         }
       });
@@ -53,7 +58,7 @@ const ShortcutsHeader = () => {
         path: '/shortcut',
         options: {
           body: {
-            userid: 'test1',
+            sub: userdata.user.sub,
             title: addShortcutName,
             url: addShortcutLink
           }
