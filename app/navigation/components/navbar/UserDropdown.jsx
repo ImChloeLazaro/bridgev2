@@ -16,6 +16,11 @@ const userProfile = {
   profileURL: "/Tatiana Philips.png",
 };
 
+import "../../../aws-auth";
+import { fetchUserAttributes } from "aws-amplify/auth";
+import { useAtom, useAtomValue } from "jotai";
+import { userAtom } from "../../../store/UserStore";
+
 const UserDropdown = () => {
   const options = {
     // { key: "avatar", label: userProfile.name },
@@ -26,6 +31,7 @@ const UserDropdown = () => {
   };
 
   const router = useRouter();
+  const user = useAtomValue(userAtom);
 
   return (
     <Dropdown
@@ -40,10 +46,10 @@ const UserDropdown = () => {
         <User
           as="button"
           // description={userProfile.email}
-          name={userProfile.name}
+          name={user.name}
           avatarProps={{
             isBordered: true,
-            src: userProfile.profileURL,
+            src: user.picture,
             base: [
               "box-border bg-orange-default ring-0 ring-red ring-offset-0 ring-offset-red ring-opacity-0",
             ],
