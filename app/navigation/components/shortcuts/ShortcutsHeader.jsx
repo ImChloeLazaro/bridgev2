@@ -43,7 +43,7 @@ const ShortcutsHeader = () => {
         path: '/shortcut',
         options: {
           queryParams: {
-            id: user.user.sub
+            id: user.sub
           }
         }
       });
@@ -62,7 +62,7 @@ const ShortcutsHeader = () => {
         path: '/shortcut',
         options: {
           body: {
-            sub: user.user.sub,
+            sub: user.sub,
             title: addShortcutName,
             url: addShortcutLink
           }
