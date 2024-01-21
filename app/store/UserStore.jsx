@@ -68,5 +68,5 @@ const fetchUserData = async () => {
 };
 export const userDataAtom = atom(async () => await fetchUserData());
 
-// export const userAtom = atom(async () => await fetchUserAttributes());
-export const userAtom = atom(async (get) => await get(userDataAtom).user);
+export const userAtom = atom(async () => await fetchUserAttributes());
+// export const userAtom = atom(async (get) => await get(userDataAtom).user);
