@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../store/UserStore";
 
+import { MainContent } from "./home/components/MainContent";
+import { RightBar } from "./home/components/RightBar";
+
 const User = ({ signOut }) => {
   // const [userState, setUserState] = useState({});
   // const [user, setUser] = useAtom(userAtom);
@@ -27,13 +30,15 @@ const User = ({ signOut }) => {
   // }, []);
   return (
     <>
-      <p className="m-1">Hello : {user.name} </p>
+      {/* <p className="m-1">Hello : {user.name} </p>
       <button
         className="bg-red-500 m-1 p-1 rounded text-white font-semibold"
         onClick={signOut}
       >
         Logout
-      </button>
+      </button> */}
+      <MainContent />
+      <RightBar />
     </>
   );
 };

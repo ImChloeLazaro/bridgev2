@@ -22,6 +22,15 @@ import "../../../aws-auth";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../../../store/UserStore";
+import { signOut } from 'aws-amplify/auth';
+
+async function handleSignOut() {
+  try {
+    await signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
 
 const UserDropdown = () => {
   const options = {
@@ -95,7 +104,7 @@ const UserDropdown = () => {
         <DropdownItem
           key={options.logout.key}
           className="data-[hover=true]:bg-red-default"
-          onPress={() => router.push("/")}
+          onPress={handleSignOut}
         >
           {options.logout.label}
         </DropdownItem>

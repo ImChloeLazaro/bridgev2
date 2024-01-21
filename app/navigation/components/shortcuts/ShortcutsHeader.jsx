@@ -1,7 +1,15 @@
+import React, { useState } from "react";
 import { post, get } from "aws-amplify/api";
 import CTAButtons from "../../../components/CTAButtons";
-import React, { useState } from "react";
-import { MdAdd } from "react-icons/md";
+import CloseButton from "../../../components/CloseButton";
+import {
+  shortcutsAtom,
+  addShortcutNameAtom,
+  addShortcutLinkAtom,
+  shortcutCountAtom,
+} from "../../store/ShortcutsStore";
+import { userAtom } from "../../../store/UserStore";
+
 import {
   Popover,
   PopoverTrigger,
@@ -10,21 +18,17 @@ import {
   Input,
 } from "@nextui-org/react";
 
+import { MdAdd } from "react-icons/md";
+
 import { useAtom, useSetAtom } from "jotai";
-import {
-  shortcutsAtom,
-  addShortcutNameAtom,
-  addShortcutLinkAtom,
-  shortcutCountAtom,
-} from "../../store/ShortcutsStore";
-// import CloseButton from "@/app/components/CloseButton";
-import { AuthenticationStore } from "../../store/AuthenticationStrore";
+
+// import { AuthenticationStore } from "../../store/AuthenticationStrore";
 
 const ShortcutsHeader = () => {
   
-  const [userdata, setUserData] = useAtom(AuthenticationStore)
+  const [user, setUser] = useAtom(userAtom)
 
-  console.log(userdata)
+  console.log(user)
   const [isOpen, setIsOpen] = useState(false);
   const [addShortcutName, setAddShortcutName] = useAtom(addShortcutNameAtom);
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
@@ -39,7 +43,7 @@ const ShortcutsHeader = () => {
         path: '/shortcut',
         options: {
           queryParams: {
-            id: userdata.user.sub
+            id: user.user.sub
           }
         }
       });
@@ -58,7 +62,7 @@ const ShortcutsHeader = () => {
         path: '/shortcut',
         options: {
           body: {
-            sub: userdata.user.sub,
+            sub: user.user.sub,
             title: addShortcutName,
             url: addShortcutLink
           }
@@ -119,7 +123,7 @@ const ShortcutsHeader = () => {
                 >
                   {properties.title}
                 </p>
-                {/* <CloseButton onPress={handleCloseWindow} /> */}
+                <CloseButton onPress={handleCloseWindow} />
               </div>
               <div className="flex flex-col gap-3 w-full">
                 <Input
