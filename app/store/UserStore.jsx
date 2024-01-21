@@ -44,5 +44,31 @@ let index = 0;
 //     },
 //   ],
 // });
+const initialState = {
+  isAuthenticated: false,
+  isSignedIn: false,
+  user: null,
+};
 
-export const userAtom = atom(async () => await fetchUserAttributes());
+const fetchUserData = async () => {
+  try {
+    const user = await fetchUserAttributes();
+    return {
+      isAuthenticated: true,
+      isSignedIn: true,
+      user: user,
+    };
+  } catch (error) {
+    return {
+      isAuthenticated: false,
+      isSignedIn: false,
+      user: null,
+    };
+  }
+};
+export const userDataAtom = atom(async () => {
+  return await fetchUserData();
+}, initialState);
+
+// export const userAtom = atom(async () => await fetchUserAttributes());
+export const userAtom = atom((get) => get(userDataAtom).user);
