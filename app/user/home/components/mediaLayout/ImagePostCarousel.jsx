@@ -1,17 +1,15 @@
 import React from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Image,
-  useDisclosure,
-} from "@nextui-org/react";
 import ImageSwiper from "../mediaLayout/ImageSwiper";
 
-const ImagePostCarousel = ({ isOpen, onOpenChange, isDismissable, data }) => {
+import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
+
+const ImagePostCarousel = ({
+  isOpen,
+  onOpenChange,
+  isDismissable,
+  data,
+  selectedImage,
+}) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -29,10 +27,10 @@ const ImagePostCarousel = ({ isOpen, onOpenChange, isDismissable, data }) => {
           "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
       }}
     >
-      <ModalContent>
+      <ModalContent className="">
         {(onClose) => (
-          <ModalBody className="max-h-screen">
-            <ImageSwiper data={data} />
+          <ModalBody className="max-h-screen ">
+            <ImageSwiper data={data} selectedImage={selectedImage} />
           </ModalBody>
         )}
       </ModalContent>

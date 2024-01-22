@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -12,15 +13,24 @@ import "swiper/css/thumbs";
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { useSwiper } from "swiper/react";
 
 import { Image } from "@nextui-org/react";
 
-const ImageSwiper = ({ data }) => {
+// ### TODO Add zoom functionality
+// ### TODO Add keyboard controls when sliding images
+
+const ImageSwiper = ({ data, selectedImage }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const swiperRef = useRef(null);
+  useEffect(() => {
+    swiperRef.current.swiper.slideTo(selectedImage, 400, false);
+  }, [selectedImage]);
 
   return (
-    <div className="w-full max-h-screen">
+    <div className="w-full max-h-screen ">
       <Swiper
+        ref={swiperRef}
         style={{
           "--swiper-navigation-color": "#fff",
           "--swiper-pagination-color": "#fff",
@@ -29,7 +39,8 @@ const ImageSwiper = ({ data }) => {
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="my-12"
+        className="my-12 top-0"
+        zoom
       >
         {data.map((image, index) => {
           return (
@@ -61,39 +72,30 @@ const ImageSwiper = ({ data }) => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="thumbs bottom-0 h-24"
+        className="thumbs bottom-0 h-24 "
       >
-        <div
-          className="flex justify-center items-center"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {data.map((image, index) => {
-            return (
-              <SwiperSlide key={index} style={{ width: "96px" }}>
-                <div className="flex justify-center items-center rounded-lg border-2 border-darkgrey-default bg-lightgrey-default/40 overflow-clip h-full w-full">
-                  <Image
-                    isZoomed
-                    removeWrapper
-                    key={index}
-                    //   width={50}
-                    height={100}
-                    //   sizes={
-                    //     "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    //   }
-                    radius={"none"}
-                    loading={"lazy"}
-                    alt={`Media Layout ${index}`}
-                    src={image}
-                  />
-                </div>
-              </SwiperSlide>
-            );
-          })}
-        </div>
+        {data.map((image, index) => {
+          return (
+            <SwiperSlide key={index} style={{ width: "96px" }}>
+              <div className="flex justify-center items-center rounded-lg border-2 border-darkgrey-default bg-lightgrey-default/40 overflow-clip h-full w-full">
+                <Image
+                  isZoomed
+                  removeWrapper
+                  key={index}
+                  //   width={50}
+                  height={100}
+                  //   sizes={
+                  //     "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  //   }
+                  radius={"none"}
+                  loading={"lazy"}
+                  alt={`Media Layout ${index}`}
+                  src={image}
+                />
+              </div>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Popover,
   PopoverTrigger,
@@ -9,6 +10,8 @@ import { Listbox, ListboxItem } from "@nextui-org/react";
 
 const TrainingOptions = ({ trigger, options }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // ### TODO Add Functionality to edit and cancel the selected training
 
   return (
     <Popover

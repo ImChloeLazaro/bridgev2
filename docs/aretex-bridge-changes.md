@@ -126,25 +126,25 @@ link: string,
 * Added `docs` folder for documentation
 * Added `frontend-changes.md` in `docs` folder
 * Moved contents for tracking frontend changes from `README.md` to `frontend-changes.md`
-* Added News Feed Component
-* Added Posting Components
-* Added Highlight Area Component
-* Added Trainings Component
-* Added Rex Winner Component
-* Added Birthday Component
+* Added `NewsFeed` Component
+* Added `HighlightArea` Component
+* Added `Trainings` Component
+* Added `RexWinner` Component
+* Added `Birthday` Component
+* Renamed `NewsFeed` to `MainContent`
+* Renamed `HighlightArea` to `RightBar`
 
 ## v.0.4.5
 
 * Added @date-fns for datetime manipulation
 * Added Recognitions Component
 * Added HR Bulletin Board Component
-* Moved navigation Components to their respective folders
 
 ## v.0.4.6
 
 * Finished Adding All Components for Home Page
 
-## v.0.4.6.1
+## v.0.4.6.1 - revision
 
 * Changed External Links Label
 
@@ -165,7 +165,7 @@ link: string,
 
 * Cleaned up and refactored source code
 * Organized Project Structure
-* Updated Paths for Components
+* Updated Paths for All Components
 * Disabled for now backend functions due to build configuration error
 * Updated @tailwindcss to latest v3.4.1
 * Added Media Layout Component
@@ -194,6 +194,7 @@ link: string,
 * Merging of frontend and backend
 * Updated frontend to latest changes as of v.0.4.10
 * Changed variable name from `export default ExternalLinksHeader;` to `export default SideBarHeader;`to match the Component's filename
+* Changed redirect behavior of `ReconnectButton` to refresh the Page and `ReturnButton` to return to the previous page the user visits
 * Added fetched user attributes to `UserDropdown` Component (name, picture, etc.)
 * Added `signOut` function from @aws-amplify to `UserDropdown` Component
 * Moved `options` for `UserDropdown` Component to `NavSideBarStore`
@@ -225,3 +226,28 @@ link: string,
 ## v.0.5.1
 
 * Updated Changelog
+
+## v.0.5.2
+
+* Updated `UserDropdown` Component to get its state from `UserStore`
+* Added Functionality to view a post's images full screen and displayed in a carousel/ gallery
+* Fixed image gallery to display the correct selected image when viewing post
+* Fixed image background blur on posts
+* Added Functionality to increment and decrement reaction count
+* Added Functionality when reacted to the post already it will persist
+* Added tooltip for reaction's count
+* Fixed animation for `Recognitions`, `Trainings`, and `HRBulletinBoard` Component when expanded and its height changes.
+* Changed named export from `HighlightArea` to `RightBar`to match its filename
+* Changed named export from `NewsFeed` to `MainContent` to match its filename
+* Changed named export from `page` to `Onboarding` to match its filename
+
+## v.0.5.2 - hotfix
+
+* Merged Changelog from prod repo `bridgev2` to `bridge-frontend`
+* Removed `console.log()` on `PostFooter` Component
+* Fixed import error by updating `next/router` to `next/navigation` on `ReconnectButton` and `ReturnButton` Component
+
+## v.0.5.3
+
+* Changed named export from `CreatePost` to `CreatePostCard`to match its filename
+* Fetched user attributes are now displayed correctly in `UserDropdown` and `CreatePostCard` Component

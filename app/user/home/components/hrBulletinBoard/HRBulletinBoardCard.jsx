@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import HRBulletinBoardList from "./HRBulletinBoardList";
+
 import {
   Card,
   CardHeader,
@@ -9,22 +11,18 @@ import {
   Image,
   Button,
 } from "@nextui-org/react";
+
 import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
-import HRBulletinBoardList from "./HRBulletinBoardList";
 
 const HRBulletinBoard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardStyle = {
-    expand:
-      "w-full h-[550px] px-2 drop-shadow shadow-none bg-white-default transition duration-500 ease-in-out",
-    collapse:
-      "w-full h-[350px] px-2 drop-shadow shadow-none bg-white-default transition duration-500 ease-in-out",
+    expand: "pt-0 pb-2 px-2 w-full h-[550px] ",
+    collapse: "pt-0 pb-2 px-2 w-full h-[350px] ",
   };
   return (
-    <Card
-      className={`${isExpanded ? cardStyle["expand"] : cardStyle["collapse"]}`}
-    >
-      <CardHeader className="flex justify-between pl-5 pr-4 pb-0">
+    <Card className="w-full px-2 drop-shadow shadow-none bg-white-default ">
+      <CardHeader className="flex justify-between pl-5 pr-4 pb-5">
         <p className="font-bold text-2xl text-black-default">What&apos;s New</p>
         <Button
           isIconOnly
@@ -38,7 +36,11 @@ const HRBulletinBoard = () => {
           )}
         </Button>
       </CardHeader>
-      <CardBody className="pt-0 pb-2 px-2 w-full ">
+      <CardBody
+        className={`transition-all duration-300 overflow-y-scroll no-scrollbar ${
+          isExpanded ? cardStyle["expand"] : cardStyle["collapse"]
+        }`}
+      >
         <HRBulletinBoardList />
       </CardBody>
     </Card>

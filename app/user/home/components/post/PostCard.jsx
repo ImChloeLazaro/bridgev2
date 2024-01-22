@@ -1,4 +1,8 @@
 import React from "react";
+import PostHeader from "./PostHeader";
+import MediaLayout from "../mediaLayout/MediaLayout";
+import PostFooter from "./PostFooter";
+
 import {
   Card,
   CardHeader,
@@ -6,13 +10,9 @@ import {
   CardFooter,
   Divider,
 } from "@nextui-org/react";
-import PostHeader from "./PostHeader";
-import MediaLayout from "../mediaLayout/MediaLayout";
-import PostFooter from "./PostFooter";
 
 const PostCard = ({ data }) => {
   return (
-    // h-[700px]
     // mb-[number] for spacing between posts
     <Card className="mb-6 mx-4 bg-white-default">
       <CardHeader className="flex flex-col p-2 m-2 w-full">

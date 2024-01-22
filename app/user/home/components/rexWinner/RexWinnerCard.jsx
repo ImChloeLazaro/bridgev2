@@ -1,5 +1,4 @@
 import React from "react";
-import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import RexWinner from "../../../../assets/media/rex winner.gif";
 

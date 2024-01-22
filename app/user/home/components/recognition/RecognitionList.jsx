@@ -1,13 +1,14 @@
 import React from "react";
 import RecognitionOptions from "./RecognitionOptions";
+import { recognitionsAtom } from "../../store/RecognitionsStore";
 
 import { Listbox, ListboxItem } from "@nextui-org/react";
+
 import { BiDotsVerticalRounded } from "react-icons/bi";
 
 import { format, differenceInMinutes } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 
-import { recognitionsAtom } from "../../store/RecognitionsStore";
 import { useAtomValue, useAtom } from "jotai";
 
 const RecognitionList = () => {
@@ -21,8 +22,8 @@ const RecognitionList = () => {
   return (
     <Listbox
       items={recognitions}
-      aria-label="Training List"
-      onAction={(key) => console.log(key)}
+      aria-label="Recognition List"
+      onAction={(key) => console.log(key)} // ### TODO Add Functionality to view recognition
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
           {/* <Image
@@ -32,13 +33,15 @@ const RecognitionList = () => {
               src={"/NoNotifications.jpg"}
             /> */}
           <p className="font-medium text-black-default/80">
-            No Recognitions right now!
+            {"No Recognitions right now!"}
           </p>
-          <p className="font-medium text-black-default/80">Come back later!</p>
+          <p className="font-medium text-black-default/80">
+            {"Come back later!"}
+          </p>
         </div>
       }
       classNames={{
-        base: ["w-full h-72 p-2 m-0 overflow-y-scroll no-scrollbar"],
+        base: ["w-full h-auto p-2 m-0 overflow-y-scroll"],
         list: "w-full pl-0 mx-0 ",
       }}
       itemClasses={{
@@ -61,7 +64,7 @@ const RecognitionList = () => {
 
         return (
           <ListboxItem textValue={recognition.title} key={recognition.id}>
-            <div className="flex py-2 px-0 items-start justify-center gap-4">
+            <div className="flex items-start justify-center gap-4">
               <div className="p-2 w-18 h-18 flex justify-center">
                 {recognition.icon}
               </div>

@@ -1,3 +1,5 @@
+// ### TODO Update hard-coded style color to tailwind
+
 export const recognitionsIcons = {
   tickets: (
     <svg

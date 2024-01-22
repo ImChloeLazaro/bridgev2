@@ -1,14 +1,24 @@
-import React from "react";
-import { Image, Button } from "@nextui-org/react";
+import React, { useState } from "react";
+import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
+
+import { Image, Button, useDisclosure } from "@nextui-org/react";
 
 const FourMedia = ({ data, type }) => {
-  const filteredPost = data.filter((item) => data.indexOf(item) < 4);
+  const filteredPost = data.slice(0, 4);
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const layout = {
     landscape:
-      "gap-1.5 grid grid-cols-2 grid-rows-2 my-5 bg-grey-default/60 h-[900px]",
+      "gap-1.5 grid grid-cols-2 grid-rows-2 my-5 bg-white-default/60 h-[900px] px-4",
     portrait:
-      "gap-1.5 grid grid-cols-3 grid-rows-3 my-5 bg-grey-default/60 h-[900px]",
+      "gap-1.5 grid grid-cols-3 grid-rows-3 my-5 bg-white-default/60 h-[900px] px-4",
+  };
+
+  const handleOnOpen = (index) => {
+    console.log("POST 4 IMAGE INDEX", index);
+    setSelectedImage(index);
   };
 
   const featuredMedia =
@@ -16,6 +26,13 @@ const FourMedia = ({ data, type }) => {
 
   return (
     <div className={`${layout[type]}`}>
+      <ImagePostCarousel
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        data={data}
+        selectedImage={selectedImage}
+      />
       {filteredPost.map((media, index) => {
         return (
           <Button
@@ -23,14 +40,18 @@ const FourMedia = ({ data, type }) => {
             radius="none"
             disableRipple
             disableAnimation
-            className={`${featuredMedia} bg-black-default/60 backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full`}
+            className={`${featuredMedia} bg-white-default/60 backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full px-unit-0`}
+            onPress={() => {
+              handleOnOpen(index);
+              onOpen();
+            }}
           >
             <Image
               //   isZoomed
               key={index}
               width={700}
               // height={300}
-              //   sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
+              sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
               radius={"none"}
               loading={"lazy"}
               alt={`Media Layout ${index}`}

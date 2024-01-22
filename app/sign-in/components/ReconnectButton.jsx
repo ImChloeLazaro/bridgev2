@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@nextui-org/react";
 
 const ReconnectButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const router = useRouter();
+
   const reconnect = () => {
     setIsLoading(true);
     setIsDisabled(true);
+    router.reload();
   };
 
   return (

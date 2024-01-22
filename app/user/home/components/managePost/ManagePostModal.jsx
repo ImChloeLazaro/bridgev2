@@ -10,10 +10,12 @@ import {
 } from "@nextui-org/react";
 import { Textarea, Button, Divider, Input } from "@nextui-org/react";
 import { MdInfoOutline } from "react-icons/md";
-import ReactionSelect from "../post/ReactionSelect";
+import ReactionSelect from "./ReactionSelect";
 import CTAButtons from "../../../../components/CTAButtons";
 import { useAtom, useAtomValue } from "jotai";
 import { templateItemsAtom } from "../../store/ManagePostStore";
+
+// ### TODO Add Functionality
 
 const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
   // console.log("MODAL", type);

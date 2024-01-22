@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import PostOptions from "./PostOptions";
 
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import { User, Link, Image } from "@nextui-org/react";
+
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 import {
   format,
@@ -10,17 +11,16 @@ import {
   differenceInHours,
   differenceInDays,
 } from "date-fns";
-import { enAU } from "date-fns/locale/en-AU";
 
-const handlePostDatetime = (postDatetime) => {
-  const daysAgo = differenceInDays(new Date(), new Date(postDatetime));
+const handlePostDatetime = (datetime) => {
+  const daysAgo = differenceInDays(new Date(), new Date(datetime));
 
-  const hrsAgo = differenceInHours(new Date(), new Date(postDatetime));
+  const hrsAgo = differenceInHours(new Date(), new Date(datetime));
 
-  const minsAgo = differenceInMinutes(new Date(), new Date(postDatetime));
+  const minsAgo = differenceInMinutes(new Date(), new Date(datetime));
 
-  const dateAgo = format(new Date(postDatetime), "d MMM yyyy");
-  return daysAgo > 8
+  const dateAgo = format(new Date(datetime), "d MMM yyyy");
+  return daysAgo > 7
     ? dateAgo
     : hrsAgo > 23
     ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
@@ -32,49 +32,6 @@ const handlePostDatetime = (postDatetime) => {
 };
 
 const PostHeader = ({ data }) => {
-  // const daysAgo = differenceInDays(
-  //   new Date(),
-  //   new Date(data.datetimePublished)
-  // );
-
-  // const hrsAgo = differenceInHours(
-  //   new Date(),
-  //   new Date(data.datetimePublished)
-  // );
-
-  // const minsAgo = differenceInMinutes(
-  //   new Date(),
-  //   new Date(data.datetimePublished)
-  // );
-  // console.log(daysAgo, hrsAgo, minsAgo);
-  // const t =
-  //   daysAgo > 8
-  //     ? "date"
-  //     : hrsAgo > 23
-  //     ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
-  //     : minsAgo > 59
-  //     ? `${hrsAgo} ${hrsAgo > 1 ? "hrs" : "hr"}`
-  //     : minsAgo > 0
-  //     ? `${minsAgo} ${minsAgo > 1 ? "mins" : "min"}`
-  //     : "now";
-
-  // console.log("TESTING CALCULATING DATETIME", t, data.publisher);
-
-  // useEffect(() => {
-  //   let datetimeReceived = 0;
-  //   setInterval(() => {
-  //     datetimeReceived =
-  //       daysAgo > 8
-  //         ? "date"
-  //         : hrsAgo > 23
-  //         ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
-  //         : minsAgo > 59
-  //         ? `${hrsAgo} ${hrsAgo > 1 ? "hrs" : "hr"}`
-  //         : minsAgo > 0
-  //         ? `${minsAgo} ${minsAgo > 1 ? "mins" : "min"}`
-  //         : "now";
-  //   }, 60000);
-  // }, [daysAgo, hrsAgo, minsAgo]);
   const pinned = false;
 
   const options = [
@@ -96,7 +53,7 @@ const PostHeader = ({ data }) => {
           description={
             <>
               <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4">
-                Aretex A-Team
+                {"Aretex A-Team"}
               </Link>
               <Link
                 // underline="hover"
