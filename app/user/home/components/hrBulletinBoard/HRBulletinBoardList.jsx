@@ -1,25 +1,49 @@
 import React from "react";
+import ChipTag from "../../../../components/ChipTag";
+import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
 
 import { Listbox, ListboxItem } from "@nextui-org/react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 
-import { format, differenceInMinutes } from "date-fns";
+import {
+  format,
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+} from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 
 import { useAtomValue, useAtom } from "jotai";
-import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
-import ChipTag from "../../../../components/ChipTag";
 
 const HRBulletinBoardList = () => {
   const hrBulletinBoard = useAtomValue(hrBulletinBoardAtom);
 
+  const handleHRBulletinDateTime = (datetime) => {
+    const daysAgo = differenceInDays(new Date(), new Date(datetime));
+
+    const hrsAgo = differenceInHours(new Date(), new Date(datetime));
+
+    const minsAgo = differenceInMinutes(new Date(), new Date(datetime));
+
+    const dateAgo = format(new Date(datetime), "d MMM yyyy");
+    return daysAgo > 7
+      ? dateAgo
+      : hrsAgo > 23
+      ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
+      : minsAgo > 59
+      ? `${hrsAgo} ${hrsAgo > 1 ? "hrs" : "hr"}`
+      : minsAgo > 0
+      ? `${minsAgo} ${minsAgo > 1 ? "mins" : "min"}`
+      : "now";
+  };
+
   return (
     <Listbox
       items={hrBulletinBoard}
-      aria-label="Training List"
+      aria-label="HR Bulletin List"
       onAction={(key) => console.log(key)}
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
+          {/* // ### TODO Add No announcement illustration */}
           {/* <Image
               width={180}
               height={180}
@@ -27,13 +51,15 @@ const HRBulletinBoardList = () => {
               src={"/NoNotifications.jpg"}
             /> */}
           <p className="font-medium text-black-default/80">
-            No announcements right now!
+            {"No announcements right now!"}
           </p>
-          <p className="font-medium text-black-default/80">Come back later!</p>
+          <p className="font-medium text-black-default/80">
+            {"Come back later!"}
+          </p>
         </div>
       }
       classNames={{
-        base: ["w-full h-auto p-2 m-0 mb-2 overflow-y-scroll no-scrollbar "],
+        base: ["w-full h-auto p-2 m-0 mb-2 overflow-y-scroll"],
         list: "w-full pl-0 ml-0 ",
       }}
       itemClasses={{
@@ -46,14 +72,6 @@ const HRBulletinBoardList = () => {
       }}
     >
       {(hrBulletin) => {
-        const result = differenceInMinutes(
-          new Date(),
-          new Date(hrBulletin.datetime)
-        );
-        const datetimeReceived = format(result, "m", {
-          locale: enAU,
-        });
-
         return (
           <ListboxItem textValue={hrBulletin.title} key={hrBulletin.id}>
             <div className="flex flex-col items-center justify-start px-4 py-4 my-2 gap-4">
@@ -65,7 +83,7 @@ const HRBulletinBoardList = () => {
                     color={`${hrBulletin.color}`}
                   />
                 </div>
-                <p className="font-normal text-sm">{`${datetimeReceived} mins ago`}</p>
+                <p className="font-normal text-sm">{`${handleHRBulletinDateTime(hrBulletin.datetime)}`}</p>
               </div>
               <div className="flex flex-col w-full px-2">
                 <p className="font-medium text-md leading-tight whitespace-pre-line line-clamp-3">

@@ -1,14 +1,15 @@
 import React from "react";
 import TrainingOptions from "./TrainingOptions";
+import { trainingsAtom } from "../../store/TrainingStore";
 
 import { Listbox, ListboxItem } from "@nextui-org/react";
+
 import { BiDotsVerticalRounded } from "react-icons/bi";
 
 import { format } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 
-import { trainingsAtom } from "../../store/TrainingStore";
-import { useAtomValue, useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
 const TrainingList = () => {
   const trainings = useAtomValue(trainingsAtom);
@@ -22,7 +23,7 @@ const TrainingList = () => {
     <Listbox
       items={trainings}
       aria-label="Training List"
-      onAction={(key) => console.log(key)}
+      onAction={(key) => console.log(key)} // ### TODO Add Functionality to view training
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
           {/* <Image
@@ -32,13 +33,15 @@ const TrainingList = () => {
               src={"/NoNotifications.jpg"}
             /> */}
           <p className="font-medium text-black-default/80">
-            No Trainings right now!
+            {"No Trainings right now!"}
           </p>
-          <p className="font-medium text-black-default/80">Come back later!</p>
+          <p className="font-medium text-black-default/80">
+            {"Come back later!"}
+          </p>
         </div>
       }
       classNames={{
-        base: ["w-full h-72 p-2 m-0 overflow-y-scroll no-scrollbar"],
+        base: ["w-full h-auto p-2 m-0 overflow-y-scroll"],
         list: "w-full pl-0 ml-0 ",
       }}
       itemClasses={{
@@ -57,6 +60,16 @@ const TrainingList = () => {
         const endTime = format(new Date(training.datetimeEnd), "p", {
           locale: enAU,
         }); // h:mm aa
+
+        const postDay = format(new Date(training.datetimeEnd), "d", {
+          locale: enAU,
+        }); // h:mm aa
+        const postDate = format(new Date(training.datetimeEnd), "EEE", {
+          locale: enAU,
+        }); // h:mm aa
+        const postMonth = format(new Date(training.datetimeEnd), "MMM", {
+          locale: enAU,
+        }); // h:mm aa
         return (
           <ListboxItem textValue={training.title} key={training.id}>
             <div className="flex items-center justify-center gap-4">
@@ -64,9 +77,9 @@ const TrainingList = () => {
                 className={`py-4 m-0 basis-1/5 bg-${training.color}-default text-white-default rounded-l-md`}
               >
                 <div className="flex flex-col items-center justify-center">
-                  <p className="font-extrabold text-2xl">4</p>
-                  <p className="font-medium text-base uppercase">OCT</p>
-                  <p className="font-light text-xs">Tue</p>
+                  <p className="font-extrabold text-2xl">{postDay}</p>
+                  <p className="font-medium text-base uppercase">{postMonth}</p>
+                  <p className="font-light text-xs">{postDate}</p>
                 </div>
               </div>
               <div className="basis-4/5">

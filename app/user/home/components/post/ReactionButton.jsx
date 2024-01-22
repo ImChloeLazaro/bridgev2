@@ -1,8 +1,13 @@
 import React, { useState, useMemo } from "react";
+import { postAtom } from "../../store/PostStore";
 import { reactionIcons } from "./ReactionIcons";
+
 import { Button } from "@nextui-org/react";
 
-const ReactionButton = ({ id, data }) => {
+import { useSetAtom } from "jotai";
+
+const ReactionButton = ({ id, data, reacted }) => {
+  const setPost = useSetAtom(postAtom);
   const [reaction, setReaction] = useState(false);
   const label = {
     love: { label: "love", color: "font-semibold text-[#FF4949] capitalize" },
@@ -20,6 +25,36 @@ const ReactionButton = ({ id, data }) => {
     },
   };
 
+  const handleAddReaction = (post_id) => {
+    setPost((prev) => {
+      return prev.map((post) => {
+        if (id === post.id) {
+          if (reacted) {
+            return {
+              ...post,
+              reacted: !reacted,
+              reactions: {
+                ...post.reactions,
+                [post_id]: (post.reactions[post_id] -= 1),
+              },
+            };
+          } else {
+            return {
+              ...post,
+              reacted: !reacted,
+              reactions: {
+                ...post.reactions,
+                [post_id]: (post.reactions[post_id] += 1),
+              },
+            };
+          }
+        }
+
+        return { ...post };
+      });
+    });
+  };
+
   return (
     <div className="flex justify-start items-center gap-1">
       <Button
@@ -28,12 +63,11 @@ const ReactionButton = ({ id, data }) => {
         disableAnimation
         className="bg-transparent"
         onPress={() => {
-          setReaction(!reaction);
-          console.log("POST ID", id);
+          handleAddReaction(data[0]);
         }}
         startContent={
           <div className="text-darkgrey-default">
-            {reaction
+            {reacted
               ? reactionIcons[data[0]].active
               : reactionIcons[data[0]].inactive}
           </div>
@@ -41,7 +75,7 @@ const ReactionButton = ({ id, data }) => {
       >
         <p
           className={`${
-            reaction
+            reacted
               ? `${label[data[0]].color}`
               : "font-semibold text-darkgrey-default capitalize"
           }`}

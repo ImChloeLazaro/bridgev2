@@ -1,13 +1,5 @@
 import React from "react";
-import { FaMedal } from "react-icons/fa6";
-import { BiNews } from "react-icons/bi";
-import {
-  MdEventNote,
-  MdCake,
-  MdCalendarMonth,
-  MdForum,
-  MdGroups2,
-} from "react-icons/md";
+
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import {
   Popover,
@@ -15,6 +7,16 @@ import {
   PopoverContent,
   Button,
 } from "@nextui-org/react";
+
+import { BiNews } from "react-icons/bi";
+import { FaMedal } from "react-icons/fa6";
+import {
+  MdEventNote,
+  MdCake,
+  MdCalendarMonth,
+  MdForum,
+  MdGroups2,
+} from "react-icons/md";
 
 const PostTemplateButton = () => {
   const iconSize = 20;
@@ -66,7 +68,7 @@ const PostTemplateButton = () => {
           startContent={<MdEventNote size={25} />}
           className="bg-transparent font-medium text-lg text-black-default hover:text-orange-default/90"
         >
-          Templates
+          {"Templates"}
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -76,7 +78,7 @@ const PostTemplateButton = () => {
           disabledKeys={["choose"]}
           itemClasses={{
             base: [
-              "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
+              "data-[disabled=true]:opacity-100 data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
             ],
             title: "text-base font-normal ",
           }}

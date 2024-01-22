@@ -1,16 +1,24 @@
-import React from "react";
-import { Image, Button, useDisclosure } from "@nextui-org/react";
+import React, { useState } from "react";
 import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
 
+import { Image, Button, useDisclosure } from "@nextui-org/react";
+
 const SixPlusMedia = ({ data, type }) => {
-  const filteredPost = data.filter((item) => data.indexOf(item) < 5);
+  const filteredPost = data.slice(0, 5);
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const layout = {
     landscape:
-      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default h-[900px] ",
+      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default h-[900px] px-4",
     portrait:
-      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default h-[900px] ",
+      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default h-[900px] px-4",
+  };
+
+  const handleOnOpen = (index) => {
+    console.log("POST 6 IMAGE INDEX", index);
+    setSelectedImage(index);
   };
 
   const featuredMedia = (index) => {
@@ -43,6 +51,7 @@ const SixPlusMedia = ({ data, type }) => {
         onOpenChange={onOpenChange}
         isDismissable={false}
         data={data}
+        selectedImage={selectedImage}
       />
       {filteredPost.map((media, index) => {
         if (filteredPost.length - 1 === index) {
@@ -54,14 +63,17 @@ const SixPlusMedia = ({ data, type }) => {
               disableAnimation
               className={`${featuredMedia(
                 index
-              )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full relative`}
-              onPress={onOpen}
+              )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full relative px-unit-0 `}
+              onPress={() => {
+                handleOnOpen(index);
+                onOpen();
+              }}
             >
               <Image
                 //   isZoomed
                 removeWrapper
                 key={index}
-                width={700}
+                width={400}
                 // height={300}
                 sizes={
                   "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -87,13 +99,16 @@ const SixPlusMedia = ({ data, type }) => {
               disableAnimation
               className={`${featuredMedia(
                 index
-              )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full`}
-              onPress={onOpen}
+              )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full px-unit-0 `}
+              onPress={() => {
+                handleOnOpen(index);
+                onOpen();
+              }}
             >
               <Image
                 //   isZoomed
                 key={index}
-                width={700}
+                width={1000}
                 // height={300}
                 sizes={
                   "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

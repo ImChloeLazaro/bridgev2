@@ -1,7 +1,9 @@
 import React from "react";
-import { BsImage } from "react-icons/bs";
-import { Button, useDisclosure } from "@nextui-org/react";
 import ManagePostModal from "./ManagePostModal";
+
+import { Button, useDisclosure } from "@nextui-org/react";
+
+import { BsImage } from "react-icons/bs";
 
 const PostMediaButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -15,7 +17,7 @@ const PostMediaButton = () => {
         className="bg-transparent font-medium text-lg text-black-default hover:text-orange-default/90"
         onPress={onOpen}
       >
-        Media
+        {"Media"}
       </Button>
       <ManagePostModal
         isOpen={isOpen}

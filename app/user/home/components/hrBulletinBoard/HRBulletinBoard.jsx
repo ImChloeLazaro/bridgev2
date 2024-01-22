@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Card,
   CardHeader,
@@ -9,7 +10,9 @@ import {
   Image,
   Button,
 } from "@nextui-org/react";
+
 import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
+
 const HRBulletinBoard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -38,4 +41,4 @@ const HRBulletinBoard = () => {
   );
 };
 
-export default HRBulletinBoard
+export default HRBulletinBoard;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Link, Button } from "@nextui-org/react";
 
@@ -7,10 +7,12 @@ const ReturnButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const router = useRouter();
+
   const reconnect = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    redirect("/");
+    router.back();
   };
 
   return (

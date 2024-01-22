@@ -1,5 +1,4 @@
 import React from "react";
-import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import Birthday from "../../../../assets/media/birthday.gif";
 

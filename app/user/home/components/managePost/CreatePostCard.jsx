@@ -1,20 +1,22 @@
 import React from "react";
-import PostTemplateButton from "./PostTemplateButton";
+import CreatePostButton from "./CreatePostButton";
 import PostMediaButton from "./PostMediaButton";
+import PostTemplateButton from "./PostTemplateButton";
 
 import { Card, CardBody, Avatar } from "@nextui-org/react";
-import CreatePostButton from "./CreatePostButton";
 
-const CreatePost = ({ data }) => {
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+const CreatePostCard = ({ data }) => {
   return (
     <Card className="mx-4 mb-6 p-4 bg-white-default">
       <CardBody>
         <div className="flex gap-6 px-6">
           <div className="">
             <Avatar
-              src={data.profileURL}
+              showFallback
+              fallback={
+                <div className="text-2xl font-medium ">{data.name[0]}</div>
+              }
+              src={data.picture}
               className="w-[85px] h-[85px] text-large"
             />
           </div>
@@ -30,4 +32,4 @@ const CreatePost = ({ data }) => {
     </Card>
   );
 };
-export default CreatePost;
+export default CreatePostCard;

@@ -15,8 +15,11 @@ import HappyInactive from "../../../../assets/media/Happy Icon_Inactive.svg";
 import HappyBadge from "../../../../assets/media/Happy Badge.svg";
 import HappyBorderBadge from "../../../../assets/media/Happy BadgeBorder.svg";
 
+// ### TODO Update hard-coded style color to tailwind
+
 export const reactionIcons = {
   love: {
+    label: "Love",
     active: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +90,7 @@ export const reactionIcons = {
     ),
   },
   birthday: {
+    label: "Birthday",
     active: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -157,6 +161,7 @@ export const reactionIcons = {
     ),
   },
   star: {
+    label: "Star",
     active: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -230,6 +235,7 @@ export const reactionIcons = {
     ),
   },
   happy: {
+    label: "Happy",
     active: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

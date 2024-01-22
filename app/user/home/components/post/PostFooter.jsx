@@ -1,10 +1,11 @@
 import React from "react";
-import { Divider } from "@nextui-org/react";
 
 import CommentButton from "./CommentButton";
 import CommentCount from "./CommentCount";
 import ReactionButton from "./ReactionButton";
 import ReactionCount from "./ReactionCount";
+
+import { Divider } from "@nextui-org/react";
 
 const PostFooter = ({ data }) => {
   return (
@@ -16,7 +17,11 @@ const PostFooter = ({ data }) => {
       </div>
       <Divider />
       <div className="flex justify-between w-full px-8">
-        <ReactionButton id={data.id} data={data.reactionsList} />
+        <ReactionButton
+          id={data.id}
+          data={data.reactionsList}
+          reacted={data.reacted}
+        />
 
         <CommentButton />
       </div>

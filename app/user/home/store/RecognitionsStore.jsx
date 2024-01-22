@@ -8,45 +8,44 @@ export const recognitionsAtom = atom([
     key: `recognition-${index}`,
     icon: recognitionsIcons.tickets,
     title: "Congratulations!",
-    datetime: "2023-10-03T13:00:00",
+    datetime: "2024-12-12T13:00:00",
     description: "You have received 50 Rex Tickets!",
-    type: "ticket"
+    type: "ticket",
   },
   {
     id: (index += 1),
     key: `recognition-${index}`,
     icon: recognitionsIcons.promotion,
     title: "Congratulations!",
-    datetime: "2023-10-03T13:00:00",
+    datetime: "2023-06-15T13:00:00",
     description: "You have been promoted to Data Analyst!",
-    type: "promotion"
+    type: "promotion",
   },
   {
     id: (index += 1),
     key: `recognition-${index}`,
     icon: recognitionsIcons.feedback,
     title: "Good Job!",
-    datetime: "2023-10-03T13:00:00",
+    datetime: "2024-01-09T13:00:00",
     description: "A client is happy with your work!",
-    type: "feedback"
+    type: "feedback",
   },
   {
     id: (index += 1),
     key: `recognition-${index}`,
     icon: recognitionsIcons.tickets,
     title: "Congratulations!",
-    datetime: "2023-10-03T13:00:00",
+    datetime: "2024-01-03T13:00:00",
     description: "You have received 50 Rex Tickets!",
-    type: "ticket"
+    type: "ticket",
   },
   {
     id: (index += 1),
     key: `recognition-${index}`,
     icon: recognitionsIcons.tickets,
     title: "Congratulations!",
-    datetime: "2023-10-03T13:00:00",
+    datetime: "2023-09-29T13:00:00",
     description: "You have received 50 Rex Tickets!",
-    type: "ticket"
+    type: "ticket",
   },
-  
 ]);

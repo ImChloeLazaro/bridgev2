@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { reactionIcons } from "./ReactionIcons";
+
 import { Button } from "@nextui-org/react";
+
 import { TbMessageCircle } from "react-icons/tb";
 
 const CommentButton = () => {

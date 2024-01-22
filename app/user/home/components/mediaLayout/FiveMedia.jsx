@@ -1,14 +1,24 @@
-import React from "react";
-import { Image, Button } from "@nextui-org/react";
+import React, { useState } from "react";
+import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
+
+import { Image, Button, useDisclosure } from "@nextui-org/react";
 
 const FiveMedia = ({ data, type }) => {
-  const filteredPost = data.filter((item) => data.indexOf(item) < 5);
+  const filteredPost = data.slice(0, 5);
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const layout = {
     landscape:
-      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-grey-default/60 h-[900px]",
+      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default/60 h-[900px] px-4",
     portrait:
-      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-grey-default/60 h-[900px]",
+      "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default/60 h-[900px] px-4",
+  };
+
+  const handleOnOpen = (index) => {
+    console.log("POST 5 IMAGE INDEX", index);
+    setSelectedImage(index);
   };
 
   const featuredMedia = (index) => {
@@ -30,6 +40,13 @@ const FiveMedia = ({ data, type }) => {
 
   return (
     <div className={`${layout[type]}`}>
+      <ImagePostCarousel
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={false}
+        data={data}
+        selectedImage={selectedImage}
+      />
       {filteredPost.map((media, index) => {
         return (
           <Button
@@ -39,7 +56,11 @@ const FiveMedia = ({ data, type }) => {
             disableAnimation
             className={`${featuredMedia(
               index
-            )} bg-black-default/60 backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full`}
+            )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full px-unit-0 `}
+            onPress={() => {
+              handleOnOpen(index);
+              onOpen();
+            }}
           >
             <Image
               key={index}

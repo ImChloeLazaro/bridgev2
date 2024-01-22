@@ -1,6 +1,7 @@
 import React from "react";
-import { Button, useDisclosure } from "@nextui-org/react";
 import ManagePostModal from "./ManagePostModal";
+
+import { Button, useDisclosure } from "@nextui-org/react";
 
 const CreatePostButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -14,14 +15,13 @@ const CreatePostButton = () => {
         className="bg-transparent w-full h-16 text-lg font-medium text-black-default border-[2.5px] rounded-lg border-[#BEBEBE]/80 border-solid flex justify-start items-center pl-4"
         onPress={onOpen}
       >
-        Create Post
+        {"Create Post"}
       </Button>
       <ManagePostModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}
         type={"create post"}
-
       />
     </>
   );
