@@ -8,7 +8,7 @@ const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
 });
 // ////####################################################################/////
 
-export default function UserLayout({ children }) {
+export default function HRLayout({ children }) {
   
   return (
     <div className="flex h-screen top-0">

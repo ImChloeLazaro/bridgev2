@@ -28,7 +28,7 @@ const TrainingCard = () => {
         </Button>
       </CardHeader>
       <CardBody
-        className={`transition-all duration-300 overflow-y-scroll no-scrollbar ${
+        className={`transition-[height] duration-300 overflow-y-scroll no-scrollbar ${
           isExpanded ? cardStyle["expand"] : cardStyle["collapse"]
         }`}
       >

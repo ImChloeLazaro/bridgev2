@@ -169,6 +169,7 @@ link: string,
 * Disabled for now backend functions due to build configuration error
 * Updated @tailwindcss to latest v3.4.1
 * Added Media Layout Component
+* Reverted middleware
 
 ## v.0.4.9
 
@@ -202,7 +203,7 @@ link: string,
 
 ## v.0.5.0 - hotfix
 
-* Added middleware for route protection
+* Added `middleware` for route protection
 * Added missing libs in `package.json`
 
 ## v.0.5.0.1 - hotfix
@@ -251,3 +252,11 @@ link: string,
 
 * Changed named export from `CreatePost` to `CreatePostCard`to match its filename
 * Fetched user attributes are now displayed correctly in `UserDropdown` and `CreatePostCard` Component
+* Adjusted whitespace around `MainContent` and `RightBar` Components
+* Change text label for `ReturnButton`
+* Fixed route issue when manually entering URL is does not reflect on the page
+* Added a role check on `NavigationBar` to fix the route issue
+* Changed name export from `UserLayout` to `AdminLayout` to match its filename
+* Changed name export from `UserLayout` to `TLLayout` to match its filename
+* Changed name export from `UserLayout` to `HRLayout` to match its filename
+* Added `middleware` for route protection and redirects

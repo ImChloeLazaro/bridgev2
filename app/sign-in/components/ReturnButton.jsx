@@ -26,7 +26,7 @@ const ReturnButton = () => {
       variant="flat"
       radius="lg"
     >
-      {"Return to Home Page"}
+      {"Return"}
     </Button>
   );
 };
