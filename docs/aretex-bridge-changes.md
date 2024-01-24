@@ -112,6 +112,7 @@ link: string,
 * Reverted merge
 * Separated frontend and backend for deployment
 * Added @jotai/optics for large and nested object manipulation
+* Added `store` folder in each major component and each page for managing its various state
 * Added functionality of onboarding form - storing data
   * Note: Only `Background` section not yet done in onboarding form Component
 
@@ -123,6 +124,7 @@ link: string,
 ## v.0.4.4
 
 * Centralized frontend and backend repo to the `bridge-official` repo
+* Added `store` folder for global state management
 * Added `docs` folder for documentation
 * Added `frontend-changes.md` in `docs` folder
 * Moved contents for tracking frontend changes from `README.md` to `frontend-changes.md`
@@ -260,3 +262,18 @@ link: string,
 * Changed name export from `UserLayout` to `TLLayout` to match its filename
 * Changed name export from `UserLayout` to `HRLayout` to match its filename
 * Added `middleware` for route protection and redirects
+
+## v.0.5.4
+
+* Reverted `middleware` again due to causing a internal server error on deployment
+* Changed name export from `Item` to `ShortcutItem` to match its filename
+* Rewrite `Onboarding` Atoms in to their respective atoms
+* Added `applicationTabsAtom`in `OnboardingStore`
+* Added `backgroundTabsAtom` in `OnboardingStore`
+* Added `employmentTabsAtom` in `OnboardingStore`
+* Added `contactTabsAtom` in `OnboardingStore`
+* Changed `OnboardingHeader` Component
+* Added `OnboardingFieldInput` Component for better control of field inputs
+* Added `OnboardingSubmitted` Component to show after onboarding form is done and submitted
+* Added illustration when onboarding form is submitted and redirects to login page
+* Added `isRequired` check for the required fields in the onboarding form

@@ -32,7 +32,7 @@ const ShortcutsHeader = () => {
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
 
   const [shortcutCount] = useAtom(shortcutCountAtom);
-  const setShortcuts = useSetAtom(shortcutsAtom);
+  const [, setShortcuts] = useAtom(shortcutsAtom);
   const handleAddShortcut = async () => {
     try {
       const restOperation = post({
@@ -48,7 +48,7 @@ const ShortcutsHeader = () => {
       });
       const { body } = await restOperation.response;
       const response = await body.json()
-      console.log(response);
+      console.log("NEW SHORTCUT", response);
       setShortcuts((prev) => [
         ...prev,
         {
@@ -62,7 +62,7 @@ const ShortcutsHeader = () => {
       setAddShortcutLink("");
       setIsOpen(false);
     } catch (e) {
-      console.log('POST call failed: ', e);
+      console.log('Shortcut POST call failed: ', e);
     }
   };
 
@@ -78,7 +78,7 @@ const ShortcutsHeader = () => {
 
   return (
     <div className="flex items-center gap-x-24 pt-1 pr-4 pb-3 pl-3 bg-white-default">
-      <div className="text-xl font-bold">SHORTCUTS</div>
+      <div className="text-xl font-bold">{"SHORTCUTS"}</div>
       <Popover
         placement="bottom-start"
         showArrow

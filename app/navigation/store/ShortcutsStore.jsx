@@ -1,8 +1,7 @@
 import { atom } from "jotai";
-import "../../aws-auth"
-import { fetchUserAttributes } from "aws-amplify/auth";
-import { AuthenticationStore } from "./AuthenticationStrore";
-import { get } from "aws-amplify/api";
+import "../../aws-auth";
+import { authenticationAtom } from "../../store/AuthenticationStore";
+import { get as fetch } from "aws-amplify/api";
 
 let index = 0;
 

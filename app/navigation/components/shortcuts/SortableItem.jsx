@@ -1,8 +1,8 @@
 import React from "react";
+import ShortcutItem from "./ShortcutItem";
+
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-import Item from "./ShortcutItem";
 
 export function SortableItem(props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -12,7 +12,7 @@ export function SortableItem(props) {
         duration: 150, // milliseconds
         easing: "cubic-bezier(0.25, 1, 0.5, 1)",
       },
-      disabled: props.disabled
+      disabled: props.disabled,
     });
 
   const style = {
@@ -20,7 +20,7 @@ export function SortableItem(props) {
     transition,
   };
   return (
-    <Item
+    <ShortcutItem
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -28,6 +28,6 @@ export function SortableItem(props) {
       {...props}
     >
       {props.children}
-    </Item>
+    </ShortcutItem>
   );
 }

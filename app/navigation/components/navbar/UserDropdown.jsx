@@ -30,6 +30,7 @@ async function handleSignOut() {
   } catch (error) {
     console.log('error signing out: ', error);
   }
+  
 }
 
 const UserDropdown = () => {

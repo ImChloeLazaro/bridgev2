@@ -3,7 +3,7 @@ import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
 
 import { useAtom, useAtomValue } from "jotai";
-import { shortcutsAtom, disableDraggableAtom, getShortcut } from "../../store/ShortcutsStore";
+import { shortcutsAtom, disableDraggableAtom, fetchShortcut } from "../../store/ShortcutsStore";
 
 import {
   closestCenter,

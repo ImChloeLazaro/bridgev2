@@ -1,9 +1,11 @@
 import React, { useMemo } from "react";
-
-import { Stepper } from "react-form-stepper";
-import { useAtomValue } from "jotai";
 import { activeStepAtom, stepsAtom } from "../store/OnboardingStore";
 
+import { Stepper } from "react-form-stepper";
+
+import { useAtomValue } from "jotai";
+
+// ### TODO Changed hard-coded style to tailwind
 const OnboardingHeader = () => {
   const activeStep = useAtomValue(activeStepAtom);
   const steps = useAtomValue(stepsAtom);
@@ -34,7 +36,7 @@ const OnboardingHeader = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <p className="uppercase text-2xl pt-2 mt-3">Onboarding Form</p>
+      <p className="uppercase text-2xl pt-2 mt-3">{"Onboarding Form"}</p>
       <div className="w-full">
         <Stepper
           steps={stepsContent}

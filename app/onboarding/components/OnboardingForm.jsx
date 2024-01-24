@@ -1,5 +1,24 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import dynamic from "next/dynamic";
+import ApplicationOnboarding from "./ApplicationOnboarding";
+import BackgroundOnboarding from "./BackgroundOnboarding";
+import ContactOnboarding from "./ContactOnboarding";
+import EmploymentOnboarding from "./EmploymentOnboarding";
+import OnboardingFooter from "./OnboardingFooter";
+
+const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
+  ssr: false,
+});
+
+import {
+  applicationTabsAtom,
+  backgroundTabsAtom,
+  employmentTabsAtom,
+  contactTabsAtom,
+} from "../store/OnboardingStore";
+
+import { selectedTabAtom, activeStepAtom } from "../store/OnboardingStore";
+
 import {
   Card,
   CardHeader,
@@ -7,58 +26,37 @@ import {
   CardFooter,
   Divider,
 } from "@nextui-org/react";
+
 import { Tabs, Tab } from "@nextui-org/react";
 
-const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
-  ssr: false,
-});
-
-import OnboardingFooter from "./OnboardingFooter";
-
 import { useAtom, useAtomValue } from "jotai";
-import {
-  selectedTabAtom,
-  applicationOnboardingAtom,
-  backgroundOnboardingAtom,
-  employmentOnboardingAtom,
-  contactOnboardingAtom,
-  activeStepAtom,
-} from "../store/OnboardingStore";
-import ApplicationOnboarding from "./ApplicationOnboarding";
-import BackgroundOnboarding from "./BackgroundOnboarding";
-import EmploymentOnboarding from "./EmploymentOnboarding";
-import ContactOnboarding from "./ContactOnboarding";
 
 const OnboardingForm = () => {
-  const applicationOnboarding = useAtomValue(applicationOnboardingAtom);
-  const backgroundOnboarding = useAtomValue(backgroundOnboardingAtom);
-  const employmentOnboarding = useAtomValue(employmentOnboardingAtom);
-  const contactOnboarding = useAtomValue(contactOnboardingAtom);
   const activeStep = useAtomValue(activeStepAtom);
 
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
 
+  const applicationTabs = useAtomValue(applicationTabsAtom);
+  const backgroundTabs = useAtomValue(backgroundTabsAtom);
+  const employmentTabs = useAtomValue(employmentTabsAtom);
+  const contactTabs = useAtomValue(contactTabsAtom);
+
   const onboardingTabs = useMemo(
     () => [
-      Object.keys(applicationOnboarding || {}).map((tab) => {
+      applicationTabs.map((tab) => {
         return { key: tab, title: tab.replaceAll("_", " ") };
       }),
-      Object.keys(backgroundOnboarding || {}).map((tab) => {
+      backgroundTabs.map((tab) => {
         return { key: tab, title: tab.replaceAll("_", " ") };
       }),
-      Object.keys(employmentOnboarding || {}).map((tab) => {
+      employmentTabs.map((tab) => {
         return { key: tab, title: tab.replaceAll("_", " ") };
       }),
-      Object.keys(contactOnboarding || {}).map((tab) => {
+      contactTabs.map((tab) => {
         return { key: tab, title: tab.replaceAll("_", " ") };
       }),
     ],
-    [
-      applicationOnboarding,
-      backgroundOnboarding,
-      contactOnboarding,
-      employmentOnboarding,
-    ]
+    [applicationTabs, backgroundTabs, contactTabs, employmentTabs]
   );
 
   const onboardingContent = [
@@ -84,7 +82,7 @@ const OnboardingForm = () => {
               key="onboarding navigation"
               selectedKey={selectedTab}
               onSelectionChange={setSelectedTab}
-              aria-label="Notifications Options"
+              aria-label="Onboarding Navigation"
               variant="underlined"
               classNames={{
                 base: "pl-4 py-0 ",
@@ -99,7 +97,13 @@ const OnboardingForm = () => {
                 return (
                   <Tab
                     key={tab.key}
-                    title={<p className="capitalize">{tab.title}</p>}
+                    title={
+                      <p className="capitalize">
+                        {tab.key === "government_id_information"
+                          ? "Government ID Information"
+                          : tab.title}
+                      </p>
+                    }
                   />
                 );
               })}

@@ -30,6 +30,7 @@ module.exports = {
   variants: {
     lineClamp: ["responsive", "hover"],
     height: ["responsive"],
+    display: ["group-hover"],
   },
 
   plugins: [

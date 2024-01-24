@@ -15,7 +15,7 @@ import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
 
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
@@ -45,7 +45,9 @@ const NavigationBar = () => {
     .filter((e) => e.length != 0)[0] // removes the empty strings and only the first element is selected
     .toLowerCase();
 
-  useLayoutEffect(() => {
+  // ### TODO Badge and Sidebar still persists when switching to user role
+  
+  useEffect(() => {
     if (userRoles.includes(checkRoleFromURL)) {
       setRole(checkRoleFromURL);
     }
