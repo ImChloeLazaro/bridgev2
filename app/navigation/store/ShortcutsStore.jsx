@@ -25,21 +25,26 @@ export const fetchShortcut = atom(async (get) => {
     throw error;
   }
 });
-export const shortcutsAtom = atom(async (get) => {
-  const response = await get(fetchShortcut);
-  console.log("RESPONSE: ", response);
-  console.log(typeof response);
+export const shortcutsAtom = atom(
+  async (get) => {
+    const response = await get(fetchShortcut);
+    console.log("RESPONSE: ", response);
+    console.log(typeof response);
 
-  const mappedShortcuts = Array.isArray(response)
-    ? response.map((item, index) => ({
-        id: (index += 1),
-        key: `sct-${index}`,
-        label: item.title,
-        link: item.url,
-      }))
-    : [];
-  return mappedShortcuts;
-});
+    const mappedShortcuts = Array.isArray(response)
+      ? response.map((item, index) => ({
+          id: (index += 1),
+          key: `sct-${index}`,
+          label: item.title,
+          link: item.url,
+        }))
+      : [];
+    return mappedShortcuts;
+  },
+  (get, set, shortcutsListArray) => {
+    set(shortcutsAtom, shortcutsListArray);
+  }
+);
 // export const shortcutsAtom = atom(()=> {
 //   const arr = [
 //     {
