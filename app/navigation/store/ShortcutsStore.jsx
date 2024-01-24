@@ -1,38 +1,42 @@
 import { atom } from "jotai";
-import "../../aws-auth"
+import "../../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
-import { AuthenticationStore } from "./AuthenticationStrore";
+import { authenticatedAtom } from "../../store/AuthenticationStore";
 import { get } from "aws-amplify/api";
 
-let index = 0;
+// let index = 0;
 
-export const getShortcut = atom(async (getAtom) => {
-  const data = await getAtom(AuthenticationStore)
+export const fetchShortcut = atom(async (getAtom) => {
+  const data = await getAtom(authenticatedAtom);
   try {
-      const restOperation = get({ 
-        apiName: 'bridgeApi',
-        path: '/shortcut',
-        options: {
-          queryParams : {
-            sub: data.user.sub
-          }
-        }
-      });
-      const { body } = await restOperation.response;
-      const response = await body.json()
-      return response.response
-    } catch (error) {
-      throw error
-    }
-})
+    const restOperation = get({
+      apiName: "bridgeApi",
+      path: "/shortcut",
+      options: {
+        queryParams: {
+          sub: data.sub,
+        },
+      },
+    });
+    const { body } = await restOperation.response;
+    const result = await body.json();
+    return result.response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+});
 export const shortcutsAtom = atom(async (get) => {
-  const response = await get(getShortcut);
+  const response = await get(fetchShortcut);
+  console.log("RESPONSE: ", response);
+  console.log(typeof response);
+
   const mappedShortcuts = Array.isArray(response)
     ? response.map((item, index) => ({
-        id: index + 1,
-        key: item.sub,
+        id: (index += 1),
+        key: `sct-${index}`,
         label: item.title,
-        link: item.url,   
+        link: item.url,
       }))
     : [];
   return mappedShortcuts;

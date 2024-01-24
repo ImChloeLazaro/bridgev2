@@ -1,135 +1,32 @@
 import { atom } from "jotai";
-// import { focusAtom } from "jotai-optics";
+// ### TODO Merge all data object before submitting to server
 
-// export const onboardingAtom = atom({
-//   application: {
-//     application_details: {
-//       first_name: { value: "", label: "First Name" },
-//       last_name: { value: "", label: "First Name" },
-//       middle_name: { value: "", label: "First Name" },
-//       vacancy_thru: { value: "", label: "First Name" },
-//       referred_by: { value: "", label: "First Name" },
-//       date_application: { value: "", label: "First Name" },
-//       date_availability: { value: "", label: "First Name" },
-//       applied_for: { value: "", label: "First Name" },
-//       salary: { value: "", label: "First Name" },
-//     },
-//     employee_information: {
-//       present_address: { value: "", label: "First Name" }, // with zip code
-//       permanent_address: { value: "", label: "First Name" }, // with zip code
-//       residence_status: { value: "", label: "First Name" },
-//       gender: { value: "", label: "First Name" },
-//       birthdate: { value: "", label: "First Name" }, // (mm/dd/yyyy)
-//       civil_status: { value: "", label: "First Name" },
-//       age: { value: 0, label: "Age" },
-//       email_address: { value: "", label: "First Name" },
-//       birthplace: { value: "", label: "First Name" },
-//       home_phone_number: { value: "", label: "First Name" },
-//       citizenship: { value: "", label: "First Name" },
-//       mobile_number: { value: "", label: "First Name" },
-//       religion: { value: "", label: "First Name" },
-//       language: { value: "", label: "First Name" },
-//     },
-//     government_id_information: {
-//       tin: { value: "", label: "First Name" },
-//       sss: { value: "", label: "First Name" },
-//       pagibig: { value: "", label: "First Name" },
-//       philhealth: { value: "", label: "First Name" },
-//     },
-//   },
-//   background: {
-//     family_background: {
-//       father: {
-//         name: { value: "", label: "First Name" },
-//         age: { value: 0, label: "Age" },
-//         occupation: { value: "", label: "First Name" },
-//         company: { value: "", label: "First Name" },
-//       },
-//       father: {
-//         name: { value: "", label: "First Name" },
-//         age: { value: 0, label: "Age" },
-//         occupation: { value: "", label: "First Name" },
-//         company: { value: "", label: "First Name" },
-//       },
-//       children: [
-//         {
-//           name: { value: "", label: "First Name" },
-//           age: { value: 0, label: "Age" },
-//           civil_status: { value: "", label: "First Name" },
-//           occupation: { value: "", label: "First Name" },
-//           company: { value: "", label: "First Name" },
-//         },
-//       ],
-//     },
-//     educational_background: {
-//       highschool: {
-//         date_of_attendance: { value: "", label: "First Name" },
-//         degree_major: { value: "", label: "First Name" },
-//       },
-//       college: {
-//         date_of_attendance: { value: "", label: "First Name" },
-//         degree_major: { value: "", label: "First Name" },
-//       },
-//       post_graduate: {
-//         date_of_attendance: { value: "", label: "First Name" },
-//         degree_major: { value: "", label: "First Name" },
-//       },
-//       technical_vocational: {
-//         date_of_attendance: { value: "", label: "First Name" },
-//         degree_major: { value: "", label: "First Name" },
-//       },
-//     },
-//     examination_taken: [
-//       {
-//         government_association: { value: "", label: "First Name" },
-//         date_taken: { value: "", label: "First Name" },
-//         certification: { value: "", label: "First Name" },
-//       },
-//     ],
-//   },
-//   employment: {
-//     employment_history: [
-//       {
-//         position_held: { value: "", label: "First Name" },
-//         duration: { value: "", label: "First Name" },
-//         date_of_attendance: { value: "", label: "First Name" },
-//         reason_leaving: { value: "", label: "First Name" },
-//       },
-//     ],
-//     trainings_attended: [
-//       {
-//         program_name: { value: "", label: "First Name" },
-//         duration: { value: "", label: "First Name" },
-//         topic_specialization: { value: "", label: "First Name" },
-//         provider: { value: "", label: "First Name" },
-//       },
-//     ],
-//     references: [
-//       {
-//         name: { value: "", label: "First Name" },
-//         position_held: { value: "", label: "First Name" },
-//         company_name_address: { value: "", label: "First Name" },
-//         contact_number: { value: "", label: "First Name" },
-//       },
-//     ],
-//   },
-//   contact: {
-//     emergency_contact: {
-//       name: { value: "", label: "First Name" },
-//       address: { value: "", label: "First Name" },
-//       relationship: { value: "", label: "First Name" },
-//       contact_number: { value: "", label: "First Name" },
-//     },
-//   },
-// });
-//test 
- export const stepsAtom = atom([
+export const stepsAtom = atom([
   "application",
   "background",
   "employment",
   "contact",
 ]);
 
+// Onboarding Tabs
+export const applicationTabsAtom = atom([
+  "application_details",
+  "employee_information",
+  "government_id_information",
+]);
+export const backgroundTabsAtom = atom([
+  "family_background",
+  "educational_background",
+  "examination_taken",
+]);
+export const employmentTabsAtom = atom([
+  "employment_history",
+  "trainings_attended",
+  "references",
+]);
+export const contactTabsAtom = atom(["emergency_contact"]);
+
+// Indicators
 export const selectedTabAtom = atom("application_details");
 export const selectedStepperAtom = atom("application");
 
@@ -201,7 +98,6 @@ export const backgroundOnboardingAtom = atom({
         occupation: { value: "", label: "OCCUPATION" },
         company: { value: "", label: "COMPANY" },
       },
-      
     ],
   },
 
@@ -318,28 +214,218 @@ export const contactOnboardingAtom = atom({
   },
 });
 
-export const familyBackgroundAtom = atom({
-  family_background: {
-    father: {
-      name: { value: "", label: "FATHER'S NAME" },
-      age: { value: "", label: "AGE" },
-      occupation: { value: "", label: "OCCUPATION" },
-      company: { value: "", label: "COMPANY" },
-    },
-    mother: {
-      name: { value: "", label: "MOTHER'S NAME" },
-      age: { value: "", label: "AGE" },
-      occupation: { value: "", label: "OCCUPATION" },
-      company: { value: "", label: "COMPANY" },
-    },
-    children: [
-      {
-        name: { value: "", label: "NAME/S OF CHILDREN" },
-        age: { value: "", label: "AGE" },
-        civil_status: { value: "", label: "CIVIL STATUS" },
-        occupation: { value: "", label: "OCCUPATION" },
-        company: { value: "", label: "COMPANY" },
-      },
-    ],
-  },
+//// Application Onboarding
+
+// Application Details
+export const firstNameAtom = atom("");
+export const lastNameAtom = atom("");
+export const middleNameAtom = atom("");
+export const vacancyThruAtom = atom("");
+export const referredByAtom = atom("");
+export const dateApplicationAtom = atom("");
+export const dateAvailabilityAtom = atom("");
+export const appliedForAtom = atom("");
+export const salaryAtom = atom("");
+
+// Employee Information
+export const presentAddressAtom = atom("");
+export const permanentAddressAtom = atom("");
+export const residenceStatusAtom = atom("");
+export const genderAtom = atom("");
+export const birthdateAtom = atom("");
+export const civilStatusAtom = atom("");
+export const ageAtom = atom("");
+export const emailAddressAtom = atom("");
+export const birthplaceAtom = atom("");
+export const homePhoneNumberAtom = atom("");
+export const citizenshipAtom = atom("");
+export const mobileNumberAtom = atom("");
+export const religionAtom = atom("");
+export const languageAtom = atom("");
+
+// Goverment ID Information
+export const tinAtom = atom("");
+export const sssAtom = atom("");
+export const pagibigAtom = atom("");
+export const philhealthAtom = atom("");
+
+//// Background Onboarding
+
+// Family Background
+export const fatherAtom = atom({
+  name: "",
+  age: "",
+  occupation: "",
+  company: "",
 });
+
+export const motherAtom = atom({
+  name: "",
+  age: "",
+  occupation: "",
+  company: "",
+});
+
+let childIndex = 0;
+export const childrenAtom = atom([
+  {
+    id: (childIndex += 1),
+    name: "",
+    age: "",
+    civil_status: "",
+    occupation: "",
+    company: "",
+  },
+  {
+    id: (childIndex += 1),
+    name: "",
+    age: "",
+    civil_status: "",
+    occupation: "",
+    company: "",
+  },
+]);
+
+// Educational Background
+export const highschoolAtom = atom({
+  name: "",
+  address: "",
+  date_of_attendance: "",
+  degree_major: "",
+});
+
+export const collegeAtom = atom({
+  name: "",
+  address: "",
+  date_of_attendance: "",
+  degree_major: "",
+});
+
+export const postGraduateAtom = atom({
+  name: "",
+  address: "",
+  date_of_attendance: "",
+  degree_major: "",
+});
+
+export const techVocSpecialAtom = atom({
+  name: "",
+  address: "",
+  date_of_attendance: "",
+  degree_major: "",
+});
+
+// Examination Taken
+let examIndex = 0;
+export const examinationTakenAtom = atom([
+  {
+    id: (examIndex += 1),
+    government_association: "",
+    date_taken: "",
+    certification: "",
+  },
+  {
+    id: (examIndex += 1),
+    government_association: "",
+    date_taken: "",
+    certification: "",
+  },
+  {
+    id: (examIndex += 1),
+    government_association: "",
+    date_taken: "",
+    certification: "",
+  },
+]);
+
+//// Employment Onboarding
+
+// Employment History
+let employmentIndex = 0;
+export const employmentHistoryAtom = atom([
+  {
+    id: (employmentIndex += 1),
+    position_held: "",
+    duration: "",
+    date_of_attendance: "",
+    reason_leaving: "",
+  },
+  {
+    id: (employmentIndex += 1),
+    position_held: "",
+    duration: "",
+    date_of_attendance: "",
+    reason_leaving: "",
+  },
+  {
+    id: (employmentIndex += 1),
+    position_held: "",
+    duration: "",
+    date_of_attendance: "",
+    reason_leaving: "",
+  },
+]);
+
+// Training Attended
+let trainingIndex = 0;
+export const trainingsAttendedAtom = atom([
+  {
+    id: (trainingIndex += 1),
+    program_name: "",
+    duration: "",
+    topic_specialization: "",
+    provider: "",
+  },
+  {
+    id: (trainingIndex += 1),
+    program_name: "",
+    duration: "",
+    topic_specialization: "",
+    provider: "",
+  },
+  {
+    id: (trainingIndex += 1),
+    program_name: "",
+    duration: "",
+    topic_specialization: "",
+    provider: "",
+  },
+]);
+
+// References
+let referenceIndex = 0;
+export const referencesAtom = atom([
+  {
+    id: (referenceIndex += 1),
+    name: "",
+    position_held: "",
+    company_name_address: "",
+    contact_number: "",
+  },
+  {
+    id: (referenceIndex += 1),
+    name: "",
+    position_held: "",
+    company_name_address: "",
+    contact_number: "",
+  },
+  {
+    id: (referenceIndex += 1),
+    name: "",
+    position_held: "",
+    company_name_address: "",
+    contact_number: "",
+  },
+]);
+
+//// Contact Onboarding
+
+// Emergency Contact
+export const contactAtom = atom({
+  name: "",
+  address: "",
+  relationship: "",
+  contact_number: "",
+});
+
+export const isSubmittedOnboardingFormAtom = atom(false);

@@ -78,7 +78,7 @@ const ShortcutsHeader = () => {
 
   return (
     <div className="flex items-center gap-x-24 pt-1 pr-4 pb-3 pl-3 bg-white-default">
-      <div className="text-xl font-bold">SHORTCUTS</div>
+      <div className="text-xl font-bold">{"SHORTCUTS"}</div>
       <Popover
         placement="bottom-start"
         showArrow
