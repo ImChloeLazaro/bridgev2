@@ -41,8 +41,9 @@ export const shortcutsAtom = atom(
       : [];
     return mappedShortcuts;
   },
-  (get, set, shortcutsListArray) => {
-    set(shortcutsAtom, shortcutsListArray);
+  (get, set, shortcutUpdate) => {
+    set(shortcutsAtom, shortcutUpdate);
+    // return shortcutUpdate;
   }
 );
 // export const shortcutsAtom = atom(()=> {

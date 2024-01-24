@@ -28,11 +28,10 @@ import {
 import { SortableItem } from "./SortableItem";
 
 const Shortcuts = () => {
-  const [newShortcut, setNewShortcut] = useAtom(shortcutsAtom)
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   
-  // console.log(newShortcut.response)
+  console.log("SHORTCUTS", shortcutsList)
   // newShortcut.response.forEach(element => {
   //   console.log(element)
   // });
@@ -40,7 +39,6 @@ const Shortcuts = () => {
   //   console.log(e)
   // })
 
-  console.log('result', newShortcut)
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
