@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import HRBulletinBoardList from "./HRBulletinBoardList";
 
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
   Button,
+  Card,
+  CardBody,
+  CardHeader,
 } from "@nextui-org/react";
 
-import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
+import { MdCloseFullscreen, MdOpenInFull } from "react-icons/md";
 
 const HRBulletinBoard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -37,7 +33,7 @@ const HRBulletinBoard = () => {
         </Button>
       </CardHeader>
       <CardBody
-        className={`transition-all duration-300 overflow-y-scroll no-scrollbar ${
+        className={`transition-[height] duration-300 overflow-y-scroll no-scrollbar ${
           isExpanded ? cardStyle["expand"] : cardStyle["collapse"]
         }`}
       >

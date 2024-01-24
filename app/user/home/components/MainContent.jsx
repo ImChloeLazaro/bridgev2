@@ -10,7 +10,7 @@ const MainContent = () => {
   const posts = useAtomValue(postAtom);
   const user = useAtomValue(userAtom);
   return (
-    <div className="w-full max-h-screen basis-[72%] overflow-y-scroll no-scrollbar m-4 px-6">
+    <div className="w-full max-h-screen basis-[72%] overflow-y-scroll no-scrollbar mx-4 mt-4 px-6">
       <CreatePost data={user} />
       {posts.map((post) => {
         return <PostCard key={post.key} data={post} />;

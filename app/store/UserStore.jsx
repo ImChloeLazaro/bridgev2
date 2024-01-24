@@ -67,5 +67,22 @@ let index = 0;
 //   }
 // };
 // export const userDataAtom = atom(async () => await fetchUserData());
+const fetchUserData = async () => {
+  try {
+    const user = await fetchUserAttributes();
+    return {
+      isAuthenticated: true,
+      isSignedIn: isAuthenticated,
+      sub: user.sub,
+    };
+  } catch (error) {
+    return {
+      isAuthenticated: false,
+      isSignedIn: false,
+      sub: null,
+    };
+  }
+};
+export const userDataAtom = atom(async () => await fetchUserData());
 
 export const userAtom = atom(async () => await fetchUserAttributes());

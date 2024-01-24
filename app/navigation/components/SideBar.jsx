@@ -11,7 +11,8 @@ import {
 import SideBarHeader from "./sidebar/SideBarHeader";
 import Shortcuts from "./shortcuts/Shortcuts";
 
-import { useAtom } from "jotai";
+import { useAtomValue, useAtom } from "jotai";
+
 import { roleAtom, activeRouteAtom } from "../store/NavSideBarStore";
 
 const SideBar = () => {
@@ -24,8 +25,7 @@ const SideBar = () => {
   // });
 
   const [isActive, setIsActive] = useAtom(activeRouteAtom);
-
-  const [role] = useAtom(roleAtom);
+  const role = useAtomValue(roleAtom);
 
   const handleSidebarButtonsActive = (sidebarKey) => {
     console.log("Before Active");

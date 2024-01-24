@@ -1,22 +1,24 @@
-import React from "react";
 import {
+  Image,
+  Link,
   Navbar,
-  NavbarMenuToggle,
-  NavbarMenuItem,
-  NavbarMenu,
   NavbarContent,
   NavbarItem,
-  Link,
-  Image,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
 } from "@nextui-org/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { routesUser } from "./RoutesIconDetails";
+import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
-import RoleBadge from "./navbar/RoleBadge";
-import { routesUser } from "./RoutesIconDetails";
-import { useRouter } from "next/navigation";
 
-import { useHydrateAtoms } from 'jotai/utils'
-import { useAtom } from "jotai";
+import { useLayoutEffect } from "react";
+
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+
 import { roleAtom, userRolesAtom } from "../store/NavSideBarStore";
 //to be clean
 //Amplify config.
@@ -26,16 +28,29 @@ import { roleAtom, userRolesAtom } from "../store/NavSideBarStore";
 
 // Amplify.configure(config)
 
-
-const NavigationBar = ({roleSentFromServer}) => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+const NavigationBar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = routesUser.map((details) => details.label);
   const router = useRouter();
 
-  useHydrateAtoms([[roleAtom, roleSentFromServer]]) 
-  const [role] = useAtom(roleAtom);
+  const role = useAtomValue(roleAtom);
   const [userRoles] = useAtom(userRolesAtom);
+
+  const pathname = usePathname();
+  const setRole = useSetAtom(roleAtom);
+
+  const checkRoleFromURL = pathname
+    .split("/") // split the pathname
+    .filter((e) => e.length != 0)[0] // removes the empty strings and only the first element is selected
+    .toLowerCase();
+
+  useLayoutEffect(() => {
+    if (userRoles.includes(checkRoleFromURL)) {
+      setRole(checkRoleFromURL);
+    }
+  });
+
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
@@ -60,10 +75,8 @@ const NavigationBar = ({roleSentFromServer}) => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="flex items-center gap-6">
-          <UserDropdown signout={() => console.log('signout me')}/>
-          {userRoles.includes(role) && (
-            <RoleBadge/>
-          )}
+          <UserDropdown signout={() => console.log("signout me")} />
+          {userRoles.includes(role) && <RoleBadge />}
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>
