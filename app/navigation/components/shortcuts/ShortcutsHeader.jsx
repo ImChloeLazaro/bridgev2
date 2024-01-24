@@ -32,7 +32,7 @@ const ShortcutsHeader = () => {
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
 
   const [shortcutCount] = useAtom(shortcutCountAtom);
-  const setShortcuts = useSetAtom(shortcutsAtom);
+  const [, setShortcuts] = useAtom(shortcutsAtom);
   const handleAddShortcut = async () => {
     try {
       const restOperation = post({
@@ -48,7 +48,7 @@ const ShortcutsHeader = () => {
       });
       const { body } = await restOperation.response;
       const response = await body.json()
-      console.log(response);
+      console.log("NEW SHORTCUT", response);
       setShortcuts((prev) => [
         ...prev,
         {
