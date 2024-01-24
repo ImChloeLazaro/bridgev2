@@ -14,7 +14,7 @@ const fetchAuthentication = async () => {
     console.log("AUTH", user)
     return {
       isAuthenticated: true,
-      isSignedIn: authenticatedAtom,
+      isSignedIn: authenticationAtom,
       sub: user.sub,
     };
   } catch (error) {
@@ -25,6 +25,7 @@ const fetchAuthentication = async () => {
     };
   }
 };
-export const authenticatedAtom = atom(async () => {
+export const authenticationAtom = atom(async () => {
   return await fetchAuthentication();
 }, initialState);
+

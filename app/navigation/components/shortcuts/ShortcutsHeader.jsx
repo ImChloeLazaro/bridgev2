@@ -62,7 +62,7 @@ const ShortcutsHeader = () => {
       setAddShortcutLink("");
       setIsOpen(false);
     } catch (e) {
-      console.log('POST call failed: ', e);
+      console.log('Shortcut POST call failed: ', e);
     }
   };
 

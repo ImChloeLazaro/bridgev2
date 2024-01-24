@@ -1,15 +1,14 @@
 import { atom } from "jotai";
 import "../../aws-auth";
-import { fetchUserAttributes } from "aws-amplify/auth";
-import { authenticatedAtom } from "../../store/AuthenticationStore";
-import { get } from "aws-amplify/api";
+import { authenticationAtom } from "../../store/AuthenticationStore";
+import { get as fetch } from "aws-amplify/api";
 
 // let index = 0;
 
-export const fetchShortcut = atom(async (getAtom) => {
-  const data = await getAtom(authenticatedAtom);
+export const fetchShortcut = atom(async (get) => {
+  const data = await get(authenticationAtom);
   try {
-    const restOperation = get({
+    const restOperation = fetch({
       apiName: "bridgeApi",
       path: "/shortcut",
       options: {
