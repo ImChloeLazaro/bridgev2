@@ -14,9 +14,9 @@
         ]
       }
     },
-    "/profile": {
-      "name": "/profile",
-      "lambdaFunction": "profilehandler",
+    "/post": {
+      "name": "/post",
+      "lambdaFunction": "posthandler",
       "permissions": {
         "setting": "private",
         "auth": [
@@ -27,9 +27,9 @@
         ]
       }
     },
-    "/post": {
-      "name": "/post",
-      "lambdaFunction": "posthandler",
+    "/profile": {
+      "name": "/profile",
+      "lambdaFunction": "profilehandler",
       "permissions": {
         "setting": "private",
         "auth": [

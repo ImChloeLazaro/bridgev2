@@ -30,8 +30,6 @@ const ContactOnboarding = () => {
     });
   };
 
-  console.log(contactOnboarding);
-
   return (
     <div className="flex flex-wrap justify-start gap-5 mt-4">
       {onboardingContent?.map((contact, index) => {

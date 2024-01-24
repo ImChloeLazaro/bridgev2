@@ -58,7 +58,7 @@ let index = 0;
 //       isSignedIn: true,
 //       user: user,
 //     };
-//   } catch (error) {
+//   } catch (error) { 
 //     return {
 //       isAuthenticated: false,
 //       isSignedIn: false,

@@ -27,34 +27,12 @@ import { useAtom, useSetAtom } from "jotai";
 const ShortcutsHeader = () => {
   
   const [user, setUser] = useAtom(userAtom)
-
-  console.log(user)
   const [isOpen, setIsOpen] = useState(false);
   const [addShortcutName, setAddShortcutName] = useAtom(addShortcutNameAtom);
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
 
   const [shortcutCount] = useAtom(shortcutCountAtom);
   const setShortcuts = useSetAtom(shortcutsAtom);
-
-  const access = async () => {
-    try {
-      const restOperation = get({
-        apiName: 'bridgeApi',
-        path: '/shortcut',
-        options: {
-          queryParams: {
-            id: user.sub
-          }
-        }
-      });
-      const { body } = await restOperation.response;
-      const response = await body.json()
-      console.log(response);
-    } catch (e) {
-      console.log('POST call failed: ', e);
-    }
-  }
-  access()
   const handleAddShortcut = async () => {
     try {
       const restOperation = post({

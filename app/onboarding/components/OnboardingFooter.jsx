@@ -1,6 +1,7 @@
 import React from "react";
 import CTAButtons from "../../components/CTAButtons";
-
+import "../../aws-auth"
+import { post, get } from "aws-amplify/api";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
   activeStepAtom,
@@ -23,11 +24,30 @@ const OnboardingFooter = () => {
   const employmentOnboarding = useAtomValue(employmentOnboardingAtom);
   const contactOnboarding = useAtomValue(contactOnboardingAtom);
 
-  const handleSubmit = () => {
-    console.log(applicationOnboarding);
-    console.log(backgroundOnboarding);
-    console.log(employmentOnboarding);
-    console.log(contactOnboarding);
+  const handleSubmit = async () => {
+
+    const onboardingHandler = {
+      ...applicationOnboarding,
+      ...backgroundOnboarding,
+      ...employmentOnboarding,
+      ...contactOnboarding
+    }
+
+    try {
+      const restOperation = post({
+        apiName: 'bridgeApi',
+        path: '/profile',
+        options: {
+          body: onboardingHandler
+        }
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json()
+      console.log(response);
+    } catch (e) {
+      console.log('POST call failed: ', e);
+    }
+
   };
 
   const handleNext = () => {

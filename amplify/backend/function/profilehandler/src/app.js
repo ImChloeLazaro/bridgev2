@@ -126,7 +126,6 @@ const employeeSchema = mongoose.Schema({
 
 const profileModel = mongoose.model('profile', employeeSchema)
 
-
 app.get('/profile', function (req, res) {
   res.json({ success: 'get call succeed!', url: req.url });
 });
@@ -137,9 +136,16 @@ app.get('/profile/*', function (req, res) {
 });
 
 app.post('/profile', async function (req, res) {
-  const employeeProfile = {}
-  const profileQuery = await profileModel.create(employeeProfile)
-  res.json({ employee: profileQuery })
+  // const employeeProfile = {}
+  // const profileQuery = await profileModel.create(employeeProfile)
+  // res.json({ employee: profileQuery })
+  const { application_details } = req.body
+
+  // const extractedValues = Object.fromEntries(
+  //   Object.entries(application_details).map(([key, value]) => [key, value.value])
+  // );
+
+  res.json({ response: application_details.firstname })
 });
 
 app.post('/profile/*', function (req, res) {

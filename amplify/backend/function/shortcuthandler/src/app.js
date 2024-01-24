@@ -30,11 +30,14 @@ const shortcutModel = mongoose.model('shortcut', shortcutSchema)
 
 app.get('/shortcut', async function (req, res) {
    const query = req.query;
-   res.json({
-    message: 'access complete',
-    event: req.apiGateway.event, // to view all event data
-    query: query
-  });
+  try {
+    const shortcutQuery = await shortcutModel.find({
+      sub: query.sub
+    })
+    res.status(200).json({ response : shortcutQuery })
+  } catch (error) {
+    throw error
+  }
 });
 
 app.get('/shortcut/*', function (req, res) {

@@ -3,7 +3,7 @@ import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
 
 import { useAtom, useAtomValue } from "jotai";
-import { shortcutsAtom, disableDraggableAtom } from "../../store/ShortcutsStore";
+import { shortcutsAtom, disableDraggableAtom, getShortcut } from "../../store/ShortcutsStore";
 
 import {
   closestCenter,
@@ -28,9 +28,19 @@ import {
 import { SortableItem } from "./SortableItem";
 
 const Shortcuts = () => {
+  const [newShortcut, setNewShortcut] = useAtom(shortcutsAtom)
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
+  
+  // console.log(newShortcut.response)
+  // newShortcut.response.forEach(element => {
+  //   console.log(element)
+  // });
+  // const mapShortcut = newShortcut.response.map((e)=> {
+  //   console.log(e)
+  // })
 
+  console.log('result', newShortcut)
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -155,7 +165,6 @@ const Shortcuts = () => {
       setShortcutsList((items) => {
         const oldIndex = items.map((obj) => obj.id).indexOf(active.id);
         const newIndex = items.map((obj) => obj.id).indexOf(over?.id);
-
         return arrayMove(items, oldIndex, newIndex);
       });
     }

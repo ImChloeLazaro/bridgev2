@@ -16,7 +16,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "profilehandler"
+          "resourceName": "posthandler"
         },
         {
           "attributes": [
@@ -24,7 +24,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "posthandler"
+          "resourceName": "profilehandler"
         }
       ],
       "providerPlugin": "awscloudformation",
