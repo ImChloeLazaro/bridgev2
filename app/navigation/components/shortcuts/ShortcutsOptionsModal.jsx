@@ -38,6 +38,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
   };
 
   const handleEditShortcut = () => {
+    console.log('hello world')
     setShortcuts(() =>
       shortcuts.map((shortcut) => {
         if (shortcut.key === unique_key) {

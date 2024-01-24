@@ -29,12 +29,12 @@ const shortcutSchema = mongoose.Schema({
 const shortcutModel = mongoose.model('shortcut', shortcutSchema)
 
 app.get('/shortcut', async function (req, res) {
-   const query = req.query;
+  const query = req.query;
   try {
     const shortcutQuery = await shortcutModel.find({
       sub: query.sub
     })
-    res.status(200).json({ response : shortcutQuery })
+    res.status(200).json({ response: shortcutQuery })
   } catch (error) {
     throw error
   }
@@ -67,37 +67,26 @@ app.post('/shortcut', async function (req, res) {
 
 });
 
-app.post('/shortcut/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'post call succeed!', url: req.url, body: req.body })
+app.put('/shortcut', async function (req, res) {
+  try {
+    const updateShortcut = await shortcutModel.updateOne({
+      _id: "65b05de8d877ae064bf4ce0b"
+    }, {
+      title: "ako lang to anak ni rizal"
+    })
+    res.json({ success: true, response: updateShortcut })
+  } catch (error) {
+    throw error
+  }
 });
 
-/****************************
-* Example put method *
-****************************/
-
-app.put('/shortcut', function (req, res) {
-  // Add your code here
-  res.json({ success: 'put call succeed!', url: req.url, body: req.body })
-});
-
-app.put('/shortcut/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'put call succeed!', url: req.url, body: req.body })
-});
-
-/****************************
-* Example delete method *
-****************************/
-
-app.delete('/shortcut', function (req, res) {
-  // Add your code here
-  res.json({ success: 'delete call succeed!', url: req.url });
-});
-
-app.delete('/shortcut/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'delete call succeed!', url: req.url });
+app.delete('/shortcut', async function (req, res) {
+  try {
+    const deleteShortcut = await shortcutModel.deleteOne({"_id" : "65b05de8d877ae064bf4ce0b"})
+    res.json({ success: true, response: deleteShortcut });
+  } catch (error) {
+    throw error
+  }
 });
 
 app.listen(3000, function () {
