@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
 
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
-  shortcutsAtom,
   disableDraggableAtom,
-  fetchShortcutAtom as fetchedShortcutAtom,
+  fetchedShortcutAtom,
   initializeShortcutAtom,
+  shortcutsAtom,
 } from "../../store/ShortcutsStore";
 
 import {
@@ -45,7 +45,7 @@ const Shortcuts = () => {
   // const mapShortcut = newShortcut.response.map((e)=> {
   //   console.log(e)
   // })
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mappedShortcuts = Array.isArray(fetchedShortcut)
       ? fetchedShortcut.map((item, index) => ({
           id: (index += 1),

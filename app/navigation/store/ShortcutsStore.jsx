@@ -33,7 +33,7 @@ export const addShortcutAtom = atom(null, (get, set, update) => {
 export const initializeShortcutAtom = atom (null, async (get, set, update) => {
   set(shortcutsAtom, update);
 });
-export const fetchShortcutAtom = atom(async (get) => {
+export const fetchedShortcutAtom = atom(async (get) => {
   const sub = await get(subAtom);
   try {
     const restOperation = fetch({
