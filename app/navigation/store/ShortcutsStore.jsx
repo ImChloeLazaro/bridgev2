@@ -1,19 +1,47 @@
 import { atom } from "jotai";
 import "../../aws-auth";
-import { authenticationAtom } from "../../store/AuthenticationStore";
+import { subAtom } from "../../store/AuthenticationStore";
 import { get as fetch } from "aws-amplify/api";
 
 // let index = 0;
 
-export const fetchShortcut = atom(async (get) => {
-  const data = await get(authenticationAtom);
+
+// export const shortcutsAtom = atom(async (get) => {
+//   const response = await get(fetchShortcut);
+//   console.log("RESPONSE: ", response);
+//   console.log(typeof response);
+
+// const mappedShortcuts = Array.isArray(response)
+//   ? response.map((item, index) => ({
+//       id: (index += 1),
+//       key: `sct-${index}`,
+//       label: item.title,
+//       link: item.url,
+//     }))
+//   : [];
+//   return mappedShortcuts;
+// });
+
+export const shortcutsAtom = atom([]);
+export const displayShortcutAtom = atom((get) => get(shortcutsAtom));
+export const addShortcutAtom = atom(null, (get, set, update) => {
+  console.log("PREV", get(shortcutsAtom));
+  console.log("UPDATE", update);
+  set(shortcutsAtom, update);
+  console.log("AFTER", get(shortcutsAtom));
+});
+export const initializeShortcutAtom = atom (null, async (get, set, update) => {
+  set(shortcutsAtom, update);
+});
+export const fetchShortcutAtom = atom(async (get) => {
+  const sub = await get(subAtom);
   try {
     const restOperation = fetch({
       apiName: "bridgeApi",
       path: "/shortcut",
       options: {
         queryParams: {
-          sub: data.sub,
+          sub: sub,
         },
       },
     });
@@ -25,35 +53,15 @@ export const fetchShortcut = atom(async (get) => {
     throw error;
   }
 });
-export const shortcutsAtom = atom(
-  async (get) => {
-    const response = await get(fetchShortcut);
-    console.log("RESPONSE: ", response);
-    console.log(typeof response);
 
-    const mappedShortcuts = Array.isArray(response)
-      ? response.map((item, index) => ({
-          id: (index += 1),
-          key: `sct-${index}`,
-          label: item.title,
-          link: item.url,
-        }))
-      : [];
-    return mappedShortcuts;
-  },
-  (get, set, shortcutUpdate) => {
-    set(shortcutsAtom, shortcutUpdate);
-    // return shortcutUpdate;
-  }
-);
 // export const shortcutsAtom = atom(()=> {
 //   const arr = [
-//     {
-//       id: (index += 1),
-//       key: `sct-${index}`,
-//       label: "Timesheet",
-//       link: "#",
-//     },
+// {
+//   id: (index += 1),
+//   key: `sct-${index}`,
+//   label: "Timesheet",
+//   link: "#",
+// },
 //     {
 //       id: (index += 1),
 //       key: `sct-${index}`,

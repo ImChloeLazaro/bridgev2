@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
 
-import { useAtom, useAtomValue } from "jotai";
-import { shortcutsAtom, disableDraggableAtom, fetchShortcut } from "../../store/ShortcutsStore";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  shortcutsAtom,
+  disableDraggableAtom,
+  fetchShortcutAtom,
+  initializeShortcutAtom,
+} from "../../store/ShortcutsStore";
 
 import {
   closestCenter,
@@ -30,14 +35,27 @@ import { SortableItem } from "./SortableItem";
 const Shortcuts = () => {
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
-  
-  console.log("SHORTCUTS", shortcutsList)
+  const fetchShortcut = useAtomValue(fetchShortcutAtom);
+  const initializeShortcut = useSetAtom(initializeShortcutAtom);
+
+  console.log("SHORTCUTS", shortcutsList);
   // newShortcut.response.forEach(element => {
   //   console.log(element)
   // });
   // const mapShortcut = newShortcut.response.map((e)=> {
   //   console.log(e)
   // })
+  useEffect(() => {
+    const mappedShortcuts = Array.isArray(fetchShortcut)
+      ? response.map((item, index) => ({
+          id: (index += 1),
+          key: `sct-${index}`,
+          label: item.title,
+          link: item.url,
+        }))
+      : [];
+    initializeShortcut(mappedShortcuts);
+  }, [fetchShortcut, initializeShortcut]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
