@@ -55,7 +55,7 @@ const Shortcuts = () => {
         }))
       : [];
     initializeShortcut(mappedShortcuts);
-  }, [fetchedShortcut, initializeShortcut, shortcutsList]);
+  }, [fetchedShortcut, initializeShortcut]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
