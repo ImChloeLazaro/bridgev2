@@ -6,7 +6,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   shortcutsAtom,
   disableDraggableAtom,
-  fetchShortcutAtom,
+  fetchShortcutAtom as fetchedShortcutAtom,
   initializeShortcutAtom,
 } from "../../store/ShortcutsStore";
 
@@ -35,7 +35,7 @@ import { SortableItem } from "./SortableItem";
 const Shortcuts = () => {
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
-  const fetchShortcut = useAtomValue(fetchShortcutAtom);
+  const fetchedShortcut = useAtomValue(fetchedShortcutAtom);
   const initializeShortcut = useSetAtom(initializeShortcutAtom);
 
   console.log("SHORTCUTS", shortcutsList);
@@ -46,8 +46,8 @@ const Shortcuts = () => {
   //   console.log(e)
   // })
   useEffect(() => {
-    const mappedShortcuts = Array.isArray(fetchShortcut)
-      ? response.map((item, index) => ({
+    const mappedShortcuts = Array.isArray(fetchedShortcut)
+      ? fetchedShortcut.map((item, index) => ({
           id: (index += 1),
           key: `sct-${index}`,
           label: item.title,
@@ -55,7 +55,7 @@ const Shortcuts = () => {
         }))
       : [];
     initializeShortcut(mappedShortcuts);
-  }, [fetchShortcut, initializeShortcut]);
+  }, [fetchedShortcut, initializeShortcut]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
