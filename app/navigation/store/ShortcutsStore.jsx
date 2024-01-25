@@ -22,34 +22,23 @@ import { get as fetch } from "aws-amplify/api";
 // });
 
 export const shortcutsAtom = atom([]);
-export const displayShortcutAtom = atom((get) => {
-  const prev = get(shortcutsAtom);
-  console.log("PREV", prev);
-  const response = get(fetchedShortcutAtom);
-  console.log("RESPONSE", response);
-  const mappedShortcuts = Array.isArray(response)
-    ? response.map((item, index) => ({
-        id: (index += 1),
-        key: `sct-${index}`,
-        label: item.title,
-        link: item.url,
-      }))
-    : [];
-  console.log("mappedShortcuts");
-  console.log([...prev, ...mappedShortcuts]);
-  return [...prev, ...mappedShortcuts];
-});
+
+export const displayShortcutAtom = atom((get) => get(shortcutsAtom));
+
 export const addShortcutAtom = atom(null, (get, set, update) => {
   console.log("PREV", get(shortcutsAtom));
   console.log("UPDATE", update);
   set(shortcutsAtom, update);
   console.log("AFTER", get(shortcutsAtom));
 });
+
 export const initializeShortcutAtom = atom(null, async (get, set, update) => {
   set(shortcutsAtom, update);
 });
+
 export const fetchedShortcutAtom = atom(async (get) => {
   const sub = await get(subAtom);
+  console.log("SUB", sub);
   try {
     const restOperation = fetch({
       apiName: "bridgeApi",
@@ -62,7 +51,20 @@ export const fetchedShortcutAtom = atom(async (get) => {
     });
     const { body } = await restOperation.response;
     const result = await body.json();
-    return result.response;
+    console.log("RESULT", result);
+    const response = result.response;
+    console.log("RESPONSE", response);
+
+    const mappedShortcuts = Array.isArray(response)
+      ? response.map((item, index) => ({
+          id: (index += 1),
+          key: `sct-${index}`,
+          label: item.title,
+          link: item.url,
+        }))
+      : [];
+    console.log("mappedShortcuts", mappedShortcuts);
+    set(shortcutsAtom, mappedShortcuts);
   } catch (error) {
     console.log(error);
     throw error;

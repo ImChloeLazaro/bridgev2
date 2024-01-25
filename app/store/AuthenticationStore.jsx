@@ -12,6 +12,7 @@ const fetchAuthentication = async () => {
   try {
     const user = await fetchUserAttributes();
     console.log("AUTH", user)
+    console.log("SUB AUTH", user.sub)
     return {
       isAuthenticated: true,
       isSignedIn: authenticationAtom,
