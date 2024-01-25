@@ -5,6 +5,7 @@ import ShortcutsHeader from "./ShortcutsHeader";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   disableDraggableAtom,
+  displayShortcutAtom,
   fetchedShortcutAtom,
   initializeShortcutAtom,
   shortcutsAtom,
@@ -33,7 +34,7 @@ import {
 import { SortableItem } from "./SortableItem";
 
 const Shortcuts = () => {
-  const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
+  const [shortcutsList, setShortcutsList] = useAtom(displayShortcutAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useAtomValue(fetchedShortcutAtom);
   const initializeShortcut = useSetAtom(initializeShortcutAtom);
@@ -55,7 +56,7 @@ const Shortcuts = () => {
         }))
       : [];
     initializeShortcut(mappedShortcuts);
-  }, [fetchedShortcut, initializeShortcut, shortcutsList]);
+  }, [fetchedShortcut, initializeShortcut]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
