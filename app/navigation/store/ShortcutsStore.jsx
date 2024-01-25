@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import "../../aws-auth";
-import { subAtom } from "../../store/AuthenticationStore";
+import { authenticationAtom } from "../../store/AuthenticationStore";
 import { get as fetch } from "aws-amplify/api";
 
 // let index = 0;
@@ -23,7 +23,7 @@ import { get as fetch } from "aws-amplify/api";
 
 export const shortcutsAtom = atom([]);
 
-export const displayShortcutAtom = atom((get) => get(shortcutsAtom));
+// export const displayShortcutAtom = atom((get) => get(shortcutsAtom));
 
 export const addShortcutAtom = atom(null, (get, set, update) => {
   console.log("PREV", get(shortcutsAtom));
@@ -32,20 +32,20 @@ export const addShortcutAtom = atom(null, (get, set, update) => {
   console.log("AFTER", get(shortcutsAtom));
 });
 
-export const initializeShortcutAtom = atom(null, async (get, set, update) => {
-  set(shortcutsAtom, update);
-});
+// export const initializeShortcutAtom = atom(null, async (get, set, update) => {
+//   set(shortcutsAtom, update);
+// });
 
-export const fetchedShortcutAtom = atom(async (get) => {
-  const sub = await get(subAtom);
-  console.log("SUB", sub);
+export const fetchedShortcutAtom = atom(null, async (get, set,) => {
+  const data = await get(authenticationAtom);
   try {
+    console.log("SUB", data);
     const restOperation = fetch({
       apiName: "bridgeApi",
       path: "/shortcut",
       options: {
         queryParams: {
-          sub: sub,
+          sub: data.sub,
         },
       },
     });

@@ -34,40 +34,18 @@ import {
 import { SortableItem } from "./SortableItem";
 
 const Shortcuts = () => {
-  const [shortcutsList, setShortcutsList] = useAtom(displayShortcutAtom);
+  const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
-  const fetchedShortcut = useAtomValue(fetchedShortcutAtom);
-  const initializeShortcut = useSetAtom(initializeShortcutAtom);
+  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
   console.log("SHORTCUTS", shortcutsList);
-  // newShortcut.response.forEach(element => {
-  //   console.log(element)
-  // });
-  // const mapShortcut = newShortcut.response.map((e)=> {
-  //   console.log(e)
-  // })
-  useLayoutEffect(() => {
-    const mappedShortcuts = Array.isArray(fetchedShortcut)
-      ? fetchedShortcut.map((item, index) => ({
-          id: (index += 1),
-          key: `sct-${index}`,
-          label: item.title,
-          link: item.url,
-        }))
-      : [];
-    initializeShortcut(mappedShortcuts);
-  }, [fetchedShortcut, initializeShortcut]);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  useEffect(() => {
+    fetchedShortcut();
+  }, [fetchedShortcut]);
 
   return (
     <DndContext
-      // sensors={sensors}
       collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
       modifiers={[
@@ -177,6 +155,8 @@ const Shortcuts = () => {
   function handleDragEnd(event) {
     // changes the index of MenuItem which makes dragging possible
     const { active, over } = event;
+    console.log("ACTIVE", "OVER");
+    console.log(active.id, over?.id);
 
     if (active.id !== over?.id) {
       setShortcutsList((items) => {

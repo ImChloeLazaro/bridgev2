@@ -11,8 +11,8 @@ const initialState = {
 const fetchAuthentication = async () => {
   try {
     const user = await fetchUserAttributes();
-    console.log("AUTH", user)
-    console.log("SUB AUTH", user.sub)
+    console.log("AUTH", user);
+    console.log("SUB AUTH", user.sub);
     return {
       isAuthenticated: true,
       isSignedIn: authenticationAtom,
@@ -30,4 +30,3 @@ export const authenticationAtom = atom(async () => {
   return await fetchAuthentication();
 }, initialState);
 
-export const subAtom = atom((get)=>get(authenticationAtom).sub)
