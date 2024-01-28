@@ -3,7 +3,7 @@ import { post, get } from "aws-amplify/api";
 import CTAButtons from "../../../components/CTAButtons";
 import CloseButton from "../../../components/CloseButton";
 import {
-  shortcutsAtom,
+  addShortcutAtom,
   addShortcutNameAtom,
   addShortcutLinkAtom,
   shortcutCountAtom,
@@ -32,7 +32,7 @@ const ShortcutsHeader = () => {
   const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
 
   const [shortcutCount] = useAtom(shortcutCountAtom);
-  const [, setShortcuts] = useAtom(shortcutsAtom);
+  const setShortcuts = useSetAtom(addShortcutAtom);
   const handleAddShortcut = async () => {
     try {
       const restOperation = post({

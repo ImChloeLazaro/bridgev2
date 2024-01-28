@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
 
-import { useAtom, useAtomValue } from "jotai";
-import { shortcutsAtom, disableDraggableAtom, fetchShortcut } from "../../store/ShortcutsStore";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  disableDraggableAtom,
+  displayShortcutAtom,
+  fetchedShortcutAtom,
+  initializeShortcutAtom,
+  shortcutsAtom,
+} from "../../store/ShortcutsStore";
 
 import {
   closestCenter,
@@ -28,29 +34,18 @@ import {
 import { SortableItem } from "./SortableItem";
 
 const Shortcuts = () => {
-  const [newShortcut, setNewShortcut] = useAtom(shortcutsAtom)
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
-  
-  // console.log(newShortcut.response)
-  // newShortcut.response.forEach(element => {
-  //   console.log(element)
-  // });
-  // const mapShortcut = newShortcut.response.map((e)=> {
-  //   console.log(e)
-  // })
+  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
-  console.log('result', newShortcut)
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  console.log("SHORTCUTS", shortcutsList);
+
+  useEffect(() => {
+    fetchedShortcut();
+  }, [fetchedShortcut]);
 
   return (
     <DndContext
-      // sensors={sensors}
       collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
       modifiers={[
@@ -160,6 +155,8 @@ const Shortcuts = () => {
   function handleDragEnd(event) {
     // changes the index of MenuItem which makes dragging possible
     const { active, over } = event;
+    console.log("ACTIVE", "OVER");
+    console.log(active.id, over?.id);
 
     if (active.id !== over?.id) {
       setShortcutsList((items) => {
