@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="aretex">
       {/*// theme */}
-      <body className={helveticaNowDisplay.className}>
+      <body className={helveticaNowDisplay.className} suppressHydrationWarning={true}>
         {/*// font */}
         <Providers>{children}</Providers>
       </body>

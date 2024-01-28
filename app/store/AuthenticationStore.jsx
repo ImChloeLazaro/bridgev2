@@ -4,14 +4,13 @@ import "../aws-auth";
 
 const initialState = {
   isAuthenticated: false,
-  isSignedIn: false.se,
+  isSignedIn: false,
   sub: null,
 };
 
 const fetchAuthentication = async () => {
   try {
     const user = await fetchUserAttributes();
-    console.log("AUTH", user)
     return {
       isAuthenticated: true,
       isSignedIn: authenticationAtom,

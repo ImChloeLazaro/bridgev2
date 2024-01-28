@@ -2,11 +2,28 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { Provider } from "jotai";
+import { authenticationAtom } from "./store/AuthenticationStore";
+import { useAtomValue } from "jotai";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function Providers({ children }) {
+  const authvalue = useAtomValue(authenticationAtom)
   const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(()=>{
+    
+    if(authvalue.isAuthenticated && pathname === "/"){
+      router.push('/user')
+    }
+    
+    if(!authvalue.isAuthenticated && pathname !== "/"){
+      router.push('/')
+    }
+
+  },[authvalue.isAuthenticated, pathname, router])
 
   return (
     <NextUIProvider navigate={router.push}>
