@@ -277,10 +277,3 @@ link: string,
 * Added `OnboardingSubmitted` Component to show after onboarding form is done and submitted
 * Added illustration when onboarding form is submitted and redirects to login page
 * Added `isRequired` check for the required fields in the onboarding form
-
-## v.0.5.5
-
-* Fixed fetching of shortcut data from the backend
-* Rewrite atom architecture for manipulating data coming from the backend in `ShortcutStore`
-* Added backend functionality for local development testing
-* Updated the links for `Shortcuts` to be clickable and open a new tab

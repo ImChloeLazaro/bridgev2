@@ -23,9 +23,8 @@ const ShortcutItem = forwardRef(
           />
         }
       >
-        <Link isExternal href={link} className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 ">
-          {children}
-        </Link>
+        <Link isExternal href={link} className="text-black-default"></Link>
+        {children}
       </MenuItem>
     );
   }

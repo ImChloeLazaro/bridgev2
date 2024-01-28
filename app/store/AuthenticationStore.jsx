@@ -29,3 +29,4 @@ export const authenticationAtom = atom(async () => {
   return await fetchAuthentication();
 }, initialState);
 
+export const subAtom = atom((get)=>get(authenticationAtom).sub)
