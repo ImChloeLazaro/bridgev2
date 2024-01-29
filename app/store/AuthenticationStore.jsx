@@ -18,7 +18,6 @@ async function fetchAuthentication() {
     console.log(`Access Token: ${accessToken}`);
     console.log(`ID Token: ${idToken}`);
     console.log("AUTH", user);
-    console.log("SUB AUTH", user.sub);
     return {
       isAuthenticated: true,
       isSignedIn: true,
@@ -35,3 +34,4 @@ async function fetchAuthentication() {
 export const authenticationAtom = atom(async () => {
   return await fetchAuthentication();
 }, initialState);
+

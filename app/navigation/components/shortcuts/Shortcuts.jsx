@@ -40,7 +40,7 @@ import { SortableItem } from "./SortableItem";
 // ### TODO Fix order of shortcuts does not persist after refresh or after sign in
 
 const Shortcuts = () => {
-  const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
+  const [shortcutsList, setShortcutsList] = useAtom(displayShortcutAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
@@ -51,6 +51,7 @@ const Shortcuts = () => {
 
   return (
     <DndContext
+      // sensors={sensors}
       collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
       modifiers={[
@@ -176,10 +177,6 @@ const Shortcuts = () => {
     const { active, over } = event;
     console.log("ACTIVE", "OVER");
     console.log(active.id, over?.id);
-
-    if (over?.id === undefined) {
-      return;
-    }
 
     if (active.id !== over?.id) {
       setShortcutsList((items) => {

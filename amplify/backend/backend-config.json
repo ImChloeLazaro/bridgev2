@@ -1,0 +1,157 @@
+{
+  "api": {
+    "bridgeApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "posthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "bridgev2907806c3": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [
+          "GOOGLE"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "posthandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "profilehandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "shortcuthandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_posthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_posthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_profilehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_profilehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_profilehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_test": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    }
+  },
+  "storage": {}
+}

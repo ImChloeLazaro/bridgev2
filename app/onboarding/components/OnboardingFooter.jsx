@@ -1,5 +1,9 @@
 import React from "react";
 import CTAButtons from "../../components/CTAButtons";
+import "../../aws-auth"
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { useAtom } from "jotai";
+import { post } from "aws-amplify/api";
 import {
   activeStepAtom,
   stepsAtom,
@@ -66,6 +70,7 @@ import { isSubmittedOnboardingFormAtom } from "../store/OnboardingStore";
 import { useAtomValue, useSetAtom } from "jotai";
 
 const OnboardingFooter = () => {
+  const unique_key = useAtomValue(authenticationAtom)
   const steps = useAtomValue(stepsAtom);
   const activeStep = useAtomValue(activeStepAtom);
   const setActiveStep = useSetAtom(activeStepAtom);
@@ -134,9 +139,8 @@ const OnboardingFooter = () => {
     isSubmittedOnboardingFormAtom
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // ### TODO Merge together all data object before submit to server
-
     const onboardingData = {
       application: {
         application_details: {
@@ -195,8 +199,24 @@ const OnboardingFooter = () => {
       contact: {
         emergency_contact: contact,
       },
+      sub : unique_key.sub
     };
-    console.log(onboardingData); // Complete Onboarding Object
+
+    try {
+      const restOperation = post({
+        apiName: 'bridgeApi',
+        path: '/profile',
+        options: {
+          body: onboardingData
+        }
+      });
+  
+      const { body } = await restOperation.response;
+      const response = await body.json();
+      console.log(response);
+    } catch (e) {
+      console.log('POST call failed: ', e);
+    }
 
     setIsSubmittedOnboardingForm(true);
   };
