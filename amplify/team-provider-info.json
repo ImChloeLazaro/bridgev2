@@ -25,7 +25,7 @@
         },
         "profilehandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/profilehandler-6a7066336e46346e7278-build.zip",
+          "s3Key": "amplify-builds/profilehandler-6d463763666a39313441-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "posthandler": {
@@ -35,7 +35,7 @@
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/userhandler-476943467531376f4559-build.zip"
+          "s3Key": "amplify-builds/userhandler-345254654931786c7736-build.zip"
         }
       },
       "api": {

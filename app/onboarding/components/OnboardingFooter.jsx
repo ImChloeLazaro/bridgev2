@@ -3,7 +3,8 @@ import CTAButtons from "../../components/CTAButtons";
 import "../../aws-auth"
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { useAtom } from "jotai";
-import { post } from "aws-amplify/api";
+import { post, put } from "aws-amplify/api";
+import { updateOnboardingStatus } from "@/app/utils/profile";
 import {
   activeStepAtom,
   stepsAtom,
@@ -203,15 +204,27 @@ const OnboardingFooter = () => {
     };
 
     try {
-      const restOperation = post({
+      // POST request to insert onboarding data
+      const insertOnboardingData = post({
         apiName: 'bridgeApi',
         path: '/profile',
         options: {
           body: onboardingData
         }
       });
-  
-      const { body } = await restOperation.response;
+    
+      // If the POST request is successful, proceed with the PUT request
+      const update = put({
+        apiName: 'bridgeApi',
+        path: '/user',
+        options: {
+          queryParams: {
+            sub: unique_key.sub
+          }
+        }
+      });
+    
+      const { body } = await insertOnboardingData.response;
       const response = await body.json();
       console.log(response);
     } catch (e) {

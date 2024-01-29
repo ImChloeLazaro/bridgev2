@@ -56,7 +56,6 @@ app.post('/user', async function(req, res) {
 
   try {
     const getuserbysub = await userModel.findOne({sub})
-  
     if(!getuserbysub){
       const insert = await userModel.create({
       sub,
@@ -71,23 +70,19 @@ app.post('/user', async function(req, res) {
   }
 });
 
-app.post('/user/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
 
-/****************************
-* Example put method *
-****************************/
-
-app.put('/user', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-app.put('/user/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.put('/user', async function(req, res) {
+  const {sub} = req.query
+  try {
+    const updateonboarding = await userModel.updateOne({
+      sub: sub
+    }, {
+      hasOnboardingData: true
+    })
+    res.status(200).json({success: 'UPDATE SUCCESS!', result : updateonboarding})
+  } catch (error) {
+    res.status(500).json({error: error})
+  }
 });
 
 /****************************

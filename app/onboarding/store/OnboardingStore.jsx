@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import { fetchOnboardingStatus } from "@/app/store/UserStore";
 // ### TODO Merge all data object before submitting to server
 
 export const stepsAtom = atom([
@@ -428,4 +429,6 @@ export const contactAtom = atom({
   contact_number: "",
 });
 
-export const isSubmittedOnboardingFormAtom = atom(false);
+export const isSubmittedOnboardingFormAtom = atom(async (get) => {
+  return await get(fetchOnboardingStatus)
+});

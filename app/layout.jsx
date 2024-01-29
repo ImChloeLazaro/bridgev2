@@ -1,9 +1,6 @@
-import { Amplify } from 'aws-amplify';
-// import config from '../src/amplifyconfiguration.json';
 import "./globals.css";
 import { Providers } from "./providers";
 import { helveticaNowDisplay } from "./assets/fonts/fontTypeWeight";
-
 // Amplify.configure(config);
 
 export const metadata = {

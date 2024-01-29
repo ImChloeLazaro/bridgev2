@@ -7,15 +7,16 @@ import { authenticationAtom } from "./store/AuthenticationStore";
 import { useAtomValue } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { RegisterProfile, FetchOnboardingStatus } from "./utils/profile";
+import { RegisterProfile } from "./utils/profile";
 
 export function Providers({ children }) {
   const authvalue = useAtomValue(authenticationAtom)
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(()=>{
-    
+  // updateOnboardingStatus(authvalue)
+
+  useEffect(()=>{  
     if(authvalue.isAuthenticated && pathname === "/"){
       router.push('/user')
     }
@@ -23,7 +24,6 @@ export function Providers({ children }) {
     if(!authvalue.isAuthenticated && pathname !== "/"){
       router.push('/')
     }
-    
     return () => RegisterProfile(authvalue)
 
   },[authvalue.isAuthenticated, pathname, router])
