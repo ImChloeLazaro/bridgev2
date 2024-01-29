@@ -13,7 +13,6 @@ app.use(function (req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE)
-<<<<<<< HEAD
 const applicationDetailsSchema = mongoose.Schema({
   first_name: String,
   last_name: String,
@@ -174,126 +173,10 @@ const employeeSchema = mongoose.Schema({
 });
 
 const profileModel = mongoose.model('profile', employeeSchema);
-=======
-
-const childrenSchema = mongoose.Schema({
-  "name": String,
-  "age": String,
-  "civilStatus": String,
-  "occupation": String,
-  "company": String
-})
-
-const educationSchema = mongoose.Schema({
-  "highSchool": {
-    "name": String,
-    "address": String,
-    "dateOfAttendance": String,
-    "major": String
-  },
-  "college": {
-    "name": String,
-    "address": String,
-    "dateOfAttendance": String,
-    "major": String
-  },
-  "postGraduate": {
-    "name": String,
-    "address": String,
-    "dateOfAttendance": String,
-    "major": String
-  },
-  "specialCourses": {
-    "name": String,
-    "address": String,
-    "dateOfAttendance": String,
-    "major": String
-  }
-})
-
-const examinationSchema = mongoose.Schema({
-  "association": String,
-  "dateTaken": String,
-  "certification": String
-})
-
-const employmentHistorySchema = mongoose.Schema({
-  "positionHeld": String,
-  "duration": String,
-  "dateOfAttendance": String,
-  "reasonForLeaving": String
-})
-
-const trainingSchema = mongoose.Schema({
-  "specialization": String,
-  "provider": String,
-  "programName": String,
-  "duration": String
-})
-
-const referenceSchema = mongoose.Schema({
-  "name": String,
-  "positionHeld": String,
-  "company": String,
-  "contact": String
-})
-
-const emergencyContactSchema = mongoose.Schema({
-  "name": String,
-  "address": String,
-  "relationship": String,
-  "contact": String,
-})
-
-const employeeSchema = mongoose.Schema({
-  "firstname": String,
-  "middlenane": String,
-  "lastname": String,
-  "vacancyThru": String,
-  "referredBy": String,
-  "dateofApplication": String,
-  "dateofAvailability": String,
-  "appliedFor": String,
-  "salary": String,
-  "presentAddress": String,
-  "permanentAddress": String,
-  "residenceStatus": String,
-  "gender": String,
-  "birdate": String,
-  "civilStatus": String,
-  "age": String,
-  "emailAddress": String,
-  "birthplace": String,
-  "homePhoneNumber": String,
-  "taxIdentificationNumber": String,
-  "socialSecurityNumber": String,
-  "pagibigNumber": String,
-  "philhealthNumber": String,
-  "fathersName": String,
-  "fathersAge": String,
-  "fathersOccupation": String,
-  "fathersOccupationCompany": String,
-  "mothersName": String,
-  "mothersAge": String,
-  "mothersOccupation": String,
-  "mothersOccupationCompany": String,
-  "children": [childrenSchema],
-  "education": educationSchema,
-  "examination": [examinationSchema],
-  "employmentHistory": [employmentHistorySchema],
-  "training": [trainingSchema],
-  "reference": [referenceSchema],
-  "emergencyContact": emergencyContactSchema
-})
-
-const profileModel = mongoose.model('profile', employeeSchema)
-
->>>>>>> parent of 71af41d (fixed shortcuts and now clickable)
 app.get('/profile', function (req, res) {
   res.json({ success: 'get call succeed!', url: req.url });
 });
 
-<<<<<<< HEAD
 app.post('/profile', async function (req, res) {
   try {
     const { application, background, contact, employment, sub } = req.body;
@@ -313,32 +196,6 @@ app.post('/profile', async function (req, res) {
   }
 });
 
-=======
-app.get('/profile/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'get call succeed!', url: req.url });
-});
-
-app.post('/profile', async function (req, res) {
-  // const employeeProfile = {}
-  // const profileQuery = await profileModel.create(employeeProfile)
-  // res.json({ employee: profileQuery })
-  const { application_details } = req.body
-
-  // const extractedValues = Object.fromEntries(
-  //   Object.entries(application_details).map(([key, value]) => [key, value.value])
-  // );
-
-  res.json({ response: application_details.firstname })
-});
-
-app.post('/profile/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'post call succeed!', url: req.url, body: req.body })
-});
-
-
->>>>>>> parent of 71af41d (fixed shortcuts and now clickable)
 app.put('/profile', function (req, res) {
   // Add your code here
   res.json({ success: 'put call succeed!', url: req.url, body: req.body })

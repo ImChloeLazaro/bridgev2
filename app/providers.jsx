@@ -7,11 +7,16 @@ import { authenticationAtom } from "./store/AuthenticationStore";
 import { useAtomValue } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { RegisterProfile } from "./utils/profile";
 
 export function Providers({ children }) {
   const authvalue = useAtomValue(authenticationAtom)
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    return () =>  RegisterProfile(authvalue)
+  }, [])
 
   useEffect(()=>{
     
