@@ -18,6 +18,22 @@ export const RegisterProfile = async (request) => {
       }
 }
 
-export const GetUserProfile = async () => {
-
+export const FetchOnboardingStatus = async (request) => {
+    try {
+        const restOperation = get({
+          apiName: 'bridgeApi',
+          path: '/user',
+          options: {
+            queryParams: {
+                sub: request.sub
+            }
+          }
+        });
+    
+        const { body } = await restOperation.response;
+        const response = await body.json();
+        console.log(response);
+      } catch (e) {
+        console.log('POST call failed: ', e);
+      }
 }

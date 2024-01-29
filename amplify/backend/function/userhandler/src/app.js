@@ -65,7 +65,7 @@ app.post('/user', async function(req, res) {
     }) 
     res.status(200).json({success: 'NEW USER DETECTED! INITIAL DATA INSERT SUCCESS', result : insert})
     }
-    res.status(200).json({success: 'NOT FIRST TIME USER! INITIAL DATA PROVIDED', result : getuserbysub})
+    res.status(200).json({success: 'DATA FETCHED', result : getuserbysub})
   } catch (error) {
     res.status(500).json({success: 'NEW USER DETECTED! INITIAL DATA INSERT FAILED', error: error})
   }
