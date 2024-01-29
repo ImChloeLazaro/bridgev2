@@ -7,25 +7,17 @@ import { Spinner } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   disableDraggableAtom,
-  displayShortcutAtom,
   fetchedShortcutAtom,
-  initializeShortcutAtom,
   shortcutsAtom,
 } from "../../store/ShortcutsStore";
 
 import {
-  closestCenter,
   closestCorners,
   DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {
@@ -40,7 +32,7 @@ import { SortableItem } from "./SortableItem";
 // ### TODO Fix order of shortcuts does not persist after refresh or after sign in
 
 const Shortcuts = () => {
-  const [shortcutsList, setShortcutsList] = useAtom(displayShortcutAtom);
+  const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
