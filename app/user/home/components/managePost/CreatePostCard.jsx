@@ -16,7 +16,7 @@ const CreatePostCard = ({ data }) => {
               fallback={
                 <div className="text-2xl font-medium ">{data.name[0]}</div>
               }
-              src={data.picture}
+              src={data.profileURL}
               className="w-[85px] h-[85px] text-large"
             />
           </div>

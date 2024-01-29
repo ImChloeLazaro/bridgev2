@@ -59,7 +59,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
                 <p className="font-bold">Template Settings</p>
                 <MdInfoOutline />
               </div>
-              <div className="flex justify-start items-center gap-1">
+              <div className="flex justify-between items-center gap-5">
                 <p className="font-normal">Type</p>
                 <Select
                   size={"sm"}
@@ -74,7 +74,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
                   )}
                 </Select>
               </div>
-              <div className="flex justify-start items-center gap-1">
+              <div className="flex justify-between items-center gap-5">
                 <p className="font-normal">Reaction</p>
                 <ReactionSelect />
               </div>
@@ -86,7 +86,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
                 <MdInfoOutline />
               </div>
               <div className="w-full h-40"></div>
-              <div className="flex justify-start items-center gap-1">
+              <div className="flex justify-start items-center gap-5">
                 <p className="font-bold">Files</p>
                 <div className="flex gap-2">
                   <Button>Add Picture</Button>
@@ -100,16 +100,16 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
                 <p className="font-bold">Description</p>
                 <MdInfoOutline />
               </div>
-              <div className="flex justify-start items-center gap-1">
-                <p className="font-normal">Title</p>
-                <Input size="sm" label="Give your post a name" />
+              <div className="flex justify-between items-center gap-5">
+                <p className="font-normal w-10">Title</p>
+                <Input fullWidth size="sm" label="Give your post a name" />
               </div>
-              <div className="flex justify-start items-center gap-1">
-                <p className="font-normal">Tag People</p>
+              <div className="flex justify-between items-center gap-5">
+                <p className="font-normal w-10">Tag People</p>
                 <ReactionSelect />
               </div>
-              <div className="flex justify-start items-center gap-1">
-                <p className="font-normal">Caption</p>
+              <div className="flex justify-between items-center gap-5">
+                <p className="font-normal w-10">Caption</p>
                 <Textarea
                   placeholder="Enter your description"
                   className="max-w-xs"

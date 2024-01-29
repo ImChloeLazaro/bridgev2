@@ -20,34 +20,35 @@ import {
 
 import { MdAdd } from "react-icons/md";
 
-import { useAtom, useSetAtom } from "jotai";
-
-// import { AuthenticationStore } from "../../store/AuthenticationStrore";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 const ShortcutsHeader = () => {
-  
-  const [user, setUser] = useAtom(userAtom)
+  const user = useAtomValue(userAtom);
   const [isOpen, setIsOpen] = useState(false);
-  const [addShortcutName, setAddShortcutName] = useAtom(addShortcutNameAtom);
-  const [addShortcutLink, setAddShortcutLink] = useAtom(addShortcutLinkAtom);
+  const [addShortcutName, setAddShortcutName] = useState("");
+  const [addShortcutLink, setAddShortcutLink] = useState("");
 
   const [shortcutCount] = useAtom(shortcutCountAtom);
   const setShortcuts = useSetAtom(addShortcutAtom);
   const handleAddShortcut = async () => {
+    if (user === null) {
+      return;
+    }
+    // ### TODO Add regex validation on link to check if https:// is already on string
     try {
       const restOperation = post({
-        apiName: 'bridgeApi',
-        path: '/shortcut',
+        apiName: "bridgeApi",
+        path: "/shortcut",
         options: {
           body: {
             sub: user.sub,
             title: addShortcutName,
-            url: addShortcutLink
-          }
-        }
+            url: addShortcutLink,
+          },
+        },
       });
       const { body } = await restOperation.response;
-      const response = await body.json()
+      const response = await body.json();
       console.log("NEW SHORTCUT", response);
       setShortcuts((prev) => [
         ...prev,
@@ -62,7 +63,7 @@ const ShortcutsHeader = () => {
       setAddShortcutLink("");
       setIsOpen(false);
     } catch (e) {
-      console.log('Shortcut POST call failed: ', e);
+      console.log("Shortcut POST call failed: ", e);
     }
   };
 

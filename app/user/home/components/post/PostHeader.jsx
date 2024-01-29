@@ -46,18 +46,18 @@ const PostHeader = ({ data }) => {
         <User
           // as="button"
           name={
-            <Link className="text-xl font-extrabold text-darkgrey-hover hover:text-darkgrey-default leading-4">
+            <Link className="text-xl font-extrabold text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
               {data.publisher}
             </Link>
           }
           description={
             <>
-              <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4">
+              <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
                 {"Aretex A-Team"}
               </Link>
               <Link
                 // underline="hover"
-                className="text-xs font-medium text-darkgrey-hover hover:text-darkgrey-default leading-5"
+                className="text-xs font-medium text-darkgrey-hover hover:text-darkgrey-default leading-5 cursor-pointer"
               >{`${handlePostDatetime(data.datetimePublished)}`}</Link>
             </>
           }

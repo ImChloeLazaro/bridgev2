@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      scale: {
+        "-100": "-1",
+      },
       screens: {
         xxs: "360px",
         "3xl": "1600px",

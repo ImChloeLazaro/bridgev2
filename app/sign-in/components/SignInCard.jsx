@@ -1,14 +1,10 @@
 "use client";
+import "../../aws-auth";
+import { signInWithRedirect } from "aws-amplify/auth";
 import React from "react";
 import SignInGoogle from "./SignInGoogle";
 
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
-
-// ### BACKEND
-import { Amplify } from "aws-amplify";
-import config from "../../amplifyconfiguration.json"
-import { signInWithRedirect } from "aws-amplify/auth";
-Amplify.configure(config)
 
 const SignInCard = () => {
   return (

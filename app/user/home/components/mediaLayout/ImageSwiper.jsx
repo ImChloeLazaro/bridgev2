@@ -12,7 +12,7 @@ import "swiper/css/thumbs";
 // import "./styles.css";
 
 // import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Zoom, FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useSwiper } from "swiper/react";
 
 import { Image } from "@nextui-org/react";
@@ -38,9 +38,9 @@ const ImageSwiper = ({ data, selectedImage }) => {
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[Zoom, FreeMode, Navigation, Thumbs]}
         className="my-12 top-0"
-        zoom
+        zoom={true}
       >
         {data.map((image, index) => {
           return (

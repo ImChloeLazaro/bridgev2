@@ -217,13 +217,13 @@ export const routesHR = [
 
 export const externalLinks = [
   {
-    key: "base",
+    key: "base-AU",
     label: "Aretex AU",
     link: "https://aretex.com.au",
     icon: ExternalLinksIcons.base,
   },
   {
-    key: "base",
+    key: "base-PH",
     label: "Aretex PH",
     link: "https://aretex.ph/",
     icon: ExternalLinksIcons.base,

@@ -27,6 +27,8 @@ const SideBar = () => {
   const [isActive, setIsActive] = useAtom(activeRouteAtom);
   const role = useAtomValue(roleAtom);
 
+  console.log("ROLE IN SIDEBAR: ", role);
+
   const handleSidebarButtonsActive = (sidebarKey) => {
     console.log("Before Active");
     console.log(isActive);
@@ -48,7 +50,7 @@ const SideBar = () => {
       ? routesHR
       : role == "tl"
       ? routesTeamLead
-      : routesUser;
+      : role == "user" && routesUser;
 
   return (
     <div className="sm:max-md:w-0 md:w-96 flex flex-col max-h-screen gap-12 bg-white-default ">
@@ -118,23 +120,25 @@ const SideBar = () => {
           <div className="py-5">
             <SideBarHeader />
           </div>
-          {routes.map((sidebarButtons) => (
-            <MenuItem
-              key={sidebarButtons.key}
-              active={isActive[sidebarButtons.key]}
-              icon={sidebarButtons.icon}
-              component={
-                <Link
-                  href={sidebarButtons.link}
-                  onPress={() => {
-                    handleSidebarButtonsActive(sidebarButtons.key);
-                  }}
-                />
-              }
-            >
-              {sidebarButtons.label.toUpperCase()}
-            </MenuItem>
-          ))}
+
+          {routes &&
+            routes.map((sidebarButtons) => (
+              <MenuItem
+                key={sidebarButtons.key}
+                active={isActive[sidebarButtons.key]}
+                icon={sidebarButtons.icon}
+                component={
+                  <Link
+                    href={sidebarButtons.link}
+                    onPress={() => {
+                      handleSidebarButtonsActive(sidebarButtons.key);
+                    }}
+                  />
+                }
+              >
+                {sidebarButtons.label.toUpperCase()}
+              </MenuItem>
+            ))}
         </Menu>
       </Sidebar>
       <Shortcuts />

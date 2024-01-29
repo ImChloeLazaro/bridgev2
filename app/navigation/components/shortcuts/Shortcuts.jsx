@@ -1,6 +1,8 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import ShortcutsHeader from "./ShortcutsHeader";
+
+import { Spinner } from "@nextui-org/react";
 
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
@@ -33,14 +35,17 @@ import {
 } from "@dnd-kit/modifiers";
 import { SortableItem } from "./SortableItem";
 
+// ### TODO Add sorting functionality to shortcut
+// ### TODO Newly added shortcut should be on top of the list
+// ### TODO Fix order of shortcuts does not persist after refresh or after sign in
+
 const Shortcuts = () => {
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
-  console.log("SHORTCUTS", shortcutsList);
-
   useEffect(() => {
+    console.log("INSIDE USE EFFECT");
     fetchedShortcut();
   }, [fetchedShortcut]);
 
@@ -114,12 +119,16 @@ const Shortcuts = () => {
                   backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
                   paddingRight: "0rem",
                   paddingLeft: active ? "0.875rem" : "0.375rem",
+                  cursor: active ? "grabbing" : "grab",
                   ":hover": {
                     backgroundColor: "#D0D0D0",
                     paddingLeft: "0.875rem",
                   },
                   ":focus": {
                     backgroundColor: "#D0D0D0",
+                  },
+                  ":active": {
+                    cursor: "grabbing",
                   },
                 };
               }
@@ -134,17 +143,27 @@ const Shortcuts = () => {
               items={shortcutsList}
               strategy={verticalListSortingStrategy}
             >
-              {shortcutsList?.map((shortcut) => (
-                <SortableItem
-                  disabled={disableDraggable}
-                  id={shortcut.id} // makes sorting working
-                  key={shortcut.key}
-                  unique_key={shortcut.key}
-                  link={shortcut.link}
-                >
-                  {shortcut?.label}
-                </SortableItem>
-              ))}
+              <Suspense
+                fallback={
+                  <Spinner
+                    label="Loading Shortcuts"
+                    color="default"
+                    labelColor="foreground"
+                  />
+                }
+              >
+                {shortcutsList?.map((shortcut) => (
+                  <SortableItem
+                    disabled={disableDraggable}
+                    id={shortcut.id} // makes sorting working
+                    key={shortcut.key}
+                    unique_key={shortcut.key}
+                    link={shortcut.link}
+                  >
+                    {shortcut?.label}
+                  </SortableItem>
+                ))}
+              </Suspense>
             </SortableContext>
           </div>
         </Menu>
@@ -157,6 +176,10 @@ const Shortcuts = () => {
     const { active, over } = event;
     console.log("ACTIVE", "OVER");
     console.log(active.id, over?.id);
+
+    if (over?.id === undefined) {
+      return;
+    }
 
     if (active.id !== over?.id) {
       setShortcutsList((items) => {

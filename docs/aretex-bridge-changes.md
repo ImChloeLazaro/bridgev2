@@ -282,5 +282,12 @@ link: string,
 
 * Fixed fetching of shortcut data from the backend
 * Rewrite atom architecture for manipulating data coming from the backend in `ShortcutStore`
-* Added backend functionality for local development testing
+* Added backend functionality and resources for local development testing
 * Updated the links for `Shortcuts` to be clickable and open a new tab
+* Added `DEL` and `PUT` functions for deleting and editing shortcuts respectively (backend not yet implemented)
+* Fixed `Badge` and `Sidebar` state from previous state still persists when switching roles
+* Updated illustration for when onboarding form is submitted
+* Added `Profile` components for `Profile` page
+* Added `scale` tailwind extension for flipping images, svg and related media horizontally.
+* Added a check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
+* Updated shortcuts link to redirect properly to said link

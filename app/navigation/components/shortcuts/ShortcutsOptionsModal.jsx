@@ -1,5 +1,7 @@
 import CTAButtons from "../../../components/CTAButtons";
 import React, { useState } from "react";
+import { post, put, del } from "aws-amplify/api";
+
 import {
   Popover,
   PopoverTrigger,
@@ -9,16 +11,21 @@ import {
 } from "@nextui-org/react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 
-import { useAtom, useSetAtom } from "jotai";
-import { shortcutsAtom, disableDraggableAtom } from "../../store/ShortcutsStore";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+
+import {
+  shortcutsAtom,
+  disableDraggableAtom,
+} from "../../store/ShortcutsStore";
 import CloseButton from "../../../components/CloseButton";
+import { userAtom } from "../../../store/UserStore";
 
 const ShortcutsOptionsModal = ({ unique_key, title }) => {
   const shortcutSize = 28; //icon size
   const [isOpen, setIsOpen] = useState(false);
 
   const setDisableDraggable = useSetAtom(disableDraggableAtom);
-
+  const user = useAtomValue(userAtom);
   const [shortcuts, setShortcuts] = useAtom(shortcutsAtom);
 
   const [editShortcutName, setEditShortcutName] = useState(
@@ -31,30 +38,71 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       .filter((item) => item.key === unique_key)
       .map((detail) => detail.link)
   );
-  const handleDeleteShortcut = () => {
-    setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
-    setIsOpen(false);
-    setDisableDraggable(false);
+  const handleDeleteShortcut = async () => {
+    try {
+      const restOperation = del({
+        apiName: "bridgeApi",
+        path: "/shortcut",
+        options: {
+          queryParams: {
+            sub: user.sub,
+          },
+        },
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json();
+      console.log("DELETE SHORTCUT", response);
+      console.log("hello world");
+
+      setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
+      setIsOpen(false);
+      setDisableDraggable(false);
+    } catch (e) {
+      console.log("Shortcut DEL call failed: ", e);
+    }
   };
 
-  const handleEditShortcut = () => {
-    console.log('hello world')
-    setShortcuts(() =>
-      shortcuts.map((shortcut) => {
-        if (shortcut.key === unique_key) {
-          console.log("Found shortcut:");
-          console.log(shortcut);
-          return {
-            ...shortcut,
-            label: editShortcutName,
-            link: editShortcutLink,
-          };
-        }
-        return shortcut;
-      })
-    );
-    setIsOpen(false);
-    setDisableDraggable(false);
+  const handleEditShortcut = async () => {
+    if (user === null) {
+      return;
+    }
+    // ### TODO Add regex validation on link to check if https:// is already on string
+
+    try {
+      const restOperation = put({
+        apiName: "bridgeApi",
+        path: "/shortcut",
+        options: {
+          body: {
+            sub: user.sub,
+            title: editShortcutName,
+            url: editShortcutLink,
+          },
+        },
+      });
+      const { body } = await restOperation.response;
+      const response = await body.json();
+      console.log("EDIT SHORTCUT", response);
+      console.log("hello world");
+      setShortcuts(() =>
+        shortcuts.map((shortcut) => {
+          if (shortcut.key === unique_key) {
+            console.log("Found shortcut:");
+            console.log(shortcut);
+            return {
+              ...shortcut,
+              label: editShortcutName,
+              link: editShortcutLink,
+            };
+          }
+          return shortcut;
+        })
+      );
+      setIsOpen(false);
+      setDisableDraggable(false);
+    } catch (e) {
+      console.log("Shortcut PUT call failed: ", e);
+    }
   };
 
   const handleCloseWindow = () => {

@@ -6,7 +6,12 @@ import { Listbox, ListboxItem } from "@nextui-org/react";
 
 import { BiDotsVerticalRounded } from "react-icons/bi";
 
-import { format, differenceInMinutes } from "date-fns";
+import {
+  format,
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+} from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 
 import { useAtomValue, useAtom } from "jotai";
@@ -18,6 +23,25 @@ const RecognitionList = () => {
     { key: "pin", label: "Pin this recognition" },
     { key: "archive", label: "Archive recognition" },
   ];
+
+  const handleRecognitionDateTime = (datetime) => {
+    const daysAgo = differenceInDays(new Date(), new Date(datetime));
+
+    const hrsAgo = differenceInHours(new Date(), new Date(datetime));
+
+    const minsAgo = differenceInMinutes(new Date(), new Date(datetime));
+
+    const dateAgo = format(new Date(datetime), "d MMM yyyy");
+    return daysAgo > 7
+      ? dateAgo
+      : hrsAgo > 23
+      ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
+      : minsAgo > 59
+      ? `${hrsAgo} ${hrsAgo > 1 ? "hrs" : "hr"}`
+      : minsAgo > 0
+      ? `${minsAgo} ${minsAgo > 1 ? "mins" : "min"}`
+      : "now";
+  };
 
   return (
     <Listbox
@@ -54,14 +78,6 @@ const RecognitionList = () => {
       }}
     >
       {(recognition) => {
-        const result = differenceInMinutes(
-          new Date(),
-          new Date(recognition.datetime)
-        );
-        const datetimeReceived = format(result, "m", {
-          locale: enAU,
-        });
-
         return (
           <ListboxItem textValue={recognition.title} key={recognition.id}>
             <div className="flex items-start justify-center gap-4">
@@ -75,7 +91,7 @@ const RecognitionList = () => {
                 <p className="font-medium text-md truncate w-56">
                   {recognition.description}
                 </p>
-                <p className="font-normal text-sm">{`${datetimeReceived} mins ago`}</p>
+                <p className="font-normal text-sm">{`${handleRecognitionDateTime(recognition.datetime)}`}</p>
               </div>
               <RecognitionOptions
                 trigger={<BiDotsVerticalRounded size={28} />}

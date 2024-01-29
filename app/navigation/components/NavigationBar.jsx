@@ -37,21 +37,6 @@ const NavigationBar = () => {
   const role = useAtomValue(roleAtom);
   const [userRoles] = useAtom(userRolesAtom);
 
-  const pathname = usePathname();
-  const setRole = useSetAtom(roleAtom);
-
-  const checkRoleFromURL = pathname
-    .split("/") // split the pathname
-    .filter((e) => e.length != 0)[0] // removes the empty strings and only the first element is selected
-    .toLowerCase();
-
-  // ### TODO Badge and Sidebar still persists when switching to user role
-  
-  useEffect(() => {
-    if (userRoles.includes(checkRoleFromURL)) {
-      setRole(checkRoleFromURL);
-    }
-  });
 
   return (
     <Navbar
@@ -77,7 +62,7 @@ const NavigationBar = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="flex items-center gap-6">
-          <UserDropdown signout={() => console.log("signout me")} />
+          <UserDropdown />
           {userRoles.includes(role) && <RoleBadge />}
           <NotificationsDropdown />
         </NavbarItem>

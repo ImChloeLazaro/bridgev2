@@ -8,7 +8,7 @@ export const recognitionsAtom = atom([
     key: `recognition-${index}`,
     icon: recognitionsIcons.tickets,
     title: "Congratulations!",
-    datetime: "2024-12-12T13:00:00",
+    datetime: "2024-01-23T13:00:00",
     description: "You have received 50 Rex Tickets!",
     type: "ticket",
   },

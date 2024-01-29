@@ -22,15 +22,14 @@ import "../../../aws-auth";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../../../store/UserStore";
-import { signOut } from 'aws-amplify/auth';
+import { signOut } from "aws-amplify/auth";
 
 async function handleSignOut() {
   try {
     await signOut();
   } catch (error) {
-    console.log('error signing out: ', error);
+    console.log("error signing out: ", error);
   }
-  
 }
 
 const UserDropdown = () => {
@@ -61,13 +60,11 @@ const UserDropdown = () => {
           name={user.name}
           avatarProps={{
             showFallback: true,
-            fallback: <div className="text-lg font-medium ">{user.name[0]}</div>,
+            fallback: (
+              <div className="text-lg font-medium ">{user.name[0]}</div>
+            ),
+            src: user.profileURL,
             isBordered: true,
-            src: user.picture,
-            base: [
-              "box-border bg-orange-default ring-0 ring-red ring-offset-0 ring-offset-red ring-opacity-0",
-            ],
-            img: ["w-10 h-10"],
           }}
           className="transition-transform mr-3"
           classNames={{

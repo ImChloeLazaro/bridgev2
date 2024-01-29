@@ -7,11 +7,13 @@ import {
   Link,
 } from "@nextui-org/react";
 import { MdChevronRight } from "react-icons/md";
-import { useAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { roleAtom } from "../../store/NavSideBarStore";
 
 export function SwitchRoles() {
-  const [role, setRole] = useAtom(roleAtom);
+  const setRole = useSetAtom(roleAtom);
+  const role = useAtomValue(roleAtom);
+  console.log("ROLE CHOSEN: ", role);
   return (
     <Accordion isCompact className="text-base font-medium">
       <AccordionItem
