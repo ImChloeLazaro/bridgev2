@@ -290,4 +290,4 @@ link: string,
 * Added `Profile` components for `Profile` page
 * Added `scale` tailwind extension for flipping images, svg and related media horizontally.
 * Added a check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
-* Updated shortcuts link to redirect properly to said link
+* Updated shortcuts link to a valid link to redirect properly
