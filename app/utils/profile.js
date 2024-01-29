@@ -2,7 +2,7 @@ import { post, get } from 'aws-amplify/api';
 
 export const RegisterProfile = async (request) => {
     try {
-        const restOperation = post({
+        const insertuser = post({
           apiName: 'bridgeApi',
           path: '/user',
           options: {
@@ -10,7 +10,7 @@ export const RegisterProfile = async (request) => {
           }
         });
     
-        const { body } = await restOperation.response;
+        const { body } = await insertuser.response;
         const response = await body.json();
         console.log(response);
       } catch (e) {
@@ -25,7 +25,7 @@ export const FetchOnboardingStatus = async (request) => {
           path: '/user',
           options: {
             queryParams: {
-                sub: request.sub
+                sub: 'd0229811-67cc-4fb8-915b-38d8029b85df'
             }
           }
         });

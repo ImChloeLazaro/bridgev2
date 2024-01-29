@@ -46,8 +46,8 @@ const userSchema = mongoose.Schema({
 const userModel = mongoose.model('user', userSchema)
 
 app.get('/user', async function(req, res) {
-  const sub = res.query
-  const read = await userModel.find({sub})
+  const {sub} = req.query
+  const read = await userModel.findOne({sub})
   res.json({success: 'get call succeed!', result: read});
 });
 
