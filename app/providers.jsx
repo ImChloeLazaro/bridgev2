@@ -15,6 +15,7 @@ export function Providers({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    console.log('HELLO WORLD')
     return () =>  RegisterProfile(authvalue)
   }, [])
 
