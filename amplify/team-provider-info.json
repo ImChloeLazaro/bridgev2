@@ -35,7 +35,11 @@
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+<<<<<<< HEAD
           "s3Key": "amplify-builds/userhandler-3341435478304b594a68-build.zip"
+=======
+          "s3Key": "amplify-builds/userhandler-304e543866694a382f65-build.zip"
+>>>>>>> parent of 3052f08 (roles added v3)
         }
       },
       "api": {

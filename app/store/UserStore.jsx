@@ -74,7 +74,8 @@ export const fetchOnboardingStatus = atom(async (read) => {
     const { body } = await fetch.response;
     const response = await body.json();
     console.log(response.result.hasOnboardingData)
-    return response.result.hasOnboardingData
+    // return response.result.hasOnboardingData
+    return true
   } catch (e) {
     console.log('GET call failed: ', e);
   }

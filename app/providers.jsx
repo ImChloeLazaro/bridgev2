@@ -14,11 +14,21 @@ export function Providers({ children }) {
   const router = useRouter();
   const pathname = usePathname();
 
+<<<<<<< HEAD
   process.on('warning', (warning) => {
     console.log(warning.stack);
   });
 
   useEffect(()=>{  
+=======
+  useEffect(() => {
+    console.log('HELLO WORLD')
+    return () =>  RegisterProfile(authvalue)
+  }, [])
+
+  useEffect(()=>{
+    
+>>>>>>> parent of 3052f08 (roles added v3)
     if(authvalue.isAuthenticated && pathname === "/"){
       router.push('/user')
     }
@@ -26,7 +36,10 @@ export function Providers({ children }) {
     if(!authvalue.isAuthenticated && pathname !== "/"){
       router.push('/')
     }
+<<<<<<< HEAD
     return () => RegisterProfile(authvalue)
+=======
+>>>>>>> parent of 3052f08 (roles added v3)
 
   },[authvalue.isAuthenticated, pathname, router])
 
