@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { fetchOnboardingStatus } from "@/app/store/UserStore";
+import { fetchOnboardingStatus } from "../../store/UserStore";
 // ### TODO Merge all data object before submitting to server
 
 export const stepsAtom = atom([
