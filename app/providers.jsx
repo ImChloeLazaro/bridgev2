@@ -14,7 +14,9 @@ export function Providers({ children }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // updateOnboardingStatus(authvalue)
+  process.on('warning', (warning) => {
+    console.log(warning.stack);
+  });
 
   useEffect(()=>{  
     if(authvalue.isAuthenticated && pathname === "/"){

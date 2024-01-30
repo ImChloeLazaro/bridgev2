@@ -2,7 +2,6 @@ import { atom } from "jotai";
 
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
-
 import { authenticationAtom } from "./AuthenticationStore";
 import { post, get, put } from 'aws-amplify/api';
 
@@ -74,7 +73,8 @@ export const fetchOnboardingStatus = atom(async (read) => {
 
     const { body } = await fetch.response;
     const response = await body.json();
-    return response.result.hasOnboardingData
+    console.log('onboarding data', response)
+    return response.result.hasOnboardingData === null ? false : response.result.hasOnboardingData
   } catch (e) {
     console.log('POST call failed: ', e);
   }
