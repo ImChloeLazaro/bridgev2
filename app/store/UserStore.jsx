@@ -3,15 +3,13 @@ import { atom } from "jotai";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { authenticationAtom } from "./AuthenticationStore";
-import { post, get, put } from 'aws-amplify/api';
+import { get } from 'aws-amplify/api';
 
 const initialState = null;
 
 async function fetchUserData() {
   try {
     const user = await fetchUserAttributes();
-    console.log("USER", user);
-    console.log("SUB USER", user.sub);
     if (user.sub) {
       return user;
     } else {
