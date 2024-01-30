@@ -315,3 +315,8 @@ link: string,
 * Updated `Error` Page to be more verbose
 * Added illustration for `Error` Page
 * Disabled redirection logic when already signed in from `providers.jsx` to fix warning from jotai having `Detected multiple Jotai instances. It may cause unexpected behavior with the default store. https://github.com/pmndrs/jotai/discussions/2044`
+
+## v.0.5.6.1 - hotfix
+
+* Renamed `OnboardingHeader.jsx` to OnboardingStatusAlert.jsx
+* Fixed error on `OnboardingStatusAlert.jsx` due to unescaped apostrophes

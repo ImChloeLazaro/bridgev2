@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useAtomValue } from "jotai";
 import { userAtom, fetchOnboardingStatus } from "../store/UserStore";
 
-import OnboardingHeader from "../components/OnboardingHeader";
+import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
 });
@@ -20,7 +20,7 @@ const UserLayout = ({ children }) => {
         <SideBar />
         <div className="flex flex-col w-full">
           <div className="top-0">
-            {!onboardingdata && <OnboardingHeader/>}
+            {!onboardingdata && <OnboardingStatusAlert/>}
             <NavigationBar />
           </div>
           <div className="flex w-full max-h-screen overflow-y-scroll bg-background no-scrollbar">
