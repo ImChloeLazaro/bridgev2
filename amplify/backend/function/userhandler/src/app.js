@@ -46,7 +46,6 @@ const userSchema = mongoose.Schema({
 const userModel = mongoose.model('user', userSchema)
 
 app.get('/user', async function(req, res) {
-<<<<<<< HEAD
   try {
     const { sub } = req.query;
     if (!sub) {
@@ -61,11 +60,6 @@ app.get('/user', async function(req, res) {
     console.error('Error while processing GET request for user:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-=======
-  const sub = res.query
-  const read = await userModel.find({sub})
-  res.json({success: 'get call succeed!', result: read});
->>>>>>> parent of 3052f08 (roles added v3)
 });
 
 app.post('/user', async function(req, res) {
