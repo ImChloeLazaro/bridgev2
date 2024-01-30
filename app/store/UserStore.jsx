@@ -59,26 +59,27 @@ export const userAtom = atom(async (get) => {
 });
 
 export const fetchOnboardingStatus = atom(async (read) => {
-  const auth = await read(authenticationAtom);
-  try {
-    const fetch = get({
-      apiName: 'bridgeApi',
-      path: '/user',
-      options: {
-        queryParams: {
-            sub: 'd0229811-67cc-4fb8-915b-38d8029b85df'
-        }
-      }
-    });
+  // const auth = await read(authenticationAtom);
+  // try {
+  //   const fetch = get({
+  //     apiName: 'bridgeApi',
+  //     path: '/user',
+  //     options: {
+  //       queryParams: {
+  //           sub: 'd0229811-67cc-4fb8-915b-38d8029b85df'
+  //       }
+  //     }
+  //   });
 
-    const { body } = await fetch.response;
-    const response = await body.json();
-    console.log(response.result.hasOnboardingData)
-    // return response.result.hasOnboardingData
-    return true
-  } catch (e) {
-    console.log('GET call failed: ', e);
-  }
+  //   const { body } = await fetch.response;
+  //   const response = await body.json();
+  //   console.log(response.result.hasOnboardingData)
+  //   // return response.result.hasOnboardingData
+  //   return true
+  // } catch (e) {
+  //   console.log('GET call failed: ', e);
+  // }
+  return false
 })
 export const isFirstTime = atom(true);
 

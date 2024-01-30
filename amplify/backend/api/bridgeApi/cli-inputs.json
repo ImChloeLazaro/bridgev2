@@ -39,19 +39,6 @@
           "delete"
         ]
       }
-    },
-    "/user": {
-      "name": "/user",
-      "lambdaFunction": "userhandler",
-      "permissions": {
-        "setting": "private",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
     }
   }
 }
