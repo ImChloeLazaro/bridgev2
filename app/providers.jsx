@@ -2,9 +2,8 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { Provider } from "jotai";
+import { Provider, useAtomValue } from "jotai";
 import { authenticationAtom } from "./store/AuthenticationStore";
-import { useAtomValue } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { RegisterProfile } from "./utils/profile";

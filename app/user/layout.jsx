@@ -12,8 +12,7 @@ const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
 
 const UserLayout = ({ children }) => {
   const user = useAtomValue(userAtom);
-  // const onboardingdata = useAtomValue(fetchOnboardingStatus)
-  const onboardingdata = false
+  const onboardingdata = useAtomValue(fetchOnboardingStatus)
   return (
     user.isAuthenticated && (
       <div className="flex h-screen max-h-screen top-0">
