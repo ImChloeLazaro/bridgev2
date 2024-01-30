@@ -31,7 +31,7 @@ export const updateOnboardingStatus = async (request) => {
     });
     const { body } = await update.response;
     const response = await body.json();
-    return response
+    return response.result
   } catch (err) {
     console.log('PUT call failed: ', err);
   }

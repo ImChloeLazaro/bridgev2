@@ -46,20 +46,9 @@ const userSchema = mongoose.Schema({
 const userModel = mongoose.model('user', userSchema)
 
 app.get('/user', async function(req, res) {
-  try {
-    const { sub } = req.query;
-    if (!sub) {
-      return res.status(400).json({ error: 'Missing sub parameter' });
-    }
-    const read = await userModel.findOne({ sub });
-    if (!read) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.json({ success: 'GET RESULT', result: read });
-  } catch (error) {
-    console.error('Error while processing GET request for user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+  const {sub} = req.query
+  const read = await userModel.findOne({sub})
+  res.json({success: 'get call succeed!', result: read});
 });
 
 app.post('/user', async function(req, res) {
@@ -67,6 +56,7 @@ app.post('/user', async function(req, res) {
 
   try {
     const getuserbysub = await userModel.findOne({sub})
+  
     if(!getuserbysub){
       const insert = await userModel.create({
       sub,
@@ -81,19 +71,23 @@ app.post('/user', async function(req, res) {
   }
 });
 
+app.post('/user/*', function(req, res) {
+  // Add your code here
+  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+});
 
-app.put('/user', async function(req, res) {
-  const {sub} = req.query
-  try {
-    const updateonboarding = await userModel.updateOne({
-      sub: sub
-    }, {
-      hasOnboardingData: true
-    })
-    res.status(200).json({success: 'UPDATE SUCCESS!', result : updateonboarding})
-  } catch (error) {
-    res.status(500).json({error: error})
-  }
+/****************************
+* Example put method *
+****************************/
+
+app.put('/user', function(req, res) {
+  // Add your code here
+  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+});
+
+app.put('/user/*', function(req, res) {
+  // Add your code here
+  res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
 /****************************

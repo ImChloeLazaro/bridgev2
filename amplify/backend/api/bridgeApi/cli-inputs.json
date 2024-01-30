@@ -44,7 +44,13 @@
       "name": "/user",
       "lambdaFunction": "userhandler",
       "permissions": {
-        "setting": "open"
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
       }
     }
   }

@@ -21,25 +21,21 @@
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "test": "hello world",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/shortcuthandler-2f384e47374479384264-build.zip"
+          "s3Key": "amplify-builds/shortcuthandler-44572b6a512b366d4464-build.zip"
         },
         "profilehandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/profilehandler-6d463763666a39313441-build.zip",
+          "s3Key": "amplify-builds/profilehandler-764c5757396b4d423053-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "posthandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/posthandler-674c39706d6937717a67-build.zip"
+          "s3Key": "amplify-builds/posthandler-4449464e584766304877-build.zip"
         },
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-<<<<<<< HEAD
-          "s3Key": "amplify-builds/userhandler-3341435478304b594a68-build.zip"
-=======
-          "s3Key": "amplify-builds/userhandler-304e543866694a382f65-build.zip"
->>>>>>> parent of 3052f08 (roles added v3)
+          "s3Key": "amplify-builds/userhandler-476943467531376f4559-build.zip"
         }
       },
       "api": {
