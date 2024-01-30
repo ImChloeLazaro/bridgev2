@@ -25,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "profilehandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "userhandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -75,6 +83,11 @@
     "shortcuthandler": {
       "build": true,
       "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "userhandler": {
+      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -149,6 +162,30 @@
         {
           "category": "function",
           "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userhandler"
         }
       ]
     }
