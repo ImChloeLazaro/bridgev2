@@ -7,26 +7,25 @@ import { authenticationAtom } from "./store/AuthenticationStore";
 import { useAtomValue } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-// import { RegisterProfile } from "./utils/profile";
+import { RegisterProfile } from "./utils/profile";
 
 export function Providers({ children }) {
   const router = useRouter();
-  // const authvalue = useAtomValue(authenticationAtom)
-  // const pathname = usePathname();
+  const authvalue = useAtomValue(authenticationAtom)
+  const pathname = usePathname();
 
-  // useEffect(()=>{
+  useEffect(()=>{
     
-  //   if(authvalue.isAuthenticated && pathname === "/"){
-  //     router.push('/user')
-  //   }
+    if(authvalue.isAuthenticated && pathname === "/"){
+      router.push('/user')
+    }
     
-  //   if(!authvalue.isAuthenticated && pathname !== "/"){
-  //     router.push('/')
-  //   }
-    
-  //   return () => RegisterProfile(authvalue)
+    if(!authvalue.isAuthenticated && pathname !== "/"){
+      router.push('/')
+    }
+    return () => RegisterProfile(authvalue)
 
-  // },[authvalue, authvalue.isAuthenticated, pathname, router])
+  },[authvalue, authvalue.isAuthenticated, pathname, router])
 
   return (
     <NextUIProvider navigate={router.push}>
