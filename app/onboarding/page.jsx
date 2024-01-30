@@ -3,7 +3,6 @@ import OnboardingForm from "./components/OnboardingForm";
 import OnboardingSubmitted from "./components/OnboardingSubmitted";
 
 import { isSubmittedOnboardingFormAtom } from "./store/OnboardingStore";
-import { fetchOnboardingStatus } from "../store/UserStore";
 import { useAtomValue } from "jotai";
 
 const Onboarding = () => {

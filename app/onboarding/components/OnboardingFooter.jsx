@@ -229,7 +229,7 @@ const OnboardingFooter = () => {
       console.log('POST call failed: ', e);
     }
 
-    console.log("ONBOARDING FORM SUBMITTED")
+    console.log("ONBOARDING FORM SUBMITTED!")
     // setIsSubmittedOnboardingForm(true);
   };
 
