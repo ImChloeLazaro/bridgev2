@@ -18,7 +18,6 @@ export const RegisterProfile = async (request) => {
       }
 }
 
-<<<<<<< HEAD
 export const updateOnboardingStatus = async (request) => {
   try {
     const update = put({
@@ -28,25 +27,6 @@ export const updateOnboardingStatus = async (request) => {
         queryParams : {
           sub: request.sub
         }
-=======
-export const FetchOnboardingStatus = async (request) => {
-    try {
-        const restOperation = get({
-          apiName: 'bridgeApi',
-          path: '/user',
-          options: {
-            queryParams: {
-                sub: request.sub
-            }
-          }
-        });
-    
-        const { body } = await restOperation.response;
-        const response = await body.json();
-        console.log(response);
-      } catch (e) {
-        console.log('POST call failed: ', e);
->>>>>>> parent of 3052f08 (roles added v3)
       }
     });
     const { body } = await update.response;
