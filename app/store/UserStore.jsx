@@ -81,14 +81,13 @@ export const fetchOnboardingStatus = atom(async (read) => {
       path: '/user',
       options: {
         queryParams: {
-            sub: 'd0229811-67cc-4fb8-915b-38d8029b85df'
+            sub: auth.sub
         }
       }
     });
 
     const { body } = await fetch.response;
     const response = await body.json();
-    console.log('profile response:',response.result.hasOnboardingData)
     return response.result.hasOnboardingData
   } catch (e) {
     console.log('GET call failed: ', e);

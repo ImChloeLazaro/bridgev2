@@ -2,9 +2,7 @@ import React from "react";
 import CTAButtons from "../../components/CTAButtons";
 import "../../aws-auth"
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { useAtom } from "jotai";
 import { post, put } from "aws-amplify/api";
-import { updateOnboardingStatus } from "@/app/utils/profile";
 import {
   activeStepAtom,
   stepsAtom,
@@ -231,7 +229,8 @@ const OnboardingFooter = () => {
       console.log('POST call failed: ', e);
     }
 
-    setIsSubmittedOnboardingForm(true);
+    console.log("ONBOARDING FORM SUBMITTED")
+    // setIsSubmittedOnboardingForm(true);
   };
 
   const handleNext = () => {
