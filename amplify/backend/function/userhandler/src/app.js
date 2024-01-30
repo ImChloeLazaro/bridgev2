@@ -46,9 +46,20 @@ const userSchema = mongoose.Schema({
 const userModel = mongoose.model('user', userSchema)
 
 app.get('/user', async function(req, res) {
-  const {sub} = req.query
-  const read = await userModel.findOne({sub})
-  res.json({success: 'get call succeed!', result: read});
+  try {
+    const { sub } = req.query;
+    if (!sub) {
+      return res.status(400).json({ error: 'Missing sub parameter' });
+    }
+    const read = await userModel.findOne({ sub });
+    if (!read) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ success: 'GET RESULT', result: read });
+  } catch (error) {
+    console.error('Error while processing GET request for user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.post('/user', async function(req, res) {

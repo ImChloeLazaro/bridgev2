@@ -66,17 +66,17 @@ export const fetchOnboardingStatus = atom(async (read) => {
       path: '/user',
       options: {
         queryParams: {
-            sub: auth.sub
+            sub: 'd0229811-67cc-4fb8-915b-38d8029b85df'
         }
       }
     });
 
     const { body } = await fetch.response;
     const response = await body.json();
-    console.log('onboarding data', response)
-    return response.result.hasOnboardingData === null ? false : response.result.hasOnboardingData
+    console.log(response.result.hasOnboardingData)
+    return response.result.hasOnboardingData
   } catch (e) {
-    console.log('POST call failed: ', e);
+    console.log('GET call failed: ', e);
   }
 })
 export const isFirstTime = atom(true);
