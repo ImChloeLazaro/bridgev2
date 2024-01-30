@@ -7,7 +7,7 @@ import { authenticationAtom } from "./store/AuthenticationStore";
 import { useAtomValue } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { RegisterProfile, FetchOnboardingStatus } from "./utils/profile";
+// import { RegisterProfile } from "./utils/profile";
 
 export function Providers({ children }) {
   const router = useRouter();
@@ -30,9 +30,7 @@ export function Providers({ children }) {
 
   return (
     <NextUIProvider navigate={router.push}>
-      <Provider>
-        {children}
-      </Provider>
+      <Provider>{children}</Provider>
     </NextUIProvider>
   );
 }
