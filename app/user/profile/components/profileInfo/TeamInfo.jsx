@@ -2,7 +2,7 @@ import React from 'react'
 
 const TeamInfo = () => {
   return (
-    <div>TeamInfo</div>
+    <div>Waiting Content from CMS</div>
   )
 }
 

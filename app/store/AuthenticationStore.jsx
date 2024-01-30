@@ -22,7 +22,6 @@ async function fetchAuthentication() {
       isAuthenticated: true,
       isSignedIn: true,
       sub: user.sub,
-      user: user
     };
   } catch (error) {
     return {

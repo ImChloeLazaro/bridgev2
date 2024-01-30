@@ -8,3 +8,9 @@ export const profileTabsAtom = atom([
 ]);
 
 export const selectedTabAtom = atom("about");
+
+export const isVisibleJobTitleAtom = atom(false);
+
+export const currentPasswordAtom = atom("ooooooooo");
+export const newPasswordAtom = atom("ooooooooo");
+export const confirmPasswordAtom = atom("ooooooooo");

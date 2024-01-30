@@ -1,25 +1,110 @@
-'use client' // Error components must be Client Components
- 
-import { useEffect } from 'react'
- 
+// 'use client' // Error components must be Client Components
+
+// import { useEffect } from 'react'
+
+// export default function Error({ error, reset }) {
+//   useEffect(() => {
+//     // Log the error to an error reporting service
+//     console.log("ERROR")
+//     console.error(error)
+//   }, [error])
+
+//   return (
+//     <div>
+//       <h2>Something went wrong!</h2>
+//       <button
+//         onClick={
+//           // Attempt to recover by trying to re-render the segment
+//           () => reset()
+//         }
+//       >
+//         Try again
+//       </button>
+//     </div>
+//   )
+// }
+
+"use client";
+
+import React, { useEffect } from "react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Image,
+  Button,
+} from "@nextui-org/react";
+
 export default function Error({ error, reset }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.log("ERROR")
-    console.error(error)
-  }, [error])
- 
+    console.log("ERROR");
+    console.error(error);
+  }, [error]);
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
+    <div
+      className="flex items-center justify-center h-screen bg-cover bg-center "
+      style={{ backgroundImage: "url(/bg.png)" }}
+    >
+      <Card
+        className="p-4 h-max gap-1
+        min-w-fit
+        w-1/4 
+        "
       >
-        Try again
-      </button>
+        <CardHeader className="flex justify-left">
+          {/*       
+      responsiveness
+      min-w-fit max-w-2xl
+      sm:w-64 
+      md:w-80 
+      lg:w-96
+      max-w-2xl */}
+          <div className="">
+            <Image
+              src="/header.png"
+              alt="Aretex Logo"
+              radius="none"
+              className=""
+            />
+          </div>
+        </CardHeader>
+        <CardBody className="w-auto gap-10">
+          {/* Automatic Signin */}
+          <div className="gap-1 mb-2">
+            <div className="text-black-default text-2xl font-bold">
+              {"Oh no! There's something wrong! "}
+            </div>
+            {/* <div className="text-black-default text-base font-medium tracking-tighter">
+              {Object.keys(error).map((err, index) => {
+                return <p key={index}>{err}</p>;
+              })}
+            </div> */}
+          </div>
+        </CardBody>
+        {/* Contents className="py-4"*/}
+        <CardFooter className="flex-col py-2 gap-4 rounded-none overflow-visible w-full">
+          <div className="px-16 ">
+            <Image
+              width={600}
+              height={500}
+              src="/error.jpg"
+              alt="Error Occurred"
+              radius="none"
+              className=""
+            />
+          </div>
+          <Button
+            onPress={() => reset()}
+            className="w-full text-lg font-medium text-white-default bg-orange-default"
+            variant="flat"
+            radius="lg"
+          >
+            {"Try Again"}
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
-  )
+  );
 }

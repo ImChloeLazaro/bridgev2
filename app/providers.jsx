@@ -10,23 +10,23 @@ import { useEffect } from "react";
 import { RegisterProfile, FetchOnboardingStatus } from "./utils/profile";
 
 export function Providers({ children }) {
-  const authvalue = useAtomValue(authenticationAtom)
   const router = useRouter();
-  const pathname = usePathname();
+  // const authvalue = useAtomValue(authenticationAtom)
+  // const pathname = usePathname();
 
-  useEffect(()=>{
+  // useEffect(()=>{
     
-    if(authvalue.isAuthenticated && pathname === "/"){
-      router.push('/user')
-    }
+  //   if(authvalue.isAuthenticated && pathname === "/"){
+  //     router.push('/user')
+  //   }
     
-    if(!authvalue.isAuthenticated && pathname !== "/"){
-      router.push('/')
-    }
+  //   if(!authvalue.isAuthenticated && pathname !== "/"){
+  //     router.push('/')
+  //   }
     
-    return () => RegisterProfile(authvalue)
+  //   return () => RegisterProfile(authvalue)
 
-  },[authvalue.isAuthenticated, pathname, router])
+  // },[authvalue, authvalue.isAuthenticated, pathname, router])
 
   return (
     <NextUIProvider navigate={router.push}>

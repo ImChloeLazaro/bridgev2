@@ -1,9 +1,121 @@
-import React from 'react'
+import React from "react";
+import LabelTag from "../../../../components/LabelTag";
 
-const AboutInfo = () => {
+import { Divider, Avatar } from "@nextui-org/react";
+import { MdInfoOutline } from "react-icons/md";
+import { format, addMonths } from "date-fns";
+
+const AboutInfo = ({ data }) => {
   return (
-    <div>AboutInfo</div>
-  )
-}
+    <>
+      {/* // ### EMPLOYEE INFORMATION} */}
+      <div className="mt-2 mb-12 py-2 w-full">
+        <div className="flex justify-start items-center gap-2 mb-8">
+          <p className="font-bold text-lg">{"Employee Information"}</p>
+          <MdInfoOutline />
+        </div>
 
-export default AboutInfo
+        {/* // ### LIST */}
+        <div className="flex flex-col items-start gap-4 ">
+          {/* // ### ID Number */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <div className="flex-col w-1/2 min-w-[50%]">
+              <p className="font-medium text-base">{"ID Number"}</p>
+              <p className="font-medium text-sm text-darkgrey-default">
+                {"This is your employee ID"}
+              </p>
+            </div>
+            <p className="">{data.id}</p>
+          </div>
+          <Divider />
+          {/* // ### STATUS */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <p className="font-medium text-base w-1/2 min-w-[50%]">
+              {"Status"}
+            </p>
+            <LabelTag text={"Active"} color={"green"} />
+          </div>
+          <Divider />
+
+          {/* // ### REGULARIZATION */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <div className="flex-col w-1/2 min-w-[50%]">
+              <p className="font-medium text-base">{"Regularization"}</p>
+              <p className="font-medium text-sm text-darkgrey-default">
+                {"6 months after your start date"}
+              </p>
+            </div>
+            <p className="">{`${format(
+              addMonths(new Date(data.onboarding.startDate), 6),
+              "MMMM dd yyyy"
+            )}`}</p>
+          </div>
+          <Divider />
+
+          {/* // ### IMMEDIATE HEAD */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <p className="font-medium text-base w-1/2 min-w-[50%]">
+              {"Immediate Head"}
+            </p>
+            <div className="flex items-center gap-2">
+              <Avatar
+                radius="full"
+                size="md"
+                src="/Madelyn Septimus.png"
+                alt="Supervisor Profile picture"
+              />
+              <p className="">{data.supervisor}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* // ### PERSONAL INFORMATION*/}
+      <div className="mt-2 mb-12 py-2 w-full">
+        <div className="flex justify-start items-center gap-2 mb-5">
+          <p className="font-bold text-lg">{"Personal Information"}</p>
+          <MdInfoOutline />
+        </div>
+
+        {/* // ### LIST */}
+        <div className="flex flex-col items-start gap-4">
+          {/* // ### ADDRESS */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <div className="flex-col w-1/2 min-w-[50%]">
+              <p className="font-medium text-base">{"Address"}</p>
+              <p className="font-medium text-sm text-darkgrey-default">
+                {"This is your current address"}
+              </p>
+            </div>
+            <p className="">{data.address}</p>
+          </div>
+          <Divider />
+
+          {/* // ### CONTACT NUMBER */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <div className="flex-col w-1/2 min-w-[50%]">
+              <p className="font-medium text-base">{"Contact Number"}</p>
+              <p className="font-medium text-sm text-darkgrey-default">
+                {"This is your current  contact number"}
+              </p>
+            </div>
+            <p className="">{data.contactNumber}</p>
+          </div>
+          <Divider />
+
+          {/* // ### Birthday */}
+          <div className="flex justify-start items-center gap-10 w-3/5">
+            <div className="flex-col w-1/2 min-w-[50%]">
+              <p className="font-medium text-base ">{"Birthday"}</p>
+            </div>
+            <p className="">
+              {format(new Date(data.birthday), "MMMM dd yyyy")}
+            </p>
+          </div>
+        </div>
+      </div>
+      <Divider />
+    </>
+  );
+};
+
+export default AboutInfo;

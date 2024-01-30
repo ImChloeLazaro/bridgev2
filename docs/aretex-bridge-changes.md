@@ -185,7 +185,7 @@ link: string,
 * Checked and Updated imports for Components
 * Removed dead code and unused code
 * Removed majority of `console.log()` left from deployment
-* Added `TODO`s for future updates `prefix:// ### TODO...`
+* Added `TODO`s across the source code for logging tasks and reminders `prefix:// ### TODO...`
 * Fixed post images now properly fill their container regardless of their shape
 
 ## v.0.4.10
@@ -287,7 +287,31 @@ link: string,
 * Added `DEL` and `PUT` functions for deleting and editing shortcuts respectively (backend not yet implemented)
 * Fixed `Badge` and `Sidebar` state from previous state still persists when switching roles
 * Updated illustration for when onboarding form is submitted
-* Added `Profile` components for `Profile` page
+* Added profile components for `Profile` page
 * Added `scale` tailwind extension for flipping images, svg and related media horizontally.
 * Added a check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
 * Updated shortcuts link to a valid link to redirect properly
+
+## v.0.5.6
+
+* Added backend and frontend functionality for `Profile`
+* Cleaned up and refactored source code
+* Organized Project Structure
+* Updated the clear variant of `CTAButtons` Component to have a colored text
+* Added `LabelTag` Component for displaying short labels e.g. ("active")
+* Added `RightBarCard` Component for displaying content on right bar
+* Updated `UserDropdown` Component to display job positon below the user's name
+* Updated `useEffect` dependency in `providers.jsx`
+* Moved `user` object from `authenticationAtom` in `AuthenticationStore` to `userAtom` in `UserStore`
+* Fixed the warning thrown when both `birthday` gif and `rexWinner` gif are being loaded on page load by setting the `priority` prop to true
+* Added `ProfileStore` for profile components
+* Added `MainContent` Component
+* Added `RightBar` Component
+* Added `Benefits` Component
+* Added `EmergencyContact` Component
+* Added `LeaveBalance` Component
+* Added `UserOnboarding` Component
+* Added `header-profile.png` for default background header photo in profile page
+* Updated `Error` Page to be more verbose
+* Added illustration for `Error` Page
+* Disabled redirection logic when already signed in from `providers.jsx` to fix warning from jotai having `Detected multiple Jotai instances. It may cause unexpected behavior with the default store. https://github.com/pmndrs/jotai/discussions/2044`

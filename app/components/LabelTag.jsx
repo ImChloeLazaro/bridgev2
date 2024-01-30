@@ -1,5 +1,6 @@
 import React from "react";
-
+// ### TODO Add clear variant as a prop instead to create a combination of clear background and colored text
+// ### Same as CTAButtons
 const LabelTag = ({ text, color }) => {
   const colorVariants = {
     red: "bg-red-default",
@@ -12,9 +13,9 @@ const LabelTag = ({ text, color }) => {
   };
 
   return (
-    <div className={`flex justify-center max-w-fit`}>
+    <div className={`flex justify-center max-w-fit w-1/4`}>
       <p
-        className={`capitalize ${colorVariants[color]} text-white-default font-bold py-1 px-2.5 rounded-md`}
+        className={`capitalize ${colorVariants[color]} text-white-default font-bold py-1 px-3.5 rounded-md `}
       >
         {text}
       </p>

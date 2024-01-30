@@ -2,7 +2,7 @@ import React from 'react'
 
 const ClientsInfo = () => {
   return (
-    <div>ClientsInfo</div>
+    <div>Waiting Content from CMS</div>
   )
 }
 

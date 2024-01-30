@@ -37,7 +37,6 @@ const NavigationBar = () => {
   const role = useAtomValue(roleAtom);
   const [userRoles] = useAtom(userRolesAtom);
 
-
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
@@ -50,6 +49,9 @@ const NavigationBar = () => {
           className="md:hidden"
         />
       </NavbarContent>
+      {/* // ### TODO Fix this navbar component warning, 
+                      message: `warning A component changed 
+                      from uncontrolled to controlled. ` */}
       <NavbarContent justify="center">
         <NavbarItem>
           <Image
@@ -67,7 +69,7 @@ const NavigationBar = () => {
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
+      {/* <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
@@ -80,7 +82,7 @@ const NavigationBar = () => {
             </Link>
           </NavbarMenuItem>
         ))}
-      </NavbarMenu>
+      </NavbarMenu> */}
     </Navbar>
   );
 };

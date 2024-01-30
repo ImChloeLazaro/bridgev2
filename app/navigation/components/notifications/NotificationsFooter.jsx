@@ -17,7 +17,7 @@ const NotificationsFooter = () => {
           className="py-0 bg-transparent data-[hover=true]:bg-transparent"
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
-            See All Notifications
+            {"See All Notifications"}
           </p>
         </Button>
         <Button
@@ -32,7 +32,7 @@ const NotificationsFooter = () => {
           // })}
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
-            Mark All as Read
+            {"Mark All as Read"}
           </p>
         </Button>
       </div>

@@ -20,9 +20,10 @@ const userProfile = {
 
 import "../../../aws-auth";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { userAtom } from "../../../store/UserStore";
 import { signOut } from "aws-amplify/auth";
+import { isVisibleJobTitleAtom } from "../../../user/profile/store/ProfileStore";
 
 async function handleSignOut() {
   try {
@@ -43,6 +44,7 @@ const UserDropdown = () => {
 
   const router = useRouter();
   const user = useAtomValue(userAtom);
+  const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
 
   return (
     <Dropdown
@@ -56,7 +58,7 @@ const UserDropdown = () => {
       <DropdownTrigger>
         <User
           as="button"
-          // description={userProfile.email}
+          description={isVisibleJobTitle && user.position}
           name={user.name}
           avatarProps={{
             showFallback: true,
@@ -75,7 +77,7 @@ const UserDropdown = () => {
               "pl-1",
               "text-lg font-bold",
             ],
-            description: ["max-md:hidden", "pl-1.5"],
+            description: ["max-md:hidden", "pl-0.5"],
           }}
         />
       </DropdownTrigger>
