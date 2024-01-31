@@ -82,9 +82,9 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
         path: "/shortcut",
         options: {
           body: {
-            _id: uniqueShortcutID,
-            title: editShortcutName,
-            url: editShortcutLink,
+            _id: uniqueShortcutID[0],
+            title: editShortcutName[0],
+            url: editShortcutLink[0],
           },
         },
       });
