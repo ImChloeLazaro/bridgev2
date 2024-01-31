@@ -1,5 +1,4 @@
 "use client";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useAtomValue } from "jotai";
 import "../aws-auth";
@@ -53,4 +52,4 @@ const User = () => {
   );
 };
 
-export default withAuthenticator(User);
+export default User

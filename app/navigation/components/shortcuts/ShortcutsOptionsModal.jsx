@@ -27,6 +27,12 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
   const user = useAtomValue(userAtom);
   const [shortcuts, setShortcuts] = useAtom(shortcutsAtom);
 
+  const [uniqueShortcutID, setuniqueShortcutID] = useState(
+    shortcuts
+      .filter((item) => item.key === unique_key)
+      .map((detail) => detail._id)
+  );
+
   const [editShortcutName, setEditShortcutName] = useState(
     shortcuts
       .filter((item) => item.key === unique_key)
@@ -37,7 +43,29 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       .filter((item) => item.key === unique_key)
       .map((detail) => detail.link)
   );
+
   const handleDeleteShortcut = async () => {
+    const confirm = window.confirm(`Are you sure you want to delete ${editShortcutName}?`)
+    if(confirm){
+      try {
+        const restOperation = del({
+          apiName: "bridgeApi",
+          path: "/shortcut",
+          options: {
+            queryParams: {
+              _id : uniqueShortcutID[0],
+            },
+          },
+        });
+        const { body } = await restOperation.response;
+        const response = await body.json();
+        console.log("DELETE SHORTCUT", response);
+        setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
+        setIsOpen(false);
+        setDisableDraggable(false);
+      } catch (e) {
+        console.log("Shortcut DEL call failed: ", e);
+      }
     try {
       const restOperation = del({
         apiName: "bridgeApi",
@@ -65,16 +93,15 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       return;
     }
     // ### TODO Add regex validation on link to check if https:// is already on string
-
     try {
       const restOperation = put({
         apiName: "bridgeApi",
         path: "/shortcut",
         options: {
           body: {
-            sub: user.sub,
-            title: editShortcutName,
-            url: editShortcutLink,
+            _id: uniqueShortcutID[0],
+            title: editShortcutName[0],
+            url: editShortcutLink[0],
           },
         },
       });
