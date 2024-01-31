@@ -372,3 +372,8 @@ link: string,
 * Created a UI when user has already completed and submitted the onboarding form then redirects to the home page
 * Added `onboarding-already-done.jpg` illustration for `Onboarding` Page when user has already completed and submitted the onboarding form
 * Renamed `onboarding.jpg` to `onboarding-done-submitted.jpg`
+
+## v.0.5.7.1 - hotfix
+
+* Missing closing bracket in `ShortcutsOptionsModal` Component
+* Pulled backend resources
