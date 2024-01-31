@@ -1,11 +1,9 @@
-import React from "react";
-import { profileTabsAtom, selectedTabAtom } from "../../store/ProfileStore";
-
-import { Tabs, Tab, Divider } from "@nextui-org/react";
+import { Divider, Tab, Tabs } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
+import { profileTabsAtom, selectedTabAtom } from "../../store/ProfileStore";
 import AboutInfo from "./AboutInfo";
-import ProfileInfo from "./ProfileInfo";
 import ClientsInfo from "./ClientsInfo";
+import ProfileInfo from "./ProfileInfo";
 import TeamInfo from "./TeamInfo";
 
 const ProfileDetails = ({ data }) => {

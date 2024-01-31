@@ -1,29 +1,17 @@
-"use client";
-
-import { SwitchRoles } from "./SwitchRoles";
-import React from "react";
-import {
-  User,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-} from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-
-const userProfile = {
-  name: "Tatiana Philips",
-  email: "tatiana.philips@aretex.com.au",
-  jobTitle: "Junior Data Analyst",
-  profileURL: "/Tatiana Philips.png",
-};
-
-import "../../../aws-auth";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { useAtomValue } from "jotai";
-import { userAtom } from "../../../store/UserStore";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  User,
+} from "@nextui-org/react";
 import { signOut } from "aws-amplify/auth";
+import { useAtomValue } from "jotai";
+import "../../../aws-auth";
+import { userAtom } from "../../../store/UserStore";
 import { isVisibleJobTitleAtom } from "../../../user/profile/store/ProfileStore";
+import { SwitchRoles } from "./SwitchRoles";
 
 async function handleSignOut() {
   try {
@@ -35,14 +23,12 @@ async function handleSignOut() {
 
 const UserDropdown = () => {
   const options = {
-    // { key: "avatar", label: userProfile.name },
     switch: { key: "switch", label: "Switch Roles" },
     settings: { key: "settings", label: "Settings" },
     help: { key: "help", label: "Help & Feedback" },
     logout: { key: "logout", label: "Log out" },
   };
 
-  const router = useRouter();
   const user = useAtomValue(userAtom);
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
 

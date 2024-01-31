@@ -1,15 +1,13 @@
-import React from "react";
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Button,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
 import { IoApps } from "react-icons/io5";
 import { RxExternalLink } from "react-icons/rx";
-
 import { Menu, MenuItem, menuClasses } from "react-pro-sidebar";
-import { Link } from "@nextui-org/react";
 import { externalLinks } from "../RoutesIconDetails";
 
 const ExternalLinks = () => {
@@ -74,7 +72,7 @@ const ExternalLinks = () => {
             }}
           >
             <div className="flex items-center justify-between pt-1 pr-4 pb-3 pl-3 ">
-              <div className="text-xl font-bold">Switch To</div>
+              <div className="text-xl font-bold">{"Switch To"}</div>
               <div className="text-black-default">
                 <RxExternalLink size={24} />
               </div>

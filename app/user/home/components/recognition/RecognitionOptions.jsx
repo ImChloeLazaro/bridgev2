@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Button,
+  Listbox, ListboxItem,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
-import { Listbox, ListboxItem } from "@nextui-org/react";
+import { useState } from "react";
 
 const RecognitionOptions = ({ trigger, options }) => {
   const [isOpen, setIsOpen] = useState(false);

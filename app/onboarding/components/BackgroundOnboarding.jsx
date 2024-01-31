@@ -1,6 +1,4 @@
-import {
-  selectedTabAtom
-} from "../store/OnboardingStore";
+import { selectedTabAtom } from "../store/OnboardingStore";
 
 import { fatherAtom, motherAtom, childrenAtom } from "../store/OnboardingStore";
 

@@ -1,5 +1,4 @@
 import { atom } from "jotai";
-
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { authenticationAtom } from "./AuthenticationStore";

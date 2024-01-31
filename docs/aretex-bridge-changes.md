@@ -8,18 +8,24 @@
 
 ## v.0.1.1
 
-* Implemented Cognito Authentication
-* Added Authenticator Component from Amplify UI to test Cognito Authentication
-* Fixed Reference Error - _window_ being accessed on the server
-* Configured framework and Components to match prototype's style in Figma
+* Installed NextJS v14.0.4 as its framework
+* Installed tailwind css v3.3.0
 * Configured tailwind css to match Bridge's color palette
+* Configured framework and components to match prototype's style in Figma
+* Implemented Cognito Authentication for `backend` and `frontend`
+* Added `Authenticator` Component from Amplify UI to test Cognito Authentication
+* Fixed Reference Error `_window_` being accessed on the server
 
 ## v.0.2.0
 
-* Added Sidebar and Navigation Bar Component
+* Added `Login` Page
+* Added `Sidebar` and `NavigationBar` Component
 * Added routes for `user` and `sign-in`
 * Added custom font family `Helvetica Now Display` for Bridge
-* Updated Routing and Navigation
+* Added reaction svg media for displaying reactions on `Post` Component
+* Implemented Routing and Navigation for `frontend`
+* Configured backend resources for Bridge
+* Configured redirect URLs for sign-in and sign-out
 
 ## v.0.3.0
 
@@ -161,7 +167,7 @@ link: string,
 * Added not-found page
 * Added error page
 * Added custom tailwind utility class `spinner` for page transition
-* Added `light grey` and `dark grey` variant for color `grey`
+* Added `light grey` and `dark grey` variant for color `grey` in `tailwind.config.js`
 
 ## v.0.4.8
 
@@ -184,7 +190,7 @@ link: string,
 * Checked and Fixed paths for Components
 * Checked and Updated imports for Components
 * Removed dead code and unused code
-* Removed majority of `console.log()` left from deployment
+* Removed majority of `console.log()` left from development
 * Added `TODO`s across the source code for logging tasks and reminders `prefix:// ### TODO...`
 * Fixed post images now properly fill their container regardless of their shape
 
@@ -194,14 +200,15 @@ link: string,
 
 ## v.0.5.0
 
-* Merging of frontend and backend
-* Updated frontend to latest changes as of v.0.4.10
+* Merging of `frontend` and `backend`
+* Synced changes from `frontend` as of v.0.4.10 and `backend` as of v.0.4.9
 * Changed variable name from `export default ExternalLinksHeader;` to `export default SideBarHeader;`to match the Component's filename
 * Changed redirect behavior of `ReconnectButton` to refresh the Page and `ReturnButton` to return to the previous page the user visits
 * Added fetched user attributes to `UserDropdown` Component (name, picture, etc.)
 * Added `signOut` function from @aws-amplify to `UserDropdown` Component
 * Moved `options` for `UserDropdown` Component to `NavSideBarStore`
-* Moved fetched user attributes from `user page` to `UserStore`
+* Moved fetched user attributes from `user` page to `UserStore`
+* Added `backend` functions for `shortcuts`
 
 ## v.0.5.0 - hotfix
 
@@ -229,6 +236,11 @@ link: string,
 ## v.0.5.1
 
 * Updated Changelog
+* Implemented user attributes from `backend` and stored in `UserStore`
+* Added `HRBulletinBoard` Component
+* Added `Recognitions` Component
+* Added `Trainings` Component
+* Added `ImagePostCarousel` Component
 
 ## v.0.5.2
 
@@ -243,6 +255,7 @@ link: string,
 * Changed named export from `HighlightArea` to `RightBar`to match its filename
 * Changed named export from `NewsFeed` to `MainContent` to match its filename
 * Changed named export from `page` to `Onboarding` to match its filename
+* Implemented database schema for `onboarding` form
 
 ## v.0.5.2 - hotfix
 
@@ -256,7 +269,6 @@ link: string,
 * Fetched user attributes are now displayed correctly in `UserDropdown` and `CreatePostCard` Component
 * Adjusted whitespace around `MainContent` and `RightBar` Components
 * Change text label for `ReturnButton`
-* Fixed route issue when manually entering URL is does not reflect on the page
 * Added a role check on `NavigationBar` to fix the route issue
 * Changed name export from `UserLayout` to `AdminLayout` to match its filename
 * Changed name export from `UserLayout` to `TLLayout` to match its filename
@@ -267,39 +279,44 @@ link: string,
 
 * Reverted `middleware` again due to causing a internal server error on deployment
 * Changed name export from `Item` to `ShortcutItem` to match its filename
-* Rewrite `Onboarding` Atoms in to their respective atoms
+* Rewrite `applicationOnboardingAtom` Atoms in to separate atoms
+* Rewrite `backgroundOnboardingAtom` Atoms in to separate atoms
+* Rewrite `employmentOnboardingAtom` Atoms in to separate atoms
+* Rewrite `contactOnboardingAtom` Atoms in to separate atoms
 * Added `applicationTabsAtom`in `OnboardingStore`
 * Added `backgroundTabsAtom` in `OnboardingStore`
 * Added `employmentTabsAtom` in `OnboardingStore`
 * Added `contactTabsAtom` in `OnboardingStore`
-* Changed `OnboardingHeader` Component
-* Added `OnboardingFieldInput` Component for better control of field inputs
+* Added `OnboardingFieldInput` Component as a reusable component for better control of field inputs
 * Added `OnboardingSubmitted` Component to show after onboarding form is done and submitted
-* Added illustration when onboarding form is submitted and redirects to login page
+* Merged all onboarding data object before submitting to server
+* Created a UI when user completed and submitted the onboarding form
+* Added illustration when onboarding form is completed and submitted and then redirects to login page
 * Added `isRequired` check for the required fields in the onboarding form
 
 ## v.0.5.5
 
 * Fixed fetching of shortcut data from the backend
+* Pulled backend resources from amplify
 * Rewrite atom architecture for manipulating data coming from the backend in `ShortcutStore`
 * Added backend functionality and resources for local development testing
 * Updated the links for `Shortcuts` to be clickable and open a new tab
 * Added `DEL` and `PUT` functions for deleting and editing shortcuts respectively (backend not yet implemented)
+* Removed the role check on `NavigationBar` to fix the route issue
 * Fixed `Badge` and `Sidebar` state from previous state still persists when switching roles
+* Fixed route issue when manually entering URL is does not reflect on the page
 * Updated illustration for when onboarding form is submitted
 * Added profile components for `Profile` page
 * Added `scale` tailwind extension for flipping images, svg and related media horizontally.
-* Added a check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
+* Added a simple check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
 * Updated shortcuts link to a valid link to redirect properly
 
 ## v.0.5.6
 
 * Added backend and frontend functionality for `Profile`
-* Cleaned up and refactored source code
-* Organized Project Structure
 * Updated the clear variant of `CTAButtons` Component to have a colored text
-* Added `LabelTag` Component for displaying short labels e.g. ("active")
-* Added `RightBarCard` Component for displaying content on right bar
+* Added `LabelTag` Component as a reusable component for displaying short labels e.g. ("active")
+* Added `RightBarCard` Component as a reusable component for displaying content on the right bar of pages
 * Updated `UserDropdown` Component to display job positon below the user's name
 * Updated `useEffect` dependency in `providers.jsx`
 * Moved `user` object from `authenticationAtom` in `AuthenticationStore` to `userAtom` in `UserStore`
@@ -312,11 +329,46 @@ link: string,
 * Added `LeaveBalance` Component
 * Added `UserOnboarding` Component
 * Added `header-profile.png` for default background header photo in profile page
+* Added `OnboardingHeader.jsx` as a reusable component for displaying to the users that they do not have onboarding data yet
 * Updated `Error` Page to be more verbose
 * Added illustration for `Error` Page
 * Disabled redirection logic when already signed in from `providers.jsx` to fix warning from jotai having `Detected multiple Jotai instances. It may cause unexpected behavior with the default store. https://github.com/pmndrs/jotai/discussions/2044`
 
 ## v.0.5.6.1 - hotfix
 
-* Renamed `OnboardingHeader.jsx` to OnboardingStatusAlert.jsx
-* Fixed error on `OnboardingStatusAlert.jsx` due to unescaped apostrophes
+* Renamed `OnboardingHeader.jsx` to `OnboardingStatusAlert.jsx` in `/app/components`
+* Fixed build error on `OnboardingStatusAlert.jsx` due to unescaped apostrophes
+
+## v.0.5.7
+
+* Cleaned up and refactored source code
+* Organized Project Structure
+* Removed unused imports and dead code
+* Updated Changelog
+* Added an authentication check where it checks if `user` is already signed in
+* Added `onboarding` validation to check if user has `onboarding` data already
+* Removed redundant `use client;` directive from all components
+* Removed `useWindow.js` from `navigation` folder
+* Removed `applicationOnboardingAtom` from `OnboardingStore`
+* Removed `backgroundOnboardingAtom` from `OnboardingStore`
+* Removed `employmentOnboardingAtom` from `OnboardingStore`
+* Removed `contactOnboardingAtom` from `OnboardingStore`
+* Removed `store` folder and `SignInStore` from sign-in folder due to redundancy
+* Wrapped strings passed as children in curly brackets to prevent build error like unescaped apostrophes and such
+* Moved `MainContent` and `RightBar` components from each page to a single reusable component in `app/components` folder
+* Deleted `MainContent` and `RightBar` components from each page
+* Fixed content being clipped when scrolling in `MainContent` and `RightBar` component
+* Moved `amplifyconfiguration.json` and `aws-exports.js` to `src` folder outside the `app` folder
+* Added `light blue` and `dark blue` variant for color `blue` in `tailwind.config.js`
+* Removed duplicate `HRBulletinBoard` component file
+* Changed name export from `HRBulletinBoard` to `HRBulletinBoardCard` to match its filename
+* Updated right bar components from home page to use `RightBarCard` component from `/app/components` folder
+* Removed `HRBulletinBoardCard` component file
+* Removed `RecognitionCard` component file
+* Removed `TrainingCard` component file
+* Added website details at the bottom-right of sign-in page
+* Added `font-xxs` variant for text size `fontSize` in `tailwind.config.js`
+* Updated `NavigationBar` Component to display `UserDropdown` and `Notifications` Component to the right.
+* Created a UI when user has already completed and submitted the onboarding form then redirects to the home page
+* Added `onboarding-already-done.jpg` illustration for `Onboarding` Page when user has already completed and submitted the onboarding form
+* Renamed `onboarding.jpg` to `onboarding-done-submitted.jpg`

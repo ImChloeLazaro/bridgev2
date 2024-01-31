@@ -1,13 +1,11 @@
-import React from "react";
-import ContactITButton from "./ContactITButton";
-
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Image,
 } from "@nextui-org/react";
+import ContactITButton from "./ContactITButton";
 
 const SignInLockedOut = () => {
   return (

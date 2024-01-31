@@ -1,5 +1,23 @@
-import { useMemo } from "react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
 import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import {
+  activeStepAtom,
+  applicationTabsAtom,
+  backgroundTabsAtom,
+  contactTabsAtom,
+  employmentTabsAtom,
+  selectedTabAtom,
+} from "../store/OnboardingStore";
 import ApplicationOnboarding from "./ApplicationOnboarding";
 import BackgroundOnboarding from "./BackgroundOnboarding";
 import ContactOnboarding from "./ContactOnboarding";
@@ -10,31 +28,10 @@ const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
   ssr: false,
 });
 
-import {
-  applicationTabsAtom,
-  backgroundTabsAtom,
-  employmentTabsAtom,
-  contactTabsAtom,
-} from "../store/OnboardingStore";
-
-import { selectedTabAtom, activeStepAtom } from "../store/OnboardingStore";
-
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-} from "@nextui-org/react";
-
-import { Tabs, Tab } from "@nextui-org/react";
-
-import { useAtom, useAtomValue } from "jotai";
-
 const OnboardingForm = () => {
-  const activeStep = useAtomValue(activeStepAtom);
-
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
+  
+  const activeStep = useAtomValue(activeStepAtom);
 
   const applicationTabs = useAtomValue(applicationTabsAtom);
   const backgroundTabs = useAtomValue(backgroundTabsAtom);

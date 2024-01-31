@@ -1,32 +1,27 @@
-"use client";
-import React, { useEffect, useMemo, useState } from "react";
-import NotificationsHeader from "./NotificationsHeader";
-import NotificationsList from "./NotificationsList";
-import NotificationsFooter from "./NotificationsFooter";
-
 import {
   Badge,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
-
+import { useAtom, useAtomValue } from "jotai";
 import {
   MdNotifications,
-  MdNotificationsNone,
   MdNotificationsActive,
+  MdNotificationsNone,
 } from "react-icons/md";
-
-import { useAtom } from "jotai";
 import {
   notificationsAtom,
   notificationsOpenAtom,
   unreadCountAtom,
 } from "../../store/NotificationsStore";
+import NotificationsFooter from "./NotificationsFooter";
+import NotificationsHeader from "./NotificationsHeader";
+import NotificationsList from "./NotificationsList";
 
 const NotificationsDropdown = () => {
-  const [notifications] = useAtom(notificationsAtom);
+  const notifications = useAtomValue(notificationsAtom);
   const [notificationsOpen, setNotificationsOpen] = useAtom(
     notificationsOpenAtom
   );

@@ -1,28 +1,21 @@
-import React, { useState } from "react";
-import { Sidebar, Menu, MenuItem, menuClasses } from "react-pro-sidebar";
 import { Link } from "@nextui-org/react";
+import { Menu, MenuItem, Sidebar, menuClasses } from "react-pro-sidebar";
 import {
-  routesUser,
   routesAdmin,
-  routesTeamLead,
   routesHR,
+  routesTeamLead,
+  routesUser,
 } from "./RoutesIconDetails";
 
-import SideBarHeader from "./sidebar/SideBarHeader";
 import Shortcuts from "./shortcuts/Shortcuts";
+import SideBarHeader from "./sidebar/SideBarHeader";
 
-import { useAtomValue, useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
-import { roleAtom, activeRouteAtom } from "../store/NavSideBarStore";
+import { activeRouteAtom, roleAtom } from "../store/NavSideBarStore";
 
 const SideBar = () => {
-  // const [isActive, setIsActive] = useState({
-  //   user: true,
-  //   profile: false,
-  //   dashboard: false,
-  //   cms: false,
-  //   empower: false,
-  // });
+  // ### TODO Fix active state of navigation when clicked
 
   const [isActive, setIsActive] = useAtom(activeRouteAtom);
   const role = useAtomValue(roleAtom);

@@ -1,11 +1,9 @@
 "use client";
-
-import React from "react";
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Image,
 } from "@nextui-org/react";
 import ReturnButton from "./sign-in/components/ReturnButton";

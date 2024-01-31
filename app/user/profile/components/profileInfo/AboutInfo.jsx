@@ -1,9 +1,7 @@
-import React from "react";
-import LabelTag from "../../../../components/LabelTag";
-
-import { Divider, Avatar } from "@nextui-org/react";
+import { Avatar, Divider } from "@nextui-org/react";
+import { addMonths, format } from "date-fns";
 import { MdInfoOutline } from "react-icons/md";
-import { format, addMonths } from "date-fns";
+import LabelTag from "../../../../components/LabelTag";
 
 const AboutInfo = ({ data }) => {
   return (

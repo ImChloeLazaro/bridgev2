@@ -1,6 +1,5 @@
-import React from "react";
-import ExternalLinks from "./ExternalLinks";
 import { Image } from "@nextui-org/react";
+import ExternalLinks from "./ExternalLinks";
 
 const ExternalLinksHeader = () => {
   return (

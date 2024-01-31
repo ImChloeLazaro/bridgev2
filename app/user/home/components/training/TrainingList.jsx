@@ -1,15 +1,10 @@
-import React from "react";
-import TrainingOptions from "./TrainingOptions";
-import { trainingsAtom } from "../../store/TrainingStore";
-
 import { Listbox, ListboxItem } from "@nextui-org/react";
-
-import { BiDotsVerticalRounded } from "react-icons/bi";
-
 import { format } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
-
 import { useAtomValue } from "jotai";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { trainingsAtom } from "../../store/TrainingStore";
+import TrainingOptions from "./TrainingOptions";
 
 const TrainingList = () => {
   const trainings = useAtomValue(trainingsAtom);

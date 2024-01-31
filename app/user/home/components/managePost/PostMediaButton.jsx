@@ -1,9 +1,6 @@
-import React from "react";
-import ManagePostModal from "./ManagePostModal";
-
 import { Button, useDisclosure } from "@nextui-org/react";
-
 import { BsImage } from "react-icons/bs";
+import ManagePostModal from "./ManagePostModal";
 
 const PostMediaButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

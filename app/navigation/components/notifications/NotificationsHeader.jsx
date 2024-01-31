@@ -1,24 +1,21 @@
-import React from "react";
-import { Tabs, Tab, Chip } from "@nextui-org/react";
-import { Switch, Button, cn } from "@nextui-org/react";
+import { Button, Chip, Switch, Tab, Tabs, cn } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-
-import { useAtom } from "jotai";
 import {
-  showUnreadAtom,
   notificationTypeAtom,
   notificationsTabsAtom,
+  showUnreadAtom,
 } from "../../store/NotificationsStore";
 
 const NotificationsHeader = () => {
   const [showUnread, setShowUnread] = useAtom(showUnreadAtom);
   const [notificationType, setNotificationType] = useAtom(notificationTypeAtom);
-  const [notificationsTabs] = useAtom(notificationsTabsAtom);
+  const notificationsTabs = useAtomValue(notificationsTabsAtom);
 
   return (
     <div className="flex flex-col pt-1 px-1">
       <div className="flex items-center justify-between pl-4 pt-1 pb-0">
-        <p className="font-extrabold text-xl">Notifications</p>
+        <p className="font-extrabold text-xl">{"Notifications"}</p>
         <div className="flex items-center mr-1">
           <Switch
             isSelected={showUnread}
@@ -45,7 +42,7 @@ const NotificationsHeader = () => {
               label: ["text-xs"],
             }}
           >
-            <p className="font-bold">Only show unread</p>
+            <p className="font-bold">{"Only show unread"}</p>
           </Switch>
           <Button isIconOnly className="bg-transparent p-0">
             <BiDotsVerticalRounded size={16} />

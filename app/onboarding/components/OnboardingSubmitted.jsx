@@ -1,10 +1,8 @@
-// ### TODO Create a UI when user completed and submitted the form
-
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Image,
 } from "@nextui-org/react";
 import ContinueButton from "./ContinueButton";
@@ -55,7 +53,7 @@ const OnboardingSubmitted = () => {
             <Image
               width={300}
               height={300}
-              src="onboarding.jpg"
+              src="onboarding-done-submitted.jpg"
               alt="Onboarding Form Submmited"
               radius="none"
               className=""

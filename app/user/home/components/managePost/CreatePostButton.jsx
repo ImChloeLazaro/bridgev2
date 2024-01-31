@@ -1,7 +1,5 @@
-import React from "react";
-import ManagePostModal from "./ManagePostModal";
-
 import { Button, useDisclosure } from "@nextui-org/react";
+import ManagePostModal from "./ManagePostModal";
 
 const CreatePostButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

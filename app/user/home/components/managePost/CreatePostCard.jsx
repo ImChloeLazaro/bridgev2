@@ -1,9 +1,7 @@
-import React from "react";
+import { Avatar, Card, CardBody } from "@nextui-org/react";
 import CreatePostButton from "./CreatePostButton";
 import PostMediaButton from "./PostMediaButton";
 import PostTemplateButton from "./PostTemplateButton";
-
-import { Card, CardBody, Avatar } from "@nextui-org/react";
 
 const CreatePostCard = ({ data }) => {
   return (

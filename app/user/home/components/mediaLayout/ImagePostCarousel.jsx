@@ -1,7 +1,5 @@
-import React from "react";
+import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
 import ImageSwiper from "../mediaLayout/ImageSwiper";
-
-import { Modal, ModalContent, ModalBody } from "@nextui-org/react";
 
 const ImagePostCarousel = ({
   isOpen,

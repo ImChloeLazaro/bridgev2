@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-
 import { Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const ContinueButton = () => {
   const [isLoading, setIsLoading] = useState(false);

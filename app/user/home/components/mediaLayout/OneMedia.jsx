@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { Button, Image, useDisclosure } from "@nextui-org/react";
+import { useState } from "react";
 import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
-
-import { Image, Button, useDisclosure } from "@nextui-org/react";
 
 const OneMedia = ({ data, type }) => {
   const filteredPost = data.slice(0, 1);

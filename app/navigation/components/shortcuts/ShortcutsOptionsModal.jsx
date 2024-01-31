@@ -1,24 +1,23 @@
-import CTAButtons from "../../../components/CTAButtons";
-import React, { useState } from "react";
-import { post, put, del } from "aws-amplify/api";
-
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Button,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
-
+import { del, put } from "aws-amplify/api";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-
-import {
-  shortcutsAtom,
-  disableDraggableAtom,
-} from "../../store/ShortcutsStore";
+import { useState } from "react";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import CTAButtons from "../../../components/CTAButtons";
 import CloseButton from "../../../components/CloseButton";
 import { userAtom } from "../../../store/UserStore";
+import {
+  disableDraggableAtom,
+  shortcutsAtom,
+} from "../../store/ShortcutsStore";
+
+// ### TODO Add regex validation when editing link to avoid invalid link
 
 const ShortcutsOptionsModal = ({ unique_key, title }) => {
   const shortcutSize = 28; //icon size
@@ -52,7 +51,6 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       const { body } = await restOperation.response;
       const response = await body.json();
       console.log("DELETE SHORTCUT", response);
-      console.log("hello world");
 
       setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
       setIsOpen(false);
@@ -83,7 +81,6 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       const { body } = await restOperation.response;
       const response = await body.json();
       console.log("EDIT SHORTCUT", response);
-      console.log("hello world");
       setShortcuts(() =>
         shortcuts.map((shortcut) => {
           if (shortcut.key === unique_key) {
@@ -108,13 +105,6 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
   const handleCloseWindow = () => {
     setIsOpen(false);
     setDisableDraggable(false);
-  };
-
-  const actionButtons = {
-    cta: [
-      { color: "red", label: "Delete", action: handleDeleteShortcut },
-      { color: "blue", label: "Edit", action: handleEditShortcut },
-    ],
   };
 
   return (
@@ -185,14 +175,16 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
               />
             </div>
             <div className="flex justify-end gap-2.5">
-              {actionButtons.cta.map((details, index) => (
-                <CTAButtons
-                  key={`${details.label}-${index}`}
-                  label={details.label}
-                  color={details.color}
-                  onPress={details.action}
-                />
-              ))}
+              <CTAButtons
+                label={"Delete"}
+                color={"red"}
+                onPress={handleDeleteShortcut}
+              />
+              <CTAButtons
+                label={"Edit"}
+                color={"blue"}
+                onPress={handleEditShortcut}
+              />
               <Button
                 size="sm"
                 radius="sm"
@@ -204,7 +196,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
                   setDisableDraggable(false);
                 }}
               >
-                Cancel
+                {"Cancel"}
               </Button>
             </div>
           </div>

@@ -1,13 +1,11 @@
-import React from "react";
-import ReconnectButton from "./ReconnectButton";
-
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Image,
 } from "@nextui-org/react";
+import ReconnectButton from "./ReconnectButton";
 
 const SignInDisconnected = () => {
   return (

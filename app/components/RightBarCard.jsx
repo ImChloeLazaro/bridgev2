@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-
-import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
-
-import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
+import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { useState } from "react";
+import { MdCloseFullscreen, MdOpenInFull } from "react-icons/md";
 
 const RightBarCard = ({
   title,

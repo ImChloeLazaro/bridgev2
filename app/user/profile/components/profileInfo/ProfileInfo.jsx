@@ -1,13 +1,12 @@
-import React from "react";
-import { Divider, Avatar, Input, Checkbox, Button } from "@nextui-org/react";
+import { Avatar, Checkbox, Divider, Input } from "@nextui-org/react";
+import { useAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
-import { useAtom } from "jotai";
 import {
-  isVisibleJobTitleAtom,
-  currentPasswordAtom,
-  newPasswordAtom,
   confirmPasswordAtom,
+  currentPasswordAtom,
+  isVisibleJobTitleAtom,
+  newPasswordAtom,
 } from "../../store/ProfileStore";
 
 const ProfileInfo = ({ data }) => {

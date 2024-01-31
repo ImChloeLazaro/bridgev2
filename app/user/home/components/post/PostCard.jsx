@@ -1,15 +1,13 @@
-import React from "react";
-import PostHeader from "./PostHeader";
-import MediaLayout from "../mediaLayout/MediaLayout";
-import PostFooter from "./PostFooter";
-
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Divider,
 } from "@nextui-org/react";
+import MediaLayout from "../mediaLayout/MediaLayout";
+import PostFooter from "./PostFooter";
+import PostHeader from "./PostHeader";
 
 const PostCard = ({ data }) => {
   return (
