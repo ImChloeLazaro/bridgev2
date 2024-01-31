@@ -44,6 +44,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       .filter((item) => item.key === unique_key)
       .map((detail) => detail.link)
   );
+
   const handleDeleteShortcut = async () => {
     const confirm = window.confirm(`Are you sure you want to delete ${editShortcutName}?`)
     if(confirm){
@@ -53,15 +54,13 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
           path: "/shortcut",
           options: {
             queryParams: {
-              _id : uniqueShortcutID,
+              _id : uniqueShortcutID[0],
             },
           },
         });
         const { body } = await restOperation.response;
         const response = await body.json();
         console.log("DELETE SHORTCUT", response);
-        console.log("hello world");
-  
         setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
         setIsOpen(false);
         setDisableDraggable(false);

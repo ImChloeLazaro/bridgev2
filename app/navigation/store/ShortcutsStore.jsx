@@ -19,7 +19,7 @@ export const fetchedShortcutAtom = atom(null, async (get, set) => {
 
   try {
     console.log("SUB", user);
-    const restOperation = fetch({
+    const fetchShortcut = fetch({
       apiName: "bridgeApi",
       path: "/shortcut",
       options: {
@@ -28,10 +28,10 @@ export const fetchedShortcutAtom = atom(null, async (get, set) => {
         },
       },
     });
-    const { body } = await restOperation.response;
+    const { body } = await fetchShortcut.response;
     const result = await body.json();
     const response = result.response;
-    console.log(response)
+    console.log('SHORTCUT PROVIDER:',response)
     const mappedShortcuts = Array.isArray(response)
       ? response.map((item, index) => ({
           _id: item._id,

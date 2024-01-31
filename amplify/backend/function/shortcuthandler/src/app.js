@@ -34,14 +34,10 @@ app.get('/shortcut', async function (req, res) {
     const shortcutQuery = await shortcutModel.find({
       sub: query.sub
     })
-    res.status(200).json({ response: 'INSERT SUCCESS' })
+    res.status(200).json({ response: shortcutQuery })
   } catch (error) {
     throw error
   }
-});
-
-app.get('/shortcut/*', function (req, res) {
-  res.json({ success: 'post call succeed!', url: req.url })
 });
 
 app.post('/shortcut', async function (req, res) {
@@ -85,21 +81,19 @@ app.put('/shortcut', async function (req, res) {
 
 app.delete('/shortcut', async function (req, res) {
    const {_id} = req.query
-  try {
-    await shortcutModel.deleteOne({
-      _id
-    })
-    res.json({ success: true, response: 'DELETE SUCCESS' });
-  } catch (error) {
-    throw error
-  }
+   res.json({ success: _id, response: 'DELETE SUCCESS' });
+  // try {
+  //   await shortcutModel.deleteOne({
+  //     _id
+  //   })
+  //   res.json({ success: true, response: 'DELETE SUCCESS' });
+  // } catch (error) {
+  //   throw error
+  // }
 });
 
 app.listen(3000, function () {
   console.log("App started")
 });
 
-// Export the app object. When executing the application local this does nothing. However,
-// to port it to AWS Lambda we will create a wrapper around that will load the app from
-// this file
 module.exports = app
