@@ -65,31 +65,22 @@ app.post('/shortcut', async function (req, res) {
 
 app.put('/shortcut', async function (req, res) {
   const { _id, title, url } = req.body
-
   try {
-    await shortcutModel.updateOne({
-      _id
-    }, {
-      title,
-      url
-    })
-    res.json({ success: true, response: 'UPDATE SUCCESS' })
+    const updateShortcut = await shortcutModel.updateOne({_id:_id}, {title : title ,url: url})
+    res.json({ success: true, response: updateShortcut});
   } catch (error) {
     throw error
   }
 });
 
 app.delete('/shortcut', async function (req, res) {
-   const {_id} = req.query
-   res.json({ success: _id, response: 'DELETE SUCCESS' });
-  // try {
-  //   await shortcutModel.deleteOne({
-  //     _id
-  //   })
-  //   res.json({ success: true, response: 'DELETE SUCCESS' });
-  // } catch (error) {
-  //   throw error
-  // }
+  const {_id} = req.query
+  try {
+    const deleteshortcut = await shortcutModel.deleteOne({ _id:_id})
+    res.json({ success: true, response: deleteshortcut });
+  } catch (error) {
+    throw error
+  }
 });
 
 app.listen(3000, function () {

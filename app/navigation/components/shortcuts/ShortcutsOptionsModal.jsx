@@ -60,10 +60,12 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
         });
         const { body } = await restOperation.response;
         const response = await body.json();
-        console.log("DELETE SHORTCUT", response);
-        setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
-        setIsOpen(false);
-        setDisableDraggable(false);
+        if(response.success){
+          setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
+          setIsOpen(false);
+          setDisableDraggable(false);
+          console.log("DELETE SHORTCUT", response);
+        }
       } catch (e) {
         console.log("Shortcut DEL call failed: ", e);
       }
@@ -81,16 +83,16 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
         path: "/shortcut",
         options: {
           body: {
-            _id: uniqueShortcutID[0],
-            title: editShortcutName[0],
-            url: editShortcutLink[0],
+            _id: Array.isArray(uniqueShortcutID) ? uniqueShortcutID[0] : uniqueShortcutID,
+            title: Array.isArray(editShortcutName) ? editShortcutName[0] : editShortcutName,
+            url: Array.isArray(editShortcutLink) ? editShortcutLink[0] : editShortcutLink,
           },
         },
       });
       const { body } = await restOperation.response;
       const response = await body.json();
-      console.log("EDIT SHORTCUT", response);
-      setShortcuts(() =>
+      if(response.success){
+        setShortcuts(() =>
         shortcuts.map((shortcut) => {
           if (shortcut.key === unique_key) {
             console.log("Found shortcut:");
@@ -106,6 +108,9 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       );
       setIsOpen(false);
       setDisableDraggable(false);
+      console.log("EDIT SHORTCUT", response);
+      }
+      
     } catch (e) {
       console.log("Shortcut PUT call failed: ", e);
     }
