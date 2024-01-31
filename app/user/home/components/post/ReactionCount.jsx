@@ -1,10 +1,5 @@
-import React from "react";
-
 import { Link, Tooltip } from "@nextui-org/react";
-
 import { reactionIcons } from "./ReactionIcons";
-
-// ### TODO Add Functionality to update reaction count
 
 const ReactionCount = ({ data }) => {
   const handleReactionCount = (object) => {

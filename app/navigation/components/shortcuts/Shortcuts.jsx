@@ -1,35 +1,30 @@
-import React, { useEffect, Suspense } from "react";
-import { Sidebar, Menu, menuClasses, sidebarClasses } from "react-pro-sidebar";
-import ShortcutsHeader from "./ShortcutsHeader";
-
+import { DndContext, closestCorners } from "@dnd-kit/core";
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Spinner } from "@nextui-org/react";
-
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { Suspense, useEffect } from "react";
+import { Menu, Sidebar, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import {
   disableDraggableAtom,
   fetchedShortcutAtom,
   shortcutsAtom,
 } from "../../store/ShortcutsStore";
-
-import {
-  closestCorners,
-  DndContext,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import {
-  restrictToVerticalAxis,
-  restrictToParentElement,
-  restrictToWindowEdges,
-} from "@dnd-kit/modifiers";
+import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
 
 // ### TODO Add sorting functionality to shortcut
 // ### TODO Newly added shortcut should be on top of the list
 // ### TODO Fix order of shortcuts does not persist after refresh or after sign in
+// ### TODO Add regex validation when editing or adding link to avoid invalid link
 
 const Shortcuts = () => {
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
@@ -37,13 +32,11 @@ const Shortcuts = () => {
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
   useEffect(() => {
-    console.log("INSIDE USE EFFECT");
     fetchedShortcut();
   }, [fetchedShortcut]);
 
   return (
     <DndContext
-      // sensors={sensors}
       collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
       modifiers={[
@@ -167,8 +160,6 @@ const Shortcuts = () => {
   function handleDragEnd(event) {
     // changes the index of MenuItem which makes dragging possible
     const { active, over } = event;
-    console.log("ACTIVE", "OVER");
-    console.log(active.id, over?.id);
 
     if (active.id !== over?.id) {
       setShortcutsList((items) => {

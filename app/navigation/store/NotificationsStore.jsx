@@ -58,7 +58,7 @@ export const notificationsAtom = atom([
     id: 5,
     type: ["mentioned", "greeted"],
     datetime: "1w",
-    unread: false,
+    unread: true,
     userProfile: "/Aspen Donin.png",
     title:
       "Aspen Donin and Skylar Curtis has greeted and mentioned you in a post:",

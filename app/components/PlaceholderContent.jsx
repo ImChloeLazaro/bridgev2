@@ -1,12 +1,11 @@
-import React from "react";
 import { Link } from "@nextui-org/react";
+import { useAtom } from "jotai";
 import {
   routesAdmin,
   routesHR,
   routesTeamLead,
   routesUser,
 } from "../navigation/components/RoutesIconDetails";
-import { useAtom } from "jotai";
 import { roleAtom } from "../navigation/store/NavSideBarStore";
 
 const PlaceholderContent = () => {

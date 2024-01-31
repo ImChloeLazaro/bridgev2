@@ -1,10 +1,9 @@
 "use client";
-import NavigationBar from "../navigation/components/NavigationBar";
-import dynamic from "next/dynamic";
-
 import { useAtomValue } from "jotai";
-import { userAtom, fetchOnboardingStatus } from "../store/UserStore";
-
+import dynamic from "next/dynamic";
+import NavigationBar from "../navigation/components/NavigationBar";
+import { userAtom } from "../store/UserStore";
+import { fetchOnboardingStatus } from "../store/UserStore";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,

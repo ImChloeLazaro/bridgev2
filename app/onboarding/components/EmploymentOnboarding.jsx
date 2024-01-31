@@ -7,7 +7,6 @@ import {
 } from "../store/OnboardingStore";
 
 import OnboardingFieldInput from "../../components/OnboardingFieldInput";
-
 import { useAtom, useAtomValue } from "jotai";
 
 const EmploymentOnboarding = () => {

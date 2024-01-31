@@ -1,9 +1,13 @@
+import { get as fetch } from "aws-amplify/api";
 import { atom } from "jotai";
 import "../../aws-auth";
-import { get as fetch } from "aws-amplify/api";
 import { userAtom } from "../../store/UserStore";
 
 export const shortcutsAtom = atom([]);
+
+export const addShortcutNameAtom = atom("");
+export const addShortcutLinkAtom = atom("");
+export const disableDraggableAtom = atom(false);
 
 export const addShortcutAtom = atom(null, (get, set, update) => {
   set(shortcutsAtom, update);
@@ -50,7 +54,3 @@ export const fetchedShortcutAtom = atom(null, async (get, set) => {
 });
 
 export const shortcutCountAtom = atom((get) => get(shortcutsAtom).length);
-
-export const addShortcutNameAtom = atom("");
-export const addShortcutLinkAtom = atom("");
-export const disableDraggableAtom = atom(false);

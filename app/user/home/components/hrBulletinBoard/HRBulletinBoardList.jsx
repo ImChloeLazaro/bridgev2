@@ -1,18 +1,13 @@
-import React from "react";
+import { Listbox, ListboxItem } from "@nextui-org/react";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  format,
+} from "date-fns";
+import { useAtomValue } from "jotai";
 import ChipTag from "../../../../components/ChipTag";
 import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
-
-import { Listbox, ListboxItem } from "@nextui-org/react";
-
-import {
-  format,
-  differenceInMinutes,
-  differenceInHours,
-  differenceInDays,
-} from "date-fns";
-import { enAU } from "date-fns/locale/en-AU";
-
-import { useAtomValue, useAtom } from "jotai";
 
 const HRBulletinBoardList = () => {
   const hrBulletinBoard = useAtomValue(hrBulletinBoardAtom);

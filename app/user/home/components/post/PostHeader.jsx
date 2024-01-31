@@ -1,16 +1,12 @@
-import React from "react";
-import PostOptions from "./PostOptions";
-
-import { User, Link, Image } from "@nextui-org/react";
-
-import { BiDotsVerticalRounded } from "react-icons/bi";
-
+import { Link, User } from "@nextui-org/react";
 import {
-  format,
-  differenceInMinutes,
-  differenceInHours,
   differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  format,
 } from "date-fns";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import PostOptions from "./PostOptions";
 
 const handlePostDatetime = (datetime) => {
   const daysAgo = differenceInDays(new Date(), new Date(datetime));
@@ -39,6 +35,7 @@ const PostHeader = ({ data }) => {
     { key: "report", label: "Report this post" },
   ];
 
+  // ### TODO
   return (
     <>
       {pinned && <div>Pinned</div>}

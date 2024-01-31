@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,8 +12,7 @@ import "swiper/css/thumbs";
 // import "./styles.css";
 
 // import required modules
-import { Zoom, FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { useSwiper } from "swiper/react";
+import { FreeMode, Navigation, Thumbs, Zoom } from "swiper/modules";
 
 import { Image } from "@nextui-org/react";
 

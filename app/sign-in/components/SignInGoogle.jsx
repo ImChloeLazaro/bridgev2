@@ -1,7 +1,4 @@
-import React from "react";
-
 import { Button, Link } from "@nextui-org/react";
-
 import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
 
@@ -9,7 +6,6 @@ const SignInGoogle = ({ handler }) => {
   return (
     <div className="">
       <Button
-        // ### BACKEND
         onClick={handler}
         as={Link}
         variant="light"

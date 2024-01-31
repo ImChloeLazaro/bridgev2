@@ -1,26 +1,18 @@
-import React, { useState } from "react";
-import { post, get } from "aws-amplify/api";
-import CTAButtons from "../../../components/CTAButtons";
-import CloseButton from "../../../components/CloseButton";
 import {
-  addShortcutAtom,
-  addShortcutNameAtom,
-  addShortcutLinkAtom,
-  shortcutCountAtom,
-} from "../../store/ShortcutsStore";
-import { userAtom } from "../../../store/UserStore";
-
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Button,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
-
-import { MdAdd } from "react-icons/md";
-
+import { post } from "aws-amplify/api";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
+import { MdAdd } from "react-icons/md";
+import CTAButtons from "../../../components/CTAButtons";
+import CloseButton from "../../../components/CloseButton";
+import { userAtom } from "../../../store/UserStore";
+import { addShortcutAtom, shortcutCountAtom } from "../../store/ShortcutsStore";
 
 const ShortcutsHeader = () => {
   const user = useAtomValue(userAtom);
@@ -35,6 +27,8 @@ const ShortcutsHeader = () => {
       return;
     }
     // ### TODO Add regex validation on link to check if https:// is already on string
+    // ### TODO Add regex validation when adding link to avoid invalid link
+
     try {
       const restOperation = post({
         apiName: "bridgeApi",
@@ -156,7 +150,7 @@ const ShortcutsHeader = () => {
                   className="px-3 py-0.5 bg-transparent data-[hover=true]:bg-transparent text-black-default/60 font-bold text-base hover:underline hover:underline-offset-2"
                   onPress={() => setIsOpen(false)}
                 >
-                  Cancel
+                  {"Cancel"}
                 </Button>
               </div>
             </div>

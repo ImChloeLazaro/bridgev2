@@ -1,8 +1,6 @@
-import React from "react";
-import { MdManageAccounts } from "react-icons/md";
+import { Avatar, Image } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-
-import { User, Image, Avatar, Button } from "@nextui-org/react";
+import { MdManageAccounts } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
 

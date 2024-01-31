@@ -1,10 +1,8 @@
-import React from "react";
-import { userAtom } from "../../../store/UserStore";
-
-import LabelTag from "../../../components/LabelTag";
 import { useAtomValue } from "jotai";
+import LabelTag from "../../../../components/LabelTag";
+import { userAtom } from "../../../../store/UserStore";
 
-const BenefitsCard = () => {
+const BenefitsContent = () => {
   const user = useAtomValue(userAtom);
 
   return (
@@ -29,4 +27,4 @@ const BenefitsCard = () => {
   );
 };
 
-export default BenefitsCard;
+export default BenefitsContent;

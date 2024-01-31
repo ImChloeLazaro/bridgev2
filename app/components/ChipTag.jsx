@@ -1,5 +1,3 @@
-import React from "react";
-
 const ChipTag = ({ text, color }) => {
   const colorVariants = {
     red: "text-red-default bg-red-default/20",

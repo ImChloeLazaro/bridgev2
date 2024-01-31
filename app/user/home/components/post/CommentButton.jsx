@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-
 import { Button } from "@nextui-org/react";
-
+import { useState } from "react";
 import { TbMessageCircle } from "react-icons/tb";
 
 const CommentButton = () => {
@@ -23,7 +21,7 @@ const CommentButton = () => {
           </div>
         }
       >
-        <p className="font-semibold text-darkgrey-default">Comment</p>
+        <p className="font-semibold text-darkgrey-default">{"Comment"}</p>
       </Button>
     </div>
   );

@@ -1,8 +1,6 @@
-import React from "react";
-
-import { Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
-import ProfileHeader from "./ProfileHeader";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import ProfileDetails from "./ProfileDetails";
+import ProfileHeader from "./ProfileHeader";
 
 const ProfileCard = ({ data }) => {
   return (

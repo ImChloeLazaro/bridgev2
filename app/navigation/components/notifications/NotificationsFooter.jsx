@@ -1,6 +1,4 @@
-import React from "react";
 import { Button } from "@nextui-org/react";
-
 import { useAtom } from "jotai";
 import { notificationsAtom } from "../../store/NotificationsStore";
 
@@ -9,7 +7,7 @@ const NotificationsFooter = () => {
 
   return (
     <div className="flex flex-col pt-1">
-      <div className="flex items-center justify-between mx-4 py-0 px-3 pt-2 pb-2 border-t-2 border-black-default/70">
+      <div className="flex items-center justify-between mx-4 py-0 px-3 pt-2 pb-0 border-t-2 border-black-default/70">
         <Button
           variant="light"
           disableRipple={true}

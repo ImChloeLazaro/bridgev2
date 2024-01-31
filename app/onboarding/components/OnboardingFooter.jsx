@@ -1,55 +1,55 @@
-import React from "react";
-import CTAButtons from "../../components/CTAButtons";
-import "../../aws-auth"
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { post, put } from "aws-amplify/api";
+import "../../aws-auth";
+import CTAButtons from "../../components/CTAButtons";
+
 import {
   activeStepAtom,
-  stepsAtom,
   selectedStepperAtom,
+  stepsAtom,
 } from "../store/OnboardingStore";
 
 import {
+  appliedForAtom,
+  dateApplicationAtom,
+  dateAvailabilityAtom,
   firstNameAtom,
   lastNameAtom,
   middleNameAtom,
-  vacancyThruAtom,
   referredByAtom,
-  dateApplicationAtom,
-  dateAvailabilityAtom,
-  appliedForAtom,
   salaryAtom,
+  vacancyThruAtom,
 } from "../store/OnboardingStore";
 
 import {
-  presentAddressAtom,
-  permanentAddressAtom,
-  residenceStatusAtom,
-  genderAtom,
-  birthdateAtom,
-  civilStatusAtom,
   ageAtom,
-  emailAddressAtom,
+  birthdateAtom,
   birthplaceAtom,
-  homePhoneNumberAtom,
   citizenshipAtom,
-  mobileNumberAtom,
-  religionAtom,
+  civilStatusAtom,
+  emailAddressAtom,
+  genderAtom,
+  homePhoneNumberAtom,
   languageAtom,
+  mobileNumberAtom,
+  permanentAddressAtom,
+  presentAddressAtom,
+  religionAtom,
+  residenceStatusAtom,
 } from "../store/OnboardingStore";
 
 import {
-  tinAtom,
-  sssAtom,
   pagibigAtom,
   philhealthAtom,
+  sssAtom,
+  tinAtom,
 } from "../store/OnboardingStore";
 
-import { fatherAtom, motherAtom, childrenAtom } from "../store/OnboardingStore";
+import { childrenAtom, fatherAtom, motherAtom } from "../store/OnboardingStore";
 
 import {
-  highschoolAtom,
   collegeAtom,
+  highschoolAtom,
   postGraduateAtom,
   techVocSpecialAtom,
 } from "../store/OnboardingStore";
@@ -58,8 +58,8 @@ import { examinationTakenAtom } from "../store/OnboardingStore";
 
 import {
   employmentHistoryAtom,
-  trainingsAttendedAtom,
   referencesAtom,
+  trainingsAttendedAtom,
 } from "../store/OnboardingStore";
 
 import { contactAtom } from "../store/OnboardingStore";
@@ -69,7 +69,7 @@ import { isSubmittedOnboardingFormAtom } from "../store/OnboardingStore";
 import { useAtomValue, useSetAtom } from "jotai";
 
 const OnboardingFooter = () => {
-  const unique_key = useAtomValue(authenticationAtom)
+  const unique_key = useAtomValue(authenticationAtom);
   const steps = useAtomValue(stepsAtom);
   const activeStep = useAtomValue(activeStepAtom);
   const setActiveStep = useSetAtom(activeStepAtom);
@@ -198,35 +198,35 @@ const OnboardingFooter = () => {
       contact: {
         emergency_contact: contact,
       },
-      sub : unique_key.sub
+      sub: unique_key.sub,
     };
 
     try {
       // POST request to insert onboarding data
       const insertOnboardingData = post({
-        apiName: 'bridgeApi',
-        path: '/profile',
+        apiName: "bridgeApi",
+        path: "/profile",
         options: {
-          body: onboardingData
-        }
+          body: onboardingData,
+        },
       });
-    
+
       // If the POST request is successful, proceed with the PUT request
       const update = put({
-        apiName: 'bridgeApi',
-        path: '/user',
+        apiName: "bridgeApi",
+        path: "/user",
         options: {
           queryParams: {
-            sub: unique_key.sub
-          }
-        }
+            sub: unique_key.sub,
+          },
+        },
       });
-    
+
       const { body } = await insertOnboardingData.response;
       const response = await body.json();
       console.log(response);
     } catch (e) {
-      console.log('POST call failed: ', e);
+      console.log("POST call failed: ", e);
     }
 
     console.log("ONBOARDING FORM SUBMITTED!")

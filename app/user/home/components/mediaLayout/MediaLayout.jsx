@@ -1,10 +1,9 @@
-import React from "react";
-import OneMedia from "../mediaLayout/OneMedia";
-import TwoMedia from "../mediaLayout/TwoMedia";
-import ThreeMedia from "../mediaLayout/ThreeMedia";
-import FourMedia from "../mediaLayout/FourMedia";
 import FiveMedia from "../mediaLayout/FiveMedia";
+import FourMedia from "../mediaLayout/FourMedia";
+import OneMedia from "../mediaLayout/OneMedia";
 import SixPlusMedia from "../mediaLayout/SixPlusMedia";
+import ThreeMedia from "../mediaLayout/ThreeMedia";
+import TwoMedia from "../mediaLayout/TwoMedia";
 
 const MediaLayout = ({ data }) => {
   const imageCount = data.length;

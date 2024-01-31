@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { Button } from "@nextui-org/react";
+import { useState } from "react";
 
 const ReconnectButton = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -5,9 +5,10 @@ import {
   CardHeader,
   Image,
 } from "@nextui-org/react";
-import ReconnectButton from "./ReconnectButton";
+import ContinueButton from "./ContinueButton";
+import ReturnButton from "./ReturnButton";
 
-const SignInDisconnected = () => {
+const OnboardingAlreadyDone = () => {
   return (
     <div
       className="flex items-center justify-center h-screen bg-cover bg-center "
@@ -16,7 +17,7 @@ const SignInDisconnected = () => {
       <Card
         className="p-4 h-max gap-1
         min-w-fit
-        w-1/4 
+        w-1/4
         "
       >
         <CardHeader className="flex justify-left">
@@ -39,10 +40,12 @@ const SignInDisconnected = () => {
         <CardBody className="w-auto gap-10">
           <div className="gap-1 mb-2">
             <div className="text-black-default text-2xl font-bold">
-              {"Oh no! Something went wrong!"}
+              {"Nothing to see here!"}
             </div>
             <div className="text-black-default text-base font-medium tracking-tighter">
-              {"Sorry, you have been disconnected."}
+              {
+                "You already completed and submitted your onboarding form"
+              }
             </div>
           </div>
         </CardBody>
@@ -51,17 +54,17 @@ const SignInDisconnected = () => {
             <Image
               width={300}
               height={300}
-              src="disconnected.jpg"
-              alt="You are Disconnected"
+              src="onboarding-already-done.jpg"
+              alt="Onboarding Form Already Submitted"
               radius="none"
               className=""
             />
           </div>
-          <ReconnectButton />
+          <ReturnButton />
         </CardFooter>
       </Card>
     </div>
   );
 };
 
-export default SignInDisconnected;
+export default OnboardingAlreadyDone;

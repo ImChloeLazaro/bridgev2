@@ -1,10 +1,9 @@
-import React from "react";
 import { Chip } from "@nextui-org/react";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { roleAtom } from "../../store/NavSideBarStore";
 
 const RoleBadge = () => {
-  const [role] = useAtom(roleAtom);
+  const role = useAtomValue(roleAtom);
 
   return (
     <Chip

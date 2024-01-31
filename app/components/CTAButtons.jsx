@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@nextui-org/react";
 
 // ### TODO Add clear variant as a prop instead to create a combination of clear background and colored text

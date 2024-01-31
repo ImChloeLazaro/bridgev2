@@ -1,6 +1,5 @@
-import React from "react";
-import { MdClose } from "react-icons/md";
 import { Button } from "@nextui-org/react";
+import { MdClose } from "react-icons/md";
 
 const CloseButton = (props) => {
   return (

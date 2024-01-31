@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        xxs: "0.6rem",
+      },
       scale: {
         "-100": "-1",
       },
@@ -73,6 +76,10 @@ module.exports = {
               default: "#32449C",
               hover: "#547FDD",
             },
+            lightblue: {
+              default: "#45C2F9",
+              hover: "#7dd3fc",
+            },
             green: {
               default: "#01C875",
               hover: "#0A7147",
@@ -90,23 +97,6 @@ module.exports = {
             base: "0px 2px 12px 0px rgba(0, 0, 0, 0.12)",
           },
         },
-        // light: {
-        //   colors: {
-        //     foreground: "#0c0c0d",
-        //     background: "#f8f6f1",
-        //     primary: {
-        //       DEFAULT: "#98aee6",
-        //       foreground: "#F8F6F1",
-        //     },
-        //     secondary: {
-        //       DEFAULT: "#e2ddee",
-        //       foreground: "#F8F6F1",
-        //     },
-        //     focus: "#638088",
-        //     content1: "#F8F6F1",
-        //     content2: "#18160C",
-        //   },
-        // },
       },
     }),
     function ({ addUtilities }) {

@@ -1,10 +1,9 @@
 /* eslint-disable react/display-name */
-import React, { forwardRef } from "react";
-import ShortcutsOptionsModal from "./ShortcutsOptionsModal";
-
 import { Link } from "@nextui-org/react";
-import { MdBookmark, MdDragIndicator } from "react-icons/md";
+import { forwardRef } from "react";
+import { MdBookmark } from "react-icons/md";
 import { MenuItem } from "react-pro-sidebar";
+import ShortcutsOptionsModal from "./ShortcutsOptionsModal";
 
 const shortcutSize = 28; //icon size
 

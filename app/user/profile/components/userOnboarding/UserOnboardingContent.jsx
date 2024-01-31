@@ -1,42 +1,42 @@
-import React from "react";
-import { userAtom } from "../../../store/UserStore";
-
 import { Button } from "@nextui-org/react";
+import { format } from "date-fns";
 import { useAtomValue } from "jotai";
+import { userAtom } from "../../../../store/UserStore";
 
-const LeaveBalanceCard = () => {
+const UserOnboardingContent = () => {
   const user = useAtomValue(userAtom);
-  
+
+  // const dateAgo = format(new Date(datetime), "d MMM yyyy");
+
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">
         <div className="flex">
           <p className="text-base font-bold text-black-default w-3/5">
-            {"Vacation Leave:"}
+            {"Start Date:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {user.leaves.vl}
+            {format(new Date(user.onboarding.startDate), "MMM dd yyyy")}
           </p>
         </div>
         <div className="flex">
           <p className="text-base font-bold text-black-default w-3/5">
-            {"Sick Leave:"}
+            {"Status:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {user.leaves.sl}
+            {user.onboarding.status}
           </p>
         </div>
       </div>
       <Button
         disableRipple={true}
         disableAnimation={true}
-        className="bg-transparent text-lg font-medium text-[#45C2F9] hover:underline hover:underline-offset-2"
-        
+        className="bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
       >
-        {"File a Leave"}
+        {"View Form"}
       </Button>
     </div>
   );
 };
 
-export default LeaveBalanceCard;
+export default UserOnboardingContent;

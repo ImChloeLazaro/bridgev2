@@ -1,9 +1,7 @@
-import React, { useMemo } from "react";
-import { activeStepAtom, stepsAtom } from "../store/OnboardingStore";
-
-import { Stepper } from "react-form-stepper";
-
 import { useAtomValue } from "jotai";
+import { useMemo } from "react";
+import { Stepper } from "react-form-stepper";
+import { activeStepAtom, stepsAtom } from "../store/OnboardingStore";
 
 // ### TODO Changed hard-coded style to tailwind
 const OnboardingHeader = () => {

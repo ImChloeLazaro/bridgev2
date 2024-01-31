@@ -1,4 +1,4 @@
-import { Button, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,13 +11,12 @@ const ReturnButton = () => {
   const reconnect = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    router.back();
+    router.push("/");
   };
 
   return (
     <Button
       href="/"
-      as={Link}
       isDisabled={isDisabled}
       isLoading={isLoading}
       onPress={reconnect}
@@ -25,7 +24,7 @@ const ReturnButton = () => {
       variant="flat"
       radius="lg"
     >
-      {"Return"}
+      {"Proceed to Home Page"}
     </Button>
   );
 };

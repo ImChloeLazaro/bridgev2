@@ -1,24 +1,19 @@
-"use client";
-import React, { useState } from "react";
-import { Listbox, ListboxItem } from "@nextui-org/react";
-import { Avatar, Image } from "@nextui-org/react";
-import { RxDotFilled } from "react-icons/rx";
+import { Avatar, Image, Listbox, ListboxItem } from "@nextui-org/react";
+import { useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
-import { NotificationsOptions } from "./NotificationsOptions";
-
-import { useAtom } from "jotai";
 import {
+  notificationTypeAtom,
   notificationsAtom,
   showUnreadAtom,
-  notificationTypeAtom,
-  selectedNotificationAtom,
 } from "../../store/NotificationsStore";
+import { NotificationsOptions } from "./NotificationsOptions";
 
 const NotificationsList = () => {
-  const [showUnread] = useAtom(showUnreadAtom);
-  const [notificationType] = useAtom(notificationTypeAtom);
-  const [notifications, setNotifications] = useAtom(notificationsAtom);
+  const showUnread = useAtomValue(showUnreadAtom);
+  const notificationType = useAtomValue(notificationTypeAtom);
+  const notifications = useAtomValue(notificationsAtom);
 
   const options = [
     { key: "hide", label: "Hide this notification" },
@@ -53,9 +48,9 @@ const NotificationsList = () => {
             src={"/NoNotifications.jpg"}
           />
           <p className="font-medium text-black-default/80">
-            No Notifications right now!
+            {"No Notifications right now!"}
           </p>
-          <p className="font-medium text-black-default/80">Come back later!</p>
+          <p className="font-medium text-black-default/80">{"Come back later!"}</p>
         </div>
       }
       itemClasses={{ base: "data-[hover=true]:bg-grey-default" }}

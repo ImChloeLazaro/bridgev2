@@ -1,19 +1,10 @@
-import React from "react";
-
-import { Listbox, ListboxItem } from "@nextui-org/react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
-} from "@nextui-org/react";
-
+import { Button, Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { BiNews } from "react-icons/bi";
 import { FaMedal } from "react-icons/fa6";
 import {
-  MdEventNote,
   MdCake,
   MdCalendarMonth,
+  MdEventNote,
   MdForum,
   MdGroups2,
 } from "react-icons/md";

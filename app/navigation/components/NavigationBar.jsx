@@ -1,36 +1,23 @@
 import {
   Image,
-  Link,
   Navbar,
   NavbarContent,
   NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
+import { useAtom, useAtomValue } from "jotai";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { roleAtom, userRolesAtom } from "../store/NavSideBarStore";
 import { routesUser } from "./RoutesIconDetails";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
 
-import { useEffect } from "react";
-
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-
-import { roleAtom, userRolesAtom } from "../store/NavSideBarStore";
-//to be clean
-//Amplify config.
-// import { Amplify } from "aws-amplify";
-// import  config  from "../../../src/amplifyconfiguration.json";
-// import { signOut } from "aws-amplify/auth";
-
-// Amplify.configure(config)
-
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // ### TODO Fix NavbarMenu when screen is small (responsiveness)
   const menuItems = routesUser.map((details) => details.label);
   const router = useRouter();
 
@@ -41,18 +28,19 @@ const NavigationBar = () => {
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
       position="static"
-      className="md:bg-blue-default"
+      // className="md:bg-blue-default"
+      classNames={{ base: "m-0 p-0 md:bg-blue-default", wrapper: "w-full max-w-full mr-16 pr-16 py-2" }}
     >
-      <NavbarContent>
+      {/* <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="md:hidden"
         />
-      </NavbarContent>
+      </NavbarContent> */}
       {/* // ### TODO Fix this navbar component warning, 
                       message: `warning A component changed 
                       from uncontrolled to controlled. ` */}
-      <NavbarContent justify="center">
+      {/* <NavbarContent justify="center">
         <NavbarItem>
           <Image
             radius="none"
@@ -61,8 +49,8 @@ const NavigationBar = () => {
             className="md:hidden"
           />
         </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
+      </NavbarContent> */}
+      <NavbarContent as="div" justify="end">
         <NavbarItem className="flex items-center gap-6">
           <UserDropdown />
           {userRoles.includes(role) && <RoleBadge />}

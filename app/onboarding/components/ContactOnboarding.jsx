@@ -3,7 +3,6 @@ import { selectedTabAtom } from "../store/OnboardingStore";
 import { contactAtom } from "../store/OnboardingStore";
 
 import OnboardingFieldInput from "../../components/OnboardingFieldInput";
-
 import { useAtom, useAtomValue } from "jotai";
 
 const ContactOnboarding = () => {

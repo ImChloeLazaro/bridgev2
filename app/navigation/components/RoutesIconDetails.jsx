@@ -1,4 +1,3 @@
-import React from "react";
 import {
   MdDashboard,
   MdPerson,
@@ -253,4 +252,3 @@ export const externalLinks = [
     icon: ExternalLinksIcons.university,
   },
 ];
-

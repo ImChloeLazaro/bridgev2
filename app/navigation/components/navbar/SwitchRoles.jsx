@@ -1,19 +1,16 @@
-import React from "react";
 import {
   Accordion,
   AccordionItem,
   Listbox,
   ListboxItem,
-  Link,
 } from "@nextui-org/react";
+import { useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
-import { useAtomValue, useSetAtom } from "jotai";
 import { roleAtom } from "../../store/NavSideBarStore";
 
 export function SwitchRoles() {
   const setRole = useSetAtom(roleAtom);
-  const role = useAtomValue(roleAtom);
-  console.log("ROLE CHOSEN: ", role);
+
   return (
     <Accordion isCompact className="text-base font-medium">
       <AccordionItem
@@ -33,16 +30,16 @@ export function SwitchRoles() {
           }}
         >
           <ListboxItem key="admin" href="/admin">
-            Admin
+            {"Admin"}
           </ListboxItem>
           <ListboxItem key="tl" href="/tl">
-            Team Lead
+            {"Team Lead"}
           </ListboxItem>
           <ListboxItem key="hr" href="/hr">
-            HR
+            {"HR"}
           </ListboxItem>
           <ListboxItem key="user" href="/user">
-            User
+            {"User"}
           </ListboxItem>
         </Listbox>
       </AccordionItem>

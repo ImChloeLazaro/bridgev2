@@ -1,20 +1,14 @@
-import React from "react";
-import RecognitionOptions from "./RecognitionOptions";
-import { recognitionsAtom } from "../../store/RecognitionsStore";
-
 import { Listbox, ListboxItem } from "@nextui-org/react";
-
-import { BiDotsVerticalRounded } from "react-icons/bi";
-
 import {
-  format,
-  differenceInMinutes,
-  differenceInHours,
   differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  format,
 } from "date-fns";
-import { enAU } from "date-fns/locale/en-AU";
-
-import { useAtomValue, useAtom } from "jotai";
+import { useAtomValue } from "jotai";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { recognitionsAtom } from "../../store/RecognitionsStore";
+import RecognitionOptions from "./RecognitionOptions";
 
 const RecognitionList = () => {
   const recognitions = useAtomValue(recognitionsAtom);

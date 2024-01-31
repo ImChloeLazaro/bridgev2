@@ -1,9 +1,7 @@
-import React from "react";
-import { userAtom } from "../../../store/UserStore";
-
 import { useAtomValue } from "jotai";
+import { userAtom } from "../../../../store/UserStore";
 
-const EmergencyContactCard = () => {
+const EmergencyContactContent = () => {
   const user = useAtomValue(userAtom);
 
   return (
@@ -38,4 +36,4 @@ const EmergencyContactCard = () => {
   );
 };
 
-export default EmergencyContactCard;
+export default EmergencyContactContent;
