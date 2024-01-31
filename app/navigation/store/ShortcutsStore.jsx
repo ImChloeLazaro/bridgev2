@@ -31,9 +31,10 @@ export const fetchedShortcutAtom = atom(null, async (get, set) => {
     const { body } = await restOperation.response;
     const result = await body.json();
     const response = result.response;
-
+    console.log(response)
     const mappedShortcuts = Array.isArray(response)
       ? response.map((item, index) => ({
+          _id: item._id,
           id: (index += 1),
           key: `sct-${index}`,
           label: item.title,

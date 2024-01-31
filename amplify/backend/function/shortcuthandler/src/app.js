@@ -68,22 +68,28 @@ app.post('/shortcut', async function (req, res) {
 });
 
 app.put('/shortcut', async function (req, res) {
+  const { _id, title, url } = req.body
+
   try {
-    const updateShortcut = await shortcutModel.updateOne({
-      _id: "65b05de8d877ae064bf4ce0b"
+    await shortcutModel.updateOne({
+      _id
     }, {
-      title: "ako lang to anak ni rizal"
+      title,
+      url
     })
-    res.json({ success: true, response: updateShortcut })
+    res.json({ success: true, response: 'SHORTCUT UPDATE SUCCESSFULLY' })
   } catch (error) {
     throw error
   }
 });
 
 app.delete('/shortcut', async function (req, res) {
+   const {_id} = req.query
   try {
-    const deleteShortcut = await shortcutModel.deleteOne({"_id" : "65b05de8d877ae064bf4ce0b"})
-    res.json({ success: true, response: deleteShortcut });
+    await shortcutModel.deleteOne({
+      _id
+    })
+    res.json({ success: true, response: 'DELETE SUCCESS' });
   } catch (error) {
     throw error
   }
