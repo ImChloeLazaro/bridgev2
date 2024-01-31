@@ -34,7 +34,7 @@ app.get('/shortcut', async function (req, res) {
     const shortcutQuery = await shortcutModel.find({
       sub: query.sub
     })
-    res.status(200).json({ response: shortcutQuery })
+    res.status(200).json({ response: 'INSERT SUCCESS' })
   } catch (error) {
     throw error
   }
@@ -77,7 +77,7 @@ app.put('/shortcut', async function (req, res) {
       title,
       url
     })
-    res.json({ success: true, response: 'SHORTCUT UPDATE SUCCESSFULLY' })
+    res.json({ success: true, response: 'UPDATE SUCCESS' })
   } catch (error) {
     throw error
   }
