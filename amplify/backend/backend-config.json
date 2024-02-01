@@ -33,6 +33,14 @@
           ],
           "category": "function",
           "resourceName": "userhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "notificationhandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -77,6 +85,12 @@
     },
     "S3Triggere0041d22": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "notificationhandler": {
+      "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -132,6 +146,14 @@
         {
           "category": "function",
           "resourceName": "S3Triggere0041d22"
+        }
+      ]
+    },
+    "AMPLIFY_function_notificationhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notificationhandler"
         }
       ]
     },

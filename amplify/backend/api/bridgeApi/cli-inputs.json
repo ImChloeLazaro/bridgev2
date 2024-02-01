@@ -52,6 +52,19 @@
           "delete"
         ]
       }
+    },
+    "/notification": {
+      "name": "/notification",
+      "lambdaFunction": "notificationhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }
