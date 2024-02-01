@@ -6,8 +6,8 @@ const BirthdayCard = () => {
     <NextImage
       //   width={500}
       // height={200}
-      // priority={true}
-      alt="NextUI Fruit Image with Zoom"
+      priority={true}
+      alt="Birthday GIF"
       src={Birthday}
 
       className="rounded-xl"

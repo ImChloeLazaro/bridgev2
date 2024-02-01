@@ -1,8 +1,8 @@
 import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
-import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
+import ImagePostCarouselModal from "./ImagePostCarouselModal";
 
-const FiveMedia = ({ data, type }) => {
+const FiveMedia = ({ data, orientation }) => {
   const filteredPost = data.slice(0, 5);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -21,14 +21,14 @@ const FiveMedia = ({ data, type }) => {
   };
 
   const featuredMedia = (index) => {
-    if (type === "portrait") {
+    if (orientation === "portrait") {
       if (index === 0) return "row-span-3 col-span-4";
       if (index === 1) return "row-span-3 col-span-4";
       if (index === 2) return "row-span-2 col-span-2";
       if (index === 3) return "row-span-2 col-span-2";
       if (index === 4) return "row-span-2 col-span-2";
     }
-    if (type === "landscape") {
+    if (orientation === "landscape") {
       if (index === 0) return "row-span-4 col-span-3";
       if (index === 1) return "row-span-4 col-span-3";
       if (index === 2) return "row-span-2 col-span-2";
@@ -38,8 +38,8 @@ const FiveMedia = ({ data, type }) => {
   };
 
   return (
-    <div className={`${layout[type]}`}>
-      <ImagePostCarousel
+    <div className={`${layout[orientation]}`}>
+      <ImagePostCarouselModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}

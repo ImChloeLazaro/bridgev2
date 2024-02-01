@@ -146,7 +146,7 @@ export const postAtom = atom([
     title: "REX OCTOBER WINNER 2023",
     caption:
       "Jenny has received great feedback from several of her clients for her outstanding contribution to their business with a determined focus on quality. She has been exceeding their expectations daily, and they know they can rely on Jenny to handle the necessary tasks sp they can focus on running their business and serving their clients. To quote Dr. Kim's exact words, 'doing the grunt work of the business in the background', showing the trust that her clients place on Jenny to handle their needs when they're on vacation or doing other high level tasks for their business. Well done Jenny, a deserving winner of Rex for September. \n\n-Kamille Ferareza",
-    type: "recognition",
+    type: "award",
     reactionsList: ["star"],
     reacted: false,
     reactions: {

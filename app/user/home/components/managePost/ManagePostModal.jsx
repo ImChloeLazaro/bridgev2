@@ -1,5 +1,7 @@
 import {
-  Button, Divider, Input,
+  Button,
+  Divider,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -11,9 +13,12 @@ import {
 } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
+import { MdFileUpload } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import { templateItemsAtom } from "../../store/ManagePostStore";
 import ReactionSelect from "./ReactionSelect";
+import ManagePostSidebar from "./ManagePostSidebar";
+import ManagePostMainContent from "./ManagePostMainContent";
 
 // ### TODO Add Functionality
 
@@ -42,95 +47,28 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       isDismissable={isDismissable}
+      hideCloseButton
+      size={"5xl"}
+      scrollBehavior={"outside"}
+      // placement={"center"}
+      classNames={{
+        // inset-x-16 inset-y-8 inset-0 top-8 left-16
+        wrapper: "h-full my-0 p-0",
+        base: "h-full my-0 p-0 bg-transparent shadow-none sm:my-2 sm:fixed sm:inset-x-6",
+      }}
     >
       <ModalContent>
         {(onClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">
-              <p className="text-2xl">{"Community Post"}</p>
-              <p className="text-xs font-normal">
-                {"Manage your community posts here"}
-              </p>
-            </ModalHeader>
-            <ModalBody className="pt-0">
-              {/*Template Settings */}
-              <Divider />
-              <div className="flex justify-start items-center gap-1">
-                <p className="font-bold">{"Template Settings"}</p>
-                <MdInfoOutline />
+          <ModalBody>
+            <div className="flex max-w-screen max-h-screen">
+              <div className="basis-2/5 max-w-[30rem] bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
+                <ManagePostSidebar />
               </div>
-              <div className="flex justify-between items-center gap-5">
-                <p className="font-normal">{"Type"}</p>
-                <Select
-                  size={"sm"}
-                  items={templateItems}
-                  placeholder="Custom"
-                  className="max-w-xs"
-                >
-                  {(template) => (
-                    <SelectItem key={template.value}>
-                      {template.label}
-                    </SelectItem>
-                  )}
-                </Select>
+              <div className="basis-3/5 h-full max-h-screen bg-background rounded-r-lg border-darkgrey-default/40">
+                <ManagePostMainContent onClose={onClose} />
               </div>
-              <div className="flex justify-between items-center gap-5">
-                <p className="font-normal">{"Reaction"}</p>
-                <ReactionSelect />
-              </div>
-
-              {/*Media */}
-              <Divider />
-              <div className="flex justify-start items-center gap-1">
-                <p className="font-bold">{"Media"}</p>
-                <MdInfoOutline />
-              </div>
-              <div className="w-full h-40"></div>
-              <div className="flex justify-start items-center gap-5">
-                <p className="font-bold">{"Files"}</p>
-                <div className="flex gap-2">
-                  <Button>{"Add Picture"}</Button>
-                  <Button>{"Add Video"}</Button>
-                </div>
-              </div>
-
-              {/*Description*/}
-              <Divider />
-              <div className="flex justify-start items-center gap-1">
-                <p className="font-bold">{"Description"}</p>
-                <MdInfoOutline />
-              </div>
-              <div className="flex justify-between items-center gap-5">
-                <p className="font-normal w-10">{"Title"}</p>
-                <Input fullWidth size="sm" label="Give your post a name" />
-              </div>
-              <div className="flex justify-between items-center gap-5">
-                <p className="font-normal w-10">{"Tag People"}</p>
-                <ReactionSelect />
-              </div>
-              <div className="flex justify-between items-center gap-5">
-                <p className="font-normal w-10">{"Caption"}</p>
-                <Textarea
-                  placeholder="Enter your description"
-                  className="max-w-xs"
-                />
-              </div>
-            </ModalBody>
-            <ModalFooter className="flex justify-end">
-              <CTAButtons
-                fullWidth={true}
-                label={actionButtons.edit.label}
-                color={actionButtons.edit.color}
-                onPress={actionButtons.edit.action}
-              />
-              <CTAButtons
-                fullWidth={true}
-                label={actionButtons.save.label}
-                color={actionButtons.save.color}
-                onPress={actionButtons.save.action}
-              />
-            </ModalFooter>
-          </>
+            </div>
+          </ModalBody>
         )}
       </ModalContent>
     </Modal>

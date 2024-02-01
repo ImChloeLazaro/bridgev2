@@ -16,7 +16,7 @@ const UserLayout = ({ children }) => {
     user.isAuthenticated && (
       <div className="flex h-screen max-h-screen top-0">
         <SideBar />
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-screen">
           <div className="top-0">
             {!onboardingdata && <OnboardingStatusAlert/>}
             <NavigationBar />

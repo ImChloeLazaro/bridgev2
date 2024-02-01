@@ -1,16 +1,16 @@
 import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
-import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
+import ImagePostCarouselModal from "./ImagePostCarouselModal";
 
-const OneMedia = ({ data, type }) => {
+const OneMedia = ({ data, orientation }) => {
   const filteredPost = data.slice(0, 1);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState(0);
 
   const layout = {
-    multiple: "",
-    single:
+    landscape: "",
+    portrait:
       "gap-1.5 grid grid-cols-1 grid-rows-1 my-5 bg-white-default/60 h-[900px] px-4",
   };
 
@@ -20,8 +20,8 @@ const OneMedia = ({ data, type }) => {
   };
 
   return (
-    <div className={`${layout[type]}`}>
-      <ImagePostCarousel
+    <div className={`${layout[orientation]}`}>
+      <ImagePostCarouselModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}

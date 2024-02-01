@@ -6,8 +6,8 @@ const RexWinnerCard = () => {
     <NextImage
       //   width={500}
       // height={200}
-      // priority={true}
-      alt="NextUI Fruit Image with Zoom"
+      priority={true}
+      alt="Rex Winner GIF"
       src={RexWinner}
       className="rounded-xl"
     />
