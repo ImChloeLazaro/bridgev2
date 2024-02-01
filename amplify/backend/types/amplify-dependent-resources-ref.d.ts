@@ -20,6 +20,20 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "S3Trigger2a62b9a1": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "S3Triggere0041d22": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "posthandler": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
@@ -46,6 +60,12 @@ export type AmplifyDependentResourcesAttributes = {
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
+      "Region": "string"
+    }
+  },
+  "storage": {
+    "bridgeProductionStorage": {
+      "BucketName": "string",
       "Region": "string"
     }
   }
