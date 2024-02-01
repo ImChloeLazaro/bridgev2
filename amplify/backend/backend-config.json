@@ -70,6 +70,16 @@
     }
   },
   "function": {
+    "S3Trigger2a62b9a1": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "S3Triggere0041d22": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "posthandler": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -93,6 +103,46 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_S3Trigger2a62b9a1_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger2a62b9a1"
+        }
+      ]
+    },
+    "AMPLIFY_function_S3Trigger2a62b9a1_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger2a62b9a1"
+        }
+      ]
+    },
+    "AMPLIFY_function_S3Triggere0041d22_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Triggere0041d22"
+        }
+      ]
+    },
+    "AMPLIFY_function_S3Triggere0041d22_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Triggere0041d22"
+        }
+      ]
+    },
+    "AMPLIFY_function_posthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posthandler"
+        }
+      ]
+    },
     "AMPLIFY_function_posthandler_deploymentBucketName": {
       "usedBy": [
         {
@@ -190,5 +240,11 @@
       ]
     }
   },
-  "storage": {}
+  "storage": {
+    "bridgeProductionStorage": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
+  }
 }

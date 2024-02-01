@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "bridgev2907806c3_identitypool_907806c3",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "bridge907806c3",
     "userPoolName": "bridgev2907806c3_userpool_907806c3",
     "autoVerifiedAttributes": [

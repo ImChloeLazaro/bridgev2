@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const mongoose = require('mongoose')
 
 const app = express()
 app.use(bodyParser.json())
@@ -13,12 +14,19 @@ app.use(function(req, res, next) {
   next()
 });
 
-app.get('/post', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
-});
+mongoose.connect(process.env.DATABASE)
 
-app.get('/post/*', function(req, res) {
+const postSchema = mongoose.Schema({
+  sub: String,
+  title: String,
+  url: String,
+  createdBy: {
+    type: Date,
+    default: Date.now()
+  }
+})
+
+app.get('/post', function(req, res) {
   // Add your code here
   res.json({success: 'get call succeed!', url: req.url});
 });
@@ -28,27 +36,13 @@ app.post('/post', function(req, res) {
   res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
 
-app.post('/post/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
-
 app.put('/post', function(req, res) {
   // Add your code here
   res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
-app.put('/post/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
 
 app.delete('/post', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/post/*', function(req, res) {
   // Add your code here
   res.json({success: 'delete call succeed!', url: req.url});
 });

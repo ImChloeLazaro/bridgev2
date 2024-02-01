@@ -13,6 +13,7 @@ app.use(function (req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE)
+
 const applicationDetailsSchema = mongoose.Schema({
   first_name: String,
   last_name: String,
