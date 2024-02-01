@@ -1,8 +1,8 @@
 import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
-import ImagePostCarousel from "../mediaLayout/ImagePostCarousel";
+import ImagePostCarouselModal from "./ImagePostCarouselModal";
 
-const ThreeMedia = ({ data, type }) => {
+const ThreeMedia = ({ data, orientation }) => {
   const filteredPost = data.slice(0, 3);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -20,11 +20,11 @@ const ThreeMedia = ({ data, type }) => {
     setSelectedImage(index);
   };
 
-  const featuredMedia = type === "portrait" ? "first:row-span-2" : "";
+  const featuredMedia = orientation === "portrait" ? "first:row-span-2" : "";
 
   return (
-    <div className={`${layout[type]}`}>
-      <ImagePostCarousel
+    <div className={`${layout[orientation]}`}>
+      <ImagePostCarouselModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}

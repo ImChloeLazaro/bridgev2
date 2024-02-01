@@ -3,10 +3,17 @@ import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
 
 const SignInGoogle = ({ handler }) => {
+  const handleSignIn = () => {
+    try {
+      handler();
+    } catch (err) {
+      console.log("ERROR SIGNIN", err);
+    }
+  };
   return (
     <div className="">
       <Button
-        onClick={handler}
+        onClick={handleSignIn}
         as={Link}
         variant="light"
         className="justify-start bg-grey-default hover:bg-grey-hover w-full"

@@ -139,8 +139,8 @@ link: string,
 * Added `Trainings` Component
 * Added `RexWinner` Component
 * Added `Birthday` Component
-* Renamed `NewsFeed` to `MainContent`
-* Renamed `HighlightArea` to `RightBar`
+* Renamed Component `NewsFeed.jsx` to `MainContent.jsx`
+* Renamed Component `HighlightArea.jsx` to `RightBar.jsx`
 
 ## v.0.4.5
 
@@ -336,7 +336,7 @@ link: string,
 
 ## v.0.5.6.1 - hotfix
 
-* Renamed `OnboardingHeader.jsx` to `OnboardingStatusAlert.jsx` in `/app/components`
+* Renamed Component `OnboardingHeader.jsx` to `OnboardingStatusAlert.jsx` in `/app/components`
 * Fixed build error on `OnboardingStatusAlert.jsx` due to unescaped apostrophes
 
 ## v.0.5.7
@@ -371,9 +371,27 @@ link: string,
 * Updated `NavigationBar` Component to display `UserDropdown` and `Notifications` Component to the right.
 * Created a UI when user has already completed and submitted the onboarding form then redirects to the home page
 * Added `onboarding-already-done.jpg` illustration for `Onboarding` Page when user has already completed and submitted the onboarding form
-* Renamed `onboarding.jpg` to `onboarding-done-submitted.jpg`
+* Renamed Image Media `onboarding.jpg` to `onboarding-done-submitted.jpg`
 
 ## v.0.5.7.1 - hotfix
 
 * Missing closing bracket in `ShortcutsOptionsModal` Component
-* Pulled backend resources
+* Pulled backend resources from amplify
+
+## v.0.5.8
+
+* Fixed Navigation Bar Alignment
+* Renamed Component `ImagePostCarousel.jsx` to `ImagePostCarouselModal.jsx`
+* Changed type `recognition` to `award` in `PostStore.jsx`
+* Added functionality to `ManagePost` Components
+* Added `PostTemplateStore` for Post Template Components
+* Added `TagPersonSelect` Component
+* Added `ManagePostSidebarContent` Component
+* Renamed `type` prop to `orientation` for `MediaLayout` Component
+* Renamed `single` key to `portrait` in`layout` for `OneMedia` Component to match consistency from sibling components
+* Renamed `multiple` key to `landscape` in`layout` for `OneMedia` Component to match consistency from sibling components
+* Added functionality for `ReactionSelect` Component
+* Added functionality for `TagPersonSelect` Component
+* Added `SearchBar` Component
+* Added `ManagePostTabs` Component
+* Added `PostItemCard` Component

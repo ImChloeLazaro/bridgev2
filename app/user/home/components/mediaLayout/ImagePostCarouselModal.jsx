@@ -1,7 +1,7 @@
 import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
-import ImageSwiper from "../mediaLayout/ImageSwiper";
+import ImageSwiper from "./ImageSwiper";
 
-const ImagePostCarousel = ({
+const ImagePostCarouselModal = ({
   isOpen,
   onOpenChange,
   isDismissable,
@@ -36,4 +36,4 @@ const ImagePostCarousel = ({
   );
 };
 
-export default ImagePostCarousel;
+export default ImagePostCarouselModal;

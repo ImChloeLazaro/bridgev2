@@ -8,17 +8,17 @@ import TwoMedia from "../mediaLayout/TwoMedia";
 const MediaLayout = ({ data }) => {
   const imageCount = data.length;
   const displayMedia = {
-    1: <OneMedia data={data} type={"single"} />,
-    2: <TwoMedia data={data} type={"landscape"} />,
-    3: <ThreeMedia data={data} type={"landscape"} />,
-    4: <FourMedia data={data} type={"landscape"} />,
-    5: <FiveMedia data={data} type={"landscape"} />,
+    1: <OneMedia data={data} orientation={"portrait"} />,
+    2: <TwoMedia data={data} orientation={"landscape"} />,
+    3: <ThreeMedia data={data} orientation={"landscape"} />,
+    4: <FourMedia data={data} orientation={"landscape"} />,
+    5: <FiveMedia data={data} orientation={"landscape"} />,
   };
 
   return (
     <div className=" w-full justify-center items-center p-0 m-0 bg-white-default h-[58rem]">
       {imageCount > 5 ? (
-        <SixPlusMedia data={data} type={"landscape"} />
+        <SixPlusMedia data={data} orientation={"landscape"} />
       ) : (
         displayMedia[imageCount]
       )}

@@ -29,7 +29,7 @@ const NavigationBar = () => {
       onMenuOpenChange={setIsMenuOpen}
       position="static"
       // className="md:bg-blue-default"
-      classNames={{ base: "m-0 p-0 md:bg-blue-default", wrapper: "w-full max-w-full mr-16 pr-16 py-2" }}
+      classNames={{ base: "m-0 p-0 md:bg-blue-default", wrapper: "w-screen max-w-screen mr-16 pr-16 py-2" }}
     >
       {/* <NavbarContent>
         <NavbarMenuToggle
