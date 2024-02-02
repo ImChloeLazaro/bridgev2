@@ -6,7 +6,7 @@ const RexWinnerCard = () => {
     <NextImage
       //   width={500}
       // height={200}
-      priority={true}
+      // priority={true}
       alt="Rex Winner GIF"
       src={RexWinner}
       className="rounded-xl"

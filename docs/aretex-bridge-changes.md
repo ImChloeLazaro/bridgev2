@@ -344,6 +344,7 @@ link: string,
 * Cleaned up and refactored source code
 * Organized Project Structure
 * Removed unused imports and dead code
+* Updated atom hooks for all Components
 * Updated Changelog
 * Added an authentication check where it checks if `user` is already signed in
 * Added `onboarding` validation to check if user has `onboarding` data already
@@ -380,7 +381,9 @@ link: string,
 
 ## v.0.5.8
 
-* Fixed Navigation Bar Alignment
+* Moved all rest api functions in `amplify-rest.js` in `/app/utils/` to be reusable across all components
+* Added backend functions for editing and deleting shortcut
+* Added file upload functions for posting
 * Renamed Component `ImagePostCarousel.jsx` to `ImagePostCarouselModal.jsx`
 * Changed type `recognition` to `award` in `PostStore.jsx`
 * Added functionality to `ManagePost` Components
@@ -395,3 +398,9 @@ link: string,
 * Added `SearchBar` Component
 * Added `ManagePostTabs` Component
 * Added `PostItemCard` Component
+
+## v.0.5.9
+
+* Fixed Navigation Bar Alignment
+* Adjusted right padding in `Rightbar` Component for easier scrolling
+* Added notification function for notifications

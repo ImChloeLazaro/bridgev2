@@ -6,7 +6,7 @@ const BirthdayCard = () => {
     <NextImage
       //   width={500}
       // height={200}
-      priority={true}
+      // priority={true}
       alt="Birthday GIF"
       src={Birthday}
 

@@ -3,7 +3,10 @@ import {
   Navbar,
   NavbarContent,
   NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
   NavbarMenuToggle,
+  Link
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
@@ -29,7 +32,7 @@ const NavigationBar = () => {
       onMenuOpenChange={setIsMenuOpen}
       position="static"
       // className="md:bg-blue-default"
-      classNames={{ base: "m-0 p-0 md:bg-blue-default", wrapper: "w-screen max-w-screen mr-16 pr-16 py-2" }}
+      classNames={{ base: "flex justify-end m-0 p-0 md:bg-blue-default", wrapper: "mr-16 pr-16 py-2" }}
     >
       {/* <NavbarContent>
         <NavbarMenuToggle
@@ -57,7 +60,7 @@ const NavigationBar = () => {
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>
-      {/* <NavbarMenu>
+      <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
@@ -70,7 +73,7 @@ const NavigationBar = () => {
             </Link>
           </NavbarMenuItem>
         ))}
-      </NavbarMenu> */}
+      </NavbarMenu>
     </Navbar>
   );
 };

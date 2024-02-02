@@ -38,7 +38,7 @@ export const postTemplateSettingsAtom = atom({
     reactionList: ["star"],
     mediaLayout: "",
     orientation: "landscape",
-    title: "",
+    title: "one",
     tagPeople: "all",
     caption: "",
   },

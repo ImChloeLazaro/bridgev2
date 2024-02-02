@@ -1,4 +1,4 @@
-const ChipTag = ({ text, color }) => {
+const ChipTag = ({ text, color, size='sm' }) => {
   const colorVariants = {
     red: "text-red-default bg-red-default/20",
     orange: "text-orange-default bg-orange-default/20",
@@ -9,10 +9,17 @@ const ChipTag = ({ text, color }) => {
     clear: "bg-transparent bg-transparent",
   };
 
+  const sizeVariants = {
+    xs: "text-xs",
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg",
+  }
+
   return (
     <div className={`flex justify-center max-w-fit`}>
       <p
-        className={`capitalize ${colorVariants[color]} font-bold py-0.5 px-2 rounded`}
+        className={`capitalize ${colorVariants[color]} ${sizeVariants[size]} font-bold py-0.5 px-2 rounded`}
       >
         {text}
       </p>

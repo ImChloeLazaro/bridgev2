@@ -52,7 +52,6 @@ const TagPersonSelect = () => {
       variant="bordered"
       isMultiline={true}
       selectionMode="multiple"
-    //   description="This will be the displayed reaction on your post"
       placeholder="Tag people"
       labelPlacement="outside"
       defaultSelectedKeys={"all"}
