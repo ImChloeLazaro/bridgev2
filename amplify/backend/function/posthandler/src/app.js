@@ -16,15 +16,26 @@ app.use(function(req, res, next) {
 
 mongoose.connect(process.env.DATABASE)
 
+const taggedUserSchema = mongoose.Schema({
+  sub: String,
+  name: String,
+  email: String,
+})
+
 const postSchema = mongoose.Schema({
   sub: String,
   title: String,
-  url: String,
+  type: String,
+  caption : String,
+  media : String,
+  tagged_user : [taggedUserSchema],
   createdBy: {
     type: Date,
     default: Date.now()
   }
 })
+
+const postModel = mongoose.model('post', postSchema)
 
 app.get('/post', function(req, res) {
   // Add your code here

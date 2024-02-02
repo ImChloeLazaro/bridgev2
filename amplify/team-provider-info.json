@@ -45,6 +45,9 @@
         "S3Triggere0041d22": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
           "s3Key": "amplify-builds/S3Triggere0041d22-6e49312b6d2f6e6f4939-build.zip"
+        },
+        "notificationhandler": {
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         }
       },
       "api": {
