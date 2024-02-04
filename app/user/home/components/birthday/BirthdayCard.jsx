@@ -4,12 +4,11 @@ import Birthday from "../../../../assets/media/birthday.gif";
 const BirthdayCard = () => {
   return (
     <NextImage
-      //   width={500}
+      width={500}
       // height={200}
-      // priority={true}
+      priority={true}
       alt="Birthday GIF"
       src={Birthday}
-
       className="rounded-xl"
     />
   );

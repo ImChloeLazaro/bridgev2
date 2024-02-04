@@ -1,46 +1,23 @@
 import React from "react";
 import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { reactionIcons } from "../post/ReactionIcons";
-// ### TODO Add Functionality
-
-const reactions = [
-  {
-    id: 1,
-    key: "love",
-    label: "Love",
-    selectIcon: reactionIcons.love.badge,
-    displayIcon: reactionIcons.love.borderBadge,
-  },
-  {
-    id: 2,
-    key: "birthday",
-    label: "Birthday",
-    selectIcon: reactionIcons.birthday.badge,
-    displayIcon: reactionIcons.birthday.borderBadge,
-  },
-  {
-    id: 3,
-    key: "star",
-    label: "Star",
-    selectIcon: reactionIcons.star.badge,
-    displayIcon: reactionIcons.star.borderBadge,
-  },
-  {
-    id: 4,
-    key: "happy",
-    label: "Happy",
-    selectIcon: reactionIcons.happy.badge,
-    displayIcon: reactionIcons.happy.borderBadge,
-  },
-];
+import { reactionIcons } from "./ReactionIcons";
+import {
+  reactionsSelectionAtom,
+  selectedReactionsAtom,
+} from "../../store/ManagePostStore";
+import { useAtomValue, useAtom } from "jotai";
 
 const ReactionSelect = () => {
-  const [values, setValues] = React.useState(new Set([]));
+  const [selectedReactions, setSelectedReactions] = useAtom(
+    selectedReactionsAtom
+  );
+  const reactionsSelection = useAtomValue(reactionsSelectionAtom);
+
   return (
     <Select
       aria-label="Reaction Selection"
-      items={reactions}
+      items={reactionsSelection}
       variant="bordered"
       isMultiline={true}
       selectionMode="multiple"
@@ -48,10 +25,10 @@ const ReactionSelect = () => {
       placeholder="Select reaction/s"
       labelPlacement="outside"
       defaultSelectedKeys={"all"}
-      selectedKeys={values}
-      onSelectionChange={setValues}
+      selectedKeys={selectedReactions}
+      onSelectionChange={setSelectedReactions}
       classNames={{
-        base: "max-w-xs",
+        base: "max-w-sm",
         trigger: "min-h-unit-12 py-2",
       }}
       renderValue={(displayItems) => {
@@ -63,8 +40,8 @@ const ReactionSelect = () => {
                 key={displayItem.key}
                 startContent={displayItem.data.displayIcon}
                 onClose={() => {
-                  setValues(() =>
-                    Array.from(values).filter(
+                  setSelectedReactions(() =>
+                    Array.from(selectedReactions).filter(
                       (item) => item !== displayItem.key
                     )
                   );

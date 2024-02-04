@@ -9,6 +9,10 @@ import MediaLayout from "../mediaLayout/MediaLayout";
 import PostFooter from "./PostFooter";
 import PostHeader from "./PostHeader";
 
+// ### TODO render ui when post list is empty
+// ### TODO render ui when post has no media refer to twitter tweets
+// ### TODO fix media layout
+
 const PostCard = ({ data }) => {
   return (
     // mb-[number] for spacing between posts

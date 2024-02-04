@@ -387,6 +387,7 @@ link: string,
 * Renamed Component `ImagePostCarousel.jsx` to `ImagePostCarouselModal.jsx`
 * Changed type `recognition` to `award` in `PostStore.jsx`
 * Added functionality to `ManagePost` Components
+* Separated `ManagePost` Components into SideBar and MainContent layout
 * Added `PostTemplateStore` for Post Template Components
 * Added `TagPersonSelect` Component
 * Added `ManagePostSidebarContent` Component
@@ -401,6 +402,11 @@ link: string,
 
 ## v.0.5.9
 
-* Fixed Navigation Bar Alignment
+* Fixed `NavigationBar` alignment
 * Adjusted right padding in `Rightbar` Component for easier scrolling
 * Added notification function for notifications
+* Updated schema for `posthandler`
+* Added `notificationhandler` function
+* Fixed `ManagePostModal` Component alignment
+* Added `reaction` folder for reaction related components
+* Moved all reaction related components to `reaction` folder

@@ -15,8 +15,8 @@ import { useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import { MdFileUpload } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
-import { templateItemsAtom } from "../../store/ManagePostStore";
-import ReactionSelect from "./ReactionSelect";
+import { templateTypeSelectionAtom } from "../../store/ManagePostStore";
+import ReactionSelect from "../reaction/ReactionSelect";
 import ManagePostSidebar from "./ManagePostSidebar";
 import ManagePostMainContent from "./ManagePostMainContent";
 
@@ -24,7 +24,7 @@ import ManagePostMainContent from "./ManagePostMainContent";
 
 const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
   // console.log("MODAL", type);
-  const templateItems = useAtomValue(templateItemsAtom);
+  const templateItems = useAtomValue(templateTypeSelectionAtom);
 
   const handleEditTemplate = () => {
     console.log("EDITED TEMPLATE");

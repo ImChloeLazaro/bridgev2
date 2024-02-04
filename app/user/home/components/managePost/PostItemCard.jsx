@@ -9,39 +9,36 @@ import {
   Image,
   Avatar,
   AvatarGroup,
+
 } from "@nextui-org/react";
 import ChipTag from "@/app/components/ChipTag";
-import { reactionIcons } from "../post/ReactionIcons";
+import { reactionIcons } from "../reaction/ReactionIcons";
 import { MdPersonAdd } from "react-icons/md";
 
-const PostItemCard = ({ title, team }) => {
+const PostItemCard = ({ data }) => {
+
   return (
-    <Card className="max-w-[310px] h-fit scale-100 hover:scale-105">
+    // {/* border-blue-default border-2 */}
+    <Card className="max-w-[330px] h-fit scale-100 rounded-lg hover:scale-105 ml-2">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
-          name={
-            <p className="font-extrabold text-base">
-              Momentum / SEPTEMBER 2023
-            </p>
-          }
+          name={<p className="font-bold text-base">{data.title}</p>}
           avatarProps={{
             alt: "nextui logo",
             size: "sm",
-            src: "https://avatars.githubusercontent.com/u/86160567?s:200&v=4",
+            src: data.picture,
             width: "30",
             className: "w-[28px] h-[28px]",
           }}
           className="mb-1"
         />
 
-        <ChipTag text={"Aretex A-TEAM"} color={"blue"} size={"xs"} />
+        <ChipTag text={data.team} color={"lightblue"} size={"xs"} />
       </CardHeader>
 
       <CardBody className="py-0">
         <p className="font-medium text-sm tracking-tight leading-tight">
-          {
-            "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! "
-          }
+          {data.caption}
         </p>
         <div className="bg-grey-hover rounded-md mt-3 w-full h-32"></div>
       </CardBody>

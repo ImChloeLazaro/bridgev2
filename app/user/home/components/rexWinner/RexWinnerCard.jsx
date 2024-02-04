@@ -4,9 +4,9 @@ import RexWinner from "../../../../assets/media/rex winner.gif";
 const RexWinnerCard = () => {
   return (
     <NextImage
-      //   width={500}
+      width={500}
       // height={200}
-      // priority={true}
+      priority={true}
       alt="Rex Winner GIF"
       src={RexWinner}
       className="rounded-xl"

@@ -11,25 +11,27 @@ import {
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import { MdFileUpload } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
-import { templateItemsAtom } from "../../store/ManagePostStore";
-import ReactionSelect from "./ReactionSelect";
+import {
+  templateTypeSelectionAtom,
+  selectedTemplateTypeAtom,
+} from "../../store/ManagePostStore";
+import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
 import { useState } from "react";
 
-const ManagePostSidebarContent = () => {
+const ManagePostSidebarContent = ({ data }) => {
   // console.log("MODAL", type);
-  const [value, setValue] = useState(new Set([]));
+  const [templateType, setTemplateType] = useAtom(selectedTemplateTypeAtom);
 
-  const templateItems = useAtomValue(templateItemsAtom);
+  const templateItems = useAtomValue(templateTypeSelectionAtom);
 
   return (
-    <div className="w-full max-h-full overflow-y-scroll no-scrollbar">
-      <div className="flex flex-col py-4 px-6 gap-2 ">
-        <Divider />
+    <div className="w-full max-w-md max-h-full overflow-y-scroll no-scrollbar">
+      <div className="flex flex-col justify-between h-screen max-h-[50rem] py-2 px-6 gap-3 ">
         <div className="flex justify-start items-center gap-1">
           <p className="font-bold">{"Template Settings"}</p>
           <MdInfoOutline />
@@ -40,10 +42,10 @@ const ManagePostSidebarContent = () => {
             aria-label="Template Type Selection"
             items={templateItems}
             placeholder="Custom"
-            selectedKeys={value}
-            onSelectionChange={setValue}
+            selectedKeys={templateType}
+            onSelectionChange={setTemplateType}
             classNames={{
-              base: "max-w-xs",
+              base: "max-w-sm",
               trigger: "min-h-unit-12 py-2",
             }}
           >
@@ -63,10 +65,24 @@ const ManagePostSidebarContent = () => {
           <p className="font-bold">{"Media"}</p>
           <MdInfoOutline />
         </div>
-        <div className="w-full h-40"></div>
+        <div className="flex justify-start items-center gap-5 ">
+          <p className="font-normal w-24">{"Choose Layout"}</p>
+          <div className="w-full h-40 bg-grey-hover rounded-md my-2"></div>
+        </div>
         <div className="flex justify-start items-center gap-5">
-          <p className="font-bold">{"Files"}</p>
-          <Button startContent={<MdFileUpload size={24} />}>{"Upload"}</Button>
+          <p className="font-normal w-20">{"Files"}</p>
+          {/* <Button startContent={<MdFileUpload size={24} />}>
+             {"Upload"} 
+            
+          </Button> */}
+          <input
+            type="file"
+            id="post media"
+            name="post media"
+            accept=".jpg, .jpeg, .png"
+            multiple
+            className="border-none"
+          />
         </div>
 
         {/* Description */}
@@ -81,7 +97,7 @@ const ManagePostSidebarContent = () => {
             fullWidth
             size="sm"
             label="Give your post a name"
-            className=""
+            className="max-w-sm"
           />
         </div>
         <div className="flex justify-between items-center gap-5">
@@ -90,7 +106,7 @@ const ManagePostSidebarContent = () => {
         </div>
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Caption"}</p>
-          <Textarea placeholder="Enter your description" className="max-w-xs" />
+          <Textarea label="Give your post a caption" className="max-w-sm" />
         </div>
       </div>
     </div>

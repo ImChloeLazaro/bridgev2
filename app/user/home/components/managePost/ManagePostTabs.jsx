@@ -1,65 +1,47 @@
 import { Tabs, Tab, Chip } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  postStatusTabsAtom,
+  selectedPostStatusAtom,
+} from "../../store/ManagePostStore";
 
-const ManagePostTabs = () => {
+const ManagePostTabs = ({size}) => {
+  const postStatusTabs = useAtomValue(postStatusTabsAtom);
+  const [selectedPostStatus, setSelectedPostStatus] = useAtom(
+    selectedPostStatusAtom
+  );
   return (
     <Tabs
       variant="underlined"
       aria-label="Posts Navigation"
+      items={postStatusTabs}
       classNames={{
         tab: "pb-3",
         tabContent:
           "group-data-[selected=true]:text-blue-default text-black-default/90",
         cursor: "w-full bg-blue-default",
       }}
+      selectedKey={selectedPostStatus}
+      onSelectionChange={setSelectedPostStatus}
     >
-      <Tab
-        key="photos"
-        title={
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-blue-default">{"Drafts"}</span>
-            <Chip
-              radius="full"
-              size="sm"
-              variant="flat"
-              className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
-            >
-              {"12"}
-            </Chip>
-          </div>
-        }
-      />
-      <Tab
-        key="music"
-        title={
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-blue-default">{"Published"}</span>
-            <Chip
-              radius="full"
-              size="sm"
-              variant="flat"
-              className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
-            >
-              {"16"}
-            </Chip>
-          </div>
-        }
-      />
-      <Tab
-        key="videos"
-        title={
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-blue-default">{"Archived"}</span>
-            <Chip
-              radius="full"
-              size="sm"
-              variant="flat"
-              className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
-            >
-              {"8"}
-            </Chip>
-          </div>
-        }
-      />
+      {(tabs) => (
+        <Tab
+          key={tabs.key}
+          title={
+            <div className="flex items-center space-x-2">
+              <span className="font-bold text-blue-default">{tabs.title}</span>
+              <Chip
+                radius="full"
+                size="sm"
+                variant="flat"
+                className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
+              >
+                {tabs.count}
+              </Chip>
+            </div>
+          }
+        />
+      )}
     </Tabs>
   );
 };

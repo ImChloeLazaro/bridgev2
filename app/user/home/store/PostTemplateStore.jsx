@@ -5,63 +5,6 @@ import { atom } from "jotai";
 let index = 0;
 const iconSize = 20;
 
-export const postTemplateSettingsAtom = atom({
-  award: {
-    id: "award",
-    reactionList: ["star"],
-    mediaLayout: "one",
-    orientation: "landscape",
-    title: "",
-    tagPeople: "all",
-    caption: "",
-  },
-  birthday: {
-    id: "birthday",
-    reactionList: ["birthday"],
-    mediaLayout: "one",
-    orientation: "portrait",
-    title: "",
-    tagPeople: "all",
-    caption: "",
-  },
-  event: {
-    id: "event",
-    reactionList: ["happy"],
-    mediaLayout: "",
-    orientation: "landscape",
-    title: "",
-    tagPeople: "all",
-    caption: "",
-  },
-  feedback: {
-    id: "feedback",
-    reactionList: ["star"],
-    mediaLayout: "",
-    orientation: "landscape",
-    title: "one",
-    tagPeople: "all",
-    caption: "",
-  },
-  news: {
-    id: "news",
-    reactionList: ["love"],
-    mediaLayout: "",
-    orientation: "landscape",
-    title: "",
-    tagPeople: "all",
-    caption: "",
-  },
-  team: {
-    id: "team",
-    reactionList: ["star"],
-    mediaLayout: "",
-    orientation: "landscape",
-    title: "",
-    tagPeople: "all",
-    caption: "",
-  },
-});
-
 export const postTemplateItemsAtom = atom([
   {
     key: "choose",

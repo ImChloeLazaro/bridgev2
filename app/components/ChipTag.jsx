@@ -5,6 +5,7 @@ const ChipTag = ({ text, color, size='sm' }) => {
     yellow: "text-yellow-default bg-yellow-default/20",
     green: "text-green-default bg-green-default/20",
     blue: "text-blue-default bg-blue-default/20",
+    lightblue: "text-lightblue-default bg-lightblue-default/20",
     black: "text-black-default bg-black-default/20",
     clear: "bg-transparent bg-transparent",
   };

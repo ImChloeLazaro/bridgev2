@@ -78,7 +78,7 @@ const SearchBar = () => {
             </span>
           </div>
         }
-        classNames={{ inputWrapper: ["bg-white-default rounded-l-none"] }}
+        classNames={{ inputWrapper: ["bg-white-default rounded-l-none"], mainWrapper:["w-64"] }}
       />
     </div>
   );

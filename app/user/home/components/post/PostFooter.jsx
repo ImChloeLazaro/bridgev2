@@ -1,8 +1,8 @@
 import { Divider } from "@nextui-org/react";
 import CommentButton from "./CommentButton";
 import CommentCount from "./CommentCount";
-import ReactionButton from "./ReactionButton";
-import ReactionCount from "./ReactionCount";
+import ReactionButton from "../reaction/ReactionButton";
+import ReactionCount from "../reaction/ReactionCount";
 
 const PostFooter = ({ data }) => {
   return (

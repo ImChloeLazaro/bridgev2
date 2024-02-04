@@ -16,8 +16,8 @@ import { MdInfoOutline } from "react-icons/md";
 import { MdFileUpload } from "react-icons/md";
 import { MdMinimize } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
-import { templateItemsAtom } from "../../store/ManagePostStore";
-import ReactionSelect from "./ReactionSelect";
+import { postTemplatesAtom, selectedTemplateTypeAtom } from "../../store/ManagePostStore";
+import ReactionSelect from "../reaction/ReactionSelect";
 import ManagePostSidebarContent from "./ManagePostSidebarContent";
 import CloseButton from "@/app/components/CloseButton";
 
@@ -25,7 +25,8 @@ import CloseButton from "@/app/components/CloseButton";
 
 const ManagePostSidebar = () => {
   // console.log("MODAL", type);
-  const templateItems = useAtomValue(templateItemsAtom);
+  const postTemplates = useAtomValue(postTemplatesAtom);
+  const templateType = useAtomValue(selectedTemplateTypeAtom);
 
   const handleEditTemplate = () => {
     console.log("EDITED TEMPLATE");
@@ -44,16 +45,18 @@ const ManagePostSidebar = () => {
   };
 
   return (
-    <>
-      <div className="flex justify-between items-start py-4 px-6">
-        <div className="flex-col">
-          <p className="text-2xl">{"Community Post"}</p>
-          <p className="text-xs font-normal">
+    <div className="flex-col py-4">
+      {/* <div className="flex justify-between items-start"> */}
+        <div className="flex-col py-2 px-6">
+          <p className="text-2xl font-bold">{"Community Post"}</p>
+          <p className="text-xs font-normal mb-4">
             {"Manage your community posts here"}
           </p>
+          <Divider />
         </div>
-      </div>
-      <ManagePostSidebarContent />
+      {/* </div> */}
+      
+      <ManagePostSidebarContent data={postTemplates}/>
       <div className="flex justify-end py-4 px-6 gap-8">
         <CTAButtons
           fullWidth={true}
@@ -68,7 +71,7 @@ const ManagePostSidebar = () => {
           onPress={actionButtons.save.action}
         />
       </div>
-    </>
+    </div>
   );
 };
 

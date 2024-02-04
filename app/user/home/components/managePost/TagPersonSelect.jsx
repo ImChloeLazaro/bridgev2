@@ -1,64 +1,32 @@
 import { useState } from "react";
 import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { reactionIcons } from "../post/ReactionIcons";
-// ### TODO Add Functionality
-
-const people = [
-  {
-    id: 1,
-    name:"Tatiana Philips",
-    email:"tatiana.philips@aretex.com.au",
-    picture: "/Tatiana Philips.png",
-  },
-  {
-    id: 2,
-    name:"Aspen Donin",
-    email:"aspen.donin@aretex.com.au",
-    picture: "/Aspen Donin.png",
-  },
-  {
-    id: 3,
-    name:"Kaylynn Bergson",
-    email:"kaylynn.bergson@aretex.com.au",
-    picture: "/Kaylynn Bergson.png",
-  },
-  {
-    id: 4,
-    name:"Madelyn Septimus",
-    email:"madelyn.septimus@aretex.com.au",
-    picture: "/Madelyn Septimus.png",
-  },
-  {
-    id: 5,
-    name:"Skylar Curtis",
-    email:"skylar.curtis@aretex.com.au",
-    picture: "/Skylar Curtis.png",
-  },
-  {
-    id: 6,
-    name:"Wilson Herwitz",
-    email:"wilson.herwitz@aretex.com.au",
-    picture: "/Wilson Herwitz.png",
-  },
-];
+import { reactionIcons } from "../reaction/ReactionIcons";
+import {
+  taggedPeopleAtom,
+  taggedPeopleListAtom,
+} from "../../store/ManagePostStore";
+import { useAtomValue, useAtom } from "jotai";
+import { MdGroups } from "react-icons/md";
 
 const TagPersonSelect = () => {
-  const [values, setValues] = useState(new Set([]));
+  const [taggedPeople, setTaggedPeople] = useAtom(taggedPeopleAtom);
+  const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
+
   return (
     <Select
       aria-label="Tag People Selection"
-      items={people}
+      items={taggedPeopleList}
       variant="bordered"
       isMultiline={true}
       selectionMode="multiple"
       placeholder="Tag people"
       labelPlacement="outside"
       defaultSelectedKeys={"all"}
-      selectedKeys={values}
-      onSelectionChange={setValues}
+      selectedKeys={taggedPeople}
+      onSelectionChange={setTaggedPeople}
       classNames={{
-        base: "max-w-xs",
+        base: "max-w-sm max-h-xs",
         trigger: "min-h-unit-12 py-2",
       }}
       renderValue={(displayItems) => {
@@ -70,14 +38,18 @@ const TagPersonSelect = () => {
                 key={displayItem.key}
                 startContent={displayItem.data.picture}
                 onClose={() => {
-                  setValues(() =>
-                    Array.from(values).filter(
+                  setTaggedPeople(() =>
+                    Array.from(taggedPeople).filter(
                       (item) => item !== displayItem.key
                     )
                   );
                 }}
               >
-                {displayItem.data.name}
+                {displayItem.data.picture ? (
+                  <p className="font-sm">{displayItem.data.name}</p>
+                ) : (
+                  <p className="font-bold">{displayItem.data.name}</p>
+                )}
               </Chip>
             ))}
           </div>
@@ -87,9 +59,21 @@ const TagPersonSelect = () => {
       {(person) => (
         <SelectItem key={person.id} textValue={person.name}>
           <div className="flex gap-2 items-center">
-            <Avatar alt={person.name} className="flex-shrink-0" size="sm" src={person.picture} />
+            <Avatar
+              alt={person.name}
+              size="sm"
+              src={person.picture}
+              showFallback
+              fallback={<MdGroups size={18} />}
+              className="flex-shrink-0 bg-blue-default text-white-default"
+            />
             <div className="flex flex-col">
-              <span className="text-small">{person.name}</span>
+              {person.picture ? (
+                <span className="text-small ">{person.name}</span>
+              ) : (
+                <span className="text-small font-bold">{person.name}</span>
+              )}
+
               <span className="text-tiny text-default-400">{person.email}</span>
             </div>
           </div>
