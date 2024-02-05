@@ -2,38 +2,54 @@ import { atom } from "jotai";
 import { reactionIcons } from "../components/reaction/ReactionIcons";
 import { userAtom } from "@/app/store/UserStore";
 
+
+
+let templateIndex = 0;
 export const templateTypeSelectionAtom = atom([
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "Custom",
     value: "custom",
   },
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "Award",
     value: "award",
   },
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "Team",
     value: "team",
   },
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "Feedback",
     value: "feedback",
   },
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "News",
     value: "news",
   },
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "Events",
     value: "events",
   },
   {
+    key: `template-${(templateIndex += 1)}`,
     label: "Birthday",
     value: "birthday",
   },
 ]);
 
-export const selectedTemplateTypeAtom = atom(new Set([]));
+export const templateTypeCountAtom = atom(
+  (get) => get(templateTypeSelectionAtom).length
+);
+
+export const selectedTemplateTypeAtom = atom(new Set(["custom"]));
+
+export const templateNameAtom = atom("");
 
 export const reactionsSelectionAtom = atom([
   {
@@ -76,7 +92,7 @@ let taggedIndex = 0;
 export const taggedPeopleListAtom = atom([
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "all",
     name: "@all",
     email: "tagged everyone",
     picture: null,
@@ -84,7 +100,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "team",
     name: "@team",
     email: "tagged your team",
     picture: null,
@@ -92,7 +108,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "tatiana philips", // ### TODO employee id for reference
     name: "Tatiana Philips",
     email: "tatiana.philips@aretex.com.au",
     picture: "/Tatiana Philips.png",
@@ -100,7 +116,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "aspen donin",
     name: "Aspen Donin",
     email: "aspen.donin@aretex.com.au",
     picture: "/Aspen Donin.png",
@@ -108,7 +124,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "kaylynn bergson",
     name: "Kaylynn Bergson",
     email: "kaylynn.bergson@aretex.com.au",
     picture: "/Kaylynn Bergson.png",
@@ -116,7 +132,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "madelyn septimus",
     name: "Madelyn Septimus",
     email: "madelyn.septimus@aretex.com.au",
     picture: "/Madelyn Septimus.png",
@@ -124,7 +140,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "skylar curtis",
     name: "Skylar Curtis",
     email: "skylar.curtis@aretex.com.au",
     picture: "/Skylar Curtis.png",
@@ -132,7 +148,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: `tagged-${taggedIndex}`,
+    key: "wilson herwitz",
     name: "Wilson Herwitz",
     email: "wilson.herwitz@aretex.com.au",
     picture: "/Wilson Herwitz.png",
@@ -140,7 +156,11 @@ export const taggedPeopleListAtom = atom([
   },
 ]);
 
-export const taggedPeopleAtom = atom(new Set([]));
+export const taggedPeopleCountAtom = atom(
+  (get) => get(taggedPeopleListAtom).length
+);
+
+export const selectedTaggedPeopleAtom = atom(new Set([]));
 
 export const postCaptionAtom = atom("");
 
@@ -148,6 +168,7 @@ let postTemplatesIndex = 0;
 export const postTemplatesAtom = atom([
   {
     id: (postTemplatesIndex += 1),
+    name: "Award",
     type: "award",
     reactionList: ["star"],
     mediaLayout: "one",
@@ -158,6 +179,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    name: "Birthday",
     type: "birthday",
     reactionList: ["birthday"],
     mediaLayout: "one",
@@ -169,16 +191,18 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
-    type: "event",
+    name: "Events",
+    type: "events",
     reactionList: ["happy"],
     mediaLayout: "",
     orientation: "landscape",
     title: "LOOK HERE!!!",
     tagPeople: ["all"],
-    caption: "",
+    caption: "Witness what we have prepared for you and hope that you enjoy!!!",
   },
   {
     id: (postTemplatesIndex += 1),
+    name: "Feedback",
     type: "feedback",
     reactionList: ["star"],
     mediaLayout: "",
@@ -189,6 +213,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    name: "News",
     type: "news",
     reactionList: ["love"],
     mediaLayout: "",
@@ -199,6 +224,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    name: "Team",
     type: "team",
     reactionList: ["star"],
     mediaLayout: "",
@@ -209,6 +235,10 @@ export const postTemplatesAtom = atom([
   },
 ]);
 
+export const postTemplatesCountAtom = atom(
+  (get) => get(postTemplatesAtom).length
+);
+
 export const selectedTemplateAtom = atom();
 
 export const reactionListAtom = atom();
@@ -217,6 +247,7 @@ let draftIndex = 0;
 export const draftPostListAtom = atom([
   {
     id: (draftIndex += 1),
+    type: "news",
     key: `draft-${draftIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
@@ -230,6 +261,7 @@ export const draftPostListAtom = atom([
   },
   {
     id: (draftIndex += 1),
+    type: "team",
     key: `draft-${draftIndex}`,
     title: "Momentum = SEPTEMBER 2023",
     picture: "/Madelyn Septimus.png",
@@ -243,6 +275,7 @@ export const draftPostListAtom = atom([
   },
   {
     id: (draftIndex += 1),
+    type: "team",
     key: `draft-${draftIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
@@ -256,6 +289,7 @@ export const draftPostListAtom = atom([
   },
   {
     id: (draftIndex += 1),
+    type: "news",
     key: `draft-${draftIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
@@ -269,6 +303,7 @@ export const draftPostListAtom = atom([
   },
   // {
   //   id: (draftIndex += 1),
+  //   type: "feedback",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -282,6 +317,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "feedback",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -295,6 +331,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "feedback",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -308,6 +345,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "birthday",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -321,6 +359,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "team",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -334,6 +373,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "team",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -347,6 +387,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "news",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -360,6 +401,7 @@ export const draftPostListAtom = atom([
   // },
   // {
   //   id: (draftIndex += 1),
+  //   type: "birthday",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
@@ -373,6 +415,7 @@ export const draftPostListAtom = atom([
   // },
 ]);
 
+export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
 export const addDraftPostAtom = atom(null, (get, set, update) => {});
 export const selectedDraftPostAtom = atom([]);
 
@@ -380,7 +423,8 @@ let publishIndex = 0;
 export const publishedPostListAtom = atom([
   {
     id: (publishIndex += 1),
-    key: `draft-${publishIndex}`,
+    type: "award",
+    key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -393,7 +437,8 @@ export const publishedPostListAtom = atom([
   },
   {
     id: (publishIndex += 1),
-    key: `draft-${publishIndex}`,
+    type: "birthday",
+    key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -406,7 +451,8 @@ export const publishedPostListAtom = atom([
   },
   {
     id: (publishIndex += 1),
-    key: `draft-${publishIndex}`,
+    type: "award",
+    key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -419,7 +465,8 @@ export const publishedPostListAtom = atom([
   },
   {
     id: (publishIndex += 1),
-    key: `draft-${publishIndex}`,
+    type: "award",
+    key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -432,7 +479,8 @@ export const publishedPostListAtom = atom([
   },
   {
     id: (publishIndex += 1),
-    key: `draft-${publishIndex}`,
+    type: "birthday",
+    key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -445,7 +493,8 @@ export const publishedPostListAtom = atom([
   },
   {
     id: (publishIndex += 1),
-    key: `draft-${publishIndex}`,
+    type: "birthday",
+    key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -458,7 +507,8 @@ export const publishedPostListAtom = atom([
   },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "event",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -471,7 +521,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "feedback",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -484,7 +535,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "news",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -497,7 +549,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "news",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -510,7 +563,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "news",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -523,7 +577,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "team",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -536,7 +591,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "feedback",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -549,7 +605,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "team",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -562,7 +619,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "feedback",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -575,7 +633,8 @@ export const publishedPostListAtom = atom([
   // },
   // {
   //   id: (publishIndex += 1),
-  //   key: `draft-${publishIndex}`,
+  //   type: "feedback",
+  //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
   //   picture: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
@@ -588,13 +647,18 @@ export const publishedPostListAtom = atom([
   // },
 ]);
 
+export const publishedPostCountAtom = atom(
+  (get) => get(publishedPostListAtom).length
+);
 export const addPublishPostAtom = atom(null, (get, set, update) => {});
+export const selectedPublishPostAtom = atom([]);
 
 let archiveIndex = 0;
 export const archivedPostListAtom = atom([
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "feedback",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -607,7 +671,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "feedback",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -620,7 +685,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "feedback",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -633,7 +699,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "feedback",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -646,7 +713,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "award",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -659,7 +727,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "award",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -672,7 +741,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "team",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -685,7 +755,8 @@ export const archivedPostListAtom = atom([
   },
   {
     id: (archiveIndex += 1),
-    key: `draft-${archiveIndex}`,
+    type: "news",
+    key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
     picture: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
@@ -698,7 +769,11 @@ export const archivedPostListAtom = atom([
   },
 ]);
 
+export const archivedPostCountAtom = atom(
+  (get) => get(archivedPostListAtom).length
+);
 export const addArchivePostAtom = atom(null, (get, set, update) => {});
+export const selectedArchivePostAtom = atom([]);
 
 export const postStatusTabsAtom = atom((get) => [
   {
@@ -718,3 +793,36 @@ export const postStatusTabsAtom = atom((get) => [
   },
 ]);
 export const selectedPostStatusAtom = atom("drafts");
+
+export const filterKeysAtom = atom([
+  {
+    label: "All",
+    value: "all",
+  },
+  {
+    label: "Award",
+    value: "award",
+  },
+  {
+    label: "Team",
+    value: "team",
+  },
+  {
+    label: "Feedback",
+    value: "feedback",
+  },
+  {
+    label: "News",
+    value: "news",
+  },
+  {
+    label: "Events",
+    value: "events",
+  },
+  {
+    label: "Birthday",
+    value: "birthday",
+  },
+]);
+
+export const selectedFilterKeysAtom = atom(new Set(["all"]));

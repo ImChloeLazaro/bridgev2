@@ -22,26 +22,7 @@ import ManagePostMainContent from "./ManagePostMainContent";
 
 // ### TODO Add Functionality
 
-const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
-  // console.log("MODAL", type);
-  const templateItems = useAtomValue(templateTypeSelectionAtom);
-
-  const handleEditTemplate = () => {
-    console.log("EDITED TEMPLATE");
-  };
-  const handleSaveTemplate = () => {
-    console.log("SAVED TEMPLATE");
-  };
-
-  const actionButtons = {
-    edit: { color: "blue", label: "Edit Template", action: handleEditTemplate },
-    save: {
-      color: "orange",
-      label: "Save Template",
-      action: handleSaveTemplate,
-    },
-  };
-
+const ManagePostModal = ({ isOpen, onOpenChange, isDismissable}) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -69,7 +50,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
           <ModalBody>
             <div className="flex">
               <div className="bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
-                <ManagePostSidebar />
+                <ManagePostSidebar/>
               </div>
               <div className="bg-background rounded-r-lg border-darkgrey-default/40">
                 <ManagePostMainContent onClose={onClose} />

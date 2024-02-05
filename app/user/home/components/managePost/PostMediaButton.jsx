@@ -20,7 +20,7 @@ const PostMediaButton = () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}
-        type={"post media"}
+        
       />
     </>
   );

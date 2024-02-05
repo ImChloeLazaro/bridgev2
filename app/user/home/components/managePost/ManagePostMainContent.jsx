@@ -1,6 +1,6 @@
 import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
-import { Button, Checkbox, CheckboxGroup, cn } from "@nextui-org/react";
+import { Button, Image, Checkbox, CheckboxGroup, cn } from "@nextui-org/react";
 import { MdMinimize } from "react-icons/md";
 import ManagePostTabs from "./ManagePostTabs";
 import PostItemCard from "./PostItemCard";
@@ -11,32 +11,51 @@ import {
   archivedPostListAtom,
   draftPostListAtom,
   publishedPostListAtom,
+  selectedArchivePostAtom,
   selectedDraftPostAtom,
+  selectedFilterKeysAtom,
   selectedPostStatusAtom,
+  selectedPublishPostAtom,
 } from "../../store/ManagePostStore";
+import { useState, useMemo } from "react";
 
 // ### TODO Add Functionality and Design
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
+
+const handleAddPost = () => {
+  console.log("POST ADDED");
+};
+
+const handleDeletePost = () => {
+  console.log("POST DELETED");
+};
+
+const handlePublishPost = () => {
+  console.log("POST PUBLISHED");
+};
+
 const actionButtons = {
   delete: {
     color: "red",
     label: "Delete Post",
-    // action: ""
+    action: handleDeletePost,
   },
   add: {
     color: "blue",
     label: "Add Post",
-    // action: "",
+    action: handleAddPost,
   },
   publish: {
     color: "orange",
     label: "Publish Post",
-    // action: "",
+    action: handlePublishPost,
   },
 };
 
 const ManagePostMainContent = ({ onClose }) => {
+  const [values, setValues] = useState([]);
+
   const draftsPost = useAtomValue(draftPostListAtom);
   const publishedPost = useAtomValue(publishedPostListAtom);
   const archivedPost = useAtomValue(archivedPostListAtom);
@@ -45,6 +64,14 @@ const ManagePostMainContent = ({ onClose }) => {
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
   );
+  const [selectedPublishPost, setSelectedPublishPost] = useAtom(
+    selectedPublishPostAtom
+  );
+  const [selectedArchivePost, setSelectedArchivePost] = useAtom(
+    selectedArchivePostAtom
+  );
+
+  const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
 
   const postList =
     selectedPostStatus === "drafts"
@@ -55,7 +82,40 @@ const ManagePostMainContent = ({ onClose }) => {
       ? archivedPost
       : [];
 
-  console.log("selectedDraftPost:", selectedDraftPost);
+  const selectedPosts =
+    selectedPostStatus === "drafts"
+      ? selectedDraftPost
+      : selectedPostStatus === "published"
+      ? selectedPublishPost
+      : selectedPostStatus === "archived"
+      ? selectedArchivePost
+      : values;
+
+  const setSelectedPosts =
+    selectedPostStatus === "drafts"
+      ? setSelectedDraftPost
+      : selectedPostStatus === "published"
+      ? setSelectedPublishPost
+      : selectedPostStatus === "archived"
+      ? setSelectedArchivePost
+      : setValues;
+
+  const filteredPost = selectedFilterKeys.has("all")
+    ? postList
+    : postList.filter((post) => {
+        return selectedFilterKeys.has(post.type);
+      });
+
+  const [searchItem, setSearchItem] = useState("");
+
+  const filteredPostList = filteredPost.filter((post) => {
+    return (
+      post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
+      post.title.toLowerCase().includes(searchItem.toLowerCase())
+    );
+  });
+
+  console.log("filteredPostList", filteredPostList);
 
   return (
     <div className="flex flex-col w-[72rem] h-fit">
@@ -68,23 +128,23 @@ const ManagePostMainContent = ({ onClose }) => {
           <CloseButton onPress={onClose} className={""} />
         </div>
         <div className="flex justify-between items-center px-1 ">
-          <SearchBar />
+          <SearchBar searchItem={searchItem} setSearchItem={setSearchItem} />
           <ManagePostTabs />
         </div>
       </div>
 
       {/* BODY */}
-      <div className="grid justify-center w-full h-[50rem] overflow-y-scroll px-6 ">
-        <CheckboxGroup
-          aria-label="Post Item Card Checkbox Group"
-          value={selectedDraftPost}
-          onValueChange={setSelectedDraftPost}
-        >
-          <div className="grid grid-cols-3 gap-x-2 gap-y-6 mt-4 mb-6 ">
-            {postList &&
-              postList.map((draft, index) => (
+      {filteredPostList.length != 0 ? (
+        <div className="grid justify-center w-full h-[50rem] overflow-y-scroll px-6 ">
+          <CheckboxGroup
+            aria-label="Post Item Card Checkbox Group"
+            value={selectedPosts}
+            onValueChange={setSelectedPosts}
+          >
+            <div className="grid grid-cols-3 gap-x-2 gap-y-6 mt-4 mb-6 ">
+              {filteredPostList.map((post, index) => (
                 <Checkbox
-                  value={draft.key}
+                  value={post.key}
                   key={index}
                   aria-label="Post Item Card Checkbox"
                   classNames={{
@@ -99,33 +159,52 @@ const ManagePostMainContent = ({ onClose }) => {
                     label: "w-full",
                   }}
                 >
-                  <PostItemCard data={draft} />
+                  <PostItemCard data={post} />
                 </Checkbox>
               ))}
+            </div>
+          </CheckboxGroup>
+        </div>
+      ) : (
+        <div className="w-full h-[48rem] flex justify-center mt-6">
+          <div className="flex-col">
+            <Image
+              width={500}
+              height={500}
+              alt={"No Posts Found"}
+              src={"/no-found-posts.png"}
+            />
+            <p className="text-center text-lg font-medium text-black-default/80">
+              {`No ${
+                Array.from(selectedPostStatus).join("") === "drafts"
+                  ? "drafted"
+                  : Array.from(selectedPostStatus).join("")
+              } post found!`}
+            </p>
           </div>
-        </CheckboxGroup>
-      </div>
+        </div>
+      )}
 
       {/* FOOTER */}
       <Divider />
-      <div className="flex items-end justify-end gap-2 px-7 py-4 bg-lightgrey-hover rounded">
+      <div className="flex items-end justify-end gap-2 px-7 py-4 bottom-0 bg-lightgrey-hover rounded">
         <CTAButtons
           // fullWidth={true}
           label={actionButtons.delete.label}
           color={actionButtons.delete.color}
-          // onPress={actionButtons.delete.action}
+          onPress={actionButtons.delete.action}
         />
         <CTAButtons
           // fullWidth={true}
           label={actionButtons.add.label}
           color={actionButtons.add.color}
-          // onPress={actionButtons.add.action}
+          onPress={actionButtons.add.action}
         />
         <CTAButtons
           // fullWidth={true}
           label={actionButtons.publish.label}
           color={actionButtons.publish.color}
-          // onPress={actionButtons.publish.action}
+          onPress={actionButtons.publish.action}
         />
       </div>
     </div>

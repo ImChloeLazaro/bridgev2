@@ -403,6 +403,7 @@ link: string,
 ## v.0.5.9
 
 * Fixed `NavigationBar` alignment
+* Fixed `ManagePostModal` window to be centered on the screen
 * Adjusted right padding in `Rightbar` Component for easier scrolling
 * Added notification function for notifications
 * Updated schema for `posthandler`
@@ -410,3 +411,21 @@ link: string,
 * Fixed `ManagePostModal` Component alignment
 * Added `reaction` folder for reaction related components
 * Moved all reaction related components to `reaction` folder
+
+## v.0.5.10
+
+* Added `lightblue` variant color for blue in `Chiptag` Component
+* Implemented tabs navigation for `ManagePostMainContent` Component
+* Renamed `templateItemsAtom` to `templateTypeSelectionAtom` in `ManagePostStore`
+* Renamed `selectedTemplateAtom` to `selectedTemplateTypeAtom` in `ManagePostStore`
+* Added default values for `postTemplatesAtom` in `ManagePostStore`
+* Implemented Functionality for `PostItemCard` Component
+* Implemented Functionality for `TagPersonSelect` Component
+* Implemented Functionality for components in `ManagePostModal` Component
+* Converted `PostItemCard` to be a checkable component by wrapping the `Checkbox` component around it.
+* Added `purple` variant color in `tailwind.config.js`
+* Added `purple` variant color in `Chiptag` Component
+* Renamed `selectedTabAtom` to `selectedProfileTabAtom` in `ProfileStore`
+* Added show and hide functionality for password changes in profile page
+* Implemented searching functionality for managing posts in `ManagePostModal` Component
+* Added `no-found-posts.jpg` as illustration for when searching for posts and are not found in `ManagePostModal` Component

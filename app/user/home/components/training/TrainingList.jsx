@@ -69,7 +69,7 @@ const TrainingList = () => {
           <ListboxItem textValue={training.title} key={training.id}>
             <div className="flex items-center justify-center gap-4">
               <div
-                className={`py-4 px-4 m-0 basis-2/5 bg-${training.color}-default text-white-default rounded-l-md`}
+                className={`py-4 px-4 m-0 basis-1/5 bg-${training.color}-default text-white-default rounded-l-md`}
               >
                 <div className="flex flex-col items-center justify-center">
                   <p className="font-extrabold text-2xl">{postDay}</p>
@@ -77,7 +77,7 @@ const TrainingList = () => {
                   <p className="font-light text-xs">{postDate}</p>
                 </div>
               </div>
-              <div className="basis-3/5">
+              <div className="basis-4/5">
                 <p className="font-extrabold text-lg truncate w-56">
                   {training.title}
                 </p>

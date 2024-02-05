@@ -19,7 +19,7 @@ const CreatePostButton = () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}
-        type={"create post"}
+        
       />
     </>
   );
