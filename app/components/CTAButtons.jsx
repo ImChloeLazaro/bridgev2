@@ -10,6 +10,7 @@ const CTAButtons = ({ label, color, ...props }) => {
     green: "bg-green-default text-white-default",
     blue: "bg-blue-default text-white-default",
     black: "bg-black-default/90 text-white-default",
+    grey: "bg-grey-default/90 text-white-default",
     clear:
       "bg-transparent text-black-default hover:underline hover:underline-offset-2",
   };

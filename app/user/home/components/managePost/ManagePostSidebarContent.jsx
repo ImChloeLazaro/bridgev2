@@ -25,13 +25,14 @@ import {
   selectedTaggedPeopleAtom,
   postCaptionAtom,
   postTemplatesCountAtom,
+  filterKeysAtom,
 } from "../../store/ManagePostStore";
 import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
 import { useState } from "react";
 
 const ManagePostSidebarContent = () => {
-  const [selectedTemplateType, setTemplateType] = useAtom(
+  const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
   );
 
@@ -50,8 +51,17 @@ const ManagePostSidebarContent = () => {
   const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
     selectedTaggedPeopleAtom
   );
+  const filterKeys = useAtomValue(filterKeysAtom);
+  const templateOnlyList = filterKeys
+    .filter((template) => template.value != "all")
+    .map((template) => {
+      return template.value;
+    });
+
+  const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
 
   const handleSelectionChange = (key) => {
+    console.log("INSIDE SIDEBAR CONTENT HERE", key);
     const selectedTemplate = postTemplates.filter(
       (template) => template.type === Array.from(key).join("")
     )[0];
@@ -62,21 +72,7 @@ const ManagePostSidebarContent = () => {
       setPostTitle(selectedTemplate.title);
       setPostCaption(selectedTemplate.caption);
     }
-    setTemplateType(key);
-    setPostTemplates((prev) => [
-      ...prev,
-      {
-        id: postTemplatesCount + 1,
-        name: templateName,
-        type: templateName.toLowerCase(),
-        reactionList: [...selectedReactions],
-        mediaLayout: "one",
-        orientation: "landscape",
-        title: postTitle,
-        tagPeople: [...selectedTaggedPeople],
-        caption: postCaption,
-      },
-    ]);
+    setSelectedTemplateType(key);
   };
 
   return (
@@ -100,25 +96,30 @@ const ManagePostSidebarContent = () => {
             }}
           >
             {(template) => (
-              <SelectItem key={template.value} value={template.value}>
+              <SelectItem
+                key={template.value}
+                value={template.value}
+                textValue={template.label}
+              >
                 {template.label}
               </SelectItem>
             )}
           </Select>
         </div>
-        {Array.from(selectedTemplateType).join("") === "custom" && (
-          <div className="flex justify-between items-center gap-5">
-            <p className="font-normal w-24">{"Name"}</p>
-            <Input
-              fullWidth
-              size="sm"
-              label="Give your custom template a name"
-              className="max-w-sm"
-              value={templateName}
-              onValueChange={setTemplateName}
-            />
-          </div>
-        )}
+        {Array.from(selectedTemplateType).join("") === "custom" ||
+          (!templateOnlyList.includes(selectedTemplateTypeString) && (
+            <div className="flex justify-between items-center gap-5">
+              <p className="font-normal w-24">{"Name"}</p>
+              <Input
+                fullWidth
+                size="sm"
+                label="Give your custom template a name"
+                className="max-w-sm"
+                value={templateName}
+                onValueChange={setTemplateName}
+              />
+            </div>
+          ))}
 
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Reaction"}</p>

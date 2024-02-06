@@ -1,28 +1,10 @@
-import {
-  Button,
-  Divider,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Textarea,
-} from "@nextui-org/react";
-import { useAtomValue } from "jotai";
-import { MdInfoOutline } from "react-icons/md";
-import { MdFileUpload } from "react-icons/md";
-import CTAButtons from "../../../../components/CTAButtons";
-import { templateTypeSelectionAtom } from "../../store/ManagePostStore";
-import ReactionSelect from "../reaction/ReactionSelect";
-import ManagePostSidebar from "./ManagePostSidebar";
-import ManagePostMainContent from "./ManagePostMainContent";
+import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
 
+import ManagePostMainContent from "./ManagePostMainContent";
+import ManagePostSidebar from "./ManagePostSidebar";
 // ### TODO Add Functionality
 
-const ManagePostModal = ({ isOpen, onOpenChange, isDismissable}) => {
+const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -50,7 +32,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable}) => {
           <ModalBody>
             <div className="flex">
               <div className="bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
-                <ManagePostSidebar/>
+                <ManagePostSidebar />
               </div>
               <div className="bg-background rounded-r-lg border-darkgrey-default/40">
                 <ManagePostMainContent onClose={onClose} />

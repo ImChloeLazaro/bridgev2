@@ -13,7 +13,6 @@ import { postTemplateItemsAtom } from "../../store/PostTemplateStore";
 import ManagePostModal from "./ManagePostModal";
 import { useState, useMemo } from "react";
 import {
-  selectedPostTemplateAtom,
   selectedTemplateTypeAtom,
 } from "../../store/ManagePostStore";
 
@@ -21,19 +20,15 @@ const PostTemplateButton = () => {
   const postTemplateItems = useAtomValue(postTemplateItemsAtom);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [isOpenPopover, setIsOpenPopover] = useState("");
+  const [isOpenPopover, setIsOpenPopover] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(new Set([""]));
-  const [selectedTemplateType, setTemplateType] = useAtom(
+  const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
   );
   const selectedValue = useMemo(
     () => Array.from(selectedKeys).join(""),
     [selectedKeys]
   );
-
-  console.log("selectedTemplateType", selectedTemplateType);
-  console.log("selectedKeys", selectedKeys);
-  console.log("selectedValue", selectedValue);
 
   return (
     <>
@@ -57,16 +52,16 @@ const PostTemplateButton = () => {
         <PopoverContent>
           <Listbox
             aria-label="Dynamic Actions"
-            onAction={() => {
-              onOpen();
-              setIsOpenPopover(false);
-              setTemplateType(selectedValue);
-            }}
-            disallowEmptySelection
+            // disallowEmptySelection
             disabledKeys={["choose"]}
             selectionMode="single"
             selectedKeys={selectedKeys}
-            onSelectionChange={setSelectedKeys}
+            onSelectionChange={(key) => {
+              setSelectedKeys(key);
+              setSelectedTemplateType(key);
+              setIsOpenPopover(false);
+              onOpen();
+            }}
             itemClasses={{
               base: [
                 "data-[disabled=true]:opacity-100 data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",

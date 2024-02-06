@@ -32,8 +32,6 @@ const ReactionSelect = () => {
         trigger: "min-h-unit-12 py-2",
       }}
       renderValue={(displayItems) => {
-        console.log("displayItems: ", displayItems);
-        console.log("selectedReactions: ", selectedReactions);
         return (
           <div className="flex flex-wrap gap-2">
             {displayItems.map((displayItem) => (

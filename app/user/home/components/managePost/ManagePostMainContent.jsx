@@ -35,7 +35,11 @@ const handlePublishPost = () => {
   console.log("POST PUBLISHED");
 };
 
-const actionButtons = {
+const handleArchivePost = () => {
+  console.log("POST ARCHIVED");
+};
+
+const draftActionsButtons = {
   delete: {
     color: "red",
     label: "Delete Post",
@@ -50,6 +54,22 @@ const actionButtons = {
     color: "orange",
     label: "Publish Post",
     action: handlePublishPost,
+  },
+};
+
+const publishedActionsButtons = {
+  archive: {
+    color: "black",
+    label: "Archive Post",
+    action: handleArchivePost,
+  },
+};
+
+const archivedActionButtons = {
+  delete: {
+    color: "red",
+    label: "Delete Post",
+    action: handleDeletePost,
   },
 };
 
@@ -72,6 +92,15 @@ const ManagePostMainContent = ({ onClose }) => {
   );
 
   const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
+
+  const actionButtons =
+    selectedPostStatus === "drafts"
+      ? draftActionsButtons
+      : selectedPostStatus === "published"
+      ? publishedActionsButtons
+      : selectedPostStatus === "archived"
+      ? archivedActionButtons
+      : {};
 
   const postList =
     selectedPostStatus === "drafts"
@@ -110,12 +139,11 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const filteredPostList = filteredPost.filter((post) => {
     return (
+      post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
       post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
       post.title.toLowerCase().includes(searchItem.toLowerCase())
     );
   });
-
-  console.log("filteredPostList", filteredPostList);
 
   return (
     <div className="flex flex-col w-[72rem] h-fit">
@@ -188,24 +216,17 @@ const ManagePostMainContent = ({ onClose }) => {
       {/* FOOTER */}
       <Divider />
       <div className="flex items-end justify-end gap-2 px-7 py-4 bottom-0 bg-lightgrey-hover rounded">
-        <CTAButtons
-          // fullWidth={true}
-          label={actionButtons.delete.label}
-          color={actionButtons.delete.color}
-          onPress={actionButtons.delete.action}
-        />
-        <CTAButtons
-          // fullWidth={true}
-          label={actionButtons.add.label}
-          color={actionButtons.add.color}
-          onPress={actionButtons.add.action}
-        />
-        <CTAButtons
-          // fullWidth={true}
-          label={actionButtons.publish.label}
-          color={actionButtons.publish.color}
-          onPress={actionButtons.publish.action}
-        />
+        {Object.values(actionButtons).map((button) => {
+          return (
+            <CTAButtons
+              key={button.label}
+              // fullWidth={true}
+              label={button.label}
+              color={button.color}
+              onPress={button.action}
+            />
+          );
+        })}
       </div>
     </div>
   );

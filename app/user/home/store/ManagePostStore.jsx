@@ -2,8 +2,6 @@ import { atom } from "jotai";
 import { reactionIcons } from "../components/reaction/ReactionIcons";
 import { userAtom } from "@/app/store/UserStore";
 
-
-
 let templateIndex = 0;
 export const templateTypeSelectionAtom = atom([
   {
@@ -168,6 +166,17 @@ let postTemplatesIndex = 0;
 export const postTemplatesAtom = atom([
   {
     id: (postTemplatesIndex += 1),
+    name: "Custom",
+    type: "custom",
+    reactionList: [],
+    mediaLayout: "one",
+    orientation: "landscape",
+    title: "",
+    tagPeople: [],
+    caption: "",
+  },
+  {
+    id: (postTemplatesIndex += 1),
     name: "Award",
     type: "award",
     reactionList: ["star"],
@@ -209,7 +218,7 @@ export const postTemplatesAtom = atom([
     orientation: "landscape",
     title: "CLIENT FEEDBACK",
     tagPeople: ["all"],
-    caption: "",
+    caption: "Thank you for your hard work!!! Cheers!",
   },
   {
     id: (postTemplatesIndex += 1),
@@ -220,18 +229,18 @@ export const postTemplatesAtom = atom([
     orientation: "landscape",
     title: "ATTENTION A-FAMILY!!!",
     tagPeople: ["all"],
-    caption: "",
+    caption: "Look alive! \nHere are some of the hottest news today!",
   },
   {
     id: (postTemplatesIndex += 1),
     name: "Team",
     type: "team",
-    reactionList: ["star"],
+    reactionList: ["happy"],
     mediaLayout: "",
     orientation: "landscape",
     title: "NEW TEAM MEMBERS",
     tagPeople: ["all"],
-    caption: "",
+    caption: "Let us welcome our newest members of our A-Family!!!",
   },
 ]);
 
