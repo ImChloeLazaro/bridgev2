@@ -12,8 +12,8 @@ export const postTemplateItemsAtom = atom([
     icon: <FaMedal size={iconSize} />,
   },
   {
-    key: "awards",
-    label: "Awards",
+    key: "award",
+    label: "Award",
     icon: <FaMedal size={iconSize} />,
   },
   {
@@ -22,8 +22,8 @@ export const postTemplateItemsAtom = atom([
     icon: <MdCake size={iconSize} />,
   },
   {
-    key: "event",
-    label: "Event",
+    key: "events",
+    label: "Events",
     icon: <MdCalendarMonth size={iconSize} />,
   },
   {

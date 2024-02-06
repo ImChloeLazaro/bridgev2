@@ -1,21 +1,40 @@
-import { Avatar, Checkbox, Divider, Input } from "@nextui-org/react";
+import { Avatar, Checkbox, Divider, Input, Button } from "@nextui-org/react";
 import { useAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import {
   confirmPasswordAtom,
   currentPasswordAtom,
+  isConfirmPasswordVisibleAtom,
+  isCurrentPasswordVisibleAtom,
+  isNewPasswordVisibleAtom,
   isVisibleJobTitleAtom,
   newPasswordAtom,
 } from "../../store/ProfileStore";
+import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 const ProfileInfo = ({ data }) => {
   const [isVisibleJobTitle, setIsVisibleJobTitle] = useAtom(
     isVisibleJobTitleAtom
   );
+
   const [currentPassword, setCurrentPassword] = useAtom(currentPasswordAtom);
   const [newPassword, setNewPassword] = useAtom(newPasswordAtom);
   const [confirmPassword, setConfirmPassword] = useAtom(confirmPasswordAtom);
+
+  const [isCurrentPasswordVisible, setIsCurrentPasswordVisible] = useAtom(
+    isCurrentPasswordVisibleAtom
+  );
+  const [isNewPasswordVisible, setIsNewPasswordVisible] = useAtom(
+    isNewPasswordVisibleAtom
+  );
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useAtom(
+    isConfirmPasswordVisibleAtom
+  );
+
+  const toggleVisibility = (setIsVisible, isVisible) =>
+    setIsVisible(!isVisible);
   return (
     <>
       {/* // ### UPDATE SETTINGS */}
@@ -146,10 +165,28 @@ const ProfileInfo = ({ data }) => {
                 size="sm"
                 variant="bordered"
                 radius="sm"
-                type="password"
+                type={isCurrentPasswordVisible ? "text" : "password"}
                 value={currentPassword}
                 onValueChange={setCurrentPassword}
-                classNames={{ input: "text-xl" }}
+                classNames={{ input: "text-sm" }}
+                endContent={
+                  <Button
+                    className="focus:outline-none bg-transparent"
+                    isIconOnly
+                    onPress={() =>
+                      toggleVisibility(
+                        setIsCurrentPasswordVisible,
+                        isCurrentPasswordVisible
+                      )
+                    }
+                  >
+                    {isCurrentPasswordVisible ? (
+                      <AiOutlineEye size={18} />
+                    ) : (
+                      <AiOutlineEyeInvisible size={18} />
+                    )}
+                  </Button>
+                }
               />
             </div>
           </div>
@@ -166,10 +203,28 @@ const ProfileInfo = ({ data }) => {
                 size="sm"
                 variant="bordered"
                 radius="sm"
-                type="password"
+                type={isNewPasswordVisible ? "text" : "password"}
                 value={newPassword}
                 onValueChange={setNewPassword}
-                classNames={{ input: "text-xl" }}
+                classNames={{ input: "text-sm" }}
+                endContent={
+                  <Button
+                    className="focus:outline-none bg-transparent"
+                    isIconOnly
+                    onPress={() =>
+                      toggleVisibility(
+                        setIsNewPasswordVisible,
+                        isNewPasswordVisible
+                      )
+                    }
+                  >
+                    {isNewPasswordVisible ? (
+                      <AiOutlineEye size={18} />
+                    ) : (
+                      <AiOutlineEyeInvisible size={18} />
+                    )}
+                  </Button>
+                }
               />
             </div>
           </div>
@@ -188,10 +243,28 @@ const ProfileInfo = ({ data }) => {
                 size="sm"
                 variant="bordered"
                 radius="sm"
-                type="password"
+                type={isConfirmPasswordVisible ? "text" : "password"}
                 value={confirmPassword}
                 onValueChange={setConfirmPassword}
-                classNames={{ input: "text-xl" }}
+                classNames={{ input: "text-sm" }}
+                endContent={
+                  <Button
+                    className="focus:outline-none bg-transparent"
+                    isIconOnly
+                    onPress={() =>
+                      toggleVisibility(
+                        setIsConfirmPasswordVisible,
+                        isConfirmPasswordVisible
+                      )
+                    }
+                  >
+                    {isConfirmPasswordVisible ? (
+                      <AiOutlineEye size={18} />
+                    ) : (
+                      <AiOutlineEyeInvisible size={18} />
+                    )}
+                  </Button>
+                }
               />
             </div>
           </div>

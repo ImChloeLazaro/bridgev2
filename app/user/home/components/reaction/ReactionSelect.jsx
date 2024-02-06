@@ -32,7 +32,6 @@ const ReactionSelect = () => {
         trigger: "min-h-unit-12 py-2",
       }}
       renderValue={(displayItems) => {
-        console.log("displayItems: ", displayItems);
         return (
           <div className="flex flex-wrap gap-2">
             {displayItems.map((displayItem) => (
@@ -55,7 +54,7 @@ const ReactionSelect = () => {
       }}
     >
       {(reaction) => (
-        <SelectItem key={reaction.id} textValue={reaction.label}>
+        <SelectItem key={reaction.key} textValue={reaction.label}>
           <div className="flex gap-2 items-center">
             {reaction.selectIcon}
             {reaction.label}

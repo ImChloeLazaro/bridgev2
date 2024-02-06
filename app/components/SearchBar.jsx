@@ -3,24 +3,17 @@ import { SelectItem } from "@nextui-org/react";
 import { Select, Input, Chip } from "@nextui-org/react";
 import { MdFilterAlt } from "react-icons/md";
 import { LuSearch } from "react-icons/lu";
+import { useAtomValue, useAtom } from "jotai";
+import {
+  filterKeysAtom,
+  selectedFilterKeysAtom,
+} from "../user/home/store/ManagePostStore";
 
-const filterKeys = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "DMS",
-    value: "dms",
-  },
-  {
-    label: "Financials",
-    value: "financials",
-  },
-];
-
-const SearchBar = () => {
-  const [values, setValues] = useState(new Set([]));
+const SearchBar = ({ searchItem, setSearchItem }) => {
+  const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
+    selectedFilterKeysAtom
+  );
+  const filterKeys = useAtomValue(filterKeysAtom);
 
   return (
     <div className="flex gap-0">
@@ -32,39 +25,20 @@ const SearchBar = () => {
         variant="flat"
         isMultiline={true}
         placeholder="All"
-        selectedKeys={values}
+        selectedKeys={selectedFilterKeys}
         className="max-w-xs"
-        onSelectionChange={setValues}
+        onSelectionChange={setSelectedFilterKeys}
         startContent={<MdFilterAlt size={24} />}
         classNames={{
           trigger: "min-h-unit-10 rounded-r-none",
-          // mainWrapper: "w-fit",
+          mainWrapper: "w-32 max-w-48",
         }}
-        // renderValue={(displayItems) => {
-        //   console.log("displayItems: ", displayItems);
-        //   return (
-        //     <div className="flex flex-wrap gap-2">
-        //       {displayItems.map((displayItem) => (
-        //         <Chip
-        //           key={displayItem.key}
-        //           onClose={() => {
-        //             setValues(() =>
-        //               Array.from(values).filter(
-        //                 (item) => item !== displayItem.key
-        //               )
-        //             );
-        //           }}
-        //         >
-        //           {displayItem.data.label}
-        //         </Chip>
-        //       ))}
-        //     </div>
-        //   );
-        // }}
       >
         {(filter) => <SelectItem key={filter.value}>{filter.label}</SelectItem>}
       </Select>
       <Input
+        value={searchItem}
+        onValueChange={setSearchItem}
         labelPlacement="outside"
         startContent={
           <div className="text-lightgrey-default">
@@ -78,7 +52,10 @@ const SearchBar = () => {
             </span>
           </div>
         }
-        classNames={{ inputWrapper: ["bg-white-default rounded-l-none"], mainWrapper:["w-64"] }}
+        classNames={{
+          inputWrapper: ["bg-white-default rounded-l-none"],
+          mainWrapper: ["w-64 max-w-64"],
+        }}
       />
     </div>
   );

@@ -1,33 +1,64 @@
 import {
-  Button,
   Divider,
   Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Select,
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
-import { useAtomValue, useAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
-import { MdFileUpload } from "react-icons/md";
-import CTAButtons from "../../../../components/CTAButtons";
 import {
-  templateTypeSelectionAtom,
+  filterKeysAtom,
+  postCaptionAtom,
+  postTemplatesAtom,
+  postTitleAtom,
+  selectedReactionsAtom,
+  selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
+  templateNameAtom,
+  templateTypeSelectionAtom,
 } from "../../store/ManagePostStore";
 import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
-import { useState } from "react";
 
-const ManagePostSidebarContent = ({ data }) => {
-  // console.log("MODAL", type);
-  const [templateType, setTemplateType] = useAtom(selectedTemplateTypeAtom);
+const ManagePostSidebarContent = () => {
+  const [selectedTemplateType, setSelectedTemplateType] = useAtom(
+    selectedTemplateTypeAtom
+  );
 
-  const templateItems = useAtomValue(templateTypeSelectionAtom);
+  const templateTypeSelection = useAtomValue(templateTypeSelectionAtom);
+
+  const [postTitle, setPostTitle] = useAtom(postTitleAtom);
+  const [postCaption, setPostCaption] = useAtom(postCaptionAtom);
+  const [templateName, setTemplateName] = useAtom(templateNameAtom);
+  const postTemplates = useAtomValue(postTemplatesAtom);
+
+  const setSelectedReactions = useSetAtom(selectedReactionsAtom);
+  const setSelectedTaggedPeople = useSetAtom(selectedTaggedPeopleAtom);
+  const filterKeys = useAtomValue(filterKeysAtom);
+
+  const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
+
+  const templateOnlyList = filterKeys
+    .filter((template) => template.value != "all")
+    .map((template) => {
+      return template.value;
+    });
+
+  const handleSelectionChange = (key) => {
+    console.log("INSIDE SIDEBAR CONTENT HERE", key);
+    const selectedTemplate = postTemplates.filter(
+      (template) => template.type === Array.from(key).join("")
+    )[0];
+
+    if (selectedTemplate) {
+      setSelectedReactions([...selectedTemplate.reactionList]);
+      setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setPostTitle(selectedTemplate.title);
+      setPostCaption(selectedTemplate.caption);
+    }
+    setSelectedTemplateType(key);
+  };
 
   return (
     <div className="w-full max-w-md max-h-full overflow-y-scroll no-scrollbar">
@@ -40,20 +71,42 @@ const ManagePostSidebarContent = ({ data }) => {
           <p className="font-normal w-24">{"Type"}</p>
           <Select
             aria-label="Template Type Selection"
-            items={templateItems}
-            placeholder="Custom"
-            selectedKeys={templateType}
-            onSelectionChange={setTemplateType}
+            items={templateTypeSelection}
+            disallowEmptySelection={true}
+            selectedKeys={selectedTemplateType}
+            onSelectionChange={(key) => handleSelectionChange(key)}
+            onChange={() => console.log("CHANGED KEY")}
             classNames={{
               base: "max-w-sm",
               trigger: "min-h-unit-12 py-2",
             }}
           >
             {(template) => (
-              <SelectItem key={template.value}>{template.label}</SelectItem>
+              <SelectItem
+                key={template.value}
+                value={template.value}
+                textValue={template.label}
+              >
+                {template.label}
+              </SelectItem>
             )}
           </Select>
         </div>
+        {(Array.from(selectedTemplateType).join("") === "custom" ||
+          !templateOnlyList.includes(selectedTemplateTypeString)) && (
+          <div className="flex justify-between items-center gap-5">
+            <p className="font-normal w-24">{"Name"}</p>
+            <Input
+              fullWidth
+              size="sm"
+              label="Give your custom template a name"
+              className="max-w-sm"
+              value={templateName}
+              onValueChange={setTemplateName}
+            />
+          </div>
+        )}
+
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Reaction"}</p>
           <ReactionSelect />
@@ -98,6 +151,8 @@ const ManagePostSidebarContent = ({ data }) => {
             size="sm"
             label="Give your post a name"
             className="max-w-sm"
+            value={postTitle}
+            onValueChange={setPostTitle}
           />
         </div>
         <div className="flex justify-between items-center gap-5">
@@ -106,7 +161,12 @@ const ManagePostSidebarContent = ({ data }) => {
         </div>
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Caption"}</p>
-          <Textarea label="Give your post a caption" className="max-w-sm" />
+          <Textarea
+            value={postCaption}
+            onValueChange={setPostCaption}
+            label="Give your post a caption"
+            className="max-w-sm"
+          />
         </div>
       </div>
     </div>

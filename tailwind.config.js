@@ -107,6 +107,10 @@ module.exports = {
               default: "#FFCF4C",
               hover: "#FFE388",
             },
+            purple: {
+              default: "#A44BFD",
+              hover: "#be80ff",
+            },
           },
           boxShadow: {
             base: "0px 2px 12px 0px rgba(0, 0, 0, 0.12)",

@@ -9,14 +9,12 @@ import {
   Image,
   Avatar,
   AvatarGroup,
-
 } from "@nextui-org/react";
 import ChipTag from "@/app/components/ChipTag";
 import { reactionIcons } from "../reaction/ReactionIcons";
 import { MdPersonAdd } from "react-icons/md";
 
 const PostItemCard = ({ data }) => {
-
   return (
     // {/* border-blue-default border-2 */}
     <Card className="max-w-[330px] h-fit scale-100 rounded-lg hover:scale-105 ml-2">
@@ -32,8 +30,10 @@ const PostItemCard = ({ data }) => {
           }}
           className="mb-1"
         />
-
-        <ChipTag text={data.team} color={"lightblue"} size={"xs"} />
+        <div className="flex gap-2">
+          <ChipTag text={data.team} color={"lightblue"} size={"xs"} />
+          <ChipTag text={data.type} color={"orange"} size={"xs"} />
+        </div>
       </CardHeader>
 
       <CardBody className="py-0">

@@ -1,47 +1,10 @@
-import {
-  Button,
-  Divider,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Textarea,
-} from "@nextui-org/react";
-import { useAtomValue } from "jotai";
-import { MdInfoOutline } from "react-icons/md";
-import { MdFileUpload } from "react-icons/md";
-import CTAButtons from "../../../../components/CTAButtons";
-import { templateTypeSelectionAtom } from "../../store/ManagePostStore";
-import ReactionSelect from "../reaction/ReactionSelect";
-import ManagePostSidebar from "./ManagePostSidebar";
-import ManagePostMainContent from "./ManagePostMainContent";
+import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
 
+import ManagePostMainContent from "./ManagePostMainContent";
+import ManagePostSidebar from "./ManagePostSidebar";
 // ### TODO Add Functionality
 
-const ManagePostModal = ({ isOpen, onOpenChange, isDismissable, type }) => {
-  // console.log("MODAL", type);
-  const templateItems = useAtomValue(templateTypeSelectionAtom);
-
-  const handleEditTemplate = () => {
-    console.log("EDITED TEMPLATE");
-  };
-  const handleSaveTemplate = () => {
-    console.log("SAVED TEMPLATE");
-  };
-
-  const actionButtons = {
-    edit: { color: "blue", label: "Edit Template", action: handleEditTemplate },
-    save: {
-      color: "orange",
-      label: "Save Template",
-      action: handleSaveTemplate,
-    },
-  };
-
+const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
   return (
     <Modal
       isOpen={isOpen}

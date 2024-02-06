@@ -3,14 +3,16 @@ import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { reactionIcons } from "../reaction/ReactionIcons";
 import {
-  taggedPeopleAtom,
+  selectedTaggedPeopleAtom,
   taggedPeopleListAtom,
 } from "../../store/ManagePostStore";
 import { useAtomValue, useAtom } from "jotai";
 import { MdGroups } from "react-icons/md";
 
 const TagPersonSelect = () => {
-  const [taggedPeople, setTaggedPeople] = useAtom(taggedPeopleAtom);
+  const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
+    selectedTaggedPeopleAtom
+  );
   const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
 
   return (
@@ -23,14 +25,13 @@ const TagPersonSelect = () => {
       placeholder="Tag people"
       labelPlacement="outside"
       defaultSelectedKeys={"all"}
-      selectedKeys={taggedPeople}
-      onSelectionChange={setTaggedPeople}
+      selectedKeys={selectedTaggedPeople}
+      onSelectionChange={setSelectedTaggedPeople}
       classNames={{
         base: "max-w-sm max-h-xs",
         trigger: "min-h-unit-12 py-2",
       }}
       renderValue={(displayItems) => {
-        console.log("displayItems: ", displayItems);
         return (
           <div className="flex flex-wrap gap-2">
             {displayItems.map((displayItem) => (
@@ -38,8 +39,8 @@ const TagPersonSelect = () => {
                 key={displayItem.key}
                 startContent={displayItem.data.picture}
                 onClose={() => {
-                  setTaggedPeople(() =>
-                    Array.from(taggedPeople).filter(
+                  setSelectedTaggedPeople(() =>
+                    Array.from(selectedTaggedPeople).filter(
                       (item) => item !== displayItem.key
                     )
                   );
@@ -57,7 +58,7 @@ const TagPersonSelect = () => {
       }}
     >
       {(person) => (
-        <SelectItem key={person.id} textValue={person.name}>
+        <SelectItem key={person.key} textValue={person.name}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={person.name}
