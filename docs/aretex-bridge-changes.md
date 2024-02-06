@@ -429,3 +429,10 @@ link: string,
 * Added show and hide functionality for password changes in profile page
 * Implemented searching functionality for managing posts in `ManagePostModal` Component
 * Added `no-found-posts.jpg` as illustration for when searching for posts and are not found in `ManagePostModal` Component
+
+## v.0.5.11
+
+* Fixed minor bug all templates are deleted when deleting custom template
+* Fixed media and template buttons correctly displaying post template details when creating new posts
+* Removed left over `console.log` in `ManagePost` Components
+* Added `grey` variant color for `CTAButtons` Component

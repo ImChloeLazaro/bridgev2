@@ -8,7 +8,6 @@ import {
   postTemplatesAtom,
   postTemplatesCountAtom,
   postTitleAtom,
-  selectedPostStatusAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
@@ -19,7 +18,7 @@ import {
 
 import ManagePostSidebarContent from "./ManagePostSidebarContent";
 
-// ### TODO Add Functionality
+// ### TODO Add docs * Renamed `s` to `s` for consistency of purpose as a component
 
 const ManagePostSidebar = () => {
   const [templateTypeSelection, setTemplateTypeSelection] = useAtom(
@@ -44,7 +43,6 @@ const ManagePostSidebar = () => {
     selectedTaggedPeopleAtom
   );
 
-  const selectedPostStatus = useAtomValue(selectedPostStatusAtom);
   const templateTypeCount = useAtomValue(templateTypeCountAtom);
   const filterKeys = useAtomValue(filterKeysAtom);
 
@@ -58,7 +56,7 @@ const ManagePostSidebar = () => {
           return {
             ...template,
             name: templateName,
-          type: templateName.toLowerCase(),
+            type: templateName.toLowerCase(),
             reactionList: [...selectedReactions],
             mediaLayout: "one",
             orientation: "landscape",
@@ -81,12 +79,7 @@ const ManagePostSidebar = () => {
         (templateType) => templateType.value !== selectedTemplateTypeString
       );
     });
-    console.log("HERERERERERERERERER");
-    console.log(
-      templateTypeSelection.filter(
-        (templateType) => templateType.value !== selectedTemplateTypeString
-      )
-    );
+    setTemplateName("");
 
     setPostTemplates(() =>
       postTemplates.filter((template) => {
@@ -145,9 +138,6 @@ const ManagePostSidebar = () => {
       return template.value;
     });
 
-  // const templateActionButtons = {
-  //   edit: { color: "blue", label: "Edit Template", action: handleEditTemplate },
-  // };
   const customTemplateActionButtons = {
     add: {
       color: "orange",

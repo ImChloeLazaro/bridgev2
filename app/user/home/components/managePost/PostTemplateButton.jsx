@@ -8,12 +8,18 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { MdEventNote } from "react-icons/md";
-import { useAtomValue, useAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { postTemplateItemsAtom } from "../../store/PostTemplateStore";
 import ManagePostModal from "./ManagePostModal";
 import { useState, useMemo } from "react";
 import {
+  postCaptionAtom,
+  postTemplatesAtom,
+  postTitleAtom,
+  selectedReactionsAtom,
+  selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
+  templateNameAtom,
 } from "../../store/ManagePostStore";
 
 const PostTemplateButton = () => {
@@ -22,13 +28,35 @@ const PostTemplateButton = () => {
 
   const [isOpenPopover, setIsOpenPopover] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(new Set([""]));
-  const [selectedTemplateType, setSelectedTemplateType] = useAtom(
-    selectedTemplateTypeAtom
-  );
-  const selectedValue = useMemo(
-    () => Array.from(selectedKeys).join(""),
-    [selectedKeys]
-  );
+
+  const postTemplates = useAtomValue(postTemplatesAtom);
+  const setSelectedTemplateType = useSetAtom(selectedTemplateTypeAtom);
+  const setPostTitle = useSetAtom(postTitleAtom);
+  const setPostCaption = useSetAtom(postCaptionAtom);
+  const setSelectedReactions = useSetAtom(selectedReactionsAtom);
+  const setSelectedTaggedPeople = useSetAtom(selectedTaggedPeopleAtom);
+
+  const handleSelectionChange = (key) => {
+    setSelectedKeys(key);
+    setSelectedTemplateType(key);
+
+    const selectedTemplate = postTemplates.filter(
+      (template) => template.type === Array.from(key).join("")
+    )[0];
+    console.log("INSIDE TEMPLATE BUTTON HERE", key);
+
+    console.log("TEMPLATE BUTTON selectedTemplate", selectedTemplate);
+
+    if (selectedTemplate) {
+      setSelectedReactions([...selectedTemplate.reactionList]);
+      setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setPostTitle(selectedTemplate.title);
+      setPostCaption(selectedTemplate.caption);
+    }
+
+    setIsOpenPopover(false);
+    onOpen();
+  };
 
   return (
     <>
@@ -56,12 +84,7 @@ const PostTemplateButton = () => {
             disabledKeys={["choose"]}
             selectionMode="single"
             selectedKeys={selectedKeys}
-            onSelectionChange={(key) => {
-              setSelectedKeys(key);
-              setSelectedTemplateType(key);
-              setIsOpenPopover(false);
-              onOpen();
-            }}
+            onSelectionChange={(key) => handleSelectionChange(key)}
             itemClasses={{
               base: [
                 "data-[disabled=true]:opacity-100 data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
@@ -75,7 +98,7 @@ const PostTemplateButton = () => {
                 startContent={template.key != "choose" && template.icon}
                 textValue={template.label}
               >
-                {template.label} {selectedValue}
+                {template.label}
               </ListboxItem>
             ))}
           </Listbox>

@@ -1,35 +1,25 @@
 import {
-  Button,
   Divider,
   Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Select,
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
-import { useAtomValue, useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
-import { MdFileUpload } from "react-icons/md";
-import CTAButtons from "../../../../components/CTAButtons";
 import {
-  templateTypeSelectionAtom,
-  selectedTemplateTypeAtom,
-  postTitleAtom,
-  templateNameAtom,
+  filterKeysAtom,
+  postCaptionAtom,
   postTemplatesAtom,
+  postTitleAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
-  postCaptionAtom,
-  postTemplatesCountAtom,
-  filterKeysAtom,
+  selectedTemplateTypeAtom,
+  templateNameAtom,
+  templateTypeSelectionAtom,
 } from "../../store/ManagePostStore";
 import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
-import { useState } from "react";
 
 const ManagePostSidebarContent = () => {
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
@@ -41,24 +31,19 @@ const ManagePostSidebarContent = () => {
   const [postTitle, setPostTitle] = useAtom(postTitleAtom);
   const [postCaption, setPostCaption] = useAtom(postCaptionAtom);
   const [templateName, setTemplateName] = useAtom(templateNameAtom);
-  const [postTemplates, setPostTemplates] = useAtom(postTemplatesAtom);
+  const postTemplates = useAtomValue(postTemplatesAtom);
 
-  const postTemplatesCount = useAtomValue(postTemplatesCountAtom);
-
-  const [selectedReactions, setSelectedReactions] = useAtom(
-    selectedReactionsAtom
-  );
-  const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
-    selectedTaggedPeopleAtom
-  );
+  const setSelectedReactions = useSetAtom(selectedReactionsAtom);
+  const setSelectedTaggedPeople = useSetAtom(selectedTaggedPeopleAtom);
   const filterKeys = useAtomValue(filterKeysAtom);
+
+  const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
+
   const templateOnlyList = filterKeys
     .filter((template) => template.value != "all")
     .map((template) => {
       return template.value;
     });
-
-  const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
 
   const handleSelectionChange = (key) => {
     console.log("INSIDE SIDEBAR CONTENT HERE", key);
@@ -90,6 +75,7 @@ const ManagePostSidebarContent = () => {
             disallowEmptySelection={true}
             selectedKeys={selectedTemplateType}
             onSelectionChange={(key) => handleSelectionChange(key)}
+            onChange={() => console.log("CHANGED KEY")}
             classNames={{
               base: "max-w-sm",
               trigger: "min-h-unit-12 py-2",
@@ -106,20 +92,20 @@ const ManagePostSidebarContent = () => {
             )}
           </Select>
         </div>
-        {Array.from(selectedTemplateType).join("") === "custom" ||
-          (!templateOnlyList.includes(selectedTemplateTypeString) && (
-            <div className="flex justify-between items-center gap-5">
-              <p className="font-normal w-24">{"Name"}</p>
-              <Input
-                fullWidth
-                size="sm"
-                label="Give your custom template a name"
-                className="max-w-sm"
-                value={templateName}
-                onValueChange={setTemplateName}
-              />
-            </div>
-          ))}
+        {(Array.from(selectedTemplateType).join("") === "custom" ||
+          !templateOnlyList.includes(selectedTemplateTypeString)) && (
+          <div className="flex justify-between items-center gap-5">
+            <p className="font-normal w-24">{"Name"}</p>
+            <Input
+              fullWidth
+              size="sm"
+              label="Give your custom template a name"
+              className="max-w-sm"
+              value={templateName}
+              onValueChange={setTemplateName}
+            />
+          </div>
+        )}
 
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Reaction"}</p>

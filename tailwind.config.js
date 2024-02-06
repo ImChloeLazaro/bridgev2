@@ -109,7 +109,7 @@ module.exports = {
             },
             purple: {
               default: "#A44BFD",
-              hover: "##be80ff",
+              hover: "#be80ff",
             },
           },
           boxShadow: {
