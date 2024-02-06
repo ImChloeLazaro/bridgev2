@@ -41,6 +41,22 @@
           ],
           "category": "function",
           "resourceName": "notificationhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "leavehandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "benefithandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -78,13 +94,21 @@
     }
   },
   "function": {
-    "S3Trigger2a62b9a1": {
+    "accounthandler": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "S3Triggere0041d22": {
+    "benefithandler": {
       "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "leavehandler": {
+      "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -117,39 +141,95 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_S3Trigger2a62b9a1_deploymentBucketName": {
+    "AMPLIFY_function_accounthandler_database": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "S3Trigger2a62b9a1"
+          "resourceName": "accounthandler"
         }
       ]
     },
-    "AMPLIFY_function_S3Trigger2a62b9a1_s3Key": {
+    "AMPLIFY_function_accounthandler_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "S3Trigger2a62b9a1"
+          "resourceName": "accounthandler"
         }
       ]
     },
-    "AMPLIFY_function_S3Triggere0041d22_deploymentBucketName": {
+    "AMPLIFY_function_accounthandler_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "S3Triggere0041d22"
+          "resourceName": "accounthandler"
         }
       ]
     },
-    "AMPLIFY_function_S3Triggere0041d22_s3Key": {
+    "AMPLIFY_function_benefithandler_database": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "S3Triggere0041d22"
+          "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_benefithandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_benefithandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leavehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leavehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leavehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leavehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leavehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leavehandler"
         }
       ]
     },
     "AMPLIFY_function_notificationhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notificationhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_notificationhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notificationhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_notificationhandler_s3Key": {
       "usedBy": [
         {
           "category": "function",

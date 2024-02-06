@@ -169,7 +169,8 @@ const employeeSchema = mongoose.Schema({
       employment_history: [employmentHistorySchema],
       references: [referencesSchema], // Assuming this should be an array of references
     },
-    sub : String
+    sub : String,
+    
   },
 });
 

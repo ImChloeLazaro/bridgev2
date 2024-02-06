@@ -50,12 +50,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "notificationhandler",
+            "benefithandler",
             {
               "Fn::Join": [
                 "",
                 [
-                  "notificationhandler",
+                  "benefithandler",
                   "-",
                   {
                     "Ref": "env"
@@ -95,12 +95,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "bridgev2LambdaRole2b0a96c5",
+            "bridgev2LambdaRole9c939d1c",
             {
               "Fn::Join": [
                 "",
                 [
-                  "bridgev2LambdaRole2b0a96c5",
+                  "bridgev2LambdaRole9c939d1c",
                   "-",
                   {
                     "Ref": "env"

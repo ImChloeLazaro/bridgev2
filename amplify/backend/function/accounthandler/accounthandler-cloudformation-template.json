@@ -2,13 +2,21 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "{\"createdOn\":\"Windows\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.10.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
-    "env": {
-      "Type": "String"
+    "CloudWatchRule": {
+      "Type": "String",
+      "Default": "NONE",
+      "Description": " Schedule Expression"
     },
     "deploymentBucketName": {
       "Type": "String"
     },
+    "env": {
+      "Type": "String"
+    },
     "s3Key": {
+      "Type": "String"
+    },
+    "database": {
       "Type": "String"
     }
   },
@@ -30,16 +38,24 @@
         "aws:asset:property": "Code"
       },
       "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        },
         "Handler": "index.handler",
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Trigger2a62b9a1",
+            "accounthandler",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Trigger2a62b9a1",
+                  "accounthandler",
                   "-",
                   {
                     "Ref": "env"
@@ -53,6 +69,12 @@
           "Variables": {
             "ENV": {
               "Ref": "env"
+            },
+            "REGION": {
+              "Ref": "AWS::Region"
+            },
+            "DATABASE": {
+              "Ref": "database"
             }
           }
         },
@@ -63,15 +85,8 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Timeout": 25,
-        "Code": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        }
+        "Layers": [],
+        "Timeout": 25
       }
     },
     "LambdaExecutionRole": {
@@ -80,12 +95,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Trigger2a62b9a1LambdaRole2a62b9a1",
+            "bridgev2LambdaRoled3a4776d",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Trigger2a62b9a1LambdaRole2a62b9a1",
+                  "bridgev2LambdaRoled3a4776d",
                   "-",
                   {
                     "Ref": "env"

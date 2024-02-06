@@ -64,7 +64,6 @@ app.get('/user', async function(req, res) {
 
 app.post('/user', async function(req, res) {
   const {sub, name, email} = req.body
-
   try {
     const getuserbysub = await userModel.findOne({sub})
     if(!getuserbysub){
@@ -101,10 +100,6 @@ app.delete('/user', function(req, res) {
   res.json({success: 'delete call succeed!', url: req.url});
 });
 
-app.delete('/user/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
 
 app.listen(3000, function() {
     console.log("App started")

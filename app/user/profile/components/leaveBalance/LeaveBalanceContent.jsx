@@ -1,10 +1,9 @@
 import { Button } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../../../../store/UserStore";
+import { leaveStatusAtom } from "../../../../store/UserStore";
 
 const LeaveBalanceContent = () => {
-  const user = useAtomValue(userAtom);
-  
+  const leave = useAtomValue(leaveStatusAtom);
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">
@@ -13,7 +12,7 @@ const LeaveBalanceContent = () => {
             {"Vacation Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {user.leaves.vl}
+            {leave.response.VL_BALANCE}
           </p>
         </div>
         <div className="flex">
@@ -21,7 +20,7 @@ const LeaveBalanceContent = () => {
             {"Sick Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {user.leaves.sl}
+          {leave.response.SL_BALANCE}
           </p>
         </div>
       </div>
@@ -29,7 +28,6 @@ const LeaveBalanceContent = () => {
         disableRipple={true}
         disableAnimation={true}
         className="bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
-        
       >
         {"File a Leave"}
       </Button>

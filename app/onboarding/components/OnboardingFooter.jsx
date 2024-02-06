@@ -68,6 +68,7 @@ import { isSubmittedOnboardingFormAtom } from "../store/OnboardingStore";
 
 import { useAtomValue, useSetAtom } from "jotai";
 
+import { restinsert, updatewithparams } from "../../utils/amplify-rest";
 const OnboardingFooter = () => {
   const unique_key = useAtomValue(authenticationAtom);
   const steps = useAtomValue(stepsAtom);
@@ -201,34 +202,12 @@ const OnboardingFooter = () => {
       sub: unique_key.sub,
     };
 
-    try {
-      // POST request to insert onboarding data
-      const insertOnboardingData = post({
-        apiName: "bridgeApi",
-        path: "/profile",
-        options: {
-          body: onboardingData,
-        },
-      });
-
-      // If the POST request is successful, proceed with the PUT request
-      const update = put({
-        apiName: "bridgeApi",
-        path: "/user",
-        options: {
-          queryParams: {
-            sub: unique_key.sub,
-          },
-        },
-      });
-
-      const { body } = await insertOnboardingData.response;
-      const response = await body.json();
-      console.log(response);
-    } catch (e) {
-      console.log("POST call failed: ", e);
-    }
-
+    const profileresponse  = await restinsert("/profile", onboardingData);
+    const updateonboardingstatus = await updatewithparams("/user", {sub: unique_key.sub});
+    const leaveresponse = await restinsert("/leave", {sub: unique_key.sub});
+    console.log("PROFILE RESPONSE", profileresponse);
+    console.log("ONBOARDING STATUS RESPONSE", updateonboardingstatus);
+    console.log("LEAVE RESPONSE", leaveresponse);
     console.log("ONBOARDING FORM SUBMITTED!")
     // setIsSubmittedOnboardingForm(true);
   };

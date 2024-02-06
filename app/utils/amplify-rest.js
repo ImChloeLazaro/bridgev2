@@ -2,9 +2,26 @@ import "../aws-auth"
 import { get, post, put, del } from 'aws-amplify/api';
 import { uploadData } from 'aws-amplify/storage';
 
-export const create = async (path, request) => {
+export const insertwithparams = async (path, request) => {
+  try {
+      const insertOperation = post({
+        apiName: 'bridgeApi',
+        path: path,
+        options: {
+          queryParams : request,
+        }
+      });
+  
+      const { body } = await insertOperation.response;
+      const response = await body.json();
+      return response;
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+export const restinsert = async (path, request) => {
     try {
-        const restOperation = post({
+        const insertOperation = post({
           apiName: 'bridgeApi',
           path: path,
           options: {
@@ -12,7 +29,7 @@ export const create = async (path, request) => {
           }
         });
     
-        const { body } = await restOperation.response;
+        const { body } = await insertOperation.response;
         const response = await body.json();
         return response;
       } catch (e) {
@@ -20,9 +37,60 @@ export const create = async (path, request) => {
       }
 }
 
-export const read = async (path, request) => { 
+export const readwithparams = async (path, request) => {
+  try {
+      const readOperation = get({
+        apiName: 'bridgeApi',
+        path: path,
+        options: {
+          queryParams: request
+        }
+      });
+  
+      const { body } = await readOperation.response;
+      const response = await body.json();
+      return response;
+    } catch (e) {
+      throw new Error(e)
+    }
+} 
+
+export const restread = async (path) => { 
     try {
-        const restOperation = get({
+        const readOperation = get({
+          apiName: 'bridgeApi',
+          path: path
+        });
+    
+        const { body } = await readOperation.response;
+        const response = await body.json();
+        return response;
+      } catch (e) {
+        throw new Error(e)
+      }
+}
+
+export const updatewithparams = async (path, request) => {
+  try {
+      const updateOperation = put({
+        apiName: 'bridgeApi',
+        path: path,
+        options: {
+          queryParams : request,
+        }
+      });
+  
+      const { body } = await updateOperation.response;
+      const response = await body.json();
+      return response;
+  } catch (error) {
+    throw new Error(error)
+  }
+
+}
+export const restupdate = async (path, request) => {
+    try {
+        const updateOperation = put({
           apiName: 'bridgeApi',
           path: path,
           options: {
@@ -30,7 +98,7 @@ export const read = async (path, request) => {
           }
         });
     
-        const { body } = await restOperation.response;
+        const { body } = await updateOperation.response;
         const response = await body.json();
         return response;
       } catch (e) {
@@ -38,25 +106,7 @@ export const read = async (path, request) => {
       }
 }
 
-export const update = async (path, request) => {
-    try {
-        const restOperation = put({
-          apiName: 'bridgeApi',
-          path: path,
-          options: {
-            body: request
-          }
-        });
-    
-        const { body } = await restOperation.response;
-        const response = await body.json();
-        return response;
-      } catch (e) {
-        throw new Error(e)
-      }
-}
-
-export const destroy = async (path, request) => {
+export const restdestroy = async (path, request) => {
     try {
         const restOperation = del({
           apiName: 'bridgeApi',

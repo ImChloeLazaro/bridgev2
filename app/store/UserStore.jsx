@@ -3,6 +3,7 @@ import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { authenticationAtom } from "./AuthenticationStore";
 import { get } from 'aws-amplify/api';
+import { readwithparams, restread } from "../utils/amplify-rest";
 
 const initialState = null;
 
@@ -70,6 +71,10 @@ export const userAtom = atom(async (get) => {
   }
 });
 
+export const leaveStatusAtom = atom(async (read) => {
+  const auth = await read(authenticationAtom);
+  return await readwithparams("/leave/user", { sub: auth.sub });
+})
 export const fetchOnboardingStatus = atom(async (read) => {
   const auth = await read(authenticationAtom);
   try {

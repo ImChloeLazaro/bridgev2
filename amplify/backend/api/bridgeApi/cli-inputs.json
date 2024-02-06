@@ -65,6 +65,32 @@
           "delete"
         ]
       }
+    },
+    "/leave": {
+      "name": "/leave",
+      "lambdaFunction": "leavehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/benefits": {
+      "name": "/benefits",
+      "lambdaFunction": "benefithandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }
