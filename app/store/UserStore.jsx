@@ -71,14 +71,17 @@ export const userAtom = atom(async (get) => {
   }
 });
 //Leaves
-export const leaveStatusAtom = atom(async (read) => {
-  const auth = await read(authenticationAtom);
+export const leaveStatusAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
   return await readwithparams("/leave/profile", { sub: auth.sub });
 })
 //Leave Request
 
 //Benefits with user params
-
+export const benefitsStatusAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  return await readwithparams("/benefits/profile", { sub: auth.sub });
+})
 //Fetch Onboarding Status
 export const fetchOnboardingStatus = atom(async (read) => {
   const auth = await read(authenticationAtom);

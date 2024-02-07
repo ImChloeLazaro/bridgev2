@@ -56,7 +56,10 @@
         "benefithandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/benefithandler-45767a714f7636526538-build.zip"
+          "s3Key": "amplify-builds/benefithandler-56756d365967535a7858-build.zip"
+        },
+        "departmenthandler": {
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         }
       },
       "api": {

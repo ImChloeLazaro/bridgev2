@@ -20,25 +20,25 @@ const default_benefits = [
   {
     name: "HMO",
     number: "###-###-####",
-    status: "pending",
+    status: "unavailable",
     availability: "pending"
   },
   {
     name: "PAGIBIG",
     number: "###-###-####",
-    status: "pending",
+    status: "unavailable",
     availability: "pending"
   },
   {
     name: "SSS",
     number: "###-###-####",
-    status: "pending",
+    status: "unavailable",
     availability: "pending"
   },
   {
     name: "PhilHealth",
     number: "###-###-####",
-    status: "pending",
+    status: "unavailable",
     availability: "pending"
   }
 ]
@@ -66,8 +66,13 @@ app.get('/benefits', async function(req, res) {
 });
 
 app.get('/benefits/*', async function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+  const { sub } = req.query
+  try {
+    const benefits = await benefitModel.findOne({sub})
+    res.json({success: true, response: benefits})
+  } catch (error) {
+    res.json({error: error})
+  }
 });
 
 app.post('/benefits', async function(req, res) {
@@ -80,38 +85,17 @@ app.post('/benefits', async function(req, res) {
   }
 });
 
-app.post('/benefits/*', function(req, res) {
-  // Add your code here
-  res.json({success: success, url: req.url, body: req.body})
-});
-
 app.put('/benefits', async function(req, res) {
-  const newBenefitData = {
-    name: "New Benefit",
-    number: "###-###-####",
-    status: "pending",
-    availability: "pending"
-  };
-  const  sub  = 'd0229811-67cc-4fb8-915b-38d8029b85df'
-  const benefit = await benefitModel.updateOne({sub}, {$push: {benefits: newBenefitData}}, {new: false})
+  const { sub, newbenefit } = req.body
+  const benefit = await benefitModel.updateOne({sub}, {$push: {benefits: newbenefit}}, {new: false})
   res.json({success: true, response: benefit})
 });
 
 app.put('/benefits/*', function(req, res) {
-  // Add your code here
   res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
-/****************************
-* Example delete method *
-****************************/
-
 app.delete('/benefits', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/benefits/*', function(req, res) {
   // Add your code here
   res.json({success: 'delete call succeed!', url: req.url});
 });
@@ -119,8 +103,5 @@ app.delete('/benefits/*', function(req, res) {
 app.listen(3000, function() {
     console.log("App started")
 });
-
-// Export the app object. When executing the application local this does nothing. However,
-// to port it to AWS Lambda we will create a wrapper around that will load the app from
-// this file
+90
 module.exports = app

@@ -189,6 +189,14 @@
         }
       ]
     },
+    "AMPLIFY_function_departmenthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
     "AMPLIFY_function_leavehandler_database": {
       "usedBy": [
         {
