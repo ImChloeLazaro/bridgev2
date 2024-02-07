@@ -4,6 +4,7 @@ import { leaveStatusAtom } from "../../../../store/UserStore";
 
 const LeaveBalanceContent = () => {
   const leave = useAtomValue(leaveStatusAtom);
+  console.log('LEAVES',leave)
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">
@@ -12,7 +13,7 @@ const LeaveBalanceContent = () => {
             {"Vacation Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {leave.response.VL_BALANCE}
+            {leave.response !== null ? leave.response.VL_BALANCE : (<small className="text-red-600">No VL data</small>)} 
           </p>
         </div>
         <div className="flex">
@@ -20,7 +21,7 @@ const LeaveBalanceContent = () => {
             {"Sick Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-          {leave.response.SL_BALANCE}
+          {leave.response !== null ? leave.response.SL_BALANCE : (<small className="text-red-600">No SL data</small>)} 
           </p>
         </div>
       </div>

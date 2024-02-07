@@ -1,22 +1,7 @@
-/*
-Copyright 2017 - 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
-    http://aws.amazon.com/apache2.0/
-or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
-*/
-
-
-/* Amplify Params - DO NOT EDIT
-	ENV
-	REGION
-	DATABASE
-Amplify Params - DO NOT EDIT */
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
-
+const mongoose = require('mongoose')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -29,42 +14,87 @@ app.use(function(req, res, next) {
   next()
 });
 
+mongoose.connect(process.env.DATABASE)
 
-/**********************
- * Example get method *
- **********************/
+const default_benefits = [
+  {
+    name: "HMO",
+    number: "###-###-####",
+    status: "pending",
+    availability: "pending"
+  },
+  {
+    name: "PAGIBIG",
+    number: "###-###-####",
+    status: "pending",
+    availability: "pending"
+  },
+  {
+    name: "SSS",
+    number: "###-###-####",
+    status: "pending",
+    availability: "pending"
+  },
+  {
+    name: "PhilHealth",
+    number: "###-###-####",
+    status: "pending",
+    availability: "pending"
+  }
+]
 
-app.get('/benefits', function(req, res) {
+const benefit = mongoose.Schema({
+  name: String,
+  number: String,
+  status: String,
+  availability: String,
+})
+
+const benefitSchema = mongoose.Schema({
+  sub: String,
+  benefits: {
+    type: [benefit],
+    default: default_benefits
+  }
+})
+
+const benefitModel = mongoose.model('benefit', benefitSchema)
+
+app.get('/benefits', async function(req, res) {
   // Add your code here
   res.json({success: 'get call succeed!', url: req.url});
 });
 
-app.get('/benefits/*', function(req, res) {
+app.get('/benefits/*', async function(req, res) {
   // Add your code here
   res.json({success: 'get call succeed!', url: req.url});
 });
 
-/****************************
-* Example post method *
-****************************/
-
-app.post('/benefits', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.post('/benefits', async function(req, res) {
+  try {
+    const { sub } = req.body
+    const insert = await benefitModel.create({ sub })
+    res.json({success: true, response: insert})
+  } catch (error) {
+    res.json({error: error})
+  }
 });
 
 app.post('/benefits/*', function(req, res) {
   // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+  res.json({success: success, url: req.url, body: req.body})
 });
 
-/****************************
-* Example put method *
-****************************/
-
-app.put('/benefits', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.put('/benefits', async function(req, res) {
+  const newBenefitData = {
+    name: "New Benefit",
+    number: "###-###-####",
+    status: "pending",
+    availability: "pending"
+  };
+  const  sub  = 'd0229811-67cc-4fb8-915b-38d8029b85df'
+  const benefit = await benefitModel.updateOne({sub}, {$push: {benefits: newBenefitData}}, {new: false})
+  res.json({success: true, response: benefit})
 });
 
 app.put('/benefits/*', function(req, res) {

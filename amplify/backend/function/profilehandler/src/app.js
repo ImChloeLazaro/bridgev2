@@ -170,7 +170,6 @@ const employeeSchema = mongoose.Schema({
       references: [referencesSchema], // Assuming this should be an array of references
     },
     sub : String,
-    
   },
 });
 
