@@ -10,7 +10,7 @@ import {
 import { MdEventNote } from "react-icons/md";
 import { useAtomValue, useSetAtom } from "jotai";
 import { postTemplateItemsAtom } from "../../store/PostTemplateStore";
-import ManagePostModal from "./ManagePostModal";
+import ManagePostModal from "../managePost/ManagePostModal";
 import { useState, useMemo } from "react";
 import {
   postCaptionAtom,
@@ -22,7 +22,7 @@ import {
   templateNameAtom,
 } from "../../store/ManagePostStore";
 
-const PostTemplateButton = () => {
+const CreatePostTemplateButton = () => {
   const postTemplateItems = useAtomValue(postTemplateItemsAtom);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -112,4 +112,4 @@ const PostTemplateButton = () => {
     </>
   );
 };
-export default PostTemplateButton;
+export default CreatePostTemplateButton;

@@ -1,4 +1,4 @@
-import { selectedTabAtom } from "../store/OnboardingStore";
+import { employeeIDAtom, selectedTabAtom } from "../store/OnboardingStore";
 
 import {
   firstNameAtom,
@@ -52,6 +52,7 @@ const ApplicationOnboarding = () => {
   const [dateAvailability, setDateAvailability] = useAtom(dateAvailabilityAtom);
   const [appliedFor, setAppliedFor] = useAtom(appliedForAtom);
   const [salary, setSalary] = useAtom(salaryAtom);
+  const [employeeID, setEmployeeID] = useAtom(employeeIDAtom);
 
   // Employee Information
   const [presentAddress, setPresentAddress] = useAtom(presentAddressAtom);
@@ -93,36 +94,49 @@ const ApplicationOnboarding = () => {
         label={"MIDDLE NAME (if None type N/A)"}
         value={middleName}
         onValueChange={setMiddleName}
+        isRequired={false}
       />
       <OnboardingFieldInput
         label={"VACANCY THRU"}
         value={vacancyThru}
         onValueChange={setVacancyThru}
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"REFERRED BY (if referrals)"}
         value={referredBy}
         onValueChange={setReferredBy}
+        isRequired={false}
       />
       <OnboardingFieldInput
         label={"DATE OF APPLICATION"}
         value={dateApplication}
         onValueChange={setDateApplication}
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"DATE OF AVAILABILITY"}
         value={dateAvailability}
         onValueChange={setDateAvailability}
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"APPLIED FOR"}
         value={appliedFor}
         onValueChange={setAppliedFor}
+        isRequired={true}
       />
       <OnboardingFieldInput
-        label={"SALARY"}
+        label={"EXPECTED SALARY"}
         value={salary}
         onValueChange={setSalary}
+        isRequired={true}
+      />
+      <OnboardingFieldInput
+        label={"EMPLOYEE ID"}
+        value={employeeID}
+        onValueChange={setEmployeeID}
+        isRequired={true}
       />
     </>
   );
@@ -184,7 +198,7 @@ const ApplicationOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
-        label={"HOME PHONE NUMBER"}
+        label={"LANDLINE NUMBER"}
         value={homePhoneNumber}
         onValueChange={setHomePhoneNumber}
         isRequired={true}
@@ -205,11 +219,13 @@ const ApplicationOnboarding = () => {
         label={"RELIGION"}
         value={religion}
         onValueChange={setReligion}
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"LANGUAGE"}
         value={language}
         onValueChange={setLanguage}
+        isRequired={true}
       />
     </>
   );
@@ -217,22 +233,22 @@ const ApplicationOnboarding = () => {
   const government_id_information = (
     <>
       <OnboardingFieldInput
-        label={"TAX IDENTIFICATION NUMBER"}
+        label={"TAX IDENTIFICATION NUMBER (if any)"}
         value={TIN}
         onValueChange={setTIN}
       />
       <OnboardingFieldInput
-        label={"SOCIAL SECURITY NUMBER"}
+        label={"SOCIAL SECURITY NUMBER (if any)"}
         value={SSS}
         onValueChange={setSSS}
       />
       <OnboardingFieldInput
-        label={"PAG-IBIG NUMBER"}
+        label={"PAG-IBIG NUMBER (if any)"}
         value={pagibig}
         onValueChange={setPagibig}
       />
       <OnboardingFieldInput
-        label={"PHILHEALTH NUMBER"}
+        label={"PHILHEALTH NUMBER (if any)"}
         value={philhealth}
         onValueChange={setPhilhealth}
       />

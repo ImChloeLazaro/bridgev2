@@ -1,5 +1,6 @@
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
+import { BsImage } from "react-icons/bs";
 import {
   postCaptionAtom,
   postTemplatesAtom,
@@ -10,7 +11,7 @@ import {
 } from "../../store/ManagePostStore";
 import ManagePostModal from "./ManagePostModal";
 
-const CreatePostButton = () => {
+const ManagePostMediaButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const postTemplates = useAtomValue(postTemplatesAtom);
   const setSelectedTemplateType = useSetAtom(selectedTemplateTypeAtom);
@@ -42,12 +43,12 @@ const CreatePostButton = () => {
       <Button
         disableRipple
         disableAnimation
-        isIconOnly
-        className="bg-transparent w-full h-16 text-lg font-medium text-black-default border-[2.5px] rounded-lg border-[#BEBEBE]/80 border-solid flex justify-start items-center pl-4"
+        size="lg"
+        startContent={<BsImage size={24} />}
+        className="bg-transparent font-medium text-lg text-black-default hover:text-orange-default/90"
         onPress={() => handleSelectionChange(new Set(["custom"]))}
       >
-        {/* // ### TODO Randomize placeholder text */}
-        {"Create a Post"}
+        {"Media"}
       </Button>
       <ManagePostModal
         isOpen={isOpen}
@@ -58,4 +59,4 @@ const CreatePostButton = () => {
   );
 };
 
-export default CreatePostButton;
+export default ManagePostMediaButton;

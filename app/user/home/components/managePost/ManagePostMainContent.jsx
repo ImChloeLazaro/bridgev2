@@ -1,84 +1,52 @@
+import CTAButtons from "@/app/components/CTAButtons";
 import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
-import { Button, Image, Checkbox, CheckboxGroup, cn } from "@nextui-org/react";
-import { MdMinimize } from "react-icons/md";
-import ManagePostTabs from "./ManagePostTabs";
-import PostItemCard from "./PostItemCard";
-import CTAButtons from "@/app/components/CTAButtons";
+import { userAtom } from "@/app/store/UserStore";
 import { Divider } from "@aws-amplify/ui-react";
-import { useAtomValue, useAtom } from "jotai";
+import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
+import { useState } from "react";
+import { MdMinimize } from "react-icons/md";
 import {
+  archivedPostCountAtom,
   archivedPostListAtom,
+  draftPostCountAtom,
   draftPostListAtom,
+  filterKeysAtom,
+  postCaptionAtom,
+  postTemplatesAtom,
+  postTemplatesCountAtom,
+  postTitleAtom,
+  publishedPostCountAtom,
   publishedPostListAtom,
   selectedArchivePostAtom,
   selectedDraftPostAtom,
   selectedFilterKeysAtom,
   selectedPostStatusAtom,
   selectedPublishPostAtom,
+  selectedReactionsAtom,
+  selectedTaggedPeopleAtom,
+  selectedTemplateTypeAtom,
+  templateNameAtom,
+  templateTypeCountAtom,
+  templateTypeSelectionAtom,
 } from "../../store/ManagePostStore";
-import { useState, useMemo } from "react";
+import ManagePostItemCard from "./ManagePostItemCard";
+import ManagePostTabs from "./ManagePostTabs";
 
-// ### TODO Add Functionality and Design
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
-
-const handleAddPost = () => {
-  console.log("POST ADDED");
-};
-
-const handleDeletePost = () => {
-  console.log("POST DELETED");
-};
-
-const handlePublishPost = () => {
-  console.log("POST PUBLISHED");
-};
-
-const handleArchivePost = () => {
-  console.log("POST ARCHIVED");
-};
-
-const draftActionsButtons = {
-  delete: {
-    color: "red",
-    label: "Delete Post",
-    action: handleDeletePost,
-  },
-  add: {
-    color: "blue",
-    label: "Add Post",
-    action: handleAddPost,
-  },
-  publish: {
-    color: "orange",
-    label: "Publish Post",
-    action: handlePublishPost,
-  },
-};
-
-const publishedActionsButtons = {
-  archive: {
-    color: "black",
-    label: "Archive Post",
-    action: handleArchivePost,
-  },
-};
-
-const archivedActionButtons = {
-  delete: {
-    color: "red",
-    label: "Delete Post",
-    action: handleDeletePost,
-  },
-};
 
 const ManagePostMainContent = ({ onClose }) => {
   const [values, setValues] = useState([]);
 
-  const draftsPost = useAtomValue(draftPostListAtom);
-  const publishedPost = useAtomValue(publishedPostListAtom);
-  const archivedPost = useAtomValue(archivedPostListAtom);
+  const user = useAtomValue(userAtom);
+
+  const [draftsPostList, setDraftsPostList] = useAtom(draftPostListAtom);
+  const [publishedPostList, setPublishedPostList] = useAtom(
+    publishedPostListAtom
+  );
+  const [archivedPostList, setArchivedPostList] = useAtom(archivedPostListAtom);
 
   const selectedPostStatus = useAtomValue(selectedPostStatusAtom);
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
@@ -93,6 +61,212 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
 
+  const [templateTypeSelection, setTemplateTypeSelection] = useAtom(
+    templateTypeSelectionAtom
+  );
+
+  const [selectedTemplateType, setSelectedTemplateType] = useAtom(
+    selectedTemplateTypeAtom
+  );
+
+  const [postTitle, setPostTitle] = useAtom(postTitleAtom);
+  const [postCaption, setPostCaption] = useAtom(postCaptionAtom);
+  const [templateName, setTemplateName] = useAtom(templateNameAtom);
+  const [postTemplates, setPostTemplates] = useAtom(postTemplatesAtom);
+
+  const postTemplatesCount = useAtomValue(postTemplatesCountAtom);
+
+  const [selectedReactions, setSelectedReactions] = useAtom(
+    selectedReactionsAtom
+  );
+  const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
+    selectedTaggedPeopleAtom
+  );
+
+  const templateTypeCount = useAtomValue(templateTypeCountAtom);
+  const filterKeys = useAtomValue(filterKeysAtom);
+
+  const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
+
+  const draftPostCount = useAtomValue(draftPostCountAtom);
+  const publishedPostCount = useAtomValue(publishedPostCountAtom);
+  const archivedPostCount = useAtomValue(archivedPostCountAtom);
+
+  console.log("selectedDraftPost =>", selectedDraftPost);
+  console.log("selectedPublishPost =>", selectedPublishPost);
+  console.log("selectedArchivePost =>", selectedArchivePost);
+
+  const postCount =
+    selectedPostStatus === "drafts"
+      ? draftPostCount + 1
+      : selectedPostStatus === "published"
+      ? publishedPostCount + 1
+      : selectedPostStatus === "archived"
+      ? archivedPostCount + 1
+      : 0;
+
+  const postKey =
+    selectedPostStatus === "drafts"
+      ? `draft-${draftPostCount + 1}`
+      : selectedPostStatus === "published"
+      ? `publish-${publishedPostCount + 1}`
+      : selectedPostStatus === "archived"
+      ? `archive-${archivedPostCount + 1}`
+      : 0;
+
+  const handleAddPost = () => {
+    if (selectedPostStatus === "drafts") {
+      if (selectedTemplateTypeString !== "custom") {
+        const newPost = {
+          id: postCount,
+          type: templateName.toLowerCase(),
+          key: postKey,
+          title: postTitle,
+          picture: user.profileURL,
+          team: user.team,
+          caption: postCaption,
+          media: [],
+          mediaLayout: "one",
+          orientation: "landscape",
+          reactionList: [...selectedReactions],
+          tagPeople: [...selectedTaggedPeople], // key of users
+        };
+        setDraftsPostList((prev) => [...prev, newPost]);
+        console.log("newPost", newPost);
+      } else {
+        console.log("NO EMPTY TEMPLATE ALLOWED");
+      }
+    }
+
+    console.log("ADD postCount: ", postCount);
+    console.log("POST ADDED");
+  };
+
+  const handleDeletePost = () => {
+    if (selectedPostStatus === "drafts") {
+      console.log("INSIDE DELETE DRAFT POST", selectedDraftPost);
+      setDraftsPostList(() =>
+        draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
+      );
+      setSelectedDraftPost([]);
+    }
+    if (selectedPostStatus === "published") {
+      console.log("INSIDE DELETE PUBLISH POST", selectedPublishPost);
+      setPublishedPostList(() =>
+        publishedPostList.filter(
+          (publish) => !selectedPublishPost.includes(publish.key)
+        )
+      );
+      setSelectedPublishPost([]);
+    }
+    if (selectedPostStatus === "archived") {
+      console.log("INSIDE DELETE ARCHIVE POST", selectedArchivePost);
+      setArchivedPostList(() =>
+        archivedPostList.filter(
+          (archive) => !selectedArchivePost.includes(archive.key)
+        )
+      );
+      setSelectedArchivePost([]);
+    }
+
+    console.log("DELETE postCount: ", postCount);
+    console.log("POST DELETED");
+  };
+
+  const handlePublishPost = () => {
+    if (selectedPostStatus === "drafts") {
+      console.log("INSIDE PUBLISH POST", selectedDraftPost);
+
+      const filteredDrafts = draftsPostList.filter((draft) =>
+        selectedDraftPost.includes(draft.key)
+      );
+      let postCount = publishedPostCount;
+      const toBePublished = filteredDrafts.map((draft) => {
+        return { ...draft, key: `publish-${(postCount += 1)}` };
+      });
+      postCount = 0;
+
+      console.log("PUBLISH: filteredDrafts", filteredDrafts);
+      console.log("PUBLISH: toBePublished", toBePublished);
+
+      setDraftsPostList(() =>
+        draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
+      );
+      setSelectedDraftPost([]);
+
+      setPublishedPostList((prev) => [...prev, ...toBePublished]);
+    }
+
+    console.log("PUBLISH postCount: ", postCount);
+    console.log("POST PUBLISHED");
+  };
+
+  const handleArchivePost = () => {
+    if (selectedPostStatus === "published") {
+      console.log("INSIDE ARCHIVE POST", selectedPublishPost);
+
+      const filteredPublish = publishedPostList.filter((publish) =>
+        selectedPublishPost.includes(publish.key)
+      );
+      let postCount = archivedPostCount;
+      const toBeArchived = filteredPublish.map((publish) => {
+        return { ...publish, key: `archive-${(postCount += 1)}` };
+      });
+      postCount = 0;
+
+      setPublishedPostList(() =>
+        publishedPostList.filter(
+          (publish) => !selectedPublishPost.includes(publish.key)
+        )
+      );
+      setSelectedPublishPost([]);
+
+      setArchivedPostList((prev) => [...prev, ...toBeArchived]);
+    }
+
+    console.log("ARCHIVE postCount: ", postCount);
+    console.log("POST ARCHIVED");
+  };
+
+  const draftActionsButtons = {
+    delete: {
+      color: "red",
+      label: "Delete Post",
+      action: handleDeletePost,
+    },
+    add: {
+      color: "blue",
+      label: "Add Post",
+      action: handleAddPost,
+    },
+    publish: {
+      color: "orange",
+      label: "Publish Post",
+      action: handlePublishPost,
+    },
+  };
+
+  const publishedActionsButtons = {
+    delete: {
+      color: "red",
+      label: "Delete Post",
+      action: handleDeletePost,
+    },
+    archive: {
+      color: "black",
+      label: "Archive Post",
+      action: handleArchivePost,
+    },
+  };
+
+  const archivedActionButtons = {
+    delete: {
+      color: "red",
+      label: "Delete Post",
+      action: handleDeletePost,
+    },
+  };
+
   const actionButtons =
     selectedPostStatus === "drafts"
       ? draftActionsButtons
@@ -104,11 +278,11 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const postList =
     selectedPostStatus === "drafts"
-      ? draftsPost
+      ? draftsPostList
       : selectedPostStatus === "published"
-      ? publishedPost
+      ? publishedPostList
       : selectedPostStatus === "archived"
-      ? archivedPost
+      ? archivedPostList
       : [];
 
   const selectedPosts =
@@ -148,14 +322,15 @@ const ManagePostMainContent = ({ onClose }) => {
   return (
     <div className="flex flex-col w-[72rem] h-fit">
       {/* HEADER */}
-      <div className="flex-col py-4 px-6 ">
-        <div className="flex items-end justify-end text-lightgrey-default">
+      <div className="flex-col ">
+        <div className="flex items-end justify-end pt-4 pb-3 px-6 text-lightgrey-default bg-lightgrey-hover">
           <Button isIconOnly onPress={onClose} className={"bg-transparent"}>
             <MdMinimize size={24} />
           </Button>
           <CloseButton onPress={onClose} className={""} />
         </div>
-        <div className="flex justify-between items-center px-1 ">
+        <Divider />
+        <div className="flex justify-between items-center px-7 mt-4 mb-3">
           <SearchBar searchItem={searchItem} setSearchItem={setSearchItem} />
           <ManagePostTabs />
         </div>
@@ -167,9 +342,13 @@ const ManagePostMainContent = ({ onClose }) => {
           <CheckboxGroup
             aria-label="Post Item Card Checkbox Group"
             value={selectedPosts}
-            onValueChange={setSelectedPosts}
+            onValueChange={(value) => {
+              setSelectedPosts(value);
+              console.log(value);
+            }}
+            className="w-full"
           >
-            <div className="grid grid-cols-3 gap-x-2 gap-y-6 mt-4 mb-6 ">
+            <div className="grid grid-cols-3 gap-x-6 gap-y-6 mt-4 mb-6 w-full ">
               {filteredPostList.map((post, index) => (
                 <Checkbox
                   value={post.key}
@@ -177,7 +356,7 @@ const ManagePostMainContent = ({ onClose }) => {
                   aria-label="Post Item Card Checkbox"
                   classNames={{
                     base: cn(
-                      "inline-flex w-full",
+                      "inline-flex w-[500px]",
                       "items-start justify-start",
                       "cursor-pointer rounded-lg border-2 border-transparent",
                       "data-[selected=true]:bg-lightgrey-default"
@@ -187,7 +366,7 @@ const ManagePostMainContent = ({ onClose }) => {
                     label: "w-full",
                   }}
                 >
-                  <PostItemCard data={post} />
+                  <ManagePostItemCard data={post} />
                 </Checkbox>
               ))}
             </div>

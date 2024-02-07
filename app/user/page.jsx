@@ -8,7 +8,7 @@ import RightBarCard from "../components/RightBarCard";
 import { userAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
 import HRBulletinBoardList from "./home/components/hrBulletinBoard/HRBulletinBoardList";
-import CreatePostCard from "./home/components/managePost/CreatePostCard";
+import CreatePostCard from "./home/components/createPost/CreatePostCard";
 import PostCard from "./home/components/post/PostCard";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";

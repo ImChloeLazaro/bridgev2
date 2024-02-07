@@ -25,7 +25,7 @@ export function Providers({ children }) {
     }
     return () => RegisterProfile(uservalue)
 
-  },[authvalue, authvalue.isAuthenticated, pathname, router])
+  },[authvalue, authvalue.isAuthenticated, pathname, router, uservalue])
 
   return (
     <NextUIProvider navigate={router.push}>

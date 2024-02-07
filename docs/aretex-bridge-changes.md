@@ -436,3 +436,28 @@ link: string,
 * Fixed media and template buttons correctly displaying post template details when creating new posts
 * Removed left over `console.log` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
+* Added backend handler function for route `/account`
+* Added backend handler function for route `/benefits`
+* Added backend handler function for route `/leave`
+* Updated `post` backend handler function
+* Updated `profile` backend handler function
+* Updated `shortcut` backend handler function
+* Updated `user` backend handler function
+* Deleted `S3Trigger2a62b9a1` backend handler function
+* Deleted `S3Triggere0041d22` backend handler function
+* Added `leave` balance validation
+* Added `POST` and `PUT` backend handler function for `benefits`
+* Updated input fields for onboarding form to be required fields, for not applicable or optional fields `N/A` is needed as an input
+* Added input field for `Employee ID` in `ApplicationOnboarding`
+* Added input field for `Other Courses` and `Date of Attendance` for each education level in `BackgroundOnboarding`
+* Removed `HighSchool` input field in `BackgroundOnboarding` Component
+* Updated `draftPostListAtom` to include `orientation` property
+* Updated `publishedPostListAtom` to include `orientation` property
+* Updated `archivedPostListAtom` to include `orientation` property
+* Changed `home_phone_number` to `landline_number` in `OnboardingStore`
+* Renamed filename and named export of `PostMediaButton` to `ManagePostMediaButton` Component for consistency of naming related components
+* Renamed filename and named export of `PostItemCard` to `ManagePostItemCard` Component for consistency of naming related components
+* Renamed filename and named export of `PostTemplateButton` to `CreatePostTemplateButton` Component for consistency of naming related components
+* Created `createPost` folder for `CreatePost` Components
+* Moved `CreatePostTemplateButton` to `createPost` folder
+* Added `MediaLayoutSelection` Component

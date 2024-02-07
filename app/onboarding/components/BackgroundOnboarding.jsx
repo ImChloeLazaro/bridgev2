@@ -33,7 +33,6 @@ const BackgroundOnboarding = () => {
   const [children, setChildren] = useAtom(childrenAtom);
 
   // Educational Background
-  const [highschool, setHighschool] = useAtom(highschoolAtom);
   const [college, setCollege] = useAtom(collegeAtom);
   const [postGraduate, setPostGraduate] = useAtom(postGraduateAtom);
   const [techVocSpecial, setTechVocSpecial] = useAtom(techVocSpecialAtom);
@@ -51,6 +50,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, name: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"AGE"}
@@ -60,6 +60,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, age: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"OCCUPATION"}
@@ -69,6 +70,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, occupation: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"COMPANY"}
@@ -78,6 +80,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, company: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"MOTHER'S NAME"}
@@ -87,6 +90,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, name: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"AGE"}
@@ -96,6 +100,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, age: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"OCCUPATION"}
@@ -105,6 +110,7 @@ const BackgroundOnboarding = () => {
             return { ...prev, occupation: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"COMPANY"}
@@ -114,12 +120,13 @@ const BackgroundOnboarding = () => {
             return { ...prev, company: text };
           })
         }
+        isRequired={true}
       />
       {children.map((child, c_index) => (
         <div key={"child" + c_index} className="flex flex-col gap-5">
           <OnboardingFieldInput
             key={"name" + c_index}
-            label={"NAME/S OF CHILDREN"}
+            label={"NAME/S OF CHILDREN (if applicable)"}
             value={child.name}
             onValueChange={(text) => {
               handleUpdateValue(
@@ -194,150 +201,192 @@ const BackgroundOnboarding = () => {
 
   const educational_background = (
     <>
-      <OnboardingFieldInput
-        label={"HIGHSCHOOL"}
-        value={highschool.name}
-        onValueChange={(text) =>
-          setHighschool((prev) => {
-            return { ...prev, name: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"ADDRESS"}
-        value={highschool.address}
-        onValueChange={(text) =>
-          setHighschool((prev) => {
-            return { ...prev, address: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DATE OF ATTENDANCE"}
-        value={highschool.date_of_attendance}
-        onValueChange={(text) =>
-          setHighschool((prev) => {
-            return { ...prev, date_of_attendance: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DEGREE/MAJOR"}
-        value={highschool.degree_major}
-        onValueChange={(text) =>
-          setHighschool((prev) => {
-            return { ...prev, degree_major: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"COLLEGE"}
-        value={college.name}
-        onValueChange={(text) =>
-          setCollege((prev) => {
-            return { ...prev, name: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"ADDRESS"}
-        value={college.address}
-        onValueChange={(text) =>
-          setCollege((prev) => {
-            return { ...prev, address: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DATE OF ATTENDANCE"}
-        value={college.date_of_attendance}
-        onValueChange={(text) =>
-          setCollege((prev) => {
-            return { ...prev, date_of_attendance: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DEGREE/MAJOR"}
-        value={college.degree_major}
-        onValueChange={(text) =>
-          setCollege((prev) => {
-            return { ...prev, degree_major: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"POST GRADUATE"}
-        value={postGraduate.name}
-        onValueChange={(text) =>
-          setPostGraduate((prev) => {
-            return { ...prev, name: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"ADDRESS"}
-        value={postGraduate.address}
-        onValueChange={(text) =>
-          setPostGraduate((prev) => {
-            return { ...prev, address: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DATE OF ATTENDANCE"}
-        value={postGraduate.date_of_attendance}
-        onValueChange={(text) =>
-          setPostGraduate((prev) => {
-            return { ...prev, date_of_attendance: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DEGREE/MAJOR"}
-        value={postGraduate.degree_major}
-        onValueChange={(text) =>
-          setPostGraduate((prev) => {
-            return { ...prev, degree_major: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"TECHNICAL/VOCATIONAL/SPECIAL COURSES"}
-        value={techVocSpecial.name}
-        onValueChange={(text) =>
-          setTechVocSpecial((prev) => {
-            return { ...prev, name: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"ADDRESS"}
-        value={techVocSpecial.address}
-        onValueChange={(text) =>
-          setTechVocSpecial((prev) => {
-            return { ...prev, address: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DATE OF ATTENDANCE"}
-        value={techVocSpecial.date_of_attendance}
-        onValueChange={(text) =>
-          setTechVocSpecial((prev) => {
-            return { ...prev, date_of_attendance: text };
-          })
-        }
-      />
-      <OnboardingFieldInput
-        label={"DEGREE/MAJOR"}
-        value={techVocSpecial.degree_major}
-        onValueChange={(text) =>
-          setTechVocSpecial((prev) => {
-            return { ...prev, degree_major: text };
-          })
-        }
-      />
+      <div className="flex flex-wrap gap-5 mb-5">
+        <OnboardingFieldInput
+          label={"COLLEGE"}
+          value={college.name}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, name: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"ADDRESS"}
+          value={college.address}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, address: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DATE OF ATTENDANCE"}
+          value={college.date_of_attendance}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, date_of_attendance: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DEGREE/MAJOR"}
+          value={college.degree_major}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, degree_major: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"OTHER COURSES"}
+          value={college.other_courses}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, other_courses: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DATE OF ATTENDANCE"}
+          value={college.course_date_of_attendance}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, course_date_of_attendance: text };
+            })
+          }
+          isRequired={true}
+        />
+      </div>
+      <div className="flex flex-wrap gap-5 mb-5">
+        <OnboardingFieldInput
+          label={"POST GRADUATE"}
+          value={postGraduate.name}
+          onValueChange={(text) =>
+            setPostGraduate((prev) => {
+              return { ...prev, name: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"ADDRESS"}
+          value={postGraduate.address}
+          onValueChange={(text) =>
+            setPostGraduate((prev) => {
+              return { ...prev, address: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DATE OF ATTENDANCE"}
+          value={postGraduate.date_of_attendance}
+          onValueChange={(text) =>
+            setPostGraduate((prev) => {
+              return { ...prev, date_of_attendance: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DEGREE/MAJOR"}
+          value={postGraduate.degree_major}
+          onValueChange={(text) =>
+            setPostGraduate((prev) => {
+              return { ...prev, degree_major: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"OTHER COURSES"}
+          value={college.degree_major}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, degree_major: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DATE OF ATTENDANCE"}
+          value={college.date_of_attendance}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, date_of_attendance: text };
+            })
+          }
+          isRequired={true}
+        />
+      </div>
+      <div className="flex flex-wrap gap-5 mb-5">
+        <OnboardingFieldInput
+          label={"TECHNICAL/VOCATIONAL/SPECIAL COURSES"}
+          value={techVocSpecial.name}
+          onValueChange={(text) =>
+            setTechVocSpecial((prev) => {
+              return { ...prev, name: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"ADDRESS"}
+          value={techVocSpecial.address}
+          onValueChange={(text) =>
+            setTechVocSpecial((prev) => {
+              return { ...prev, address: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DATE OF ATTENDANCE"}
+          value={techVocSpecial.date_of_attendance}
+          onValueChange={(text) =>
+            setTechVocSpecial((prev) => {
+              return { ...prev, date_of_attendance: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DEGREE/MAJOR"}
+          value={techVocSpecial.degree_major}
+          onValueChange={(text) =>
+            setTechVocSpecial((prev) => {
+              return { ...prev, degree_major: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"OTHER COURSES"}
+          value={college.degree_major}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, degree_major: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          label={"DATE OF ATTENDANCE"}
+          value={college.date_of_attendance}
+          onValueChange={(text) =>
+            setCollege((prev) => {
+              return { ...prev, date_of_attendance: text };
+            })
+          }
+          isRequired={true}
+        />
+      </div>
     </>
   );
 
@@ -358,6 +407,7 @@ const BackgroundOnboarding = () => {
                 setExaminationTaken
               );
             }}
+            isRequired={true}
           />
           <OnboardingFieldInput
             key={"date_taken" + e_index}
@@ -372,6 +422,7 @@ const BackgroundOnboarding = () => {
                 setExaminationTaken
               );
             }}
+            isRequired={true}
           />
           <OnboardingFieldInput
             key={"certification" + e_index}
@@ -386,6 +437,7 @@ const BackgroundOnboarding = () => {
                 setExaminationTaken
               );
             }}
+            isRequired={true}
           />
         </div>
       ))}

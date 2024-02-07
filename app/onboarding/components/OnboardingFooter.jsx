@@ -49,7 +49,6 @@ import { childrenAtom, fatherAtom, motherAtom } from "../store/OnboardingStore";
 
 import {
   collegeAtom,
-  highschoolAtom,
   postGraduateAtom,
   techVocSpecialAtom,
 } from "../store/OnboardingStore";
@@ -115,7 +114,6 @@ const OnboardingFooter = () => {
   const children = useAtomValue(childrenAtom);
 
   // Educational Background
-  const highschool = useAtomValue(highschoolAtom);
   const college = useAtomValue(collegeAtom);
   const postGraduate = useAtomValue(postGraduateAtom);
   const techVocSpecial = useAtomValue(techVocSpecialAtom);
@@ -140,7 +138,6 @@ const OnboardingFooter = () => {
   );
 
   const handleSubmit = async () => {
-    // ### TODO Merge together all data object before submit to server
     const onboardingData = {
       application: {
         application_details: {
@@ -152,7 +149,7 @@ const OnboardingFooter = () => {
           date_application: dateApplication,
           date_availability: dateAvailability,
           applied_for: appliedFor,
-          salary: salary,
+          salary: salary, // expected salary
         },
         employee_information: {
           present_address: presentAddress, // with zip code
@@ -164,7 +161,7 @@ const OnboardingFooter = () => {
           age: age,
           email_address: emailAddress,
           birthplace: birthplace,
-          home_phone_number: homePhoneNumber,
+          home_phone_number: homePhoneNumber, // landline number
           citizenship: citizenship,
           mobile_number: mobileNumber,
           religion: religion,
@@ -184,7 +181,6 @@ const OnboardingFooter = () => {
           children: children,
         },
         educational_background: {
-          highschool: highschool,
           college: college,
           post_graduate: postGraduate,
           technical_vocational: techVocSpecial,
@@ -202,14 +198,15 @@ const OnboardingFooter = () => {
       sub: unique_key.sub,
     };
 
-    const profileresponse  = await restinsert("/profile", onboardingData);
-    const updateonboardingstatus = await updatewithparams("/user", {sub: unique_key.sub});
-    const leaveresponse = await restinsert("/leave", {sub: unique_key.sub});
+    const profileresponse = await restinsert("/profile", onboardingData);
+    const updateonboardingstatus = await updatewithparams("/user", {
+      sub: unique_key.sub,
+    });
+    const leaveresponse = await restinsert("/leave", { sub: unique_key.sub });
     console.log("PROFILE RESPONSE", profileresponse);
     console.log("ONBOARDING STATUS RESPONSE", updateonboardingstatus);
     console.log("LEAVE RESPONSE", leaveresponse);
-    console.log("ONBOARDING FORM SUBMITTED!")
-    // setIsSubmittedOnboardingForm(true);
+    console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
   };
 
   const handleNext = () => {

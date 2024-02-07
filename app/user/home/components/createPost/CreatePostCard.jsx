@@ -1,7 +1,7 @@
 import { Avatar, Card, CardBody } from "@nextui-org/react";
 import CreatePostButton from "./CreatePostButton";
-import PostMediaButton from "./PostMediaButton";
-import PostTemplateButton from "./PostTemplateButton";
+import ManagePostMediaButton from "../managePost/ManagePostMediaButton";
+import CreatePostTemplateButton from "./CreatePostTemplateButton";
 
 const CreatePostCard = ({ data }) => {
   return (
@@ -21,8 +21,8 @@ const CreatePostCard = ({ data }) => {
           <div className="w-full px-4 flex flex-col gap-5">
             <CreatePostButton />
             <div className="flex justify-between">
-              <PostMediaButton />
-              <PostTemplateButton />
+              <ManagePostMediaButton />
+              <CreatePostTemplateButton />
             </div>
           </div>
         </div>

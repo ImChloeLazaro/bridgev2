@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { Select, SelectItem, Avatar, Chip } from "@nextui-org/react";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { reactionIcons } from "../reaction/ReactionIcons";
+import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
+import { MdGroups } from "react-icons/md";
 import {
   selectedTaggedPeopleAtom,
   taggedPeopleListAtom,
 } from "../../store/ManagePostStore";
-import { useAtomValue, useAtom } from "jotai";
-import { MdGroups } from "react-icons/md";
 
 const TagPersonSelect = () => {
   const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(

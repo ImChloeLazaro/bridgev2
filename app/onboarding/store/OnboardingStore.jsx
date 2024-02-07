@@ -1,6 +1,9 @@
 import { atom } from "jotai";
 import { fetchOnboardingStatus } from "../../store/UserStore";
 
+// ### TODO UPDATE INPUT FIELDS
+// ### FOR OPTIONAL or NOT APPLICABLE FIELDS input N/A
+
 export const stepsAtom = atom([
   "application",
   "background",
@@ -44,6 +47,7 @@ export const dateApplicationAtom = atom("");
 export const dateAvailabilityAtom = atom("");
 export const appliedForAtom = atom("");
 export const salaryAtom = atom("");
+export const employeeIDAtom = atom("");
 
 // Employee Information
 export const presentAddressAtom = atom("");
@@ -105,18 +109,13 @@ export const childrenAtom = atom([
 ]);
 
 // Educational Background
-export const highschoolAtom = atom({
-  name: "",
-  address: "",
-  date_of_attendance: "",
-  degree_major: "",
-});
-
 export const collegeAtom = atom({
   name: "",
   address: "",
   date_of_attendance: "",
   degree_major: "",
+  other_courses: "",
+  course_date_of_attendance: "",
 });
 
 export const postGraduateAtom = atom({
@@ -124,6 +123,8 @@ export const postGraduateAtom = atom({
   address: "",
   date_of_attendance: "",
   degree_major: "",
+  other_courses: "",
+  course_date_of_attendance: "",
 });
 
 export const techVocSpecialAtom = atom({
@@ -131,6 +132,8 @@ export const techVocSpecialAtom = atom({
   address: "",
   date_of_attendance: "",
   degree_major: "",
+  other_courses: "",
+  course_date_of_attendance: "",
 });
 
 // Examination Taken
@@ -247,5 +250,5 @@ export const contactAtom = atom({
 });
 
 export const isSubmittedOnboardingFormAtom = atom(async (get) => {
-  return await get(fetchOnboardingStatus)
+  return await get(fetchOnboardingStatus);
 });

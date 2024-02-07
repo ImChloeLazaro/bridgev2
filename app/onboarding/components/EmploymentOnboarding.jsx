@@ -35,7 +35,7 @@ const EmploymentOnboarding = () => {
   const [references, setReferences] = useAtom(referencesAtom);
 
   const employment_history = employmentHistory.map((history, h_index) => (
-    <div key={"history" + h_index} className="flex flex-wrap gap-5">
+    <div key={"history" + h_index} className="flex flex-wrap gap-5 mb-5">
       <OnboardingFieldInput
         key={"employment_position_held" + h_index}
         label={"POSITION HELD"}
@@ -49,6 +49,7 @@ const EmploymentOnboarding = () => {
             setEmploymentHistory
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"employment_date_of_attendance" + h_index}
@@ -63,6 +64,7 @@ const EmploymentOnboarding = () => {
             setEmploymentHistory
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"employment_duration" + h_index}
@@ -77,6 +79,7 @@ const EmploymentOnboarding = () => {
             setEmploymentHistory
           );
         }}
+        isRequired={true}
       />
 
       <OnboardingFieldInput
@@ -92,12 +95,13 @@ const EmploymentOnboarding = () => {
             setEmploymentHistory
           );
         }}
+        isRequired={true}
       />
     </div>
   ));
 
   const trainings_attended = trainingsAttended.map((training, t_index) => (
-    <div key={"training" + t_index} className="flex flex-wrap gap-5">
+    <div key={"training" + t_index} className="flex flex-wrap gap-5 mb-5">
       <OnboardingFieldInput
         key={"training_program_name" + t_index}
         label={"NAME OF PROGRAM"}
@@ -111,6 +115,7 @@ const EmploymentOnboarding = () => {
             setTrainingsAttended
           );
         }}
+        isRequired={true}
       />
 
       <OnboardingFieldInput
@@ -126,6 +131,7 @@ const EmploymentOnboarding = () => {
             setTrainingsAttended
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"training_duration" + t_index}
@@ -140,6 +146,7 @@ const EmploymentOnboarding = () => {
             setTrainingsAttended
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"training_provider" + t_index}
@@ -154,11 +161,12 @@ const EmploymentOnboarding = () => {
             setTrainingsAttended
           );
         }}
+        isRequired={true}
       />
     </div>
   ));
   const employment_reference = references.map((reference, r_index) => (
-    <div key={"reference" + r_index} className="flex flex-wrap gap-5">
+    <div key={"reference" + r_index} className="flex flex-wrap gap-5 mb-5">
       <OnboardingFieldInput
         key={"reference_name" + r_index}
         label={"NAME"}
@@ -172,6 +180,7 @@ const EmploymentOnboarding = () => {
             setReferences
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"reference_company_name_address" + r_index}
@@ -186,6 +195,7 @@ const EmploymentOnboarding = () => {
             setReferences
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"reference_position_held" + r_index}
@@ -200,6 +210,7 @@ const EmploymentOnboarding = () => {
             setReferences
           );
         }}
+        isRequired={true}
       />
       <OnboardingFieldInput
         key={"reference_contact_number" + r_index}
@@ -214,6 +225,7 @@ const EmploymentOnboarding = () => {
             setReferences
           );
         }}
+        isRequired={true}
       />
     </div>
   ));

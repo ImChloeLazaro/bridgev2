@@ -1,11 +1,11 @@
-import { Tabs, Tab, Chip } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { Chip, Tab, Tabs } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
 import {
   postStatusTabsAtom,
   selectedPostStatusAtom,
 } from "../../store/ManagePostStore";
 
-const ManagePostTabs = ({size}) => {
+const ManagePostTabs = () => {
   const postStatusTabs = useAtomValue(postStatusTabsAtom);
   const [selectedPostStatus, setSelectedPostStatus] = useAtom(
     selectedPostStatusAtom
@@ -30,14 +30,16 @@ const ManagePostTabs = ({size}) => {
           title={
             <div className="flex items-center space-x-2">
               <span className="font-bold text-blue-default">{tabs.title}</span>
-              <Chip
-                radius="full"
-                size="sm"
-                variant="flat"
-                className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
-              >
-                {tabs.count}
-              </Chip>
+              {tabs.count != 0 && (
+                <Chip
+                  radius="full"
+                  size="sm"
+                  variant="flat"
+                  className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
+                >
+                  {tabs.count}
+                </Chip>
+              )}
             </div>
           }
         />

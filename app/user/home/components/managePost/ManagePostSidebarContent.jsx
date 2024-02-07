@@ -20,6 +20,7 @@ import {
 } from "../../store/ManagePostStore";
 import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
+import MediaLayoutSelection from "../mediaLayout/MediaLayoutSelection";
 
 const ManagePostSidebarContent = () => {
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
@@ -52,6 +53,7 @@ const ManagePostSidebarContent = () => {
     )[0];
 
     if (selectedTemplate) {
+      setTemplateName(selectedTemplate.type);
       setSelectedReactions([...selectedTemplate.reactionList]);
       setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
       setPostTitle(selectedTemplate.title);
@@ -120,7 +122,9 @@ const ManagePostSidebarContent = () => {
         </div>
         <div className="flex justify-start items-center gap-5 ">
           <p className="font-normal w-24">{"Choose Layout"}</p>
-          <div className="w-full h-40 bg-grey-hover rounded-md my-2"></div>
+          <div className="w-full h-40 bg-grey-hover rounded-md my-2">
+            <MediaLayoutSelection />
+          </div>
         </div>
         <div className="flex justify-start items-center gap-5">
           <p className="font-normal w-20">{"Files"}</p>

@@ -21,6 +21,7 @@ const ContactOnboarding = () => {
             return { ...prev, name: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"ADDRESS"}
@@ -30,6 +31,7 @@ const ContactOnboarding = () => {
             return { ...prev, address: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"RELATIONSHIP"}
@@ -39,6 +41,7 @@ const ContactOnboarding = () => {
             return { ...prev, relationship: text };
           })
         }
+        isRequired={true}
       />
       <OnboardingFieldInput
         label={"CONTACT NUMBER"}
@@ -48,6 +51,7 @@ const ContactOnboarding = () => {
             return { ...prev, contact_number: text };
           })
         }
+        isRequired={true}
       />
     </>
   );

@@ -1,7 +1,6 @@
 import { Divider } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import CTAButtons from "../../../../components/CTAButtons";
-
 import {
   filterKeysAtom,
   postCaptionAtom,
@@ -15,10 +14,7 @@ import {
   templateTypeCountAtom,
   templateTypeSelectionAtom,
 } from "../../store/ManagePostStore";
-
 import ManagePostSidebarContent from "./ManagePostSidebarContent";
-
-// ### TODO Add docs * Renamed `s` to `s` for consistency of purpose as a component
 
 const ManagePostSidebar = () => {
   const [templateTypeSelection, setTemplateTypeSelection] = useAtom(
@@ -69,6 +65,7 @@ const ManagePostSidebar = () => {
       })
     );
   };
+  
 
   const handleDeleteTemplate = () => {
     console.log("DELETED TEMPLATE");
@@ -91,6 +88,8 @@ const ManagePostSidebar = () => {
     setSelectedTaggedPeople([]);
     setPostCaption("");
   };
+
+
   const handleAddTemplate = () => {
     console.log("ADDED TEMPLATE");
 
