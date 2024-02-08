@@ -91,6 +91,19 @@
           "delete"
         ]
       }
+    },
+    "/recruitment": {
+      "name": "/recruitment",
+      "lambdaFunction": "recruitmenthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

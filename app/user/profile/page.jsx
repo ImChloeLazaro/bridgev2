@@ -18,15 +18,17 @@ import EmergencyContactContent from "./components/emergencyContact/EmergencyCont
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
-
+import { recruitmentStatusAtom } from "../../store/UserStore"
+;
 const Profile = () => {
   const user = useAtomValue(userAtom);
-
+  const recruitment = useAtomValue(recruitmentStatusAtom);
+  console.log('RECRUITMENT',recruitment.response);
   return (
     user.isAuthenticated && (
       <>
         <MainContent>
-          <ProfileCard data={user} />
+          <ProfileCard data={recruitment.response[0]} />
         </MainContent>
         <RightBar>
           {/* LEAVE BALANCE */}

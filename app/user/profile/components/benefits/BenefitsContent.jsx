@@ -5,8 +5,6 @@ import { userAtom, benefitsStatusAtom } from "../../../../store/UserStore";
 const BenefitsContent = () => {
   const user = useAtomValue(userAtom);
   const result = useAtomValue(benefitsStatusAtom);
-
-  console.log("benefit", result);
   return (
     <div className="flex flex-col w-full gap-1">
       {result.response !== null ? (

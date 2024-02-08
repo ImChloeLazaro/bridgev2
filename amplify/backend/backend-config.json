@@ -57,6 +57,14 @@
           ],
           "category": "function",
           "resourceName": "benefithandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "recruitmenthandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -125,6 +133,12 @@
     },
     "profilehandler": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "recruitmenthandler": {
+      "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -290,6 +304,30 @@
         {
           "category": "function",
           "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_recruitmenthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "recruitmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_recruitmenthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "recruitmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_recruitmenthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "recruitmenthandler"
         }
       ]
     },
