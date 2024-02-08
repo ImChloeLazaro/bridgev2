@@ -10,21 +10,8 @@ import {
 } from "@nextui-org/react";
 import { reactionIcons } from "../reaction/ReactionIcons";
 import MediaLayoutDisplay from "../mediaLayout/MediaLayoutDisplay";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  selectedMediaLayoutAtom,
-  selectedMediaOrientationAtom,
-} from "../../store/ManagePostStore";
 
 const ManagePostItemCard = ({ data }) => {
-  const selectedMediaOrientation = useAtomValue(selectedMediaOrientationAtom);
-  const selectedMediaLayout = useAtomValue(selectedMediaLayoutAtom);
-
-  const selectedMediaOrientationString = Array.from(
-    selectedMediaOrientation
-  ).join("");
-  const selectedMediaLayoutString = Array.from(selectedMediaLayout).join("");
-
   const reactionStack = {
     0: "-ml-1",
     1: "-ml-2",
@@ -60,14 +47,14 @@ const ManagePostItemCard = ({ data }) => {
         </p>
         <div className="h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md ">
           {data.media.length != 0 && (
-          <MediaLayoutDisplay
-            layout={data.mediaLayout}
-            orientation={data.orientation}
-            size={data.media.length}
-          />
-        )}
+            <MediaLayoutDisplay
+              mediaFileList={data.media}
+              layout={data.mediaLayout}
+              orientation={data.orientation}
+              size={data.media.length}
+            />
+          )}
         </div>
-        
       </CardBody>
 
       <CardFooter>

@@ -156,6 +156,7 @@ const ManagePostSidebarContent = () => {
             (selectedMediaLayoutString ? (
               <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 <MediaLayoutDisplay
+                  mediaFileList={mediaFileList}
                   layout={selectedMediaLayoutString}
                   orientation={selectedMediaOrientationString}
                   size={mediaFileList.length}
@@ -167,6 +168,7 @@ const ManagePostSidebarContent = () => {
             (selectedMediaOrientationString ? (
               <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 <MediaLayoutDisplay
+                  mediaFileList={mediaFileList}
                   layout={selectedMediaLayoutString}
                   orientation={selectedMediaOrientationString}
                   size={mediaFileList.length}

@@ -473,3 +473,10 @@ link: string,
 * Added `MediaLayoutSelect` Component
 * Added `MediaOrientationSelect` Component
 * Fixed media layout and orientation selection for `ManagePost` Component
+* Added `recruitment` backend handler function
+* Updated employee information in `AboutInfo` Component in `Profile` Page
+* Added `recruitmentStatusAtom` in `UserStore` for fetching the recruitment status of an employee
+
+## v.0.5.13
+
+* Fixed Media Layout Preview before posting on `ManagePostItemCard` Component
