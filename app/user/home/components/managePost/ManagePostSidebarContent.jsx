@@ -9,9 +9,13 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import {
   filterKeysAtom,
+  mediaFileListAtom,
+  mediaOrientationSelectionAtom,
   postCaptionAtom,
   postTemplatesAtom,
   postTitleAtom,
+  selectedMediaLayoutAtom,
+  selectedMediaOrientationAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
@@ -20,24 +24,36 @@ import {
 } from "../../store/ManagePostStore";
 import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
-import MediaLayoutSelection from "../mediaLayout/MediaLayoutSelection";
+import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
+import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
+import MediaLayoutDisplay from "../mediaLayout/MediaLayoutDisplay";
 
 const ManagePostSidebarContent = () => {
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
   );
-
-  const templateTypeSelection = useAtomValue(templateTypeSelectionAtom);
-
   const [postTitle, setPostTitle] = useAtom(postTitleAtom);
   const [postCaption, setPostCaption] = useAtom(postCaptionAtom);
   const [templateName, setTemplateName] = useAtom(templateNameAtom);
+
+  const templateTypeSelection = useAtomValue(templateTypeSelectionAtom);
   const postTemplates = useAtomValue(postTemplatesAtom);
 
+  const [selectedMediaOrientation, setSelectedMediaOrientation] = useAtom(
+    selectedMediaOrientationAtom
+  );
+  const [selectedMediaLayout, setSelectedMediaLayout] = useAtom(
+    selectedMediaLayoutAtom
+  );
+  const [mediaFileList, setMediaFileList] = useAtom(mediaFileListAtom);
   const setSelectedReactions = useSetAtom(selectedReactionsAtom);
   const setSelectedTaggedPeople = useSetAtom(selectedTaggedPeopleAtom);
   const filterKeys = useAtomValue(filterKeysAtom);
 
+  const selectedMediaOrientationString = Array.from(
+    selectedMediaOrientation
+  ).join("");
+  const selectedMediaLayoutString = Array.from(selectedMediaLayout).join("");
   const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
 
   const templateOnlyList = filterKeys
@@ -54,6 +70,9 @@ const ManagePostSidebarContent = () => {
 
     if (selectedTemplate) {
       setTemplateName(selectedTemplate.type);
+      setSelectedMediaOrientation([...selectedTemplate.orientation]);
+      setSelectedMediaLayout([...selectedTemplate.mediaLayout]);
+      setMediaFileList(selectedTemplate.media);
       setSelectedReactions([...selectedTemplate.reactionList]);
       setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
       setPostTitle(selectedTemplate.title);
@@ -63,8 +82,8 @@ const ManagePostSidebarContent = () => {
   };
 
   return (
-    <div className="w-full max-w-md max-h-full overflow-y-scroll no-scrollbar">
-      <div className="flex flex-col justify-between h-screen max-h-[50rem] py-2 px-6 gap-3 ">
+    <div className="w-full max-w-lg max-h-full overflow-y-scroll no-scrollbar">
+      <div className="flex flex-col justify-between w-full h-screen max-h-[50rem] py-2 px-6 gap-3 ">
         <div className="flex justify-start items-center gap-1">
           <p className="font-bold">{"Template Settings"}</p>
           <MdInfoOutline />
@@ -77,7 +96,6 @@ const ManagePostSidebarContent = () => {
             disallowEmptySelection={true}
             selectedKeys={selectedTemplateType}
             onSelectionChange={(key) => handleSelectionChange(key)}
-            onChange={() => console.log("CHANGED KEY")}
             classNames={{
               base: "max-w-sm",
               trigger: "min-h-unit-12 py-2",
@@ -120,11 +138,46 @@ const ManagePostSidebarContent = () => {
           <p className="font-bold">{"Media"}</p>
           <MdInfoOutline />
         </div>
-        <div className="flex justify-start items-center gap-5 ">
-          <p className="font-normal w-24">{"Choose Layout"}</p>
-          <div className="w-full h-40 bg-grey-hover rounded-md my-2">
-            <MediaLayoutSelection />
+        <div className="flex justify-start items-center w-full h-fit gap-8">
+          {/* // Layout & Orientation */}
+          <div className="flex-col justify-center items-center w-full">
+            <div className="flex justify-start items-center gap-5 mb-5">
+              <p className="font-normal w-28">{"Layout"}</p>
+              <MediaLayoutSelect />
+            </div>
+            <div className="flex justify-start items-center gap-5 mb-5">
+              <p className="font-normal w-24">{"Orientation"}</p>
+              <MediaOrientationSelect />
+            </div>
           </div>
+          {/* // Display */}
+          {/* <div className="w-80 h-40 bg-grey-hover rounded-md p-1"></div> */}
+          {mediaFileList ? (
+            (selectedMediaLayoutString ? (
+              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+                <MediaLayoutDisplay
+                  layout={selectedMediaLayoutString}
+                  orientation={selectedMediaOrientationString}
+                  size={mediaFileList.length}
+                />
+              </div>
+            ) : (
+              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover"></div>
+            )) &&
+            (selectedMediaOrientationString ? (
+              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+                <MediaLayoutDisplay
+                  layout={selectedMediaLayoutString}
+                  orientation={selectedMediaOrientationString}
+                  size={mediaFileList.length}
+                />
+              </div>
+            ) : (
+              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover"></div>
+            ))
+          ) : (
+            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover"></div>
+          )}
         </div>
         <div className="flex justify-start items-center gap-5">
           <p className="font-normal w-20">{"Files"}</p>

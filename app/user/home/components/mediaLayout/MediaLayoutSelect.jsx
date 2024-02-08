@@ -1,0 +1,42 @@
+import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
+import { MdGroups } from "react-icons/md";
+import {
+  mediaLayoutSelectionAtom,
+  selectedMediaLayoutAtom,
+  selectedTaggedPeopleAtom,
+  taggedPeopleListAtom,
+} from "../../store/ManagePostStore";
+
+const MediaLayoutSelect = () => {
+  const [selectedMediaLayout, setSelectedMediaLayout] = useAtom(
+    selectedMediaLayoutAtom
+  );
+  const mediaLayoutSelection = useAtomValue(mediaLayoutSelectionAtom);
+
+  return (
+    <Select
+    aria-label="Media Layout Selection"
+    items={mediaLayoutSelection}
+    disallowEmptySelection={true}
+    placeholder="Choose Layout"
+    selectedKeys={selectedMediaLayout}
+    onSelectionChange={(key) => setSelectedMediaLayout(key)}
+    classNames={{
+      base: "max-w-sm",
+      trigger: "min-h-unit-12 py-2",
+    }}
+  >
+    {(layout) => (
+      <SelectItem
+        key={layout.value}
+        value={layout.value}
+        textValue={layout.label}
+      >
+        {layout.label}
+      </SelectItem>
+    )}
+  </Select>
+  );
+};
+export default MediaLayoutSelect;

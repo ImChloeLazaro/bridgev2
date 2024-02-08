@@ -44,7 +44,6 @@ export const templateTypeSelectionAtom = atom([
 export const templateTypeCountAtom = atom(
   (get) => get(templateTypeSelectionAtom).length
 );
-
 export const selectedTemplateTypeAtom = atom(new Set(["custom"]));
 
 export const templateNameAtom = atom("");
@@ -81,8 +80,41 @@ export const reactionsSelectionAtom = atom([
 ]);
 export const selectedReactionsAtom = atom(new Set([]));
 
-export const mediaLayoutAtom = atom();
-export const mediaFileListAtom = atom();
+let mediaLayoutIndex = 0;
+export const mediaLayoutSelectionAtom = atom([
+  {
+    key: `mediaLayout-${(mediaLayoutIndex += 1)}`,
+    label: "Single",
+    value: "single",
+  },
+  {
+    key: `mediaLayout-${(mediaLayoutIndex += 1)}`,
+    label: "Multiple",
+    value: "multiple",
+  },
+]);
+export const selectedMediaLayoutAtom = atom(new Set([]));
+
+let mediaOrientationIndex = 0;
+export const mediaOrientationSelectionAtom = atom([
+  {
+    key: `mediaLayout-${(mediaOrientationIndex += 1)}`,
+    label: "Landscape",
+    value: "landscape",
+  },
+  {
+    key: `mediaLayout-${(mediaOrientationIndex += 1)}`,
+    label: "Portrait",
+    value: "portrait",
+  },
+]);
+export const selectedMediaOrientationAtom = atom(new Set([]));
+
+export const mediaFileListAtom = atom([
+  "/Kaylynn Bergson.png",
+  "/Kaylynn Bergson.png",
+  "/Kaylynn Bergson.png",
+]);
 
 export const postTitleAtom = atom("");
 
@@ -167,10 +199,11 @@ export const postTemplatesAtom = atom([
   {
     id: (postTemplatesIndex += 1),
     name: "Custom",
-    type: "custom",
+    type: "",
     reactionList: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    media: [],
+    mediaLayout: [],
+    orientation: [],
     title: "",
     tagPeople: [],
     caption: "",
@@ -180,8 +213,9 @@ export const postTemplatesAtom = atom([
     name: "Award",
     type: "award",
     reactionList: ["star"],
-    mediaLayout: "one",
-    orientation: "landscape",
+    media: ["/Tatiana Philips.png"],
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     title: "Rex Winner Month of JANUARY",
     tagPeople: ["all"],
     caption: "Congratulations!!! Good Job!!",
@@ -191,8 +225,9 @@ export const postTemplatesAtom = atom([
     name: "Birthday",
     type: "birthday",
     reactionList: ["birthday"],
-    mediaLayout: "one",
-    orientation: "portrait",
+    media: ["/Tatiana Philips.png", "/Tatiana Philips.png"],
+    mediaLayout: ["multiple"],
+    orientation: ["portrait"],
     title: "HAPPY BIRTHDAY!!!",
     tagPeople: ["all"],
     caption:
@@ -203,8 +238,15 @@ export const postTemplatesAtom = atom([
     name: "Events",
     type: "events",
     reactionList: ["happy"],
-    mediaLayout: "",
-    orientation: "landscape",
+    media: [
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+    ],
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     title: "LOOK HERE!!!",
     tagPeople: ["all"],
     caption: "Witness what we have prepared for you and hope that you enjoy!!!",
@@ -214,8 +256,13 @@ export const postTemplatesAtom = atom([
     name: "Feedback",
     type: "feedback",
     reactionList: ["star"],
-    mediaLayout: "",
-    orientation: "landscape",
+    media: [
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+    ],
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     title: "CLIENT FEEDBACK",
     tagPeople: ["all"],
     caption: "Thank you for your hard work!!! Cheers!",
@@ -225,8 +272,14 @@ export const postTemplatesAtom = atom([
     name: "News",
     type: "news",
     reactionList: ["love"],
-    mediaLayout: "",
-    orientation: "landscape",
+    media: [
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+    ],
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     title: "ATTENTION A-FAMILY!!!",
     tagPeople: ["all"],
     caption: "Look alive! \nHere are some of the hottest news today!",
@@ -236,8 +289,16 @@ export const postTemplatesAtom = atom([
     name: "Team",
     type: "team",
     reactionList: ["happy"],
-    mediaLayout: "",
-    orientation: "landscape",
+    media: [
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
+    ],
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     title: "NEW TEAM MEMBERS",
     tagPeople: ["all"],
     caption: "Let us welcome our newest members of our A-Family!!!",
@@ -259,9 +320,9 @@ export const draftPostListAtom = atom([
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    media: ["/Tatiana Philips.png", "/Tatiana Philips.png"],
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["love", "star", "happy"],
     tagPeople: [""], // key of users
   },
@@ -275,8 +336,8 @@ export const draftPostListAtom = atom([
     caption:
       "Another JOB well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -290,8 +351,8 @@ export const draftPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -305,8 +366,8 @@ export const draftPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -320,8 +381,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -335,8 +396,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -350,8 +411,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -365,8 +426,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -380,8 +441,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -395,8 +456,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -410,8 +471,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -425,8 +486,8 @@ export const draftPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -448,8 +509,8 @@ export const publishedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -463,8 +524,8 @@ export const publishedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -478,8 +539,8 @@ export const publishedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -493,8 +554,8 @@ export const publishedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -508,8 +569,8 @@ export const publishedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -523,8 +584,8 @@ export const publishedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -538,8 +599,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -553,8 +614,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -568,8 +629,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -583,8 +644,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -598,8 +659,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -613,8 +674,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -628,8 +689,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -643,8 +704,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -658,8 +719,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -673,8 +734,8 @@ export const publishedPostListAtom = atom([
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
   //   media: [],
-  //   mediaLayout: "one",
-  //   orientation: "landscape",
+  //   mediaLayout: ["multiple"],
+  //   orientation: ["landscape"],
   //   reactionList: ["star"],
   //   tagPeople: [""], // key of users
   // },
@@ -698,8 +759,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -713,8 +774,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -728,8 +789,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -743,8 +804,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -758,8 +819,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -773,8 +834,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -788,8 +849,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },
@@ -803,8 +864,8 @@ export const archivedPostListAtom = atom([
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
     media: [],
-    mediaLayout: "one",
-    orientation: "landscape",
+    mediaLayout: ["multiple"],
+    orientation: ["landscape"],
     reactionList: ["star"],
     tagPeople: [""], // key of users
   },

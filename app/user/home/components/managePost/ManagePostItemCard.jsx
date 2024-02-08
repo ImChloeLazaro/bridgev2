@@ -6,11 +6,25 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  User
+  User,
 } from "@nextui-org/react";
 import { reactionIcons } from "../reaction/ReactionIcons";
+import MediaLayoutDisplay from "../mediaLayout/MediaLayoutDisplay";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  selectedMediaLayoutAtom,
+  selectedMediaOrientationAtom,
+} from "../../store/ManagePostStore";
 
 const ManagePostItemCard = ({ data }) => {
+  const selectedMediaOrientation = useAtomValue(selectedMediaOrientationAtom);
+  const selectedMediaLayout = useAtomValue(selectedMediaLayoutAtom);
+
+  const selectedMediaOrientationString = Array.from(
+    selectedMediaOrientation
+  ).join("");
+  const selectedMediaLayoutString = Array.from(selectedMediaLayout).join("");
+
   const reactionStack = {
     0: "-ml-1",
     1: "-ml-2",
@@ -18,6 +32,7 @@ const ManagePostItemCard = ({ data }) => {
     3: "-ml-3",
     4: "-ml-4",
   };
+
   return (
     // {/* border-blue-default border-2 */}
     <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2">
@@ -43,7 +58,16 @@ const ManagePostItemCard = ({ data }) => {
         <p className="h-[2.25rem] font-medium text-sm tracking-tight leading-tight line-clamp-2">
           {data.caption}
         </p>
-        <div className="bg-grey-hover rounded-md mt-3 w-full h-32 "></div>
+        <div className="h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md ">
+          {data.media.length != 0 && (
+          <MediaLayoutDisplay
+            layout={data.mediaLayout}
+            orientation={data.orientation}
+            size={data.media.length}
+          />
+        )}
+        </div>
+        
       </CardBody>
 
       <CardFooter>

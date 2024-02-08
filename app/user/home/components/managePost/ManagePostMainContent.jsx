@@ -13,6 +13,7 @@ import {
   draftPostCountAtom,
   draftPostListAtom,
   filterKeysAtom,
+  mediaFileListAtom,
   postCaptionAtom,
   postTemplatesAtom,
   postTemplatesCountAtom,
@@ -22,6 +23,8 @@ import {
   selectedArchivePostAtom,
   selectedDraftPostAtom,
   selectedFilterKeysAtom,
+  selectedMediaLayoutAtom,
+  selectedMediaOrientationAtom,
   selectedPostStatusAtom,
   selectedPublishPostAtom,
   selectedReactionsAtom,
@@ -59,11 +62,14 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedArchivePostAtom
   );
 
-  const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
-
-  const [templateTypeSelection, setTemplateTypeSelection] = useAtom(
-    templateTypeSelectionAtom
+  const [selectedMediaOrientation, setSelectedMediaOrientation] = useAtom(
+    selectedMediaOrientationAtom
   );
+  const [selectedMediaLayout, setSelectedMediaLayout] = useAtom(
+    selectedMediaLayoutAtom
+  );
+
+  const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
 
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
@@ -72,9 +78,6 @@ const ManagePostMainContent = ({ onClose }) => {
   const [postTitle, setPostTitle] = useAtom(postTitleAtom);
   const [postCaption, setPostCaption] = useAtom(postCaptionAtom);
   const [templateName, setTemplateName] = useAtom(templateNameAtom);
-  const [postTemplates, setPostTemplates] = useAtom(postTemplatesAtom);
-
-  const postTemplatesCount = useAtomValue(postTemplatesCountAtom);
 
   const [selectedReactions, setSelectedReactions] = useAtom(
     selectedReactionsAtom
@@ -83,10 +86,9 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedTaggedPeopleAtom
   );
 
-  const templateTypeCount = useAtomValue(templateTypeCountAtom);
-  const filterKeys = useAtomValue(filterKeysAtom);
-
   const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
+
+  const mediaFileList = useAtomValue(mediaFileListAtom);
 
   const draftPostCount = useAtomValue(draftPostCountAtom);
   const publishedPostCount = useAtomValue(publishedPostCountAtom);
@@ -125,9 +127,9 @@ const ManagePostMainContent = ({ onClose }) => {
           picture: user.profileURL,
           team: user.team,
           caption: postCaption,
-          media: [],
-          mediaLayout: "one",
-          orientation: "landscape",
+          media: mediaFileList ? [...mediaFileList] : [],
+          mediaLayout: [...selectedMediaLayout],
+          orientation: [...selectedMediaOrientation],
           reactionList: [...selectedReactions],
           tagPeople: [...selectedTaggedPeople], // key of users
         };

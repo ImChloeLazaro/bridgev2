@@ -5,7 +5,7 @@ import {
   CardHeader,
   Divider,
 } from "@nextui-org/react";
-import MediaLayout from "../mediaLayout/MediaLayout";
+import MediaLayout from "../mediaLayout/MediaLayoutPost";
 import PostFooter from "./PostFooter";
 import PostHeader from "./PostHeader";
 

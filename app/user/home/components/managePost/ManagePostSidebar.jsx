@@ -7,6 +7,8 @@ import {
   postTemplatesAtom,
   postTemplatesCountAtom,
   postTitleAtom,
+  selectedMediaLayoutAtom,
+  selectedMediaOrientationAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
@@ -30,7 +32,12 @@ const ManagePostSidebar = () => {
   const [templateName, setTemplateName] = useAtom(templateNameAtom);
   const [postTemplates, setPostTemplates] = useAtom(postTemplatesAtom);
 
-  const postTemplatesCount = useAtomValue(postTemplatesCountAtom);
+  const [selectedMediaOrientation, setSelectedMediaOrientation] = useAtom(
+    selectedMediaOrientationAtom
+  );
+  const [selectedMediaLayout, setSelectedMediaLayout] = useAtom(
+    selectedMediaLayoutAtom
+  );
 
   const [selectedReactions, setSelectedReactions] = useAtom(
     selectedReactionsAtom
@@ -38,6 +45,7 @@ const ManagePostSidebar = () => {
   const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
     selectedTaggedPeopleAtom
   );
+  const postTemplatesCount = useAtomValue(postTemplatesCountAtom);
 
   const templateTypeCount = useAtomValue(templateTypeCountAtom);
   const filterKeys = useAtomValue(filterKeysAtom);
@@ -46,6 +54,19 @@ const ManagePostSidebar = () => {
 
   const handleUpdateTemplate = () => {
     console.log("UPDATED TEMPLATE");
+    setTemplateTypeSelection(() =>
+      templateTypeSelection.map((template) => {
+        if (template.value === selectedTemplateTypeString) {
+          return {
+            ...template,
+            value: templateName.toLowerCase(),
+            label: templateName,
+          };
+        }
+        return template;
+      })
+    );
+    setSelectedTemplateType([templateName]);
     setPostTemplates(() =>
       postTemplates.map((template) => {
         if (template.name === selectedTemplateTypeString) {
@@ -54,8 +75,8 @@ const ManagePostSidebar = () => {
             name: templateName,
             type: templateName.toLowerCase(),
             reactionList: [...selectedReactions],
-            mediaLayout: "one",
-            orientation: "landscape",
+            mediaLayout: [...selectedMediaLayout],
+            orientation: [...selectedMediaOrientation],
             title: postTitle,
             tagPeople: [...selectedTaggedPeople],
             caption: postCaption,
@@ -65,7 +86,6 @@ const ManagePostSidebar = () => {
       })
     );
   };
-  
 
   const handleDeleteTemplate = () => {
     console.log("DELETED TEMPLATE");
@@ -85,10 +105,11 @@ const ManagePostSidebar = () => {
     );
     setPostTitle("");
     setSelectedReactions([]);
+    setSelectedMediaLayout([]);
+    setSelectedMediaOrientation([]);
     setSelectedTaggedPeople([]);
     setPostCaption("");
   };
-
 
   const handleAddTemplate = () => {
     console.log("ADDED TEMPLATE");
@@ -111,7 +132,7 @@ const ManagePostSidebar = () => {
           value: templateName.toLowerCase(),
         },
       ]);
-
+      setSelectedTemplateType([templateName]);
       setPostTemplates((prev) => [
         ...prev,
         {
@@ -119,8 +140,8 @@ const ManagePostSidebar = () => {
           name: templateName,
           type: templateName.toLowerCase(),
           reactionList: [...selectedReactions],
-          mediaLayout: "one",
-          orientation: "landscape",
+          mediaLayout: [...selectedMediaLayout],
+          orientation: [...selectedMediaOrientation],
           title: postTitle,
           tagPeople: [...selectedTaggedPeople],
           caption: postCaption,

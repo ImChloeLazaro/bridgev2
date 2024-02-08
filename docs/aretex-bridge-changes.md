@@ -460,4 +460,16 @@ link: string,
 * Renamed filename and named export of `PostTemplateButton` to `CreatePostTemplateButton` Component for consistency of naming related components
 * Created `createPost` folder for `CreatePost` Components
 * Moved `CreatePostTemplateButton` to `createPost` folder
+* Moved `CreatePostCard` to `createPost` folder
+* Moved `CreatePostButton` to `createPost` folder
 * Added `MediaLayoutSelection` Component
+
+## v.0.5.12
+
+* Updated `benefits` backend handler function to be flexible
+* Added default value for `benefits` backend handler function
+* Renamed `MediaLayout` to `MediaLayoutPost` Component for consistency of naming related components
+* Added `MediaLayoutDisplay` Component for previewing the media layout on `ManagePostSidebarContent` Component
+* Added `MediaLayoutSelect` Component
+* Added `MediaOrientationSelect` Component
+* Fixed media layout and orientation selection for `ManagePost` Component
