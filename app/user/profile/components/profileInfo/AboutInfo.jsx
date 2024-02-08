@@ -2,7 +2,6 @@ import { Avatar, Divider } from "@nextui-org/react";
 import { addMonths, format } from "date-fns";
 import { MdInfoOutline } from "react-icons/md";
 import LabelTag from "../../../../components/LabelTag";
-
 const AboutInfo = ({ data }) => {
   return (
     <>
@@ -23,7 +22,7 @@ const AboutInfo = ({ data }) => {
                 {"This is your employee ID"}
               </p>
             </div>
-            <p className="">{data.id}</p>
+            <p className="">{data.employee_number}</p>
           </div>
           <Divider />
           {/* // ### STATUS */}
@@ -31,7 +30,7 @@ const AboutInfo = ({ data }) => {
             <p className="font-medium text-base w-1/2 min-w-[50%]">
               {"Status"}
             </p>
-            <LabelTag text={"Active"} color={"green"} />
+            <LabelTag text={data.is_active ? "Active" : "Inactive"} color={data.is_active ? "green" : "red"} />
           </div>
           <Divider />
 
@@ -43,10 +42,7 @@ const AboutInfo = ({ data }) => {
                 {"6 months after your start date"}
               </p>
             </div>
-            <p className="">{`${format(
-              addMonths(new Date(data.onboarding.startDate), 6),
-              "MMMM dd yyyy"
-            )}`}</p>
+            <p className="">{format(new Date(data.hiredate), "MMMM dd yyyy")}</p>
           </div>
           <Divider />
 
@@ -105,9 +101,7 @@ const AboutInfo = ({ data }) => {
             <div className="flex-col w-1/2 min-w-[50%]">
               <p className="font-medium text-base ">{"Birthday"}</p>
             </div>
-            <p className="">
-              {format(new Date(data.birthday), "MMMM dd yyyy")}
-            </p>
+            <p className="">No Data</p>
           </div>
         </div>
       </div>
