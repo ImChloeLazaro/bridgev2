@@ -4,7 +4,7 @@ import SearchBar from "@/app/components/SearchBar";
 import { userAtom } from "@/app/store/UserStore";
 import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import { MdMinimize } from "react-icons/md";
 import {
@@ -36,6 +36,7 @@ import {
 } from "../../store/ManagePostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
+import { postAtom } from "../../store/PostStore";
 
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
@@ -44,6 +45,7 @@ const ManagePostMainContent = ({ onClose }) => {
   const [values, setValues] = useState([]);
 
   const user = useAtomValue(userAtom);
+  const setPosts = useSetAtom(postAtom);
 
   const [draftsPostList, setDraftsPostList] = useAtom(draftPostListAtom);
   const [publishedPostList, setPublishedPostList] = useAtom(
@@ -197,6 +199,36 @@ const ManagePostMainContent = ({ onClose }) => {
       setSelectedDraftPost([]);
 
       setPublishedPostList((prev) => [...prev, ...toBePublished]);
+
+      const toBePosted = {
+        id: postCount + 1,
+        key: `post-${postCount + 1}`,
+        publisher: user.name,
+        profileURL: user.profileURL,
+        datetimePublished: new Date(),
+        datetimeScheduled: new Date(),
+        team: user.team,
+        title: postTitle,
+        caption: postCaption,
+        type: templateName.toLowerCase(),
+        reactionList: [...selectedReactions],
+        reacted: false,
+        reactions: {
+          star: 0,
+          love: 0,
+          birthday: 0,
+          happy: 0,
+        },
+        media: mediaFileList ? [...mediaFileList] : [],
+        mediaLayout: [...selectedMediaLayout],
+        orientation: [...selectedMediaOrientation],
+        tagPeople: [...selectedTaggedPeople], // key of users
+        comments: 0,
+      };
+
+      console.log("toBePosted", toBePosted);
+
+      setPosts((prev) => [...prev, { ...toBePosted }]);
     }
 
     console.log("PUBLISH postCount: ", postCount);

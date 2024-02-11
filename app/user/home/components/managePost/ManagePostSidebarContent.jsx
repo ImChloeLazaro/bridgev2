@@ -10,7 +10,6 @@ import { MdInfoOutline } from "react-icons/md";
 import {
   filterKeysAtom,
   mediaFileListAtom,
-  mediaOrientationSelectionAtom,
   postCaptionAtom,
   postTemplatesAtom,
   postTitleAtom,
@@ -26,7 +25,7 @@ import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
 import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
-import MediaLayoutDisplay from "../mediaLayout/MediaLayoutDisplay";
+import MediaLayoutDisplay from "../mediaLayout/MediaLayoutPreview";
 
 const ManagePostSidebarContent = () => {
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
@@ -152,34 +151,32 @@ const ManagePostSidebarContent = () => {
           </div>
           {/* // Display */}
           {/* <div className="w-80 h-40 bg-grey-hover rounded-md p-1"></div> */}
-          {mediaFileList ? (
-            (selectedMediaLayoutString ? (
-              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
-                <MediaLayoutDisplay
-                  mediaFileList={mediaFileList}
-                  layout={selectedMediaLayoutString}
-                  orientation={selectedMediaOrientationString}
-                  size={mediaFileList.length}
-                />
-              </div>
-            ) : (
-              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover"></div>
-            )) &&
+          {(selectedMediaLayoutString ? (
+            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+              <MediaLayoutDisplay
+                mediaFileList={mediaFileList}
+                layout={selectedMediaLayoutString}
+                orientation={selectedMediaOrientationString}
+              />
+            </div>
+          ) : (
+            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+              {"No media to display"}
+            </div>
+          )) &&
             (selectedMediaOrientationString ? (
               <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 <MediaLayoutDisplay
                   mediaFileList={mediaFileList}
                   layout={selectedMediaLayoutString}
                   orientation={selectedMediaOrientationString}
-                  size={mediaFileList.length}
                 />
               </div>
             ) : (
-              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover"></div>
-            ))
-          ) : (
-            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover"></div>
-          )}
+              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+                {"No media to display"}
+              </div>
+            ))}
         </div>
         <div className="flex justify-start items-center gap-5">
           <p className="font-normal w-20">{"Files"}</p>

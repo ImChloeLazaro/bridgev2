@@ -64,19 +64,19 @@ const ReactionButton = ({ id, data, reacted }) => {
         startContent={
           <div className="text-darkgrey-default">
             {reacted
-              ? reactionIcons[data[0]].active
-              : reactionIcons[data[0]].inactive}
+              ? reactionIcons[{ ...data }]?.active
+              : reactionIcons[{ ...data }]?.inactive}
           </div>
         }
       >
         <p
           className={`${
             reacted
-              ? `${label[data[0]].color}`
+              ? `${label[{ ...data }]?.color}`
               : "font-semibold text-darkgrey-default capitalize"
           }`}
         >
-          {label[data[0]].label}
+          {label[{ ...data }]?.label}
         </p>
       </Button>
     </div>

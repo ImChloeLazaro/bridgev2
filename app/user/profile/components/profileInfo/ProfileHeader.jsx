@@ -42,7 +42,7 @@ const ProfileHeader = ({ data }) => {
                 // as={Button}
                 // onPress={()=>{console.log("AVATAR CHANGE PROFILE PICTURE")}}
                 // radius="full"
-                src={data.profileURL}
+                src={data?.profileURL}
                 classNames={{
                   base: "data-[hover=true]:bg-black-default w-[150px] h-[150px] text-large border-8 border-white-default mb-8 ",
                   img: "data-[hover=true]:bg-black-default",

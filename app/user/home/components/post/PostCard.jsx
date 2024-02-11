@@ -14,6 +14,7 @@ import PostHeader from "./PostHeader";
 // ### TODO fix media layout
 
 const PostCard = ({ data }) => {
+  console.log("INSIDE POST CARD DATA", data);
   return (
     // mb-[number] for spacing between posts
     <Card className="mb-6 mx-4 bg-white-default">

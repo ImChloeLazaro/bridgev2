@@ -165,3 +165,10 @@ export const postAtom = atom([
     ],
   },
 ]);
+
+export const postCountAtom = atom((get) => get(postAtom).length);
+
+export const addPostAtom = atom(null, (get, set, update) => {
+  set(postAtom, update);
+  console.log("ADDED POST", get(postAtom));
+});

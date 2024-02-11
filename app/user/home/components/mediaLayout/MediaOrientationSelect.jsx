@@ -25,7 +25,11 @@ const MediaOrientationSelect = () => {
       items={mediaOrientationSelection}
       disallowEmptySelection={true}
       placeholder="Choose Orientation"
-      selectedKeys={selectedMediaOrientation}
+      selectedKeys={
+        selectedMediaLayoutString === "single"
+          ? new Set(["portrait"])
+          : selectedMediaOrientation
+      }
       onSelectionChange={(key) => setSelectedMediaOrientation(key)}
       classNames={{
         base: "max-w-sm",

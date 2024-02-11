@@ -22,12 +22,16 @@ const User = () => {
   const posts = useAtomValue(postAtom);
   const user = useAtomValue(userAtom);
 
+  const sortedPosts = posts.sort(
+    (a, b) => b.datetimePublished - a.datetimePublished
+  );
+
   return (
     user.isAuthenticated && (
       <>
         <MainContent>
           <CreatePostCard data={user} />
-          {posts.map((post) => {
+          {sortedPosts.map((post) => {
             return <PostCard key={post.key} data={post} />;
           })}
         </MainContent>
@@ -35,15 +39,27 @@ const User = () => {
           <RexWinnerCard />
           <BirthdayCard />
           {/* HR BULLETIN */}
-          <RightBarCard title={"What's New"} description={"Shows the latest announcements from HR"} isExpandable={true}>
+          <RightBarCard
+            title={"What's New"}
+            description={"Shows the latest announcements from HR"}
+            isExpandable={true}
+          >
             <HRBulletinBoardList />
           </RightBarCard>
           {/* RECOGNITION */}
-          <RightBarCard title={"Recognition"} description={"Displays all your feedbacks and recognitions"} isExpandable={true}>
+          <RightBarCard
+            title={"Recognition"}
+            description={"Displays all your feedbacks and recognitions"}
+            isExpandable={true}
+          >
             <RecognitionList />
           </RightBarCard>
           {/* TRAINING */}
-          <RightBarCard title={"Trainings"} description={"Displays all your latest trainings this year"} isExpandable={true}>
+          <RightBarCard
+            title={"Trainings"}
+            description={"Displays all your latest trainings this year"}
+            isExpandable={true}
+          >
             <TrainingList />
           </RightBarCard>
         </RightBar>
@@ -52,4 +68,4 @@ const User = () => {
   );
 };
 
-export default User
+export default User;

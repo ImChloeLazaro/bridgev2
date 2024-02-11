@@ -1,6 +1,6 @@
+import CTAButtons from "@/app/components/CTAButtons";
 import { Divider } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
-import CTAButtons from "../../../../components/CTAButtons";
 import {
   filterKeysAtom,
   postCaptionAtom,
@@ -114,6 +114,7 @@ const ManagePostSidebar = () => {
   const handleAddTemplate = () => {
     console.log("ADDED TEMPLATE");
 
+    // ADD DRAFT TO PUBLISH LIST
     const filteredTemplateName = templateTypeSelection.map((template) => {
       return template.value;
     });
@@ -148,6 +149,9 @@ const ManagePostSidebar = () => {
         },
       ]);
     }
+
+    // PUBLISH DRAFT TO NEWS FEED
+    
 
     console.log("postTemplates", postTemplates);
   };

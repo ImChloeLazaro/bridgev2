@@ -6,7 +6,7 @@ import ThreeMedia from "./ThreeMedia";
 import TwoMedia from "./TwoMedia";
 
 const MediaLayout = ({ data }) => {
-  const imageCount = data.length;
+  const imageCount = data?.length;
   const displayMedia = {
     1: <OneMedia data={data} orientation={"portrait"} />,
     2: <TwoMedia data={data} orientation={"portrait"} />,

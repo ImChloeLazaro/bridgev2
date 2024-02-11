@@ -251,6 +251,7 @@ link: string,
 * Added Functionality to increment and decrement reaction count
 * Added Functionality when reacted to the post already it will persist
 * Added tooltip for reaction's count
+* Added `height` to extend the `transitionProperty` tailwind property for animating when component height changes
 * Fixed animation for `Recognitions`, `Trainings`, and `HRBulletinBoard` Component when expanded and its height changes.
 * Changed named export from `HighlightArea` to `RightBar`to match its filename
 * Changed named export from `NewsFeed` to `MainContent` to match its filename
@@ -307,7 +308,7 @@ link: string,
 * Fixed route issue when manually entering URL is does not reflect on the page
 * Updated illustration for when onboarding form is submitted
 * Added profile components for `Profile` page
-* Added `scale` tailwind extension for flipping images, svg and related media horizontally.
+* Added `"-100":"-1"` to extend the `scale` tailwind property for flipping images, svg and related media horizontally.
 * Added a simple check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
 * Updated shortcuts link to a valid link to redirect properly
 
@@ -480,3 +481,11 @@ link: string,
 ## v.0.5.13
 
 * Fixed Media Layout Preview before posting on `ManagePostItemCard` Component
+* Fixed `backdrop-brightness` for displaying media only in the last media visible to the user in `ManagePostItemCard` Component
+* Added display count overlay on the last media visible to indicate the excess count of media that are not visible
+* Added smooth transition when hovering `ManagePostItemCard` Component
+* Renamed `MediaLayoutDisplay` to `MediaLayoutPreview` Component for consistency of naming related components
+* Fixed Media Layout Preview to display placeholder media when `mediaFileList` does not exist or is empty in `MediaLayoutPreview` Component
+* Refactor logic for displaying `mediaFileList` in `ManagePostSidebar` and `ManagePostMainContent` Component
+* Renamed `picture` to `profileURL` property for `draftPostListAtom`, `publishedPostListAtom`, and `archivedPostListAtom` in `ManagePostStore`
+* // ### TODO Fix sorting of posts according to `datetimePublished`

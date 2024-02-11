@@ -244,6 +244,7 @@ export const postTemplatesAtom = atom([
       "/Tatiana Philips.png",
       "/Tatiana Philips.png",
       "/Tatiana Philips.png",
+      "/Tatiana Philips.png",
     ],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
@@ -256,11 +257,7 @@ export const postTemplatesAtom = atom([
     name: "Feedback",
     type: "feedback",
     reactionList: ["star"],
-    media: [
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-    ],
+    media: [],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "CLIENT FEEDBACK",
@@ -272,12 +269,7 @@ export const postTemplatesAtom = atom([
     name: "News",
     type: "news",
     reactionList: ["love"],
-    media: [
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-    ],
+    media: null,
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "ATTENTION A-FAMILY!!!",
@@ -289,14 +281,7 @@ export const postTemplatesAtom = atom([
     name: "Team",
     type: "team",
     reactionList: ["happy"],
-    media: [
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-      "/Tatiana Philips.png",
-    ],
+    media: undefined,
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "NEW TEAM MEMBERS",
@@ -316,11 +301,17 @@ export const draftPostListAtom = atom([
     type: "news",
     key: `draft-${draftIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: ["/Tatiana Philips.png", "/Tatiana Philips.png"],
+    media: [
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+    ],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     reactionList: ["love", "star", "happy"],
@@ -331,11 +322,11 @@ export const draftPostListAtom = atom([
     type: "team",
     key: `draft-${draftIndex}`,
     title: "Momentum = SEPTEMBER 2023",
-    picture: "/Madelyn Septimus.png",
+    profileURL: "/Madelyn Septimus.png",
     team: "Aretex B-TEAM",
     caption:
       "Another JOB well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
+    media: ["/Madelyn Septimus.png", "/Madelyn Septimus.png"],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     reactionList: ["star"],
@@ -346,11 +337,17 @@ export const draftPostListAtom = atom([
     type: "team",
     key: `draft-${draftIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
+    media: [
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+      "/Madelyn Septimus.png",
+    ],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     reactionList: ["star"],
@@ -361,7 +358,7 @@ export const draftPostListAtom = atom([
     type: "news",
     key: `draft-${draftIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -376,7 +373,7 @@ export const draftPostListAtom = atom([
   //   type: "feedback",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -391,7 +388,7 @@ export const draftPostListAtom = atom([
   //   type: "feedback",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -406,7 +403,7 @@ export const draftPostListAtom = atom([
   //   type: "feedback",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -421,7 +418,7 @@ export const draftPostListAtom = atom([
   //   type: "birthday",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -436,7 +433,7 @@ export const draftPostListAtom = atom([
   //   type: "team",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -451,7 +448,7 @@ export const draftPostListAtom = atom([
   //   type: "team",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -466,7 +463,7 @@ export const draftPostListAtom = atom([
   //   type: "news",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -481,7 +478,7 @@ export const draftPostListAtom = atom([
   //   type: "birthday",
   //   key: `draft-${draftIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -504,7 +501,7 @@ export const publishedPostListAtom = atom([
     type: "award",
     key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -519,7 +516,7 @@ export const publishedPostListAtom = atom([
     type: "birthday",
     key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -534,7 +531,7 @@ export const publishedPostListAtom = atom([
     type: "award",
     key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -549,7 +546,7 @@ export const publishedPostListAtom = atom([
     type: "award",
     key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -564,7 +561,7 @@ export const publishedPostListAtom = atom([
     type: "birthday",
     key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -579,7 +576,7 @@ export const publishedPostListAtom = atom([
     type: "birthday",
     key: `publish-${publishIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -594,7 +591,7 @@ export const publishedPostListAtom = atom([
   //   type: "event",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -609,7 +606,7 @@ export const publishedPostListAtom = atom([
   //   type: "feedback",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -624,7 +621,7 @@ export const publishedPostListAtom = atom([
   //   type: "news",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -639,7 +636,7 @@ export const publishedPostListAtom = atom([
   //   type: "news",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -654,7 +651,7 @@ export const publishedPostListAtom = atom([
   //   type: "news",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -669,7 +666,7 @@ export const publishedPostListAtom = atom([
   //   type: "team",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -684,7 +681,7 @@ export const publishedPostListAtom = atom([
   //   type: "feedback",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -699,7 +696,7 @@ export const publishedPostListAtom = atom([
   //   type: "team",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -714,7 +711,7 @@ export const publishedPostListAtom = atom([
   //   type: "feedback",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -729,7 +726,7 @@ export const publishedPostListAtom = atom([
   //   type: "feedback",
   //   key: `publish-${publishIndex}`,
   //   title: "Momentum / SEPTEMBER 2023",
-  //   picture: "/Tatiana Philips.png",
+  //   profileURL: "/Tatiana Philips.png",
   //   team: "Aretex A-TEAM",
   //   caption:
   //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -754,7 +751,7 @@ export const archivedPostListAtom = atom([
     type: "feedback",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -769,7 +766,7 @@ export const archivedPostListAtom = atom([
     type: "feedback",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -784,7 +781,7 @@ export const archivedPostListAtom = atom([
     type: "feedback",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -799,7 +796,7 @@ export const archivedPostListAtom = atom([
     type: "feedback",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -814,7 +811,7 @@ export const archivedPostListAtom = atom([
     type: "award",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -829,7 +826,7 @@ export const archivedPostListAtom = atom([
     type: "award",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -844,7 +841,7 @@ export const archivedPostListAtom = atom([
     type: "team",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
@@ -859,7 +856,7 @@ export const archivedPostListAtom = atom([
     type: "news",
     key: `archive-${archiveIndex}`,
     title: "Momentum / SEPTEMBER 2023",
-    picture: "/Tatiana Philips.png",
+    profileURL: "/Tatiana Philips.png",
     team: "Aretex A-TEAM",
     caption:
       "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",

@@ -11,7 +11,7 @@ export const disableDraggableAtom = atom(false);
 
 export const addShortcutAtom = atom(null, (get, set, update) => {
   set(shortcutsAtom, update);
-  console.log("ADDED", get(shortcutsAtom));
+  console.log("ADDED SHORTCUT", get(shortcutsAtom));
 });
 
 export const fetchedShortcutAtom = atom(null, async (get, set) => {
@@ -35,7 +35,7 @@ export const fetchedShortcutAtom = atom(null, async (get, set) => {
     const { body } = await fetchShortcut.response;
     const result = await body.json();
     const response = result.response;
-    console.log('SHORTCUT PROVIDER:',response)
+    console.log("SHORTCUT PROVIDER:", response);
     const mappedShortcuts = Array.isArray(response)
       ? response.map((item, index) => ({
           _id: item._id,
