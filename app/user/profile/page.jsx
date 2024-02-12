@@ -12,23 +12,23 @@ import {
   MdMarkunreadMailbox,
 } from "react-icons/md";
 import "../../aws-auth";
-import { userAtom } from "../../store/UserStore";
+import { userAtom, recruitmentStatusAtom } from "../../store/UserStore";
 import BenefitsContent from "./components/benefits/BenefitsContent";
 import EmergencyContactContent from "./components/emergencyContact/EmergencyContactContent";
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
-import { recruitmentStatusAtom } from "../../store/UserStore"
-;
 const Profile = () => {
-  const user = useAtomValue(userAtom);
   const recruitment = useAtomValue(recruitmentStatusAtom);
-  console.log('RECRUITMENT',recruitment.response);
+
+  console.log('UPDATED DATA FROM RECRUITMENT:', recruitment);
+
+  const user = useAtomValue(userAtom);
   return (
     user.isAuthenticated && (
       <>
-        <MainContent>
-          <ProfileCard data={recruitment.response[0]} />
+        <MainContent> 
+          <ProfileCard data={ recruitment } />
         </MainContent>
         <RightBar>
           {/* LEAVE BALANCE */}

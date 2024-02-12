@@ -21,8 +21,8 @@ const AboutInfo = ({ data }) => {
               <p className="font-medium text-sm text-darkgrey-default">
                 {"This is your employee ID"}
               </p>
-            </div>
-            <p className="">{data.employee_number}</p>
+            </div> 
+            <p className="">{data.id}</p>
           </div>
           <Divider />
           {/* // ### STATUS */}
@@ -30,19 +30,19 @@ const AboutInfo = ({ data }) => {
             <p className="font-medium text-base w-1/2 min-w-[50%]">
               {"Status"}
             </p>
-            <LabelTag text={data.is_active ? "Active" : "Inactive"} color={data.is_active ? "green" : "red"} />
+            <LabelTag text={data.status ? "Active" : "Inactive"} color={data.status ? "green" : "red"} />
           </div>
           <Divider />
 
           {/* // ### REGULARIZATION */}
           <div className="flex justify-start items-center gap-10 w-3/5">
             <div className="flex-col w-1/2 min-w-[50%]">
-              <p className="font-medium text-base">{"Regularization"}</p>
+              <p className="font-medium text-base">{data.onboarding.status}</p>
               <p className="font-medium text-sm text-darkgrey-default">
                 {"6 months after your start date"}
               </p>
             </div>
-            <p className="">{format(new Date(data.hiredate), "MMMM dd yyyy")}</p>
+            <p className="">{data.onboarding.startDate != null  ? format(new Date(data.onboarding.startDate), "MMMM dd yyyy") : 'No Data Available'}</p>
           </div>
           <Divider />
 
@@ -58,7 +58,7 @@ const AboutInfo = ({ data }) => {
                 src="/Madelyn Septimus.png"
                 alt="Supervisor Profile picture"
               />
-              <p className="">{data.supervisor}</p>
+              <p className="">{data.supervisor }</p>
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ const AboutInfo = ({ data }) => {
             <div className="flex-col w-1/2 min-w-[50%]">
               <p className="font-medium text-base ">{"Birthday"}</p>
             </div>
-            <p className="">No Data</p>
+            <p className="">{data.birthday !== null  ? format(new Date(data.birthday), "MMMM dd yyyy") : 'No Data Available'}</p>
           </div>
         </div>
       </div>

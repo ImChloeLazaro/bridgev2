@@ -24,10 +24,9 @@ export const userDataAtom = atom(async () => {
   return await fetchUserData();
 }, initialState);
 
-export const userAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  const data = await get(userDataAtom);
-
+export const userAtom = atom(async (fetch) => {
+  const auth = await fetch(authenticationAtom);
+  const data = await fetch(userDataAtom);
   if (auth != null || data != null) {
     return {
       id: 1000,
@@ -85,7 +84,45 @@ export const benefitsStatusAtom = atom(async (get) => {
 //Recruitment
 export const recruitmentStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/recruitment/profile", { sub: auth.sub });
+  const recruitment = await readwithparams("/recruitment/profile", { sub: auth.sub });
+  const data = await recruitment.response[0];
+  return {
+    id: data?.employee_number,
+    sub: auth.sub,
+    name: data?.name,
+    profileURL: data?.picture, // link to picture
+    email: data?.email,
+    address: "105 Jerry Dove Drive, Florence, SC 29501",
+    birthday: "2023-09-09T11:00:00",
+    contactNumber: "(765) 322-1399",
+    status: data?.is_active, // true active : false inactive
+    role: ["user", "admin"],
+    team: "DMS-FAST",
+    supervisor: "Madelyn Septimus",
+    position: data?.position,
+    clients: ["NON-BLOOMS"],
+    leaves: {
+      vl: 20,
+      sl: 5,
+    },
+    benefits: [
+      { name: "HMO", isAvailable: true, number: "100066" },
+      { name: "Philhealth", isAvailable: false, number: "##-###-#####" },
+      { name: "SSS", isAvailable: false, number: "##-######-#" },
+      { name: "PAGIBIG", isAvailable: true, number: "1234-5678-9000" },
+    ],
+
+    emergencyContact: {
+      name: "Aspen Donin",
+      relationship: "Spouse",
+      contactNumber: "+639123456789",
+    },
+    onboarding: {
+      startDate: data?.hiredate, 
+      status: data?.status.toUpperCase(),
+    },
+  }; 
+  // return data 
 })
 //Fetch Onboarding Status
 export const fetchOnboardingStatus = atom(async (read) => {
