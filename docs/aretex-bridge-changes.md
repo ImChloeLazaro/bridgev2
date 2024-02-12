@@ -488,4 +488,8 @@ link: string,
 * Fixed Media Layout Preview to display placeholder media when `mediaFileList` does not exist or is empty in `MediaLayoutPreview` Component
 * Refactor logic for displaying `mediaFileList` in `ManagePostSidebar` and `ManagePostMainContent` Component
 * Renamed `picture` to `profileURL` property for `draftPostListAtom`, `publishedPostListAtom`, and `archivedPostListAtom` in `ManagePostStore`
-* // ### TODO Fix sorting of posts according to `datetimePublished`
+* Fixed sorting of posts according to `datetimePublished`
+* Fixed center alignment for `ImageSwiper` Component
+* Added `publishKey` prop to track`postAtom` when published so the correct post is manipulated in `PostStore`
+* Updated logic for `AboutInfo` Component to check for nullish values
+

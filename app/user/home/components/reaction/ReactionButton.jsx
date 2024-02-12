@@ -51,6 +51,10 @@ const ReactionButton = ({ id, data, reacted }) => {
     });
   };
 
+  console.log("DATA INSIDE REACTION BUTTON id", id);
+  console.log("DATA INSIDE REACTION BUTTON data", data);
+  console.log("DATA INSIDE REACTION BUTTON reacted", reacted);
+
   return (
     <div className="flex justify-start items-center gap-1">
       <Button
@@ -63,20 +67,24 @@ const ReactionButton = ({ id, data, reacted }) => {
         }}
         startContent={
           <div className="text-darkgrey-default">
-            {reacted
-              ? reactionIcons[{ ...data }]?.active
-              : reactionIcons[{ ...data }]?.inactive}
+            {data?.length
+              ? reacted
+                ? reactionIcons[data[0]]?.active
+                : reactionIcons[data[0]]?.inactive
+              : reacted
+              ? reactionIcons.star.active
+              : reactionIcons.star.inactive}
           </div>
         }
       >
         <p
           className={`${
             reacted
-              ? `${label[{ ...data }]?.color}`
+              ? `${label[data[0]]?.color}`
               : "font-semibold text-darkgrey-default capitalize"
           }`}
         >
-          {label[{ ...data }]?.label}
+          {label[data[0]]?.label}
         </p>
       </Button>
     </div>

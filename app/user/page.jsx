@@ -23,8 +23,10 @@ const User = () => {
   const user = useAtomValue(userAtom);
 
   const sortedPosts = posts.sort(
-    (a, b) => b.datetimePublished - a.datetimePublished
+    (a, b) => new Date(b.datetimePublished) - new Date(a.datetimePublished)
   );
+
+  console.log("INSIDE USER PAGE MAIN CONTENT: ", sortedPosts);
 
   return (
     user.isAuthenticated && (

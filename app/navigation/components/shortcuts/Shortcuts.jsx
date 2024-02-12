@@ -31,6 +31,8 @@ const Shortcuts = () => {
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
+  const filteredShortcutsList = shortcutsList.sort((a,b)=>{})
+
   useEffect(() => {
     fetchedShortcut();
   }, [fetchedShortcut]);

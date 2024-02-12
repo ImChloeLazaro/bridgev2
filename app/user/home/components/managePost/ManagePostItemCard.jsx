@@ -20,12 +20,18 @@ const ManagePostItemCard = ({ data }) => {
     4: "-ml-4",
   };
 
+  console.log("INSIDE MANAGE POST ITEM CARD", data);
+
   return (
     // {/* border-blue-default border-2 */}
     <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
-          name={<p className="font-bold text-base">{data.title}</p>}
+          name={
+            <p className="font-bold text-base">
+              {data.title?.length ? data.title : "NO TITLE"}
+            </p>
+          }
           avatarProps={{
             alt: "nextui logo",
             size: "sm",
@@ -43,7 +49,7 @@ const ManagePostItemCard = ({ data }) => {
 
       <CardBody className="w-full py-0">
         <p className="h-[2.25rem] font-medium text-sm tracking-tight leading-tight line-clamp-2">
-          {data.caption}
+          {data.caption?.length ? data.caption : "NO CAPTION"}
         </p>
         <div className="h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md ">
           <MediaLayoutDisplay

@@ -27,7 +27,7 @@ const ImagePostCarouselModal = ({
     >
       <ModalContent className="">
         {(onClose) => (
-          <ModalBody className="max-h-screen ">
+          <ModalBody className="max-h-screen text-clip">
             <ImageSwiper data={data} selectedImage={selectedImage} />
           </ModalBody>
         )}

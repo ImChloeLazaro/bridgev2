@@ -16,7 +16,7 @@ const PostFooter = ({ data }) => {
       <div className="flex justify-between w-full px-8">
         <ReactionButton
           id={data.id}
-          data={data.reactionsList}
+          data={data.reactionList}
           reacted={data.reacted}
         />
 

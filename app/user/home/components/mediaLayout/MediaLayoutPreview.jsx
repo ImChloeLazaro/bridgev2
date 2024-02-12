@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { Image } from "@nextui-org/react";
 
 const MediaLayoutDisplay = ({
@@ -6,7 +6,6 @@ const MediaLayoutDisplay = ({
   layout = "single",
   orientation = "landscape",
 }) => {
-  
   const mediaLayout = {
     1: {
       // one
@@ -62,8 +61,6 @@ const MediaLayoutDisplay = ({
   const selectedOrientation = Array.from(orientation).join("");
 
   const featuredMedia = (index, size) => {
-    console.log("FEATURED MEDIA", "INDEX: ", index, " SIZE: ", size);
-
     if (size === 1) {
       return "";
     }
@@ -112,14 +109,20 @@ const MediaLayoutDisplay = ({
     }
   };
 
+  // Randomize alignment and layout when media does not exist or its empty
+  const useRandomLayout = useMemo(() => {
+    if (selectedLayout === "multiple") {
+      return Math.floor(Math.random() * 5) + 1;
+    }
+    if (selectedLayout === "single") {
+      return Math.floor(Math.random() * 1) + 1;
+    }
+  }, [selectedLayout]);
+
   const displayMediaPreview = ({ isEmpty }) => {
-    console.log("isEmpty", isEmpty);
-    console.log("mediaFileList", mediaFileList);
-
+    console.log("useRandomLayout", useRandomLayout);
     if (isEmpty) {
-      const randomLayout = Math.floor(Math.random() * 5) + 1;
-
-      const mediaListSize = selectedLayout === "single" ? 1 : randomLayout;
+      const mediaListSize = selectedLayout === "single" ? 1 : useRandomLayout;
 
       let mediaRange = arrayRange(1, mediaListSize, 1);
 
@@ -168,7 +171,7 @@ const MediaLayoutDisplay = ({
 
       console.log("mediaListSize", mediaListSize);
       console.log("mediaDisplay", mediaDisplay);
-      console.log("orientationAlignment", orientationAlignment);
+      console.log("orientationAlignment: ", orientationAlignment);
 
       return (
         <div className={`${orientationAlignment}`}>

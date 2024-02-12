@@ -16,6 +16,8 @@ import {
   postCaptionAtom,
   postTemplatesAtom,
   postTitleAtom,
+  selectedMediaLayoutAtom,
+  selectedMediaOrientationAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
@@ -35,6 +37,8 @@ const CreatePostTemplateButton = () => {
   const setPostCaption = useSetAtom(postCaptionAtom);
   const setSelectedReactions = useSetAtom(selectedReactionsAtom);
   const setSelectedTaggedPeople = useSetAtom(selectedTaggedPeopleAtom);
+  const setSelectedMediaOrientation = useSetAtom(selectedMediaOrientationAtom);
+  const setSelectedMediaLayout = useSetAtom(selectedMediaLayoutAtom);
 
   const handleSelectionChange = (key) => {
     setSelectedKeys(key);
@@ -50,6 +54,8 @@ const CreatePostTemplateButton = () => {
     if (selectedTemplate) {
       setSelectedReactions([...selectedTemplate.reactionList]);
       setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setSelectedMediaOrientation([...selectedTemplate.orientation]);
+      setSelectedMediaLayout([...selectedTemplate.mediaLayout]);
       setPostTitle(selectedTemplate.title);
       setPostCaption(selectedTemplate.caption);
     }
