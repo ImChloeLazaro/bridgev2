@@ -93,7 +93,7 @@ export const recruitmentStatusAtom = atom(async (get) => {
     profileURL: data?.picture, // link to picture
     email: data?.email,
     address: "105 Jerry Dove Drive, Florence, SC 29501",
-    birthday: "2001-10-04T00:00:00",
+    birthday: "2023-09-09T11:00:00",
     contactNumber: "(765) 322-1399",
     status: data?.is_active, // true active : false inactive
     role: ["user", "admin"],
@@ -118,7 +118,7 @@ export const recruitmentStatusAtom = atom(async (get) => {
       contactNumber: "+639123456789",
     },
     onboarding: {
-      startDate: data?.hiredate,
+      startDate: data?.hiredate, 
       status: data?.status.toUpperCase(),
     },
   }; 

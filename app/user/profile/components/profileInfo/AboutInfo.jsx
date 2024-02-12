@@ -42,7 +42,7 @@ const AboutInfo = ({ data }) => {
                 {"6 months after your start date"}
               </p>
             </div>
-            <p className="">{data !== null  ? format(new Date(data.onboarding.startDate), "MMMM dd yyyy") : ''}</p>
+            <p className="">{data.onboarding.startDate != null  ? format(new Date(data.onboarding.startDate), "MMMM dd yyyy") : 'No Data Available'}</p>
           </div>
           <Divider />
 
@@ -101,7 +101,7 @@ const AboutInfo = ({ data }) => {
             <div className="flex-col w-1/2 min-w-[50%]">
               <p className="font-medium text-base ">{"Birthday"}</p>
             </div>
-            <p className="">{format(new Date(data.birthday), "MMMM dd yyyy")}</p>
+            <p className="">{data.birthday !== null  ? format(new Date(data.birthday), "MMMM dd yyyy") : 'No Data Available'}</p>
           </div>
         </div>
       </div>
