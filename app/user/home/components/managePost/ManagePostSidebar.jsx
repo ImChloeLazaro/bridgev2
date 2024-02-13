@@ -111,8 +111,8 @@ const ManagePostSidebar = () => {
     setPostCaption("");
   };
 
-  const handleAddTemplate = () => {
-    console.log("ADDED TEMPLATE");
+  const handleSaveTemplate = () => {
+    console.log("SAVED TEMPLATE");
 
     // ADD DRAFT TO PUBLISH LIST
     const filteredTemplateName = templateTypeSelection.map((template) => {
@@ -120,6 +120,7 @@ const ManagePostSidebar = () => {
     });
 
     console.log("templateTypeSelection", templateTypeSelection);
+    console.log("postTitle", postTitle);
 
     if (filteredTemplateName.includes(templateName.toLowerCase())) {
       console.log("ALREADY ON SELECTION CHANGE NAME");
@@ -151,7 +152,6 @@ const ManagePostSidebar = () => {
     }
 
     // PUBLISH DRAFT TO NEWS FEED
-    
 
     console.log("postTemplates", postTemplates);
   };
@@ -166,7 +166,7 @@ const ManagePostSidebar = () => {
     add: {
       color: "orange",
       label: "Save Template",
-      action: handleAddTemplate,
+      action: handleSaveTemplate,
     },
   };
 

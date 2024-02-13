@@ -9,13 +9,15 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import PostOptions from "./PostOptions";
 
 const handlePostDatetime = (datetime) => {
-  const daysAgo = differenceInDays(new Date(), new Date(datetime));
+  const postDateTime = datetime instanceof Date ? datetime : new Date(datetime);
 
-  const hrsAgo = differenceInHours(new Date(), new Date(datetime));
+  const daysAgo = differenceInDays(new Date(), postDateTime);
 
-  const minsAgo = differenceInMinutes(new Date(), new Date(datetime));
+  const hrsAgo = differenceInHours(new Date(), postDateTime);
 
-  const dateAgo = format(new Date(datetime), "d MMM yyyy");
+  const minsAgo = differenceInMinutes(new Date(), postDateTime);
+
+  const dateAgo = format(postDateTime, "d MMM yyyy");
   return daysAgo > 7
     ? dateAgo
     : hrsAgo > 23

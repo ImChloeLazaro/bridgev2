@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { authenticationAtom } from "./AuthenticationStore";
-import { get } from 'aws-amplify/api';
+import { get } from "aws-amplify/api";
 import { readwithparams, restread } from "../utils/amplify-rest";
 
 const initialState = null;
@@ -73,7 +73,7 @@ export const userAtom = atom(async (fetch) => {
 export const leaveStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/leave/profile", { sub: auth.sub });
-})
+});
 //Leave Request
 
 //Benefits with user params
@@ -85,7 +85,10 @@ export const benefitsStatusAtom = atom(async (get) => {
 //Recruitment
 export const recruitmentStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  const recruitment = await readwithparams("/recruitment/profile", { sub: auth.sub });
+  const recruitment = await readwithparams("/recruitment/profile", {
+    sub: auth.sub,
+  });
+  console.log("inside USER STORE recruitment", recruitment);
   const data = await recruitment.response[0];
   return {
     id: data?.employee_number,
@@ -119,33 +122,31 @@ export const recruitmentStatusAtom = atom(async (get) => {
       contactNumber: "+639123456789",
     },
     onboarding: {
-      startDate: data?.hiredate, 
+      startDate: data?.hiredate,
       status: data?.status.toUpperCase(),
     },
-  }; 
-  // return data 
-})
+  };
+  // return data
+});
 //Fetch Onboarding Status
 export const fetchOnboardingStatus = atom(async (read) => {
   const auth = await read(authenticationAtom);
   try {
     const fetch = get({
-      apiName: 'bridgeApi',
-      path: '/user',
+      apiName: "bridgeApi",
+      path: "/user",
       options: {
         queryParams: {
-            sub: auth.sub
-        }
-      }
+          sub: auth.sub,
+        },
+      },
     });
 
     const { body } = await fetch.response;
     const response = await body.json();
-    return response.result.hasOnboardingData
+    return response.result.hasOnboardingData;
   } catch (e) {
-    console.log('GET call failed: ', e);
+    console.log("GET call failed: ", e);
   }
-})
+});
 export const isFirstTime = atom(true);
-
-

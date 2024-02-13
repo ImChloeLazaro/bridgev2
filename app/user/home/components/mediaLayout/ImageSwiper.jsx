@@ -27,43 +27,45 @@ const ImageSwiper = ({ data, selectedImage }) => {
   }, [selectedImage]);
 
   return (
-    <div className="w-full max-h-screen ">
-      <Swiper
-        ref={swiperRef}
-        style={{
-          "--swiper-navigation-color": "#fff",
-          "--swiper-pagination-color": "#fff",
-        }}
-        spaceBetween={10}
-        navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[Zoom, FreeMode, Navigation, Thumbs]}
-        className="my-12 top-0"
-        zoom={true}
-      >
-        {data.map((image, index) => {
-          return (
-            <SwiperSlide key={index}>
-              <div className="flex justify-center items-center">
-                <Image
-                  //   isZoomed
-                  removeWrapper
-                  key={index}
-                  width={450}
-                  // height={1000}
-                  sizes={
-                    "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  }
-                  radius={"none"}
-                  loading={"lazy"}
-                  alt={`Media Layout ${index}`}
-                  src={image}
-                />
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+    <div className="w-full h-full flex flex-col justify-between">
+      <div className="">
+        <Swiper
+          ref={swiperRef}
+          style={{
+            "--swiper-navigation-color": "#fff",
+            "--swiper-pagination-color": "#fff",
+          }}
+          spaceBetween={10}
+          navigation={true}
+          thumbs={{ swiper: thumbsSwiper }}
+          modules={[Zoom, FreeMode, Navigation, Thumbs]}
+          className="mt-48 top-0"
+          zoom={true}
+        >
+          {data.map((image, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <div className="flex justify-center items-center">
+                  <Image
+                    //   isZoomed
+                    removeWrapper
+                    key={index}
+                    width={450}
+                    // height={1000}
+                    sizes={
+                      "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    }
+                    radius={"none"}
+                    loading={"lazy"}
+                    alt={`Media Layout ${index}`}
+                    src={image}
+                  />
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </div>
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}

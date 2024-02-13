@@ -31,6 +31,8 @@ const Shortcuts = () => {
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
+  const filteredShortcutsList = shortcutsList.sort((a,b)=>{})
+
   useEffect(() => {
     fetchedShortcut();
   }, [fetchedShortcut]);
@@ -141,7 +143,7 @@ const Shortcuts = () => {
                 {shortcutsList?.map((shortcut) => (
                   <SortableItem
                     disabled={disableDraggable}
-                    id={shortcut.id} // makes sorting working
+                    id={shortcut.id} // makes dragging and sorting working 
                     key={shortcut.key}
                     unique_key={shortcut.key}
                     link={shortcut.link}

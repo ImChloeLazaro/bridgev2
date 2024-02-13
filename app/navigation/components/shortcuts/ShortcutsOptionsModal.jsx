@@ -19,6 +19,7 @@ import {
 } from "../../store/ShortcutsStore";
 import CloseButton from "../../../components/CloseButton";
 import { userAtom } from "../../../store/UserStore";
+import { restupdate } from "@/app/utils/amplify-rest";
 
 const ShortcutsOptionsModal = ({ unique_key, title }) => {
   const shortcutSize = 28; //icon size
@@ -46,22 +47,27 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
   );
 
   const handleDeleteShortcut = async () => {
-    const confirm = window.confirm(`Are you sure you want to delete ${editShortcutName}?`)
-    if(confirm){
+    const confirm = window.confirm(
+      `Are you sure you want to delete ${editShortcutName}?`
+    );
+    if (confirm) {
+      // const shortcuts = await restdestroy("/shortcut", )
       try {
         const restOperation = del({
           apiName: "bridgeApi",
           path: "/shortcut",
           options: {
             queryParams: {
-              _id : uniqueShortcutID[0],
+              _id: uniqueShortcutID[0],
             },
           },
         });
         const { body } = await restOperation.response;
         const response = await body.json();
-        if(response.success){
-          setShortcuts(() => shortcuts.filter((item) => item.key !== unique_key));
+        if (response.success) {
+          setShortcuts(() =>
+            shortcuts.filter((item) => item.key !== unique_key)
+          );
           setIsOpen(false);
           setDisableDraggable(false);
           console.log("DELETE SHORTCUT", response);
@@ -77,23 +83,26 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       return;
     }
     // ### TODO Add regex validation on link to check if https:// is already on string
-    try {
-      const restOperation = put({
-        apiName: "bridgeApi",
-        path: "/shortcut",
-        options: {
-          body: {
-            _id: Array.isArray(uniqueShortcutID) ? uniqueShortcutID[0] : uniqueShortcutID,
-            title: Array.isArray(editShortcutName) ? editShortcutName[0] : editShortcutName,
-            url: Array.isArray(editShortcutLink) ? editShortcutLink[0] : editShortcutLink,
-          },
-        },
-      });
-      const { body } = await restOperation.response;
-      const response = await body.json();
-      if(response.success){
-        setShortcuts(() =>
-        shortcuts.map((shortcut) => {
+
+    const shortcuts = await restupdate("/shortcut", {
+      _id: Array.isArray(uniqueShortcutID)
+        ? uniqueShortcutID[0]
+        : uniqueShortcutID,
+      title: Array.isArray(editShortcutName)
+        ? editShortcutName[0]
+        : editShortcutName,
+      url: Array.isArray(editShortcutLink)
+        ? editShortcutLink[0]
+        : editShortcutLink,
+    });
+
+    console.log("INSIDE EDIT SHORTCUT");
+    console.log(shortcuts ? "TRUE" : "FALSE");
+    console.log(shortcuts);
+
+    if (shortcuts.success) {
+      setShortcuts(() =>
+        shortcuts.response.map((shortcut) => {
           if (shortcut.key === unique_key) {
             console.log("Found shortcut:");
             console.log(shortcut);
@@ -109,11 +118,8 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       setIsOpen(false);
       setDisableDraggable(false);
       console.log("EDIT SHORTCUT", response);
-      }
-      
-    } catch (e) {
-      console.log("Shortcut PUT call failed: ", e);
     }
+
   };
 
   const handleCloseWindow = () => {
@@ -137,7 +143,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
       onOpenChange={(open) => {
         setIsOpen(open);
         setDisableDraggable(open);
-        console.log("unique_key-" + unique_key);
+        console.log("unique_key: " + unique_key);
         console.log(shortcuts);
       }}
     >

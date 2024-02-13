@@ -6,7 +6,7 @@ import { CSS } from "@dnd-kit/utilities";
 export function SortableItem(props) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
-      id: props.id,
+      id: props.id, // required for dragging elements
       transition: {
         duration: 300, // milliseconds
         easing: "cubic-bezier(0.25, 1, 0.5, 1)",

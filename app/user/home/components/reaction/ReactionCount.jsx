@@ -24,14 +24,14 @@ const ReactionCount = ({ data }) => {
     happy: `people are happy`,
     star: `people are amazed`,
     love: `people loves this`,
-    birthday: `people greeted birthday`,
+    birthday: `people greeted happy birthday`,
   };
-  
+
   const singular = {
     happy: `person is happy`,
     star: `person is amazed`,
     love: `person love this`,
-    birthday: `person greeted birthday`,
+    birthday: `person greeted happy birthday`,
   };
 
   return (

@@ -36,7 +36,8 @@ import {
 } from "../../store/ManagePostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
-import { postAtom } from "../../store/PostStore";
+import { postAtom, postCountAtom } from "../../store/PostStore";
+import { restinsert } from "@/app/utils/amplify-rest";
 
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
@@ -45,7 +46,8 @@ const ManagePostMainContent = ({ onClose }) => {
   const [values, setValues] = useState([]);
 
   const user = useAtomValue(userAtom);
-  const setPosts = useSetAtom(postAtom);
+  const [posts, setPosts] = useAtom(postAtom);
+  const postCount = useAtomValue(postCountAtom);
 
   const [draftsPostList, setDraftsPostList] = useAtom(draftPostListAtom);
   const [publishedPostList, setPublishedPostList] = useAtom(
@@ -100,7 +102,7 @@ const ManagePostMainContent = ({ onClose }) => {
   console.log("selectedPublishPost =>", selectedPublishPost);
   console.log("selectedArchivePost =>", selectedArchivePost);
 
-  const postCount =
+  const postStatusCount =
     selectedPostStatus === "drafts"
       ? draftPostCount + 1
       : selectedPostStatus === "published"
@@ -118,11 +120,11 @@ const ManagePostMainContent = ({ onClose }) => {
       ? `archive-${archivedPostCount + 1}`
       : 0;
 
-  const handleAddPost = () => {
+  const handleAddPost = async () => {
     if (selectedPostStatus === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
         const newPost = {
-          id: postCount,
+          id: postStatusCount,
           type: templateName.toLowerCase(),
           key: postKey,
           title: postTitle,
@@ -135,6 +137,12 @@ const ManagePostMainContent = ({ onClose }) => {
           reactionList: [...selectedReactions],
           tagPeople: [...selectedTaggedPeople], // key of users
         };
+        const posts = await restinsert("/post", newPost);
+
+        console.log("ADDED POSTS FOR FEED");
+        console.log("POSTS SUCCESS", posts.success);
+        console.log("POSTS DATA", posts.data);
+
         setDraftsPostList((prev) => [...prev, newPost]);
         console.log("newPost", newPost);
       } else {
@@ -142,7 +150,7 @@ const ManagePostMainContent = ({ onClose }) => {
       }
     }
 
-    console.log("ADD postCount: ", postCount);
+    console.log("ADD postCount: ", postStatusCount);
     console.log("POST ADDED");
   };
 
@@ -154,6 +162,7 @@ const ManagePostMainContent = ({ onClose }) => {
       );
       setSelectedDraftPost([]);
     }
+
     if (selectedPostStatus === "published") {
       console.log("INSIDE DELETE PUBLISH POST", selectedPublishPost);
       setPublishedPostList(() =>
@@ -162,7 +171,14 @@ const ManagePostMainContent = ({ onClose }) => {
         )
       );
       setSelectedPublishPost([]);
+
+      setPosts(() =>
+        posts.filter(
+          (publish) => !selectedPublishPost.includes(publish.publishKey)
+        )
+      );
     }
+
     if (selectedPostStatus === "archived") {
       console.log("INSIDE DELETE ARCHIVE POST", selectedArchivePost);
       setArchivedPostList(() =>
@@ -173,7 +189,7 @@ const ManagePostMainContent = ({ onClose }) => {
       setSelectedArchivePost([]);
     }
 
-    console.log("DELETE postCount: ", postCount);
+    console.log("DELETE postCount: ", postStatusCount);
     console.log("POST DELETED");
   };
 
@@ -184,14 +200,16 @@ const ManagePostMainContent = ({ onClose }) => {
       const filteredDrafts = draftsPostList.filter((draft) =>
         selectedDraftPost.includes(draft.key)
       );
-      let postCount = publishedPostCount;
+      let postIndex = publishedPostCount;
       const toBePublished = filteredDrafts.map((draft) => {
-        return { ...draft, key: `publish-${(postCount += 1)}` };
+        return { ...draft, key: `publish-${(postIndex += 1)}` };
       });
-      postCount = 0;
+      // postIndex = 0;
 
       console.log("PUBLISH: filteredDrafts", filteredDrafts);
       console.log("PUBLISH: toBePublished", toBePublished);
+      console.log("PUBLISH: postCount", postCount);
+      console.log("PUBLISH: postIndex", postIndex);
 
       setDraftsPostList(() =>
         draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
@@ -200,38 +218,43 @@ const ManagePostMainContent = ({ onClose }) => {
 
       setPublishedPostList((prev) => [...prev, ...toBePublished]);
 
-      const toBePosted = {
-        id: postCount + 1,
-        key: `post-${postCount + 1}`,
-        publisher: user.name,
-        profileURL: user.profileURL,
-        datetimePublished: new Date(),
-        datetimeScheduled: new Date(),
-        team: user.team,
-        title: postTitle,
-        caption: postCaption,
-        type: templateName.toLowerCase(),
-        reactionList: [...selectedReactions],
-        reacted: false,
-        reactions: {
-          star: 0,
-          love: 0,
-          birthday: 0,
-          happy: 0,
-        },
-        media: mediaFileList ? [...mediaFileList] : [],
-        mediaLayout: [...selectedMediaLayout],
-        orientation: [...selectedMediaOrientation],
-        tagPeople: [...selectedTaggedPeople], // key of users
-        comments: 0,
-      };
+      let multiplePostCount = postCount;
+      const toBePosted = filteredDrafts.map((draft) => {
+        console.log("NO MEDIA", draft.key);
+        return {
+          id: (multiplePostCount += 1),
+          key: `post-${multiplePostCount}`,
+          publishKey: `publish-${postIndex}`,
+          publisher: user.name,
+          profileURL: user.profileURL,
+          datetimePublished: new Date(),
+          datetimeScheduled: new Date(),
+          team: user.team,
+          title: draft.title,
+          caption: draft.caption,
+          type: draft.type,
+          reactionList: [...draft.reactionList],
+          reacted: false,
+          reactions: {
+            star: 1,
+            love: 0,
+            birthday: 0,
+            happy: 0,
+          },
+          comments: 0,
+          media: draft.media ? [...draft.media] : [],
+          mediaLayout: [...draft.mediaLayout],
+          orientation: [...draft.orientation],
+          tagPeople: [...draft.tagPeople], // key of users
+        };
+      });
 
-      console.log("toBePosted", toBePosted);
+      console.log("toBePosted", ...toBePosted);
 
-      setPosts((prev) => [...prev, { ...toBePosted }]);
+      setPosts((prev) => [...prev, ...toBePosted]);
     }
 
-    console.log("PUBLISH postCount: ", postCount);
+    console.log("PUBLISH postCount: ", postStatusCount);
     console.log("POST PUBLISHED");
   };
 
@@ -242,11 +265,11 @@ const ManagePostMainContent = ({ onClose }) => {
       const filteredPublish = publishedPostList.filter((publish) =>
         selectedPublishPost.includes(publish.key)
       );
-      let postCount = archivedPostCount;
+      let postIndex = archivedPostCount;
       const toBeArchived = filteredPublish.map((publish) => {
-        return { ...publish, key: `archive-${(postCount += 1)}` };
+        return { ...publish, key: `archive-${(postIndex += 1)}` };
       });
-      postCount = 0;
+      // postIndex = 0;
 
       setPublishedPostList(() =>
         publishedPostList.filter(
@@ -256,9 +279,15 @@ const ManagePostMainContent = ({ onClose }) => {
       setSelectedPublishPost([]);
 
       setArchivedPostList((prev) => [...prev, ...toBeArchived]);
+
+      setPosts(() =>
+        posts.filter(
+          (archive) => !selectedPublishPost.includes(archive.publishKey)
+        )
+      );
     }
 
-    console.log("ARCHIVE postCount: ", postCount);
+    console.log("ARCHIVE postCount: ", postStatusCount);
     console.log("POST ARCHIVED");
   };
 

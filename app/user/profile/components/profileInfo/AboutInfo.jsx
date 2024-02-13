@@ -6,7 +6,7 @@ const AboutInfo = ({ data }) => {
   return (
     <>
       {/* // ### EMPLOYEE INFORMATION} */}
-      <div className="mt-2 mb-12 py-2 w-full">
+      <div className="mt-2 mb-12 py-2 w-full ">
         <div className="flex justify-start items-center gap-2 mb-8">
           <p className="font-bold text-lg">{"Employee Information"}</p>
           <MdInfoOutline />
@@ -21,8 +21,8 @@ const AboutInfo = ({ data }) => {
               <p className="font-medium text-sm text-darkgrey-default">
                 {"This is your employee ID"}
               </p>
-            </div> 
-            <p className="">{data.id}</p>
+            </div>
+            <p className="">{data.id ?? "No Data Available"}</p>
           </div>
           <Divider />
           {/* // ### STATUS */}
@@ -30,19 +30,31 @@ const AboutInfo = ({ data }) => {
             <p className="font-medium text-base w-1/2 min-w-[50%]">
               {"Status"}
             </p>
-            <LabelTag text={data.status ? "Active" : "Inactive"} color={data.status ? "green" : "red"} />
+
+            {data.status ? (
+              <LabelTag
+                text={data.status ? "Active" : "Inactive"}
+                color={data.status ? "green" : "red"}
+              />
+            ) : (
+              <LabelTag text={"Unavailable"} color={"lightgrey"} />
+            )}
           </div>
           <Divider />
 
           {/* // ### REGULARIZATION */}
           <div className="flex justify-start items-center gap-10 w-3/5">
             <div className="flex-col w-1/2 min-w-[50%]">
-              <p className="font-medium text-base">{data.onboarding.status}</p>
+              <p className="font-medium text-base">{"Regularization"}</p>
               <p className="font-medium text-sm text-darkgrey-default">
                 {"6 months after your start date"}
               </p>
             </div>
-            <p className="">{data.onboarding.startDate != null  ? format(new Date(data.onboarding.startDate), "MMMM dd yyyy") : 'No Data Available'}</p>
+            <p className="">
+              {data.onboarding.startDate != null
+                ? format(new Date(data.onboarding.startDate), "MMMM dd yyyy")
+                : "No Data Available"}
+            </p>
           </div>
           <Divider />
 
@@ -58,7 +70,7 @@ const AboutInfo = ({ data }) => {
                 src="/Madelyn Septimus.png"
                 alt="Supervisor Profile picture"
               />
-              <p className="">{data.supervisor }</p>
+              <p className="">{data.supervisor ?? "No Data Available"}</p>
             </div>
           </div>
         </div>
@@ -80,7 +92,7 @@ const AboutInfo = ({ data }) => {
                 {"This is your current address"}
               </p>
             </div>
-            <p className="">{data.address}</p>
+            <p className="">{data.address ?? "No Data Available"}</p>
           </div>
           <Divider />
 
@@ -92,7 +104,7 @@ const AboutInfo = ({ data }) => {
                 {"This is your current  contact number"}
               </p>
             </div>
-            <p className="">{data.contactNumber}</p>
+            <p className="">{data.contactNumber ?? "No Data Available"}</p>
           </div>
           <Divider />
 
@@ -101,11 +113,15 @@ const AboutInfo = ({ data }) => {
             <div className="flex-col w-1/2 min-w-[50%]">
               <p className="font-medium text-base ">{"Birthday"}</p>
             </div>
-            <p className="">{data.birthday !== null  ? format(new Date(data.birthday), "MMMM dd yyyy") : 'No Data Available'}</p>
+            <p className="">
+              {data.birthday != null
+                ? format(new Date(data.birthday), "MMMM dd yyyy")
+                : "No Data Available"}
+            </p>
           </div>
         </div>
       </div>
-      <Divider />
+
     </>
   );
 };

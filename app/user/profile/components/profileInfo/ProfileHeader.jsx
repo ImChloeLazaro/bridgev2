@@ -22,7 +22,7 @@ const ProfileHeader = ({ data }) => {
         <div className="-mt-[7.8rem] relative z-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1440 200"
+            viewBox="0 0 1440 300"
             fill="none"
           >
             <path
@@ -32,9 +32,10 @@ const ProfileHeader = ({ data }) => {
           </svg>
         </div>
       </div>
-      <div className="w-full px-16 -mt-[6rem] flex justify-between items-center">
+
+      <div className="w-full px-16 -mt-[10rem] flex justify-between items-center">
         {/* PROFILE PHOTO */}
-        <div className="flex gap-6 items-center relative z-20 ">
+        <div className="flex px-1 items-center relative z-20 ">
           <div className="flex">
             <div className="relative z-20 ">
               <Avatar
@@ -43,14 +44,14 @@ const ProfileHeader = ({ data }) => {
                 // radius="full"
                 src={data?.profileURL}
                 classNames={{
-                  base: "data-[hover=true]:bg-black-default w-[150px] h-[150px] text-large border-8 border-white-default mb-8 ",
+                  base: "data-[hover=true]:bg-black-default w-[140px] h-[140px] text-large border-8 border-white-default ",
                   img: "data-[hover=true]:bg-black-default",
                 }}
               />
             </div>
 
             {/* // CAMERA ICON FOR PROFILE */}
-            <div className="relative z-30 -ml-12 mt-[6.5rem]">
+            <div className="relative z-30 -ml-10 mt-[5.8rem] h-fit">
               <svg
                 width="40"
                 height="40"
@@ -80,7 +81,7 @@ const ProfileHeader = ({ data }) => {
             </div>
           </div>
 
-          <div>
+          <div className="flex-col">
             <p className="text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
               {data.name}
             </p>
