@@ -180,6 +180,16 @@ export const addPostAtom = atom(null, (get, set, update) => {
   console.log("ADDED POST", get(postAtom));
 });
 
+export const updatePostAtom = atom(null, (get, set, update) => {
+  set(postAtom, update);
+  console.log("UPDATED POST", get(postAtom));
+});
+
+export const deletePostAtom = atom(null, (get, set, update) => {
+  set(postAtom, update);
+  console.log("DELETE POST", get(postAtom));
+});
+
 export const postCountAtom = atom((get) => get(postAtom).length);
 
 export const fetchedPostAtom = atom(null, async (get, set) => {

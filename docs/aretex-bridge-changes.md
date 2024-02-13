@@ -499,3 +499,6 @@ link: string,
 * Removed `Profile Footer` Component due to no meaningful purpose
 * Added regex validation for `shortcut` link to check if https:// is already on string when adding link to avoid invalid link in `ShortcutsHeader`
 
+## v.0.5.14
+
+* Updated backend functions for `posting`, `shortcuts`, and `profile` components

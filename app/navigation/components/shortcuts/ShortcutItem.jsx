@@ -13,22 +13,25 @@ const ShortcutItem = forwardRef(
 
     // ### TODO Move this URL validation to the edit and add function of shortcuts
 
-    // const validateURL = (urlString) =>
-    //   urlString.match(
-    //     /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi
-    //   );
+    const validateURL = (urlString) =>
+      urlString.match(
+        /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi
+      );
 
-    // const isURLvalid = useMemo(() => {
-    //   validateURL(shortcutLink) ? true : false;
-    // }, [shortcutLink]);
-    // shortcutLink = isURLvalid ? shortcutLink : "";
+    const isURLvalid = useMemo(() => {
+      return validateURL(shortcutLink) ? true : false;
+    }, [shortcutLink]);
 
-    // console.log(isURLvalid, shortcutLink);
-    if (shortcutLink) {
-      if (!link.includes("https") || !link.includes("http")) {
-        shortcutLink = `https://${link}`;
-      }
-    }
+    shortcutLink = isURLvalid ? shortcutLink : "";
+
+    // if (shortcutLink) {
+    //   if (!link.includes("https") || !link.includes("http")) {
+    //     shortcutLink = `https://${link}`;
+    //   }
+    // }
+
+    console.log("HERE VALIDATE URL SHORTCUT");
+    console.log(isURLvalid, shortcutLink);
 
     return (
       <MenuItem
