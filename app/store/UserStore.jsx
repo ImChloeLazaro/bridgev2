@@ -81,6 +81,7 @@ export const benefitsStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/benefits/profile", { sub: auth.sub });
 })
+
 //Recruitment
 export const recruitmentStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);

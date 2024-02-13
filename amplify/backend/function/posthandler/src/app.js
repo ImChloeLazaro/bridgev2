@@ -46,29 +46,16 @@ app.get("/post", async function (req, res) {
 });
 
 app.post("/post", async function (req, res) {
-  const samplepost = {
-    sub: "123",
-    title: "Test",
-    type: "birthday",
-    caption: "HAPPY BIRTHDAY YEAY!",
-    media: "https://www.google.com",
-    tagged_user: [
-      {
-        sub: "123",
-        name: "Test",
-        email: "lazarochloekim@gmail.com",
-      },
-    ],
-  };
-  try {
-    const insert = await postModel.create(samplepost);
-    if (!insert) {
-      res.status(500).json({ success: false, data: "UNKNOWN ERROR OCCURED!" });
-    }
-    res.status(200).json({ success: true, data: insert });
-  } catch (error) {
-    throw error;
-  }
+  // try {
+  //   const insert = await postModel.create(post);
+  //   if (!insert) {
+  //     res.status(500).json({ success: false, data: "UNKNOWN ERROR OCCURED!" });
+  //   }
+  //   res.status(200).json({ success: true, data: insert });
+  // } catch (error) {
+  //   throw error;
+  // }
+  res.status(200).json({ success: true, data: req.body });
 });
 
 app.put("/post", async function (req, res) {
