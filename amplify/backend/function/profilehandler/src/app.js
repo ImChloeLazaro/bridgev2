@@ -202,11 +202,15 @@ app.put('/profile', function (req, res) {
   res.json({ success: 'put call succeed!', url: req.url, body: req.body })
 });
 
-app.put('/profile/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'put call succeed!', url: req.url, body: req.body })
+app.put('/profile/*', async function (req, res) {
+  try {
+    const { sub } = req.query;
+    const user = await profileModel.findOne({sub})
+    res.json({ success: true, response: user })
+  } catch (error) {
+    res.json({ error: error }) 
+  }
 });
-
 
 app.delete('/profile', function (req, res) {
   // Add your code here
