@@ -8,7 +8,7 @@ import ShortcutsOptionsModal from "./ShortcutsOptionsModal";
 const shortcutSize = 28; //icon size
 
 const ShortcutItem = forwardRef(
-  ({ children, id, link, unique_key, ...props }, ref) => {
+  ({ children, index, link, unique_key, ...props }, ref) => {
     let shortcutLink = link;
 
     // ### TODO Move this URL validation to the edit and add function of shortcuts

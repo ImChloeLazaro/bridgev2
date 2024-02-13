@@ -37,6 +37,7 @@ import {
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
 import { postAtom, postCountAtom } from "../../store/PostStore";
+import { restinsert } from "@/app/utils/amplify-rest";
 
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
@@ -119,7 +120,7 @@ const ManagePostMainContent = ({ onClose }) => {
       ? `archive-${archivedPostCount + 1}`
       : 0;
 
-  const handleAddPost = () => {
+  const handleAddPost = async () => {
     if (selectedPostStatus === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
         const newPost = {
@@ -136,6 +137,12 @@ const ManagePostMainContent = ({ onClose }) => {
           reactionList: [...selectedReactions],
           tagPeople: [...selectedTaggedPeople], // key of users
         };
+        const posts = await restinsert("/post", newPost);
+
+        console.log("ADDED POSTS FOR FEED");
+        console.log("POSTS SUCCESS", posts.success);
+        console.log("POSTS DATA", posts.data);
+
         setDraftsPostList((prev) => [...prev, newPost]);
         console.log("newPost", newPost);
       } else {
@@ -217,7 +224,7 @@ const ManagePostMainContent = ({ onClose }) => {
         return {
           id: (multiplePostCount += 1),
           key: `post-${multiplePostCount}`,
-          publishKey: `publish-${(postIndex)}`,
+          publishKey: `publish-${postIndex}`,
           publisher: user.name,
           profileURL: user.profileURL,
           datetimePublished: new Date(),

@@ -13,6 +13,7 @@ import CTAButtons from "../../../components/CTAButtons";
 import CloseButton from "../../../components/CloseButton";
 import { userAtom } from "../../../store/UserStore";
 import { addShortcutAtom, shortcutCountAtom } from "../../store/ShortcutsStore";
+import { restinsert } from "@/app/utils/amplify-rest";
 
 const ShortcutsHeader = () => {
   const user = useAtomValue(userAtom);
@@ -20,30 +21,23 @@ const ShortcutsHeader = () => {
   const [addShortcutName, setAddShortcutName] = useState("");
   const [addShortcutLink, setAddShortcutLink] = useState("");
 
-  const [shortcutCount] = useAtom(shortcutCountAtom);
+  const shortcutCount = useAtomValue(shortcutCountAtom);
   const setShortcuts = useSetAtom(addShortcutAtom);
   const handleAddShortcut = async () => {
     if (user === null) {
       return;
     }
-    // ### TODO Add regex validation on link to check if https:// is already on string
-    // ### TODO Add regex validation when adding link to avoid invalid link
 
-    try {
-      const restOperation = post({
-        apiName: "bridgeApi",
-        path: "/shortcut",
-        options: {
-          body: {
-            sub: user.sub,
-            title: addShortcutName,
-            url: addShortcutLink,
-          },
-        },
-      });
-      const { body } = await restOperation.response;
-      const response = await body.json();
-      console.log("NEW SHORTCUT", response);
+    const shortcuts = await restinsert("/shortcut", {
+      sub: user.sub,
+      title: addShortcutName,
+      url: addShortcutLink,
+    });
+
+    console.log("INSIDE SHORTCUT");
+    console.log(shortcuts ? "TRUE" : "FALSE");
+    console.log(shortcuts);
+    if (shortcuts) {
       setShortcuts((prev) => [
         ...prev,
         {
@@ -56,8 +50,8 @@ const ShortcutsHeader = () => {
       setAddShortcutName("");
       setAddShortcutLink("");
       setIsOpen(false);
-    } catch (e) {
-      console.log("Shortcut POST call failed: ", e);
+    } else {
+      console.log("NOT ADDED SHORTCUT");
     }
   };
 

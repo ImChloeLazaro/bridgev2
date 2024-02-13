@@ -8,6 +8,9 @@ const LabelTag = ({ text, color }) => {
     green: "bg-green-default",
     blue: "bg-blue-default",
     black: "bg-black-default",
+    grey: "bg-grey-default",
+    lightgrey: "bg-lightgrey-default",
+    darkgrey: "bg-darkgrey-default",
     clear: "bg-transparent",
   };
 

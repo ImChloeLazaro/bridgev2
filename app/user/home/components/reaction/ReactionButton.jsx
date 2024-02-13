@@ -51,10 +51,6 @@ const ReactionButton = ({ id, data, reacted }) => {
     });
   };
 
-  console.log("DATA INSIDE REACTION BUTTON id", id);
-  console.log("DATA INSIDE REACTION BUTTON data", data);
-  console.log("DATA INSIDE REACTION BUTTON reacted", reacted);
-
   return (
     <div className="flex justify-start items-center gap-1">
       <Button

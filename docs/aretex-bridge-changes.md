@@ -491,5 +491,11 @@ link: string,
 * Fixed sorting of posts according to `datetimePublished`
 * Fixed center alignment for `ImageSwiper` Component
 * Added `publishKey` prop to track`postAtom` when published so the correct post is manipulated in `PostStore`
-* Updated logic for `AboutInfo` Component to check for nullish values
+* Updated logic for `AboutInfo` Component to check for falsy/ nullish profile data values
+* Added `under-construction.png` as illustration for pages that are still being developed or not yet developed
+* Added under construction message to `ClientsInfo` and `TeamInfo` Component in `profile` page
+* Added `grey`, `lightgrey`, and `darkgrey` variant color for `LabelTag` Component
+* Added falsy/ nullish check to `AboutInfo` Component in `profile` page
+* Removed `Profile Footer` Component due to no meaningful purpose
+* Added regex validation for `shortcut` link to check if https:// is already on string when adding link to avoid invalid link in `ShortcutsHeader`
 

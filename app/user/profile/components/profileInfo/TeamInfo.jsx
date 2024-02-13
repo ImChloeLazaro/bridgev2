@@ -1,9 +1,7 @@
-import React from 'react'
+import { UnderConstruction } from "@/app/components/UnderConstruction";
 
 const TeamInfo = () => {
-  return (
-    <div>Waiting Content from CMS</div>
-  )
-}
+  return <UnderConstruction src={"/under-construction.png"} />;
+};
 
-export default TeamInfo
+export default TeamInfo;

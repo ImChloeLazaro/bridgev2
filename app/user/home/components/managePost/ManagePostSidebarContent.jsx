@@ -89,6 +89,8 @@ const ManagePostSidebarContent = () => {
         </div>
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Type"}</p>
+          
+          {/* // ### TODO UPDATE TO AUTOCOMPLETE COMPONENT */}
           <Select
             aria-label="Template Type Selection"
             items={templateTypeSelection}

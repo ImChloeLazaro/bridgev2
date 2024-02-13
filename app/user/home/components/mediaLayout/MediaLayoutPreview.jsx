@@ -120,7 +120,6 @@ const MediaLayoutDisplay = ({
   }, [selectedLayout]);
 
   const displayMediaPreview = ({ isEmpty }) => {
-    console.log("useRandomLayout", useRandomLayout);
     if (isEmpty) {
       const mediaListSize = selectedLayout === "single" ? 1 : useRandomLayout;
 
@@ -169,9 +168,9 @@ const MediaLayoutDisplay = ({
           ? mediaLayout[mediaListSize >= 6 ? 5 : mediaListSize]?.portrait
           : mediaLayout[mediaListSize >= 6 ? 5 : mediaListSize]?.landscape;
 
-      console.log("mediaListSize", mediaListSize);
-      console.log("mediaDisplay", mediaDisplay);
-      console.log("orientationAlignment: ", orientationAlignment);
+      // console.log("mediaListSize", mediaListSize);
+      // console.log("mediaDisplay", mediaDisplay);
+      // console.log("orientationAlignment: ", orientationAlignment);
 
       return (
         <div className={`${orientationAlignment}`}>

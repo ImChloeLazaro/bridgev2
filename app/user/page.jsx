@@ -1,6 +1,6 @@
 "use client";
 import "@aws-amplify/ui-react/styles.css";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import "../aws-auth";
 import MainContent from "../components/MainContent";
 import RightBar from "../components/RightBar";
@@ -13,7 +13,8 @@ import PostCard from "./home/components/post/PostCard";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
-import { postAtom } from "./home/store/PostStore";
+import { fetchedPostAtom, postAtom } from "./home/store/PostStore";
+import { useEffect } from "react";
 
 // ### TODO Rewrite scrolling behavior to add scrollbar for easier scrolling
 // ###      make RightBar to be sticky without affecting its own scrolling
@@ -21,6 +22,12 @@ import { postAtom } from "./home/store/PostStore";
 const User = () => {
   const posts = useAtomValue(postAtom);
   const user = useAtomValue(userAtom);
+
+  const fetchedPost = useSetAtom(fetchedPostAtom);
+
+  useEffect(() => {
+    fetchedPost();
+  }, [fetchedPost]);
 
   const sortedPosts = posts.sort(
     (a, b) => new Date(b.datetimePublished) - new Date(a.datetimePublished)

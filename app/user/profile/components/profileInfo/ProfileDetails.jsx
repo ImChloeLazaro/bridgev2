@@ -11,7 +11,7 @@ const ProfileDetails = ({ data }) => {
   const profileTabs = useAtomValue(profileTabsAtom);
 
   return (
-    <div className="px-16">
+    <div className="px-16 mt-4">
       <Tabs
         key="Profile Navigation"
         selectedKey={selectedProfileTab}
