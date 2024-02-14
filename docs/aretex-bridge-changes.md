@@ -167,7 +167,7 @@ link: String,
 * Added not-found page
 * Added error page
 * Added custom tailwind utility class `spinner` for page transition
-* Added `light grey` and `dark grey` variant for color `grey` in `tailwind.config.js`
+* Added `lightgrey` and `darkgrey` variant for color `grey` in `tailwind.config.js`
 
 ## v.0.4.8
 
@@ -502,21 +502,42 @@ link: String,
 ## v.0.5.14
 
 * Updated backend functions for `posting`, `shortcuts`, and `profile` components
-* Refactoring backend functions in `store` of all components
-* Added `fetch`, `add`, `delete`, and `update` as utility functions for state management in `store` of all components
+* Refactored backend functions in `store` of all components
+* Added `fetch`, `add`, `delete`, and `update` as utility functions for state management in the `store` of all components
 * Adjusted max width: `max-w-lg` for `RightBarCard` Component
 * Removed leftover `### TODO` tags in `OnboardingStore`
-* Removed leftover `console.log()` in `ShortcutItem`
+* Removed leftover `console.log()` in `ShortcutItem` Component
 * Updated `fetchOnboardingStatus` function in `UserStore`
-* Removed leftover `console.log()` in `ManagePostItemCard`
-* Removed leftover `console.log()` in `ManagePostMainContent`
-* Removed leftover `console.log()` in `ManagePostSidebarContent`
+* Removed leftover `console.log()` in `ManagePostItemCard` Component
+* Removed leftover `console.log()` in `ManagePostMainContent` Component
+* Removed leftover `console.log()` in `ManagePostSidebarContent` Component
 * Added `fetch`, `add`, `delete`, and `update` utility functions for `PostStore`
 * Added `profileDataAtom` in `ProfileStore`
-* Removed `isSignedIn` property from `authenticationAtom` in `AuthenticationStore`
 * Added `OnboardingBody` Component
 * Moved body contents from `OnboardingForm` to `OnboardingBody` Component for reusability of the components individually
 * Added `UserOnboardingModal` Component for browsing `onboarding` details at `profile` Page
+* Refactored logic for handling states in `store` of all components due to updating all `atom` state's object structure to ensure consistency between `backend` and `frontend`
+* Removed `isSignedIn` property from `authenticationAtom` in `AuthenticationStore`
+* Updated `authenticationAtom` in `AuthenticationStore` from
+
+``` javascript
+authenticationAtom=atom({
+  isAuthenticated: Boolean,
+  isSignedIn: Boolean,
+  sub: String,
+})
+```
+
+to
+
+``` javascript
+authenticationAtom=atom({
+  isAuthenticated: Boolean,
+  sub: String,
+})
+```
+
+* Renamed `profileURL` to `picture` property from `userAtom` in `UserStore`
 * Updated `userAtom` in `UserStore` from
 
 ```javascript
@@ -563,4 +584,34 @@ userAtom = atom({
   role: String[],
   team: String,
     })
+```
+
+* Added object structure for `postsAtom` in `ProfileStore`
+
+```javascript
+postsAtom = atom({
+  id: Number,
+  key: String,
+  publishKey: String,
+  publisher: String,
+  publisherPicture: String,
+  dateTimePublished: Date,
+  dateTimeScheduled: Date,
+  title: String,
+  caption: String,
+  type: String,
+  reactionList: String[],
+  reacted: Boolean,
+  reactions: {
+    star: Number,
+    love: Number,
+    birthday: Number,
+    happy: Number,
+  },
+  comments: Number,
+  taggedPeople: [{name:String, picture:String}],
+  media: String[],
+  mediaLayout: String,
+  orientation: String,
+})
 ```

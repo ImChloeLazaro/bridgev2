@@ -108,10 +108,11 @@ export const recruitmentStatusAtom = atom(async (get) => {
 
 //Fetch Onboarding Status
 export const fetchOnboardingStatus = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  const users = await readwithparams("/user", {
-    sub: auth.sub,
-  });
-  console.log("hasOnboardingData", users.result.hasOnboardingData);
-  return users.result.hasOnboardingData;
+  // const auth = await get(authenticationAtom);
+  // const users = await readwithparams("/user", {
+  //   sub: auth.sub,
+  // });
+  // console.log("hasOnboardingData", users.result.hasOnboardingData);
+  // return users.result.hasOnboardingData;
+  return true
 });
