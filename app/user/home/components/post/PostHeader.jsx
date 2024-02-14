@@ -61,7 +61,7 @@ const PostHeader = ({ data }) => {
             </>
           }
           avatarProps={{
-            src: data.profileURL,
+            src: data.picture,
             // size: "lg",
             className: "w-16 h-16 text-large",
           }}

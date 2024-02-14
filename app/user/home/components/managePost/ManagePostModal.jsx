@@ -1,7 +1,6 @@
 import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
 import ManagePostMainContent from "./ManagePostMainContent";
 import ManagePostSidebar from "./ManagePostSidebar";
-// ### TODO Add Functionality
 
 const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
   return (

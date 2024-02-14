@@ -25,13 +25,10 @@ const CreatePostButton = () => {
     const selectedTemplate = postTemplates.filter(
       (template) => template.type === Array.from(key).join("")
     )[0];
-    console.log("INSIDE CREATE POST BUTTON HERE", key);
-
-    console.log("CREATE POST BUTTON selectedTemplate", selectedTemplate);
 
     if (selectedTemplate) {
       setSelectedReactions([...selectedTemplate.reactionList]);
-      setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setSelectedTaggedPeople([...selectedTemplate.taggedPeople]);
       setPostTitle(selectedTemplate.title);
       setPostCaption(selectedTemplate.caption);
     }

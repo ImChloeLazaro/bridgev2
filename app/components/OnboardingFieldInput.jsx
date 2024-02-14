@@ -1,8 +1,15 @@
 import { Input } from "@nextui-org/react";
 
-const OnboardingFieldInput = ({ label, value, onValueChange, isRequired }) => {
+const OnboardingFieldInput = ({
+  label,
+  value,
+  onValueChange,
+  isRequired,
+  isDisabled,
+}) => {
   return (
     <Input
+      isDisabled={isDisabled}
       isRequired={isRequired}
       size="md"
       label={`${label.toUpperCase()}`}

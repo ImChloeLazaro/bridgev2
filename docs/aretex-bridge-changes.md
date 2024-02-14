@@ -71,9 +71,9 @@
 
 ```javascript
 const shortcuts = [{
-key: string,
-label: string,
-link: string,
+key: String,
+label: String,
+link: String,
 icon: <Icon>
 suffix: <Icon>
 }]
@@ -83,10 +83,10 @@ to
 
 ```javascript
 const shortcuts = [{
-id: number,
-key: string,
-label: string,
-link: string,
+id: Number,
+key: String,
+label: String,
+link: String,
 }]
 ```
 
@@ -435,7 +435,7 @@ link: string,
 
 * Fixed minor bug all templates are deleted when deleting custom template
 * Fixed media and template buttons correctly displaying post template details when creating new posts
-* Removed left over `console.log` in `ManagePost` Components
+* Removed left over `console.log()` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
 * Added backend handler function for route `/account`
 * Added backend handler function for route `/benefits`
@@ -502,3 +502,65 @@ link: string,
 ## v.0.5.14
 
 * Updated backend functions for `posting`, `shortcuts`, and `profile` components
+* Refactoring backend functions in `store` of all components
+* Added `fetch`, `add`, `delete`, and `update` as utility functions for state management in `store` of all components
+* Adjusted max width: `max-w-lg` for `RightBarCard` Component
+* Removed leftover `### TODO` tags in `OnboardingStore`
+* Removed leftover `console.log()` in `ShortcutItem`
+* Updated `fetchOnboardingStatus` function in `UserStore`
+* Removed leftover `console.log()` in `ManagePostItemCard`
+* Removed leftover `console.log()` in `ManagePostMainContent`
+* Removed leftover `console.log()` in `ManagePostSidebarContent`
+* Added `fetch`, `add`, `delete`, and `update` utility functions for `PostStore`
+* Added `profileDataAtom` in `ProfileStore`
+* Removed `isSignedIn` property from `authenticationAtom` in `AuthenticationStore`
+* Added `OnboardingBody` Component
+* Moved body contents from `OnboardingForm` to `OnboardingBody` Component for reusability of the components individually
+* Added `UserOnboardingModal` Component for browsing `onboarding` details at `profile` Page
+* Updated `userAtom` in `UserStore` from
+
+```javascript
+userAtom = atom({
+  id: Number,
+  name: String,
+  picture: String, 
+  email: String,
+  role: String[],
+  team: String,
+  supervisor: String,
+  position: String,
+  clients: String[],
+  leaves: {
+    vl: Number,
+    sl: Number,
+  },
+  benefits: [
+    { name: String, isAvailable: Boolean, number: String },
+    { name: String, isAvailable: Boolean, number: String },
+    { name: String, isAvailable: Boolean, number: String },
+    { name: String, isAvailable: Boolean, number: String },
+  ],
+
+  emergencyContact: {
+    name: String,
+    relationship: String,
+    contactNumber: String,
+  },
+  onboarding: {
+    startDate: String,
+    status: String,
+  },
+})
+```
+
+to
+
+```javascript
+userAtom = atom({
+  name: String,
+  picture: String,
+  email: String,
+  role: String[],
+  team: String,
+    })
+```

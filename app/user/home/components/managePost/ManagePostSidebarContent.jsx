@@ -62,7 +62,6 @@ const ManagePostSidebarContent = () => {
     });
 
   const handleSelectionChange = (key) => {
-    console.log("INSIDE SIDEBAR CONTENT HERE", key);
     const selectedTemplate = postTemplates.filter(
       (template) => template.type === Array.from(key).join("")
     )[0];
@@ -73,7 +72,7 @@ const ManagePostSidebarContent = () => {
       setSelectedMediaLayout([...selectedTemplate.mediaLayout]);
       setMediaFileList(selectedTemplate.media);
       setSelectedReactions([...selectedTemplate.reactionList]);
-      setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setSelectedTaggedPeople([...selectedTemplate.taggedPeople]);
       setPostTitle(selectedTemplate.title);
       setPostCaption(selectedTemplate.caption);
     }
@@ -91,6 +90,7 @@ const ManagePostSidebarContent = () => {
           <p className="font-normal w-24">{"Type"}</p>
           
           {/* // ### TODO UPDATE TO AUTOCOMPLETE COMPONENT */}
+          {/* // ### TODO Include the custom template keys as filter keys */}
           <Select
             aria-label="Template Type Selection"
             items={templateTypeSelection}

@@ -51,7 +51,7 @@ const UserDropdown = () => {
             fallback: (
               <div className="text-lg font-medium ">{user.name[0]}</div>
             ),
-            src: user.profileURL,
+            src: user.picture,
             isBordered: true,
           }}
           className="transition-transform mr-3"

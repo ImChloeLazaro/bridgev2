@@ -1,12 +1,10 @@
-import { Button } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../../../store/UserStore";
+import UserOnboardingModal from "./UserOnboardingModal";
 
 const UserOnboardingContent = () => {
   const user = useAtomValue(userAtom);
-
-  // const dateAgo = format(new Date(datetime), "d MMM yyyy");
 
   return (
     <div className="flex items-center justify-between p-2">
@@ -16,7 +14,8 @@ const UserOnboardingContent = () => {
             {"Start Date:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {format(new Date(user.onboarding.startDate), "MMM dd yyyy")}
+            {/* {format(new Date(user.onboarding.startDate), "MMM dd yyyy") ?? "No Data Available"} */}
+            {"No Data Available"}
           </p>
         </div>
         <div className="flex">
@@ -24,17 +23,13 @@ const UserOnboardingContent = () => {
             {"Status:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {user.onboarding.status}
+            {/* {user.onboarding.status ?? "No Data Available"} */}
+            {"No Data Available"}
           </p>
         </div>
       </div>
-      <Button
-        disableRipple={true}
-        disableAnimation={true}
-        className="bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
-      >
-        {"View Form"}
-      </Button>
+      <UserOnboardingModal/>
+      
     </div>
   );
 };

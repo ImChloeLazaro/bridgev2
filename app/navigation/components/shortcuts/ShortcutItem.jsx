@@ -24,15 +24,6 @@ const ShortcutItem = forwardRef(
 
     shortcutLink = isURLvalid ? shortcutLink : "";
 
-    // if (shortcutLink) {
-    //   if (!link.includes("https") || !link.includes("http")) {
-    //     shortcutLink = `https://${link}`;
-    //   }
-    // }
-
-    console.log("HERE VALIDATE URL SHORTCUT");
-    console.log(isURLvalid, shortcutLink);
-
     return (
       <MenuItem
         {...props}

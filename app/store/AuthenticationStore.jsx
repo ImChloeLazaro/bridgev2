@@ -1,14 +1,9 @@
-import {
-  fetchAuthSession,
-  fetchUserAttributes,
-  getCurrentUser,
-} from "aws-amplify/auth";
+import { fetchUserAttributes } from "aws-amplify/auth";
 import { atom } from "jotai";
 import "../aws-auth";
 
 const initialState = {
   isAuthenticated: false,
-  isSignedIn: false,
   sub: null,
 };
 
@@ -17,13 +12,11 @@ async function fetchAuthentication() {
     const user = await fetchUserAttributes();
     return {
       isAuthenticated: true,
-      isSignedIn: true,
       sub: user.sub,
     };
   } catch (error) {
     return {
       isAuthenticated: false,
-      isSignedIn: false,
       sub: null,
     };
   }

@@ -5,15 +5,17 @@ import NavigationBar from "../navigation/components/NavigationBar";
 import { userAtom } from "../store/UserStore";
 import { fetchOnboardingStatus } from "../store/UserStore";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
+import { authenticationAtom } from "../store/AuthenticationStore";
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
 });
 
 const UserLayout = ({ children }) => {
   const user = useAtomValue(userAtom);
+  const auth = useAtomValue(authenticationAtom)
   const onboardingdata = useAtomValue(fetchOnboardingStatus);
   return (
-    user.isAuthenticated && (
+    auth.isAuthenticated && (
       <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
         <SideBar />
         <div className="flex flex-col w-full">
