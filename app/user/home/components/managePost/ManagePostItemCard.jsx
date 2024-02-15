@@ -40,8 +40,8 @@ const ManagePostItemCard = ({ data }) => {
           className="mb-1"
         />
         <div className="flex gap-2">
-          <ChipTag text={data.team} color={"lightblue"} size={"xs"} />
-          <ChipTag text={data.type} color={"orange"} size={"xs"} />
+          <ChipTag text={data.team} color={"lightblue"} size={"xs"} isFilled={false}/>
+          <ChipTag text={data.type} color={"orange"} size={"xs"} isFilled={false}/>
         </div>
       </CardHeader>
 

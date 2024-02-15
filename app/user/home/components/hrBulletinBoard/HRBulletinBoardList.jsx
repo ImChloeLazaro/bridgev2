@@ -76,9 +76,13 @@ const HRBulletinBoardList = () => {
                   <ChipTag
                     text={`New ${hrBulletin.type}`}
                     color={`${hrBulletin.color}`}
+                    size={"xs"}
+                    isFilled={false}
                   />
                 </div>
-                <p className="font-normal text-sm">{`${handleHRBulletinDateTime(hrBulletin.datetime)}`}</p>
+                <p className="font-normal text-sm">{`${handleHRBulletinDateTime(
+                  hrBulletin.datetime
+                )}`}</p>
               </div>
               <div className="flex flex-col w-full px-2">
                 <p className="font-medium text-md leading-tight whitespace-pre-line line-clamp-3">

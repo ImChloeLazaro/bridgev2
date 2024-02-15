@@ -1,16 +1,7 @@
 import OnboardingBody from "@/app/onboarding/components/OnboardingBody";
 import OnboardingFooter from "@/app/onboarding/components/OnboardingFooter";
-import OnboardingForm from "@/app/onboarding/components/OnboardingForm";
 import OnboardingHeader from "@/app/onboarding/components/OnboardingHeader";
-import { Button } from "@nextui-org/react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

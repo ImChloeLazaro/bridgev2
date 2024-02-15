@@ -494,7 +494,7 @@ link: String,
 * Updated logic for `AboutInfo` Component to check for falsy/ nullish profile data values
 * Added `under-construction.png` as illustration for pages that are still being developed or not yet developed
 * Added under construction message to `ClientsInfo` and `TeamInfo` Component in `profile` page
-* Added `grey`, `lightgrey`, and `darkgrey` variant color for `LabelTag` Component
+* Added `clear`, `grey`, `lightgrey`, and `darkgrey` variant color for `LabelTag` Component
 * Added falsy/ nullish check to `AboutInfo` Component in `profile` page
 * Removed `Profile Footer` Component due to no meaningful purpose
 * Added regex validation for `shortcut` link to check if https:// is already on string when adding link to avoid invalid link in `ShortcutsHeader`
@@ -615,3 +615,15 @@ postsAtom = atom({
   orientation: String,
 })
 ```
+
+## v.0.5.15
+
+* Added `viewOnly` prop to `UserOnboardingModal` Component for browsing of onboarding details in `profile` page
+* Added `CMS` Components for `CMS` page
+* Added `CMSStore` store for `CMS` Components
+* Added `ClientItemList` Component
+* Updated `LabelTag` Component to include `Badge` functionality
+* Removed `LabelTag` Component
+* Merged `LabelTag` and `ChipTag` Component due to similar functionalities and for convenience developing since it is a HOC
+* Added badge count for `ChipTag` Component to display numerical detail
+* Updated affected components due to the merging of `LabelTag` and `ChipTag`

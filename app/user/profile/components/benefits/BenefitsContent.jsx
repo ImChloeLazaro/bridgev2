@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
-import LabelTag from "../../../../components/LabelTag";
 import { userAtom, benefitsStatusAtom } from "../../../../store/UserStore";
+import ChipTag from "@/app/components/ChipTag";
 
 // ### TODO Connect benefit backend function handler
 
@@ -22,12 +22,13 @@ const BenefitsContent = () => {
                 <small className="text-base font-bold text-black-default w-2/6">
                   {benefit.number ?? "No Data Available"}
                 </small>
-                <LabelTag
+                <ChipTag
                   text={
                     benefit.status === "available" ? "Available" : "Unavailable"
                   }
                   color={benefit.status === "available" ? "green" : "red"}
-                ></LabelTag>
+                  size="sm"
+                ></ChipTag>
               </div>
             );
           })}

@@ -46,8 +46,8 @@ const ManagePostMainContent = ({ onClose }) => {
   const [values, setValues] = useState([]);
 
   const user = useAtomValue(userAtom);
-  const posts  = useAtomValue(postAtom);
-  const setPosts = useSetAtom(addPostAtom)
+  const posts = useAtomValue(postAtom);
+  const setPosts = useSetAtom(addPostAtom);
   const postCount = useAtomValue(postCountAtom);
 
   const [draftsPostList, setDraftsPostList] = useAtom(draftPostListAtom);
@@ -74,7 +74,10 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedMediaLayoutAtom
   );
 
-  const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
+  const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
+    selectedFilterKeysAtom
+  );
+  const filterKeys = useAtomValue(filterKeysAtom);
 
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
@@ -137,7 +140,7 @@ const ManagePostMainContent = ({ onClose }) => {
           orientation: [...selectedMediaOrientation],
           reactionList: [...selectedReactions],
           taggedPeople: [...selectedTaggedPeople], // key of users
-        };  
+        };
 
         setDraftsPostList((prev) => [...prev, newPost]);
         console.log("newPost", newPost);
@@ -394,7 +397,13 @@ const ManagePostMainContent = ({ onClose }) => {
         </div>
         <Divider />
         <div className="flex justify-between items-center px-7 mt-4 mb-3">
-          <SearchBar searchItem={searchItem} setSearchItem={setSearchItem} />
+          <SearchBar
+            searchItem={searchItem}
+            setSearchItem={setSearchItem}
+            filterKeys={filterKeys}
+            selectedFilterKeys={selectedFilterKeys}
+            setSelectedFilterKeys={setSelectedFilterKeys}
+          />
           <ManagePostTabs />
         </div>
       </div>
@@ -407,7 +416,7 @@ const ManagePostMainContent = ({ onClose }) => {
             value={selectedPosts}
             onValueChange={(value) => {
               setSelectedPosts(value);
-              console.log(value);
+              console.log("SELECTED POST:", value);
             }}
             className="w-full"
           >

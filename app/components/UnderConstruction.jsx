@@ -1,6 +1,6 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import { Image } from "@nextui-org/react";
-export function UnderConstruction({src}) {
+export function UnderConstruction({ src }) {
   return (
     <div className="w-full h-full m-0 p-0">
       <div className="my-4 gap-1 flex flex-col items-center">

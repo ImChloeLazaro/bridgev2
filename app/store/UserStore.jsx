@@ -6,8 +6,6 @@ import { get } from "aws-amplify/api";
 import { readwithparams, restread } from "../utils/amplify-rest";
 import { employeeIDAtom } from "../onboarding/store/OnboardingStore";
 
-const initialState = null;
-
 async function fetchUserData() {
   try {
     const user = await fetchUserAttributes();
@@ -24,7 +22,7 @@ async function fetchUserData() {
 // User Data
 export const userDataAtom = atom(async () => {
   return await fetchUserData();
-}, initialState);
+});
 
 // User
 export const userAtom = atom(async (get) => {
@@ -44,6 +42,9 @@ export const userAtom = atom(async (get) => {
     return {};
   }
 });
+
+// User List
+export const usersListAtom = atom([{}]); // list of all employees
 
 //Leaves
 export const leaveStatusAtom = atom(async (get) => {
@@ -109,10 +110,9 @@ export const recruitmentStatusAtom = atom(async (get) => {
 //Fetch Onboarding Status
 export const fetchOnboardingStatus = atom(async (get) => {
   // const auth = await get(authenticationAtom);
-  // const users = await readwithparams("/user", {
-  //   sub: auth.sub,
-  // });
-  // console.log("hasOnboardingData", users.result.hasOnboardingData);
+  // console.log("INSIDE USER ATOM: ", auth);
+  // const users = await readwithparams("/user", { sub: auth.sub });
+  // console.log("users", users);
   // return users.result.hasOnboardingData;
-  return true
+  return true;
 });

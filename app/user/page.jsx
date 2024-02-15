@@ -16,6 +16,7 @@ import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom, postAtom } from "./home/store/PostStore";
 import { useEffect } from "react";
 import { authenticationAtom } from "../store/AuthenticationStore";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 // ### TODO Rewrite scrolling behavior to add scrollbar for easier scrolling
 // ###      make RightBar to be sticky without affecting its own scrolling
@@ -79,4 +80,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default withAuthenticator(User);
