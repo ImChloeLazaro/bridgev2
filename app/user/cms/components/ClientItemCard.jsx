@@ -9,6 +9,7 @@ import {
   Image,
   Button,
   Pagination,
+  Select,
 } from "@nextui-org/react";
 
 const tagColors = {

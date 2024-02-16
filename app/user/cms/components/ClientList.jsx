@@ -10,6 +10,8 @@ import {
   Checkbox,
   CheckboxGroup,
   Pagination,
+  Select,
+  SelectItem,
   cn,
 } from "@nextui-org/react";
 import SearchBar from "@/app/components/SearchBar";
@@ -19,6 +21,7 @@ import {
   clientsListCountAtom,
   displayedClientsAtom,
   filterKeysAtom,
+  pageRowsSelectionAtom,
   selectedClientAtom,
   selectedFilterKeysAtom,
 } from "../store/CMSStore";
@@ -29,10 +32,12 @@ import ClientItemCard from "./ClientItemCard";
 const ClientList = () => {
   const [searchItem, setSearchItem] = useState("");
   const [selectedAllClients, setSelectedAllClients] = useState(false);
+  const [value, setValue] = useState(new Set(["10"]));
 
   const clientsListCount = useAtomValue(clientsListCountAtom);
   const displayedClients = useAtomValue(displayedClientsAtom);
   const clients = useAtomValue(clientsListAtom);
+  const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
 
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
   const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
@@ -150,14 +155,31 @@ const ClientList = () => {
       <Divider />
       <CardFooter className="flex justify-between px-12">
         {/* <div > */}
-        <div className="">
+        <div className="w-1/3">
           <p>{`Showing ${displayedClients} of ${clientsListCount} results`}</p>
         </div>
-        <div className="">
-          <p>{`Rows per page: ${displayedClients}`}</p>
-          {/* // ### TODO Add dropdown select for rows per page */}
-        </div>{" "}
-        <Pagination isCompact showControls total={10} initialPage={1} />
+        <div className="w-1/3 h-fit flex justify-center items-center py-2 gap-2">
+          <div className="h-full">{`Rows per page: `}</div>
+          <Select
+            variant={"underlined"}
+            selectedKeys={value}
+            className="max-w-20 mb-2"
+            onSelectionChange={setValue}
+          >
+            {pageRowsSelection.map((pageRow) => (
+              <SelectItem key={pageRow.value} value={pageRow.value}>
+                {pageRow.label}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+        <Pagination
+          isCompact
+          showControls
+          total={10}
+          initialPage={1}
+          className="w-1/3 flex justify-end"
+        />
         {/* </div> */}
       </CardFooter>
     </Card>

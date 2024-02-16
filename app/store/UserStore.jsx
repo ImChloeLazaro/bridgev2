@@ -90,7 +90,7 @@ export const recruitmentStatusAtom = atom(async (get) => {
     status: data?.is_active, // true active : false inactive
     role: ["user", "admin"],
     team: "DMS-FAST",
-    supervisor: "Madelyn Septimus",
+    supervisor: "",
     position: data?.position,
     clients: ["NON-BLOOMS"],
     leaves: {

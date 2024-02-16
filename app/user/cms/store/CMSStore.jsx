@@ -169,5 +169,37 @@ export const clientsListAtom = atom([
 ]);
 
 export const selectedClientAtom = atom([]);
+
 export const clientsListCountAtom = atom(205);
-export const displayedClientsAtom = atom(10)
+export const displayedClientsAtom = atom(10);
+
+let pageRowIndex = 0;
+export const pageRowsSelectionAtom = atom([
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "10",
+    value: "10",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "20",
+    value: "20",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "50",
+    value: "50",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "100",
+    value: "100",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "200",
+    value: "200",
+  },
+]);
+
+export const selectedPage = atom(1);

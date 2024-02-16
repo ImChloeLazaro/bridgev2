@@ -63,15 +63,21 @@ const AboutInfo = ({ data }) => {
             <p className="font-medium text-base w-1/2 min-w-[50%]">
               {"Immediate Head"}
             </p>
-            <div className="flex items-center gap-2">
-              <Avatar
-                radius="full"
-                size="md"
-                src="/Madelyn Septimus.png"
-                alt="Supervisor Profile picture"
-              />
-              <p className="">{data.supervisor ?? "No Data Available"}</p>
-            </div>
+            {data.supervisor ? (
+              <div className="flex items-center gap-2">
+                <Avatar
+                  radius="full"
+                  size="md"
+                  src="/Madelyn Septimus.png"
+                  alt="Supervisor Profile picture"
+                />
+                <p className="">{data.supervisor ?? "No Data Available"}</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <p className="">{"No Data Available"}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
