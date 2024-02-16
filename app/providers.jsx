@@ -4,7 +4,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { Provider, useAtomValue } from "jotai";
 import { authenticationAtom } from "./store/AuthenticationStore";
-import { userDataAtom } from "./store/UserStore";
+import { userDataAtom, teamStatusAtom } from "./store/UserStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { RegisterProfile } from "./utils/profile";
@@ -15,8 +15,9 @@ export function Providers({ children }) {
   const uservalue = useAtomValue(userDataAtom)
   const pathname = usePathname();
 
+  const teamvalue = useAtomValue(teamStatusAtom)
   useEffect(()=>{
-    console.log("USER VALUE", uservalue)
+    console.log("USER VALUE", teamvalue)
     if(authvalue.isAuthenticated && pathname === "/"){
       router.push('/user')
     }

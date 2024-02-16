@@ -16,7 +16,7 @@ export const insertwithparams = async (path, request) => {
       const response = await body.json();
       return response;
   } catch (error) {
-    throw new Error(error)
+    console.log(error)
   }
 }
 export const restinsert = async (path, request) => {
@@ -33,7 +33,7 @@ export const restinsert = async (path, request) => {
         const response = await body.json();
         return response;
       } catch (e) {
-        throw new Error(e)
+        console.log(e)
       }
 }
 
@@ -51,7 +51,7 @@ export const readwithparams = async (path, request) => {
       const response = await body.json();
       return response;
     } catch (e) {
-      throw new Error(e)
+      console.log(e)
     }
 } 
 
@@ -66,7 +66,7 @@ export const restread = async (path) => {
         const response = await body.json();
         return response;
       } catch (e) {
-        throw new Error(e)
+        console.log(e)
       }
 }
 
@@ -84,7 +84,7 @@ export const updatewithparams = async (path, request) => {
       const response = await body.json();
       return response;
   } catch (error) {
-    throw new Error(error)
+    console.log(error)
   }
 
 }
@@ -102,7 +102,7 @@ export const restupdate = async (path, request) => {
         const response = await body.json();
         return response;
       } catch (e) {
-        throw new Error(e)
+        console.log(e)
       }
 }
 
@@ -120,7 +120,7 @@ export const restdestroy = async (path, request) => {
         const response = await body.json();
         return response;
       } catch (e) {
-        throw new Error(e)
+        console.log(e)
       }
 }
 

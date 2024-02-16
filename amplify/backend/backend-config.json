@@ -65,6 +65,14 @@
           ],
           "category": "function",
           "resourceName": "recruitmenthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "teamhandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -143,6 +151,12 @@
       "service": "Lambda"
     },
     "shortcuthandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "teamhandler": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -360,6 +374,30 @@
         {
           "category": "function",
           "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_teamhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_teamhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_teamhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teamhandler"
         }
       ]
     },

@@ -67,10 +67,10 @@ const AboutInfo = ({ data }) => {
               <Avatar
                 radius="full"
                 size="md"
-                src="/Madelyn Septimus.png"
+                src={data.supervisor.picture ?? `/defaulthead.png`}
                 alt="Supervisor Profile picture"
               />
-              <p className="">{data.supervisor ?? "No Data Available"}</p>
+              <p className="">{data.supervisor.name ?? "No Team Record"}</p>
             </div>
           </div>
         </div>

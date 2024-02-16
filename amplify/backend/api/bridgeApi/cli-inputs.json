@@ -104,6 +104,19 @@
           "delete"
         ]
       }
+    },
+    "/teams": {
+      "name": "/teams",
+      "lambdaFunction": "teamhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

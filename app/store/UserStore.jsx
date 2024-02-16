@@ -2,7 +2,6 @@ import { atom } from "jotai";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { authenticationAtom } from "./AuthenticationStore";
-import { get } from "aws-amplify/api";
 import { readwithparams, restread } from "../utils/amplify-rest";
 import { employeeIDAtom } from "../onboarding/store/OnboardingStore";
 
@@ -66,18 +65,20 @@ export const onboardingStatusAtom = atom(async (get) => {
   return await readwithparams('/profile/onboarding', {sub: auth.sub})
 })
 
+//Team 
+export const teamStatusAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  return await readwithparams("/teams/employee", { sub: auth.sub });
+});
+
 //Recruitment
 export const recruitmentStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  const recruitment = await readwithparams("/recruitment/profile", {
-    sub: auth.sub,
-  });
-
-  const onboarding = await get(onboardingStatusAtom);
-  const employee = onboarding.response;
-  const data = await recruitment.response[0];
   const user = await get(userDataAtom);
-  console.log("USER DATA", user); 
+  const { response: employee } = await get(onboardingStatusAtom);
+  const { response: [data] } = await readwithparams("/recruitment/profile", { sub: auth.sub });
+  const {response: employee_team} = await get(teamStatusAtom);
+
   return {
     id: data?.employee_number,
     sub: auth.sub,
@@ -90,7 +91,10 @@ export const recruitmentStatusAtom = atom(async (get) => {
     status: data?.is_active, // true active : false inactive
     role: ["user", "admin"],
     team: "DMS-FAST",
-    supervisor: "Madelyn Septimus",
+    supervisor: {
+      name : employee_team?.immediate_head?.name,
+      picture : employee_team?.immediate_head?.picture,
+    },
     position: data?.position,
     clients: ["NON-BLOOMS"],
     leaves: {

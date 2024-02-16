@@ -204,16 +204,16 @@ app.get('/profile/*', async function (req, res) {
     switch (key) {
       case '/profile/onboarding':
         const onboarding = await profileModel.findOne({ "profile.sub": sub });
-        res.json({ success: true, route: "APPLICATION ROUTE", response: onboarding });
+        res.status(200).json({ success: true, route: "APPLICATION ROUTE", response: onboarding });
         break;
       case '/profile/background':
-        res.json({ success: true, response: "BACKGROUND ROUTE", url: req.url });
+        res.status(200).json({ success: true, response: "BACKGROUND ROUTE", url: req.url });
         break;
       case '/profile/contact':
-        res.json({ success: true, response: "CONTACT ROUTE", url: req.url });
+        res.status(200).json({ success: true, response: "CONTACT ROUTE", url: req.url });
         break;
       default:
-        res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
         break;
     }
   } catch (error) {
