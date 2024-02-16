@@ -202,13 +202,17 @@ const OnboardingFooter = () => {
     const updateonboardingstatus = await updatewithparams("/user", {
       sub: unique_key.sub,
     });
-    const benefitsresponse = await restinsert("/benefits", {sub: unique_key.sub});
+    const benefitsresponse = await restinsert("/benefits", {
+      sub: unique_key.sub,
+    });
     const leaveresponse = await restinsert("/leave", { sub: unique_key.sub });
     console.log("PROFILE RESPONSE", profileresponse);
     console.log("ONBOARDING STATUS RESPONSE", updateonboardingstatus);
     console.log("BENEFITS RESPONSE", benefitsresponse);
     console.log("LEAVE RESPONSE", leaveresponse);
     console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
+
+    
   };
 
   const handleNext = () => {

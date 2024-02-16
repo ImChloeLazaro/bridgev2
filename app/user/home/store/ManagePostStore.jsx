@@ -189,7 +189,7 @@ export const taggedPeopleListAtom = atom([
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
-
+export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
 export const postCaptionAtom = atom("");
@@ -205,7 +205,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: [],
     orientation: [],
     title: "",
-    tagPeople: [],
+    taggedPeople: [],
     caption: "",
   },
   {
@@ -217,7 +217,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "Rex Winner Month of JANUARY",
-    tagPeople: ["all"],
+    taggedPeople: ["all"],
     caption: "Congratulations!!! Good Job!!",
   },
   {
@@ -229,7 +229,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: ["multiple"],
     orientation: ["portrait"],
     title: "HAPPY BIRTHDAY!!!",
-    tagPeople: ["all"],
+    taggedPeople: ["all"],
     caption:
       "“Another adventure filled year awaits you. Welcome it by celebrating your birthday with pomp and splendor. Wishing you a very happy and fun-filled birthday!”",
   },
@@ -249,7 +249,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "LOOK HERE!!!",
-    tagPeople: ["all"],
+    taggedPeople: ["all"],
     caption: "Witness what we have prepared for you and hope that you enjoy!!!",
   },
   {
@@ -261,7 +261,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "CLIENT FEEDBACK",
-    tagPeople: ["all"],
+    taggedPeople: ["all"],
     caption: "Thank you for your hard work!!! Cheers!",
   },
   {
@@ -273,7 +273,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "ATTENTION A-FAMILY!!!",
-    tagPeople: ["all"],
+    taggedPeople: ["all"],
     caption: "Look alive! \nHere are some of the hottest news today!",
   },
   {
@@ -285,7 +285,7 @@ export const postTemplatesAtom = atom([
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "NEW TEAM MEMBERS",
-    tagPeople: ["all"],
+    taggedPeople: ["all"],
     caption: "Let us welcome our newest members of our A-Family!!!",
   },
 ]);
@@ -294,449 +294,15 @@ export const postTemplatesCountAtom = atom(
   (get) => get(postTemplatesAtom).length
 );
 
-let draftIndex = 0;
-export const draftPostListAtom = atom([
-  {
-    id: (draftIndex += 1),
-    type: "news",
-    key: `draft-${draftIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-    ],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["love", "star", "happy"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (draftIndex += 1),
-    type: "team",
-    key: `draft-${draftIndex}`,
-    title: "Momentum = SEPTEMBER 2023",
-    profileURL: "/Madelyn Septimus.png",
-    team: "Aretex B-TEAM",
-    caption:
-      "Another JOB well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: ["/Madelyn Septimus.png", "/Madelyn Septimus.png"],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (draftIndex += 1),
-    type: "team",
-    key: `draft-${draftIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-      "/Madelyn Septimus.png",
-    ],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (draftIndex += 1),
-    type: "news",
-    key: `draft-${draftIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "feedback",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "feedback",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "feedback",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "birthday",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "team",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "team",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "news",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (draftIndex += 1),
-  //   type: "birthday",
-  //   key: `draft-${draftIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-]);
+// LIST FOR DRAFTED POSTS
+export const draftPostListAtom = atom([]);
 
 export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
 export const addDraftPostAtom = atom(null, (get, set, update) => {});
 export const selectedDraftPostAtom = atom([]);
 
-let publishIndex = 0;
-export const publishedPostListAtom = atom([
-  {
-    id: (publishIndex += 1),
-    type: "award",
-    key: `publish-${publishIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (publishIndex += 1),
-    type: "birthday",
-    key: `publish-${publishIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (publishIndex += 1),
-    type: "award",
-    key: `publish-${publishIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (publishIndex += 1),
-    type: "award",
-    key: `publish-${publishIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (publishIndex += 1),
-    type: "birthday",
-    key: `publish-${publishIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (publishIndex += 1),
-    type: "birthday",
-    key: `publish-${publishIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "event",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "feedback",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "news",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "news",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "news",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "team",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "feedback",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "team",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "feedback",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-  // {
-  //   id: (publishIndex += 1),
-  //   type: "feedback",
-  //   key: `publish-${publishIndex}`,
-  //   title: "Momentum / SEPTEMBER 2023",
-  //   profileURL: "/Tatiana Philips.png",
-  //   team: "Aretex A-TEAM",
-  //   caption:
-  //     "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-  //   media: [],
-  //   mediaLayout: ["multiple"],
-  //   orientation: ["landscape"],
-  //   reactionList: ["star"],
-  //   tagPeople: [""], // key of users
-  // },
-]);
+// LIST FOR PUBLISHED POSTS
+export const publishedPostListAtom = atom([]);
 
 export const publishedPostCountAtom = atom(
   (get) => get(publishedPostListAtom).length
@@ -744,129 +310,8 @@ export const publishedPostCountAtom = atom(
 export const addPublishPostAtom = atom(null, (get, set, update) => {});
 export const selectedPublishPostAtom = atom([]);
 
-let archiveIndex = 0;
-export const archivedPostListAtom = atom([
-  {
-    id: (archiveIndex += 1),
-    type: "feedback",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "feedback",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "feedback",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "feedback",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "award",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "award",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "team",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-  {
-    id: (archiveIndex += 1),
-    type: "news",
-    key: `archive-${archiveIndex}`,
-    title: "Momentum / SEPTEMBER 2023",
-    profileURL: "/Tatiana Philips.png",
-    team: "Aretex A-TEAM",
-    caption:
-      "Another job well done A-Team! Thank you all for your hard work, the work you do matters and makes a difference! Cheers! ",
-    media: [],
-    mediaLayout: ["multiple"],
-    orientation: ["landscape"],
-    reactionList: ["star"],
-    tagPeople: [""], // key of users
-  },
-]);
+// LIST FOR ARCHIVED POSTS
+export const archivedPostListAtom = atom([]);
 
 export const archivedPostCountAtom = atom(
   (get) => get(archivedPostListAtom).length

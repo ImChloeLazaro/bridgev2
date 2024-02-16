@@ -3,18 +3,15 @@ import { SelectItem } from "@nextui-org/react";
 import { Select, Input, Chip } from "@nextui-org/react";
 import { MdFilterAlt } from "react-icons/md";
 import { LuSearch } from "react-icons/lu";
-import { useAtomValue, useAtom } from "jotai";
-import {
-  filterKeysAtom,
-  selectedFilterKeysAtom,
-} from "../user/home/store/ManagePostStore";
 
-const SearchBar = ({ searchItem, setSearchItem }) => {
-  const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
-    selectedFilterKeysAtom
-  );
-  const filterKeys = useAtomValue(filterKeysAtom);
 
+const SearchBar = ({
+  searchItem,
+  setSearchItem,
+  filterKeys,
+  selectedFilterKeys,
+  setSelectedFilterKeys,
+}) => {
   return (
     <div className="flex gap-0">
       <Select

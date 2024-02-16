@@ -16,7 +16,7 @@ const RightBarCard = ({
   };
 
   return (
-    <Card className="w-full h-min-fit px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+    <Card className="w-full max-w-lg h-min-fit px-2 py-1.5 drop-shadow shadow-none bg-white-default">
       <CardHeader className="flex justify-between pl-4 pr-3">
         <div className="flex flex-col">
           <p className="font-bold text-2xl text-black-default ">{title}</p>

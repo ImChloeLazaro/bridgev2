@@ -63,7 +63,7 @@ const ProfileInfo = ({ data }) => {
               <Avatar
                 radius="full"
                 size="md"
-                src={data.profileURL}
+                src={data.picture}
                 alt="Profile picture"
               />
               <div className="flex ">

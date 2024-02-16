@@ -36,7 +36,7 @@ import {
 } from "../../store/ManagePostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
-import { postAtom, postCountAtom } from "../../store/PostStore";
+import { addPostAtom, postAtom, postCountAtom } from "../../store/PostStore";
 import { restinsert } from "@/app/utils/amplify-rest";
 
 // ### TODO Add Note to media selection that images
@@ -46,7 +46,8 @@ const ManagePostMainContent = ({ onClose }) => {
   const [values, setValues] = useState([]);
 
   const user = useAtomValue(userAtom);
-  const [posts, setPosts] = useAtom(postAtom);
+  const posts = useAtomValue(postAtom);
+  const setPosts = useSetAtom(addPostAtom);
   const postCount = useAtomValue(postCountAtom);
 
   const [draftsPostList, setDraftsPostList] = useAtom(draftPostListAtom);
@@ -73,7 +74,10 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedMediaLayoutAtom
   );
 
-  const selectedFilterKeys = useAtomValue(selectedFilterKeysAtom);
+  const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
+    selectedFilterKeysAtom
+  );
+  const filterKeys = useAtomValue(filterKeysAtom);
 
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
@@ -98,9 +102,9 @@ const ManagePostMainContent = ({ onClose }) => {
   const publishedPostCount = useAtomValue(publishedPostCountAtom);
   const archivedPostCount = useAtomValue(archivedPostCountAtom);
 
-  console.log("selectedDraftPost =>", selectedDraftPost);
-  console.log("selectedPublishPost =>", selectedPublishPost);
-  console.log("selectedArchivePost =>", selectedArchivePost);
+  // console.log("selectedDraftPost =>", selectedDraftPost);
+  // console.log("selectedPublishPost =>", selectedPublishPost);
+  // console.log("selectedArchivePost =>", selectedArchivePost);
 
   const postStatusCount =
     selectedPostStatus === "drafts"
@@ -120,7 +124,7 @@ const ManagePostMainContent = ({ onClose }) => {
       ? `archive-${archivedPostCount + 1}`
       : 0;
 
-  const handleAddPost = async () => {
+  const handleAddPost = () => {
     if (selectedPostStatus === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
         const newPost = {
@@ -128,20 +132,15 @@ const ManagePostMainContent = ({ onClose }) => {
           type: templateName.toLowerCase(),
           key: postKey,
           title: postTitle,
-          picture: user.profileURL,
+          publisherPicture: user.picture,
           team: user.team,
           caption: postCaption,
           media: mediaFileList ? [...mediaFileList] : [],
           mediaLayout: [...selectedMediaLayout],
           orientation: [...selectedMediaOrientation],
           reactionList: [...selectedReactions],
-          tagPeople: [...selectedTaggedPeople], // key of users
+          taggedPeople: [...selectedTaggedPeople], // key of users
         };
-        const posts = await restinsert("/post", newPost);
-
-        console.log("ADDED POSTS FOR FEED");
-        console.log("POSTS SUCCESS", posts.success);
-        console.log("POSTS DATA", posts.data);
 
         setDraftsPostList((prev) => [...prev, newPost]);
         console.log("newPost", newPost);
@@ -193,7 +192,7 @@ const ManagePostMainContent = ({ onClose }) => {
     console.log("POST DELETED");
   };
 
-  const handlePublishPost = () => {
+  const handlePublishPost = async () => {
     if (selectedPostStatus === "drafts") {
       console.log("INSIDE PUBLISH POST", selectedDraftPost);
 
@@ -226,7 +225,7 @@ const ManagePostMainContent = ({ onClose }) => {
           key: `post-${multiplePostCount}`,
           publishKey: `publish-${postIndex}`,
           publisher: user.name,
-          profileURL: user.profileURL,
+          publisherPicture: user.picture,
           datetimePublished: new Date(),
           datetimeScheduled: new Date(),
           team: user.team,
@@ -242,14 +241,18 @@ const ManagePostMainContent = ({ onClose }) => {
             happy: 0,
           },
           comments: 0,
+          taggedPeople: [...draft.taggedPeople], // key of users
           media: draft.media ? [...draft.media] : [],
           mediaLayout: [...draft.mediaLayout],
           orientation: [...draft.orientation],
-          tagPeople: [...draft.tagPeople], // key of users
         };
       });
 
-      console.log("toBePosted", ...toBePosted);
+      const posts = await restinsert("/post", toBePosted);
+
+      console.log("PUBLISHED POSTS FOR FEED");
+      console.log("POSTS SUCCESS", posts.success);
+      console.log("POSTS DATA", posts.data);
 
       setPosts((prev) => [...prev, ...toBePosted]);
     }
@@ -394,7 +397,13 @@ const ManagePostMainContent = ({ onClose }) => {
         </div>
         <Divider />
         <div className="flex justify-between items-center px-7 mt-4 mb-3">
-          <SearchBar searchItem={searchItem} setSearchItem={setSearchItem} />
+          <SearchBar
+            searchItem={searchItem}
+            setSearchItem={setSearchItem}
+            filterKeys={filterKeys}
+            selectedFilterKeys={selectedFilterKeys}
+            setSelectedFilterKeys={setSelectedFilterKeys}
+          />
           <ManagePostTabs />
         </div>
       </div>
@@ -407,7 +416,7 @@ const ManagePostMainContent = ({ onClose }) => {
             value={selectedPosts}
             onValueChange={(value) => {
               setSelectedPosts(value);
-              console.log(value);
+              console.log("SELECTED POST:", value);
             }}
             className="w-full"
           >

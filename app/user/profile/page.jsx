@@ -4,7 +4,7 @@ import RightBar from "@/app/components/RightBar";
 import RightBarCard from "@/app/components/RightBarCard";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   MdBolt,
   MdEmojiEvents,
@@ -18,17 +18,23 @@ import EmergencyContactContent from "./components/emergencyContact/EmergencyCont
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
+import { useEffect } from "react";
+import { profileAtom } from "./store/ProfileStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 const Profile = () => {
   const recruitment = useAtomValue(recruitmentStatusAtom);
+  const auth = useAtomValue(authenticationAtom);
 
-  console.log('UPDATED DATA FROM RECRUITMENT:', recruitment);
+  const profile = useAtomValue(profileAtom);
 
-  const user = useAtomValue(userAtom);
+  console.log("UPDATED DATA FROM RECRUITMENT:", recruitment);
+  console.log("UPDATED DATA PROFILE:", profile);
+
   return (
-    user.isAuthenticated && (
+    auth.isAuthenticated && (
       <>
-        <MainContent> 
-          <ProfileCard data={ recruitment } />
+        <MainContent>
+          <ProfileCard data={recruitment} />
         </MainContent>
         <RightBar>
           {/* LEAVE BALANCE */}

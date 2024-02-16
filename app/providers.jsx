@@ -30,7 +30,9 @@ export function Providers({ children }) {
 
   return (
     <NextUIProvider navigate={router.push}>
-      <Provider>{children}</Provider>
+      <Provider>
+        {children}
+        </Provider>
     </NextUIProvider>
   );
 }

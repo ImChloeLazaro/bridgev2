@@ -39,7 +39,7 @@ import {
 import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtomValue, useAtom } from "jotai";
 
-const ApplicationOnboarding = () => {
+const ApplicationOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
 
   // Application Details
@@ -79,60 +79,70 @@ const ApplicationOnboarding = () => {
   const application_details = (
     <>
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"FIRST NAME"}
         value={firstName}
         onValueChange={setFirstName}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"LAST NAME"}
         value={lastName}
         onValueChange={setLastName}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"MIDDLE NAME (if None type N/A)"}
         value={middleName}
         onValueChange={setMiddleName}
         isRequired={false}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"VACANCY THRU"}
         value={vacancyThru}
         onValueChange={setVacancyThru}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"REFERRED BY (if referrals)"}
         value={referredBy}
         onValueChange={setReferredBy}
         isRequired={false}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"DATE OF APPLICATION"}
         value={dateApplication}
         onValueChange={setDateApplication}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"DATE OF AVAILABILITY"}
         value={dateAvailability}
         onValueChange={setDateAvailability}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"APPLIED FOR"}
         value={appliedFor}
         onValueChange={setAppliedFor}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"EXPECTED SALARY"}
         value={salary}
         onValueChange={setSalary}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"EMPLOYEE ID"}
         value={employeeID}
         onValueChange={setEmployeeID}
@@ -144,84 +154,98 @@ const ApplicationOnboarding = () => {
   const employee_information = (
     <>
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"PRESENT ADDRESS: (Complete address & ZIP code)"}
         value={presentAddress}
         onValueChange={setPresentAddress}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"PERMANENT ADDRESS: (Complete address & ZIP code)"}
         value={permanentAddress}
         onValueChange={setPermanentAddress}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"RESIDENCE STATUS"}
         value={residenceStatus}
         onValueChange={setResidenceStatus}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"GENDER"}
         value={gender}
         onValueChange={setGender}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"BIRTHDATE: (mm/dd/yyyy)"}
         value={birthdate}
         onValueChange={setBirthdate}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"CIVIL STATUS"}
         value={civilStatus}
         onValueChange={setCivilStatus}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"AGE"}
         value={age}
         onValueChange={setAge}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"EMAIL ADDRESS"}
         value={emailAddress}
         onValueChange={setEmailAddress}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"BIRTHPLACE"}
         value={birthplace}
         onValueChange={setBirthplace}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"LANDLINE NUMBER"}
         value={homePhoneNumber}
         onValueChange={setHomePhoneNumber}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"CITIZENSHIP"}
         value={citizenship}
         onValueChange={setCitizenship}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"MOBILE NUMBER"}
         value={mobileNumber}
         onValueChange={setMobileNumber}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"RELIGION"}
         value={religion}
         onValueChange={setReligion}
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"LANGUAGE"}
         value={language}
         onValueChange={setLanguage}
@@ -233,21 +257,25 @@ const ApplicationOnboarding = () => {
   const government_id_information = (
     <>
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"TAX IDENTIFICATION NUMBER (if any)"}
         value={TIN}
         onValueChange={setTIN}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"SOCIAL SECURITY NUMBER (if any)"}
         value={SSS}
         onValueChange={setSSS}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"PAG-IBIG NUMBER (if any)"}
         value={pagibig}
         onValueChange={setPagibig}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"PHILHEALTH NUMBER (if any)"}
         value={philhealth}
         onValueChange={setPhilhealth}
@@ -256,7 +284,7 @@ const ApplicationOnboarding = () => {
   );
 
   return (
-    <div className="flex flex-wrap justify-start gap-5 mt-4 ">
+    <div className="h-fit flex flex-wrap justify-between gap-5 mt-4 ">
       {selectedTab === "application_details" && application_details}
       {selectedTab === "employee_information" && employee_information}
       {selectedTab === "government_id_information" && government_id_information}

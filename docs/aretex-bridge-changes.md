@@ -71,9 +71,9 @@
 
 ```javascript
 const shortcuts = [{
-key: string,
-label: string,
-link: string,
+key: String,
+label: String,
+link: String,
 icon: <Icon>
 suffix: <Icon>
 }]
@@ -83,10 +83,10 @@ to
 
 ```javascript
 const shortcuts = [{
-id: number,
-key: string,
-label: string,
-link: string,
+id: Number,
+key: String,
+label: String,
+link: String,
 }]
 ```
 
@@ -167,7 +167,7 @@ link: string,
 * Added not-found page
 * Added error page
 * Added custom tailwind utility class `spinner` for page transition
-* Added `light grey` and `dark grey` variant for color `grey` in `tailwind.config.js`
+* Added `lightgrey` and `darkgrey` variant for color `grey` in `tailwind.config.js`
 
 ## v.0.4.8
 
@@ -435,7 +435,7 @@ link: string,
 
 * Fixed minor bug all templates are deleted when deleting custom template
 * Fixed media and template buttons correctly displaying post template details when creating new posts
-* Removed left over `console.log` in `ManagePost` Components
+* Removed left over `console.log()` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
 * Added backend handler function for route `/account`
 * Added backend handler function for route `/benefits`
@@ -494,7 +494,7 @@ link: string,
 * Updated logic for `AboutInfo` Component to check for falsy/ nullish profile data values
 * Added `under-construction.png` as illustration for pages that are still being developed or not yet developed
 * Added under construction message to `ClientsInfo` and `TeamInfo` Component in `profile` page
-* Added `grey`, `lightgrey`, and `darkgrey` variant color for `LabelTag` Component
+* Added `clear`, `grey`, `lightgrey`, and `darkgrey` variant color for `LabelTag` Component
 * Added falsy/ nullish check to `AboutInfo` Component in `profile` page
 * Removed `Profile Footer` Component due to no meaningful purpose
 * Added regex validation for `shortcut` link to check if https:// is already on string when adding link to avoid invalid link in `ShortcutsHeader`
@@ -502,3 +502,128 @@ link: string,
 ## v.0.5.14
 
 * Updated backend functions for `posting`, `shortcuts`, and `profile` components
+* Refactored backend functions in `store` of all components
+* Added `fetch`, `add`, `delete`, and `update` as utility functions for state management in the `store` of all components
+* Adjusted max width: `max-w-lg` for `RightBarCard` Component
+* Removed leftover `### TODO` tags in `OnboardingStore`
+* Removed leftover `console.log()` in `ShortcutItem` Component
+* Updated `fetchOnboardingStatus` function in `UserStore`
+* Removed leftover `console.log()` in `ManagePostItemCard` Component
+* Removed leftover `console.log()` in `ManagePostMainContent` Component
+* Removed leftover `console.log()` in `ManagePostSidebarContent` Component
+* Added `fetch`, `add`, `delete`, and `update` utility functions for `PostStore`
+* Added `profileDataAtom` in `ProfileStore`
+* Added `OnboardingBody` Component
+* Moved body contents from `OnboardingForm` to `OnboardingBody` Component for reusability of the components individually
+* Added `UserOnboardingModal` Component for browsing `onboarding` details at `profile` Page
+* Refactored logic for handling states in `store` of all components due to updating all `atom` state's object structure to ensure consistency between `backend` and `frontend`
+* Removed `isSignedIn` property from `authenticationAtom` in `AuthenticationStore`
+* Updated `authenticationAtom` in `AuthenticationStore` from
+
+``` javascript
+authenticationAtom=atom({
+  isAuthenticated: Boolean,
+  isSignedIn: Boolean,
+  sub: String,
+})
+```
+
+to
+
+``` javascript
+authenticationAtom=atom({
+  isAuthenticated: Boolean,
+  sub: String,
+})
+```
+
+* Renamed `profileURL` to `picture` property from `userAtom` in `UserStore`
+* Updated `userAtom` in `UserStore` from
+
+```javascript
+userAtom = atom({
+  id: Number,
+  name: String,
+  picture: String, 
+  email: String,
+  role: String[],
+  team: String,
+  supervisor: String,
+  position: String,
+  clients: String[],
+  leaves: {
+    vl: Number,
+    sl: Number,
+  },
+  benefits: [
+    { name: String, isAvailable: Boolean, number: String },
+    { name: String, isAvailable: Boolean, number: String },
+    { name: String, isAvailable: Boolean, number: String },
+    { name: String, isAvailable: Boolean, number: String },
+  ],
+
+  emergencyContact: {
+    name: String,
+    relationship: String,
+    contactNumber: String,
+  },
+  onboarding: {
+    startDate: String,
+    status: String,
+  },
+})
+```
+
+to
+
+```javascript
+userAtom = atom({
+  name: String,
+  picture: String,
+  email: String,
+  role: String[],
+  team: String,
+    })
+```
+
+* Added object structure for `postsAtom` in `ProfileStore`
+
+```javascript
+postsAtom = atom({
+  id: Number,
+  key: String,
+  publishKey: String,
+  publisher: String,
+  publisherPicture: String,
+  dateTimePublished: Date,
+  dateTimeScheduled: Date,
+  title: String,
+  caption: String,
+  type: String,
+  reactionList: String[],
+  reacted: Boolean,
+  reactions: {
+    star: Number,
+    love: Number,
+    birthday: Number,
+    happy: Number,
+  },
+  comments: Number,
+  taggedPeople: [{name:String, picture:String}],
+  media: String[],
+  mediaLayout: String,
+  orientation: String,
+})
+```
+
+## v.0.5.15
+
+* Added `viewOnly` prop to `UserOnboardingModal` Component for browsing of onboarding details in `profile` page
+* Added `CMS` Components for `CMS` page
+* Added `CMSStore` store for `CMS` Components
+* Added `ClientItemList` Component
+* Updated `LabelTag` Component to include `Badge` functionality
+* Removed `LabelTag` Component
+* Merged `LabelTag` and `ChipTag` Component due to similar functionalities and for convenience developing since it is a HOC
+* Added badge count for `ChipTag` Component to display numerical detail
+* Updated affected components due to the merging of `LabelTag` and `ChipTag`

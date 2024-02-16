@@ -1,9 +1,6 @@
 import { atom } from "jotai";
 import { fetchOnboardingStatus } from "../../store/UserStore";
 
-// ### TODO UPDATE INPUT FIELDS
-// ### FOR OPTIONAL or NOT APPLICABLE FIELDS input N/A
-
 export const stepsAtom = atom([
   "application",
   "background",

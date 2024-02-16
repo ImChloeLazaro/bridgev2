@@ -3,6 +3,7 @@ import ProfileDetails from "./ProfileDetails";
 import ProfileHeader from "./ProfileHeader";
 
 const ProfileCard = ({ data }) => {
+  console.log("INSIDE PROFILE CARD", data);
   return (
     // mb-[number] for spacing between posts
     <Card className="mb-6 mx-4 bg-white-default">

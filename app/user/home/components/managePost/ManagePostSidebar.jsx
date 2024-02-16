@@ -78,7 +78,7 @@ const ManagePostSidebar = () => {
             mediaLayout: [...selectedMediaLayout],
             orientation: [...selectedMediaOrientation],
             title: postTitle,
-            tagPeople: [...selectedTaggedPeople],
+            taggedPeople: [...selectedTaggedPeople],
             caption: postCaption,
           };
         }
@@ -145,15 +145,13 @@ const ManagePostSidebar = () => {
           mediaLayout: [...selectedMediaLayout],
           orientation: [...selectedMediaOrientation],
           title: postTitle,
-          tagPeople: [...selectedTaggedPeople],
+          taggedPeople: [...selectedTaggedPeople],
           caption: postCaption,
         },
       ]);
     }
 
-    // PUBLISH DRAFT TO NEWS FEED
-
-    console.log("postTemplates", postTemplates);
+     console.log("postTemplates", postTemplates);
   };
 
   const templateOnlyList = filterKeys

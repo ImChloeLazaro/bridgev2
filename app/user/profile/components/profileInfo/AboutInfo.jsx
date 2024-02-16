@@ -1,7 +1,7 @@
 import { Avatar, Divider } from "@nextui-org/react";
 import { addMonths, format } from "date-fns";
 import { MdInfoOutline } from "react-icons/md";
-import LabelTag from "../../../../components/LabelTag";
+import ChipTag from "@/app/components/ChipTag";
 const AboutInfo = ({ data }) => {
   return (
     <>
@@ -32,12 +32,12 @@ const AboutInfo = ({ data }) => {
             </p>
 
             {data.status ? (
-              <LabelTag
+              <ChipTag
                 text={data.status ? "Active" : "Inactive"}
                 color={data.status ? "green" : "red"}
               />
             ) : (
-              <LabelTag text={"Unavailable"} color={"lightgrey"} />
+              <ChipTag text={"Unavailable"} color={"lightgrey"} />
             )}
           </div>
           <Divider />
@@ -121,7 +121,6 @@ const AboutInfo = ({ data }) => {
           </div>
         </div>
       </div>
-
     </>
   );
 };

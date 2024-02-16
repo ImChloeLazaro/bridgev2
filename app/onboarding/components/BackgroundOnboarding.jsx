@@ -14,7 +14,7 @@ import { examinationTakenAtom } from "../store/OnboardingStore";
 import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtom, useAtomValue } from "jotai";
 
-const BackgroundOnboarding = () => {
+const BackgroundOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
 
   const handleUpdateValue = (data, index, property, value, setFunction) => {
@@ -43,6 +43,7 @@ const BackgroundOnboarding = () => {
   const family_background = (
     <>
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"FATHER'S NAME"}
         value={father.name}
         onValueChange={(text) =>
@@ -53,6 +54,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"AGE"}
         value={father.age}
         onValueChange={(text) =>
@@ -63,6 +65,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"OCCUPATION"}
         value={father.occupation}
         onValueChange={(text) =>
@@ -73,6 +76,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"COMPANY"}
         value={father.company}
         onValueChange={(text) =>
@@ -83,6 +87,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"MOTHER'S NAME"}
         value={mother.name}
         onValueChange={(text) =>
@@ -93,6 +98,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"AGE"}
         value={mother.age}
         onValueChange={(text) =>
@@ -103,6 +109,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"OCCUPATION"}
         value={mother.occupation}
         onValueChange={(text) =>
@@ -113,6 +120,7 @@ const BackgroundOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"COMPANY"}
         value={mother.company}
         onValueChange={(text) =>
@@ -125,6 +133,7 @@ const BackgroundOnboarding = () => {
       {children.map((child, c_index) => (
         <div key={"child" + c_index} className="flex flex-col gap-5">
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"name" + c_index}
             label={"NAME/S OF CHILDREN (if applicable)"}
             value={child.name}
@@ -139,6 +148,7 @@ const BackgroundOnboarding = () => {
             }}
           />
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"age" + c_index}
             label={"AGE"}
             value={child.age}
@@ -153,6 +163,7 @@ const BackgroundOnboarding = () => {
             }}
           />
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"civilStatus" + c_index}
             label={"CIVIL STATUS"}
             value={child.civil_status}
@@ -167,6 +178,7 @@ const BackgroundOnboarding = () => {
             }}
           />
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"occupation" + c_index}
             label={"OCCUPATION"}
             value={child.occupation}
@@ -181,6 +193,7 @@ const BackgroundOnboarding = () => {
             }}
           />
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"company" + c_index}
             label={"COMPANY"}
             value={child.company}
@@ -201,8 +214,9 @@ const BackgroundOnboarding = () => {
 
   const educational_background = (
     <>
-      <div className="flex flex-wrap gap-5 mb-5">
+      <div className="flex flex-wrap justify-between gap-5 mb-5">
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"COLLEGE"}
           value={college.name}
           onValueChange={(text) =>
@@ -213,6 +227,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"ADDRESS"}
           value={college.address}
           onValueChange={(text) =>
@@ -223,6 +238,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.date_of_attendance}
           onValueChange={(text) =>
@@ -233,6 +249,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DEGREE/MAJOR"}
           value={college.degree_major}
           onValueChange={(text) =>
@@ -243,6 +260,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"OTHER COURSES"}
           value={college.other_courses}
           onValueChange={(text) =>
@@ -253,6 +271,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.course_date_of_attendance}
           onValueChange={(text) =>
@@ -263,8 +282,9 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
       </div>
-      <div className="flex flex-wrap gap-5 mb-5">
+      <div className="flex flex-wrap justify-between gap-5 mb-5">
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"POST GRADUATE"}
           value={postGraduate.name}
           onValueChange={(text) =>
@@ -275,6 +295,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"ADDRESS"}
           value={postGraduate.address}
           onValueChange={(text) =>
@@ -285,6 +306,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={postGraduate.date_of_attendance}
           onValueChange={(text) =>
@@ -295,6 +317,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DEGREE/MAJOR"}
           value={postGraduate.degree_major}
           onValueChange={(text) =>
@@ -305,6 +328,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"OTHER COURSES"}
           value={college.degree_major}
           onValueChange={(text) =>
@@ -315,6 +339,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.date_of_attendance}
           onValueChange={(text) =>
@@ -325,8 +350,9 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
       </div>
-      <div className="flex flex-wrap gap-5 mb-5">
+      <div className="flex flex-wrap justify-between gap-5 mb-5">
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"TECHNICAL/VOCATIONAL/SPECIAL COURSES"}
           value={techVocSpecial.name}
           onValueChange={(text) =>
@@ -337,6 +363,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"ADDRESS"}
           value={techVocSpecial.address}
           onValueChange={(text) =>
@@ -347,6 +374,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={techVocSpecial.date_of_attendance}
           onValueChange={(text) =>
@@ -357,6 +385,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DEGREE/MAJOR"}
           value={techVocSpecial.degree_major}
           onValueChange={(text) =>
@@ -367,6 +396,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"OTHER COURSES"}
           value={college.degree_major}
           onValueChange={(text) =>
@@ -377,6 +407,7 @@ const BackgroundOnboarding = () => {
           isRequired={true}
         />
         <OnboardingFieldInput
+          isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.date_of_attendance}
           onValueChange={(text) =>
@@ -395,6 +426,7 @@ const BackgroundOnboarding = () => {
       {examinationTaken.map((exam, e_index) => (
         <div key={"exam" + e_index} className="flex flex-col gap-5">
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"government_association" + e_index}
             label={"GOVERNMENT AGENCY/ASSOCIATION"}
             value={exam.government_association}
@@ -410,6 +442,7 @@ const BackgroundOnboarding = () => {
             isRequired={true}
           />
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"date_taken" + e_index}
             label={"DATE TAKEN"}
             value={exam.date_taken}
@@ -425,6 +458,7 @@ const BackgroundOnboarding = () => {
             isRequired={true}
           />
           <OnboardingFieldInput
+            isDisabled={viewOnly}
             key={"certification" + e_index}
             label={"CERTIFICATION"}
             value={exam.certification}
@@ -445,7 +479,7 @@ const BackgroundOnboarding = () => {
   );
 
   return (
-    <div className="flex flex-wrap justify-start gap-5 mt-4">
+    <div className="h-fit flex flex-wrap justify-between gap-5 mt-4">
       {selectedTab === "family_background" && family_background}
       {selectedTab === "educational_background" && educational_background}
       {selectedTab === "examination_taken" && examination_taken}

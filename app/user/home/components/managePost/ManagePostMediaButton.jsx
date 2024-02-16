@@ -32,7 +32,7 @@ const ManagePostMediaButton = () => {
 
     if (selectedTemplate) {
       setSelectedReactions([...selectedTemplate.reactionList]);
-      setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setSelectedTaggedPeople([...selectedTemplate.taggedPeople]);
       setPostTitle(selectedTemplate.title);
       setPostCaption(selectedTemplate.caption);
     }

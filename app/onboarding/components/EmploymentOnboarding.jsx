@@ -9,7 +9,7 @@ import {
 import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtom, useAtomValue } from "jotai";
 
-const EmploymentOnboarding = () => {
+const EmploymentOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
   const handleUpdateValue = (data, index, property, value, setFunction) => {
     const updatedValue = data.map((obj) => {
@@ -35,8 +35,12 @@ const EmploymentOnboarding = () => {
   const [references, setReferences] = useAtom(referencesAtom);
 
   const employment_history = employmentHistory.map((history, h_index) => (
-    <div key={"history" + h_index} className="flex flex-wrap gap-5 mb-5">
+    <div
+      key={"history" + h_index}
+      className="flex flex-wrap justify-between gap-5 mb-5"
+    >
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"employment_position_held" + h_index}
         label={"POSITION HELD"}
         value={history.position_held}
@@ -52,6 +56,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"employment_date_of_attendance" + h_index}
         label={"DATE OF ATTENDANCE"}
         value={history.date_of_attendance}
@@ -67,6 +72,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"employment_duration" + h_index}
         label={"DURATION"}
         value={history.duration}
@@ -83,6 +89,7 @@ const EmploymentOnboarding = () => {
       />
 
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"employment_reason_leaving" + h_index}
         label={"REASON FOR LEAVING"}
         value={history.reason_leaving}
@@ -101,8 +108,12 @@ const EmploymentOnboarding = () => {
   ));
 
   const trainings_attended = trainingsAttended.map((training, t_index) => (
-    <div key={"training" + t_index} className="flex flex-wrap gap-5 mb-5">
+    <div
+      key={"training" + t_index}
+      className="flex flex-wrap justify-between gap-5 mb-5"
+    >
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"training_program_name" + t_index}
         label={"NAME OF PROGRAM"}
         value={training.program_name}
@@ -119,6 +130,7 @@ const EmploymentOnboarding = () => {
       />
 
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"training_topic_specialization" + t_index}
         label={"TOPIC/SPECIALIZATION"}
         value={training.topic_specialization}
@@ -134,6 +146,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"training_duration" + t_index}
         label={"DURATION"}
         value={training.duration}
@@ -149,6 +162,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"training_provider" + t_index}
         label={"PROVIDER"}
         value={training.provider}
@@ -166,8 +180,12 @@ const EmploymentOnboarding = () => {
     </div>
   ));
   const employment_reference = references.map((reference, r_index) => (
-    <div key={"reference" + r_index} className="flex flex-wrap gap-5 mb-5">
+    <div
+      key={"reference" + r_index}
+      className="flex flex-wrap justify-between gap-5 mb-5"
+    >
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"reference_name" + r_index}
         label={"NAME"}
         value={reference.name}
@@ -183,6 +201,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"reference_company_name_address" + r_index}
         label={"COMPANY NAME AND ADDRESS"}
         value={reference.company_name_address}
@@ -198,6 +217,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"reference_position_held" + r_index}
         label={"POSITION HELD"}
         value={reference.position_held}
@@ -213,6 +233,7 @@ const EmploymentOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         key={"reference_contact_number" + r_index}
         label={"CONTACT NUMBER"}
         value={reference.contact_number}
@@ -231,7 +252,7 @@ const EmploymentOnboarding = () => {
   ));
 
   return (
-    <div key={"employment"} className="flex flex-wrap justify-start gap-5 mt-4">
+    <div className="h-fit flex flex-wrap justify-between gap-5 mt-4">
       {selectedTab === "employment_history" && employment_history}
       {selectedTab === "trainings_attended" && trainings_attended}
       {selectedTab === "references" && employment_reference}

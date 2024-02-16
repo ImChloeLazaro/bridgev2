@@ -20,8 +20,6 @@ const ManagePostItemCard = ({ data }) => {
     4: "-ml-4",
   };
 
-  console.log("INSIDE MANAGE POST ITEM CARD", data);
-
   return (
     // {/* border-blue-default border-2 */}
     <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
@@ -35,15 +33,15 @@ const ManagePostItemCard = ({ data }) => {
           avatarProps={{
             alt: "nextui logo",
             size: "sm",
-            src: data.picture,
+            src: data.publisherPicture,
             width: "30",
             className: "w-[28px] h-[28px]",
           }}
           className="mb-1"
         />
         <div className="flex gap-2">
-          <ChipTag text={data.team} color={"lightblue"} size={"xs"} />
-          <ChipTag text={data.type} color={"orange"} size={"xs"} />
+          <ChipTag text={data.team} color={"lightblue"} size={"xs"} isFilled={false}/>
+          <ChipTag text={data.type} color={"orange"} size={"xs"} isFilled={false}/>
         </div>
       </CardHeader>
 

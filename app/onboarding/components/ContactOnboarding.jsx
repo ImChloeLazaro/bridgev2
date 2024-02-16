@@ -5,7 +5,7 @@ import { contactAtom } from "../store/OnboardingStore";
 import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtom, useAtomValue } from "jotai";
 
-const ContactOnboarding = () => {
+const ContactOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
 
   // Emergency Contact
@@ -14,6 +14,7 @@ const ContactOnboarding = () => {
   const emergency_contact = (
     <>
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"NAME"}
         value={contact.name}
         onValueChange={(text) =>
@@ -24,6 +25,7 @@ const ContactOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"ADDRESS"}
         value={contact.address}
         onValueChange={(text) =>
@@ -34,6 +36,7 @@ const ContactOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"RELATIONSHIP"}
         value={contact.relationship}
         onValueChange={(text) =>
@@ -44,6 +47,7 @@ const ContactOnboarding = () => {
         isRequired={true}
       />
       <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"CONTACT NUMBER"}
         value={contact.contact_number}
         onValueChange={(text) =>
@@ -57,7 +61,7 @@ const ContactOnboarding = () => {
   );
 
   return (
-    <div className="flex flex-wrap justify-start gap-5 mt-4">
+    <div className="h-fit flex flex-wrap justify-between gap-5 mt-4">
       {selectedTab === "emergency_contact" && emergency_contact}
       <div className="p-1 m-1 w-full"></div> {/* SPACER FOR LAST ROW*/}
     </div>

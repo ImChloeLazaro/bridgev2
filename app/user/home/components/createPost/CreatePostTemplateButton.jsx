@@ -53,7 +53,7 @@ const CreatePostTemplateButton = () => {
 
     if (selectedTemplate) {
       setSelectedReactions([...selectedTemplate.reactionList]);
-      setSelectedTaggedPeople([...selectedTemplate.tagPeople]);
+      setSelectedTaggedPeople([...selectedTemplate.taggedPeople]);
       setSelectedMediaOrientation([...selectedTemplate.orientation]);
       setSelectedMediaLayout([...selectedTemplate.mediaLayout]);
       setPostTitle(selectedTemplate.title);

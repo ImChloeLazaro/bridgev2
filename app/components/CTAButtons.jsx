@@ -1,8 +1,8 @@
-import { Button } from "@nextui-org/react";
+import { Button, cn } from "@nextui-org/react";
 
 // ### TODO Add clear variant as a prop instead to create a combination of clear background and colored text
 
-const CTAButtons = ({ label, color, ...props }) => {
+const CTAButtons = ({ label, color, className, ...props }) => {
   const colors = {
     red: "bg-red-default text-white-default",
     orange: "bg-orange-default text-white-default",
@@ -21,7 +21,7 @@ const CTAButtons = ({ label, color, ...props }) => {
       size="sm"
       radius="sm"
       variant="solid"
-      className={`px-5 py-0.5 ${buttonColor} font-bold text-base`}
+      className={cn("px-5 py-0.5 font-bold text-base", buttonColor, className)}
       {...props}
     >
       {label}

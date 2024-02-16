@@ -13,8 +13,10 @@ import PostCard from "./home/components/post/PostCard";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
-import { fetchedPostAtom, postAtom } from "./home/store/PostStore";
+import { fetchPostAtom, postAtom } from "./home/store/PostStore";
 import { useEffect } from "react";
+import { authenticationAtom } from "../store/AuthenticationStore";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 // ### TODO Rewrite scrolling behavior to add scrollbar for easier scrolling
 // ###      make RightBar to be sticky without affecting its own scrolling
@@ -22,12 +24,13 @@ import { useEffect } from "react";
 const User = () => {
   const posts = useAtomValue(postAtom);
   const user = useAtomValue(userAtom);
+  const auth = useAtomValue(authenticationAtom)
 
-  const fetchedPost = useSetAtom(fetchedPostAtom);
+  const fetchPost = useSetAtom(fetchPostAtom);
 
   useEffect(() => {
-    fetchedPost();
-  }, [fetchedPost]);
+    fetchPost();
+  }, [fetchPost]);
 
   const sortedPosts = posts.sort(
     (a, b) => new Date(b.datetimePublished) - new Date(a.datetimePublished)
@@ -36,7 +39,7 @@ const User = () => {
   console.log("INSIDE USER PAGE MAIN CONTENT: ", sortedPosts);
 
   return (
-    user.isAuthenticated && (
+    auth.isAuthenticated && (
       <>
         <MainContent>
           <CreatePostCard data={user} />
@@ -77,4 +80,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default withAuthenticator(User);

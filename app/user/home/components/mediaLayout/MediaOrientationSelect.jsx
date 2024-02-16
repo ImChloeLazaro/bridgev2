@@ -1,12 +1,9 @@
-import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
-import { MdGroups } from "react-icons/md";
 import {
   mediaOrientationSelectionAtom,
   selectedMediaLayoutAtom,
-  selectedMediaOrientationAtom,
-  selectedTaggedPeopleAtom,
-  taggedPeopleListAtom,
+  selectedMediaOrientationAtom
 } from "../../store/ManagePostStore";
 
 const MediaOrientationSelect = () => {

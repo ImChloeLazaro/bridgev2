@@ -192,11 +192,11 @@ export const deletePostAtom = atom(null, (get, set, update) => {
 
 export const postCountAtom = atom((get) => get(postAtom).length);
 
-export const fetchedPostAtom = atom(null, async (get, set) => {
+export const fetchPostAtom = atom(null, async (get, set) => {
   const posts = await restread("/post");
   console.log("FETCHED POSTS FOR FEED");
   console.log("POSTS SUCCESS", posts.success);
   console.log("POSTS DATA", posts.data);
 
-  // set(postAtom)
+  // set(postAtom, posts)
 });
