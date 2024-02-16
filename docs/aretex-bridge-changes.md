@@ -625,5 +625,9 @@ postsAtom = atom({
 * Updated `LabelTag` Component to include `Badge` functionality
 * Removed `LabelTag` Component
 * Merged `LabelTag` and `ChipTag` Component due to similar functionalities and for convenience developing since it is a HOC
-* Added badge count for `ChipTag` Component to display numerical detail
 * Updated affected components due to the merging of `LabelTag` and `ChipTag`
+* Renamed `ChipTag` to `LabelTagChip` to reflect its multi-type functionality
+* Added badge count functionality for `LabelTagChip` Component to display numerical detail
+* Added `label` type and `tag` type variation for `LabelTagChip` Component
+* Added `dot` variant for `tag` type in `LabelTagChip` Component
+* Added `search` type and `filter` type variation for `SearchBar` Component

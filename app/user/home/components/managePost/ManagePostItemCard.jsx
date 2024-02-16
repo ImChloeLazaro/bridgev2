@@ -1,4 +1,4 @@
-import ChipTag from "@/app/components/ChipTag";
+import ChipTag from "@/app/components/LabelTagChip";
 import {
   Avatar,
   AvatarGroup,

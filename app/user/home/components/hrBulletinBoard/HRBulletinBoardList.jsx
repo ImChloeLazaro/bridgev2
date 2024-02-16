@@ -6,7 +6,7 @@ import {
   format,
 } from "date-fns";
 import { useAtomValue } from "jotai";
-import ChipTag from "../../../../components/ChipTag";
+import ChipTag from "../../../../components/LabelTagChip";
 import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
 
 const HRBulletinBoardList = () => {

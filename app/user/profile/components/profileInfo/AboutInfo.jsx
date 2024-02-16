@@ -1,7 +1,7 @@
 import { Avatar, Divider } from "@nextui-org/react";
 import { addMonths, format } from "date-fns";
 import { MdInfoOutline } from "react-icons/md";
-import ChipTag from "@/app/components/ChipTag";
+import ChipTag from "@/app/components/LabelTagChip";
 const AboutInfo = ({ data }) => {
   return (
     <>

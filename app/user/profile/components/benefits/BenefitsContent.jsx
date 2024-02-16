@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { userAtom, benefitsStatusAtom } from "../../../../store/UserStore";
-import ChipTag from "@/app/components/ChipTag";
+import ChipTag from "@/app/components/LabelTagChip";
 
 // ### TODO Connect benefit backend function handler
 
