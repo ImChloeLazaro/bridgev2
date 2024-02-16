@@ -29,6 +29,7 @@ export const clientsListAtom = atom([
     location: "105 Jerry Dove Drive, Florence, SC 29501",
     state: "105 Jerry Dove Drive, Florence, SC 29501",
     address: "105 Jerry Dove Drive, Florence, SC 29501",
+    datetimeOnboarded: "2023-01-16T00:00:00",
     assignedUsers: [""],
     status: {
       todo: Math.floor(Math.random() * 10) + 1,
@@ -52,6 +53,7 @@ export const clientsListAtom = atom([
     location: "4525 Saints Alley, Plant City, FL 33564",
     state: "4525 Saints Alley, Plant City, FL 33564",
     address: "4525 Saints Alley, Plant City, FL 33564",
+    datetimeOnboarded: "2024-01-28T00:00:00",
     assignedUsers: [""],
     status: {
       todo: Math.floor(Math.random() * 10) + 1,
@@ -75,6 +77,7 @@ export const clientsListAtom = atom([
     location: "179 Sampson Street, Georgetown, CO 80444",
     state: "179 Sampson Street, Georgetown, CO 80444",
     address: "179 Sampson Street, Georgetown, CO 80444",
+    datetimeOnboarded: "2021-08-17T00:00:00",
     assignedUsers: [""],
     status: {
       todo: Math.floor(Math.random() * 10) + 1,
@@ -98,6 +101,7 @@ export const clientsListAtom = atom([
     location: "467 Stutler Lane, Altoona, PA 16602",
     state: "467 Stutler Lane, Altoona, PA 16602",
     address: "467 Stutler Lane, Altoona, PA 16602",
+    datetimeOnboarded: "2024-01-22T00:00:00",
     assignedUsers: [""],
     status: {
       todo: Math.floor(Math.random() * 10) + 1,
@@ -121,6 +125,7 @@ export const clientsListAtom = atom([
     location: "2323 Dancing Dove Lane, Long Island City, NY 11101",
     state: "2323 Dancing Dove Lane, Long Island City, NY 11101",
     address: "2323 Dancing Dove Lane, Long Island City, NY 11101",
+    datetimeOnboarded: "2024-01-16T00:00:00",
     assignedUsers: [""],
     status: {
       todo: Math.floor(Math.random() * 10) + 1,
@@ -144,6 +149,7 @@ export const clientsListAtom = atom([
     location: "3522 West Fork Street, Missoula, MT 59801",
     state: "3522 West Fork Street, Missoula, MT 59801",
     address: "3522 West Fork Street, Missoula, MT 59801",
+    datetimeOnboarded: "2024-02-16T00:00:00",
     assignedUsers: [""],
     status: {
       todo: Math.floor(Math.random() * 10) + 1,
@@ -162,5 +168,38 @@ export const clientsListAtom = atom([
   },
 ]);
 
-export const selectedClientAtom = atom();
-export const clientsListCountAtom = atom();
+export const selectedClientAtom = atom([]);
+
+export const clientsListCountAtom = atom(205);
+export const displayedClientsAtom = atom(10);
+
+let pageRowIndex = 0;
+export const pageRowsSelectionAtom = atom([
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "10",
+    value: "10",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "20",
+    value: "20",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "50",
+    value: "50",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "100",
+    value: "100",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "200",
+    value: "200",
+  },
+]);
+
+export const selectedPage = atom(1);

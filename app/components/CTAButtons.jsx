@@ -1,6 +1,7 @@
 import { Button, cn } from "@nextui-org/react";
 
-// ### TODO Add clear variant as a prop instead to create a combination of clear background and colored text
+// ### TODO Add filled and unfilled type variant same as LabelTag Component
+// ### TODO Add IconOnly or maybe a separate component
 
 const CTAButtons = ({ label, color, className, ...props }) => {
   const colors = {

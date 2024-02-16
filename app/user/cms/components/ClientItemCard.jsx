@@ -1,5 +1,16 @@
-import ChipTag from "@/app/components/ChipTag";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import ChipTag from "@/app/components/LabelTagChip";
+import {
+  Avatar,
+  AvatarGroup,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Image,
+  Button,
+  Pagination,
+  Select,
+} from "@nextui-org/react";
 
 const tagColors = {
   todo: "blue",
@@ -9,35 +20,60 @@ const tagColors = {
   due: "red",
 };
 
+import { MdChevronRight } from "react-icons/md";
+
 // ### TODO Fix label to have space, rewrite atom for this component
 
 const ClientItemCard = ({ data }) => {
   return (
-    <Card className="w-full h-min-fit px-2 py-1.5 drop-shadow shadow-none bg-white-default">
-      <CardBody className="w-full">
-        <div className="flex justify-around gap-12">
-          <div className="w-1/3 bg-white-default text-lg font-bold text-black-default">
-            {data.name}
-          </div>
-          <div className="w-1/3 bg-white-default flex flex-wrap justify-start items-start gap-4">
-            {Object.keys(data.status).map((status, s_index) => (
-              <ChipTag
-                key={s_index}
-                text={`${status}`}
-                color={tagColors[status]}
-                size="md"
-                isFilled
-                withBadge={true}
-                badgeContent={data.status[status]}
+    <div className="flex justify-between items-center h-full">
+      <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
+        <CardBody className=" pr-0 py-0">
+          <div className="flex justify-around gap-12">
+            <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
+              <Image
+                src="/image-placeholder.png"
+                alt="Image Placeholder"
+                width={80}
+                radius={"none"}
+                loading={"lazy"}
               />
-            ))}
+              {data.name}
+            </div>
+            <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
+              {Object.keys(data.status).map((status, s_index) => (
+                <ChipTag
+                  key={s_index}
+                  text={`${status}`}
+                  color={tagColors[status]}
+                  type="tag"
+                  size="md"
+                  isFilled
+                  withBadge={true}
+                  badgeContent={data.status[status]}
+                />
+              ))}
+            </div>
+            <div className="w-1/4 flex justify-between items-center gap-2">
+              {data.assignedUsers ?? "No one is assigned "}
+              <AvatarGroup size="lg" max={4} total={10}>
+                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+              </AvatarGroup>
+              
+            </div>
           </div>
-          <div className="w-1/3 bg-white-default">
-            {data.assignedUsers ?? "No one is assigned "}
-          </div>
-        </div>
-      </CardBody>
-    </Card>
+        </CardBody>
+
+      </Card>
+      <Button className="bg-transparent w-1/12 h-32 ">
+        <MdChevronRight size={32} />
+      </Button>
+    </div>
   );
 };
 

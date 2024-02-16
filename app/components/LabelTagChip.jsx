@@ -2,6 +2,7 @@ import { Chip, cn } from "@nextui-org/react";
 const ChipTag = ({
   text,
   color,
+  type = "label",
   size = "sm",
   isFilled = true,
   withBadge = false,
@@ -69,7 +70,9 @@ const ChipTag = ({
   return (
     <Chip
       radius="sm"
+      variant={type === "tag" && "dot"}
       size={isFilled ? "lg" : "sm"}
+      color="primary"
       classNames={{
         base: cn(
           `${
@@ -78,27 +81,30 @@ const ChipTag = ({
               : colorVariants[color].unfilled
           } ${sizeVariants[size]}`,
           `${isFilled ? "py-5" : "py-1 rounded"}`,
-          "capitalize px-2.5"
+          "capitalize px-2.5 border-0"
         ),
         content: "font-bold",
+        dot: `bg-white-default`,
       }}
       {...props}
-    >
-      <div className="flex justify-center items-center gap-4">
-        <p className="tracking-wider">{text}</p>
-        {withBadge && (
+      endContent={
+        withBadge && (
           <Chip
             radius="full"
             size="sm"
             variant="flat"
             classNames={{
-              base: cn("bg-white-default/90 "),
-              content: "text-sm font-bold text-black-default",
+              base: cn("bg-white-default/90"),
+              content: "text-sm font-bold text-black-default/80",
             }}
           >
             {badgeContent}
           </Chip>
-        )}
+        )
+      }
+    >
+      <div className="flex justify-center items-center gap-4">
+        <p className="tracking-wider">{text}</p>
       </div>
     </Chip>
   );
