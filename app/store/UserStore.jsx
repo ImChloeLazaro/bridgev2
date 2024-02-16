@@ -82,23 +82,33 @@ export const benefitsStatusAtom = atom(async (get) => {
   return await readwithparams("/benefits/profile", { sub: auth.sub });
 })
 
+//Onboarding
+export const onboardingStatusAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  return await readwithparams('/profile/onboarding', {sub: auth.sub})
+})
+
 //Recruitment
 export const recruitmentStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const recruitment = await readwithparams("/recruitment/profile", {
     sub: auth.sub,
   });
-  console.log("inside USER STORE recruitment", recruitment);
+
+  const onboarding = await get(onboardingStatusAtom);
+  const employee = onboarding.response;
   const data = await recruitment.response[0];
+  const user = await get(userDataAtom);
+  console.log("USER DATA", user); 
   return {
     id: data?.employee_number,
     sub: auth.sub,
     name: data?.name,
-    profileURL: data?.picture, // link to picture
+    profileURL: user?.picture, // link to picture
     email: data?.email,
-    address: "105 Jerry Dove Drive, Florence, SC 29501",
-    birthday: "2023-09-09T11:00:00",
-    contactNumber: "(765) 322-1399",
+    address: employee?.profile.application.employee_information.permanent_address || "N/A",
+    birthday: employee?.profile.application.employee_information.birthdate || "1970-01-01T23:55:33.289+00:00",
+    contactNumber: employee?.profile.application.employee_information.mobile_number || "N/A",
     status: data?.is_active, // true active : false inactive
     role: ["user", "admin"],
     team: "DMS-FAST",

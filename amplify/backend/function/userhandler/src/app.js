@@ -29,6 +29,7 @@ const userSchema = mongoose.Schema({
   sub : String,
   email : String,
   name : String,
+  picture: String,
   hasOnboardingData : {
     type : Boolean,
     default : false
@@ -63,13 +64,14 @@ app.get('/user', async function(req, res) {
 });
 
 app.post('/user', async function(req, res) {
-  const {sub, name, email} = req.body
+  const {sub, name, picture, email} = req.body
   try {
     const getuserbysub = await userModel.findOne({sub})
     if(!getuserbysub){
       const insert = await userModel.create({
       sub,
       name,
+      picture,
       email
     }) 
     res.status(200).json({success: 'NEW USER DETECTED! INITIAL DATA INSERT SUCCESS', result : insert})

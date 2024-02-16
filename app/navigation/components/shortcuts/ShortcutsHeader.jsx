@@ -34,9 +34,9 @@ const ShortcutsHeader = () => {
       url: addShortcutLink,
     });
 
-    console.log("INSIDE SHORTCUT");
-    console.log(shortcuts ? "TRUE" : "FALSE");
-    console.log(shortcuts);
+    // console.log("INSIDE SHORTCUT");
+    // console.log(shortcuts ? "TRUE" : "FALSE");
+    // console.log(shortcuts);
     if (shortcuts) {
       setShortcuts((prev) => [
         ...prev,

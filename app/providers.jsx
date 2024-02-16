@@ -14,8 +14,9 @@ export function Providers({ children }) {
   const authvalue = useAtomValue(authenticationAtom)
   const uservalue = useAtomValue(userDataAtom)
   const pathname = usePathname();
+
   useEffect(()=>{
-    
+    console.log("USER VALUE", uservalue)
     if(authvalue.isAuthenticated && pathname === "/"){
       router.push('/user')
     }
