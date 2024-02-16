@@ -196,20 +196,34 @@ app.post('/profile', async function (req, res) {
     res.status(500).json({ error: error });
   }
 });
+app.get('/profile/*', async function (req, res) {
+  try {
+    const sub = req.query.sub; // Extract sub from query parameters
+    const key = req.path; // Use req.path to get the URL path
+
+    switch (key) {
+      case '/profile/onboarding':
+        const onboarding = await profileModel.findOne({ "profile.sub": sub });
+        res.json({ success: true, route: "APPLICATION ROUTE", response: onboarding });
+        break;
+      case '/profile/background':
+        res.json({ success: true, response: "BACKGROUND ROUTE", url: req.url });
+        break;
+      case '/profile/contact':
+        res.json({ success: true, response: "CONTACT ROUTE", url: req.url });
+        break;
+      default:
+        res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        break;
+    }
+  } catch (error) {
+    res.json({ error: error }); 
+  }
+});
 
 app.put('/profile', function (req, res) {
   // Add your code here
   res.json({ success: 'put call succeed!', url: req.url, body: req.body })
-});
-
-app.put('/profile/*', async function (req, res) {
-  try {
-    const { sub } = req.query;
-    const user = await profileModel.findOne({sub})
-    res.json({ success: true, response: user })
-  } catch (error) {
-    res.json({ error: error }) 
-  }
 });
 
 app.delete('/profile', function (req, res) {
