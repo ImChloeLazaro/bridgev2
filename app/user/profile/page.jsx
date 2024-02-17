@@ -18,17 +18,12 @@ import EmergencyContactContent from "./components/emergencyContact/EmergencyCont
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
-import { useEffect } from "react";
 import { profileAtom } from "./store/ProfileStore";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 const Profile = () => {
   const recruitment = useAtomValue(recruitmentStatusAtom);
   const auth = useAtomValue(authenticationAtom);
-
   const profile = useAtomValue(profileAtom);
-
-  console.log("UPDATED DATA FROM RECRUITMENT:", recruitment);
-  console.log("UPDATED DATA PROFILE:", profile);
 
   return (
     auth.isAuthenticated && (

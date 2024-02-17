@@ -1,7 +1,7 @@
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { atom } from "jotai";
 import "../../../aws-auth";
-import { restread } from "@/app/utils/amplify-rest";
+import { restread, restinsert } from "@/app/utils/amplify-rest";
 let index = 0;
 
 export const postAtom = atom([
@@ -175,14 +175,15 @@ export const postAtom = atom([
   },
 ]);
 
-export const addPostAtom = atom(null, (get, set, update) => {
+export const addPostAtom = atom(null, async (get, set, update) => {
   set(postAtom, update);
-  console.log("ADDED POST", get(postAtom));
+  console.log("ADDED POST", postAtom);
+
 });
 
 export const updatePostAtom = atom(null, (get, set, update) => {
   set(postAtom, update);
-  console.log("UPDATED POST 0->", get(postAtom));
+  console.log("UPDATED POST", get(postAtom));
 });
 
 export const deletePostAtom = atom(null, (get, set, update) => {
@@ -194,9 +195,9 @@ export const postCountAtom = atom((get) => get(postAtom).length);
 
 export const fetchPostAtom = atom(null, async (get, set) => {
   const posts = await restread("/post");
-  console.log("FETCHED POSTS FOR FEED");
-  console.log("POSTS SUCCESS", posts.success);
-  console.log("POSTS DATA", posts.data);
+  // console.log("FETCHED POSTS FOR FEED");
+  // console.log("POSTS SUCCESS", posts.success);
+  console.log("POSTS DATA", posts);
 
-  // set(postAtom, posts)
+  set(postAtom, posts.response)
 });

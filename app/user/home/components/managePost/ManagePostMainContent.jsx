@@ -251,8 +251,8 @@ const ManagePostMainContent = ({ onClose }) => {
       const posts = await restinsert("/post", toBePosted);
 
       console.log("PUBLISHED POSTS FOR FEED");
-      console.log("POSTS SUCCESS", posts.success);
-      console.log("POSTS DATA", posts.data);
+      console.log("POSTS SUCCESS", posts);
+      console.log("POSTS DATA", posts);
 
       setPosts((prev) => [...prev, ...toBePosted]);
     }

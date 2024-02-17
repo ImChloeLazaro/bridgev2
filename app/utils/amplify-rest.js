@@ -2,13 +2,14 @@ import "../aws-auth"
 import { get, post, put, del } from 'aws-amplify/api';
 import { uploadData } from 'aws-amplify/storage';
 
-export const insertwithparams = async (path, request) => {
+export const insertwithparams = async (path, query, request) => {
   try {
       const insertOperation = post({
         apiName: 'bridgeApi',
         path: path,
         options: {
-          queryParams : request,
+          queryParams : query,
+          body: request
         }
       });
   

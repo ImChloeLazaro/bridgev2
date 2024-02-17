@@ -15,23 +15,50 @@ app.use(function (req, res, next) {
 
 mongoose.connect(process.env.DATABASE);
 
-const taggedUserSchema = mongoose.Schema({
-  sub: String,
-  name: String,
-  email: String,
-});
-
 const postSchema = mongoose.Schema({
-  sub: String,
-  title: String,
-  type: String,
-  caption: String,
-  media: String,
-  tagged_user: [taggedUserSchema],
-  createdBy: {
-    type: Date,
-    default: Date.now(),
-  },
+  // id: Number,
+  // key: String,
+  // publishKey: String,
+  // publisher: String,
+  // publisherPicture: String,
+  // dateTimePublished: String,
+  // dateTimeScheduled: String,
+  // title: String,
+  // caption: String,
+  // type: String,
+  // reactionList: [String],
+  // reacted: Boolean,
+  // reactions: {
+  //   star: Number,
+  //   love: Number,
+  //   birthday: Number,
+  //   happy: Number,
+  // },
+  // comments: Number,
+  // taggedPeople: [String],
+  // media: [String],
+  // mediaLayout: String,
+  // orientation: String,
+    caption : String,
+    comments : Number ,
+    datetimePublished : Date,
+    datetimeScheduled : Date,
+    id : Number,
+    key : String,
+    media : [String],
+    profileURL : String,
+    publishKey : String,
+    publisher : String,
+    reacted : Boolean ,
+    reactionList : [String],
+    reactions : { 
+      star: Number, 
+      love: Number, 
+      birthday: Number, 
+      happy: Number
+    },
+    title : String,
+    type : String,
 });
 
 const postModel = mongoose.model("post", postSchema);
@@ -39,34 +66,31 @@ const postModel = mongoose.model("post", postSchema);
 app.get("/post", async function (req, res) {
   try {
     const posts = await postModel.find().sort({ createdBy: -1 });
-    res.status(200).json({ success: true, data: posts });
+    res.status(200).json({ success: true, response: posts });
   } catch (error) {
     throw error;
   }
 });
 
 app.post("/post", async function (req, res) {
-  // try {
-  //   const insert = await postModel.create(post);
-  //   if (!insert) {
-  //     res.status(500).json({ success: false, data: "UNKNOWN ERROR OCCURED!" });
-  //   }
-  //   res.status(200).json({ success: true, data: insert });
-  // } catch (error) {
-  //   throw error;
-  // }
-  res.status(200).json({ success: true, data: req.body });
+  try {
+    const posts = req.body;
+    const insert = await postModel.create(posts);
+    res.status(200).json({ success: true, response: posts });
+  } catch (error) {
+    res.status(500).json({ success: false, response: error });
+  }
 });
 
 app.put("/post", async function (req, res) {
-  res.status(200).json({ success: true, data: req.body });
+  res.status(200).json({ success: true, response: req.body });
 });
 
 app.delete("/post", async function (req, res) {
-  const _id = "65bc17464ac83410431b0c26";
   try {
+    const { _id } = req.body;
     const deletePost = await postModel.deleteOne({ _id });
-    res.status(200).json({ success: true, data: deletePost });
+    res.status(200).json({ success: true, response: deletePost });
   } catch (error) {
     throw error;
   }
