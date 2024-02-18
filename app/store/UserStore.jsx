@@ -86,7 +86,7 @@ export const recruitmentStatusAtom = atom(async (get) => {
     profileURL: user?.picture, // link to picture
     email: data?.email,
     address: employee?.profile.application.employee_information.permanent_address || "N/A",
-    birthday: employee?.profile.application.employee_information.birthdate || "1970-01-01T23:55:33.289+00:00",
+    birthday: employee?.profile.application.employee_information.birthdate,
     contactNumber: employee?.profile.application.employee_information.mobile_number || "N/A",
     status: data?.is_active, // true active : false inactive
     role: ["user", "admin"],

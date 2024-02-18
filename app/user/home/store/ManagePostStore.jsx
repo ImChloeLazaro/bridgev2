@@ -189,7 +189,7 @@ export const taggedPeopleListAtom = atom([
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
-export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
+export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => { });
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
 export const postCaptionAtom = atom("");
@@ -298,7 +298,7 @@ export const postTemplatesCountAtom = atom(
 export const draftPostListAtom = atom([]);
 
 export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
-export const addDraftPostAtom = atom(null, (get, set, update) => {});
+export const addDraftPostAtom = atom(null, (get, set, update) => { });
 export const selectedDraftPostAtom = atom([]);
 
 // LIST FOR PUBLISHED POSTS
@@ -307,7 +307,7 @@ export const publishedPostListAtom = atom([]);
 export const publishedPostCountAtom = atom(
   (get) => get(publishedPostListAtom).length
 );
-export const addPublishPostAtom = atom(null, (get, set, update) => {});
+export const addPublishPostAtom = atom(null, (get, set, update) => { });
 export const selectedPublishPostAtom = atom([]);
 
 // LIST FOR ARCHIVED POSTS
@@ -316,7 +316,7 @@ export const archivedPostListAtom = atom([]);
 export const archivedPostCountAtom = atom(
   (get) => get(archivedPostListAtom).length
 );
-export const addArchivePostAtom = atom(null, (get, set, update) => {});
+export const addArchivePostAtom = atom(null, (get, set, update) => { });
 export const selectedArchivePostAtom = atom([]);
 
 export const postStatusTabsAtom = atom((get) => [
