@@ -92,7 +92,11 @@ const AboutInfo = ({ data }) => {
                 {"This is your current address"}
               </p>
             </div>
-            <p className="">{data.address ?? "No Data Available"}</p>
+            <p className="">
+              {data.address === "N/A"
+                ? "No Data Available"
+                : data.address ?? "No Data Available"}
+            </p>
           </div>
           <Divider />
 
@@ -104,7 +108,11 @@ const AboutInfo = ({ data }) => {
                 {"This is your current  contact number"}
               </p>
             </div>
-            <p className="">{data.contactNumber ?? "No Data Available"}</p>
+            <p className="">
+              {data.contactNumber === "N/A"
+                ? "No Data Available"
+                : data.contactNumber ?? "No Data Available"}
+            </p>
           </div>
           <Divider />
 

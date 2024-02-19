@@ -26,8 +26,12 @@ import TagPersonSelect from "./TagPersonSelect";
 import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
 import MediaLayoutDisplay from "../mediaLayout/MediaLayoutPreview";
+import { useState } from "react";
 
 const ManagePostSidebarContent = () => {
+  const [fileList, setFileList] = useState(undefined);
+  const [fileUrlList, setFileUrlList] = useState(undefined);
+
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
   );
@@ -61,6 +65,33 @@ const ManagePostSidebarContent = () => {
       return template.value;
     });
 
+  const handleUploadFile = (e) => {
+    const list = e.target.files;
+    setFileList(list);
+
+    console.log("FILES LIST HERE: ", fileList);
+    // setFileUrlList(() => {
+    //   return Object.values(fileList).map((file) => {
+    //     return URL.createObjectURL(file);
+    //   });
+    // });
+
+    // console.log("FILE URL ARRAY", fileUrlList);
+
+    // if (fileUrl) {
+    //   URL.revokeObjectURL(fileUrl);
+    // }
+
+    // if (file) {
+    //   const url = URL.createObjectURL(file);
+    //   setFileUrl(url);
+    // } else {
+    //   setFileUrl(undefined);
+    // }
+
+    // console.log("FILE URL HERE", fileUrl);
+  };
+
   const handleSelectionChange = (key) => {
     const selectedTemplate = postTemplates.filter(
       (template) => template.type === Array.from(key).join("")
@@ -88,7 +119,7 @@ const ManagePostSidebarContent = () => {
         </div>
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Type"}</p>
-          
+
           {/* // ### TODO UPDATE TO AUTOCOMPLETE COMPONENT */}
           {/* // ### TODO Include the custom template keys as filter keys */}
           <Select
@@ -150,9 +181,13 @@ const ManagePostSidebarContent = () => {
               <p className="font-normal w-24">{"Orientation"}</p>
               <MediaOrientationSelect />
             </div>
+            {!mediaFileList?.length && (
+              <p className="text-sm font-medium text-red-default">
+                {"*Note: this will not display any media on your post"}
+              </p>
+            )}
           </div>
-          {/* // Display */}
-          {/* <div className="w-80 h-40 bg-grey-hover rounded-md p-1"></div> */}
+          {/* <div className=""> */}
           {(selectedMediaLayoutString ? (
             <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               <MediaLayoutDisplay
@@ -179,7 +214,9 @@ const ManagePostSidebarContent = () => {
                 {"No media to display"}
               </div>
             ))}
+          {/* </div> */}
         </div>
+
         <div className="flex justify-start items-center gap-5">
           <p className="font-normal w-20">{"Files"}</p>
           {/* <Button startContent={<MdFileUpload size={24} />}>
@@ -191,8 +228,10 @@ const ManagePostSidebarContent = () => {
             id="post media"
             name="post media"
             accept=".jpg, .jpeg, .png"
+            placeholder="Upload file"
             multiple
             className="border-none"
+            onChange={(e) => handleUploadFile(e)}
           />
         </div>
 

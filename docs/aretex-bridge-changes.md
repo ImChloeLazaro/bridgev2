@@ -6,7 +6,7 @@
 
 * Initial Commit
 
-## v.0.1.1
+## v.0.2.0
 
 * Installed NextJS v14.0.4 as its framework
 * Installed tailwind css v3.3.0
@@ -16,7 +16,7 @@
 * Added `Authenticator` Component from Amplify UI to test Cognito Authentication
 * Fixed Reference Error `_window_` being accessed on the server
 
-## v.0.2.0
+## v.0.3.0
 
 * Added `Login` Page
 * Added `Sidebar` and `NavigationBar` Component
@@ -27,7 +27,7 @@
 * Configured backend resources for Bridge
 * Configured redirect URLs for sign-in and sign-out
 
-## v.0.3.0
+## v.0.3.0 - hotfix
 
 * Added Notifications Component
 * Fixed Shortcuts to only scroll when overflowing
@@ -616,7 +616,7 @@ postsAtom = atom({
 })
 ```
 
-## v.0.5.15
+## v.0.6.0
 
 * Added `viewOnly` prop to `UserOnboardingModal` Component for browsing of onboarding details in `profile` page
 * Added `CMS` Components for `CMS` page
@@ -631,3 +631,23 @@ postsAtom = atom({
 * Added `label` type and `tag` type variation for `LabelTagChip` Component
 * Added `dot` variant for `tag` type in `LabelTagChip` Component
 * Added `search` type and `filter` type variation for `SearchBar` Component
+
+## v.0.6.1
+
+* Fixed issue on `ReactButton` Component not updating reaction count and throws an error
+* Added validation to `ReactButton` Component to check empty or null value for `reactionList` attribute
+* Fixed issue on `PostStore` rendering default/ initial data for `postAtom` before updating to the fetched data from API call
+* Removed default/initial data for `postAtom` from `PostStore`
+* Fixed issue on `PostHeader` Component not displaying the `user` picture from `user` data
+* Renamed attribute from `picture` to `publisherPicture` to display `user` data on `PostHeader` Component
+* Added `status` attribute for `posts` to optimize filtering `posts` by `status` when rendering to `frontend`
+* Moved `postTemplateItemsAtom` from `PostTemplateStore` to `ManagePostStore` due to minimal usage of `PostTemplateStore`
+* Removed `PostTemplateStore`
+* Updated utility functions for `draftPostListAtom`, `publishedPostListAtom`, and `archivedPostListAtom` in `ManagePostStore`
+
+// ### TODO Moved `recruitmentStatusAtom` from `userStore` move to `profileStore`
+// ### TODO Date format via date picker on onboarding form
+// ### TODO Follow-up reminder for missing info on onboarding form
+// ### Revert scrollbar on components
+// ### Fix posting index issue
+// ### TODO Maintenance image changed no copyright

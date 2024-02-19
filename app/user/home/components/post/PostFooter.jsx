@@ -15,8 +15,8 @@ const PostFooter = ({ data }) => {
       <Divider />
       <div className="flex justify-between w-full px-8">
         <ReactionButton
-          id={data.id}
-          data={data.reactionList}
+          id={data.id} // post ID 
+          data={data?.reactionList.length ? data.reactionList : ["star"]}
           reacted={data.reacted}
         />
 

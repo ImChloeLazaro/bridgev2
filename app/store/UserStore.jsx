@@ -83,7 +83,7 @@ export const recruitmentStatusAtom = atom(async (get) => {
     id: data?.employee_number,
     sub: auth.sub,
     name: data?.name,
-    profileURL: user?.picture, // link to picture
+    picture: user?.picture, // link to picture
     email: data?.email,
     address: employee?.profile.application.employee_information.permanent_address || "N/A",
     birthday: employee?.profile.application.employee_information.birthdate || "1970-01-01T23:55:33.289+00:00",
