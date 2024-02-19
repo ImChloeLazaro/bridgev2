@@ -59,7 +59,6 @@ const CreatePostTemplateButton = () => {
       setPostTitle(selectedTemplate.title);
       setPostCaption(selectedTemplate.caption);
     }
-
     setIsOpenPopover(false);
     onOpen();
   };
