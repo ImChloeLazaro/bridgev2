@@ -3,9 +3,11 @@ import { reactionIcons } from "./ReactionIcons";
 
 const ReactionCount = ({ data }) => {
   const handleReactionCount = (object) => {
-    return Object.values(object).reduce((accumulator, value) => {
-      return accumulator + value;
-    }, 0);
+    return object?.length
+      ? Object.values(object).reduce((accumulator, value) => {
+          return accumulator + value;
+        }, 0)
+      : 0;
   };
 
   console.log("data inside reaction count", data);
@@ -41,31 +43,32 @@ const ReactionCount = ({ data }) => {
 
   return (
     <Link className="flex justify-start items-center isolate relative">
-      {filteredReactions.map((reaction, index) => {
-        const icon = reactionIcons[`${reaction}`].label;
-        const count = data[`${reaction}`];
+      {filteredReactions?.length &&
+        filteredReactions.map((reaction, index) => {
+          const icon = reactionIcons[`${reaction}`].label;
+          const count = data[`${reaction}`];
 
-        console.log("INSIDE FILTERED REACTION icon", icon);
-        console.log("INSIDE FILTERED REACTION count", count);
+          console.log("INSIDE FILTERED REACTION icon", icon);
+          console.log("INSIDE FILTERED REACTION count", count);
 
-        return (
-          <Tooltip
-            key={index}
-            delay={1500}
-            content={
-              <div className="font-medium text-xs text-black-default">
-                {count > 1
-                  ? `${count} ${plural[icon.toLowerCase()]}`
-                  : `${count} ${singular[icon.toLowerCase()]}`}
+          return (
+            <Tooltip
+              key={index}
+              delay={1500}
+              content={
+                <div className="font-medium text-xs text-black-default">
+                  {count > 1
+                    ? `${count} ${plural[icon.toLowerCase()]}`
+                    : `${count} ${singular[icon.toLowerCase()]}`}
+                </div>
+              }
+            >
+              <div className={`${reactionStack[index]}`}>
+                {reactionIcons[`${reaction}`].badge}
               </div>
-            }
-          >
-            <div className={`${reactionStack[index]}`}>
-              {reactionIcons[`${reaction}`].badge}
-            </div>
-          </Tooltip>
-        );
-      })}
+            </Tooltip>
+          );
+        })}
 
       <p className="ml-2 font-bold text-darkgrey-default">
         {handleReactionCount(data)}
