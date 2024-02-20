@@ -8,8 +8,8 @@
 
 ## v.0.2.0
 
-* Installed NextJS v14.0.4 as its framework
-* Installed tailwind css v3.3.0
+* Installed NextJS `^14.0.4` as its framework
+* Installed tailwind css `^3.3.0`
 * Configured tailwind css to match Bridge's color palette
 * Configured framework and components to match prototype's style in Figma
 * Implemented Cognito Authentication for `backend` and `frontend`
@@ -49,7 +49,9 @@
 
 ## v.0.3.3
 
-* Added @dndkit for draggable Components
+* Added @dndkit/core latest `^6.1.0` for draggable Components
+* Added @dndkit/modifiers latest `^7.0.0` for draggable Components
+* Added @dndkit/sortable latest `^8.0.0` for draggable Components
 * Shortcuts are now draggable and sortable powered by @dndkit
 * Added jotai-core and jotai-cache for global and local state management
 * Added `store` folders for each component
@@ -117,7 +119,8 @@ link: String,
 
 * Reverted merge
 * Separated frontend and backend for deployment
-* Added @jotai/optics for large and nested object manipulation
+* Added @jotai/optics latest `^0.3.1` for large and nested object manipulation
+* Added @optics-ts latest `^2.4.1` for large and nested object manipulation
 * Added `store` folder in each major component and each page for managing its various state
 * Added functionality of onboarding form - storing data
   * Note: Only `Background` section not yet done in onboarding form Component
@@ -125,6 +128,7 @@ link: String,
 ## v.0.4.3
 
 * Removed @jotai/optics due to `ReferenceError` during runtime
+* Removed @optics-ts due to `ReferenceError` during runtime
 * Finished all functionality of onboarding form
 
 ## v.0.4.4
@@ -144,7 +148,7 @@ link: String,
 
 ## v.0.4.5
 
-* Added @date-fns for datetime manipulation
+* Added @date-fns latest `^3.3.1` for datetime manipulation
 * Added Recognitions Component
 * Added HR Bulletin Board Component
 
@@ -175,7 +179,7 @@ link: String,
 * Organized Project Structure
 * Updated Paths for All Components
 * Disabled for now backend functions due to build configuration error
-* Updated @tailwindcss to latest v3.4.1
+* Updated @tailwindcss to latest `^3.4.1`
 * Added Media Layout Component
 * Reverted middleware
 
@@ -184,7 +188,7 @@ link: String,
 * `frontend` and `backend` separated and started from scratch due to build error in deployment
 * Still disabled for now backend functions due to build configuration error (commented backend functions)
 * Created and Downloaded backups of repos for `bridge-official` and `bridge-frontend`
-* Added @swiper for image carousel/gallery
+* Added @swiper latest `^11.0.5` for image carousel/gallery
 * Updated Media Layout Component to view the rest of the images via modal window
 * Synced `bridge-frontend` repo to latest changes
 * Checked and Fixed paths for Components
@@ -645,6 +649,18 @@ postsAtom = atom({
 * Removed `PostTemplateStore`
 * Updated utility functions for `draftPostListAtom`, `publishedPostListAtom`, and `archivedPostListAtom` in `ManagePostStore`
 
+## v.0.6.2
+
+* Added middleware for route protection (stable)
+* Updated `node_modules` to latest
+* Updated @aws-amplify/adapter-nextjs from `^6.0.13` to `^6.0.16`
+* Updated @aws-amplify from `^1.0.13` to `^1.0.16`
+* Removed @jotai/optics
+* Removed @optics-ts
+* Implemented File Upload Functionality on `ManagePostSidebarContent` for uploading media
+
+// ### TODO Fix sorting on posting
+// ### TODO Fix reactions not displaying
 // ### TODO Moved `recruitmentStatusAtom` from `userStore` move to `profileStore`
 // ### TODO Date format via date picker on onboarding form
 // ### TODO Follow-up reminder for missing info on onboarding form

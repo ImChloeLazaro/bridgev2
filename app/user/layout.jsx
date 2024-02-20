@@ -24,7 +24,7 @@ const UserLayout = ({ children }) => {
           )}
           <NavigationBar />
         </div>
-        <div className="flex w-full max-h-screen overflow-y-scroll bg-background no-scrollbar">
+        <div className="flex w-full max-h-screen overflow-y-scroll bg-background ">
           {children}
         </div>
       </div>

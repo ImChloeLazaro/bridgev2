@@ -8,6 +8,8 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import {
+  fileListAtom,
+  fileUrlListAtom,
   filterKeysAtom,
   mediaFileListAtom,
   postCaptionAtom,
@@ -26,11 +28,13 @@ import TagPersonSelect from "./TagPersonSelect";
 import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
 import MediaLayoutDisplay from "../mediaLayout/MediaLayoutPreview";
-import { useState } from "react";
+import CTAButtons from "@/app/components/CTAButtons";
+import { useCallback } from "react";
+import { getfile, restinsert, uploadfile } from "@/app/utils/amplify-rest";
 
 const ManagePostSidebarContent = () => {
-  const [fileList, setFileList] = useState(undefined);
-  const [fileUrlList, setFileUrlList] = useState(undefined);
+  const [fileList, setFileList] = useAtom(fileListAtom);
+  const [fileUrlList, setFileUrlList] = useAtom(fileUrlListAtom);
 
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
@@ -65,32 +69,37 @@ const ManagePostSidebarContent = () => {
       return template.value;
     });
 
-  const handleUploadFile = (e) => {
-    const list = e.target.files;
-    setFileList(list);
-
-    console.log("FILES LIST HERE: ", fileList);
-    // setFileUrlList(() => {
-    //   return Object.values(fileList).map((file) => {
-    //     return URL.createObjectURL(file);
-    //   });
-    // });
-
-    // console.log("FILE URL ARRAY", fileUrlList);
-
-    // if (fileUrl) {
-    //   URL.revokeObjectURL(fileUrl);
-    // }
-
-    // if (file) {
-    //   const url = URL.createObjectURL(file);
-    //   setFileUrl(url);
-    // } else {
-    //   setFileUrl(undefined);
-    // }
-
-    // console.log("FILE URL HERE", fileUrl);
+  const handleRemoveMedia = () => {
+    setFileList(undefined);
+    setFileUrlList(undefined);
+    setMediaFileList([]);
   };
+
+  const handleUploadFile = useCallback(
+    (e) => {
+      const list = e.target.files;
+      console.log("LIST", list);
+
+      if (!list) {
+        return;
+      }
+
+      if (fileUrlList) {
+        Object.values(list).forEach((file) => {
+          return URL.revokeObjectURL(file);
+        });
+      }
+
+      setFileList(list);
+      setFileUrlList(() => {
+        return Object.values(list).map((file) => {
+          return URL.createObjectURL(file);
+        });
+      });
+      setMediaFileList(list);
+    },
+    [fileUrlList, setFileList, setFileUrlList, setMediaFileList]
+  );
 
   const handleSelectionChange = (key) => {
     const selectedTemplate = postTemplates.filter(
@@ -191,7 +200,7 @@ const ManagePostSidebarContent = () => {
           {(selectedMediaLayoutString ? (
             <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               <MediaLayoutDisplay
-                mediaFileList={mediaFileList}
+                mediaFileList={fileUrlList}
                 layout={selectedMediaLayoutString}
                 orientation={selectedMediaOrientationString}
               />
@@ -204,7 +213,7 @@ const ManagePostSidebarContent = () => {
             (selectedMediaOrientationString ? (
               <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 <MediaLayoutDisplay
-                  mediaFileList={mediaFileList}
+                  mediaFileList={fileUrlList}
                   layout={selectedMediaLayoutString}
                   orientation={selectedMediaOrientationString}
                 />
@@ -233,6 +242,13 @@ const ManagePostSidebarContent = () => {
             className="border-none"
             onChange={(e) => handleUploadFile(e)}
           />
+          {fileList && (
+            <CTAButtons
+              label={"Remove media"}
+              color={"clear"}
+              onPress={handleRemoveMedia}
+            />
+          )}
         </div>
 
         {/* Description */}

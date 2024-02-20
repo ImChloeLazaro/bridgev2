@@ -8,6 +8,8 @@ const ReactionCount = ({ data }) => {
     }, 0);
   };
 
+  console.log("data inside reaction count", data);
+
   const reactionStack = {
     0: "-ml-1",
     1: "-ml-2",
@@ -16,9 +18,12 @@ const ReactionCount = ({ data }) => {
     4: "-ml-4",
   };
 
-  const filteredReactions = Object.keys(data).filter(
-    (reaction) => data[reaction] != 0
-  );
+  const filteredReactions = data?.length
+    ? Object.keys(data).filter((reaction) => data[reaction] >= 1)
+    : {};
+
+  console.log("filteredReactions", filteredReactions);
+  console.log("type filteredReactions", typeof filteredReactions);
 
   const plural = {
     happy: `people are happy`,
@@ -39,6 +44,9 @@ const ReactionCount = ({ data }) => {
       {filteredReactions.map((reaction, index) => {
         const icon = reactionIcons[`${reaction}`].label;
         const count = data[`${reaction}`];
+
+        console.log("INSIDE FILTERED REACTION icon", icon);
+        console.log("INSIDE FILTERED REACTION count", count);
 
         return (
           <Tooltip

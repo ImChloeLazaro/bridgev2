@@ -5,7 +5,13 @@ const MediaLayoutDisplay = ({
   mediaFileList = [],
   layout = "single",
   orientation = "landscape",
+  preview = true
 }) => {
+
+  if(preview){
+    
+  }
+
   const mediaLayout = {
     1: {
       // one

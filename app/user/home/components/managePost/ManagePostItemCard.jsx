@@ -20,6 +20,8 @@ const ManagePostItemCard = ({ data }) => {
     4: "-ml-4",
   };
 
+  // console.log("DATA INSIDE MODAL: ", data);
+
   return (
     // {/* border-blue-default border-2 */}
     <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">

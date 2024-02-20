@@ -152,11 +152,7 @@ export const mediaOrientationSelectionAtom = atom([
 ]);
 export const selectedMediaOrientationAtom = atom(new Set([]));
 
-export const mediaFileListAtom = atom([
-  "/Kaylynn Bergson.png",
-  "/Kaylynn Bergson.png",
-  "/Kaylynn Bergson.png",
-]);
+export const mediaFileListAtom = atom([]);
 
 export const postTitleAtom = atom("");
 
@@ -421,3 +417,8 @@ export const filterKeysAtom = atom([
 ]);
 
 export const selectedFilterKeysAtom = atom(new Set(["all"]));
+
+export const fileListAtom = atom(undefined)
+export const fileUrlListAtom = atom(undefined)
+
+export const previewMediaListAtom = atom(undefined)

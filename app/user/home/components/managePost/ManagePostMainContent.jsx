@@ -2,7 +2,7 @@ import CTAButtons from "@/app/components/CTAButtons";
 import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
 import { userAtom } from "@/app/store/UserStore";
-import { restinsert } from "@/app/utils/amplify-rest";
+import { getfile, restinsert, uploadfile } from "@/app/utils/amplify-rest";
 import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -16,10 +16,13 @@ import {
   archivedPostListAtom,
   draftPostCountAtom,
   draftPostListAtom,
+  fileListAtom,
+  fileUrlListAtom,
   filterKeysAtom,
   mediaFileListAtom,
   postCaptionAtom,
   postTitleAtom,
+  previewMediaListAtom,
   publishedPostCountAtom,
   publishedPostListAtom,
   selectedArchivePostAtom,
@@ -34,7 +37,12 @@ import {
   selectedTemplateTypeAtom,
   templateNameAtom,
 } from "../../store/ManagePostStore";
-import { addPostAtom, deletePostAtom, postAtom, postCountAtom } from "../../store/PostStore";
+import {
+  addPostAtom,
+  deletePostAtom,
+  postAtom,
+  postCountAtom,
+} from "../../store/PostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
 
@@ -61,8 +69,6 @@ const ManagePostMainContent = ({ onClose }) => {
   const archivedPostList = useAtomValue(archivedPostListAtom);
   const setArchivedPostList = useSetAtom(addArchivePostAtom);
 
-  const selectedPostStatus = useAtomValue(selectedPostStatusAtom);
-
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
   );
@@ -85,6 +91,7 @@ const ManagePostMainContent = ({ onClose }) => {
   );
   const filterKeys = useAtomValue(filterKeysAtom);
 
+  const selectedPostStatus = useAtomValue(selectedPostStatusAtom);
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
   );
@@ -100,6 +107,12 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedTaggedPeopleAtom
   );
 
+  // const [previewMediaList, setPreviewMediaList] = useAtom(previewMediaListAtom);
+
+  const fileList = useAtomValue(fileListAtom);
+  const fileUrlList = useAtomValue(fileUrlListAtom);
+
+  const selectedPostStatusString = Array.from(selectedPostStatus).join("");
   const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
 
   const mediaFileList = useAtomValue(mediaFileListAtom);
@@ -109,26 +122,32 @@ const ManagePostMainContent = ({ onClose }) => {
   const archivedPostCount = useAtomValue(archivedPostCountAtom);
 
   const postStatusCount =
-    selectedPostStatus === "drafts"
+    selectedPostStatusString === "drafts"
       ? draftPostCount + 1
-      : selectedPostStatus === "published"
+      : selectedPostStatusString === "published"
       ? publishedPostCount + 1
-      : selectedPostStatus === "archived"
+      : selectedPostStatusString === "archived"
       ? archivedPostCount + 1
       : 0;
 
   const postKey =
-    selectedPostStatus === "drafts"
+    selectedPostStatusString === "drafts"
       ? `draft-${draftPostCount + 1}`
-      : selectedPostStatus === "published"
+      : selectedPostStatusString === "published"
       ? `publish-${publishedPostCount + 1}`
-      : selectedPostStatus === "archived"
+      : selectedPostStatusString === "archived"
       ? `archive-${archivedPostCount + 1}`
       : 0;
 
   const handleAddPost = () => {
-    if (selectedPostStatus === "drafts") {
+    if (selectedPostStatusString === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
+        const previewMediaList = Object.values(mediaFileList).map((file) => {
+          return URL.createObjectURL(file);
+        });
+
+        console.log("HEHEHEEHEH previewMediaList: ", previewMediaList);
+
         const newPost = {
           id: postStatusCount,
           type: templateName.toLowerCase(),
@@ -138,12 +157,12 @@ const ManagePostMainContent = ({ onClose }) => {
           publisherPicture: user.picture,
           team: user.team,
           caption: postCaption,
-          media: mediaFileList ? [...mediaFileList] : [],
+          media: previewMediaList ? [...previewMediaList] : [],
           mediaLayout: [...selectedMediaLayout],
           orientation: [...selectedMediaOrientation],
           reactionList: [...selectedReactions],
           taggedPeople: [...selectedTaggedPeople], // key of users
-          status: selectedPostStatus,
+          status: "drafts",
         };
 
         // Adds post to post modal
@@ -159,9 +178,9 @@ const ManagePostMainContent = ({ onClose }) => {
   };
 
   const handleDeletePost = () => {
-    if (selectedPostStatus === "drafts") {
+    if (selectedPostStatusString === "drafts") {
       console.log("INSIDE DELETE DRAFT POST", selectedDraftPost);
-      
+
       // Deletes post from post modal
       setDraftsPostList(() =>
         draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
@@ -169,9 +188,9 @@ const ManagePostMainContent = ({ onClose }) => {
       setSelectedDraftPost([]);
     }
 
-    if (selectedPostStatus === "published") {
+    if (selectedPostStatusString === "published") {
       console.log("INSIDE DELETE PUBLISH POST", selectedPublishPost);
-      
+
       // Deletes post from post modal
       setPublishedPostList(() =>
         publishedPostList.filter(
@@ -188,9 +207,9 @@ const ManagePostMainContent = ({ onClose }) => {
       );
     }
 
-    if (selectedPostStatus === "archived") {
+    if (selectedPostStatusString === "archived") {
       console.log("INSIDE DELETE ARCHIVE POST", selectedArchivePost);
-      
+
       // Deletes post from post modal
       setArchivedPostList(() =>
         archivedPostList.filter(
@@ -205,7 +224,7 @@ const ManagePostMainContent = ({ onClose }) => {
   };
 
   const handlePublishPost = async () => {
-    if (selectedPostStatus === "drafts") {
+    if (selectedPostStatusString === "drafts") {
       console.log("INSIDE PUBLISH POST", selectedDraftPost);
 
       // ### TODO Add validation for data to be completed first before publishing to post feed
@@ -232,27 +251,68 @@ const ManagePostMainContent = ({ onClose }) => {
       // Adds post to published status from post modal
       setPublishedPostList((prev) => [...prev, ...toBePublished]);
 
-      let postCountIndex = publishedPostCount;
-      const toBePosted = filteredDrafts.map((draft) => {
-        console.log("NO MEDIA", draft.key);
-        return {
-          ...draft,
-          id: (postCountIndex += 1),
-          key: `publish-${postCountIndex}`,
-          datetimePublished: new Date(),
-          datetimeScheduled: new Date(),
-          reacted: false,
-          reactions: {
-            star: 1,
-            love: 0,
-            birthday: 0,
-            happy: 0,
-          },
-          comments: 0,
-          taggedPeople: [...draft.taggedPeople], // key of users
-          status: draft.status,
-        };
-      });
+      let publishCountIndex = publishedPostCount;
+      let postCountIndex = postCount;
+
+      const toBePosted = await Promise.all(
+        filteredDrafts.map(async (draft) => {
+          console.log("NO MEDIA", draft.key);
+          console.log("MEDIA HERE INSIDE: ", mediaFileList);
+          console.log("TYPE MEDIA HERE INSIDE: ", typeof mediaFileList);
+
+          const mediaToBeUploaded = async () => {
+            let upload = await Promise.all(
+              Object.values(mediaFileList).map(async (media) => {
+                return await uploadfile(media);
+              })
+            );
+            console.log("INSIDE ASYNC UPLOAD FILE: ", upload);
+            return upload;
+          };
+
+          const fileNameList = await mediaToBeUploaded();
+
+          const mediaToBePosted = fileNameList.map((media) => {
+            if (media.success) {
+              return getfile(media.filename);
+            } else {
+              (""); // default image placeholder
+            }
+          });
+          console.log("NEED TO SEE THIS", mediaToBePosted);
+          console.log("TYPE NEED TO SEE THIS", typeof mediaToBePosted);
+
+          return {
+            datetimePublished: new Date(),
+            datetimeScheduled: new Date(),
+            id: (publishCountIndex += 1),
+            type: draft.type,
+            key: `publish-${publishCountIndex}`,
+            postKey: `post-${(postCountIndex += 1)}`,
+            title: draft.title,
+            publisher: draft.publisher,
+            publisherPicture: draft.publisherPicture,
+            team: draft.team,
+            caption: draft.caption,
+            media: mediaToBePosted ? [...mediaToBePosted] : [],
+            mediaLayout: draft.mediaLayout,
+            orientation: draft.orientation,
+            reactionList: draft.reactionList,
+            taggedPeople: [...draft.taggedPeople], // key of users
+            status: "published",
+            reacted: false,
+            reactions: {
+              star: 1,
+              love: 0,
+              birthday: 0,
+              happy: 0,
+            },
+            comments: 0,
+          };
+        })
+      );
+
+      console.log("TETETET toBePosted", toBePosted);
 
       // Adds post to backend via API call
       const posts = await restinsert("/post", toBePosted);
@@ -270,7 +330,7 @@ const ManagePostMainContent = ({ onClose }) => {
   };
 
   const handleArchivePost = () => {
-    if (selectedPostStatus === "published") {
+    if (selectedPostStatusString === "published") {
       console.log("INSIDE ARCHIVE POST", selectedPublishPost);
 
       const filteredPublish = publishedPostList.filter((publish) =>
@@ -278,7 +338,11 @@ const ManagePostMainContent = ({ onClose }) => {
       );
       let postIndex = archivedPostCount;
       const toBeArchived = filteredPublish.map((publish) => {
-        return { ...publish, key: `archive-${(postIndex += 1)}` };
+        return {
+          ...publish,
+          key: `archive-${(postIndex += 1)}`,
+          status: "archived",
+        };
       });
 
       // Removes post from post modal
@@ -344,38 +408,38 @@ const ManagePostMainContent = ({ onClose }) => {
   };
 
   const actionButtons =
-    selectedPostStatus === "drafts"
+    selectedPostStatusString === "drafts"
       ? draftActionsButtons
-      : selectedPostStatus === "published"
+      : selectedPostStatusString === "published"
       ? publishedActionsButtons
-      : selectedPostStatus === "archived"
+      : selectedPostStatusString === "archived"
       ? archivedActionButtons
       : {};
 
   const postList =
-    selectedPostStatus === "drafts"
+    selectedPostStatusString === "drafts"
       ? draftsPostList
-      : selectedPostStatus === "published"
+      : selectedPostStatusString === "published"
       ? publishedPostList
-      : selectedPostStatus === "archived"
+      : selectedPostStatusString === "archived"
       ? archivedPostList
       : [];
 
   const selectedPosts =
-    selectedPostStatus === "drafts"
+    selectedPostStatusString === "drafts"
       ? selectedDraftPost
-      : selectedPostStatus === "published"
+      : selectedPostStatusString === "published"
       ? selectedPublishPost
-      : selectedPostStatus === "archived"
+      : selectedPostStatusString === "archived"
       ? selectedArchivePost
       : values;
 
   const setSelectedPosts =
-    selectedPostStatus === "drafts"
+    selectedPostStatusString === "drafts"
       ? setSelectedDraftPost
-      : selectedPostStatus === "published"
+      : selectedPostStatusString === "published"
       ? setSelectedPublishPost
-      : selectedPostStatus === "archived"
+      : selectedPostStatusString === "archived"
       ? setSelectedArchivePost
       : setValues;
 
