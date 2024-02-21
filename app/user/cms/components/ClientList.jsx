@@ -1,21 +1,20 @@
-import { useState } from "react";
+import CTAButtons from "@/app/components/CTAButtons";
+import SearchBar from "@/app/components/SearchBar";
 import {
-  Avatar,
-  Button,
-  Divider,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Checkbox,
   CheckboxGroup,
+  Divider,
   Pagination,
   Select,
   SelectItem,
-  cn,
+  cn
 } from "@nextui-org/react";
-import SearchBar from "@/app/components/SearchBar";
-import CTAButtons from "@/app/components/CTAButtons";
+import { useAtom, useAtomValue } from "jotai";
+import { useState } from "react";
 import {
   clientsListAtom,
   clientsListCountAtom,
@@ -25,8 +24,6 @@ import {
   selectedClientAtom,
   selectedFilterKeysAtom,
 } from "../store/CMSStore";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { MdChevronRight } from "react-icons/md";
 import ClientItemCard from "./ClientItemCard";
 
 const ClientList = () => {

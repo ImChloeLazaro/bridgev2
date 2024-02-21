@@ -1,13 +1,6 @@
-import { selectedTabAtom } from "../store/OnboardingStore";
-
-import {
-  employmentHistoryAtom,
-  trainingsAttendedAtom,
-  referencesAtom,
-} from "../store/OnboardingStore";
-
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtom, useAtomValue } from "jotai";
+import OnboardingFieldInput from "../../components/OnboardingFieldInput";
+import { employmentHistoryAtom, referencesAtom, selectedTabAtom, trainingsAttendedAtom } from "../store/OnboardingStore";
 
 const EmploymentOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);

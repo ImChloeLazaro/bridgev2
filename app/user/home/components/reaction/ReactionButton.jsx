@@ -22,7 +22,7 @@ const ReactionButton = ({ id, data, reacted }) => {
     },
   };
 
-  const handleAddReaction = (post_id) => {
+  const handleAddReaction = (reaction) => {
     setReacted((prev) => {
       return prev.map((post) => {
         if (id === post.id) {
@@ -32,7 +32,7 @@ const ReactionButton = ({ id, data, reacted }) => {
               reacted: !reacted,
               reactions: {
                 ...post.reactions,
-                [post_id]: (post.reactions[post_id] -= 1),
+                [reaction]: (post.reactions[reaction] -= 1),
               },
             };
           } else {
@@ -41,7 +41,7 @@ const ReactionButton = ({ id, data, reacted }) => {
               reacted: !reacted,
               reactions: {
                 ...post.reactions,
-                [post_id]: (post.reactions[post_id] += 1),
+                [reaction]: (post.reactions[reaction] += 1),
               },
             };
           }

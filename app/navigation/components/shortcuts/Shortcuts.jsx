@@ -21,17 +21,12 @@ import {
 import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
 
-// ### TODO Add sorting functionality to shortcut
-// ### TODO Newly added shortcut should be on top of the list
-// ### TODO Fix order of shortcuts does not persist after refresh or after sign in
-// ### TODO Add regex validation when editing or adding link to avoid invalid link
-
 const Shortcuts = () => {
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
-  const filteredShortcutsList = shortcutsList.sort((a,b)=>{})
+  const filteredShortcutsList = shortcutsList.sort((a, b) => {});
 
   useEffect(() => {
     fetchedShortcut();
@@ -143,7 +138,7 @@ const Shortcuts = () => {
                 {shortcutsList?.map((shortcut) => (
                   <SortableItem
                     disabled={disableDraggable}
-                    id={shortcut.id} // makes dragging and sorting working 
+                    id={shortcut.id} // makes dragging and sorting working
                     key={shortcut.key}
                     unique_key={shortcut.key}
                     link={shortcut.link}

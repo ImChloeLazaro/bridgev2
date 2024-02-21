@@ -25,6 +25,7 @@ export const profileAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const data = await readwithparams("/profile", { sub: auth.sub });
   if (auth != null || data != null) {
+    console.log("PROFILE DATA:", data);
     return data;
   } else return {};
 });

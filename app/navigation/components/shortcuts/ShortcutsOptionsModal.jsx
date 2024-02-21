@@ -82,8 +82,6 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
     if (user === null) {
       return;
     }
-    // ### TODO Add regex validation on link to check if https:// is already on string
-
     const shortcuts = await restupdate("/shortcut", {
       _id: Array.isArray(uniqueShortcutID)
         ? uniqueShortcutID[0]

@@ -1,9 +1,6 @@
-import { selectedTabAtom } from "../store/OnboardingStore";
-
-import { contactAtom } from "../store/OnboardingStore";
-
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtom, useAtomValue } from "jotai";
+import OnboardingFieldInput from "../../components/OnboardingFieldInput";
+import { contactAtom, selectedTabAtom } from "../store/OnboardingStore";
 
 const ContactOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);

@@ -1,11 +1,10 @@
 "use client";
 import { useAtomValue } from "jotai";
 import dynamic from "next/dynamic";
-import NavigationBar from "../navigation/components/NavigationBar";
-
-import { fetchOnboardingStatus } from "../store/UserStore";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
+import NavigationBar from "../navigation/components/NavigationBar";
 import { authenticationAtom } from "../store/AuthenticationStore";
+import { fetchOnboardingStatus } from "../store/UserStore";
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
 });
@@ -24,7 +23,7 @@ const UserLayout = ({ children }) => {
           )}
           <NavigationBar />
         </div>
-        <div className="flex w-full max-h-screen overflow-y-scroll bg-background ">
+        <div className="flex max-w-full max-h-fit overflow-y-scroll bg-background ">
           {children}
         </div>
       </div>

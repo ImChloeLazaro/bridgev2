@@ -106,6 +106,24 @@ export const restupdate = async (path, request) => {
   }
 };
 
+export const destroywithparams = async (path, request) => {
+  try {
+    const updateOperation = del({
+      apiName: "bridgeApi",
+      path: path,
+      options: {
+        queryParams: request,
+      },
+    });
+
+    const { body } = await updateOperation.response;
+    const response = await body.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const restdestroy = async (path, request) => {
   try {
     const restOperation = del({

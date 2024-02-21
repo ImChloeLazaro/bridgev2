@@ -35,7 +35,7 @@ const ProfileHeader = ({ data }) => {
 
       <div className="w-full px-16 -mt-[10rem] flex justify-between items-center">
         {/* PROFILE PHOTO */}
-        <div className="flex px-1 items-center relative z-20 ">
+        <div className="flex gap-3 px-1 items-center relative z-20 ">
           <div className="flex">
             <div className="relative z-20 ">
               <Avatar

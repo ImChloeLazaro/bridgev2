@@ -11,20 +11,20 @@ import { RegisterProfile } from "./utils/profile";
 
 export function Providers({ children }) {
   const router = useRouter();
-  const authvalue = useAtomValue(authenticationAtom)
-  const uservalue = useAtomValue(userDataAtom)
-  const pathname = usePathname();
-  useEffect(()=>{
-    if(authvalue.isAuthenticated && pathname === "/"){
-      router.push('/user')
-    }
+  // const authvalue = useAtomValue(authenticationAtom)
+  // const uservalue = useAtomValue(userDataAtom)
+  // const pathname = usePathname();
+  // useEffect(()=>{
+  //   if(authvalue.isAuthenticated && pathname === "/"){
+  //     router.push('/user')
+  //   }
     
-    if(!authvalue.isAuthenticated && pathname !== "/"){
-      router.push('/')
-    }
-    return () => RegisterProfile(uservalue)
+  //   if(!authvalue.isAuthenticated && pathname !== "/"){
+  //     router.push('/')
+  //   }
+  //   return () => RegisterProfile(uservalue)
 
-  },[authvalue, authvalue.isAuthenticated, pathname, router, uservalue])
+  // },[authvalue, authvalue.isAuthenticated, pathname, router, uservalue])
 
   return (
     <NextUIProvider navigate={router.push}>

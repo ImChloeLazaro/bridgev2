@@ -4,12 +4,37 @@ import {
   Listbox,
   ListboxItem,
 } from "@nextui-org/react";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
-import { roleAtom } from "../../store/NavSideBarStore";
+import {
+  selectedRoleAtom,
+  roleAtom
+} from "../../store/NavSideBarStore";
 
-export function SwitchRoles() {
-  const setRole = useSetAtom(roleAtom);
+const SwitchRoles = () => {
+  const roles = useAtomValue(roleAtom);
+  const setRoles = useSetAtom(selectedRoleAtom);
+
+  console.log("ROLES:", roles);
+
+  const labelRoles = (role) => {
+    if (role === "user") {
+      return "User";
+    }
+    if (role === "admin") {
+      return "Admin";
+    }
+    if (role === "hr") {
+      return "HR";
+    }
+    if (role === "tl") {
+      return "Team Lead";
+    }
+  };
+
+  const roleList = roles.map((role) => {
+    return { key: role, label: labelRoles(role), link: `/${role}` };
+  });
 
   return (
     <Accordion isCompact className="text-base font-medium">
@@ -20,8 +45,9 @@ export function SwitchRoles() {
         indicator={<MdChevronRight size={24} />}
       >
         <Listbox
+          items={roleList}
           aria-label="Actions"
-          onAction={setRole}
+          onAction={setRoles}
           itemClasses={{
             base: [
               "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
@@ -29,20 +55,14 @@ export function SwitchRoles() {
             title: ["text-base font-normal"],
           }}
         >
-          <ListboxItem key="admin" href="/admin">
-            {"Admin"}
-          </ListboxItem>
-          <ListboxItem key="tl" href="/tl">
-            {"Team Lead"}
-          </ListboxItem>
-          <ListboxItem key="hr" href="/hr">
-            {"HR"}
-          </ListboxItem>
-          <ListboxItem key="user" href="/user">
-            {"User"}
-          </ListboxItem>
+          {(role) => (
+            <ListboxItem key={role.key} href={role.link} textValue={role.key}>
+              {role.label}
+            </ListboxItem>
+          )}
         </Listbox>
       </AccordionItem>
     </Accordion>
   );
-}
+};
+export default SwitchRoles;

@@ -1,7 +1,6 @@
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import "../../../aws-auth";
-import { restread, restinsert } from "@/app/utils/amplify-rest";
 let index = 0;
 
 export const postAtom = atom([]);

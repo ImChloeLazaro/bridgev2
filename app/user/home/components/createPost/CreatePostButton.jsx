@@ -43,7 +43,6 @@ const CreatePostButton = () => {
         className="bg-transparent w-full h-16 text-lg font-medium text-black-default border-[2.5px] rounded-lg border-[#BEBEBE]/80 border-solid flex justify-start items-center pl-4"
         onPress={() => handleSelectionChange(new Set(["custom"]))}
       >
-        {/* // ### TODO Randomize placeholder text */}
         {"Create a Post"}
       </Button>
       <ManagePostModal

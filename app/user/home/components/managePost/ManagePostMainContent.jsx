@@ -2,11 +2,16 @@ import CTAButtons from "@/app/components/CTAButtons";
 import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
 import { userAtom } from "@/app/store/UserStore";
-import { getfile, restinsert, uploadfile } from "@/app/utils/amplify-rest";
+import {
+  getfile,
+  restdestroy,
+  restinsert,
+  uploadfile,
+} from "@/app/utils/amplify-rest";
 import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdMinimize } from "react-icons/md";
 import {
   addArchivePostAtom,
@@ -16,6 +21,7 @@ import {
   archivedPostListAtom,
   draftPostCountAtom,
   draftPostListAtom,
+  fetchPostAtom,
   fileListAtom,
   fileUrlListAtom,
   filterKeysAtom,
@@ -45,12 +51,19 @@ import {
 } from "../../store/PostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
+import "../../../../aws-auth";
 
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
 
 const ManagePostMainContent = ({ onClose }) => {
   const [values, setValues] = useState([]);
+
+  const fetchPost = useSetAtom(fetchPostAtom);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   const user = useAtomValue(userAtom);
 
@@ -177,15 +190,29 @@ const ManagePostMainContent = ({ onClose }) => {
     console.log("POST ADDED");
   };
 
-  const handleDeletePost = () => {
+  const handleDeletePost = async () => {
     if (selectedPostStatusString === "drafts") {
       console.log("INSIDE DELETE DRAFT POST", selectedDraftPost);
 
       // Deletes post from post modal
-      setDraftsPostList(() =>
-        draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
+      // setDraftsPostList(() =>
+      //   draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
+      // );
+      // setSelectedDraftPost([]);
+
+      const toBeDeletedPost = draftsPostList.filter((draft) =>
+        selectedDraftPost.includes(draft.key)
       );
-      setSelectedDraftPost([]);
+
+      console.log("toBeDeletedPost", toBeDeletedPost);
+      await Promise.all(
+        toBeDeletedPost.map(async (post) => {
+          console.log("TO BE DELETED POST", post._id);
+          console.log("TO BE DELETED POST TYPE", typeof post);
+          let response = await restdestroy("/post", post);
+          console.log("DELETE RESPONSE", response);
+        })
+      );
     }
 
     if (selectedPostStatusString === "published") {
@@ -287,7 +314,7 @@ const ManagePostMainContent = ({ onClose }) => {
             datetimeScheduled: new Date(),
             id: (publishCountIndex += 1),
             type: draft.type,
-            key: `publish-${publishCountIndex}`,
+            key: `publish-${(publishCountIndex += 1)}`,
             postKey: `post-${(postCountIndex += 1)}`,
             title: draft.title,
             publisher: draft.publisher,
@@ -315,7 +342,7 @@ const ManagePostMainContent = ({ onClose }) => {
       console.log("TETETET toBePosted", toBePosted);
 
       // Adds post to backend via API call
-      const posts = await restinsert("/post", toBePosted);
+      // const posts = await restinsert("/post", toBePosted);
 
       console.log("PUBLISHED POSTS FOR FEED");
       console.log("POSTS SUCCESS", posts);
@@ -451,13 +478,14 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const [searchItem, setSearchItem] = useState("");
 
-  const filteredPostList = filteredPost.filter((post) => {
-    return (
-      post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
-      post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
-      post.title.toLowerCase().includes(searchItem.toLowerCase())
-    );
-  });
+  const filteredPostList = filteredPost;
+  // .filter((post) => {
+  //   return (
+  //     post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //     post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //     post.title.toLowerCase().includes(searchItem.toLowerCase())
+  //   );
+  // });
 
   return (
     <div className="flex flex-col w-[72rem] h-fit">

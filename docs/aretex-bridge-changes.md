@@ -658,12 +658,12 @@ postsAtom = atom({
 * Removed @jotai/optics
 * Removed @optics-ts
 * Implemented File Upload Functionality on `ManagePostSidebarContent` for uploading media
-
-// ### TODO Fix sorting on posting
-// ### TODO Fix reactions not displaying
-// ### TODO Moved `recruitmentStatusAtom` from `userStore` move to `profileStore`
-// ### TODO Date format via date picker on onboarding form
-// ### TODO Follow-up reminder for missing info on onboarding form
-// ### Revert scrollbar on components
-// ### Fix posting index issue
-// ### TODO Maintenance image changed no copyright
+* Fixed reactions not rendering properly and not updating when reacting
+* Updated maintenance image on `UnderConstruction` Component to have no watermarks
+* Fixed scrolling behavior for `MainContent` and `SideBar` Component
+* Scrolling behavior for `MainContent` and `SideBar` Component now scrolls separately
+* `MainContent` scrolling behavior now scrolls with the main scrollbar without affecting `RightBar` Component
+* `RightBar` scrolling behavior now scrolls with its own hidden scrollbar
+* Added `TODO` `docs` for centralize listing of `TODO`s
+* Rewrite role selection in `SwitchRoles` Component
+* Adjusted `OnboardingFieldInput` Component for employee ID to be on top

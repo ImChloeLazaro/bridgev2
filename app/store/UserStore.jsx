@@ -42,6 +42,8 @@ export const userAtom = atom(async (get) => {
   }
 });
 
+
+
 // User List
 export const usersListAtom = atom([{}]); // list of all employees
 
@@ -62,10 +64,10 @@ export const benefitsStatusAtom = atom(async (get) => {
 //Onboarding
 export const onboardingStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams('/profile/onboarding', {sub: auth.sub})
-})
+  return await readwithparams("/profile/onboarding", { sub: auth.sub });
+});
 
-//Team 
+//Team
 export const teamStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/teams/employee", { sub: auth.sub });
@@ -76,24 +78,29 @@ export const recruitmentStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const user = await get(userDataAtom);
   const { response: employee } = await get(onboardingStatusAtom);
-  const { response: [data] } = await readwithparams("/recruitment/profile", { sub: auth.sub });
-  const {response: employee_team} = await get(teamStatusAtom);
+  const {
+    response: [data],
+  } = await readwithparams("/recruitment/profile", { sub: auth.sub });
+  const { response: employee_team } = await get(teamStatusAtom);
 
   return {
     id: data?.employee_number,
     sub: auth.sub,
-    name: data?.name,
+    name: data?.name ? data?.name : user.name,
     picture: user?.picture, // link to picture
-    email: data?.email,
-    address: employee?.profile.application.employee_information.permanent_address || "N/A",
+    email: data?.email ? data?.email : user.email,
+    address:
+      employee?.profile.application.employee_information.permanent_address ||
+      "N/A",
     birthday: employee?.profile.application.employee_information.birthdate,
-    contactNumber: employee?.profile.application.employee_information.mobile_number || "N/A",
+    contactNumber:
+      employee?.profile.application.employee_information.mobile_number || "N/A",
     status: data?.is_active, // true active : false inactive
-    role: ["user", "admin"],
-    team: "DMS-FAST",
+    role: user.role,
+    team: user.team,
     supervisor: {
-      name : employee_team?.immediate_head?.name,
-      picture : employee_team?.immediate_head?.picture,
+      name: employee_team?.immediate_head?.name,
+      picture: employee_team?.immediate_head?.picture,
     },
     position: data?.position,
     clients: ["NON-BLOOMS"],
@@ -124,9 +131,9 @@ export const recruitmentStatusAtom = atom(async (get) => {
 //Fetch Onboarding Status
 export const fetchOnboardingStatus = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  const data = await readwithparams("/user", { sub: auth.sub })
+  const data = await readwithparams("/user", { sub: auth.sub });
   if (!data) {
-    return false
+    return false;
   }
-  return data.result.hasOnboardingData
+  return data.result.hasOnboardingData;
 });

@@ -6,12 +6,12 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-  Link
+  Link,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { roleAtom, userRolesAtom } from "../store/NavSideBarStore";
+import { roleAtom, selectedRoleAtom } from "../store/NavSideBarStore";
 import { routesUser } from "./RoutesIconDetails";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
@@ -24,15 +24,18 @@ const NavigationBar = () => {
   const menuItems = routesUser.map((details) => details.label);
   const router = useRouter();
 
-  const role = useAtomValue(roleAtom);
-  const [userRoles] = useAtom(userRolesAtom);
+  const role = useAtomValue(selectedRoleAtom);
+  const [userRoles] = useAtom(roleAtom);
 
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
       position="static"
       // className="md:bg-blue-default"
-      classNames={{ base: "flex justify-end m-0 p-0 md:bg-blue-default", wrapper: "mr-16 pr-16 py-2" }}
+      classNames={{
+        base: "flex justify-end m-0 p-0 md:bg-blue-default",
+        wrapper: "mr-16 pr-16 py-2",
+      }}
     >
       {/* <NavbarContent>
         <NavbarMenuToggle

@@ -1,30 +1,28 @@
 "use client";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+import { Spinner } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
+import { Suspense, useEffect } from "react";
 import "../aws-auth";
 import MainContent from "../components/MainContent";
 import RightBar from "../components/RightBar";
 import RightBarCard from "../components/RightBarCard";
+import { authenticationAtom } from "../store/AuthenticationStore";
 import { userAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
-import HRBulletinBoardList from "./home/components/hrBulletinBoard/HRBulletinBoardList";
 import CreatePostCard from "./home/components/createPost/CreatePostCard";
+import HRBulletinBoardList from "./home/components/hrBulletinBoard/HRBulletinBoardList";
 import PostCard from "./home/components/post/PostCard";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom, postAtom } from "./home/store/PostStore";
-import { useEffect } from "react";
-import { authenticationAtom } from "../store/AuthenticationStore";
-import { withAuthenticator } from "@aws-amplify/ui-react";
-
-// ### TODO Rewrite scrolling behavior to add scrollbar for easier scrolling
-// ###      make RightBar to be sticky without affecting its own scrolling
 
 const User = () => {
   const posts = useAtomValue(postAtom);
   const user = useAtomValue(userAtom);
-  const auth = useAtomValue(authenticationAtom)
+  const auth = useAtomValue(authenticationAtom);
 
   const fetchPost = useSetAtom(fetchPostAtom);
 
@@ -43,9 +41,13 @@ const User = () => {
       <>
         <MainContent>
           <CreatePostCard data={user} />
-          {sortedPosts.map((post) => {
-            return <PostCard key={post.key} data={post} />;
-          })}
+          <Suspense fallback={<Spinner />}>
+            <div className="">
+              {sortedPosts.map((post) => {
+                return <PostCard key={post.key} data={post} />;
+              })}
+            </div>
+          </Suspense>
         </MainContent>
         <RightBar>
           <RexWinnerCard />

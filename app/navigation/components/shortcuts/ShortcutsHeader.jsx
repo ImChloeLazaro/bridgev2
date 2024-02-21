@@ -20,9 +20,9 @@ const ShortcutsHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [addShortcutName, setAddShortcutName] = useState("");
   const [addShortcutLink, setAddShortcutLink] = useState("");
-
   const shortcutCount = useAtomValue(shortcutCountAtom);
   const setShortcuts = useSetAtom(addShortcutAtom);
+
   const handleAddShortcut = async () => {
     if (user === null) {
       return;
@@ -34,9 +34,6 @@ const ShortcutsHeader = () => {
       url: addShortcutLink,
     });
 
-    // console.log("INSIDE SHORTCUT");
-    // console.log(shortcuts ? "TRUE" : "FALSE");
-    // console.log(shortcuts);
     if (shortcuts) {
       setShortcuts((prev) => [
         ...prev,

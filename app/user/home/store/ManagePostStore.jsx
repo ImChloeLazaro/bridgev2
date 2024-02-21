@@ -1,8 +1,9 @@
+import { restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import { reactionIcons } from "../components/reaction/ReactionIcons";
 import { BiNews } from "react-icons/bi";
 import { FaMedal } from "react-icons/fa6";
 import { MdCake, MdCalendarMonth, MdForum, MdGroups2 } from "react-icons/md";
+import { reactionIcons } from "../components/reaction/ReactionIcons";
 
 const iconSize = 20;
 export const postTemplateItemsAtom = atom([
@@ -341,6 +342,13 @@ export const addDraftPostAtom = atom(null, (get, set, update) => {
   console.log("ADDED DRAFT", get(draftPostListAtom));
  });
 export const selectedDraftPostAtom = atom([]);
+
+export const fetchPostAtom = atom(null, async (get, set) => {
+  const posts = await restread("/post");
+  console.log("POSTS DATA", posts);
+
+  set(draftPostListAtom, posts.response)
+});
 
 // LIST FOR PUBLISHED POSTS
 export const publishedPostListAtom = atom([]);
