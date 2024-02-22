@@ -11,8 +11,6 @@ const ShortcutItem = forwardRef(
   ({ children, index, link, unique_key, ...props }, ref) => {
     let shortcutLink = link;
 
-    // ### TODO Move this URL validation to the edit and add function of shortcuts
-
     const validateURL = (urlString) =>
       urlString.match(
         /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi

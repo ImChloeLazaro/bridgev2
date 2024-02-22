@@ -8,6 +8,8 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import {
+  fileListAtom,
+  fileUrlListAtom,
   filterKeysAtom,
   mediaFileListAtom,
   postCaptionAtom,
@@ -26,8 +28,14 @@ import TagPersonSelect from "./TagPersonSelect";
 import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
 import MediaLayoutDisplay from "../mediaLayout/MediaLayoutPreview";
+import CTAButtons from "@/app/components/CTAButtons";
+import { useCallback } from "react";
+import { getfile, restinsert, uploadfile } from "@/app/utils/amplify-rest";
 
 const ManagePostSidebarContent = () => {
+  const [fileList, setFileList] = useAtom(fileListAtom);
+  const [fileUrlList, setFileUrlList] = useAtom(fileUrlListAtom);
+
   const [selectedTemplateType, setSelectedTemplateType] = useAtom(
     selectedTemplateTypeAtom
   );
@@ -61,6 +69,38 @@ const ManagePostSidebarContent = () => {
       return template.value;
     });
 
+  const handleRemoveMedia = () => {
+    setFileList(undefined);
+    setFileUrlList(undefined);
+    setMediaFileList([]);
+  };
+
+  const handleUploadFile = useCallback(
+    (e) => {
+      const list = e.target.files;
+      console.log("LIST", list);
+
+      if (!list) {
+        return;
+      }
+
+      if (fileUrlList) {
+        Object.values(list).forEach((file) => {
+          return URL.revokeObjectURL(file);
+        });
+      }
+
+      setFileList(list);
+      setFileUrlList(() => {
+        return Object.values(list).map((file) => {
+          return URL.createObjectURL(file);
+        });
+      });
+      setMediaFileList(list);
+    },
+    [fileUrlList, setFileList, setFileUrlList, setMediaFileList]
+  );
+
   const handleSelectionChange = (key) => {
     const selectedTemplate = postTemplates.filter(
       (template) => template.type === Array.from(key).join("")
@@ -88,7 +128,7 @@ const ManagePostSidebarContent = () => {
         </div>
         <div className="flex justify-between items-center gap-5">
           <p className="font-normal w-24">{"Type"}</p>
-          
+
           {/* // ### TODO UPDATE TO AUTOCOMPLETE COMPONENT */}
           {/* // ### TODO Include the custom template keys as filter keys */}
           <Select
@@ -150,13 +190,17 @@ const ManagePostSidebarContent = () => {
               <p className="font-normal w-24">{"Orientation"}</p>
               <MediaOrientationSelect />
             </div>
+            {!mediaFileList?.length && (
+              <p className="text-sm font-medium text-red-default">
+                {"*Note: this will not display any media on your post"}
+              </p>
+            )}
           </div>
-          {/* // Display */}
-          {/* <div className="w-80 h-40 bg-grey-hover rounded-md p-1"></div> */}
+          {/* <div className=""> */}
           {(selectedMediaLayoutString ? (
             <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               <MediaLayoutDisplay
-                mediaFileList={mediaFileList}
+                mediaFileList={fileUrlList}
                 layout={selectedMediaLayoutString}
                 orientation={selectedMediaOrientationString}
               />
@@ -169,7 +213,7 @@ const ManagePostSidebarContent = () => {
             (selectedMediaOrientationString ? (
               <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 <MediaLayoutDisplay
-                  mediaFileList={mediaFileList}
+                  mediaFileList={fileUrlList}
                   layout={selectedMediaLayoutString}
                   orientation={selectedMediaOrientationString}
                 />
@@ -179,7 +223,9 @@ const ManagePostSidebarContent = () => {
                 {"No media to display"}
               </div>
             ))}
+          {/* </div> */}
         </div>
+
         <div className="flex justify-start items-center gap-5">
           <p className="font-normal w-20">{"Files"}</p>
           {/* <Button startContent={<MdFileUpload size={24} />}>
@@ -191,9 +237,18 @@ const ManagePostSidebarContent = () => {
             id="post media"
             name="post media"
             accept=".jpg, .jpeg, .png"
+            placeholder="Upload file"
             multiple
             className="border-none"
+            onChange={(e) => handleUploadFile(e)}
           />
+          {fileList && (
+            <CTAButtons
+              label={"Remove media"}
+              color={"clear"}
+              onPress={handleRemoveMedia}
+            />
+          )}
         </div>
 
         {/* Description */}

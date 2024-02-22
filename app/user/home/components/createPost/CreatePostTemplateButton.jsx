@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { MdEventNote } from "react-icons/md";
 import { useAtomValue, useSetAtom } from "jotai";
-import { postTemplateItemsAtom } from "../../store/PostTemplateStore";
+import { postTemplateItemsAtom } from "../../store/ManagePostStore";
 import ManagePostModal from "../managePost/ManagePostModal";
 import { useState, useMemo } from "react";
 import {

@@ -2,14 +2,10 @@ import ChipTag from "@/app/components/LabelTagChip";
 import {
   Avatar,
   AvatarGroup,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Image,
   Button,
-  Pagination,
-  Select,
+  Card,
+  CardBody,
+  Image,
 } from "@nextui-org/react";
 
 const tagColors = {
@@ -21,8 +17,6 @@ const tagColors = {
 };
 
 import { MdChevronRight } from "react-icons/md";
-
-// ### TODO Fix label to have space, rewrite atom for this component
 
 const ClientItemCard = ({ data }) => {
   return (
@@ -64,11 +58,9 @@ const ClientItemCard = ({ data }) => {
                 <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
                 <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
               </AvatarGroup>
-              
             </div>
           </div>
         </CardBody>
-
       </Card>
       <Button className="bg-transparent w-1/12 h-32 ">
         <MdChevronRight size={32} />

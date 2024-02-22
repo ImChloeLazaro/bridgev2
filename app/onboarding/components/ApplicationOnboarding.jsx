@@ -78,26 +78,35 @@ const ApplicationOnboarding = ({ viewOnly }) => {
 
   const application_details = (
     <>
+      <div className="flex flex-wrap gap-5 mb-5">
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"FIRST NAME"}
+          value={firstName}
+          onValueChange={setFirstName}
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"LAST NAME"}
+          value={lastName}
+          onValueChange={setLastName}
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"MIDDLE NAME (if None type N/A)"}
+          value={middleName}
+          onValueChange={setMiddleName}
+          isRequired={false}
+        />
+      </div>
       <OnboardingFieldInput
         isDisabled={viewOnly}
-        label={"FIRST NAME"}
-        value={firstName}
-        onValueChange={setFirstName}
+        label={"EMPLOYEE ID"}
+        value={employeeID}
+        onValueChange={setEmployeeID}
         isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"LAST NAME"}
-        value={lastName}
-        onValueChange={setLastName}
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"MIDDLE NAME (if None type N/A)"}
-        value={middleName}
-        onValueChange={setMiddleName}
-        isRequired={false}
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}
@@ -141,13 +150,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         onValueChange={setSalary}
         isRequired={true}
       />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"EMPLOYEE ID"}
-        value={employeeID}
-        onValueChange={setEmployeeID}
-        isRequired={true}
-      />
+      
     </>
   );
 

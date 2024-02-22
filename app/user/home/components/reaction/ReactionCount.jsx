@@ -17,7 +17,7 @@ const ReactionCount = ({ data }) => {
   };
 
   const filteredReactions = Object.keys(data).filter(
-    (reaction) => data[reaction] != 0
+    (reaction) => data[`${reaction}`] >= 1
   );
 
   const plural = {
@@ -36,28 +36,29 @@ const ReactionCount = ({ data }) => {
 
   return (
     <Link className="flex justify-start items-center isolate relative">
-      {filteredReactions.map((reaction, index) => {
-        const icon = reactionIcons[`${reaction}`].label;
-        const count = data[`${reaction}`];
+      {filteredReactions?.length &&
+        filteredReactions.map((reaction, index) => {
+          const icon = reactionIcons[`${reaction}`].label;
+          const count = data[`${reaction}`];
 
-        return (
-          <Tooltip
-            key={index}
-            delay={1500}
-            content={
-              <div className="font-medium text-xs text-black-default">
-                {count > 1
-                  ? `${count} ${plural[icon.toLowerCase()]}`
-                  : `${count} ${singular[icon.toLowerCase()]}`}
+          return (
+            <Tooltip
+              key={index}
+              delay={1500}
+              content={
+                <div className="font-medium text-xs text-black-default">
+                  {count > 1
+                    ? `${count} ${plural[icon.toLowerCase()]}`
+                    : `${count} ${singular[icon.toLowerCase()]}`}
+                </div>
+              }
+            >
+              <div className={`${reactionStack[index]}`}>
+                {reactionIcons[`${reaction}`].badge}
               </div>
-            }
-          >
-            <div className={`${reactionStack[index]}`}>
-              {reactionIcons[`${reaction}`].badge}
-            </div>
-          </Tooltip>
-        );
-      })}
+            </Tooltip>
+          );
+        })}
 
       <p className="ml-2 font-bold text-darkgrey-default">
         {handleReactionCount(data)}

@@ -1,10 +1,11 @@
 import { Button } from "@nextui-org/react";
 import { useSetAtom } from "jotai";
-import { postAtom } from "../../store/PostStore";
+import { updatePostAtom } from "../../store/PostStore";
 import { reactionIcons } from "./ReactionIcons";
 
 const ReactionButton = ({ id, data, reacted }) => {
-  const setPost = useSetAtom(postAtom);
+  const setReacted = useSetAtom(updatePostAtom);
+
   const label = {
     love: { label: "love", color: "font-semibold text-[#FF4949] capitalize" },
     star: {
@@ -21,8 +22,8 @@ const ReactionButton = ({ id, data, reacted }) => {
     },
   };
 
-  const handleAddReaction = (post_id) => {
-    setPost((prev) => {
+  const handleAddReaction = (reaction) => {
+    setReacted((prev) => {
       return prev.map((post) => {
         if (id === post.id) {
           if (reacted) {
@@ -31,7 +32,7 @@ const ReactionButton = ({ id, data, reacted }) => {
               reacted: !reacted,
               reactions: {
                 ...post.reactions,
-                [post_id]: (post.reactions[post_id] -= 1),
+                [reaction]: (post.reactions[reaction] -= 1),
               },
             };
           } else {
@@ -40,7 +41,7 @@ const ReactionButton = ({ id, data, reacted }) => {
               reacted: !reacted,
               reactions: {
                 ...post.reactions,
-                [post_id]: (post.reactions[post_id] += 1),
+                [reaction]: (post.reactions[reaction] += 1),
               },
             };
           }

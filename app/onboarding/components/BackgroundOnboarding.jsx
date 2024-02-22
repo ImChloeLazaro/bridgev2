@@ -1,18 +1,9 @@
-import { selectedTabAtom } from "../store/OnboardingStore";
-
-import { fatherAtom, motherAtom, childrenAtom } from "../store/OnboardingStore";
-
-import {
-  highschoolAtom,
-  collegeAtom,
-  postGraduateAtom,
-  techVocSpecialAtom,
-} from "../store/OnboardingStore";
+import { childrenAtom, collegeAtom, fatherAtom, motherAtom, postGraduateAtom, selectedTabAtom, techVocSpecialAtom } from "../store/OnboardingStore";
 
 import { examinationTakenAtom } from "../store/OnboardingStore";
 
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 import { useAtom, useAtomValue } from "jotai";
+import OnboardingFieldInput from "../../components/OnboardingFieldInput";
 
 const BackgroundOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
@@ -424,7 +415,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
   const examination_taken = (
     <>
       {examinationTaken.map((exam, e_index) => (
-        <div key={"exam" + e_index} className="flex flex-col gap-5">
+        <div key={"exam" + e_index} className="flex flex-wrap gap-5 mb-5">
           <OnboardingFieldInput
             isDisabled={viewOnly}
             key={"government_association" + e_index}

@@ -6,17 +6,17 @@
 
 * Initial Commit
 
-## v.0.1.1
+## v.0.2.0
 
-* Installed NextJS v14.0.4 as its framework
-* Installed tailwind css v3.3.0
+* Installed NextJS `^14.0.4` as its framework
+* Installed tailwind css `^3.3.0`
 * Configured tailwind css to match Bridge's color palette
 * Configured framework and components to match prototype's style in Figma
 * Implemented Cognito Authentication for `backend` and `frontend`
 * Added `Authenticator` Component from Amplify UI to test Cognito Authentication
 * Fixed Reference Error `_window_` being accessed on the server
 
-## v.0.2.0
+## v.0.3.0
 
 * Added `Login` Page
 * Added `Sidebar` and `NavigationBar` Component
@@ -27,7 +27,7 @@
 * Configured backend resources for Bridge
 * Configured redirect URLs for sign-in and sign-out
 
-## v.0.3.0
+## v.0.3.0 - hotfix
 
 * Added Notifications Component
 * Fixed Shortcuts to only scroll when overflowing
@@ -49,7 +49,9 @@
 
 ## v.0.3.3
 
-* Added @dndkit for draggable Components
+* Added @dndkit/core latest `^6.1.0` for draggable Components
+* Added @dndkit/modifiers latest `^7.0.0` for draggable Components
+* Added @dndkit/sortable latest `^8.0.0` for draggable Components
 * Shortcuts are now draggable and sortable powered by @dndkit
 * Added jotai-core and jotai-cache for global and local state management
 * Added `store` folders for each component
@@ -117,7 +119,8 @@ link: String,
 
 * Reverted merge
 * Separated frontend and backend for deployment
-* Added @jotai/optics for large and nested object manipulation
+* Added @jotai/optics latest `^0.3.1` for large and nested object manipulation
+* Added @optics-ts latest `^2.4.1` for large and nested object manipulation
 * Added `store` folder in each major component and each page for managing its various state
 * Added functionality of onboarding form - storing data
   * Note: Only `Background` section not yet done in onboarding form Component
@@ -125,6 +128,7 @@ link: String,
 ## v.0.4.3
 
 * Removed @jotai/optics due to `ReferenceError` during runtime
+* Removed @optics-ts due to `ReferenceError` during runtime
 * Finished all functionality of onboarding form
 
 ## v.0.4.4
@@ -144,7 +148,7 @@ link: String,
 
 ## v.0.4.5
 
-* Added @date-fns for datetime manipulation
+* Added @date-fns latest `^3.3.1` for datetime manipulation
 * Added Recognitions Component
 * Added HR Bulletin Board Component
 
@@ -175,7 +179,7 @@ link: String,
 * Organized Project Structure
 * Updated Paths for All Components
 * Disabled for now backend functions due to build configuration error
-* Updated @tailwindcss to latest v3.4.1
+* Updated @tailwindcss to latest `^3.4.1`
 * Added Media Layout Component
 * Reverted middleware
 
@@ -184,7 +188,7 @@ link: String,
 * `frontend` and `backend` separated and started from scratch due to build error in deployment
 * Still disabled for now backend functions due to build configuration error (commented backend functions)
 * Created and Downloaded backups of repos for `bridge-official` and `bridge-frontend`
-* Added @swiper for image carousel/gallery
+* Added @swiper latest `^11.0.5` for image carousel/gallery
 * Updated Media Layout Component to view the rest of the images via modal window
 * Synced `bridge-frontend` repo to latest changes
 * Checked and Fixed paths for Components
@@ -616,7 +620,7 @@ postsAtom = atom({
 })
 ```
 
-## v.0.5.15
+## v.0.6.0
 
 * Added `viewOnly` prop to `UserOnboardingModal` Component for browsing of onboarding details in `profile` page
 * Added `CMS` Components for `CMS` page
@@ -631,3 +635,35 @@ postsAtom = atom({
 * Added `label` type and `tag` type variation for `LabelTagChip` Component
 * Added `dot` variant for `tag` type in `LabelTagChip` Component
 * Added `search` type and `filter` type variation for `SearchBar` Component
+
+## v.0.6.1
+
+* Fixed issue on `ReactButton` Component not updating reaction count and throws an error
+* Added validation to `ReactButton` Component to check empty or null value for `reactionList` attribute
+* Fixed issue on `PostStore` rendering default/ initial data for `postAtom` before updating to the fetched data from API call
+* Removed default/initial data for `postAtom` from `PostStore`
+* Fixed issue on `PostHeader` Component not displaying the `user` picture from `user` data
+* Renamed attribute from `picture` to `publisherPicture` to display `user` data on `PostHeader` Component
+* Added `status` attribute for `posts` to optimize filtering `posts` by `status` when rendering to `frontend`
+* Moved `postTemplateItemsAtom` from `PostTemplateStore` to `ManagePostStore` due to minimal usage of `PostTemplateStore`
+* Removed `PostTemplateStore`
+* Updated utility functions for `draftPostListAtom`, `publishedPostListAtom`, and `archivedPostListAtom` in `ManagePostStore`
+
+## v.0.6.2
+
+* Added middleware for route protection (stable)
+* Updated `node_modules` to latest
+* Updated @aws-amplify/adapter-nextjs from `^6.0.13` to `^6.0.16`
+* Updated @aws-amplify from `^1.0.13` to `^1.0.16`
+* Removed @jotai/optics
+* Removed @optics-ts
+* Implemented File Upload Functionality on `ManagePostSidebarContent` for uploading media
+* Fixed reactions not rendering properly and not updating when reacting
+* Updated maintenance image on `UnderConstruction` Component to have no watermarks
+* Fixed scrolling behavior for `MainContent` and `SideBar` Component
+* Scrolling behavior for `MainContent` and `SideBar` Component now scrolls separately
+* `MainContent` scrolling behavior now scrolls with the main scrollbar without affecting `RightBar` Component
+* `RightBar` scrolling behavior now scrolls with its own hidden scrollbar
+* Added `TODO` `docs` for centralize listing of `TODO`s
+* Rewrite role selection in `SwitchRoles` Component
+* Adjusted `OnboardingFieldInput` Component for employee ID to be on top

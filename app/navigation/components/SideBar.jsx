@@ -1,24 +1,29 @@
 import { Link } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect } from "react";
 import { Menu, MenuItem, Sidebar, menuClasses } from "react-pro-sidebar";
+import {
+  activeRouteAtom,
+  fetchRoleAtom,
+  selectedRoleAtom,
+} from "../store/NavSideBarStore";
 import {
   routesAdmin,
   routesHR,
   routesTeamLead,
   routesUser,
 } from "./RoutesIconDetails";
-
 import Shortcuts from "./shortcuts/Shortcuts";
 import SideBarHeader from "./sidebar/SideBarHeader";
 
-import { useAtom, useAtomValue } from "jotai";
-
-import { activeRouteAtom, roleAtom } from "../store/NavSideBarStore";
-
 const SideBar = () => {
-  // ### TODO Fix active state of navigation when clicked
+  const fetchRole = useSetAtom(fetchRoleAtom);
+  useEffect(() => {
+    fetchRole();
+  }, [fetchRole]);
 
   const [isActive, setIsActive] = useAtom(activeRouteAtom);
-  const role = useAtomValue(roleAtom);
+  const role = useAtomValue(selectedRoleAtom);
 
   console.log("ROLE IN SIDEBAR: ", role);
 
@@ -36,14 +41,13 @@ const SideBar = () => {
     console.log("After Active");
     console.log(isActive);
   };
-  const routes =
-    role == "admin"
-      ? routesAdmin
-      : role == "hr"
-      ? routesHR
-      : role == "tl"
-      ? routesTeamLead
-      : role == "user" && routesUser;
+  const routes = role.includes("admin")
+    ? routesAdmin
+    : role.includes("hr")
+    ? routesHR
+    : role.includes("tl")
+    ? routesTeamLead
+    : role.includes("user") && routesUser;
 
   return (
     <div className="sm:max-md:w-0 md:w-96 flex flex-col max-h-screen gap-12 bg-white-default ">

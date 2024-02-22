@@ -26,7 +26,7 @@ const ManagePostItemCard = ({ data }) => {
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
           name={
-            <p className="font-bold text-base">
+            <p className="font-bold text-base line-clamp-1 w-full max-w-56">
               {data.title?.length ? data.title : "NO TITLE"}
             </p>
           }
@@ -40,8 +40,18 @@ const ManagePostItemCard = ({ data }) => {
           className="mb-1"
         />
         <div className="flex gap-2">
-          <ChipTag text={data.team} color={"lightblue"} size={"xs"} isFilled={false}/>
-          <ChipTag text={data.type} color={"orange"} size={"xs"} isFilled={false}/>
+          <ChipTag
+            text={data.team}
+            color={"lightblue"}
+            size={"xs"}
+            isFilled={false}
+          />
+          <ChipTag
+            text={data.type}
+            color={"orange"}
+            size={"xs"}
+            isFilled={false}
+          />
         </div>
       </CardHeader>
 

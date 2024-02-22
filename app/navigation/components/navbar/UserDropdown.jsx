@@ -11,7 +11,7 @@ import { useAtomValue } from "jotai";
 import "../../../aws-auth";
 import { userAtom } from "../../../store/UserStore";
 import { isVisibleJobTitleAtom } from "../../../user/profile/store/ProfileStore";
-import { SwitchRoles } from "./SwitchRoles";
+import SwitchRoles from "./SwitchRoles";
 
 async function handleSignOut() {
   try {

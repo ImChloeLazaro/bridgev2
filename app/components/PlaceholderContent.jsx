@@ -6,10 +6,10 @@ import {
   routesTeamLead,
   routesUser,
 } from "../navigation/components/RoutesIconDetails";
-import { roleAtom } from "../navigation/store/NavSideBarStore";
+import { selectedRoleAtom } from "../navigation/store/NavSideBarStore";
 
 const PlaceholderContent = () => {
-  const [role] = useAtom(roleAtom);
+  const [role] = useAtom(selectedRoleAtom);
   const routes =
     role == "admin"
       ? routesAdmin

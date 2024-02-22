@@ -52,16 +52,18 @@ const PostHeader = ({ data }) => {
           description={
             <>
               <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
-                {"Aretex A-Team"}
+                {data.team}
               </Link>
               <Link
                 // underline="hover"
                 className="text-xs font-medium text-darkgrey-hover hover:text-darkgrey-default leading-5 cursor-pointer"
-              >{`${handlePostDatetime(data.datetimePublished)}`}</Link>
+              >{`${handlePostDatetime(
+                data.datetimePublished ?? new Date()
+              )}`}</Link>
             </>
           }
           avatarProps={{
-            src: data.picture,
+            src: data.publisherPicture,
             // size: "lg",
             className: "w-16 h-16 text-large",
           }}

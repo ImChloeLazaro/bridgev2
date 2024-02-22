@@ -1,16 +1,16 @@
 import {
-    Tab,
-    Tabs
+  Tab,
+  Tabs
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import {
-    activeStepAtom,
-    applicationTabsAtom,
-    backgroundTabsAtom,
-    contactTabsAtom,
-    employmentTabsAtom,
-    selectedTabAtom,
+  activeStepAtom,
+  applicationTabsAtom,
+  backgroundTabsAtom,
+  contactTabsAtom,
+  employmentTabsAtom,
+  selectedTabAtom,
 } from "../store/OnboardingStore";
 import ApplicationOnboarding from "./ApplicationOnboarding";
 import BackgroundOnboarding from "./BackgroundOnboarding";

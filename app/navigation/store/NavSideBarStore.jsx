@@ -1,6 +1,14 @@
+import { userAtom } from "@/app/store/UserStore";
 import { atom } from "jotai";
 
-export const roleAtom = atom("user");
+export const roleAtom = atom([]);
+export const fetchRoleAtom = atom(null, async (get, set) => {
+  const user = await get(userAtom);
+  set(roleAtom, user.role);
+});
+
+export const selectedRoleAtom = atom(["user"]);
+
 export const userRolesAtom = atom(["hr", "tl", "admin"]);
 
 // ### TODO active state of routes
@@ -15,7 +23,7 @@ export const userRolesAtom = atom(["hr", "tl", "admin"]);
 export const activeRouteAtom = atom({
   home: true,
   profile: false,
-  dashboard: false,
+  dashboard: false, 
   cms: false,
   empower: false,
 });

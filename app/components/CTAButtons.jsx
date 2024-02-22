@@ -1,8 +1,5 @@
 import { Button, cn } from "@nextui-org/react";
 
-// ### TODO Add filled and unfilled type variant same as LabelTag Component
-// ### TODO Add IconOnly or maybe a separate component
-
 const CTAButtons = ({ label, color, className, ...props }) => {
   const colors = {
     red: "bg-red-default text-white-default",

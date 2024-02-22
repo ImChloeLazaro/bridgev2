@@ -1,6 +1,48 @@
+import { restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
+import { BiNews } from "react-icons/bi";
+import { FaMedal } from "react-icons/fa6";
+import { MdCake, MdCalendarMonth, MdForum, MdGroups2 } from "react-icons/md";
 import { reactionIcons } from "../components/reaction/ReactionIcons";
-import { userAtom } from "@/app/store/UserStore";
+
+const iconSize = 20;
+export const postTemplateItemsAtom = atom([
+  {
+    key: "choose",
+    label: "Choose a Template",
+    icon: <FaMedal size={iconSize} />,
+  },
+  {
+    key: "award",
+    label: "Award",
+    icon: <FaMedal size={iconSize} />,
+  },
+  {
+    key: "birthday",
+    label: "Birthday",
+    icon: <MdCake size={iconSize} />,
+  },
+  {
+    key: "events",
+    label: "Events",
+    icon: <MdCalendarMonth size={iconSize} />,
+  },
+  {
+    key: "feedback",
+    label: "Feedback",
+    icon: <MdForum size={iconSize} />,
+  },
+  {
+    key: "news",
+    label: "News",
+    icon: <BiNews size={iconSize} />,
+  },
+  {
+    key: "team",
+    label: "Team",
+    icon: <MdGroups2 size={iconSize} />,
+  },
+]);
 
 let templateIndex = 0;
 export const templateTypeSelectionAtom = atom([
@@ -48,30 +90,31 @@ export const selectedTemplateTypeAtom = atom(new Set(["custom"]));
 
 export const templateNameAtom = atom("");
 
+let reactionIndex = 0;
 export const reactionsSelectionAtom = atom([
   {
-    id: 1,
+    id: (reactionIndex += 1),
     key: "love",
     label: "Love",
     selectIcon: reactionIcons.love.badge,
     displayIcon: reactionIcons.love.borderBadge,
   },
   {
-    id: 2,
+    id: (reactionIndex += 1),
     key: "birthday",
     label: "Birthday",
     selectIcon: reactionIcons.birthday.badge,
     displayIcon: reactionIcons.birthday.borderBadge,
   },
   {
-    id: 3,
+    id: (reactionIndex += 1),
     key: "star",
     label: "Star",
     selectIcon: reactionIcons.star.badge,
     displayIcon: reactionIcons.star.borderBadge,
   },
   {
-    id: 4,
+    id: (reactionIndex += 1),
     key: "happy",
     label: "Happy",
     selectIcon: reactionIcons.happy.badge,
@@ -110,11 +153,7 @@ export const mediaOrientationSelectionAtom = atom([
 ]);
 export const selectedMediaOrientationAtom = atom(new Set([]));
 
-export const mediaFileListAtom = atom([
-  "/Kaylynn Bergson.png",
-  "/Kaylynn Bergson.png",
-  "/Kaylynn Bergson.png",
-]);
+export const mediaFileListAtom = atom([]);
 
 export const postTitleAtom = atom("");
 
@@ -269,7 +308,7 @@ export const postTemplatesAtom = atom([
     name: "News",
     type: "news",
     reactionList: ["love"],
-    media: null,
+    media: [],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "ATTENTION A-FAMILY!!!",
@@ -281,7 +320,7 @@ export const postTemplatesAtom = atom([
     name: "Team",
     type: "team",
     reactionList: ["happy"],
-    media: undefined,
+    media: [],
     mediaLayout: ["multiple"],
     orientation: ["landscape"],
     title: "NEW TEAM MEMBERS",
@@ -298,8 +337,18 @@ export const postTemplatesCountAtom = atom(
 export const draftPostListAtom = atom([]);
 
 export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
-export const addDraftPostAtom = atom(null, (get, set, update) => { });
+export const addDraftPostAtom = atom(null, (get, set, update) => {
+  set(draftPostListAtom, update);
+  console.log("ADDED DRAFT", get(draftPostListAtom));
+ });
 export const selectedDraftPostAtom = atom([]);
+
+export const fetchPostAtom = atom(null, async (get, set) => {
+  const posts = await restread("/post");
+  console.log("POSTS DATA", posts);
+
+  set(draftPostListAtom, posts.response)
+});
 
 // LIST FOR PUBLISHED POSTS
 export const publishedPostListAtom = atom([]);
@@ -307,7 +356,10 @@ export const publishedPostListAtom = atom([]);
 export const publishedPostCountAtom = atom(
   (get) => get(publishedPostListAtom).length
 );
-export const addPublishPostAtom = atom(null, (get, set, update) => { });
+export const addPublishPostAtom = atom(null, (get, set, update) => {
+  set(publishedPostListAtom, update);
+  console.log("ADDED PUBLISH", get(publishedPostListAtom));
+ });
 export const selectedPublishPostAtom = atom([]);
 
 // LIST FOR ARCHIVED POSTS
@@ -316,7 +368,10 @@ export const archivedPostListAtom = atom([]);
 export const archivedPostCountAtom = atom(
   (get) => get(archivedPostListAtom).length
 );
-export const addArchivePostAtom = atom(null, (get, set, update) => { });
+export const addArchivePostAtom = atom(null, (get, set, update) => {
+  set(archivedPostListAtom, update);
+  console.log("ADDED ARCHIVE", get(archivedPostListAtom));
+ });
 export const selectedArchivePostAtom = atom([]);
 
 export const postStatusTabsAtom = atom((get) => [
@@ -370,3 +425,8 @@ export const filterKeysAtom = atom([
 ]);
 
 export const selectedFilterKeysAtom = atom(new Set(["all"]));
+
+export const fileListAtom = atom(undefined)
+export const fileUrlListAtom = atom(undefined)
+
+export const previewMediaListAtom = atom(undefined)

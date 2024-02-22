@@ -32,7 +32,7 @@ const NotificationsDropdown = () => {
       content={unreadCount.all}
       shape="circle"
       isInvisible={unreadCount.all === 0}
-      className=""
+      className="animate-pulse"
     >
       <Popover
         placement="bottom-end"

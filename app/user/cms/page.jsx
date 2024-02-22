@@ -1,11 +1,8 @@
 "use client";
-import MainContent from "@/app/components/MainContent";
-import RightBar from "@/app/components/RightBar";
-import RightBarCard from "@/app/components/RightBarCard";
-import { withAuthenticator } from "@aws-amplify/ui-react";
-import ClientList from "./components/ClientList";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { withAuthenticator } from "@aws-amplify/ui-react";
+import { useAtomValue } from "jotai";
+import ClientList from "./components/ClientList";
 
 const CMS = () => {
   const auth = useAtomValue(authenticationAtom);

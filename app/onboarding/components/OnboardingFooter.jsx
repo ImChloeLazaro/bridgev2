@@ -1,5 +1,4 @@
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { post, put } from "aws-amplify/api";
 import "../../aws-auth";
 import CTAButtons from "../../components/CTAButtons";
 

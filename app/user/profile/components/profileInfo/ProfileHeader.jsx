@@ -35,14 +35,14 @@ const ProfileHeader = ({ data }) => {
 
       <div className="w-full px-16 -mt-[10rem] flex justify-between items-center">
         {/* PROFILE PHOTO */}
-        <div className="flex px-1 items-center relative z-20 ">
+        <div className="flex gap-3 px-1 items-center relative z-20 ">
           <div className="flex">
             <div className="relative z-20 ">
               <Avatar
                 // as={Button}
                 // onPress={()=>{console.log("AVATAR CHANGE PROFILE PICTURE")}}
                 // radius="full"
-                src={data?.profileURL}
+                src={data?.picture}
                 classNames={{
                   base: "data-[hover=true]:bg-darkgrey-default w-[140px] h-[140px] text-large border-8 border-white-default ",
                   img: "data-[hover=true]:bg-darkgrey-default",
