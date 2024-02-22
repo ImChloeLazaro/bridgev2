@@ -19,7 +19,8 @@ export const insertwithparams = async (path, query, request) => {
   } catch (error) {
     console.log(error);
   }
-};
+}
+
 export const restinsert = async (path, request) => {
   try {
     const insertOperation = post({

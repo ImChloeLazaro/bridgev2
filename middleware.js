@@ -22,8 +22,6 @@ async function middleware(request) {
   if (authenticated && request.nextUrl.pathname === "/") {
     return NextResponse.redirect(new URL("/user", request.nextUrl));
   }
-
-  //   return NextResponse.redirect(new URL('/', request.url));
 }
 
 const config = {
