@@ -117,19 +117,6 @@
           "delete"
         ]
       }
-    },
-    "/post-template": {
-      "name": "/post-template",
-      "lambdaFunction": "posttemplatehandler",
-      "permissions": {
-        "setting": "private",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
     }
   }
 }

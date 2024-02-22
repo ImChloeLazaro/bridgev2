@@ -73,14 +73,6 @@
           ],
           "category": "function",
           "resourceName": "teamhandler"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "posttemplatehandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -144,12 +136,6 @@
     },
     "posthandler": {
       "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "posttemplatehandler": {
-      "build": true,
-      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
