@@ -78,7 +78,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
 
   const application_details = (
     <>
-      <div className="flex flex-wrap gap-5 mb-5">
+      <div className="flex flex-wrap justify-between gap-5 mb-5">
         <OnboardingFieldInput
           isDisabled={viewOnly}
           label={"FIRST NAME"}
@@ -110,13 +110,6 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}
-        label={"VACANCY THRU"}
-        value={vacancyThru}
-        onValueChange={setVacancyThru}
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
         label={"REFERRED BY (if referrals)"}
         value={referredBy}
         onValueChange={setReferredBy}
@@ -124,16 +117,9 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}
-        label={"DATE OF APPLICATION"}
-        value={dateApplication}
-        onValueChange={setDateApplication}
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"DATE OF AVAILABILITY"}
-        value={dateAvailability}
-        onValueChange={setDateAvailability}
+        label={"VACANCY THRU"}
+        value={vacancyThru}
+        onValueChange={setVacancyThru}
         isRequired={true}
       />
       <OnboardingFieldInput
@@ -145,12 +131,31 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}
+        label={"DATE OF APPLICATION"}
+        value={dateApplication}
+        onValueChange={setDateApplication}
+        isRequired={true}
+        withDate={true}
+        date={dateApplication}
+        onDateChange={setDateApplication}
+      />
+      <OnboardingFieldInput
+        isDisabled={viewOnly}
+        label={"DATE OF AVAILABILITY"}
+        value={dateAvailability}
+        onValueChange={setDateAvailability}
+        isRequired={true}
+        withDate={true}
+        date={dateAvailability}
+        onDateChange={setDateAvailability}
+      />
+      <OnboardingFieldInput
+        isDisabled={viewOnly}
         label={"EXPECTED SALARY"}
         value={salary}
         onValueChange={setSalary}
         isRequired={true}
       />
-      
     </>
   );
 
@@ -186,10 +191,13 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}
-        label={"BIRTHDATE: (mm/dd/yyyy)"}
+        label={"BIRTHDATE"}
         value={birthdate}
         onValueChange={setBirthdate}
         isRequired={true}
+        withDate={true}
+        date={birthdate}
+        onDateChange={setBirthdate}
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}

@@ -1,4 +1,5 @@
 import { Input } from "@nextui-org/react";
+import { DatePicker } from "./DatePicker";
 
 const OnboardingFieldInput = ({
   label,
@@ -6,9 +7,13 @@ const OnboardingFieldInput = ({
   onValueChange,
   isRequired,
   isDisabled,
+  withDate = false,
+  date,
+  onDateChange,
 }) => {
   return (
     <Input
+      aria-label={label}
       isDisabled={isDisabled}
       isRequired={isRequired}
       size="md"
@@ -31,6 +36,9 @@ const OnboardingFieldInput = ({
         inputWrapper: ["font-medium", "text-black-default/90", "text-sm"],
         errorMessage: ["text-red-default"],
       }}
+      endContent={
+        withDate && <DatePicker date={date} onDateChange={onDateChange} />
+      }
     />
   );
 };

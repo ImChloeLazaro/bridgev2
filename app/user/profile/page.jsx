@@ -21,7 +21,7 @@ import UserOnboardingContent from "./components/userOnboarding/UserOnboardingCon
 import { profileAtom } from "./store/ProfileStore";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 const Profile = () => {
-  const recruitment = useAtomValue(recruitmentStatusAtom);
+  // const recruitment = useAtomValue(recruitmentStatusAtom);
   const auth = useAtomValue(authenticationAtom);
   const profile = useAtomValue(profileAtom);
 
@@ -29,7 +29,7 @@ const Profile = () => {
     auth.isAuthenticated && (
       <>
         <MainContent>
-          <ProfileCard data={recruitment} />
+          <ProfileCard data={profile} />
         </MainContent>
         <RightBar>
           {/* LEAVE BALANCE */}

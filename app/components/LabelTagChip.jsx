@@ -1,5 +1,5 @@
 import { Chip, cn } from "@nextui-org/react";
-const ChipTag = ({
+const LabelTagChip = ({
   text,
   color,
   type = "label",
@@ -110,4 +110,4 @@ const ChipTag = ({
   );
 };
 
-export default ChipTag;
+export default LabelTagChip;

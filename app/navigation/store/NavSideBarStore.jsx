@@ -11,19 +11,38 @@ export const selectedRoleAtom = atom(["user"]);
 
 export const userRolesAtom = atom(["hr", "tl", "admin"]);
 
-// ### TODO active state of routes
-// const [isActive, setIsActive] = useState({
-//     user: true,
-//     profile: false,
-//     dashboard: false,
-//     cms: false,
-//     empower: false,
-//   });
-
-export const activeRouteAtom = atom({
+export const activeUserRouteAtom = atom({
   home: true,
   profile: false,
-  dashboard: false, 
+  dashboard: false,
   cms: false,
   empower: false,
+});
+
+export const activeAdminRouteAtom = atom({
+  admin: true,
+  team: false,
+  clients: false,
+  appraisals: false,
+  roles: false,
+  help_desk: false,
+});
+
+export const activeTLRouteAtom = atom({
+  team_lead: true,
+  cms: false,
+  team: false,
+  schedule: false,
+  appraisals: false,
+});
+
+export const activeHRRouteAtom = atom({
+  hr: true,
+  pre_employment: false,
+  onboarding: false,
+  team_endorse: false,
+  employees: false,
+  benefits: false,
+  leaves: false,
+  offboarding: false,
 });

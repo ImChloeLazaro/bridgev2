@@ -205,14 +205,15 @@ const ManagePostMainContent = ({ onClose }) => {
       );
 
       console.log("toBeDeletedPost", toBeDeletedPost);
-      await Promise.all(
-        toBeDeletedPost.map(async (post) => {
-          console.log("TO BE DELETED POST", post._id);
-          console.log("TO BE DELETED POST TYPE", typeof post);
-          let response = await restdestroy("/post", post);
-          console.log("DELETE RESPONSE", response);
-        })
-      );
+      // await Promise.all(
+      //   toBeDeletedPost.map(async (post) => {
+      //     console.log("TO BE DELETED POST", post);
+      //     console.log("TO BE DELETED POST TYPE", typeof post);
+      //     let response = await restdestroy("/post", post);
+      //     console.log("DELETE RESPONSE", response);
+      //   })
+      // );
+      await restdestroy("/post", { _id: "65d2ee9368a1cbe24b43d92d" });
     }
 
     if (selectedPostStatusString === "published") {

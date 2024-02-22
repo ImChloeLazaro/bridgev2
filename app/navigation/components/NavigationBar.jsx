@@ -1,12 +1,10 @@
 import {
-  Image,
+  Link,
   Navbar,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarMenuToggle,
-  Link,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";

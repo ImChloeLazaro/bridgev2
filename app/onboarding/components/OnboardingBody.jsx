@@ -85,7 +85,7 @@ const OnboardingBody = ({viewOnly}) => {
           })}
         </Tabs>
       </div>
-      <div className="h-80 flex gap-y-6 px-6 mb-6 overflow-y-scroll no-scrollbar">
+      <div className="h-80 flex gap-y-6 px-6 mb-6 overflow-y-scroll">
         {onboardingContent[activeStep]}
       </div>
     </>

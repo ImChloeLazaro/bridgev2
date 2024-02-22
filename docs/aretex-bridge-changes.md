@@ -9,8 +9,8 @@
 ## v.0.2.0
 
 * Installed NextJS `^14.0.4` as its framework
-* Installed tailwind css `^3.3.0`
-* Configured tailwind css to match Bridge's color palette
+* Installed @tailwindcss latest `^3.3.0`
+* Configured @tailwindcss to match Bridge's color palette
 * Configured framework and components to match prototype's style in Figma
 * Implemented Cognito Authentication for `backend` and `frontend`
 * Added `Authenticator` Component from Amplify UI to test Cognito Authentication
@@ -667,3 +667,24 @@ postsAtom = atom({
 * Added `TODO` `docs` for centralize listing of `TODO`s
 * Rewrite role selection in `SwitchRoles` Component
 * Adjusted `OnboardingFieldInput` Component for employee ID to be on top
+
+## v.0.6.3
+
+* Changed named export from `ChipTag` to `LabelTagChip`to match its filename
+* Moved `recruitmentStatusAtom` from `UserStore` move to `profileStore`
+* Added Active state of Routes in `NavSideBarStore`
+* Added @shadcn/ui latest `^0.8.0`
+
+* Added dependencies for @shadcn/ui:
+  * @radix-ui/react-popover latest `^1.0.7`
+  * @radix-ui/react-slot latest `^1.0.2`
+  * @class-variance-authority latest `^0.7.0`
+  * @clsx latest `^2.1.0`
+  * @lucide-react latest `^0.336.0`
+  * @react-day-picker latest `^8.10.0`
+
+* Configured @shadcn/ui to work with the project
+* Merged changes from @shadcn/ui to `tailwind.config.js` and `globals.css` in order to properly work with existing tailwind configuration
+* @shadcn/ui added `components` folder for storing components from this library
+* Added `DatePicker` Component
+* 

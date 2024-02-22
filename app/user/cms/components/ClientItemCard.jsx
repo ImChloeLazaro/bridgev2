@@ -1,4 +1,4 @@
-import ChipTag from "@/app/components/LabelTagChip";
+import LabelTagChip from "@/app/components/LabelTagChip";
 import {
   Avatar,
   AvatarGroup,
@@ -36,7 +36,7 @@ const ClientItemCard = ({ data }) => {
             </div>
             <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
               {Object.keys(data.status).map((status, s_index) => (
-                <ChipTag
+                <LabelTagChip
                   key={s_index}
                   text={`${status}`}
                   color={tagColors[status]}

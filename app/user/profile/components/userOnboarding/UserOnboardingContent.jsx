@@ -2,9 +2,10 @@ import { format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../../../store/UserStore";
 import UserOnboardingModal from "./UserOnboardingModal";
+import { onboardingStatusAtom } from "../../store/ProfileStore";
 
 const UserOnboardingContent = () => {
-  const user = useAtomValue(userAtom);
+  const profile = useAtomValue(onboardingStatusAtom);
 
   return (
     <div className="flex items-center justify-between p-2">

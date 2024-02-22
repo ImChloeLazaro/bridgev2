@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { leaveStatusAtom } from "../../../../store/UserStore";
+import { leaveStatusAtom } from "../../store/ProfileStore";
 
 const LeaveBalanceContent = () => {
   const leave = useAtomValue(leaveStatusAtom);
@@ -12,7 +12,11 @@ const LeaveBalanceContent = () => {
             {"Vacation Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {leave.response !== null ? leave.response.VL_BALANCE : (<small className="text-red-600">No VL data</small>)} 
+            {leave.response !== null ? (
+              leave.response.VL_BALANCE
+            ) : (
+              <small className="text-red-600">No VL data</small>
+            )}
           </p>
         </div>
         <div className="flex">
@@ -20,7 +24,11 @@ const LeaveBalanceContent = () => {
             {"Sick Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-          {leave.response !== null ? leave.response.SL_BALANCE : (<small className="text-red-600">No SL data</small>)} 
+            {leave.response !== null ? (
+              leave.response.SL_BALANCE
+            ) : (
+              <small className="text-red-600">No SL data</small>
+            )}
           </p>
         </div>
       </div>

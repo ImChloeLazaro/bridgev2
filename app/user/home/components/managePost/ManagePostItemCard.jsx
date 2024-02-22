@@ -1,4 +1,4 @@
-import ChipTag from "@/app/components/LabelTagChip";
+import LabelTagChip from "@/app/components/LabelTagChip";
 import {
   Avatar,
   AvatarGroup,
@@ -40,13 +40,13 @@ const ManagePostItemCard = ({ data }) => {
           className="mb-1"
         />
         <div className="flex gap-2">
-          <ChipTag
+          <LabelTagChip
             text={data.team}
             color={"lightblue"}
             size={"xs"}
             isFilled={false}
           />
-          <ChipTag
+          <LabelTagChip
             text={data.type}
             color={"orange"}
             size={"xs"}

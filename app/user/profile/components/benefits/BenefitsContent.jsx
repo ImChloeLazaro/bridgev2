@@ -1,16 +1,14 @@
+import LabelTagChip from "@/app/components/LabelTagChip";
 import { useAtomValue } from "jotai";
-import { userAtom, benefitsStatusAtom } from "../../../../store/UserStore";
-import ChipTag from "@/app/components/LabelTagChip";
-
-// ### TODO Connect benefit backend function handler
+import { benefitsStatusAtom } from "../../store/ProfileStore";
 
 const BenefitsContent = () => {
-  const result = useAtomValue(benefitsStatusAtom);
+  const benefitsList = useAtomValue(benefitsStatusAtom);
   return (
     <div className="flex flex-col w-full gap-1">
-      {result.response !== null ? (
+      {benefitsList !== null ? (
         <>
-          {result.response.benefits.map((benefit, index) => {
+          {benefitsList.benefits.map((benefit, index) => {
             return (
               <div
                 key={index}
@@ -22,13 +20,13 @@ const BenefitsContent = () => {
                 <small className="text-base font-bold text-black-default w-2/6">
                   {benefit.number ?? "No Data Available"}
                 </small>
-                <ChipTag
+                <LabelTagChip
                   text={
                     benefit.status === "available" ? "Available" : "Unavailable"
                   }
                   color={benefit.status === "available" ? "green" : "red"}
                   size="sm"
-                ></ChipTag>
+                ></LabelTagChip>
               </div>
             );
           })}

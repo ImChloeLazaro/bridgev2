@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "paths": {
+    "/shortcut": {
+      "name": "/shortcut",
+      "lambdaFunction": "shortcuthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/post": {
+      "name": "/post",
+      "lambdaFunction": "posthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/profile": {
+      "name": "/profile",
+      "lambdaFunction": "profilehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/user": {
+      "name": "/user",
+      "lambdaFunction": "userhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/notification": {
+      "name": "/notification",
+      "lambdaFunction": "notificationhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/leave": {
+      "name": "/leave",
+      "lambdaFunction": "leavehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/benefits": {
+      "name": "/benefits",
+      "lambdaFunction": "benefithandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/recruitment": {
+      "name": "/recruitment",
+      "lambdaFunction": "recruitmenthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/teams": {
+      "name": "/teams",
+      "lambdaFunction": "teamhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/post-template": {
+      "name": "/post-template",
+      "lambdaFunction": "posttemplatehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}

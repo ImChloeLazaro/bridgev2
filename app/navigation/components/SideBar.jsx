@@ -3,7 +3,10 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { Menu, MenuItem, Sidebar, menuClasses } from "react-pro-sidebar";
 import {
-  activeRouteAtom,
+  activeAdminRouteAtom,
+  activeHRRouteAtom,
+  activeTLRouteAtom,
+  activeUserRouteAtom,
   fetchRoleAtom,
   selectedRoleAtom,
 } from "../store/NavSideBarStore";
@@ -22,25 +25,29 @@ const SideBar = () => {
     fetchRole();
   }, [fetchRole]);
 
-  const [isActive, setIsActive] = useAtom(activeRouteAtom);
+  const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
+  const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
+  const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
+  const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
+
   const role = useAtomValue(selectedRoleAtom);
 
-  console.log("ROLE IN SIDEBAR: ", role);
+  const activeRoutes = role.includes("admin")
+    ? activeAdminRoute
+    : role.includes("hr")
+    ? activeHRRoute
+    : role.includes("tl")
+    ? activeTLRoute
+    : role.includes("user") && activeUserRoute;
 
-  const handleSidebarButtonsActive = (sidebarKey) => {
-    console.log("Before Active");
-    console.log(isActive);
+  const setActiveRoutes = role.includes("admin")
+    ? setActiveAdminRoute
+    : role.includes("hr")
+    ? setActiveHRRoute
+    : role.includes("tl")
+    ? setActiveTLRoute
+    : role.includes("user") && setActiveUserRoute;
 
-    for (let key in isActive) {
-      if (key === sidebarKey) {
-        setIsActive((prev) => ({ ...prev, [key]: true }));
-      } else {
-        setIsActive((prev) => ({ ...prev, [key]: false }));
-      }
-    }
-    console.log("After Active");
-    console.log(isActive);
-  };
   const routes = role.includes("admin")
     ? routesAdmin
     : role.includes("hr")
@@ -48,6 +55,23 @@ const SideBar = () => {
     : role.includes("tl")
     ? routesTeamLead
     : role.includes("user") && routesUser;
+
+  console.log("ROLE IN SIDEBAR: ", role);
+  console.log("ROUTES STATUS: ", activeRoutes);
+
+  const handleSidebarButtonsActive = (sidebarKey) => {
+    for (let key in activeRoutes) {
+      if (key === sidebarKey) {
+        setActiveRoutes((prev) => {
+          return { ...prev, [key]: true };
+        });
+      } else {
+        setActiveRoutes((prev) => {
+          return { ...prev, [key]: false };
+        });
+      }
+    }
+  };
 
   return (
     <div className="sm:max-md:w-0 md:w-96 flex flex-col max-h-screen gap-12 bg-white-default ">
@@ -122,7 +146,7 @@ const SideBar = () => {
             routes.map((sidebarButtons) => (
               <MenuItem
                 key={sidebarButtons.key}
-                active={isActive[sidebarButtons.key]}
+                active={activeRoutes[sidebarButtons.key]}
                 icon={sidebarButtons.icon}
                 component={
                   <Link

@@ -6,7 +6,7 @@ import {
   format,
 } from "date-fns";
 import { useAtomValue } from "jotai";
-import ChipTag from "../../../../components/LabelTagChip";
+import LabelTagChip from "../../../../components/LabelTagChip";
 import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
 
 const HRBulletinBoardList = () => {
@@ -73,7 +73,7 @@ const HRBulletinBoardList = () => {
               <div className="flex w-full justify-between px-2">
                 <div className="flex flex-col">
                   <p className="font-extrabold text-lg">{hrBulletin.title}</p>
-                  <ChipTag
+                  <LabelTagChip
                     text={`New ${hrBulletin.type}`}
                     color={`${hrBulletin.color}`}
                     size={"xs"}

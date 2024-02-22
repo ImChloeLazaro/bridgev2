@@ -63,6 +63,9 @@ const EmploymentOnboarding = ({ viewOnly }) => {
           );
         }}
         isRequired={true}
+        // withDate={true}
+        // date={history.date_of_attendance}
+        // onDateChange={setEmploymentHistory}
       />
       <OnboardingFieldInput
         isDisabled={viewOnly}

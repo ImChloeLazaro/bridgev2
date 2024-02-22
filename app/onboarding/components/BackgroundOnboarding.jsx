@@ -1,4 +1,12 @@
-import { childrenAtom, collegeAtom, fatherAtom, motherAtom, postGraduateAtom, selectedTabAtom, techVocSpecialAtom } from "../store/OnboardingStore";
+import {
+  childrenAtom,
+  collegeAtom,
+  fatherAtom,
+  motherAtom,
+  postGraduateAtom,
+  selectedTabAtom,
+  techVocSpecialAtom,
+} from "../store/OnboardingStore";
 
 import { examinationTakenAtom } from "../store/OnboardingStore";
 
@@ -33,94 +41,100 @@ const BackgroundOnboarding = ({ viewOnly }) => {
 
   const family_background = (
     <>
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"FATHER'S NAME"}
-        value={father.name}
-        onValueChange={(text) =>
-          setFather((prev) => {
-            return { ...prev, name: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"AGE"}
-        value={father.age}
-        onValueChange={(text) =>
-          setFather((prev) => {
-            return { ...prev, age: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"OCCUPATION"}
-        value={father.occupation}
-        onValueChange={(text) =>
-          setFather((prev) => {
-            return { ...prev, occupation: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"COMPANY"}
-        value={father.company}
-        onValueChange={(text) =>
-          setFather((prev) => {
-            return { ...prev, company: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"MOTHER'S NAME"}
-        value={mother.name}
-        onValueChange={(text) =>
-          setMother((prev) => {
-            return { ...prev, name: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"AGE"}
-        value={mother.age}
-        onValueChange={(text) =>
-          setMother((prev) => {
-            return { ...prev, age: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"OCCUPATION"}
-        value={mother.occupation}
-        onValueChange={(text) =>
-          setMother((prev) => {
-            return { ...prev, occupation: text };
-          })
-        }
-        isRequired={true}
-      />
-      <OnboardingFieldInput
-        isDisabled={viewOnly}
-        label={"COMPANY"}
-        value={mother.company}
-        onValueChange={(text) =>
-          setMother((prev) => {
-            return { ...prev, company: text };
-          })
-        }
-        isRequired={true}
-      />
+      <div className="flex flex-col gap-5 mb-5">
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"FATHER'S NAME"}
+          value={father.name}
+          onValueChange={(text) =>
+            setFather((prev) => {
+              return { ...prev, name: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"AGE"}
+          value={father.age}
+          onValueChange={(text) =>
+            setFather((prev) => {
+              return { ...prev, age: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"OCCUPATION"}
+          value={father.occupation}
+          onValueChange={(text) =>
+            setFather((prev) => {
+              return { ...prev, occupation: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"COMPANY"}
+          value={father.company}
+          onValueChange={(text) =>
+            setFather((prev) => {
+              return { ...prev, company: text };
+            })
+          }
+          isRequired={true}
+        />
+      </div>
+
+      <div className="flex flex-col gap-5 mb-5">
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"MOTHER'S NAME"}
+          value={mother.name}
+          onValueChange={(text) =>
+            setMother((prev) => {
+              return { ...prev, name: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"AGE"}
+          value={mother.age}
+          onValueChange={(text) =>
+            setMother((prev) => {
+              return { ...prev, age: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"OCCUPATION"}
+          value={mother.occupation}
+          onValueChange={(text) =>
+            setMother((prev) => {
+              return { ...prev, occupation: text };
+            })
+          }
+          isRequired={true}
+        />
+        <OnboardingFieldInput
+          isDisabled={viewOnly}
+          label={"COMPANY"}
+          value={mother.company}
+          onValueChange={(text) =>
+            setMother((prev) => {
+              return { ...prev, company: text };
+            })
+          }
+          isRequired={true}
+        />
+      </div>
+
       {children.map((child, c_index) => (
         <div key={"child" + c_index} className="flex flex-col gap-5">
           <OnboardingFieldInput
@@ -415,7 +429,10 @@ const BackgroundOnboarding = ({ viewOnly }) => {
   const examination_taken = (
     <>
       {examinationTaken.map((exam, e_index) => (
-        <div key={"exam" + e_index} className="flex flex-wrap gap-5 mb-5">
+        <div
+          key={"exam" + e_index}
+          className="flex flex-wrap justify-between gap-5 mb-5"
+        >
           <OnboardingFieldInput
             isDisabled={viewOnly}
             key={"government_association" + e_index}
@@ -447,6 +464,12 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               );
             }}
             isRequired={true}
+            withDate={true}
+            date={exam.date_taken}
+            onDateChange={{
+              index: e_index + 1,
+              setFunction: setExaminationTaken,
+            }}
           />
           <OnboardingFieldInput
             isDisabled={viewOnly}

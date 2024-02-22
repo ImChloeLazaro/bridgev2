@@ -67,7 +67,7 @@ import { isSubmittedOnboardingFormAtom } from "../store/OnboardingStore";
 import { useAtomValue, useSetAtom } from "jotai";
 
 import { restinsert, updatewithparams } from "../../utils/amplify-rest";
-const OnboardingFooter = () => {
+const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const unique_key = useAtomValue(authenticationAtom);
   const steps = useAtomValue(stepsAtom);
   const activeStep = useAtomValue(activeStepAtom);
@@ -210,8 +210,6 @@ const OnboardingFooter = () => {
     console.log("BENEFITS RESPONSE", benefitsresponse);
     console.log("LEAVE RESPONSE", leaveresponse);
     console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
-
-    
   };
 
   const handleNext = () => {
@@ -231,7 +229,7 @@ const OnboardingFooter = () => {
   const actionButtons = {
     back: { color: "blue", label: "Back", action: handleBack },
     next: {
-      color: "blue",
+      color: activeStep === steps.length - 1 ? "orange" : "blue",
       label: activeStep === steps.length - 1 ? "Submit" : "Next",
       action: activeStep === steps.length - 1 ? handleSubmit : handleNext,
     },
@@ -252,16 +250,25 @@ const OnboardingFooter = () => {
             fullWidth={true}
             label={""}
             color={"clear"}
-            isDisabled={activeStep === 0}
+            isDisabled={true}
           />
         )}
 
-        <CTAButtons
-          fullWidth={true}
-          label={actionButtons.next.label}
-          color={actionButtons.next.color}
-          onPress={actionButtons.next.action}
-        />
+        {activeStep === steps.length - 1 && !allowSubmit ? (
+          <CTAButtons
+            fullWidth={true}
+            label={"Close"}
+            color={"red"}
+            onPress={onClose}
+          />
+        ) : (
+          <CTAButtons
+            fullWidth={true}
+            label={actionButtons.next.label}
+            color={actionButtons.next.color}
+            onPress={actionButtons.next.action}
+          />
+        )}
       </div>
     </>
   );

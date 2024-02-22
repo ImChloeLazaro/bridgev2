@@ -26,7 +26,7 @@ const UserOnboardingModal = () => {
                 <OnboardingBody viewOnly={true} />
               </ModalBody>
               <ModalFooter>
-                <OnboardingFooter />
+                <OnboardingFooter allowSubmit={false} onClose={onClose}/>
               </ModalFooter>
             </>
           )}

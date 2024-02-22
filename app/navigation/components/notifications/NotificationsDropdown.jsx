@@ -5,13 +5,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect } from "react";
 import {
   MdNotifications,
   MdNotificationsActive,
   MdNotificationsNone,
 } from "react-icons/md";
 import {
+  fetchNotificationsAtom,
   notificationsAtom,
   notificationsOpenAtom,
   unreadCountAtom,
@@ -26,13 +28,17 @@ const NotificationsDropdown = () => {
     notificationsOpenAtom
   );
   const [unreadCount, setUnreadCount] = useAtom(unreadCountAtom);
+  const fetchNotifications = useSetAtom(fetchNotificationsAtom);
 
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
   return (
     <Badge
       content={unreadCount.all}
       shape="circle"
       isInvisible={unreadCount.all === 0}
-      className="animate-pulse"
+      className=""
     >
       <Popover
         placement="bottom-end"

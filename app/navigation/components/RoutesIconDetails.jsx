@@ -60,7 +60,7 @@ const SideBarIcons = {
 
 export const routesUser = [
   {
-    key: "user",
+    key: "home",
     label: "Home",
     link: "/user",
     icon: SideBarIcons.home,

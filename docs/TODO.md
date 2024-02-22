@@ -1,6 +1,6 @@
 # TODO for Aretex Bridge Changes
 
-## v.0.6.2
+## v.0.6.3
 
 ### GLOBAL: All Components and Files
 
@@ -17,14 +17,10 @@
 
 * Fix posting index issue
 
-### Store: `UserStore` for Home Page
-
-* Move `recruitmentStatusAtom` from `UserStore` move to `profileStore`
-
 ### Profiling: `Onboarding` Components on Onboarding Page
 
 * Add validation for required `input` fields before submitting to `server`
-* Add date picker for consistency of date formats
+* Add handling for setting `date` value object
 
 ### Profiling: `OnboardingForm` Component on Onboarding Page
 
@@ -50,10 +46,6 @@
 
 * Add functionality for updating `notification` count in real time
 * Add `toaster` component for notifying `users`
-
-### Store: `NavSideBarStore` for Home Page
-
-* Add Active state of Routes
 
 ### Updating: `Shortcuts` Component
 
