@@ -1,0 +1,14 @@
+{
+  "permissions": {},
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "database",
+      "environmentVariableName": "DATABASE"
+    },
+    {
+      "cloudFormationParameterName": "test",
+      "environmentVariableName": "test"
+    }
+  ]
+}
