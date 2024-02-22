@@ -20,6 +20,7 @@ export const insertwithparams = async (path, query, request) => {
     console.log(error)
   }
 }
+
 export const restinsert = async (path, request) => {
     try {
         const insertOperation = post({

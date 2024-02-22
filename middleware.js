@@ -23,7 +23,6 @@ async function middleware(request) {
     return NextResponse.redirect(new URL('/user', request.nextUrl));
   }
 
-//   return NextResponse.redirect(new URL('/', request.url));
 }
 
 const config = {
