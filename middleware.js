@@ -2,10 +2,37 @@ import { fetchAuthSession } from "aws-amplify/auth/server";
 import { NextRequest, NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@/app/utils/amplifyServerUtils";
 
+const protectedRoutes = [
+  "/user",
+  "/user/dashboard",
+  "/user/profile",
+  "/user/cms",
+  "/user/empower",
+  "/tl",
+  "/tl/cms",
+  "/tl/team",
+  "/tl/schedule",
+  "/tl/appraisals",
+  "/admin",
+  "/admin/team",
+  "/admin/clients",
+  "/admin/appraisals",
+  "/admin/roles",
+  "/admin/help_desk",
+  "/hr",
+  "/hr/pre_employment",
+  "/hr/onboarding",
+  "/hr/endorse",
+  "/hr/employees",
+  "/hr/benefits",
+  "/hr/leaves",
+  "/hr/offboarding",
+];
+
 async function middleware(request) {
   const response = NextResponse.next();
 
-  const authenticated = await runWithAmplifyServerContext({
+  const isAuthenticated = await runWithAmplifyServerContext({
     nextServerContext: { request, response },
     operation: async (contextSpec) => {
       try {
@@ -19,8 +46,15 @@ async function middleware(request) {
     },
   });
 
-  if (authenticated && request.nextUrl.pathname === "/") {
+  // ### Redirect already authenticated user to home page
+  if (isAuthenticated && request.nextUrl.pathname === "/") {
     return NextResponse.redirect(new URL("/user", request.nextUrl));
+  }
+  
+  // ### Redirect unauthorized access to sign in page
+  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+    const absoluteURL = new URL("/", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
   }
 }
 

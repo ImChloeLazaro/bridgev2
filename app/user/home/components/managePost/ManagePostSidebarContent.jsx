@@ -27,7 +27,7 @@ import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
 import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
-import MediaLayoutDisplay from "../mediaLayout/MediaLayoutPreview";
+import MediaLayoutPreview from "../mediaLayout/MediaLayoutPreview";
 import CTAButtons from "@/app/components/CTAButtons";
 import { useCallback } from "react";
 import { getfile, restinsert, uploadfile } from "@/app/utils/amplify-rest";
@@ -199,7 +199,7 @@ const ManagePostSidebarContent = () => {
           {/* <div className=""> */}
           {(selectedMediaLayoutString ? (
             <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
-              <MediaLayoutDisplay
+              <MediaLayoutPreview
                 mediaFileList={fileUrlList}
                 layout={selectedMediaLayoutString}
                 orientation={selectedMediaOrientationString}
@@ -212,7 +212,7 @@ const ManagePostSidebarContent = () => {
           )) &&
             (selectedMediaOrientationString ? (
               <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
-                <MediaLayoutDisplay
+                <MediaLayoutPreview
                   mediaFileList={fileUrlList}
                   layout={selectedMediaLayoutString}
                   orientation={selectedMediaOrientationString}

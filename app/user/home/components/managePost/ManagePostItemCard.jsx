@@ -9,7 +9,8 @@ import {
   User,
 } from "@nextui-org/react";
 import { reactionIcons } from "../reaction/ReactionIcons";
-import MediaLayoutDisplay from "../mediaLayout/MediaLayoutPreview";
+import MediaLayoutPreview from "../mediaLayout/MediaLayoutPreview";
+import "../../../../aws-auth"
 
 const ManagePostItemCard = ({ data }) => {
   const reactionStack = {
@@ -60,7 +61,7 @@ const ManagePostItemCard = ({ data }) => {
           {data.caption?.length ? data.caption : "NO CAPTION"}
         </p>
         <div className="h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md ">
-          <MediaLayoutDisplay
+          <MediaLayoutPreview
             mediaFileList={data.media}
             layout={data.mediaLayout}
             orientation={data.orientation}

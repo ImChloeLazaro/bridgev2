@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { Image } from "@nextui-org/react";
+import "../../../../aws-auth"
 
-const MediaLayoutDisplay = ({
+const MediaLayoutPreview = ({
   mediaFileList = [],
   layout = "single",
   orientation = "landscape",
@@ -174,9 +175,9 @@ const MediaLayoutDisplay = ({
           ? mediaLayout[mediaListSize >= 6 ? 5 : mediaListSize]?.portrait
           : mediaLayout[mediaListSize >= 6 ? 5 : mediaListSize]?.landscape;
 
-      // console.log("mediaListSize", mediaListSize);
-      // console.log("mediaDisplay", mediaDisplay);
-      // console.log("orientationAlignment: ", orientationAlignment);
+      console.log("mediaListSize", mediaListSize);
+      console.log("mediaDisplay", mediaDisplay);
+      console.log("orientationAlignment: ", orientationAlignment);
 
       return (
         <div className={`${orientationAlignment}`}>
@@ -235,4 +236,4 @@ const MediaLayoutDisplay = ({
   }
 };
 
-export default MediaLayoutDisplay;
+export default MediaLayoutPreview;

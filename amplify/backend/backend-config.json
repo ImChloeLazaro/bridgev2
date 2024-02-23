@@ -73,6 +73,14 @@
           ],
           "category": "function",
           "resourceName": "teamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "cmstaskhandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -117,6 +125,12 @@
       "service": "Lambda"
     },
     "benefithandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "cmstaskhandler": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -217,6 +231,30 @@
         }
       ]
     },
+    "AMPLIFY_function_cmstaskhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
     "AMPLIFY_function_departmenthandler_database": {
       "usedBy": [
         {
@@ -298,22 +336,6 @@
       ]
     },
     "AMPLIFY_function_posttemplatehandler_database": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "posttemplatehandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_posttemplatehandler_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "posttemplatehandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_posttemplatehandler_s3Key": {
       "usedBy": [
         {
           "category": "function",

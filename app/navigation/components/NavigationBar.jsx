@@ -9,7 +9,7 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { roleAtom, selectedRoleAtom } from "../store/NavSideBarStore";
+import { roleAtom, selectedRoleAtom, userRolesAtom } from "../store/NavSideBarStore";
 import { routesUser } from "./RoutesIconDetails";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
@@ -22,8 +22,8 @@ const NavigationBar = () => {
   const menuItems = routesUser.map((details) => details.label);
   const router = useRouter();
 
-  const role = useAtomValue(selectedRoleAtom);
-  const [userRoles] = useAtom(roleAtom);
+  const selectedRole = useAtomValue(selectedRoleAtom);
+  const userRoles = useAtomValue(userRolesAtom);
 
   return (
     <Navbar
@@ -57,7 +57,7 @@ const NavigationBar = () => {
       <NavbarContent as="div" justify="end">
         <NavbarItem className="flex items-center gap-6">
           <UserDropdown />
-          {userRoles.includes(role) && <RoleBadge />}
+          {userRoles.includes(selectedRole) && <RoleBadge />}
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>

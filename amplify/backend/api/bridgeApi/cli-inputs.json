@@ -117,6 +117,19 @@
           "delete"
         ]
       }
+    },
+    "/cms/task": {
+      "name": "/cms/task",
+      "lambdaFunction": "cmstaskhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }
