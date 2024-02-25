@@ -14,7 +14,7 @@ import {
   templateNameAtom,
 } from "./ManagePostStore";
 import { userAtom } from "@/app/store/UserStore";
-import { addPostAtom } from "./PostStore";
+import { addPostAtom, postAtom } from "./PostStore";
 
 // LIST FOR DRAFTED POSTS
 export const draftPostListAtom = atom([]);
@@ -84,7 +84,7 @@ export const addDraftPostAtom = atom(null, async (get, set) => {
   //   });
 
   set(draftPostListAtom, [...get(draftPostListAtom), newPost]);
-  set(addPostAtom, [...get(draftPostListAtom), newPost]);
+  set(postAtom, [...get(draftPostListAtom), newPost]);
 
   console.log("ADDED DRAFT", get(draftPostListAtom));
   return { success: true };

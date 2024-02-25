@@ -110,7 +110,7 @@ const ManagePostSidebarContent = () => {
       setTemplateName(selectedTemplate.type);
       setSelectedMediaOrientation([...selectedTemplate.orientation]);
       setSelectedMediaLayout([...selectedTemplate.mediaLayout]);
-      setMediaFileList(selectedTemplate.media);
+      // setMediaFileList(selectedTemplate.media);
       setSelectedReactions([...selectedTemplate.reactionList]);
       setSelectedTaggedPeople([...selectedTemplate.taggedPeople]);
       setPostTitle(selectedTemplate.title);

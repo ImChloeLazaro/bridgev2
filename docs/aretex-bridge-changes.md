@@ -683,6 +683,8 @@ postsAtom = atom({
   * @clsx latest `^2.1.0`
   * @lucide-react latest `^0.336.0`
   * @react-day-picker latest `^8.10.0`
+  * @tailwind-merge latest `^2.2.1`
+  * @tailwindcss-animate latest `^1.0.7`
 
 * Configured @shadcn/ui to work with the project
 * Merged changes from @shadcn/ui to `tailwind.config.js` and `globals.css` in order to properly work with existing tailwind configuration

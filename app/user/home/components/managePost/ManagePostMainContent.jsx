@@ -37,7 +37,7 @@ import {
 } from "../../store/PostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
-import "../../../../aws-auth";
+
 import {
   addDraftPostAtom,
   draftPostCountAtom,
@@ -188,16 +188,16 @@ const ManagePostMainContent = ({ onClose }) => {
       );
 
       console.log("toBeDeletedPost", toBeDeletedPost);
-      let deleted = await Promise.all(
-        toBeDeletedPost.map(async (post) => {
-          console.log("TO BE DELETED POST", post);
-          console.log("TO BE DELETED POST TYPE", typeof post);
-          let response = await restdestroy("/post", post);
-          console.log("DELETE RESPONSE", response);
-        })
-      );
-      console.log("deleted deleted", deleted);
-      // await restdestroy("/post", { _id: "65d03577309cdd0e602454d0" });
+      // let deleted = await Promise.all(
+      //   toBeDeletedPost.map(async (post) => {
+      //     console.log("TO BE DELETED POST", post);
+      //     console.log("TO BE DELETED POST TYPE", typeof post);
+      //     let response = await restdestroy("/post", post);
+      //     console.log("DELETE RESPONSE", response);
+      //   })
+      // );
+      // console.log("deleted deleted", deleted);
+      await restdestroy("/post", { _id: "65d4092dba048110bdc4ebf9" });
     }
 
     if (selectedPostStatusString === "published") {
@@ -330,7 +330,7 @@ const ManagePostMainContent = ({ onClose }) => {
       console.log("TETETET toBePosted", toBePosted);
 
       // Adds post to backend via API call
-      // const posts = await restinsert("/post", toBePosted);
+      const posts = await restinsert("/post", toBePosted);
 
       console.log("PUBLISHED POSTS FOR FEED");
       console.log("POSTS SUCCESS", posts);
