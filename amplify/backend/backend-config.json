@@ -73,6 +73,14 @@
           ],
           "category": "function",
           "resourceName": "teamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "cmstaskhandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -117,6 +125,12 @@
       "service": "Lambda"
     },
     "benefithandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "cmstaskhandler": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -214,6 +228,30 @@
         {
           "category": "function",
           "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
         }
       ]
     },

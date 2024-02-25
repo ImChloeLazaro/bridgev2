@@ -72,6 +72,11 @@
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
           "s3Key": "amplify-builds/teamhandler-4a326132674864426858-build.zip"
+        },
+        "cmstaskhandler": {
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
+          "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+          "s3Key": "amplify-builds/cmstaskhandler-573642487876717a584a-build.zip"
         }
       },
       "auth": {
@@ -79,6 +84,9 @@
       },
       "storage": {
         "bridgeProductionStorage": {}
+      },
+      "api": {
+        "bridgeApi": {}
       }
     }
   }
