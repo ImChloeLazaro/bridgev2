@@ -1,17 +1,12 @@
 import { useMemo } from "react";
 import { Image } from "@nextui-org/react";
+import "../../../../aws-auth";
 
-const MediaLayoutDisplay = ({
+const MediaLayoutPreview = ({
   mediaFileList = [],
   layout = "single",
   orientation = "landscape",
-  preview = true
 }) => {
-
-  if(preview){
-    
-  }
-
   const mediaLayout = {
     1: {
       // one
@@ -235,4 +230,4 @@ const MediaLayoutDisplay = ({
   }
 };
 
-export default MediaLayoutDisplay;
+export default MediaLayoutPreview;

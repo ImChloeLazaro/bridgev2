@@ -19,7 +19,7 @@ export const insertwithparams = async (path, query, request) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const restinsert = async (path, request) => {
   try {
@@ -107,27 +107,9 @@ export const restupdate = async (path, request) => {
   }
 };
 
-export const destroywithparams = async (path, request) => {
-  try {
-    const updateOperation = del({
-      apiName: "bridgeApi",
-      path: path,
-      options: {
-        queryParams: request,
-      },
-    });
-
-    const { body } = await updateOperation.response;
-    const response = await body.json();
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const restdestroy = async (path, request) => {
   try {
-    const restOperation = del({
+    const delOperation = del({
       apiName: "bridgeApi",
       path: path,
       options: {
@@ -135,11 +117,12 @@ export const restdestroy = async (path, request) => {
       },
     });
 
-    const { body } = await restOperation.response;
+    const { body } = await delOperation.response;
     const response = await body.json();
+    console.log("DELETE call succeeded");
     return response;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log("DELETE call failed: ", error);
   }
 };
 

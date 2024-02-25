@@ -4,6 +4,9 @@ import { BiNews } from "react-icons/bi";
 import { FaMedal } from "react-icons/fa6";
 import { MdCake, MdCalendarMonth, MdForum, MdGroups2 } from "react-icons/md";
 import { reactionIcons } from "../components/reaction/ReactionIcons";
+import { draftPostCountAtom } from "./DraftedStore";
+import { publishedPostCountAtom } from "./PublishedStore";
+import { archivedPostCountAtom } from "./ArchivedStore";
 
 const iconSize = 20;
 export const postTemplateItemsAtom = atom([
@@ -334,61 +337,62 @@ export const postTemplatesCountAtom = atom(
 );
 
 // LIST FOR DRAFTED POSTS
-export const draftPostListAtom = atom([]);
+// export const draftPostListAtom = atom([]);
 
-export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
-export const addDraftPostAtom = atom(null, (get, set, update) => {
-  set(draftPostListAtom, update);
-  console.log("ADDED DRAFT", get(draftPostListAtom));
- });
-export const selectedDraftPostAtom = atom([]);
+// export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
+// export const addDraftPostAtom = atom(null, (get, set, update) => {
+//   set(draftPostListAtom, update);
+//   console.log("ADDED DRAFT", get(draftPostListAtom));
+//  });
+// export const selectedDraftPostAtom = atom([]);
 
-export const fetchPostAtom = atom(null, async (get, set) => {
-  const posts = await restread("/post");
-  console.log("POSTS DATA", posts);
+// export const fetchPostAtom = atom(null, async (get, set) => {
+//   const posts = await restread("/post");
+//   console.log("POSTS DATA", posts);
 
-  set(draftPostListAtom, posts.response)
-});
+//   set(draftPostListAtom, posts.response)
+// });
 
 // LIST FOR PUBLISHED POSTS
-export const publishedPostListAtom = atom([]);
+// export const publishedPostListAtom = atom([]);
 
-export const publishedPostCountAtom = atom(
-  (get) => get(publishedPostListAtom).length
-);
-export const addPublishPostAtom = atom(null, (get, set, update) => {
-  set(publishedPostListAtom, update);
-  console.log("ADDED PUBLISH", get(publishedPostListAtom));
- });
-export const selectedPublishPostAtom = atom([]);
+// export const publishedPostCountAtom = atom(
+//   (get) => get(publishedPostListAtom).length
+// );
+// export const addPublishPostAtom = atom(null, (get, set, update) => {
+//   set(publishedPostListAtom, update);
+//   console.log("ADDED PUBLISH", get(publishedPostListAtom));
+//  });
+// export const selectedPublishPostAtom = atom([]);
 
 // LIST FOR ARCHIVED POSTS
-export const archivedPostListAtom = atom([]);
+// export const archivedPostListAtom = atom([]);
 
-export const archivedPostCountAtom = atom(
-  (get) => get(archivedPostListAtom).length
-);
-export const addArchivePostAtom = atom(null, (get, set, update) => {
-  set(archivedPostListAtom, update);
-  console.log("ADDED ARCHIVE", get(archivedPostListAtom));
- });
-export const selectedArchivePostAtom = atom([]);
+// export const archivedPostCountAtom = atom(
+//   (get) => get(archivedPostListAtom).length
+// );
+// export const addArchivePostAtom = atom(null, (get, set, update) => {
+//   set(archivedPostListAtom, update);
+//   console.log("ADDED ARCHIVE", get(archivedPostListAtom));
+//  });
+// export const selectedArchivePostAtom = atom([]);
 
+// POST STATUS TABS
 export const postStatusTabsAtom = atom((get) => [
   {
     key: "drafts",
     title: "Drafts",
-    count: get(draftPostListAtom).length,
+    count: get(draftPostCountAtom)
   },
   {
     key: "published",
     title: "Published",
-    count: get(publishedPostListAtom).length,
+    count: get(publishedPostCountAtom)
   },
   {
     key: "archived",
     title: "Archived",
-    count: get(archivedPostListAtom).length,
+    count: get(archivedPostCountAtom)
   },
 ]);
 export const selectedPostStatusAtom = atom("drafts");

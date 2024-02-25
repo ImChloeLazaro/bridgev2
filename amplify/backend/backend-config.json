@@ -343,22 +343,6 @@
         }
       ]
     },
-    "AMPLIFY_function_posttemplatehandler_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "posttemplatehandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_posttemplatehandler_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "posttemplatehandler"
-        }
-      ]
-    },
     "AMPLIFY_function_profilehandler_database": {
       "usedBy": [
         {

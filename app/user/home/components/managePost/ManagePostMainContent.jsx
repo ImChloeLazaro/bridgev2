@@ -14,30 +14,16 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState, useEffect } from "react";
 import { MdMinimize } from "react-icons/md";
 import {
-  addArchivePostAtom,
-  addDraftPostAtom,
-  addPublishPostAtom,
-  archivedPostCountAtom,
-  archivedPostListAtom,
-  draftPostCountAtom,
-  draftPostListAtom,
-  fetchPostAtom,
   fileListAtom,
   fileUrlListAtom,
   filterKeysAtom,
   mediaFileListAtom,
   postCaptionAtom,
   postTitleAtom,
-  previewMediaListAtom,
-  publishedPostCountAtom,
-  publishedPostListAtom,
-  selectedArchivePostAtom,
-  selectedDraftPostAtom,
   selectedFilterKeysAtom,
   selectedMediaLayoutAtom,
   selectedMediaOrientationAtom,
   selectedPostStatusAtom,
-  selectedPublishPostAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
@@ -51,8 +37,27 @@ import {
 } from "../../store/PostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
-import "../../../../aws-auth";
 
+import {
+  addDraftPostAtom,
+  draftPostCountAtom,
+  draftPostListAtom,
+  selectedDraftPostAtom,
+  fetchPostAtom,
+} from "../../store/DraftedStore";
+import {
+  addPublishPostAtom,
+  publishedPostCountAtom,
+  publishedPostListAtom,
+  selectedPublishPostAtom,
+} from "../../store/PublishedStore";
+import {
+  addArchivePostAtom,
+  archivedPostCountAtom,
+  archivedPostListAtom,
+  selectedArchivePostAtom,
+} from "../../store/ArchivedStore";
+import "../../../../aws-auth";
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
 
@@ -74,7 +79,7 @@ const ManagePostMainContent = ({ onClose }) => {
   const postCount = useAtomValue(postCountAtom);
 
   const draftsPostList = useAtomValue(draftPostListAtom);
-  const setDraftsPostList = useSetAtom(addDraftPostAtom);
+  const addDraftPost = useSetAtom(addDraftPostAtom);
 
   const publishedPostList = useAtomValue(publishedPostListAtom);
   const setPublishedPostList = useSetAtom(addPublishPostAtom);
@@ -152,42 +157,20 @@ const ManagePostMainContent = ({ onClose }) => {
       ? `archive-${archivedPostCount + 1}`
       : 0;
 
-  const handleAddPost = () => {
+  const handleAddPost = async () => {
     if (selectedPostStatusString === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
-        const previewMediaList = Object.values(mediaFileList).map((file) => {
-          return URL.createObjectURL(file);
-        });
-
-        console.log("HEHEHEEHEH previewMediaList: ", previewMediaList);
-
-        const newPost = {
-          id: postStatusCount,
-          type: templateName.toLowerCase(),
-          key: `draft-${draftPostCount + 1}`,
-          title: postTitle,
-          publisher: user.name,
-          publisherPicture: user.picture,
-          team: user.team,
-          caption: postCaption,
-          media: previewMediaList ? [...previewMediaList] : [],
-          mediaLayout: [...selectedMediaLayout],
-          orientation: [...selectedMediaOrientation],
-          reactionList: [...selectedReactions],
-          taggedPeople: [...selectedTaggedPeople], // key of users
-          status: "drafts",
-        };
-
-        // Adds post to post modal
-        setDraftsPostList((prev) => [...prev, newPost]);
-        console.log("newPost", newPost);
+        const draft = await addDraftPost();
+        console.log("POST ADDED", draft);
+        if (draft.success) {
+          console.log("CONFIRM WINDOW ADDED POST", draft.success);
+        }
       } else {
         console.log("NO EMPTY TEMPLATE ALLOWED");
       }
     }
 
     console.log("ADD postCount: ", postStatusCount);
-    console.log("POST ADDED");
   };
 
   const handleDeletePost = async () => {
@@ -205,7 +188,7 @@ const ManagePostMainContent = ({ onClose }) => {
       );
 
       console.log("toBeDeletedPost", toBeDeletedPost);
-      // await Promise.all(
+      // let deleted = await Promise.all(
       //   toBeDeletedPost.map(async (post) => {
       //     console.log("TO BE DELETED POST", post);
       //     console.log("TO BE DELETED POST TYPE", typeof post);
@@ -213,7 +196,8 @@ const ManagePostMainContent = ({ onClose }) => {
       //     console.log("DELETE RESPONSE", response);
       //   })
       // );
-      await restdestroy("/post", { _id: "65d2ee9368a1cbe24b43d92d" });
+      // console.log("deleted deleted", deleted);
+      await restdestroy("/post", { _id: "65d4092dba048110bdc4ebf9" });
     }
 
     if (selectedPostStatusString === "published") {
@@ -271,7 +255,7 @@ const ManagePostMainContent = ({ onClose }) => {
       console.log("PUBLISH: publishedPostCount", publishedPostCount);
 
       // Removes post from post modal
-      setDraftsPostList(() =>
+      addDraftPost(() =>
         draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
       );
       setSelectedDraftPost([]);
@@ -310,9 +294,12 @@ const ManagePostMainContent = ({ onClose }) => {
           console.log("NEED TO SEE THIS", mediaToBePosted);
           console.log("TYPE NEED TO SEE THIS", typeof mediaToBePosted);
 
+          const dateToBePublished = new Date();
+          const dateToBeScheduled = new Date();
+
           return {
-            datetimePublished: new Date(),
-            datetimeScheduled: new Date(),
+            datetimePublished: dateToBePublished,
+            datetimeScheduled: dateToBeScheduled,
             id: (publishCountIndex += 1),
             type: draft.type,
             key: `publish-${(publishCountIndex += 1)}`,
@@ -343,7 +330,7 @@ const ManagePostMainContent = ({ onClose }) => {
       console.log("TETETET toBePosted", toBePosted);
 
       // Adds post to backend via API call
-      // const posts = await restinsert("/post", toBePosted);
+      const posts = await restinsert("/post", toBePosted);
 
       console.log("PUBLISHED POSTS FOR FEED");
       console.log("POSTS SUCCESS", posts);

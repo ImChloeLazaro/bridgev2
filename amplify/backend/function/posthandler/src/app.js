@@ -18,7 +18,7 @@ mongoose.connect(process.env.DATABASE);
 const postSchema = mongoose.Schema({
   caption : String,
   comments : Number ,
-  datetimePublished : Date,
+  datetimePublished : Date,            
   datetimeScheduled : Date,
   id : Number,
   key : String,

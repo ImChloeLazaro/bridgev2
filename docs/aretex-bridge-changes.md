@@ -667,6 +667,7 @@ postsAtom = atom({
 * Added `TODO` `docs` for centralize listing of `TODO`s
 * Rewrite role selection in `SwitchRoles` Component
 * Adjusted `OnboardingFieldInput` Component for employee ID to be on top
+* Added back middleware for route protection
 
 ## v.0.6.3
 
@@ -682,9 +683,14 @@ postsAtom = atom({
   * @clsx latest `^2.1.0`
   * @lucide-react latest `^0.336.0`
   * @react-day-picker latest `^8.10.0`
+  * @tailwind-merge latest `^2.2.1`
+  * @tailwindcss-animate latest `^1.0.7`
 
 * Configured @shadcn/ui to work with the project
 * Merged changes from @shadcn/ui to `tailwind.config.js` and `globals.css` in order to properly work with existing tailwind configuration
 * @shadcn/ui added `components` folder for storing components from this library
 * Added `DatePicker` Component
-* 
+* Added `DraftedStore` for better management of drafted posts
+* Added `PublishedStore` for better management of published posts
+* Added `ArchivedStore` for better management of archived posts
+* Added route redirection when route is not protected is accessed

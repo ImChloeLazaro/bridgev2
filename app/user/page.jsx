@@ -1,6 +1,5 @@
 "use client";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
 import { Spinner } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Suspense, useEffect } from "react";
@@ -29,6 +28,14 @@ const User = () => {
   useEffect(() => {
     fetchPost();
   }, [fetchPost]);
+
+  const filteredPosts = posts.filter((post) => {
+    if (post.datetimePublished) {
+      return post.datetimePublished;
+    }
+  });
+
+  console.log("filteredPosts FILTERERED", filteredPosts);
 
   const sortedPosts = posts.sort(
     (a, b) => new Date(b.datetimePublished) - new Date(a.datetimePublished)
