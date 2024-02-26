@@ -8,11 +8,13 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
   next()
 });
+
+mongoose.connect(process.env.DATABASE)
 
 const clientSchema = mongoose.Schema({
   contact: {
@@ -68,16 +70,26 @@ const clientSchema = mongoose.Schema({
 
 const clientModel = mongoose.model('Client', clientSchema)
 
-app.get('/client', async function (req, res) {
+app.get('/cms/client', async function(req, res) {
   try {
     const read = await clientModel.find()
+    res.json({ success: true, response: 'test' })
+  } catch (error) {
+    res.json({ error: error })
+  }
+});
+
+app.get('/cms/client/*', async function(req, res) {
+  try {
+    const { _id } = req.query
+    const read = await clientModel.findOne({_id})
     res.json({ success: true, response: read })
   } catch (error) {
     res.json({ error: error })
   }
 });
 
-app.post('/client', async function (req, res) {
+app.post('/cms/client', async function(req, res) {
   try {
     const { contact, company, business, financial, software, documents, another_bookkeeper, with_accountant } = req.body
     const insert = await clientModel.create({ 
@@ -96,8 +108,8 @@ app.post('/client', async function (req, res) {
   }
 });
 
-app.put('/client', async function (req, res) {
-  try {
+app.put('/cms/client', async function(req, res) {
+    try {
     const { _id, contact, company, business, financial, software, documents, another_bookkeeper, with_accountant } = req.body
     const update = await clientModel.UpdateOne({ _id }, { 
       contact, 
@@ -114,7 +126,8 @@ app.put('/client', async function (req, res) {
   }
 });
 
-app.delete('/client', async function (req, res) {
+
+app.delete('/cms/client', async function(req, res) {
   try {
     const { _id } = req.body
     const destroy = await clientModel.deleteOne({ _id })
@@ -124,8 +137,8 @@ app.delete('/client', async function (req, res) {
   }
 });
 
-app.listen(3000, function () {
-  console.log("App started")
+app.listen(3000, function() {
+    console.log("App started")
 });
 
 module.exports = app

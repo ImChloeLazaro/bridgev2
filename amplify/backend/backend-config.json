@@ -253,6 +253,22 @@
         }
       ]
     },
+    "AMPLIFY_function_clienthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "clienthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_clienthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "clienthandler"
+        }
+      ]
+    },
     "AMPLIFY_function_cmstaskhandler_database": {
       "usedBy": [
         {
