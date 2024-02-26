@@ -9,7 +9,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
   next()
@@ -18,13 +18,14 @@ app.use(function(req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const taskSchema = mongoose.Schema({
-  name : String,
-  client : {
-    name : String,
-    email : String,
-    picture : String
+  name: String,
+  client: {
+    client_id: String,
+    name: String,
+    email: String,
+    picture: String
   },
-  processor : [
+  processor: [
     {
       sub: String,
       name: String,
@@ -32,7 +33,7 @@ const taskSchema = mongoose.Schema({
       picture: String
     }
   ],
-  reviewer : [
+  reviewer: [
     {
       sub: String,
       name: String,
@@ -47,28 +48,75 @@ const taskSchema = mongoose.Schema({
   status: String,
 })
 
-app.get('/cms/task', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+const taskModel = mongoose.model('Task', taskSchema)
+
+app.get('/cms/task', async function (req, res) {
+  try {
+    const read = await taskModel.find()
+    res.status(200).json({ success: true, body: read })
+  } catch (error) {
+    res.json({ error: error })
+  }
 });
 
-app.post('/cms/task', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.get('/cms/task/*', async function (req, res) {
+  try {
+    const { _id } = req.query
+    const read = await taskModel.findOne({ _id })
+    res.status(200).json({ success: true, body: read })
+  } catch (error) {
+    res.json({ error: error })
+  }
 });
 
-app.put('/cms/task', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.post('/cms/task', async function (req, res) {
+  try {
+    const { name, client, processor, reviewer, duration, status } = req.body
+    const insert = await taskModel.create({
+      name,
+      client,
+      processor,
+      reviewer,
+      duration,
+      status
+    })
+    res.status(200).json({ success: true, body: insert, message: "Task created successfully"})
+
+  } catch (error) {
+  res.json({ error: error })
+}
 });
 
-app.delete('/cms/task', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+
+app.put('/cms/task', async function (req, res) {
+  try {
+    const { _id, name, client, processor, reviewer, duration, status } = req.body
+    const update = await taskModel.updateOne({ _id }, {
+      name,
+      client,
+      processor,
+      reviewer,
+      duration,
+      status
+    })
+    res.status(200).json({ success: true, body: update, message: "Task updated successfully" })
+  } catch (error) {
+    res.json({ error: error })
+  }
 });
 
-app.listen(3000, function() {
-    console.log("App started")
+app.delete('/cms/task', async function (req, res) {
+  try {
+    const { _id } = req.body
+    const destroy = await taskModel.deleteOne({ _id })
+    res.status(200).json({ success: true, body: destroy, message: "Task deleted successfully" })
+  } catch (error) {
+    res.json({ error: error })
+  }
+});
+
+app.listen(3000, function () {
+  console.log("App started")
 });
 
 module.exports = app
