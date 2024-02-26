@@ -16,35 +16,37 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const postSchema = mongoose.Schema({
-  caption : String,
-  comments : Number ,
-  datetimePublished : Date,            
-  datetimeScheduled : Date,
-  id : Number,
-  key : String,
-  media : [String],
+  caption: String,
+  comments: Number,
+  datetimePublished: Date,
+  datetimeScheduled: Date,
+  id: Number,
+  key: String,
+  media: [String],
   mediaLayout: String,
   orientation: String,
-  postKey : String,
-  publisher : String,
+  postKey: String,
+  publisher: String,
   publisherPicture: String,
-  reacted : Boolean ,
-  reactionList : [String],
-  reactions : { 
-    star: Number, 
-    love: Number, 
-    birthday: Number, 
-    happy: Number
+  reacted: Boolean,
+  reactionList: [String],
+  reactions: {
+    star: Number,
+    love: Number,
+    birthday: Number,
+    happy: Number,
   },
   status: String,
-  taggedPeople: [{
-          sub: String,
-          name:String,
-          picture:String,
-  }],
+  taggedPeople: [
+    {
+      sub: String,
+      name: String,
+      picture: String,
+    },
+  ],
   team: String,
-  title : String,
-  type : String,
+  title: String,
+  type: String,
 });
 
 const postModel = mongoose.model("post", postSchema);
@@ -59,10 +61,10 @@ app.get("/post", async function (req, res) {
 });
 
 app.post("/post", async function (req, res) {
+  const posts = req.body;
   try {
-    const posts = req.body;
     const insert = await postModel.create(posts);
-    res.status(200).json({ success: true, response: posts });
+    res.status(200).json({ success: true, response: insert });
   } catch (error) {
     res.status(500).json({ success: false, response: error });
   }
@@ -73,9 +75,9 @@ app.put("/post", async function (req, res) {
 });
 
 app.delete("/post", async function (req, res) {
+  const { _id } = req.query;
   try {
-    const { _id } = req.body;
-    const deletePost = await postModel.deleteOne({ _id });
+    const deletePost = await postModel.deleteOne({ _id: _id });
     res.status(200).json({ success: true, response: deletePost });
   } catch (error) {
     throw error;

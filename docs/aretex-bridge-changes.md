@@ -693,4 +693,9 @@ postsAtom = atom({
 * Added `DraftedStore` for better management of drafted posts
 * Added `PublishedStore` for better management of published posts
 * Added `ArchivedStore` for better management of archived posts
-* Added route redirection when route is not protected is accessed
+* Fix `post` not able to `delete` issue for `posting`
+* Update `delete` post function handler for `posting`
+* Fix `post` index issue due to not updated `schema` for posting
+* Fix sorting post issue due to not updated `schema` for posting
+* Moved `add`, `delete` functionality of `drafts`, `publish`, and `archive` from `ManagePostMainContent` to its respective store `DraftedStore`
+

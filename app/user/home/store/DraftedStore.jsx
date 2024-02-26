@@ -1,4 +1,9 @@
-import { getfile, restread, uploadfile } from "@/app/utils/amplify-rest";
+import {
+  getfile,
+  restinsert,
+  restread,
+  uploadfile,
+} from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import "../../../aws-auth";
 import {
@@ -20,24 +25,27 @@ import { addPostAtom, postAtom } from "./PostStore";
 export const draftPostListAtom = atom([]);
 
 export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
-export const addDraftPostAtom = atom(null, async (get, set) => {
+
+// ADDING DRAFTS TO MODAL WINDOW AND TO BACKEND
+export const addDraftPostAtom = atom(null, async (get, set, draft) => {
+  // fetching data needed for drafted post
   const user = await get(userAtom);
   const draftPostCount = get(draftPostCountAtom);
-  const templateName = get(templateNameAtom);
-  const postTitle = get(postTitleAtom);
-  const postCaption = get(postCaptionAtom);
-  const selectedMediaLayout = get(selectedMediaLayoutAtom);
-  const selectedMediaOrientation = get(selectedMediaOrientationAtom);
-  const selectedReactions = get(selectedReactionsAtom);
-  const selectedTaggedPeople = get(selectedTaggedPeopleAtom);
 
-  //   const previewMediaList = Object.values(get(mediaFileListAtom)).map((file) => {
-  //     return URL.createObjectURL(file);
-  //   });
+  const templateName = draft.type;
+  const postKey = get(postCountAtom) + 1;
+  const postTitle = draft.title;
+  const postCaption = draft.caption;
+  const mediaFileList = draft.mediaFileList;
+  const selectedMediaLayout = Array.from(draft.mediaLayout).join("");
+  const selectedMediaOrientation = Array.from(draft.orientation).join("");
+  const selectedReactions = draft.reactionList;
+  const selectedTaggedPeople = draft.taggedPeople;
 
+  // uploading then fetching filename from backend to be able to display it on frontend
   const mediaToBeUploaded = async () => {
     let upload = await Promise.all(
-      Object.values(get(mediaFileListAtom)).map(async (media) => {
+      Object.values(mediaFileList).map(async (media) => {
         return await uploadfile(media);
       })
     );
@@ -63,30 +71,39 @@ export const addDraftPostAtom = atom(null, async (get, set) => {
   // Add Validation
 
   const newPost = {
+    caption: postCaption,
+    comments: 0,
+    datetimePublished: new Date(),
+    datetimeScheduled: new Date(),
     id: draftPostCount,
-    type: templateName.toLowerCase(),
     key: `draft-${draftPostCount + 1}`,
-    title: postTitle,
+    media: previewMediaList ? [...previewMediaList] : [],
+    mediaLayout: selectedMediaLayout,
+    orientation: selectedMediaOrientation,
+    postKey: postKey,
     publisher: user.name,
     publisherPicture: user.picture,
-    team: user.team,
-    caption: postCaption,
-    media: previewMediaList ? [...previewMediaList] : [],
-    mediaLayout: [...selectedMediaLayout],
-    orientation: [...selectedMediaOrientation],
+    reacted: false,
     reactionList: [...selectedReactions],
-    taggedPeople: [...selectedTaggedPeople], // key of users
+    reactions: {
+      star: 0,
+      love: 0,
+      birthday: 0,
+      happy: 0,
+    },
     status: "drafts",
+    taggedPeople: [...selectedTaggedPeople], // key of users
+    team: user.team,
+    title: postTitle,
+    type: templateName.toLowerCase(),
   };
 
-  //   const postToBeDrafted = get(draftPostListAtom).map((draft) => {
-  //     return { ...draft, ...newPost };
-  //   });
+  const response = await restinsert("/post", { ...newPost });
+  console.log("RESPONSE", response);
 
   set(draftPostListAtom, [...get(draftPostListAtom), newPost]);
-  set(postAtom, [...get(draftPostListAtom), newPost]);
 
-  console.log("ADDED DRAFT", get(draftPostListAtom));
+  // console.log("ADDED DRAFT", get(draftPostListAtom));
   return { success: true };
 });
 export const removeDraftPostAtom = atom(null, async (get, set, update) => {

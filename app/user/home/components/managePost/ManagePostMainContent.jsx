@@ -3,6 +3,7 @@ import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
 import { userAtom } from "@/app/store/UserStore";
 import {
+  destroywithparams,
   getfile,
   restdestroy,
   restinsert,
@@ -27,6 +28,7 @@ import {
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
+  taggedPeopleListAtom,
   templateNameAtom,
 } from "../../store/ManagePostStore";
 import {
@@ -125,6 +127,8 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedTaggedPeopleAtom
   );
 
+  const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
+
   // const [previewMediaList, setPreviewMediaList] = useAtom(previewMediaListAtom);
 
   const fileList = useAtomValue(fileListAtom);
@@ -132,6 +136,7 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const selectedPostStatusString = Array.from(selectedPostStatus).join("");
   const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
+  const selectedTaggedPeopleString = Array.from(selectedTaggedPeople).join("");
 
   const mediaFileList = useAtomValue(mediaFileListAtom);
 
@@ -160,10 +165,25 @@ const ManagePostMainContent = ({ onClose }) => {
   const handleAddPost = async () => {
     if (selectedPostStatusString === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
-        const draft = await addDraftPost();
-        console.log("POST ADDED", draft);
-        if (draft.success) {
-          console.log("CONFIRM WINDOW ADDED POST", draft.success);
+        const taggedPeople = taggedPeopleList.filter(
+          (people) => people.key === selectedTaggedPeopleString
+        );
+        console.log("LALALALLA taggedPeople: ", taggedPeople);
+
+        const draftedPost = {
+          type: templateName.toLowerCase(),
+          reactionList: [...selectedReactions],
+          mediaLayout: selectedMediaLayout,
+          orientation: selectedMediaOrientation,
+          mediaFileList: mediaFileList,
+          title: postTitle,
+          taggedPeople: taggedPeople, // key of users
+          caption: postCaption,
+        };
+        const response = await addDraftPost(draftedPost);
+        console.log("POST ADDED", response);
+        if (response.success) {
+          console.log("CONFIRM WINDOW ADDED POST", response.success);
         }
       } else {
         console.log("NO EMPTY TEMPLATE ALLOWED");
@@ -183,21 +203,21 @@ const ManagePostMainContent = ({ onClose }) => {
       // );
       // setSelectedDraftPost([]);
 
-      const toBeDeletedPost = draftsPostList.filter((draft) =>
-        selectedDraftPost.includes(draft.key)
-      );
+      const toBeDeletedPost = draftsPostList.filter((draft) => {
+        console.log("KEY", draft.key);
+        return selectedDraftPost.includes(draft.key);
+      });
 
       console.log("toBeDeletedPost", toBeDeletedPost);
-      // let deleted = await Promise.all(
-      //   toBeDeletedPost.map(async (post) => {
-      //     console.log("TO BE DELETED POST", post);
-      //     console.log("TO BE DELETED POST TYPE", typeof post);
-      //     let response = await restdestroy("/post", post);
-      //     console.log("DELETE RESPONSE", response);
-      //   })
-      // );
-      // console.log("deleted deleted", deleted);
-      await restdestroy("/post", { _id: "65d4092dba048110bdc4ebf9" });
+      let deleted = await Promise.all(
+        toBeDeletedPost.map(async (post) => {
+          console.log("TO BE DELETED POST", post._id);
+          console.log("TO BE DELETED POST TYPE", typeof post);
+          let response = await destroywithparams("/post", { _id: post._id });
+          console.log("DELETE RESPONSE", response);
+        })
+      );
+      console.log("deleted deleted", deleted);
     }
 
     if (selectedPostStatusString === "published") {

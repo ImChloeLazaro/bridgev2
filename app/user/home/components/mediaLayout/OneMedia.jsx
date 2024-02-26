@@ -9,7 +9,9 @@ const OneMedia = ({ data, orientation }) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const layout = {
-    landscape: "",
+    landscape:
+      "gap-1.5 grid grid-cols-1 grid-rows-1 my-5 bg-white-default/60 h-[900px] px-4",
+
     portrait:
       "gap-1.5 grid grid-cols-1 grid-rows-1 my-5 bg-white-default/60 h-[900px] px-4",
   };

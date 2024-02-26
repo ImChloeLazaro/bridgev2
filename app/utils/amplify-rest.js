@@ -107,6 +107,25 @@ export const restupdate = async (path, request) => {
   }
 };
 
+export const destroywithparams = async (path, request) => {
+  try {
+    const delOperation = del({
+      apiName: "bridgeApi",
+      path: path,
+      options: {
+        queryParams: request,
+      },
+    });
+
+    const { body } = await delOperation.response;
+    const response = await body.json();
+    console.log("DELETE params call succeeded");
+    return response;
+  } catch (error) {
+    console.log("DELETE params call failed: ", error);
+  }
+};
+
 export const restdestroy = async (path, request) => {
   try {
     const delOperation = del({

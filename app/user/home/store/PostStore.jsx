@@ -54,7 +54,10 @@ export const postCountAtom = atom((get) => get(postAtom).length);
 
 export const fetchPostAtom = atom(null, async (get, set) => {
   const posts = await restread("/post");
-  console.log("POSTS DATA", posts);
-
-  set(postAtom, posts.response);
+  if (posts.success) {
+    console.log("POSTS DATA", posts);
+    set(postAtom, posts.response);
+  } else {
+    console.log("POSTS DATA FAILED");
+  }
 });

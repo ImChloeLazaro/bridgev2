@@ -11,12 +11,6 @@
 * Update hard-coded hex code colors to `tailwind` variables
 * Update components to be responsive
 
-### Posting: `MainContent` Component on Home Page
-
-* Fix sorting on posting - update schema for posting
-
-* Fix posting index issue
-
 ### Profiling: `Onboarding` Components on Onboarding Page
 
 * Add validation for required `input` fields before submitting to `server`

@@ -24,7 +24,7 @@ const PostCard = ({ data }) => {
             {data.caption}
           </p>
         </div>
-        <MediaLayout data={data.media} />
+        <MediaLayout mediaList={data.media} />
       </CardBody>
       <CardFooter className="flex flex-col px-4">
         <PostFooter data={data} />

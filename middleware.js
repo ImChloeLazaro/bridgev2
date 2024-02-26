@@ -52,10 +52,10 @@ async function middleware(request) {
   }
   
   // ### Redirect unauthorized access to sign in page
-  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
-    const absoluteURL = new URL("/", request.nextUrl.origin);
-    return NextResponse.redirect(absoluteURL.toString());
-  }
+  // if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+  //   const absoluteURL = new URL("/", request.nextUrl.origin);
+  //   return NextResponse.redirect(absoluteURL.toString());
+  // }
 }
 
 const config = {

@@ -106,11 +106,15 @@ const ManagePostSidebarContent = () => {
       (template) => template.type === Array.from(key).join("")
     )[0];
 
+    console.log(
+      "HERE INSIDE SIDEBAR CONTENT MANAGE POST",
+      selectedTemplate.taggedPeople
+    );
+
     if (selectedTemplate) {
       setTemplateName(selectedTemplate.type);
       setSelectedMediaOrientation([...selectedTemplate.orientation]);
       setSelectedMediaLayout([...selectedTemplate.mediaLayout]);
-      // setMediaFileList(selectedTemplate.media);
       setSelectedReactions([...selectedTemplate.reactionList]);
       setSelectedTaggedPeople([...selectedTemplate.taggedPeople]);
       setPostTitle(selectedTemplate.title);
