@@ -24,7 +24,7 @@ const clientSchema = mongoose.Schema({
     email: String,
   },
   company: {// Company details
-    name: String,
+    name: {String},
     address: String,
     contact_number: String,
     email: String,
