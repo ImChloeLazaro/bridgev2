@@ -130,6 +130,19 @@
           "delete"
         ]
       }
+    },
+    "/cms/client": {
+      "name": "/cms/client",
+      "lambdaFunction": "clienthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

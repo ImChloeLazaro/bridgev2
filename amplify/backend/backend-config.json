@@ -81,6 +81,14 @@
           ],
           "category": "function",
           "resourceName": "cmstaskhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "clienthandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -125,6 +133,12 @@
       "service": "Lambda"
     },
     "benefithandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "clienthandler": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -228,6 +242,14 @@
         {
           "category": "function",
           "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_clienthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "clienthandler"
         }
       ]
     },
