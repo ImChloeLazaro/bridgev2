@@ -11,6 +11,14 @@
 * Update hard-coded hex code colors to `tailwind` variables
 * Update components to be responsive
 
+### New Feature: Google APIs for G-Drive and G-Calendar
+
+* Add foundation for Google APIs for G-Drive and G-Calendar
+
+### Refactor: Migrating hard-coded hex code color to tailwind color
+
+* Migrate hard-coded hex code color to tailwind color
+
 ### Profiling: `Onboarding` Components on Onboarding Page
 
 * Add validation for required `input` fields before submitting to `server`
@@ -58,4 +66,4 @@
 
 ### Updating: `CreatePostButton` Component
 
-* Randomize placeholder text
+* Add Randomize function to generate placeholder text for `CreatePostButton` Component

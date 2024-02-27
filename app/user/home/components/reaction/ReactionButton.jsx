@@ -1,10 +1,9 @@
 import { Button } from "@nextui-org/react";
 import { useSetAtom } from "jotai";
-import { updatePostAtom } from "../../store/PostStore";
 import { reactionIcons } from "./ReactionIcons";
 
 const ReactionButton = ({ id, data, reacted }) => {
-  const setReacted = useSetAtom(updatePostAtom);
+  // const setReacted = useSetAtom(updatePostAtom);
 
   const label = {
     love: { label: "love", color: "font-semibold text-[#FF4949] capitalize" },

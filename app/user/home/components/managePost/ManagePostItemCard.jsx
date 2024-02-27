@@ -8,9 +8,9 @@ import {
   CardHeader,
   User,
 } from "@nextui-org/react";
-import { reactionIcons } from "../reaction/ReactionIcons";
+import "../../../../aws-auth";
 import MediaLayoutPreview from "../mediaLayout/MediaLayoutPreview";
-import "../../../../aws-auth"
+import { reactionIcons } from "../reaction/ReactionIcons";
 
 const ManagePostItemCard = ({ data }) => {
   const reactionStack = {

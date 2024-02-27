@@ -16,6 +16,7 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const postSchema = mongoose.Schema({
+  sub: String,
   caption: String,
   comments: Number,
   datetimePublished: Date,
@@ -70,8 +71,32 @@ app.post("/post", async function (req, res) {
   }
 });
 
-app.put("/post", async function (req, res) {
-  res.status(200).json({ success: true, response: req.body });
+app.put("/post", async function (req, res) { 
+  const posts = req.body;
+  try {
+    const update = await postModel.updateOne({ _id: posts._id }, posts);
+    res.status(200).json({ success: true, response: update });
+  } catch (error) {
+    res.status(500).json({ success: false, response: error });
+  }
+})
+
+app.put("/post/*", async function (req, res) {
+  try {
+    const proxy = req.path; // Use req.path to get the URL path
+    const { _id, reactions } = req.body;
+    switch (proxy) {
+      case '/post/greeting':
+        const greeting = await postModel.updateOne({ _id: _id }, reactions);
+        res.status(200).json({ success: true, route: "GREETING ROUTE", response: greeting });
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE"});
+        break;
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, error: error });
+  }
 });
 
 app.delete("/post", async function (req, res) {

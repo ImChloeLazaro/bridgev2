@@ -1,4 +1,4 @@
-import { Link, User } from "@nextui-org/react";
+import { Link, User, Tooltip } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -18,15 +18,18 @@ const handlePostDatetime = (datetime) => {
   const minsAgo = differenceInMinutes(new Date(), postDateTime);
 
   const dateAgo = format(postDateTime, "d MMM yyyy");
-  return daysAgo > 7
-    ? dateAgo
-    : hrsAgo > 23
-    ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
-    : minsAgo > 59
-    ? `${hrsAgo} ${hrsAgo > 1 ? "hrs" : "hr"}`
-    : minsAgo > 0
-    ? `${minsAgo} ${minsAgo > 1 ? "mins" : "min"}`
-    : "now";
+
+  const displayedDate =
+    daysAgo > 7
+      ? dateAgo
+      : hrsAgo > 23
+      ? `${daysAgo} ${daysAgo > 1 ? "days" : "day"}`
+      : minsAgo > 59
+      ? `${hrsAgo} ${hrsAgo > 1 ? "hrs" : "hr"}`
+      : minsAgo > 0
+      ? `${minsAgo} ${minsAgo > 1 ? "mins" : "min"}`
+      : "now";
+  return displayedDate;
 };
 
 const PostHeader = ({ data }) => {
@@ -36,6 +39,10 @@ const PostHeader = ({ data }) => {
     { key: "hide", label: "Hide this post" },
     { key: "report", label: "Report this post" },
   ];
+  const datetime = data.datetimePublished;
+  const postDateTime = datetime instanceof Date ? datetime : new Date(datetime);
+
+  const tooltipDate = format(postDateTime, "PPpp");
 
   // ### TODO
   return (
@@ -54,12 +61,12 @@ const PostHeader = ({ data }) => {
               <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
                 {data.team}
               </Link>
-              <Link
-                // underline="hover"
-                className="text-xs font-medium text-darkgrey-hover hover:text-darkgrey-default leading-5 cursor-pointer"
-              >{`${handlePostDatetime(
-                data.datetimePublished ?? new Date()
-              )}`}</Link>
+              <Tooltip placement={'bottom'} content={tooltipDate}>
+                <Link
+                  // underline="hover"
+                  className="text-xs font-medium text-darkgrey-hover hover:text-darkgrey-default leading-5 cursor-pointer"
+                >{`${handlePostDatetime(datetime ?? new Date())}`}</Link>
+              </Tooltip>
             </>
           }
           avatarProps={{

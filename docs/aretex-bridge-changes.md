@@ -697,5 +697,8 @@ postsAtom = atom({
 * Update `delete` post function handler for `posting`
 * Fix `post` index issue due to not updated `schema` for posting
 * Fix sorting post issue due to not updated `schema` for posting
-* Moved `add`, `delete` functionality of `drafts`, `publish`, and `archive` from `ManagePostMainContent` to its respective store `DraftedStore`
-
+* Cleaned up unused `imports` and `hooks` on `PostStore`
+* Moved `add`, `publish`, `delete` functionality of `drafts`, `publish`, and `archive` from `ManagePostMainContent` to their respective store `DraftedStore`, `PublishedStore`
+* Fixed `reaction` count not displaying properly on `PostFooter` Component of posts in the feed
+* Removed `add`, `delete` ,`update`, `insert` backend function handler for posts in `PostStore` since the same functionality is implemented in `DraftedStore`, `PublishedStore`
+* Added a tooltip for the date on `PostHeader` Component for the exact date the post is published

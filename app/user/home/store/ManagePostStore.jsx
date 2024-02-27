@@ -309,7 +309,7 @@ export const postTemplatesAtom = atom([
     orientation: ["landscape"],
     title: "ATTENTION A-FAMILY!!!",
     taggedPeople: ["all"],
-    caption: "Look alive! \nHere are some of the hottest news today!",
+    caption: "Look alive! \nHere are some of the hottest A-news today!",
   },
   {
     id: (postTemplatesIndex += 1),
@@ -329,46 +329,6 @@ export const postTemplatesCountAtom = atom(
   (get) => get(postTemplatesAtom).length
 );
 
-// LIST FOR DRAFTED POSTS
-// export const draftPostListAtom = atom([]);
-
-// export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
-// export const addDraftPostAtom = atom(null, (get, set, update) => {
-//   set(draftPostListAtom, update);
-//   console.log("ADDED DRAFT", get(draftPostListAtom));
-//  });
-// export const selectedDraftPostAtom = atom([]);
-
-// export const fetchPostAtom = atom(null, async (get, set) => {
-//   const posts = await restread("/post");
-//   console.log("POSTS DATA", posts);
-
-//   set(draftPostListAtom, posts.response)
-// });
-
-// LIST FOR PUBLISHED POSTS
-// export const publishedPostListAtom = atom([]);
-
-// export const publishedPostCountAtom = atom(
-//   (get) => get(publishedPostListAtom).length
-// );
-// export const addPublishPostAtom = atom(null, (get, set, update) => {
-//   set(publishedPostListAtom, update);
-//   console.log("ADDED PUBLISH", get(publishedPostListAtom));
-//  });
-// export const selectedPublishPostAtom = atom([]);
-
-// LIST FOR ARCHIVED POSTS
-// export const archivedPostListAtom = atom([]);
-
-// export const archivedPostCountAtom = atom(
-//   (get) => get(archivedPostListAtom).length
-// );
-// export const addArchivePostAtom = atom(null, (get, set, update) => {
-//   set(archivedPostListAtom, update);
-//   console.log("ADDED ARCHIVE", get(archivedPostListAtom));
-//  });
-// export const selectedArchivePostAtom = atom([]);
 
 // POST STATUS TABS
 export const postStatusTabsAtom = atom((get) => [

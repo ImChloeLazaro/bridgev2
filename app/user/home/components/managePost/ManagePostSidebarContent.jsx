@@ -1,3 +1,4 @@
+import CTAButtons from "@/app/components/CTAButtons";
 import {
   Divider,
   Input,
@@ -6,6 +7,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useCallback } from "react";
 import { MdInfoOutline } from "react-icons/md";
 import {
   fileListAtom,
@@ -23,14 +25,11 @@ import {
   templateNameAtom,
   templateTypeSelectionAtom,
 } from "../../store/ManagePostStore";
-import ReactionSelect from "../reaction/ReactionSelect";
-import TagPersonSelect from "./TagPersonSelect";
+import MediaLayoutPreview from "../mediaLayout/MediaLayoutPreview";
 import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
-import MediaLayoutPreview from "../mediaLayout/MediaLayoutPreview";
-import CTAButtons from "@/app/components/CTAButtons";
-import { useCallback } from "react";
-import { getfile, restinsert, uploadfile } from "@/app/utils/amplify-rest";
+import ReactionSelect from "../reaction/ReactionSelect";
+import TagPersonSelect from "./TagPersonSelect";
 
 const ManagePostSidebarContent = () => {
   const [fileList, setFileList] = useAtom(fileListAtom);

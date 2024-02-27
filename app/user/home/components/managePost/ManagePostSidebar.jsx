@@ -151,7 +151,7 @@ const ManagePostSidebar = () => {
       ]);
     }
 
-     console.log("postTemplates", postTemplates);
+    console.log("postTemplates", postTemplates);
   };
 
   const templateOnlyList = filterKeys

@@ -1,22 +1,12 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
-import { userAtom } from "@/app/store/UserStore";
-import {
-  destroywithparams,
-  getfile,
-  restdestroy,
-  restinsert,
-  uploadfile,
-} from "@/app/utils/amplify-rest";
 import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdMinimize } from "react-icons/md";
 import {
-  fileListAtom,
-  fileUrlListAtom,
   filterKeysAtom,
   mediaFileListAtom,
   postCaptionAtom,
@@ -31,63 +21,65 @@ import {
   taggedPeopleListAtom,
   templateNameAtom,
 } from "../../store/ManagePostStore";
-import {
-  addPostAtom,
-  deletePostAtom,
-  postAtom,
-  postCountAtom,
-} from "../../store/PostStore";
+import { deletePostAtom, fetchPostAtom, postAtom } from "../../store/PostStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
 
-import {
-  addDraftPostAtom,
-  draftPostCountAtom,
-  draftPostListAtom,
-  selectedDraftPostAtom,
-  fetchPostAtom,
-} from "../../store/DraftedStore";
-import {
-  addPublishPostAtom,
-  publishedPostCountAtom,
-  publishedPostListAtom,
-  selectedPublishPostAtom,
-} from "../../store/PublishedStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import "../../../../aws-auth";
 import {
   addArchivePostAtom,
   archivedPostCountAtom,
   archivedPostListAtom,
+  fetchArchivePostAtom,
+  removeArchivePostAtom,
   selectedArchivePostAtom,
 } from "../../store/ArchivedStore";
-import "../../../../aws-auth";
+import {
+  addDraftPostAtom,
+  draftPostCountAtom,
+  draftPostListAtom,
+  fetchDraftPostAtom,
+  removeDraftPostAtom,
+  selectedDraftPostAtom,
+} from "../../store/DraftedStore";
+import {
+  addPublishPostAtom,
+  fetchPublishPostAtom,
+  publishedPostCountAtom,
+  publishedPostListAtom,
+  removePublishPostAtom,
+  selectedPublishPostAtom,
+} from "../../store/PublishedStore";
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
 
 const ManagePostMainContent = ({ onClose }) => {
+  const auth = useAtomValue(authenticationAtom);
   const [values, setValues] = useState([]);
 
   const fetchPost = useSetAtom(fetchPostAtom);
+  const fetchDraftPost = useSetAtom(fetchDraftPostAtom);
+  const fetchPublishPost = useSetAtom(fetchPublishPostAtom);
+  const fetchArchivePost = useSetAtom(fetchArchivePostAtom);
 
   useEffect(() => {
-    fetchPost();
-  }, [fetchPost]);
-
-  const user = useAtomValue(userAtom);
-
-  const posts = useAtomValue(postAtom);
-  const setAddedPosts = useSetAtom(addPostAtom);
-  const setDeletedPosts = useSetAtom(deletePostAtom);
-
-  const postCount = useAtomValue(postCountAtom);
+    fetchDraftPost(auth.sub);
+    fetchPublishPost(auth.sub);
+    fetchArchivePost(auth.sub);
+  }, [auth, fetchArchivePost, fetchDraftPost, fetchPublishPost]);
 
   const draftsPostList = useAtomValue(draftPostListAtom);
   const addDraftPost = useSetAtom(addDraftPostAtom);
+  const removeDraftPost = useSetAtom(removeDraftPostAtom);
 
   const publishedPostList = useAtomValue(publishedPostListAtom);
-  const setPublishedPostList = useSetAtom(addPublishPostAtom);
+  const addPublishPost = useSetAtom(addPublishPostAtom);
+  const removePublishPost = useSetAtom(removePublishPostAtom);
 
   const archivedPostList = useAtomValue(archivedPostListAtom);
-  const setArchivedPostList = useSetAtom(addArchivePostAtom);
+  const addArchivePost = useSetAtom(addArchivePostAtom);
+  const removeArchivePost = useSetAtom(removeArchivePostAtom);
 
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
@@ -99,12 +91,8 @@ const ManagePostMainContent = ({ onClose }) => {
     selectedArchivePostAtom
   );
 
-  const [selectedMediaOrientation, setSelectedMediaOrientation] = useAtom(
-    selectedMediaOrientationAtom
-  );
-  const [selectedMediaLayout, setSelectedMediaLayout] = useAtom(
-    selectedMediaLayoutAtom
-  );
+  const selectedMediaOrientation = useAtomValue(selectedMediaOrientationAtom);
+  const selectedMediaLayout = useAtomValue(selectedMediaLayoutAtom);
 
   const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
     selectedFilterKeysAtom
@@ -112,27 +100,16 @@ const ManagePostMainContent = ({ onClose }) => {
   const filterKeys = useAtomValue(filterKeysAtom);
 
   const selectedPostStatus = useAtomValue(selectedPostStatusAtom);
-  const [selectedTemplateType, setSelectedTemplateType] = useAtom(
-    selectedTemplateTypeAtom
-  );
+  const selectedTemplateType = useAtomValue(selectedTemplateTypeAtom);
 
-  const [postTitle, setPostTitle] = useAtom(postTitleAtom);
-  const [postCaption, setPostCaption] = useAtom(postCaptionAtom);
-  const [templateName, setTemplateName] = useAtom(templateNameAtom);
+  const postTitle = useAtomValue(postTitleAtom);
+  const postCaption = useAtomValue(postCaptionAtom);
+  const templateName = useAtomValue(templateNameAtom);
 
-  const [selectedReactions, setSelectedReactions] = useAtom(
-    selectedReactionsAtom
-  );
-  const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
-    selectedTaggedPeopleAtom
-  );
+  const selectedReactions = useAtomValue(selectedReactionsAtom);
+  const selectedTaggedPeople = useAtomValue(selectedTaggedPeopleAtom);
 
   const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
-
-  // const [previewMediaList, setPreviewMediaList] = useAtom(previewMediaListAtom);
-
-  const fileList = useAtomValue(fileListAtom);
-  const fileUrlList = useAtomValue(fileUrlListAtom);
 
   const selectedPostStatusString = Array.from(selectedPostStatus).join("");
   const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
@@ -153,24 +130,15 @@ const ManagePostMainContent = ({ onClose }) => {
       ? archivedPostCount + 1
       : 0;
 
-  const postKey =
-    selectedPostStatusString === "drafts"
-      ? `draft-${draftPostCount + 1}`
-      : selectedPostStatusString === "published"
-      ? `publish-${publishedPostCount + 1}`
-      : selectedPostStatusString === "archived"
-      ? `archive-${archivedPostCount + 1}`
-      : 0;
-
   const handleAddPost = async () => {
     if (selectedPostStatusString === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
         const taggedPeople = taggedPeopleList.filter(
           (people) => people.key === selectedTaggedPeopleString
         );
-        console.log("LALALALLA taggedPeople: ", taggedPeople);
 
         const draftedPost = {
+          sub: auth.sub,
           type: templateName.toLowerCase(),
           reactionList: [...selectedReactions],
           mediaLayout: selectedMediaLayout,
@@ -197,62 +165,56 @@ const ManagePostMainContent = ({ onClose }) => {
     if (selectedPostStatusString === "drafts") {
       console.log("INSIDE DELETE DRAFT POST", selectedDraftPost);
 
-      // Deletes post from post modal
-      // setDraftsPostList(() =>
-      //   draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
-      // );
-      // setSelectedDraftPost([]);
-
       const toBeDeletedPost = draftsPostList.filter((draft) => {
         console.log("KEY", draft.key);
         return selectedDraftPost.includes(draft.key);
       });
 
       console.log("toBeDeletedPost", toBeDeletedPost);
-      let deleted = await Promise.all(
-        toBeDeletedPost.map(async (post) => {
-          console.log("TO BE DELETED POST", post._id);
-          console.log("TO BE DELETED POST TYPE", typeof post);
-          let response = await destroywithparams("/post", { _id: post._id });
-          console.log("DELETE RESPONSE", response);
-        })
-      );
-      console.log("deleted deleted", deleted);
+      const response = await removeDraftPost(toBeDeletedPost);
+      console.log("POST DELETED", response);
+      if (response.success) {
+        console.log("CONFIRM WINDOW DELETED POST", response.success);
+      } else {
+        console.log("NO POST DELETED");
+      }
     }
 
     if (selectedPostStatusString === "published") {
       console.log("INSIDE DELETE PUBLISH POST", selectedPublishPost);
 
-      // Deletes post from post modal
-      setPublishedPostList(() =>
-        publishedPostList.filter(
-          (publish) => !selectedPublishPost.includes(publish.key)
-        )
-      );
-      setSelectedPublishPost([]);
+      const toBeDeletedPost = publishedPostList.filter((publish) => {
+        console.log("KEY", publish.key);
+        return selectedPublishPost.includes(publish.key);
+      });
 
-      // Deletes post from feed
-      setDeletedPosts(() =>
-        posts.filter(
-          (publish) => !selectedPublishPost.includes(publish.postKey)
-        )
-      );
+      console.log("toBeDeletedPost", toBeDeletedPost);
+      const response = await removePublishPost(toBeDeletedPost);
+      console.log("POST DELETED", response);
+      if (response.success) {
+        console.log("CONFIRM WINDOW DELETED POST", response.success);
+      } else {
+        console.log("NO POST DELETED");
+      }
     }
 
     if (selectedPostStatusString === "archived") {
       console.log("INSIDE DELETE ARCHIVE POST", selectedArchivePost);
 
-      // Deletes post from post modal
-      setArchivedPostList(() =>
-        archivedPostList.filter(
-          (archive) => !selectedArchivePost.includes(archive.key)
-        )
-      );
-      setSelectedArchivePost([]);
-    }
+      const toBeDeletedPost = archivedPostList.filter((archive) => {
+        console.log("KEY", archive.key);
+        return selectedPublishPost.includes(archive.key);
+      });
 
-    console.log("DELETE postCount: ", postStatusCount);
-    console.log("POST DELETED");
+      console.log("toBeDeletedPost", toBeDeletedPost);
+      const response = await removeArchivePost(toBeDeletedPost);
+      console.log("POST DELETED", response);
+      if (response.success) {
+        console.log("CONFIRM WINDOW DELETED POST", response.success);
+      } else {
+        console.log("NO POST DELETED");
+      }
+    }
   };
 
   const handlePublishPost = async () => {
@@ -261,142 +223,40 @@ const ManagePostMainContent = ({ onClose }) => {
 
       // ### TODO Add validation for data to be completed first before publishing to post feed
 
-      const filteredDrafts = draftsPostList.filter((draft) =>
+      const selectedDrafts = draftsPostList.filter((draft) =>
         selectedDraftPost.includes(draft.key)
       );
 
-      const toBePublished = filteredDrafts.map((draft) => {
-        return { ...draft, key: `publish-${publishedPostCount + 1}` };
-      });
+      console.log("PUBLISH: selectedDraftPost", selectedDraftPost);
+      console.log("PUBLISH: selectedDrafts", selectedDrafts);
 
-      console.log("PUBLISH: filteredDrafts", filteredDrafts);
-      console.log("PUBLISH: toBePublished", toBePublished);
-      console.log("PUBLISH: postCount", postCount);
-      console.log("PUBLISH: publishedPostCount", publishedPostCount);
-
-      // Removes post from post modal
-      addDraftPost(() =>
-        draftsPostList.filter((draft) => !selectedDraftPost.includes(draft.key))
-      );
-      setSelectedDraftPost([]);
-
-      // Adds post to published status from post modal
-      setPublishedPostList((prev) => [...prev, ...toBePublished]);
-
-      let publishCountIndex = publishedPostCount;
-      let postCountIndex = postCount;
-
-      const toBePosted = await Promise.all(
-        filteredDrafts.map(async (draft) => {
-          console.log("NO MEDIA", draft.key);
-          console.log("MEDIA HERE INSIDE: ", mediaFileList);
-          console.log("TYPE MEDIA HERE INSIDE: ", typeof mediaFileList);
-
-          const mediaToBeUploaded = async () => {
-            let upload = await Promise.all(
-              Object.values(mediaFileList).map(async (media) => {
-                return await uploadfile(media);
-              })
-            );
-            console.log("INSIDE ASYNC UPLOAD FILE: ", upload);
-            return upload;
-          };
-
-          const fileNameList = await mediaToBeUploaded();
-
-          const mediaToBePosted = fileNameList.map((media) => {
-            if (media.success) {
-              return getfile(media.filename);
-            } else {
-              (""); // default image placeholder
-            }
-          });
-          console.log("NEED TO SEE THIS", mediaToBePosted);
-          console.log("TYPE NEED TO SEE THIS", typeof mediaToBePosted);
-
-          const dateToBePublished = new Date();
-          const dateToBeScheduled = new Date();
-
-          return {
-            datetimePublished: dateToBePublished,
-            datetimeScheduled: dateToBeScheduled,
-            id: (publishCountIndex += 1),
-            type: draft.type,
-            key: `publish-${(publishCountIndex += 1)}`,
-            postKey: `post-${(postCountIndex += 1)}`,
-            title: draft.title,
-            publisher: draft.publisher,
-            publisherPicture: draft.publisherPicture,
-            team: draft.team,
-            caption: draft.caption,
-            media: mediaToBePosted ? [...mediaToBePosted] : [],
-            mediaLayout: draft.mediaLayout,
-            orientation: draft.orientation,
-            reactionList: draft.reactionList,
-            taggedPeople: [...draft.taggedPeople], // key of users
-            status: "published",
-            reacted: false,
-            reactions: {
-              star: 1,
-              love: 0,
-              birthday: 0,
-              happy: 0,
-            },
-            comments: 0,
-          };
-        })
-      );
-
-      console.log("TETETET toBePosted", toBePosted);
-
-      // Adds post to backend via API call
-      const posts = await restinsert("/post", toBePosted);
-
-      console.log("PUBLISHED POSTS FOR FEED");
-      console.log("POSTS SUCCESS", posts);
-      console.log("POSTS DATA", posts);
-
-      // Adds post to post feed
-      setAddedPosts((prev) => [...prev, ...toBePosted]);
+      const response = await addPublishPost(selectedDrafts);
+      console.log("PUBLISHED POST RESPONSE", response);
+      fetchPost(auth.sub);
+      fetchDraftPost(auth.sub);
+      fetchPublishPost(auth.sub);
     }
 
     console.log("PUBLISH postCount: ", postStatusCount);
     console.log("POST PUBLISHED");
   };
 
-  const handleArchivePost = () => {
+  const handleArchivePost = async () => {
     if (selectedPostStatusString === "published") {
       console.log("INSIDE ARCHIVE POST", selectedPublishPost);
 
-      const filteredPublish = publishedPostList.filter((publish) =>
+      const selectedPublish = publishedPostList.filter((publish) =>
         selectedPublishPost.includes(publish.key)
       );
-      let postIndex = archivedPostCount;
-      const toBeArchived = filteredPublish.map((publish) => {
-        return {
-          ...publish,
-          key: `archive-${(postIndex += 1)}`,
-          status: "archived",
-        };
-      });
 
-      // Removes post from post modal
-      setPublishedPostList(() =>
-        publishedPostList.filter(
-          (publish) => !selectedPublishPost.includes(publish.key)
-        )
-      );
-      setSelectedPublishPost([]);
+      console.log("ARCHIVE: selectedPublishPost", selectedPublishPost);
+      console.log("ARCHIVE: selectedPublish", selectedPublish);
 
-      // Adds post to archived status from post modal
-      setArchivedPostList((prev) => [...prev, ...toBeArchived]);
-
-      // Deletes post from post feed
-      setDeletedPosts(() =>
-        posts.filter(
-          (archive) => !selectedPublishPost.includes(archive.postKey)
-        )
-      );
+      const response = await addArchivePost(selectedPublish);
+      console.log("ARCHIVED POST RESPONSE", response);
+      fetchPost(auth.sub);
+      fetchPublishPost(auth.sub);
+      fetchArchivePost(auth.sub);
     }
 
     console.log("ARCHIVE postCount: ", postStatusCount);
@@ -486,14 +346,13 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const [searchItem, setSearchItem] = useState("");
 
-  const filteredPostList = filteredPost;
-  // .filter((post) => {
-  //   return (
-  //     post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
-  //     post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
-  //     post.title.toLowerCase().includes(searchItem.toLowerCase())
-  //   );
-  // });
+  const filteredPostList = filteredPost.filter((post) => {
+    return (
+      post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
+      post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
+      post.title.toLowerCase().includes(searchItem.toLowerCase())
+    );
+  });
 
   return (
     <div className="flex flex-col w-[72rem] h-fit">

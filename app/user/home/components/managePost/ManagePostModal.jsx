@@ -1,7 +1,7 @@
 import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
+import "../../../../aws-auth";
 import ManagePostMainContent from "./ManagePostMainContent";
 import ManagePostSidebar from "./ManagePostSidebar";
-import "../../../../aws-auth"
 
 const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
   return (

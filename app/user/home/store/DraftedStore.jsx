@@ -1,4 +1,6 @@
+import { userAtom } from "@/app/store/UserStore";
 import {
+  destroywithparams,
   getfile,
   restinsert,
   restread,
@@ -6,20 +8,6 @@ import {
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import "../../../aws-auth";
-import {
-  mediaFileListAtom,
-  postCaptionAtom,
-  postTitleAtom,
-  selectedMediaLayoutAtom,
-  selectedMediaOrientationAtom,
-  selectedPostStatusAtom,
-  selectedReactionsAtom,
-  selectedTaggedPeopleAtom,
-  selectedTemplateTypeAtom,
-  templateNameAtom,
-} from "./ManagePostStore";
-import { userAtom } from "@/app/store/UserStore";
-import { addPostAtom, postAtom } from "./PostStore";
 
 // LIST FOR DRAFTED POSTS
 export const draftPostListAtom = atom([]);
@@ -27,20 +15,23 @@ export const draftPostListAtom = atom([]);
 export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
 
 // ADDING DRAFTS TO MODAL WINDOW AND TO BACKEND
-export const addDraftPostAtom = atom(null, async (get, set, draft) => {
+export const addDraftPostAtom = atom(null, async (get, set, selectedDraft) => {
   // fetching data needed for drafted post
   const user = await get(userAtom);
   const draftPostCount = get(draftPostCountAtom);
+  const sub = selectedDraft.sub;
 
-  const templateName = draft.type;
-  const postKey = get(postCountAtom) + 1;
-  const postTitle = draft.title;
-  const postCaption = draft.caption;
-  const mediaFileList = draft.mediaFileList;
-  const selectedMediaLayout = Array.from(draft.mediaLayout).join("");
-  const selectedMediaOrientation = Array.from(draft.orientation).join("");
-  const selectedReactions = draft.reactionList;
-  const selectedTaggedPeople = draft.taggedPeople;
+  const templateName = selectedDraft.type;
+
+  const postTitle = selectedDraft.title;
+  const postCaption = selectedDraft.caption;
+  const mediaFileList = selectedDraft.mediaFileList;
+  const selectedMediaLayout = Array.from(selectedDraft.mediaLayout).join("");
+  const selectedMediaOrientation = Array.from(selectedDraft.orientation).join(
+    ""
+  );
+  const selectedReactions = selectedDraft.reactionList;
+  const selectedTaggedPeople = selectedDraft.taggedPeople;
 
   // uploading then fetching filename from backend to be able to display it on frontend
   const mediaToBeUploaded = async () => {
@@ -70,27 +61,28 @@ export const addDraftPostAtom = atom(null, async (get, set, draft) => {
 
   // Add Validation
 
-  const newPost = {
+  const newDraft = {
     caption: postCaption,
-    comments: 0,
-    datetimePublished: new Date(),
-    datetimeScheduled: new Date(),
+    // comments: 0,
+    // datetimePublished: new Date(),
+    // datetimeScheduled: new Date(),
     id: draftPostCount,
     key: `draft-${draftPostCount + 1}`,
     media: previewMediaList ? [...previewMediaList] : [],
     mediaLayout: selectedMediaLayout,
     orientation: selectedMediaOrientation,
-    postKey: postKey,
+    // postKey: postKey,
     publisher: user.name,
     publisherPicture: user.picture,
-    reacted: false,
+    // reacted: false,
     reactionList: [...selectedReactions],
-    reactions: {
-      star: 0,
-      love: 0,
-      birthday: 0,
-      happy: 0,
-    },
+    // reactions: {
+    //   star: 0,
+    //   love: 0,
+    //   birthday: 0,
+    //   happy: 0,
+    // },
+    sub: sub,
     status: "drafts",
     taggedPeople: [...selectedTaggedPeople], // key of users
     team: user.team,
@@ -98,23 +90,66 @@ export const addDraftPostAtom = atom(null, async (get, set, draft) => {
     type: templateName.toLowerCase(),
   };
 
-  const response = await restinsert("/post", { ...newPost });
-  console.log("RESPONSE", response);
-
-  set(draftPostListAtom, [...get(draftPostListAtom), newPost]);
-
-  // console.log("ADDED DRAFT", get(draftPostListAtom));
-  return { success: true };
+  const response = await restinsert("/post", { ...newDraft });
+  console.log("ADDED POST RESPONSE", response);
+  if (response.success) {
+    set(draftPostListAtom, [...get(draftPostListAtom), newDraft]);
+    return { success: true };
+  } else {
+    return { success: false };
+  }
 });
-export const removeDraftPostAtom = atom(null, async (get, set, update) => {
-  set(draftPostListAtom, update);
-  console.log("PUBLISHED POST", get(draftPostListAtom));
-});
+
+export const removeDraftPostAtom = atom(
+  null,
+  async (get, set, selectedDraft) => {
+    const handleAllAreTrue = (arr) => {
+      return arr.every((element) => element === true);
+    };
+
+    const toBeDeleted = await Promise.all(
+      selectedDraft.map(async (draft) => {
+        console.log("TO BE DELETED POST", draft._id);
+        console.log("TO BE DELETED POST TYPE", typeof draft);
+        const response = await destroywithparams("/post", { _id: draft._id });
+        console.log("DELETE RESPONSE", response);
+        return { success: response.success ?? false };
+      })
+    );
+    if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
+      console.log("DELETED ACKNOWLEDGED: ", toBeDeleted);
+      console.log(
+        `${toBeDeleted.length} ${
+          toBeDeleted.length > 1 ? "posts are" : "post is"
+        } successfully deleted`
+      );
+      // Removes drafted post from post modal
+      set(
+        draftPostListAtom,
+        get(draftPostListAtom).filter(
+          (draft) => !get(selectedDraftPostAtom).includes(draft.key)
+        )
+      );
+
+      set(selectedDraftPostAtom, []); // clears the selection when deleting
+      return { success: true, deletedCount: toBeDeleted.length };
+    } else {
+      return { success: false };
+    }
+  }
+);
+
 export const selectedDraftPostAtom = atom([]);
 
-export const fetchPostAtom = atom(null, async (get, set) => {
+export const fetchDraftPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
-  console.log("POSTS DATA", posts);
-
-  set(draftPostListAtom, posts.response);
+  if (posts.success) {
+    console.log("POSTS DATA", posts);
+    const filteredDrafts = posts.response.filter(
+      (post) => post.sub === sub && post.status === "drafts"
+    );
+    set(draftPostListAtom, filteredDrafts);
+  } else {
+    console.log("POSTS DATA FAILED");
+  }
 });

@@ -26,18 +26,14 @@ const User = () => {
   const fetchPost = useSetAtom(fetchPostAtom);
 
   useEffect(() => {
-    fetchPost();
-  }, [fetchPost]);
+    fetchPost(auth.sub);
+  }, [auth, fetchPost]);
 
-  const filteredPosts = posts.filter((post) => {
-    if (post.datetimePublished) {
-      return post.datetimePublished;
-    }
-  });
+  const filteredPosts = posts.filter((post) => post.datetimePublished);
 
   console.log("filteredPosts FILTERERED", filteredPosts);
 
-  const sortedPosts = posts.sort(
+  const sortedPosts = filteredPosts.sort(
     (a, b) => new Date(b.datetimePublished) - new Date(a.datetimePublished)
   );
 
