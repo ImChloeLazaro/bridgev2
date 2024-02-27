@@ -202,8 +202,8 @@ const ManagePostMainContent = ({ onClose }) => {
       console.log("INSIDE DELETE ARCHIVE POST", selectedArchivePost);
 
       const toBeDeletedPost = archivedPostList.filter((archive) => {
-        console.log("KEY", archive.key);
-        return selectedPublishPost.includes(archive.key);
+        console.log("KEY", archivedPostList);
+        return selectedArchivePost.includes(archive.key);
       });
 
       console.log("toBeDeletedPost", toBeDeletedPost);
