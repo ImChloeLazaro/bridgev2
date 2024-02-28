@@ -20,8 +20,6 @@ const ReactionCount = ({ data, filter }) => {
     filter.includes(reaction)
   );
 
-  console.log("REACTION: filteredReactions", filteredReactions);
-
   const plural = {
     happy: `people are happy`,
     star: `people are amazed`,
@@ -42,7 +40,7 @@ const ReactionCount = ({ data, filter }) => {
         const icon = reactionIcons[`${reaction}`].label;
         const count = data[`${reaction}`];
 
-        return (
+        return count > 1 ? (
           <Tooltip
             key={index}
             delay={1500}
@@ -58,6 +56,10 @@ const ReactionCount = ({ data, filter }) => {
               {reactionIcons[`${reaction}`].badge}
             </div>
           </Tooltip>
+        ) : (
+          <div key={index} className={`${reactionStack[index]}`}>
+            {reactionIcons[`${reaction}`].badge}
+          </div>
         );
       })}
 

@@ -1,22 +1,3 @@
-import LoveActive from "../../../../assets/media/Love Icon_Active.svg";
-import LoveInactive from "../../../../assets/media/Love Icon_Inactive.svg";
-import LoveBadge from "../../../../assets/media/Love Badge.svg";
-import LoveBorderBadge from "../../../../assets/media/Love BadgeBorder.svg";
-import BirthdayActive from "../../../../assets/media/Birthday Icon_Active.svg";
-import BirthdayInactive from "../../../../assets/media/Birthday Icon_Inactive.svg";
-import BirthdayBadge from "../../../../assets/media/Birthday Badge.svg";
-import BirthdayBorderBadge from "../../../../assets/media/Birthday BadgeBorder.svg";
-import StarActive from "../../../../assets/media/Star Icon_Active.svg";
-import StarInactive from "../../../../assets/media/Star Icon_Inactive.svg";
-import StarBadge from "../../../../assets/media/Star Badge.svg";
-import StarBorderBadge from "../../../../assets/media/Star BadgeBorder.svg";
-import HappyActive from "../../../../assets/media/Happy Icon_Active.svg";
-import HappyInactive from "../../../../assets/media/Happy Icon_Inactive.svg";
-import HappyBadge from "../../../../assets/media/Happy Badge.svg";
-import HappyBorderBadge from "../../../../assets/media/Happy BadgeBorder.svg";
-
-// ### TODO Update hard-coded style color to tailwind
-
 export const reactionIcons = {
   love: {
     label: "Love",

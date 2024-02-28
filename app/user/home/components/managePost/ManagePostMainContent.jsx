@@ -47,8 +47,7 @@ import {
 } from "../../store/PublishedStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
-// ### TODO Add Note to media selection that images
-// should be at least ...px width to avoid images not properly displayed
+
 
 const ManagePostMainContent = ({ onClose }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -188,7 +187,6 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const handlePublishPost = async () => {
     if (selectedPostStatusString === "drafts") {
-      // ### TODO Add validation for data to be completed first before publishing to post feed
 
       const selectedDrafts = draftsPostList.filter((draft) =>
         selectedDraftPost.includes(draft.key)

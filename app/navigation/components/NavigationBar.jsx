@@ -18,7 +18,6 @@ import NotificationsDropdown from "./notifications/NotificationsDropdown";
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // ### TODO Fix NavbarMenu when screen is small (responsiveness)
   const menuItems = routesUser.map((details) => details.label);
   const router = useRouter();
 
@@ -41,9 +40,7 @@ const NavigationBar = () => {
           className="md:hidden"
         />
       </NavbarContent> */}
-      {/* // ### TODO Fix this navbar component warning, 
-                      message: `warning A component changed 
-                      from uncontrolled to controlled. ` */}
+
       {/* <NavbarContent justify="center">
         <NavbarItem>
           <Image

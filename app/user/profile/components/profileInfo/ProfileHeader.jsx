@@ -4,7 +4,6 @@ import { MdManageAccounts } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
 
-// ### TODO Fix button for changing profile photo
 const ProfileHeader = ({ data }) => {
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
   return (

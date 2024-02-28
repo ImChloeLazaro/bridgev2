@@ -180,7 +180,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: "tatiana philips", // ### TODO employee id for reference
+    key: "tatiana philips", 
     name: "Tatiana Philips",
     email: "tatiana.philips@aretex.com.au",
     picture: "/Tatiana Philips.png",

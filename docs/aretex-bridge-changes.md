@@ -715,3 +715,4 @@ postsAtom = atom({
 * Fixed handling for setting `date` value object of `onboarding` form in `Onboarding` Page
 * Merge `fetchAuthentication` atom and
 `authenticationAtom` atom in `AuthenticationStore`
+* Fixed issue in `MediaLayoutSelect` and `MediaOrientationSelect` Component when selecting `single` as the media layout of a post, the media orientation is not passed to the backend so it values to an empty string

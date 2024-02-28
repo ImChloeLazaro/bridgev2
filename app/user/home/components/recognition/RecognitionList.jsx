@@ -41,7 +41,7 @@ const RecognitionList = () => {
     <Listbox
       items={recognitions}
       aria-label="Recognition List"
-      onAction={(key) => console.log(key)} // ### TODO Add Functionality to view recognition
+      onAction={(key) => console.log(key)} 
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
           {/* <Image

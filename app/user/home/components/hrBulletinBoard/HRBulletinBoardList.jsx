@@ -38,7 +38,7 @@ const HRBulletinBoardList = () => {
       onAction={(key) => console.log(key)}
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
-          {/* // ### TODO Add No announcement illustration */}
+
           {/* <Image
               width={180}
               height={180}

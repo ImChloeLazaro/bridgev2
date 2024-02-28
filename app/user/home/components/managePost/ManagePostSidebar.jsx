@@ -124,7 +124,7 @@ const ManagePostSidebar = () => {
 
     if (filteredTemplateName.includes(templateName.toLowerCase())) {
       console.log("ALREADY ON SELECTION CHANGE NAME");
-      // ### TODO Add Info Window
+
     } else {
       setTemplateTypeSelection((prev) => [
         ...prev,

@@ -27,7 +27,7 @@ const PostOptions = ({ trigger, options }) => {
       <PopoverContent className="p-1 w-40">
         <Listbox
           aria-label="Actions"
-          onAction={(key) => console.log(key)} // ### TODO Add Functionality hiding and removing post
+          onAction={(key) => console.log(key)} 
           itemClasses={{
             base: [
               "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",

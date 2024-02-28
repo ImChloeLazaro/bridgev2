@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from "jotai";
 import {
   mediaOrientationSelectionAtom,
   selectedMediaLayoutAtom,
-  selectedMediaOrientationAtom
+  selectedMediaOrientationAtom,
 } from "../../store/ManagePostStore";
 
 const MediaOrientationSelect = () => {

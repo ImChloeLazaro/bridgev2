@@ -16,9 +16,6 @@ import { FreeMode, Navigation, Thumbs, Zoom } from "swiper/modules";
 
 import { Image } from "@nextui-org/react";
 
-// ### TODO Add zoom functionality
-// ### TODO Add keyboard controls when sliding images
-
 const ImageSwiper = ({ data, selectedImage }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const swiperRef = useRef(null);

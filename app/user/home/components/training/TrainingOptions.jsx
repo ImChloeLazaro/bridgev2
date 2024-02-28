@@ -1,6 +1,7 @@
 import {
   Button,
-  Listbox, ListboxItem,
+  Listbox,
+  ListboxItem,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -9,8 +10,6 @@ import { useState } from "react";
 
 const TrainingOptions = ({ trigger, options }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  // ### TODO Add Functionality to edit and cancel the selected training
 
   return (
     <Popover

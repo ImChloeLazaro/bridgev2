@@ -18,7 +18,7 @@ const TrainingList = () => {
     <Listbox
       items={trainings}
       aria-label="Training List"
-      onAction={(key) => console.log(key)} // ### TODO Add Functionality to view training
+      onAction={(key) => console.log(key)} 
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
           {/* <Image

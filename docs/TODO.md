@@ -11,13 +11,17 @@
 * Update hard-coded hex code colors to `tailwind` variables
 * Update components to be responsive
 
+### New Feature: Info & Confirmation Modal Windows
+
+* Add `modal` windows for actions, notifications, confirmation, and other related actionable event
+
 ### New Feature: Google APIs for G-Drive and G-Calendar
 
-* Add foundation for Google APIs for G-Drive and G-Calendar
+* Add foundation for `Google` APIs for G-Drive and G-Calendar
 
 ### Refactor: Migrating hard-coded hex code color to tailwind color
 
-* Migrate hard-coded hex code color to tailwind color
+* Migrate hard-coded `hex` code color to `tailwind` color
 
 ### Profiling: `Onboarding` Components on Onboarding Page
 
@@ -26,6 +30,10 @@
 ### Profiling: `OnboardingForm` Component on Onboarding Page
 
 * Follow-up reminder for missing info on `onboarding` form
+
+### Updating: `OnboardingHeader` Component on Onboarding Page
+
+* Add functionality to be able to navigation thru the `stepper` component
 
 ### Updating: `CTAButtons` Component
 
@@ -62,3 +70,55 @@
 ### Updating: `CreatePostButton` Component
 
 * Add Randomize function to generate placeholder text for `CreatePostButton` Component
+
+### Updating: `NavigationBar` Component
+
+* Fix `NavbarMenu` Component when screen is small (responsiveness)
+* Fix this warning, message: `warning A component changed from uncontrolled to controlled.` `NavbarMenu` and `NavbarContent` component part is the source of the warning
+
+### Updating: `HRBulletinBoardList` Component
+
+* Add No announcement illustration when the `list` for HR Bulletin is empty
+
+### Updating: `ManagePostMainContent` Component
+
+* Add Note to `media` selection that `images` should be at least ...px `width` to avoid `images` not properly displayed
+* Add validation to check `post` data to be completed first before publishing to `post` feed
+
+### Refactor: `ManagePostSidebarContent` Component
+
+* Rewrite this component to be a `AutoComplete` Component from @next/UI library
+* Include user custom post template keys as `filter` keys when browsing
+* Add `template` as a `status` for posts to be able to filter out as a post `template`
+
+### Updating: `MediaLayoutPost` Components (One-SixPlus)
+
+* Add the `layout` prop to each media layout component to correctly display the media on post feed
+
+### Updating: `ImageSwiper` Component
+
+* Add `zoom` functionality
+* Add `keyboard` controls when sliding images
+
+### Updating: `PostOptions` Component
+
+* Add Functionality when hiding and reporting a `post`
+
+### Updating: `RecognitionList` Component
+
+* Add Functionality to view recognition in a modal window or direct to calendar
+* Add No recognition illustration when the `list` for Recognition is empty
+
+### Updating: `TrainingList` Component
+
+* Add Functionality to view training in a modal window or direct to calendar
+* Add No training illustration when the `list` for Training is empty
+* Add Functionality to edit and cancel the selected training
+
+### Store: `ManagePostStore`
+
+* Change `key` prop to `employee` id to uniquely identify each user and can be identify by `all` and `team`
+
+### Updating: `ProfileHeader` Component
+
+* Fix button for changing profile photo

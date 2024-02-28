@@ -1,4 +1,4 @@
-import { Link, User, Tooltip } from "@nextui-org/react";
+import { Link, Tooltip, User } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -44,7 +44,6 @@ const PostHeader = ({ data }) => {
 
   const tooltipDate = format(postDateTime, "PPpp");
 
-  // ### TODO
   return (
     <>
       {pinned && <div>Pinned</div>}

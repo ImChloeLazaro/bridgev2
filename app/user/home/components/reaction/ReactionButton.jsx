@@ -1,9 +1,10 @@
 import { Button } from "@nextui-org/react";
 import { useSetAtom } from "jotai";
 import { reactionIcons } from "./ReactionIcons";
+import { updatePostReactionAtom } from "../../store/PostStore";
 
-const ReactionButton = ({ id, data, reacted }) => {
-  // const setReacted = useSetAtom(updatePostAtom);
+const ReactionButton = ({ id, reactionList, reacted }) => {
+  const updatePostReaction = useSetAtom(updatePostReactionAtom);
 
   const label = {
     love: { label: "love", color: "font-semibold text-[#FF4949] capitalize" },
@@ -21,34 +22,24 @@ const ReactionButton = ({ id, data, reacted }) => {
     },
   };
 
-  const handleAddReaction = (reaction) => {
-    setReacted((prev) => {
-      return prev.map((post) => {
-        if (id === post.id) {
-          if (reacted) {
-            return {
-              ...post,
-              reacted: !reacted,
-              reactions: {
-                ...post.reactions,
-                [reaction]: (post.reactions[reaction] -= 1),
-              },
-            };
-          } else {
-            return {
-              ...post,
-              reacted: !reacted,
-              reactions: {
-                ...post.reactions,
-                [reaction]: (post.reactions[reaction] += 1),
-              },
-            };
-          }
-        }
-
-        return { ...post };
-      });
+  const handleAddReaction = async (reaction) => {
+    console.log("BEFORE PASSING TO ATOM", {
+      id: id,
+      selectedReaction: reaction,
+      reacted: !reacted,
     });
+
+    const response = await updatePostReaction({
+      id: id,
+      selectedReaction: reaction,
+      reacted: !reacted,
+    });
+
+    if (response.success) {
+      console.log("CONFIRM WINDOW UPDATED POST REACTION", response.success);
+    } else {
+      console.log("NO POST REACTION UPDATED");
+    }
   };
 
   return (
@@ -59,14 +50,14 @@ const ReactionButton = ({ id, data, reacted }) => {
         disableAnimation
         className="bg-transparent"
         onPress={() => {
-          handleAddReaction(data[0]);
+          handleAddReaction(reactionList[0]);
         }}
         startContent={
           <div className="text-darkgrey-default">
-            {data?.length
+            {reactionList?.length
               ? reacted
-                ? reactionIcons[data[0]]?.active
-                : reactionIcons[data[0]]?.inactive
+                ? reactionIcons[reactionList[0]]?.active
+                : reactionIcons[reactionList[0]]?.inactive
               : reacted
               ? reactionIcons.star.active
               : reactionIcons.star.inactive}
@@ -76,11 +67,11 @@ const ReactionButton = ({ id, data, reacted }) => {
         <p
           className={`${
             reacted
-              ? `${label[data[0]]?.color}`
+              ? `${label[reactionList[0]]?.color}`
               : "font-semibold text-darkgrey-default capitalize"
           }`}
         >
-          {label[data[0]]?.label}
+          {label[reactionList[0]]?.label}
         </p>
       </Button>
     </div>
