@@ -1,6 +1,6 @@
 # TODO for Aretex Bridge Changes
 
-## v.0.6.3
+## v.0.6.4
 
 ### GLOBAL: All Components and Files
 
@@ -22,7 +22,6 @@
 ### Profiling: `Onboarding` Components on Onboarding Page
 
 * Add validation for required `input` fields before submitting to `server`
-* Add handling for setting `date` value object
 
 ### Profiling: `OnboardingForm` Component on Onboarding Page
 
@@ -55,10 +54,6 @@
 * Newly added `shortcut` should be on top of the list
 * Fix order of `shortcuts` does not persist after refresh or after sign in
 * Add `alert` when the link is invalid when editing or adding link after `regex` validation
-
-### Updating: `Sidebar` Component
-
-* Fix `active` state of navigation when clicking a route
 
 ### Updating: `ClientItemCard` Component
 

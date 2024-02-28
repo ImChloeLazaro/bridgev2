@@ -62,11 +62,9 @@ import {
 
 import { contactAtom } from "../store/OnboardingStore";
 
-import { isSubmittedOnboardingFormAtom } from "../store/OnboardingStore";
-
 import { useAtomValue, useSetAtom } from "jotai";
-
 import { restinsert, updatewithparams } from "../../utils/amplify-rest";
+
 const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const unique_key = useAtomValue(authenticationAtom);
   const steps = useAtomValue(stepsAtom);
@@ -131,10 +129,6 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
 
   // Emergency Contact
   const contact = useAtomValue(contactAtom);
-
-  const setIsSubmittedOnboardingForm = useSetAtom(
-    isSubmittedOnboardingFormAtom
-  );
 
   const handleSubmit = async () => {
     const onboardingData = {

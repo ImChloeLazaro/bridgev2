@@ -9,7 +9,6 @@ export const postCountAtom = atom((get) => get(postAtom).length);
 export const fetchPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
   if (posts.success) {
-    console.log("POSTS DATA", posts);
     const filteredPosts = posts.response.filter(
       (post) => post.status === "published"
     );

@@ -1,11 +1,27 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import CloseButton from "@/app/components/CloseButton";
 import SearchBar from "@/app/components/SearchBar";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { MdMinimize } from "react-icons/md";
+import "../../../../aws-auth";
+import {
+  addArchivePostAtom,
+  archivedPostListAtom,
+  fetchArchivePostAtom,
+  removeArchivePostAtom,
+  selectedArchivePostAtom,
+} from "../../store/ArchivedStore";
+import {
+  addDraftPostAtom,
+  draftPostListAtom,
+  fetchDraftPostAtom,
+  removeDraftPostAtom,
+  selectedDraftPostAtom,
+} from "../../store/DraftedStore";
 import {
   filterKeysAtom,
   mediaFileListAtom,
@@ -21,36 +37,16 @@ import {
   taggedPeopleListAtom,
   templateNameAtom,
 } from "../../store/ManagePostStore";
-import { deletePostAtom, fetchPostAtom, postAtom } from "../../store/PostStore";
-import ManagePostItemCard from "./ManagePostItemCard";
-import ManagePostTabs from "./ManagePostTabs";
-
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import "../../../../aws-auth";
-import {
-  addArchivePostAtom,
-  archivedPostCountAtom,
-  archivedPostListAtom,
-  fetchArchivePostAtom,
-  removeArchivePostAtom,
-  selectedArchivePostAtom,
-} from "../../store/ArchivedStore";
-import {
-  addDraftPostAtom,
-  draftPostCountAtom,
-  draftPostListAtom,
-  fetchDraftPostAtom,
-  removeDraftPostAtom,
-  selectedDraftPostAtom,
-} from "../../store/DraftedStore";
+import { fetchPostAtom } from "../../store/PostStore";
 import {
   addPublishPostAtom,
   fetchPublishPostAtom,
-  publishedPostCountAtom,
   publishedPostListAtom,
   removePublishPostAtom,
   selectedPublishPostAtom,
 } from "../../store/PublishedStore";
+import ManagePostItemCard from "./ManagePostItemCard";
+import ManagePostTabs from "./ManagePostTabs";
 // ### TODO Add Note to media selection that images
 // should be at least ...px width to avoid images not properly displayed
 
@@ -117,19 +113,6 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const mediaFileList = useAtomValue(mediaFileListAtom);
 
-  const draftPostCount = useAtomValue(draftPostCountAtom);
-  const publishedPostCount = useAtomValue(publishedPostCountAtom);
-  const archivedPostCount = useAtomValue(archivedPostCountAtom);
-
-  const postStatusCount =
-    selectedPostStatusString === "drafts"
-      ? draftPostCount + 1
-      : selectedPostStatusString === "published"
-      ? publishedPostCount + 1
-      : selectedPostStatusString === "archived"
-      ? archivedPostCount + 1
-      : 0;
-
   const handleAddPost = async () => {
     if (selectedPostStatusString === "drafts") {
       if (selectedTemplateTypeString !== "custom") {
@@ -149,7 +132,7 @@ const ManagePostMainContent = ({ onClose }) => {
           caption: postCaption,
         };
         const response = await addDraftPost(draftedPost);
-        console.log("POST ADDED", response);
+
         if (response.success) {
           console.log("CONFIRM WINDOW ADDED POST", response.success);
         }
@@ -157,110 +140,88 @@ const ManagePostMainContent = ({ onClose }) => {
         console.log("NO EMPTY TEMPLATE ALLOWED");
       }
     }
-
-    console.log("ADD postCount: ", postStatusCount);
   };
 
   const handleDeletePost = async () => {
     if (selectedPostStatusString === "drafts") {
-      console.log("INSIDE DELETE DRAFT POST", selectedDraftPost);
-
       const toBeDeletedPost = draftsPostList.filter((draft) => {
-        console.log("KEY", draft.key);
         return selectedDraftPost.includes(draft.key);
       });
 
-      console.log("toBeDeletedPost", toBeDeletedPost);
       const response = await removeDraftPost(toBeDeletedPost);
-      console.log("POST DELETED", response);
+
       if (response.success) {
         console.log("CONFIRM WINDOW DELETED POST", response.success);
       } else {
-        console.log("NO POST DELETED");
+        console.log("NO DRAFT POST DELETED");
       }
     }
 
     if (selectedPostStatusString === "published") {
-      console.log("INSIDE DELETE PUBLISH POST", selectedPublishPost);
-
       const toBeDeletedPost = publishedPostList.filter((publish) => {
-        console.log("KEY", publish.key);
         return selectedPublishPost.includes(publish.key);
       });
 
-      console.log("toBeDeletedPost", toBeDeletedPost);
       const response = await removePublishPost(toBeDeletedPost);
-      console.log("POST DELETED", response);
+
       if (response.success) {
         console.log("CONFIRM WINDOW DELETED POST", response.success);
       } else {
-        console.log("NO POST DELETED");
+        console.log("NO PUBLISH POST DELETED");
       }
     }
 
     if (selectedPostStatusString === "archived") {
-      console.log("INSIDE DELETE ARCHIVE POST", selectedArchivePost);
-
       const toBeDeletedPost = archivedPostList.filter((archive) => {
-        console.log("KEY", archivedPostList);
         return selectedArchivePost.includes(archive.key);
       });
 
-      console.log("toBeDeletedPost", toBeDeletedPost);
       const response = await removeArchivePost(toBeDeletedPost);
-      console.log("POST DELETED", response);
+
       if (response.success) {
         console.log("CONFIRM WINDOW DELETED POST", response.success);
       } else {
-        console.log("NO POST DELETED");
+        console.log("NO ARCHIVE POST DELETED");
       }
     }
   };
 
   const handlePublishPost = async () => {
     if (selectedPostStatusString === "drafts") {
-      console.log("INSIDE PUBLISH POST", selectedDraftPost);
-
       // ### TODO Add validation for data to be completed first before publishing to post feed
 
       const selectedDrafts = draftsPostList.filter((draft) =>
         selectedDraftPost.includes(draft.key)
       );
 
-      console.log("PUBLISH: selectedDraftPost", selectedDraftPost);
-      console.log("PUBLISH: selectedDrafts", selectedDrafts);
-
       const response = await addPublishPost(selectedDrafts);
-      console.log("PUBLISHED POST RESPONSE", response);
+      if (response.success) {
+        console.log("CONFIRM WINDOW PUBLISHED POST", response.success);
+      } else {
+        console.log("NO POST PUBLISHED");
+      }
       fetchPost(auth.sub);
       fetchDraftPost(auth.sub);
       fetchPublishPost(auth.sub);
     }
-
-    console.log("PUBLISH postCount: ", postStatusCount);
-    console.log("POST PUBLISHED");
   };
 
   const handleArchivePost = async () => {
     if (selectedPostStatusString === "published") {
-      console.log("INSIDE ARCHIVE POST", selectedPublishPost);
-
       const selectedPublish = publishedPostList.filter((publish) =>
         selectedPublishPost.includes(publish.key)
       );
 
-      console.log("ARCHIVE: selectedPublishPost", selectedPublishPost);
-      console.log("ARCHIVE: selectedPublish", selectedPublish);
-
       const response = await addArchivePost(selectedPublish);
-      console.log("ARCHIVED POST RESPONSE", response);
+      if (response.success) {
+        console.log("CONFIRM WINDOW ARCHIVED POST", response.success);
+      } else {
+        console.log("NO POST ARCHIVED");
+      }
       fetchPost(auth.sub);
       fetchPublishPost(auth.sub);
       fetchArchivePost(auth.sub);
     }
-
-    console.log("ARCHIVE postCount: ", postStatusCount);
-    console.log("POST ARCHIVED");
   };
 
   const draftActionsButtons = {
@@ -385,7 +346,6 @@ const ManagePostMainContent = ({ onClose }) => {
             value={selectedPosts}
             onValueChange={(value) => {
               setSelectedPosts(value);
-              console.log("SELECTED POST:", value);
             }}
             className="w-full"
           >

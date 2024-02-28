@@ -56,9 +56,6 @@ const SideBar = () => {
     ? routesTeamLead
     : role.includes("user") && routesUser;
 
-  console.log("ROLE IN SIDEBAR: ", role);
-  console.log("ROUTES STATUS: ", activeRoutes);
-
   const handleSidebarButtonsActive = (sidebarKey) => {
     for (let key in activeRoutes) {
       if (key === sidebarKey) {

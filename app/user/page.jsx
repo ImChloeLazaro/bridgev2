@@ -31,13 +31,9 @@ const User = () => {
 
   const filteredPosts = posts.filter((post) => post.datetimePublished);
 
-  console.log("filteredPosts FILTERERED", filteredPosts);
-
   const sortedPosts = filteredPosts.sort(
     (a, b) => new Date(b.datetimePublished) - new Date(a.datetimePublished)
   );
-
-  console.log("INSIDE USER PAGE MAIN CONTENT: ", sortedPosts);
 
   return (
     auth.isAuthenticated && (

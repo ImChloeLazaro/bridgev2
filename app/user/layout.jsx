@@ -15,7 +15,6 @@ const UserLayout = ({ children }) => {
 
   const isHasOnboardingData = useAtomValue(fetchHasOnboardingDataAtom);
   if (auth.isAuthenticated) {
-    console.log("ONBOARDING DATA", isHasOnboardingData);
     return (
       <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
         <SideBar />

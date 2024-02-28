@@ -10,16 +10,6 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 export function DatePicker({ date, onDateChange }) {
-  const handleDateChange = ({ index, setFunction }) => {
-    console.log("INDEX INSIDE DATE PICKER", index);
-    console.log("SET FUNCTION INSIDE DATE PICKER", setFunction);
-  };
-
-  const onValueChange =
-    typeof onDateChange === "object" && onDateChange !== null
-      ? handleDateChange(onDateChange)
-      : onDateChange;
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -37,9 +27,9 @@ export function DatePicker({ date, onDateChange }) {
           mode="single"
           selected={date}
           onSelect={(text) => {
-            console.log("INPUT HERE:", typeof date, date);
+            console.log("INPUT HERE:", typeof text, text);
 
-            onDateChange(text);
+            onDateChange(format(text, "LLLL d, y"));
           }}
           initialFocus
         />

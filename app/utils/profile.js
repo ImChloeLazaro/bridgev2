@@ -12,7 +12,7 @@ export const RegisterProfile = async (request) => {
     
         const { body } = await restOperation.response;
         const response = await body.json();
-        console.log(response);
+        // console.log(response);
       } catch (e) {
         console.log('POST call failed: ', e);
       }

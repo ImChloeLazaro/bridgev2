@@ -20,16 +20,11 @@ export const addPublishPostAtom = atom(
       return arr.every((element) => element === true);
     };
 
-    console.log("SELECTED POST HERE", selectedToBePublished);
-
     let publishIndex = get(publishedPostCountAtom);
     let postIndex = get(postCountAtom);
 
-    console.log("PUBLISH: publishPostCount postIndex", publishIndex, postIndex);
-
     const toBePosted = await Promise.all(
       selectedToBePublished.map(async (post) => {
-        console.log("POST DETAILS", post);
         const deletedResponse = await destroywithparams("/post", {
           _id: post._id,
         });
@@ -64,10 +59,8 @@ export const addPublishPostAtom = atom(
           type: post.type,
         };
         // return newPost;
-        console.log("POST DETAILS", newPost);
+
         const postedResponse = await restinsert("/post", { ...newPost });
-        console.log("PUBLISH RESPONSE", postedResponse);
-        console.log("DELETED RESPONSE", deletedResponse);
 
         return {
           success:
@@ -78,11 +71,7 @@ export const addPublishPostAtom = atom(
       })
     );
 
-    console.log("PUBLISH: toBePosted TYPE", typeof toBePosted);
-    console.log("PUBLISH: toBePosted", toBePosted);
-
     if (handleAllAreTrue(toBePosted.map((post) => post.success))) {
-      console.log("POSTS ACKNOWLEDGED: ", toBePosted);
       console.log(
         `${toBePosted.length} ${
           toBePosted.length > 1 ? "posts are" : "post is"
@@ -113,15 +102,12 @@ export const removePublishPostAtom = atom(
 
     const toBeDeleted = await Promise.all(
       selectedPublish.map(async (publish) => {
-        console.log("TO BE DELETED POST", publish._id);
-        console.log("TO BE DELETED POST TYPE", typeof publish);
         const response = await destroywithparams("/post", { _id: publish._id });
-        console.log("DELETE RESPONSE", response);
+
         return { success: response.success ?? false };
       })
     );
     if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
-      console.log("DELETED ACKNOWLEDGED: ", toBeDeleted);
       console.log(
         `${toBeDeleted.length} ${
           toBeDeleted.length > 1 ? "posts are" : "post is"
@@ -148,7 +134,6 @@ export const selectedPublishPostAtom = atom([]);
 export const fetchPublishPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
   if (posts.success) {
-    console.log("POSTS DATA", posts);
     const filteredPublished = posts.response.filter(
       (post) => post.sub === sub && post.status === "published"
     );

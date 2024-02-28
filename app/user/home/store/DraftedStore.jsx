@@ -40,24 +40,20 @@ export const addDraftPostAtom = atom(null, async (get, set, selectedDraft) => {
         return await uploadfile(media);
       })
     );
-    console.log("INSIDE ASYNC UPLOAD FILE: ", upload);
+
     return upload;
   };
 
   const fileNameList = await mediaToBeUploaded();
 
   const previewMediaList = fileNameList.map((media) => {
-    console.log("MEDIA GET FILENAME", media);
     if (media.success) {
-      console.log("MEDIA GET FILENAME SUCCESS");
       return getfile(media.filename);
     } else {
       console.log("MEDIA GET FILENAME FAILED");
       return ""; // default image placeholder
     }
   });
-  console.log("NEED TO SEE THIS", previewMediaList);
-  console.log("TYPE NEED TO SEE THIS", typeof previewMediaList);
 
   // Add Validation
 
@@ -91,7 +87,7 @@ export const addDraftPostAtom = atom(null, async (get, set, selectedDraft) => {
   };
 
   const response = await restinsert("/post", { ...newDraft });
-  console.log("ADDED POST RESPONSE", response);
+
   if (response.success) {
     set(draftPostListAtom, [...get(draftPostListAtom), newDraft]);
     return { success: true };
@@ -109,15 +105,12 @@ export const removeDraftPostAtom = atom(
 
     const toBeDeleted = await Promise.all(
       selectedDraft.map(async (draft) => {
-        console.log("TO BE DELETED POST", draft._id);
-        console.log("TO BE DELETED POST TYPE", typeof draft);
         const response = await destroywithparams("/post", { _id: draft._id });
-        console.log("DELETE RESPONSE", response);
+
         return { success: response.success ?? false };
       })
     );
     if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
-      console.log("DELETED ACKNOWLEDGED: ", toBeDeleted);
       console.log(
         `${toBeDeleted.length} ${
           toBeDeleted.length > 1 ? "posts are" : "post is"
@@ -144,7 +137,6 @@ export const selectedDraftPostAtom = atom([]);
 export const fetchDraftPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
   if (posts.success) {
-    console.log("POSTS DATA", posts);
     const filteredDrafts = posts.response.filter(
       (post) => post.sub === sub && post.status === "drafts"
     );

@@ -664,7 +664,8 @@ postsAtom = atom({
 * Scrolling behavior for `MainContent` and `SideBar` Component now scrolls separately
 * `MainContent` scrolling behavior now scrolls with the main scrollbar without affecting `RightBar` Component
 * `RightBar` scrolling behavior now scrolls with its own hidden scrollbar
-* Added `TODO` `docs` for centralize listing of `TODO`s
+* Added `TODO` `docs` for a centralize listing of `TODO`s
+* Moved `TODO`s to `TODO.md` for a centralize listing of `TODO`s
 * Rewrite role selection in `SwitchRoles` Component
 * Adjusted `OnboardingFieldInput` Component for employee ID to be on top
 * Added back middleware for route protection
@@ -673,7 +674,7 @@ postsAtom = atom({
 
 * Changed named export from `ChipTag` to `LabelTagChip`to match its filename
 * Moved `recruitmentStatusAtom` from `UserStore` move to `profileStore`
-* Added Active state of Routes in `NavSideBarStore`
+* Fixed `active` state of navigation when clicking a route in `NavSideBarStore`
 * Added @shadcn/ui latest `^0.8.0`
 
 * Added dependencies for @shadcn/ui:
@@ -688,7 +689,7 @@ postsAtom = atom({
 
 * Configured @shadcn/ui to work with the project
 * Merged changes from @shadcn/ui to `tailwind.config.js` and `globals.css` in order to properly work with existing tailwind configuration
-* @shadcn/ui added `components` folder for storing components from this library
+* @shadcn/ui configuration added `components` folder for storing components from this library
 * Added `DatePicker` Component
 * Added `DraftedStore` for better management of drafted posts
 * Added `PublishedStore` for better management of published posts
@@ -702,3 +703,15 @@ postsAtom = atom({
 * Fixed `reaction` count not displaying properly on `PostFooter` Component of posts in the feed
 * Removed `add`, `delete` ,`update`, `insert` backend function handler for posts in `PostStore` since the same functionality is implemented in `DraftedStore`, `PublishedStore`
 * Added a tooltip for the date on `PostHeader` Component for the exact date the post is published
+* Fixed `archive` key index issue when deleting `archived` posts
+
+## v.0.6.4
+
+* Removed left-over `console.log()` from development
+* Cleaned up unused `imports` and `hooks` on `ManagePostMainContent` Component
+* Fixed Unauthenticated API Call on initial page load
+* Removed `isSubmittedOnboardingFormAtom` due to Unauthenticated API Call on initial page load
+* Added validation for `auth` atom in `fetchHasOnboardingDataAtom` on `OnboardingStore`
+* Fixed handling for setting `date` value object of `onboarding` form in `Onboarding` Page
+* Merge `fetchAuthentication` atom and
+`authenticationAtom` atom in `AuthenticationStore`
