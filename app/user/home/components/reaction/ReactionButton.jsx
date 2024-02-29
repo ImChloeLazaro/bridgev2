@@ -29,17 +29,17 @@ const ReactionButton = ({ id, reactionList, reacted }) => {
       reacted: !reacted,
     });
 
-    // const response = await updatePostReaction({
-    //   id: id,
-    //   selectedReaction: reaction,
-    //   reacted: !reacted,
-    // });
+    const response = await updatePostReaction({
+      id: id,
+      selectedReaction: reaction,
+      reacted: !reacted,
+    });
 
-    // if (response.success) {
-    //   console.log("CONFIRM WINDOW UPDATED POST REACTION", response.success);
-    // } else {
-    //   console.log("NO POST REACTION UPDATED");
-    // }
+    if (response.success) {
+      console.log("CONFIRM WINDOW UPDATED POST REACTION", response.success);
+    } else {
+      console.log("NO POST REACTION UPDATED");
+    }
   };
 
   return (
