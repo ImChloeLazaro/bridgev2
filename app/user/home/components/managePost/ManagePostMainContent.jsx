@@ -72,21 +72,11 @@ const ManagePostMainContent = ({ onClose }) => {
   const post = useAtomValue(postAtom);
 
   useEffect(() => {
-    fetchPost();
+    // fetchPost();
     fetchDraftPost(auth.sub);
     fetchPublishPost(auth.sub);
     fetchArchivePost(auth.sub);
-  }, [
-    auth,
-    post,
-    archivedPostList,
-    draftsPostList,
-    publishedPostList,
-    fetchPost,
-    fetchDraftPost,
-    fetchPublishPost,
-    fetchArchivePost,
-  ]);
+  }, [auth, fetchPost, fetchDraftPost, fetchPublishPost, fetchArchivePost]);
 
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
@@ -142,7 +132,10 @@ const ManagePostMainContent = ({ onClose }) => {
           taggedPeople: taggedPeople, // key of users
           caption: postCaption,
         };
-        const response = await addDraftPost(draftedPost);
+        const response = await addDraftPost({
+          selectedDraft: draftedPost,
+          sub: auth.sub,
+        });
 
         if (response.success) {
           console.log("CONFIRM WINDOW ADDED POST", response.success);
@@ -151,6 +144,7 @@ const ManagePostMainContent = ({ onClose }) => {
         console.log("NO EMPTY TEMPLATE ALLOWED");
       }
     }
+    fetchDraftPost(auth.sub);
   };
 
   const handleDeletePost = async () => {
@@ -159,13 +153,17 @@ const ManagePostMainContent = ({ onClose }) => {
         return selectedDraftPost.includes(draft.key);
       });
 
-      const response = await removeDraftPost(toBeDeletedPost);
+      const response = await removeDraftPost({
+        selectedDraft: toBeDeletedPost,
+        sub: auth.sub,
+      });
 
       if (response.success) {
         console.log("CONFIRM WINDOW DELETED POST", response.success);
       } else {
         console.log("NO DRAFT POST DELETED");
       }
+      fetchDraftPost(auth.sub);
     }
 
     if (selectedPostStatusString === "published") {
@@ -173,13 +171,17 @@ const ManagePostMainContent = ({ onClose }) => {
         return selectedPublishPost.includes(publish.key);
       });
 
-      const response = await removePublishPost(toBeDeletedPost);
+      const response = await removePublishPost({
+        selectedPublish: toBeDeletedPost,
+        sub: auth.sub,
+      });
 
       if (response.success) {
         console.log("CONFIRM WINDOW DELETED POST", response.success);
       } else {
         console.log("NO PUBLISH POST DELETED");
       }
+      fetchPublishPost(auth.sub);
     }
 
     if (selectedPostStatusString === "archived") {
@@ -187,7 +189,10 @@ const ManagePostMainContent = ({ onClose }) => {
         return selectedArchivePost.includes(archive.key);
       });
 
-      const response = await removeArchivePost(toBeDeletedPost);
+      const response = await removeArchivePost({
+        selectedArchive: toBeDeletedPost,
+        sub: auth.sub,
+      });
 
       if (response.success) {
         console.log("CONFIRM WINDOW DELETED POST", response.success);
@@ -195,6 +200,7 @@ const ManagePostMainContent = ({ onClose }) => {
         console.log("NO ARCHIVE POST DELETED");
       }
     }
+    fetchArchivePost(auth.sub);
   };
 
   const handlePublishPost = async () => {
@@ -204,13 +210,16 @@ const ManagePostMainContent = ({ onClose }) => {
         selectedDraftPost.includes(draft.key)
       );
       console.log("DRAFT: selectedDrafts", selectedDrafts);
-      const response = await addPublishPost(selectedDrafts);
+      const response = await addPublishPost({
+        selectedToBePublished: selectedDrafts,
+        sub: auth.sub,
+      });
       if (response.success) {
         console.log("CONFIRM WINDOW PUBLISHED POST", response.success);
       } else {
         console.log("NO POST PUBLISHED");
       }
-      fetchPost(auth.sub);
+
       fetchDraftPost(auth.sub);
       fetchPublishPost(auth.sub);
     }
@@ -222,13 +231,16 @@ const ManagePostMainContent = ({ onClose }) => {
         selectedPublishPost.includes(publish.key)
       );
 
-      const response = await addArchivePost(selectedPublish);
+      const response = await addArchivePost({
+        selectedToBeArchived: selectedPublish,
+        sub: auth.sub,
+      });
       if (response.success) {
         console.log("CONFIRM WINDOW ARCHIVED POST", response.success);
       } else {
         console.log("NO POST ARCHIVED");
       }
-      fetchPost(auth.sub);
+
       fetchPublishPost(auth.sub);
       fetchArchivePost(auth.sub);
     }

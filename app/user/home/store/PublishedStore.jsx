@@ -5,12 +5,13 @@ import {
   restupdate,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import { postCountAtom } from "./PostStore";
+import { postAtom, postCountAtom } from "./PostStore";
 import {
   draftPostListAtom,
   fetchDraftPostAtom,
   selectedDraftPostAtom,
 } from "./DraftedStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 // LIST FOR PUBLISHED POSTS
 export const publishedPostListAtom = atom([]);
@@ -19,138 +20,132 @@ export const publishedPostCountAtom = atom(
   (get) => get(publishedPostListAtom).length
 );
 
-export const addPublishPostAtom = atom(
-  null,
-  async (get, set, selectedToBePublished) => {
-    const handleAllAreTrue = (arr) => {
-      return arr.every((element) => element === true);
-    };
+export const addPublishPostAtom = atom(null, async (get, set, update) => {
+  const { selectedToBePublished, sub } = update;
+  const handleAllAreTrue = (arr) => {
+    return arr.every((element) => element === true);
+  };
 
-    let publishIndex = get(publishedPostCountAtom);
-    let postIndex = get(postCountAtom);
+  let publishIndex = get(publishedPostCountAtom);
+  let postIndex = get(postCountAtom);
 
-    console.log("PUBLISH: selectedToBePublished: ", selectedToBePublished);
+  console.log("PUBLISH: selectedToBePublished: ", selectedToBePublished);
 
-    const toBePosted = await Promise.all(
-      selectedToBePublished.map(async (post) => {
-        console.log("EACH POST", post);
-        const newPost = {
-          ...post,
-          // caption: post.caption,
-          comments: 0,
-          datetimePublished: new Date(),
-          datetimeScheduled: new Date(),
-          id: (publishIndex += 1),
-          key: `publish-${publishIndex}`,
-          // media: post.media,
-          // mediaLayout: post.mediaLayout,
-          // orientation: post.orientation,
-          postKey: `post-${(postIndex += 1)}`,
-          // publisher: post.publisher,
-          // publisherPicture: post.publisherPicture,
-          reacted: false,
-          // reactionList: post.reactionList,
-          reactions: {
-            star: 0,
-            love: 0,
-            birthday: 0,
-            happy: 0,
-          },
-          // sub: post.sub,
-          status: "published",
-          // taggedPeople: post.taggedPeople, // key of users
-          // team: post.team,
-          // title: post.title,
-          // type: post.type,
-        };
-        // return newPost;
-        console.log("PUBLISH: newPost", newPost);
-        const postedResponse = await restupdate("/post", newPost);
-        console.log("DRAFT: postedResponse", postedResponse);
-        console.log("DRAFT: post", post._id);
-        const isPosted = await postedResponse.success;
-        if (isPosted) {
-          return { success: true };
-        } else {
-          return { success: false };
-        }
-      })
+  const toBePosted = await Promise.all(
+    selectedToBePublished.map(async (post) => {
+      console.log("EACH POST", post);
+      const newPost = {
+        ...post,
+        // caption: post.caption,
+        comments: 0,
+        datetimePublished: new Date(),
+        datetimeScheduled: new Date(),
+        id: (publishIndex += 1),
+        key: `publish-${publishIndex}`,
+        // media: post.media,
+        // mediaLayout: post.mediaLayout,
+        // orientation: post.orientation,
+        postKey: `post-${(postIndex += 1)}`,
+        // publisher: post.publisher,
+        // publisherPicture: post.publisherPicture,
+        reacted: false,
+        // reactionList: post.reactionList,
+        reactions: {
+          star: 0,
+          love: 0,
+          birthday: 0,
+          happy: 0,
+        },
+        // sub: post.sub,
+        status: "published",
+        // taggedPeople: post.taggedPeople, // key of users
+        // team: post.team,
+        // title: post.title,
+        // type: post.type,
+      };
+      // return newPost;
+      console.log("PUBLISH: newPost", newPost);
+      const postedResponse = await restupdate("/post", newPost);
+      console.log("DRAFT: postedResponse", postedResponse);
+      console.log("DRAFT: post", post._id);
+      const isPosted = await postedResponse.success;
+      if (isPosted) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    })
+  );
+
+  if (handleAllAreTrue(toBePosted.map((post) => post.success))) {
+    console.log(
+      `${toBePosted.length} ${
+        toBePosted.length > 1 ? "posts are" : "post is"
+      } successfully posted`
+    );
+    // Moves drafted post to published post
+    set(
+      draftPostListAtom,
+      get(postAtom).filter(
+        (draft) => draft.sub === sub && draft.status === "drafts"
+      )
     );
 
-    if (handleAllAreTrue(toBePosted.map((post) => post.success))) {
-      console.log(
-        `${toBePosted.length} ${
-          toBePosted.length > 1 ? "posts are" : "post is"
-        } successfully posted`
-      );
-      // Moves drafted post to published post
-      set(
-        draftPostListAtom,
-        get(draftPostListAtom).filter((draft) => draft.status === "drafts")
-      );
-
-      set(
-        publishedPostListAtom,
-        get(publishedPostListAtom).filter(
-          (publish) => publish.status === "published"
-        )
-      );
-
-      set(selectedDraftPostAtom, []); // clears the selection when deleting
-      // set(selectedPublishPostAtom, []);
-      return { success: true, postedCount: toBePosted.length };
-    } else {
-      return { success: false };
-    }
-  }
-);
-
-export const removePublishPostAtom = atom(
-  null,
-  async (get, set, selectedPublish) => {
-    const handleAllAreTrue = (arr) => {
-      return arr.every((element) => element === true);
-    };
-
-    const toBeDeleted = await Promise.all(
-      selectedPublish.map(async (publish) => {
-        const response = await destroywithparams("/post", { _id: publish._id });
-
-        return { success: response.success ?? false };
-      })
+    set(
+      publishedPostListAtom,
+      get(postAtom).filter(
+        (publish) => publish.sub === sub && publish.status === "published"
+      )
     );
-    if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
-      console.log(
-        `${toBeDeleted.length} ${
-          toBeDeleted.length > 1 ? "posts are" : "post is"
-        } successfully deleted`
-      );
-      // Moves drafted post to published post
-      set(
-        publishedPostListAtom,
-        get(publishedPostListAtom).filter(
-          (publish) => !get(selectedPublishPostAtom).includes(publish.key)
-        )
-      );
-
-      set(selectedPublishPostAtom, []); // clears the selection when deleting
-      return { success: true, deletedCount: toBeDeleted.length };
-    } else {
-      return { success: false };
-    }
+    // clears the selection when deleting
+    set(selectedDraftPostAtom, []);
+    set(selectedPublishPostAtom, []);
+    return { success: true, postedCount: toBePosted.length };
+  } else {
+    return { success: false };
   }
-);
+});
+
+export const removePublishPostAtom = atom(null, async (get, set, update) => {
+  const { selectedPublish, sub } = update;
+  const handleAllAreTrue = (arr) => {
+    return arr.every((element) => element === true);
+  };
+
+  const toBeDeleted = await Promise.all(
+    selectedPublish.map(async (publish) => {
+      const response = await destroywithparams("/post", { _id: publish._id });
+
+      return { success: response.success ?? false };
+    })
+  );
+  if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
+    console.log(
+      `${toBeDeleted.length} ${
+        toBeDeleted.length > 1 ? "posts are" : "post is"
+      } successfully deleted`
+    );
+    // Moves drafted post to published post
+    set(
+      publishedPostListAtom,
+      get(postAtom).filter(
+        (publish) => publish.sub === sub && publish.status === "published"
+      )
+    );
+
+    set(selectedPublishPostAtom, []); // clears the selection when deleting
+    return { success: true, deletedCount: toBeDeleted.length };
+  } else {
+    return { success: false };
+  }
+});
 
 export const selectedPublishPostAtom = atom([]);
 
 export const fetchPublishPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
-  if (posts.success) {
-    const filteredPublished = posts.response.filter(
-      (post) => post.sub === sub && post.status === "published"
-    );
-    set(publishedPostListAtom, filteredPublished);
-  } else {
-    console.log("POSTS DATA FAILED");
-  }
+  const filteredPublished = posts.response.filter(
+    (post) => post.sub === sub && post.status === "published"
+  );
+  set(publishedPostListAtom, filteredPublished);
 });

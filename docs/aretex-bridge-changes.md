@@ -719,4 +719,4 @@ postsAtom = atom({
 * Fixed the `post` index issue by changing the `PostCard` Component prop key to use the post's `_id` instead of post's `key`
 * Rewrite logic for when changing post's `status` from `drafts` to `published` by only using the `post._id` as the filter to select the correct post to be changed in `DraftedStore` and `PublishedStore`
 * Fixed posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
-* Included `post`, `archivedPostList`, `draftsPostList`, and `publishedPostList` when fetching post data and rendering the data to the component
+* Included `fetchDraftPost`, `fetchPublishPost`, and `fetchArchivePost` when fetching post data for `drafts`, `published`, and `archived` then rendering the data to the component

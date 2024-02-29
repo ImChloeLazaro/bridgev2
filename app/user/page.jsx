@@ -17,6 +17,18 @@ import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom, postAtom } from "./home/store/PostStore";
+import {
+  draftPostListAtom,
+  fetchDraftPostAtom,
+} from "./home/store/DraftedStore";
+import {
+  fetchPublishPostAtom,
+  publishedPostListAtom,
+} from "./home/store/PublishedStore";
+import {
+  archivedPostListAtom,
+  fetchArchivePostAtom,
+} from "./home/store/ArchivedStore";
 
 const User = () => {
   const posts = useAtomValue(postAtom);
@@ -24,10 +36,16 @@ const User = () => {
   const auth = useAtomValue(authenticationAtom);
 
   const fetchPost = useSetAtom(fetchPostAtom);
+  const fetchDraftPost = useSetAtom(fetchDraftPostAtom);
+  const fetchPublishPost = useSetAtom(fetchPublishPostAtom);
+  const fetchArchivePost = useSetAtom(fetchArchivePostAtom);
 
   useEffect(() => {
-    fetchPost(auth.sub);
-  }, [auth, fetchPost]);
+    fetchPost();
+    fetchDraftPost(auth.sub);
+    fetchPublishPost(auth.sub);
+    fetchArchivePost(auth.sub);
+  }, [auth, fetchArchivePost, fetchDraftPost, fetchPost, fetchPublishPost]);
 
   const filteredPosts = posts.filter((post) => post.datetimePublished);
 

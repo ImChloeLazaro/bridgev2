@@ -8,6 +8,8 @@ import {
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import "../../../aws-auth";
+import { postAtom } from "./PostStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 // LIST FOR DRAFTED POSTS
 export const draftPostListAtom = atom([]);
@@ -15,11 +17,12 @@ export const draftPostListAtom = atom([]);
 export const draftPostCountAtom = atom((get) => get(draftPostListAtom).length);
 
 // ADDING DRAFTS TO MODAL WINDOW AND TO BACKEND
-export const addDraftPostAtom = atom(null, async (get, set, selectedDraft) => {
+export const addDraftPostAtom = atom(null, async (get, set, update) => {
   // fetching data needed for drafted post
+  const { selectedDraft, sub } = update;
+
   const user = await get(userAtom);
   const draftPostCount = get(draftPostCountAtom);
-  const sub = selectedDraft.sub;
 
   const templateName = selectedDraft.type;
 
@@ -97,52 +100,44 @@ export const addDraftPostAtom = atom(null, async (get, set, selectedDraft) => {
   }
 });
 
-export const removeDraftPostAtom = atom(
-  null,
-  async (get, set, selectedDraft) => {
-    const handleAllAreTrue = (arr) => {
-      return arr.every((element) => element === true);
-    };
+export const removeDraftPostAtom = atom(null, async (get, set, update) => {
+  const { selectedDraft, sub } = update;
+  const handleAllAreTrue = (arr) => {
+    return arr.every((element) => element === true);
+  };
 
-    const toBeDeleted = await Promise.all(
-      selectedDraft.map(async (draft) => {
-        const response = await destroywithparams("/post", { _id: draft._id });
+  const toBeDeleted = await Promise.all(
+    selectedDraft.map(async (draft) => {
+      const response = await destroywithparams("/post", { _id: draft._id });
 
-        return { success: response.success ?? false };
-      })
+      return { success: response.success ?? false };
+    })
+  );
+  if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
+    console.log(
+      `${toBeDeleted.length} ${
+        toBeDeleted.length > 1 ? "posts are" : "post is"
+      } successfully deleted`
     );
-    if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
-      console.log(
-        `${toBeDeleted.length} ${
-          toBeDeleted.length > 1 ? "posts are" : "post is"
-        } successfully deleted`
-      );
-      // Removes drafted post from post modal
-      set(
-        draftPostListAtom,
-        get(draftPostListAtom).filter(
-          (draft) => !get(selectedDraftPostAtom).includes(draft.key)
-        )
-      );
+    // Removes drafted post from post modal
+    const updateDrafts = get(postAtom).filter(
+      (draft) => draft.sub === sub && draft.status === "drafts"
+    );
+    set(draftPostListAtom, [...updateDrafts]);
 
-      set(selectedDraftPostAtom, []); // clears the selection when deleting
-      return { success: true, deletedCount: toBeDeleted.length };
-    } else {
-      return { success: false };
-    }
+    set(selectedDraftPostAtom, []); // clears the selection when deleting
+    return { success: true, deletedCount: toBeDeleted.length };
+  } else {
+    return { success: false };
   }
-);
+});
 
 export const selectedDraftPostAtom = atom([]);
 
 export const fetchDraftPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
-  if (posts.success) {
-    const filteredDrafts = posts.response.filter(
-      (post) => post.sub === sub && post.status === "drafts"
-    );
-    set(draftPostListAtom, filteredDrafts);
-  } else {
-    console.log("POSTS DATA FAILED");
-  }
+  const filteredDrafts = posts.response.filter(
+    (post) => post.sub === sub && post.status === "drafts"
+  );
+  set(draftPostListAtom, filteredDrafts);
 });
