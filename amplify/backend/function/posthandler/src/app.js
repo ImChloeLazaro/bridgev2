@@ -87,7 +87,7 @@ app.put("/post/*", async function (req, res) {
     const { _id, reactions, reacted } = req.body;
     switch (proxy) {
       case '/post/greeting':
-        const greeting = await postModel.updateOne({ _id: _id }, {reactions: reactions, reacted: reacted});
+        const greeting = await postModel.updateOne({ _id: _id }, {reactions, reacted});
         res.status(200).json({ success: true, route: "GREETING ROUTE", response: greeting });
         break;
       default:
