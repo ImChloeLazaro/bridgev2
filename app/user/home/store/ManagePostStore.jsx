@@ -180,7 +180,7 @@ export const taggedPeopleListAtom = atom([
   },
   {
     id: (taggedIndex += 1),
-    key: "tatiana philips", 
+    key: "tatiana philips",
     name: "Tatiana Philips",
     email: "tatiana.philips@aretex.com.au",
     picture: "/Tatiana Philips.png",
@@ -231,7 +231,7 @@ export const taggedPeopleListAtom = atom([
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
-export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => { });
+export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
 export const postCaptionAtom = atom("");
@@ -329,23 +329,22 @@ export const postTemplatesCountAtom = atom(
   (get) => get(postTemplatesAtom).length
 );
 
-
 // POST STATUS TABS
 export const postStatusTabsAtom = atom((get) => [
   {
     key: "drafts",
     title: "Drafts",
-    count: get(draftPostCountAtom)
+    count: get(draftPostCountAtom),
   },
   {
     key: "published",
     title: "Published",
-    count: get(publishedPostCountAtom)
+    count: get(publishedPostCountAtom),
   },
   {
     key: "archived",
     title: "Archived",
-    count: get(archivedPostCountAtom)
+    count: get(archivedPostCountAtom),
   },
 ]);
 export const selectedPostStatusAtom = atom("drafts");
@@ -383,7 +382,5 @@ export const filterKeysAtom = atom([
 
 export const selectedFilterKeysAtom = atom(new Set(["all"]));
 
-export const fileListAtom = atom(undefined)
-export const fileUrlListAtom = atom(undefined)
-
-export const previewMediaListAtom = atom(undefined)
+export const fileListAtom = atom(undefined);
+export const fileUrlListAtom = atom(undefined);

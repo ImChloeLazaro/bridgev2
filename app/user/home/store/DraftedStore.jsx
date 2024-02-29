@@ -89,7 +89,8 @@ export const addDraftPostAtom = atom(null, async (get, set, selectedDraft) => {
   const response = await restinsert("/post", { ...newDraft });
 
   if (response.success) {
-    set(draftPostListAtom, [...get(draftPostListAtom), newDraft]);
+    set(selectedDraftPostAtom, []); // clears the selection when deleting
+    set(draftPostListAtom, [...get(draftPostListAtom), response.response]);
     return { success: true };
   } else {
     return { success: false };

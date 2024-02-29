@@ -82,7 +82,7 @@
 
 ### Updating: `ManagePostMainContent` Component
 
-* Add Note to `media` selection that `images` should be at least ...px `width` to avoid `images` not properly displayed
+* Add Prompt for `media` selection that `images` should be at least ...px `width` to avoid `images` not properly displayed
 * Add validation to check `post` data to be completed first before publishing to `post` feed
 
 ### Refactor: `ManagePostSidebarContent` Component
@@ -90,6 +90,7 @@
 * Rewrite this component to be a `AutoComplete` Component from @next/UI library
 * Include user custom post template keys as `filter` keys when browsing
 * Add `template` as a `status` for posts to be able to filter out as a post `template`
+* Sort files uploaded by users and must persist its order
 
 ### Updating: `MediaLayoutPost` Components (One-SixPlus)
 

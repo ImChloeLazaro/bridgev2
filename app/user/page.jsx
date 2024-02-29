@@ -43,7 +43,7 @@ const User = () => {
           <Suspense fallback={<Spinner />}>
             <div className="">
               {sortedPosts.map((post) => {
-                return <PostCard key={post.key} data={post} />;
+                return <PostCard key={post._id} data={post} />;
               })}
             </div>
           </Suspense>

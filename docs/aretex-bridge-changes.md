@@ -716,3 +716,7 @@ postsAtom = atom({
 * Merge `fetchAuthentication` atom and
 `authenticationAtom` atom in `AuthenticationStore`
 * Fixed issue in `MediaLayoutSelect` and `MediaOrientationSelect` Component when selecting `single` as the media layout of a post, the media orientation is not passed to the backend so it values to an empty string
+* Fixed the `post` index issue by changing the `PostCard` Component prop key to use the post's `_id` instead of post's `key`
+* Rewrite logic for when changing post's `status` from `drafts` to `published` by only using the `post._id` as the filter to select the correct post to be changed in `DraftedStore` and `PublishedStore`
+* Fixed posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
+* Included `post`, `archivedPostList`, `draftsPostList`, and `publishedPostList` when fetching post data and rendering the data to the component

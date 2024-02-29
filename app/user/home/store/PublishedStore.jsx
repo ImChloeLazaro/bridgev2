@@ -2,9 +2,15 @@ import {
   destroywithparams,
   restinsert,
   restread,
+  restupdate,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import { postCountAtom } from "./PostStore";
+import {
+  draftPostListAtom,
+  fetchDraftPostAtom,
+  selectedDraftPostAtom,
+} from "./DraftedStore";
 
 // LIST FOR PUBLISHED POSTS
 export const publishedPostListAtom = atom([]);
@@ -23,51 +29,51 @@ export const addPublishPostAtom = atom(
     let publishIndex = get(publishedPostCountAtom);
     let postIndex = get(postCountAtom);
 
+    console.log("PUBLISH: selectedToBePublished: ", selectedToBePublished);
+
     const toBePosted = await Promise.all(
       selectedToBePublished.map(async (post) => {
-        const deletedResponse = await destroywithparams("/post", {
-          _id: post._id,
-        });
-
+        console.log("EACH POST", post);
         const newPost = {
-          // ...post,
-          caption: post.caption,
+          ...post,
+          // caption: post.caption,
           comments: 0,
           datetimePublished: new Date(),
           datetimeScheduled: new Date(),
           id: (publishIndex += 1),
           key: `publish-${publishIndex}`,
-          media: post.media,
-          mediaLayout: post.mediaLayout,
-          orientation: post.orientation,
+          // media: post.media,
+          // mediaLayout: post.mediaLayout,
+          // orientation: post.orientation,
           postKey: `post-${(postIndex += 1)}`,
-          publisher: post.publisher,
-          publisherPicture: post.publisherPicture,
+          // publisher: post.publisher,
+          // publisherPicture: post.publisherPicture,
           reacted: false,
-          reactionList: post.reactionList,
+          // reactionList: post.reactionList,
           reactions: {
             star: 0,
             love: 0,
             birthday: 0,
             happy: 0,
           },
-          sub: post.sub,
+          // sub: post.sub,
           status: "published",
-          taggedPeople: post.taggedPeople, // key of users
-          team: post.team,
-          title: post.title,
-          type: post.type,
+          // taggedPeople: post.taggedPeople, // key of users
+          // team: post.team,
+          // title: post.title,
+          // type: post.type,
         };
         // return newPost;
-
-        const postedResponse = await restinsert("/post", { ...newPost });
-
-        return {
-          success:
-            ((await postedResponse.success) &&
-              (await deletedResponse.success)) ??
-            false,
-        };
+        console.log("PUBLISH: newPost", newPost);
+        const postedResponse = await restupdate("/post", newPost);
+        console.log("DRAFT: postedResponse", postedResponse);
+        console.log("DRAFT: post", post._id);
+        const isPosted = await postedResponse.success;
+        if (isPosted) {
+          return { success: true };
+        } else {
+          return { success: false };
+        }
       })
     );
 
@@ -79,13 +85,19 @@ export const addPublishPostAtom = atom(
       );
       // Moves drafted post to published post
       set(
+        draftPostListAtom,
+        get(draftPostListAtom).filter((draft) => draft.status === "drafts")
+      );
+
+      set(
         publishedPostListAtom,
         get(publishedPostListAtom).filter(
-          (publish) => !get(selectedPublishPostAtom).includes(publish.key)
+          (publish) => publish.status === "published"
         )
       );
 
-      set(selectedPublishPostAtom, []); // clears the selection when deleting
+      set(selectedDraftPostAtom, []); // clears the selection when deleting
+      // set(selectedPublishPostAtom, []);
       return { success: true, postedCount: toBePosted.length };
     } else {
       return { success: false };

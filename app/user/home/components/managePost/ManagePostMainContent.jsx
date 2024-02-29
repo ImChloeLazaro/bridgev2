@@ -37,7 +37,7 @@ import {
   taggedPeopleListAtom,
   templateNameAtom,
 } from "../../store/ManagePostStore";
-import { fetchPostAtom } from "../../store/PostStore";
+import { fetchPostAtom, postAtom } from "../../store/PostStore";
 import {
   addPublishPostAtom,
   fetchPublishPostAtom,
@@ -48,7 +48,6 @@ import {
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
 
-
 const ManagePostMainContent = ({ onClose }) => {
   const auth = useAtomValue(authenticationAtom);
   const [values, setValues] = useState([]);
@@ -57,12 +56,6 @@ const ManagePostMainContent = ({ onClose }) => {
   const fetchDraftPost = useSetAtom(fetchDraftPostAtom);
   const fetchPublishPost = useSetAtom(fetchPublishPostAtom);
   const fetchArchivePost = useSetAtom(fetchArchivePostAtom);
-
-  useEffect(() => {
-    fetchDraftPost(auth.sub);
-    fetchPublishPost(auth.sub);
-    fetchArchivePost(auth.sub);
-  }, [auth, fetchArchivePost, fetchDraftPost, fetchPublishPost]);
 
   const draftsPostList = useAtomValue(draftPostListAtom);
   const addDraftPost = useSetAtom(addDraftPostAtom);
@@ -75,6 +68,25 @@ const ManagePostMainContent = ({ onClose }) => {
   const archivedPostList = useAtomValue(archivedPostListAtom);
   const addArchivePost = useSetAtom(addArchivePostAtom);
   const removeArchivePost = useSetAtom(removeArchivePostAtom);
+
+  const post = useAtomValue(postAtom);
+
+  useEffect(() => {
+    fetchPost();
+    fetchDraftPost(auth.sub);
+    fetchPublishPost(auth.sub);
+    fetchArchivePost(auth.sub);
+  }, [
+    auth,
+    post,
+    archivedPostList,
+    draftsPostList,
+    publishedPostList,
+    fetchPost,
+    fetchDraftPost,
+    fetchPublishPost,
+    fetchArchivePost,
+  ]);
 
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
@@ -187,11 +199,11 @@ const ManagePostMainContent = ({ onClose }) => {
 
   const handlePublishPost = async () => {
     if (selectedPostStatusString === "drafts") {
-
+      console.log("POSTS DATA: post", post);
       const selectedDrafts = draftsPostList.filter((draft) =>
         selectedDraftPost.includes(draft.key)
       );
-
+      console.log("DRAFT: selectedDrafts", selectedDrafts);
       const response = await addPublishPost(selectedDrafts);
       if (response.success) {
         console.log("CONFIRM WINDOW PUBLISHED POST", response.success);
