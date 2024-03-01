@@ -2,13 +2,14 @@ import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import ImagePostCarouselModal from "./ImagePostCarouselModal";
 
-const SixPlusMedia = ({ data, orientation }) => {
-  const filteredPost = data.slice(0, 5);
+const SixPlusMedia = ({ data, orientation, layout }) => {
+  const filteredPost =
+    layout === "single" ? data.slice(0, 1) : data.slice(0, 5);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const layout = {
+  const alignment = {
     landscape:
       "gap-1.5 grid grid-flow-row-dense grid-cols-6 grid-rows-6 my-5 bg-white-default h-[900px] px-4",
     portrait:
@@ -38,7 +39,7 @@ const SixPlusMedia = ({ data, orientation }) => {
   };
 
   return (
-    <div key={"5>Media"} className={`${layout[orientation]}`}>
+    <div key={"5>Media"} className={`${alignment[orientation]}`}>
       {/* 
         Modal component can be shared by separating 
         this component on top then share the hook 

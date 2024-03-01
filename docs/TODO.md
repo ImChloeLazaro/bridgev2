@@ -40,15 +40,8 @@
 * Add `filled` and `unfilled` type variant same as `LabelTag` Component
 * Add `IconOnly` or maybe a separate component
 
-### Updating: `NotificationsList` Component
-
-* Add functionality for pressing the `notification` to change it to `read` status
-* Add functionality for hiding a `notification` via `button`
-* Add functionality for marking a `notification` read via `button`
-
 ### Updating: `NotificationsFooter` Component
 
-* Add functionality for changing all `notification` to `read` status
 * Add functionality for viewing all `notification` on a modal window
 
 ### Updating: `NotificationsDropdown` Component
@@ -84,6 +77,7 @@
 
 * Add Prompt for `media` selection that `images` should be at least ...px `width` to avoid `images` not properly displayed
 * Add validation to check `post` data to be completed first before publishing to `post` feed
+* Add progress bar when uploading file media/s to make sure each file media is uploaded and sent properly
 
 ### Refactor: `ManagePostSidebarContent` Component
 
@@ -91,15 +85,6 @@
 * Include user custom post template keys as `filter` keys when browsing
 * Add `template` as a `status` for posts to be able to filter out as a post `template`
 * Sort files uploaded by users and must persist its order
-
-### Updating: `MediaLayoutPost` Components (One-SixPlus)
-
-* Add the `layout` prop to each media layout component to correctly display the media on post feed
-
-### Updating: `ImageSwiper` Component
-
-* Add `zoom` functionality
-* Add `keyboard` controls when sliding images
 
 ### Updating: `PostOptions` Component
 
@@ -123,3 +108,11 @@
 ### Updating: `ProfileHeader` Component
 
 * Fix button for changing profile photo
+
+### Store: `DraftedStore`
+
+* Add delay when uploading multiple file to the server to make sure every file media is uploaded and sent properly
+
+### Refactor: `amplify-rest`
+
+* Rewrite API call to return and indicate current progress to the user

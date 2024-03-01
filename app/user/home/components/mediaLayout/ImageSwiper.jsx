@@ -8,11 +8,13 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import "swiper/css/keyboard";
+import "swiper/css/zoom";
 
 // import "./styles.css";
 
 // import required modules
-import { FreeMode, Navigation, Thumbs, Zoom } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs, Keyboard, Zoom } from "swiper/modules";
 
 import { Image } from "@nextui-org/react";
 
@@ -24,25 +26,29 @@ const ImageSwiper = ({ data, selectedImage }) => {
   }, [selectedImage]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-between">
-      <div className="">
+    <div className="w-full h-screen flex flex-col justify-between">
+      <div className="h-full flex justify-center items-center">
         <Swiper
           ref={swiperRef}
           style={{
+            "height": "100%",
             "--swiper-navigation-color": "#fff",
             "--swiper-pagination-color": "#fff",
           }}
           spaceBetween={10}
           navigation={true}
           thumbs={{ swiper: thumbsSwiper }}
-          modules={[Zoom, FreeMode, Navigation, Thumbs]}
-          className="mt-48 top-0"
+          keyboard={{
+            enabled: true,
+          }}
           zoom={true}
+          modules={[FreeMode, Navigation, Thumbs, Keyboard, Zoom]}
+          className="mt-48 top-0"
         >
           {data.map((image, index) => {
             return (
               <SwiperSlide key={index}>
-                <div className="flex justify-center items-center">
+                <div className="h-full flex justify-center items-center swiper-zoom-container">
                   <Image
                     //   isZoomed
                     removeWrapper
@@ -69,7 +75,10 @@ const ImageSwiper = ({ data, selectedImage }) => {
         slidesPerView={"auto"}
         freeMode={true}
         watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
+        keyboard={{
+          enabled: true,
+        }}
+        modules={[FreeMode, Navigation, Thumbs, Keyboard]}
         className="thumbs bottom-0 h-24 "
       >
         {data.map((image, index) => {

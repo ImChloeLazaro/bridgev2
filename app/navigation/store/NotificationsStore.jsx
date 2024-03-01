@@ -8,7 +8,7 @@ export const optionsAtom = atom([
 export const showUnreadAtom = atom(false);
 export const notificationsOpenAtom = atom(false);
 export const notificationTypeAtom = atom("all");
-export const selectedNotificationAtom = atom(0);
+export const selectedNotificationAtom = atom();
 
 export const notificationsAtom = atom([]);
 
@@ -23,6 +23,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
       title: "Kaylynn Bergson has mentioned you in a post:",
       description:
         "“Another job well done A-Team! Thank you all for your ....” ",
+      hidden: false,
     },
     {
       id: 2,
@@ -32,6 +33,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
       userProfile: "/Wilson Herwitz.png",
       title: "Wilson Herwitz  has greeted you in a post:",
       description: "“HAPPIEST BIRTHDAY TO YOU!!! 🎉🎉🎉 🎂XOXO” ",
+      hidden: false,
     },
     {
       id: 3,
@@ -43,6 +45,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
         "Madelyn Septimus, Wilson Herwitz and 3 others greeted you in a post:",
       description:
         "“Jenny has received great feedback from several of her clients for her outstanding contribution to their business with a determined focus on quality. She has been exceeding their expectations daily, and they know they can rely on Jenny to handle the necessary tasks sp they can focus on running their business and serving their clients. To quote Dr. Kim's exact words, \"doing the grunt work of the business in the background\", showing the trust that her clients place on Jenny to handle their needs when they're on vacation or doing other high level tasks for their business. Well done Jenny, a deserving winner of Rex for September.” ",
+      hidden: false,
     },
     {
       id: 4,
@@ -57,6 +60,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
           “Congratulations <strong>@Tatiana Philips!!!</strong>”
         </span>
       ),
+      hidden: false,
     },
     {
       id: 5,
@@ -71,6 +75,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
           “Congratulations <strong>@Tatiana Philips!!!</strong>”
         </span>
       ),
+      hidden: false,
     },
     {
       id: 6,
@@ -85,6 +90,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
           “Congratulations <strong>@Tatiana Philips!!!</strong>”
         </span>
       ),
+      hidden: false,
     },
     {
       id: 7,
@@ -99,6 +105,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
           “Congratulations <strong>@Tatiana Philips!!!</strong>”
         </span>
       ),
+      hidden: false,
     },
     {
       id: 8,
@@ -113,6 +120,7 @@ export const fetchNotificationsAtom = atom(null, (get, set) => {
           “Congratulations <strong>@Tatiana Philips!!!</strong>”
         </span>
       ),
+      hidden: false,
     },
   ];
   set(notificationsAtom, notifications);
@@ -122,6 +130,10 @@ export const unreadCountAtom = atom({
   all: 0,
   mentioned: 0,
   greeted: 0,
+});
+
+export const unreadAtom = atom({
+  data: [],
 });
 
 export const notificationsTabsAtom = atom((get) => [

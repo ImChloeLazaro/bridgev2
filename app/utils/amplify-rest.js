@@ -150,7 +150,7 @@ export const uploadfile = async (file) => {
     const filename = `${new Date().toISOString().replace(/[^0-9]/g, "")}.${
       file.type.split("/")[1]
     }`;
-    uploadData({
+    const result = uploadData({
       key: filename,
       data: file,
       options: {
@@ -164,8 +164,8 @@ export const uploadfile = async (file) => {
           }
         },
       },
-    });
-    return { success: true, filename: filename };
+    }).result;
+    return { success: true, filename: filename, result: result };
   }
 };
 

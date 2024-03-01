@@ -10,7 +10,6 @@ import PostFooter from "./PostFooter";
 import PostHeader from "./PostHeader";
 
 const PostCard = ({ data }) => {
-  console.log("POSTS DATA: ", data)
   return (
     // mb-[number] for spacing between posts
     <Card className="mb-6 mx-4 bg-white-default">
@@ -25,7 +24,11 @@ const PostCard = ({ data }) => {
             {data.caption}
           </p>
         </div>
-        <MediaLayout mediaList={data.media} />
+        <MediaLayout
+          mediaList={data.media}
+          orientation={data.orientation}
+          layout={data.mediaLayout}
+        />
       </CardBody>
       <CardFooter className="flex flex-col px-4">
         <PostFooter data={data} />
