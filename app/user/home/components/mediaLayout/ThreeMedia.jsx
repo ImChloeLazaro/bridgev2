@@ -2,13 +2,14 @@ import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import ImagePostCarouselModal from "./ImagePostCarouselModal";
 
-const ThreeMedia = ({ data, orientation }) => {
-  const filteredPost = data.slice(0, 3);
+const ThreeMedia = ({ data, orientation, layout }) => {
+  const filteredPost =
+    layout === "single" ? data.slice(0, 1) : data.slice(0, 3);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const layout = {
+  const alignment = {
     landscape:
       "gap-1.5 grid grid-cols-1 grid-rows-3 my-5 bg-white-default/60 h-[900px] px-4",
     portrait:
@@ -23,7 +24,7 @@ const ThreeMedia = ({ data, orientation }) => {
   const featuredMedia = orientation === "portrait" ? "first:row-span-2" : "";
 
   return (
-    <div className={`${layout[orientation]}`}>
+    <div className={`${alignment[orientation]}`}>
       <ImagePostCarouselModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

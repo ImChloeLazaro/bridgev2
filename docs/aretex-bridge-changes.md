@@ -720,3 +720,14 @@ postsAtom = atom({
 * Rewrite logic for when changing post's `status` from `drafts` to `published` by only using the `post._id` as the filter to select the correct post to be changed in `DraftedStore` and `PublishedStore`
 * Fixed posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
 * Included `fetchDraftPost`, `fetchPublishPost`, and `fetchArchivePost` when fetching post data for `drafts`, `published`, and `archived` then rendering the data to the component
+* Fixed issue on `reactions` on `post` not being updated properly
+
+* Merged Changes from Interns:
+  * Add `zoom` functionality on `ImageSwiper` Component
+  * Add `keyboard` controls when sliding images on `ImageSwiper` Component
+  * Add functionality for changing all `notification` to `read` status on `NotificationsList` Component
+  * Add functionality for pressing the `notification` to change it to `read` status on `NotificationsList` Component
+* Add functionality for hiding a `notification` via `button` on `NotificationsList` Component
+* Add functionality for marking a `notification` read via `button` on `NotificationsList` Component
+
+* Added the `layout` prop to each media layout component to correctly display the media on post feed(`OneMedia` - `SixPlusMedia`)

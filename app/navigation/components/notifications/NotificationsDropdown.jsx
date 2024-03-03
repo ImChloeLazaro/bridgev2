@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import {
   MdNotifications,
   MdNotificationsActive,
@@ -30,9 +30,37 @@ const NotificationsDropdown = () => {
   const [unreadCount, setUnreadCount] = useAtom(unreadCountAtom);
   const fetchNotifications = useSetAtom(fetchNotificationsAtom);
 
+  //setUnreadCount function
+  const unreadCountHandler = useCallback(
+    (notifications) => {
+      setUnreadCount({
+        all: notifications.filter((notification) => {
+          return notification.unread && !notification.hidden;
+        }).length,
+        mentioned: notifications.filter((notification) => {
+          return (
+            notification.type.includes("mentioned") &&
+            notification.unread &&
+            !notification.hidden
+          );
+        }).length,
+        greeted: notifications.filter((notification) => {
+          return (
+            notification.type.includes("greeted") &&
+            notification.unread &&
+            !notification.hidden
+          );
+        }).length,
+      });
+    },
+    [setUnreadCount]
+  );
+
   useEffect(() => {
     fetchNotifications();
-  }, [fetchNotifications]);
+    // unreadCountHandler(notifications);
+  }, [fetchNotifications, ]);
+
   return (
     <Badge
       content={unreadCount.all}
@@ -45,25 +73,26 @@ const NotificationsDropdown = () => {
         showArrow={true}
         onOpenChange={(open) => {
           setNotificationsOpen(!open);
-          setUnreadCount({
-            all: notifications.filter((notification) => {
-              return notification.unread;
-            }).length,
-            mentioned: notifications
-              .filter((notification) => {
-                return notification.type.includes("mentioned");
-              })
-              .filter((notification) => {
-                return notification.unread;
-              }).length,
-            greeted: notifications
-              .filter((notification) => {
-                return notification.type.includes("greeted");
-              })
-              .filter((notification) => {
-                return notification.unread;
-              }).length,
-          });
+          // setUnreadCount({
+          //   all: notifications.filter((notification) => {
+          //     return notification.unread;
+          //   }).length,
+          //   mentioned: notifications
+          //     .filter((notification) => {
+          //       return notification.type.includes("mentioned");
+          //     })
+          //     .filter((notification) => {
+          //       return notification.unread;
+          //     }).length,
+          //   greeted: notifications
+          //     .filter((notification) => {
+          //       return notification.type.includes("greeted");
+          //     })
+          //     .filter((notification) => {
+          //       return notification.unread;
+          //     }).length,
+          // });
+          unreadCountHandler(notifications);
         }}
       >
         <PopoverTrigger>

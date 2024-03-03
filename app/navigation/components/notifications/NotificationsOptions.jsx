@@ -1,14 +1,38 @@
 import {
   Button,
-  Listbox, ListboxItem,
+  Listbox,
+  ListboxItem,
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { notificationsAtom } from "../../store/NotificationsStore";
+import { useAtom } from "jotai";
 
-export function NotificationsOptions({ trigger, condition, options }) {
+export function NotificationsOptions({ trigger, condition, options, id }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [notifications, setNotifications] = useAtom(notificationsAtom);
+
+  const unreadHandler = (action, notifications, id) => {
+    const updatedNotifications = notifications?.map((notification) => {
+      if (action == "mark") {
+        if (notification.id == id) {
+          return { ...notification, unread: !notification.unread };
+        } else {
+          return notification;
+        }
+      } else if (action == "hide") {
+        console.log("Hide");
+        if (notification.id == id) {
+          return { ...notification, hidden: true };
+        } else {
+          return notification;
+        }
+      }
+    });
+    setNotifications(updatedNotifications);
+  };
 
   return (
     <Popover
@@ -26,7 +50,7 @@ export function NotificationsOptions({ trigger, condition, options }) {
       <PopoverContent className="p-1 w-44">
         <Listbox
           aria-label="Actions"
-          onAction={(key) => console.log(key)}
+          onAction={(key) => unreadHandler(key, notifications, id)}
           itemClasses={{
             base: [
               "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",

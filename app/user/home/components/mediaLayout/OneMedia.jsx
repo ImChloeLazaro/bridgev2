@@ -2,13 +2,14 @@ import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import ImagePostCarouselModal from "./ImagePostCarouselModal";
 
-const OneMedia = ({ data, orientation }) => {
-  const filteredPost = data.slice(0, 1);
+const OneMedia = ({ data, orientation, layout }) => {
+  const filteredPost =
+    layout === "single" ? data.slice(0, 1) : data.slice(0, 1);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const layout = {
+  const alignment = {
     landscape:
       "gap-1.5 grid grid-cols-1 grid-rows-1 my-5 bg-white-default/60 h-[900px] px-4",
 
@@ -22,7 +23,7 @@ const OneMedia = ({ data, orientation }) => {
   };
 
   return (
-    <div className={`${layout[orientation]}`}>
+    <div className={`${alignment[orientation]}`}>
       <ImagePostCarouselModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

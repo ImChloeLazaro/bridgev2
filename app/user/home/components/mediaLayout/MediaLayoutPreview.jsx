@@ -5,7 +5,7 @@ import "../../../../aws-auth";
 const MediaLayoutPreview = ({
   mediaFileList = [],
   layout = "single",
-  orientation = "landscape",
+  orientation = "portrait",
 }) => {
   const mediaLayout = {
     1: {
@@ -61,7 +61,7 @@ const MediaLayoutPreview = ({
   const selectedLayout = Array.from(layout).join("");
   const selectedOrientation = Array.from(orientation).join("");
 
-  const featuredMedia = (index, size) => {
+  const mediaAlignment = (index, size) => {
     if (size === 1) {
       return "";
     }
@@ -122,7 +122,7 @@ const MediaLayoutPreview = ({
 
   const displayMediaPreview = ({ isEmpty }) => {
     if (isEmpty) {
-      const mediaListSize = selectedLayout === "single" ? 1 : useRandomLayout;
+      const mediaListSize = selectedLayout === "single" ? 1 : 5;
 
       let mediaRange = arrayRange(1, mediaListSize, 1);
 
@@ -137,7 +137,7 @@ const MediaLayoutPreview = ({
             return (
               <div
                 key={index}
-                className={`${featuredMedia(
+                className={`${mediaAlignment(
                   index,
                   mediaListSize
                 )} w-full h-full flex justify-center items-center bg-grey-hover border-2 border-white-default`}
@@ -179,7 +179,7 @@ const MediaLayoutPreview = ({
             return (
               <div
                 key={index}
-                className={`${featuredMedia(
+                className={`${mediaAlignment(
                   index,
                   mediaListSize
                 )} w-full h-full flex justify-center items-center bg-grey-hover border-2 border-white-default`}

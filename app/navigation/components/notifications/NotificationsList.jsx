@@ -1,5 +1,5 @@
 import { Avatar, Image, Listbox, ListboxItem } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useAtom } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
@@ -7,19 +7,29 @@ import {
   notificationTypeAtom,
   notificationsAtom,
   showUnreadAtom,
+  selectedNotificationAtom,
 } from "../../store/NotificationsStore";
 import { NotificationsOptions } from "./NotificationsOptions";
 
 const NotificationsList = () => {
   const showUnread = useAtomValue(showUnreadAtom);
   const notificationType = useAtomValue(notificationTypeAtom);
-  const notifications = useAtomValue(notificationsAtom);
+  const [notifications, setNotifications] = useAtom(notificationsAtom);
 
   const options = [
     { key: "hide", label: "Hide this notification" },
     { key: "mark", label: "Mark as " },
   ];
-
+  const updateOneUnread = (notifications, id) => {
+    const updatedNotifications = notifications.map((notification) => {
+      if (notification.id == id) {
+        return { ...notification, unread: false };
+      } else {
+        return notification;
+      }
+    });
+    setNotifications(updatedNotifications);
+  };
   const unreadNotifications = showUnread
     ? notifications.filter((notification) => {
         return notification.unread === showUnread;
@@ -28,16 +38,22 @@ const NotificationsList = () => {
 
   const filteredNotifications =
     notificationType === "all"
-      ? unreadNotifications
+      ? unreadNotifications.filter((notification) => {
+          return !notification.hidden;
+        })
       : unreadNotifications.filter((notification) => {
-          return notification.type.includes(notificationType);
+          return (
+            notification.type.includes(notificationType) && !notification.hidden
+          );
         });
-
+  const handleListUser = (notifData) => {
+    console.log("notif-data: ", notifData);
+  };
   return (
     <Listbox
       items={filteredNotifications}
       aria-label="Notifications"
-      onAction={(key) => console.log(key)}
+      onAction={(key) => updateOneUnread(notifications, key)}
       className="w-[25.3rem] h-[21.2rem] overflow-auto no-scrollbar"
       emptyContent={
         <div className="flex flex-col items-center mt-6">
@@ -50,7 +66,9 @@ const NotificationsList = () => {
           <p className="font-medium text-black-default/80">
             {"No Notifications right now!"}
           </p>
-          <p className="font-medium text-black-default/80">{"Come back later!"}</p>
+          <p className="font-medium text-black-default/80">
+            {"Come back later!"}
+          </p>
         </div>
       }
       itemClasses={{ base: "data-[hover=true]:bg-grey-default" }}
@@ -75,6 +93,7 @@ const NotificationsList = () => {
               trigger={<BiDotsVerticalRounded size={16} />}
               condition={item.unread}
               options={options}
+              id={item.id}
             />
           }
         >

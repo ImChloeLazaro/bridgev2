@@ -1,10 +1,20 @@
 import { Button } from "@nextui-org/react";
 import { useAtom } from "jotai";
-import { notificationsAtom } from "../../store/NotificationsStore";
+import {
+  notificationsAtom,
+  unreadCountAtom,
+} from "../../store/NotificationsStore";
 
 const NotificationsFooter = () => {
   const [notifications, setNotifications] = useAtom(notificationsAtom);
 
+  const updateAllUnread = (notifications) => {
+    const updatedNotifications = notifications.map((notification) => {
+      return { ...notification, unread: false };
+    });
+    setNotifications(updatedNotifications);
+    console.log(updatedNotifications);
+  };
   return (
     <div className="flex flex-col pt-1">
       <div className="flex items-center justify-between mx-4 py-0 px-3 pt-2 pb-0 border-t-2 border-black-default/70">
@@ -28,6 +38,7 @@ const NotificationsFooter = () => {
           //     console.log(notification);
           //   });
           // })}
+          onPress={() => updateAllUnread(notifications)}
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
             {"Mark All as Read"}
