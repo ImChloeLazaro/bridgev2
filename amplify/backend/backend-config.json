@@ -89,6 +89,14 @@
           ],
           "category": "function",
           "resourceName": "clienthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "todohandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -185,6 +193,12 @@
       "service": "Lambda"
     },
     "teamhandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "todohandler": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -482,6 +496,30 @@
         {
           "category": "function",
           "resourceName": "teamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_todohandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "todohandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_todohandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "todohandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_todohandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "todohandler"
         }
       ]
     },

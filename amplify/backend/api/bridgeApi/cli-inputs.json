@@ -143,6 +143,19 @@
           "delete"
         ]
       }
+    },
+    "/todo": {
+      "name": "/todo",
+      "lambdaFunction": "todohandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }
