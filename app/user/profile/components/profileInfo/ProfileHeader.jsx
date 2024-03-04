@@ -1,24 +1,31 @@
-import { Avatar, Image } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
+import NextImage from "next/image";
 import { useAtomValue } from "jotai";
 import { MdManageAccounts } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
+
+import ProfileBanner from "../../../../../public/header-profile.png";
 
 const ProfileHeader = ({ data }) => {
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
   return (
     <>
       <div className="m-0 p-0 w-full ">
-        <div className="relative z-0">
-          <Image
-            src="/header-profile.png"
+        <div className="relative z-0 h-full w-full overflow-hidden flex justify-center items-center">
+          <NextImage
             alt="Profile Banner"
-            width={2000}
-            radius="none"
+            src={ProfileBanner}
+            priority
+            sizes="100vw"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
           />
         </div>
 
-        <div className="-mt-[7.8rem] relative z-10">
+        <div className="-mt-[10rem] relative z-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1440 300"

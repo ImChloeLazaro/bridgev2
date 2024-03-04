@@ -2,6 +2,8 @@ import { useAtomValue } from "jotai";
 import { onboardingStatusAtom } from "../../store/ProfileStore";
 
 const EmergencyContactContent = () => {
+  // const contact = useAtomValue(onboardingStatusAtom);
+  // console.log("CONTACT IN PROFILE", contact);
   const data = useAtomValue(onboardingStatusAtom)?.response?.profile?.contact?.emergency_contact;
   console.log(data)
   return (

@@ -30,9 +30,6 @@ export const addArchivePostAtom = atom(null, async (get, set, update) => {
 
   const toBeArchived = await Promise.all(
     selectedToBeArchived.map(async (post) => {
-      // const deletedResponse = await destroywithparams("/post", {
-      //   _id: post._id,
-      // });
 
       const newArchive = {
         ...post,

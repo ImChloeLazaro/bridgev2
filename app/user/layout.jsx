@@ -1,14 +1,12 @@
 "use client";
 import { useAtomValue } from "jotai";
-import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
+import SideBar from "../navigation/components/SideBar";
 import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
-
-const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
-  ssr: false,
-});
+import Loading from "./loading";
 
 const UserLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -17,7 +15,9 @@ const UserLayout = ({ children }) => {
   if (auth.isAuthenticated) {
     return (
       <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
-        <SideBar />
+        <Suspense fallback={<Loading />}>
+          <SideBar />
+        </Suspense>
         <div className="flex flex-col w-full">
           <div className="top-0">
             {!isHasOnboardingData && <OnboardingStatusAlert />}

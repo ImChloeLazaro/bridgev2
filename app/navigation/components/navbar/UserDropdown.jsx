@@ -53,6 +53,7 @@ const UserDropdown = () => {
             ),
             src: user.picture,
             isBordered: true,
+            alt: "User Profile Picture"
           }}
           className="transition-transform mr-3"
           classNames={{

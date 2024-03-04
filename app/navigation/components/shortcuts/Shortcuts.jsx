@@ -20,138 +20,132 @@ import {
 } from "../../store/ShortcutsStore";
 import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const Shortcuts = () => {
+  const auth = useAtomValue(authenticationAtom);
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
-  const filteredShortcutsList = shortcutsList.sort((a, b) => {});
+  // const filteredShortcutsList = shortcutsList.sort((a, b) => {});
 
   useEffect(() => {
-    fetchedShortcut();
-  }, [fetchedShortcut]);
+    fetchedShortcut(auth.sub);
+  }, [auth, fetchedShortcut]);
+
+  console.log("SHORTCUT: shortcutsList", shortcutsList);
 
   return (
-    <DndContext
-      collisionDetection={closestCorners}
-      onDragEnd={handleDragEnd}
-      modifiers={[
-        restrictToVerticalAxis,
-        restrictToParentElement,
-        restrictToWindowEdges,
-      ]}
-    >
-      <Sidebar
-        customBreakPoint="760px"
-        rootStyles={{
-          // change sidebar Tailwind CSS here
-          width: "100%",
-          overflow: "auto",
-          paddingLeft: "0.5rem",
-          paddingRight: "0.5rem",
-          "@media (max-width: 767px)": { display: "none", width: "0%" },
-          backgroundColor: "#f9f9f9",
-          [`.${sidebarClasses.container}`]: {
-            overflowX: "hidden",
-            overflowY: "scroll",
-            ["::-webkit-scrollbar"]: { display: "none" },
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-          },
-        }}
+      <DndContext
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        modifiers={[
+          restrictToVerticalAxis,
+          restrictToParentElement,
+          restrictToWindowEdges,
+        ]}
       >
-        <Menu
-          key="shortcuts"
+        <Sidebar
+          customBreakPoint="760px"
           rootStyles={{
-            [`.${menuClasses.icon}`]: {
-              color: "#EF8916",
-            },
-            [`.${menuClasses.button}`]: {
-              flexGrow: "1",
-              borderRadius: "0.313rem",
-              color: "#393939",
-              marginBottom: "0.125rem",
-              transition: "0.3s",
-              transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-            },
-
-            zIndex: 0,
+            // change sidebar Tailwind CSS here
+            width: "100%",
+            overflow: "auto",
+            paddingLeft: "0.5rem",
+            paddingRight: "0.5rem",
+            "@media (max-width: 767px)": { display: "none", width: "0%" },
             backgroundColor: "#f9f9f9",
-            display: "flex",
-          }}
-          menuItemStyles={{
-            root: () => {
-              return {
-                gap: "7rem",
-              };
-            },
-            label: () => {
-              return {
-                marginLeft: "0.30rem",
-                fontSize: "1rem",
-                lineHeight: "1.5rem",
-                fontWeight: 700,
-              };
-            },
-            button: ({ level, active }) => {
-              // only apply styles on first level elements of the tree
-              if (level === 0) {
-                return {
-                  width: "17rem",
-                  backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
-                  paddingRight: "0rem",
-                  paddingLeft: active ? "0.875rem" : "0.375rem",
-                  cursor: active ? "grabbing" : "grab",
-                  ":hover": {
-                    backgroundColor: "#D0D0D0",
-                    paddingLeft: "0.875rem",
-                  },
-                  ":focus": {
-                    backgroundColor: "#D0D0D0",
-                  },
-                  ":active": {
-                    cursor: "grabbing",
-                  },
-                };
-              }
+            [`.${sidebarClasses.container}`]: {
+              overflowX: "hidden",
+              overflowY: "scroll",
+              ["::-webkit-scrollbar"]: { display: "none" },
+              msOverflowStyle: "none",
+              scrollbarWidth: "none",
             },
           }}
         >
-          <div className="py-0 sticky top-0 z-50 ">
-            <ShortcutsHeader />
-          </div>
-          <div>
-            <SortableContext
-              items={shortcutsList}
-              strategy={verticalListSortingStrategy}
-            >
-              <Suspense
-                fallback={
-                  <Spinner
-                    label="Loading Shortcuts"
-                    color="default"
-                    labelColor="foreground"
-                  />
+          <Menu
+            key="shortcuts"
+            rootStyles={{
+              [`.${menuClasses.icon}`]: {
+                color: "#EF8916",
+              },
+              [`.${menuClasses.button}`]: {
+                flexGrow: "1",
+                borderRadius: "0.313rem",
+                color: "#393939",
+                marginBottom: "0.125rem",
+                transition: "0.3s",
+                transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+              },
+
+              zIndex: 0,
+              backgroundColor: "#f9f9f9",
+              display: "flex",
+            }}
+            menuItemStyles={{
+              root: () => {
+                return {
+                  gap: "7rem",
+                };
+              },
+              label: () => {
+                return {
+                  marginLeft: "0.30rem",
+                  fontSize: "1rem",
+                  lineHeight: "1.5rem",
+                  fontWeight: 700,
+                };
+              },
+              button: ({ level, active }) => {
+                // only apply styles on first level elements of the tree
+                if (level === 0) {
+                  return {
+                    width: "17rem",
+                    backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
+                    paddingRight: "0rem",
+                    paddingLeft: active ? "0.875rem" : "0.375rem",
+                    cursor: active ? "grabbing" : "grab",
+                    ":hover": {
+                      backgroundColor: "#D0D0D0",
+                      paddingLeft: "0.875rem",
+                    },
+                    ":focus": {
+                      backgroundColor: "#D0D0D0",
+                    },
+                    ":active": {
+                      cursor: "grabbing",
+                    },
+                  };
                 }
+              },
+            }}
+          >
+            <div className="py-0 sticky top-0 z-50 ">
+              <ShortcutsHeader />
+            </div>
+            <div>
+              <SortableContext
+                items={shortcutsList}
+                strategy={verticalListSortingStrategy}
               >
                 {shortcutsList?.map((shortcut) => (
                   <SortableItem
                     disabled={disableDraggable}
                     id={shortcut.id} // makes dragging and sorting working
                     key={shortcut.key}
-                    unique_key={shortcut.key}
-                    link={shortcut.link}
+                    unique_key={shortcut._id}
+                    url={shortcut.url ?? ""}
                   >
-                    {shortcut?.label}
+                    {shortcut.title}
                   </SortableItem>
                 ))}
-              </Suspense>
-            </SortableContext>
-          </div>
-        </Menu>
-      </Sidebar>
-    </DndContext>
+              </SortableContext>
+            </div>
+          </Menu>
+        </Sidebar>
+      </DndContext>
   );
 
   function handleDragEnd(event) {

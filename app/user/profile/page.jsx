@@ -2,9 +2,9 @@
 import MainContent from "@/app/components/MainContent";
 import RightBar from "@/app/components/RightBar";
 import RightBarCard from "@/app/components/RightBarCard";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import {
   MdBolt,
   MdEmojiEvents,
@@ -12,14 +12,13 @@ import {
   MdMarkunreadMailbox,
 } from "react-icons/md";
 import "../../aws-auth";
-import { userAtom, recruitmentStatusAtom } from "../../store/UserStore";
 import BenefitsContent from "./components/benefits/BenefitsContent";
 import EmergencyContactContent from "./components/emergencyContact/EmergencyContactContent";
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
 import { profileAtom } from "./store/ProfileStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+
 const Profile = () => {
   // const recruitment = useAtomValue(recruitmentStatusAtom);
   const auth = useAtomValue(authenticationAtom);

@@ -8,8 +8,8 @@ import ShortcutsOptionsModal from "./ShortcutsOptionsModal";
 const shortcutSize = 28; //icon size
 
 const ShortcutItem = forwardRef(
-  ({ children, index, link, unique_key, ...props }, ref) => {
-    let shortcutLink = link;
+  ({ children, index, url, unique_key, ...props }, ref) => {
+    let shortcutURL = url;
 
     const validateURL = (urlString) =>
       urlString.match(
@@ -17,27 +17,22 @@ const ShortcutItem = forwardRef(
       );
 
     const isURLvalid = useMemo(() => {
-      return validateURL(shortcutLink) ? true : false;
-    }, [shortcutLink]);
+      return validateURL(shortcutURL) ? true : false;
+    }, [shortcutURL]);
 
-    shortcutLink = isURLvalid ? shortcutLink : "";
-
+    shortcutURL = isURLvalid ? shortcutURL : "";
+    
     return (
       <MenuItem
         {...props}
         ref={ref}
         component="div"
         icon={<MdBookmark size={shortcutSize} />}
-        suffix={
-          <ShortcutsOptionsModal
-            title={"Edit Shortcut"}
-            unique_key={unique_key}
-          />
-        }
+        suffix={<ShortcutsOptionsModal unique_key={unique_key} url={url} title={children} />}
       >
         <Link
           isExternal
-          href={shortcutLink}
+          href={shortcutURL}
           className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 "
         >
           {children}

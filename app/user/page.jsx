@@ -1,13 +1,13 @@
 "use client";
+import MainContent from "@/app/components/MainContent";
+import RightBar from "@/app/components/RightBar";
+import RightBarCard from "@/app/components/RightBarCard";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { Spinner } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Suspense, useEffect } from "react";
 import "../aws-auth";
-import MainContent from "../components/MainContent";
-import RightBar from "../components/RightBar";
-import RightBarCard from "../components/RightBarCard";
-import { authenticationAtom } from "../store/AuthenticationStore";
 import { userAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
 import CreatePostCard from "./home/components/createPost/CreatePostCard";
@@ -16,19 +16,17 @@ import PostCard from "./home/components/post/PostCard";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
+import {
+  fetchArchivePostAtom
+} from "./home/store/ArchivedStore";
+import {
+  fetchDraftPostAtom
+} from "./home/store/DraftedStore";
 import { fetchPostAtom, postAtom } from "./home/store/PostStore";
 import {
-  draftPostListAtom,
-  fetchDraftPostAtom,
-} from "./home/store/DraftedStore";
-import {
-  fetchPublishPostAtom,
-  publishedPostListAtom,
+  fetchPublishPostAtom
 } from "./home/store/PublishedStore";
-import {
-  archivedPostListAtom,
-  fetchArchivePostAtom,
-} from "./home/store/ArchivedStore";
+
 
 const User = () => {
   const posts = useAtomValue(postAtom);
