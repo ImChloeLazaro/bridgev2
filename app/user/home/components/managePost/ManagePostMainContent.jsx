@@ -76,7 +76,7 @@ const ManagePostMainContent = ({ onClose }) => {
     fetchDraftPost(auth.sub);
     fetchPublishPost(auth.sub);
     fetchArchivePost(auth.sub);
-  }, [auth, fetchPost, fetchDraftPost, fetchPublishPost, fetchArchivePost]);
+  }, [auth, fetchDraftPost, fetchPublishPost, fetchArchivePost]);
 
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom

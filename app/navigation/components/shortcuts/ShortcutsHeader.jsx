@@ -12,44 +12,40 @@ import { MdAdd } from "react-icons/md";
 import CTAButtons from "../../../components/CTAButtons";
 import CloseButton from "../../../components/CloseButton";
 import { userAtom } from "../../../store/UserStore";
-import { addShortcutAtom, shortcutCountAtom } from "../../store/ShortcutsStore";
 import { restinsert } from "@/app/utils/amplify-rest";
+import {
+  addShortcutAtom,
+  shortcutURLAtom,
+  shortcutTitleAtom,
+  shortcutCountAtom,
+  fetchedShortcutAtom,
+} from "../../store/ShortcutsStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const ShortcutsHeader = () => {
-  const user = useAtomValue(userAtom);
+  const auth = useAtomValue(authenticationAtom);
   const [isOpen, setIsOpen] = useState(false);
-  const [addShortcutName, setAddShortcutName] = useState("");
-  const [addShortcutLink, setAddShortcutLink] = useState("");
+  const [shortcutTitle, setShortcutTitle] = useAtom(shortcutTitleAtom);
+  const [shortcutURL, setShortcutURL] = useAtom(shortcutURLAtom);
   const shortcutCount = useAtomValue(shortcutCountAtom);
-  const setShortcuts = useSetAtom(addShortcutAtom);
+  const addShortcut = useSetAtom(addShortcutAtom);
+  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
   const handleAddShortcut = async () => {
-    if (user === null) {
+    if (auth.sub === null) {
       return;
     }
 
-    const shortcuts = await restinsert("/shortcut", {
-      sub: user.sub,
-      title: addShortcutName,
-      url: addShortcutLink,
+    const response = await addShortcut({
+      sub: auth.sub,
+      title: shortcutTitle,
+      url: shortcutURL,
     });
-
-    if (shortcuts) {
-      setShortcuts((prev) => [
-        ...prev,
-        {
-          id: shortcutCount + 1,
-          key: `sct-${shortcutCount + 1}`,
-          label: addShortcutName,
-          link: addShortcutLink,
-        },
-      ]);
-      setAddShortcutName("");
-      setAddShortcutLink("");
-      setIsOpen(false);
-    } else {
-      console.log("NOT ADDED SHORTCUT");
+    if (response.success) {
+      handleCloseWindow();
+      console.log("CONFIRM WINDOW ADDED SHORTCUT", response.success);
     }
+    fetchedShortcut(auth.sub);
   };
 
   const handleCloseWindow = () => {
@@ -96,8 +92,8 @@ const ShortcutsHeader = () => {
                   labelPlacement="outside-left"
                   size="sm"
                   variant="bordered"
-                  value={addShortcutName}
-                  onValueChange={setAddShortcutName}
+                  value={shortcutTitle}
+                  onValueChange={setShortcutTitle}
                   classNames={{
                     base: "gap-4 flex ",
                     label: "font-medium text-base text-black-default/70 w-16",
@@ -113,8 +109,8 @@ const ShortcutsHeader = () => {
                   labelPlacement="outside-left"
                   size="sm"
                   variant="bordered"
-                  value={addShortcutLink}
-                  onValueChange={setAddShortcutLink}
+                  value={shortcutURL}
+                  onValueChange={setShortcutURL}
                   classNames={{
                     base: "gap-4 flex ",
                     label: "font-medium text-base text-black-default/70 w-16",

@@ -590,7 +590,7 @@ userAtom = atom({
     })
 ```
 
-* Added object structure for `postsAtom` in `ProfileStore`
+* Added object structure for `postsAtom` in `PostStore`
 
 ```javascript
 postsAtom = atom({
@@ -731,3 +731,9 @@ postsAtom = atom({
 * Add functionality for marking a `notification` read via `button` on `NotificationsList` Component
 
 * Added the `layout` prop to each media layout component to correctly display the media on post feed(`OneMedia` - `SixPlusMedia`)
+
+## v.0.6.5
+
+* Refactor functionality of shortcuts for optimization when initial page load and navigating pages
+* Refactor fetching data in Profile Page for optimization when initial page load
+* Added @types/react latest `^18.2.61` for dismissing a warning when importing `react`

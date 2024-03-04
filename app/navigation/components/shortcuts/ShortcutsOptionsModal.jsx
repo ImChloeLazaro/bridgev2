@@ -16,108 +16,61 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   shortcutsAtom,
   disableDraggableAtom,
+  fetchedShortcutAtom,
+  updateShortcutAtom,
+  deleteShortcutAtom,
 } from "../../store/ShortcutsStore";
 import CloseButton from "../../../components/CloseButton";
 import { userAtom } from "../../../store/UserStore";
-import { restupdate } from "@/app/utils/amplify-rest";
+import { destroywithparams, restupdate } from "@/app/utils/amplify-rest";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
-const ShortcutsOptionsModal = ({ unique_key, title }) => {
+const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
+  const auth = useAtomValue(authenticationAtom);
+
+  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
+
   const shortcutSize = 28; //icon size
   const [isOpen, setIsOpen] = useState(false);
 
   const setDisableDraggable = useSetAtom(disableDraggableAtom);
   const user = useAtomValue(userAtom);
-  const [shortcuts, setShortcuts] = useAtom(shortcutsAtom);
+  const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
+  const deleteShortcut = useSetAtom(deleteShortcutAtom);
+  const updateShortcut = useSetAtom(updateShortcutAtom);
 
-  const [uniqueShortcutID, setuniqueShortcutID] = useState(
-    shortcuts
-      .filter((item) => item.key === unique_key)
-      .map((detail) => detail._id)
-  );
+  // const [uniqueShortcutID, setuniqueShortcutID] = useState(
+  //   shortcutsList.filter((item) => item._id === key).map((detail) => detail._id)
+  //   );
+  const [selectedShortcut, setSelectedShortcut] = useState(unique_key);
 
-  const [editShortcutName, setEditShortcutName] = useState(
-    shortcuts
-      .filter((item) => item.key === unique_key)
-      .map((detail) => detail.label)
-  );
-  const [editShortcutLink, setEditShortcutLink] = useState(
-    shortcuts
-      .filter((item) => item.key === unique_key)
-      .map((detail) => detail.link)
-  );
+  const [editShortcutName, setEditShortcutName] = useState(title);
+  const [editShortcutURL, setEditShortcutURL] = useState(url);
 
   const handleDeleteShortcut = async () => {
-    const confirm = window.confirm(
-      `Are you sure you want to delete ${editShortcutName}?`
-    );
-    if (confirm) {
-      // const shortcuts = await restdestroy("/shortcut", )
-      try {
-        const restOperation = del({
-          apiName: "bridgeApi",
-          path: "/shortcut",
-          options: {
-            queryParams: {
-              _id: uniqueShortcutID[0],
-            },
-          },
-        });
-        const { body } = await restOperation.response;
-        const response = await body.json();
-        if (response.success) {
-          setShortcuts(() =>
-            shortcuts.filter((item) => item.key !== unique_key)
-          );
-          setIsOpen(false);
-          setDisableDraggable(false);
-          console.log("DELETE SHORTCUT", response);
-        }
-      } catch (e) {
-        console.log("Shortcut DEL call failed: ", e);
-      }
+    const response = await deleteShortcut({
+      _id: selectedShortcut,
+    });
+    if (response.success) {
+      setIsOpen(false);
+      setDisableDraggable(false);
+      console.log("CONFIRM WINDOW DELETED SHORTCUT", response.success);
     }
+    fetchedShortcut(auth.sub);
   };
 
   const handleEditShortcut = async () => {
-    if (user === null) {
-      return;
-    }
-    const shortcuts = await restupdate("/shortcut", {
-      _id: Array.isArray(uniqueShortcutID)
-        ? uniqueShortcutID[0]
-        : uniqueShortcutID,
-      title: Array.isArray(editShortcutName)
-        ? editShortcutName[0]
-        : editShortcutName,
-      url: Array.isArray(editShortcutLink)
-        ? editShortcutLink[0]
-        : editShortcutLink,
+    const response = await updateShortcut({
+      _id: unique_key,
+      title: editShortcutName,
+      url: editShortcutURL,
     });
-
-    console.log("INSIDE EDIT SHORTCUT");
-    console.log(shortcuts ? "TRUE" : "FALSE");
-    console.log(shortcuts);
-
-    if (shortcuts.success) {
-      setShortcuts(() =>
-        shortcuts.response.map((shortcut) => {
-          if (shortcut.key === unique_key) {
-            console.log("Found shortcut:");
-            console.log(shortcut);
-            return {
-              ...shortcut,
-              label: editShortcutName,
-              link: editShortcutLink,
-            };
-          }
-          return shortcut;
-        })
-      );
+    if (response.success) {
       setIsOpen(false);
       setDisableDraggable(false);
-      console.log("EDIT SHORTCUT", response);
+      console.log("CONFIRM WINDOW EDITED SHORTCUT", response.success);
     }
-
+    fetchedShortcut(auth.sub);
   };
 
   const handleCloseWindow = () => {
@@ -142,7 +95,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
         setIsOpen(open);
         setDisableDraggable(open);
         console.log("unique_key: " + unique_key);
-        console.log(shortcuts);
+        console.log(shortcutsList);
       }}
     >
       <PopoverTrigger>
@@ -158,7 +111,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
                 className="text-xl font-extrabold text-black-default/90"
                 {...titleProps}
               >
-                {title}
+                {"Update Shortcut"}
               </p>
               <CloseButton onPress={handleCloseWindow} />
             </div>
@@ -187,8 +140,8 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
                 labelPlacement="outside-left"
                 size="sm"
                 variant="bordered"
-                value={editShortcutLink}
-                onValueChange={setEditShortcutLink}
+                value={editShortcutURL}
+                onValueChange={setEditShortcutURL}
                 classNames={{
                   base: "gap-4 flex text-base text-black-default/70 data-[focus=true]:text-black-default",
                   label: "font-medium text-base text-black-default/70 w-16",
@@ -219,7 +172,7 @@ const ShortcutsOptionsModal = ({ unique_key, title }) => {
                   setDisableDraggable(false);
                 }}
               >
-                Cancel
+                {"Cancel"}
               </Button>
             </div>
           </div>

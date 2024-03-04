@@ -1,6 +1,6 @@
 # TODO for Aretex Bridge Changes
 
-## v.0.6.4
+## v.0.6.5
 
 ### GLOBAL: All Components and Files
 

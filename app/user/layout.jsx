@@ -6,6 +6,9 @@ import NavigationBar from "../navigation/components/NavigationBar";
 import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
 
+import { Suspense } from "react";
+import Loading from "./loading";
+
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
 });
@@ -17,7 +20,9 @@ const UserLayout = ({ children }) => {
   if (auth.isAuthenticated) {
     return (
       <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
-        <SideBar />
+        <Suspense fallback={<Loading/>}>
+          <SideBar />
+        </Suspense>
         <div className="flex flex-col w-full">
           <div className="top-0">
             {!isHasOnboardingData && <OnboardingStatusAlert />}
