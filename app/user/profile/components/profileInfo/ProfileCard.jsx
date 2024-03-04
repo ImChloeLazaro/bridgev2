@@ -10,7 +10,7 @@ const ProfileCard = ({ data }) => {
       <CardHeader className="flex flex-col p-0 m-0 w-full">
         <ProfileHeader data={data} />
       </CardHeader>
-      <CardBody className="flex flex-col p-0 m-0 h-full">
+      <CardBody className="flex flex-col p-0 m-0 h-fit">
         <ProfileDetails data={data} />
       </CardBody>
     </Card>
