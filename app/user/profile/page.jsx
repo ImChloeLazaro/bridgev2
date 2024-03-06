@@ -22,7 +22,7 @@ const Profile = () => {
   // const recruitment = useAtomValue(recruitmentStatusAtom);
   const auth = useAtomValue(authenticationAtom);
 
-  console.log("PROFILE:", profile);
+  // console.log("PROFILE:", profile);
   return (
     auth.isAuthenticated && (
       <>

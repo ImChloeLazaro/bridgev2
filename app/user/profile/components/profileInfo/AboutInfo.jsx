@@ -3,14 +3,13 @@ import { Avatar, Divider } from "@nextui-org/react";
 import { format } from "date-fns";
 import { MdInfoOutline } from "react-icons/md";
 import { IoPersonCircle } from "react-icons/io5";
-import { profileAboutAtom } from "../../store/ProfileStore";
+import { personalInfoAtom } from "../../store/ProfileStore";
 import { useAtomValue, useSetAtom, useAtom } from "jotai";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const AboutInfo = ({ data }) => {
-  const auth = useAtomValue(authenticationAtom);
-  const aboutProfile = useAtomValue(profileAboutAtom);
-  console.log("ABOUT PROFILE", aboutProfile);
+  const personalInfo = useAtomValue(personalInfoAtom);
+  console.log("ABOUT PROFILE", personalInfo);
 
   return (
     <>
@@ -32,7 +31,7 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {aboutProfile.employee_number ?? "No Data Available"}
+              {personalInfo.employee_number ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -42,10 +41,10 @@ const AboutInfo = ({ data }) => {
               {"Status"}
             </p>
 
-            {aboutProfile.status ? (
+            {personalInfo.status ? (
               <LabelTagChip
-                text={aboutProfile.status ? "Active" : "Inactive"}
-                color={aboutProfile.status ? "green" : "red"}
+                text={personalInfo.status ? "Active" : "Inactive"}
+                color={personalInfo.status ? "green" : "red"}
               />
             ) : (
               <LabelTagChip text={"Unavailable"} color={"lightgrey"} />
@@ -62,8 +61,8 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {aboutProfile.hiredate != null
-                ? format(new Date(aboutProfile.hiredate), "MMMM dd yyyy")
+              {personalInfo.hiredate != null
+                ? format(new Date(personalInfo.hiredate), "MMMM dd yyyy")
                 : "No Data Available"}
             </p>
           </div>

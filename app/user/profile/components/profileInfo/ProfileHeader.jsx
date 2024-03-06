@@ -9,6 +9,8 @@ import ProfileBanner from "../../../../../public/header-profile.png";
 
 const ProfileHeader = ({ data }) => {
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
+
+  
   return (
     <>
       <div className="m-0 p-0 w-full ">
