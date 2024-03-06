@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { authenticationAtom } from "./AuthenticationStore";
-import { readwithparams, restread } from "../utils/amplify-rest";
+import { readwithparams, restinsert, restread } from "../utils/amplify-rest";
 import { employeeIDAtom } from "../onboarding/store/OnboardingStore";
 
 async function fetchUserData() {
@@ -17,6 +17,16 @@ async function fetchUserData() {
     return null;
   }
 }
+// Register User Data
+export const registerProfileAtom = atom(null, async (get, set, update) => {
+  const data = get(userDataAtom);
+  const user = restinsert("/user", data);
+  if (user.success) {
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
 
 // User Data
 export const userDataAtom = atom(async () => {
@@ -41,8 +51,6 @@ export const userAtom = atom(async (get) => {
     return {};
   }
 });
-
-
 
 // User List
 export const usersListAtom = atom([{}]); // list of all employees

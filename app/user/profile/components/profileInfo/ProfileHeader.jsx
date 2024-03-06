@@ -16,11 +16,14 @@ const ProfileHeader = ({ data }) => {
           <NextImage
             alt="Profile Banner"
             src={ProfileBanner}
-            priority
-            sizes="100vw"
+            loading="lazy"
+            placeholder={'blur'}
+            quality={50}
+            sizes="(min-width: 808px) 50vw, 100vw"
             style={{
               width: "100%",
               height: "auto",
+              objectFit: "cover", // cover, contain, none
             }}
           />
         </div>
@@ -104,10 +107,11 @@ const ProfileHeader = ({ data }) => {
 
         <div className="text-lg relative z-20 ">
           <CTAButtons
-            startContent={<MdManageAccounts />}
+            startContent={<MdManageAccounts size={26} />}
             color="orange"
             label="Edit Profile"
             size="lg"
+            className={"text-lg"}
           />
         </div>
       </div>

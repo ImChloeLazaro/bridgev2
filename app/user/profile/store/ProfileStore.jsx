@@ -31,10 +31,17 @@ export const isConfirmPasswordVisibleAtom = atom(false);
 //   } else return {};
 // });
 
+// Profile About
+export const profileAboutAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  return await readwithparams("/profile/information", { sub: auth.sub });
+});
+
+
 //Leaves
 export const leaveStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/leave/profile", { sub: auth.sub });
+  return await readwithparams("/leave/balance", { sub: auth.sub });
 });
 
 //Leave Request
@@ -50,9 +57,8 @@ export const benefitsStatusAtom = atom(async (get) => {
   }
 });
 
-
 //Onboarding
-export const onboardingStatusAtom = atom(async (get) => {
+export const onboardingDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/profile/onboarding", { sub: auth.sub });
 });
@@ -66,11 +72,15 @@ export const teamStatusAtom = atom(async (get) => {
 export const profileAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const user = await get(userDataAtom);
-  const { response: employee } = await get(onboardingStatusAtom);
-  const {
-    response: [data],
-  } = await readwithparams("/recruitment/profile", { sub: auth.sub });
-  const { response: employee_team } = await get(teamStatusAtom);
+  // const { employee } = await get(onboardingDataAtom);
+  // const {
+  //   response: [data],
+  // } = await readwithparams("/recruitment/profile", { sub: auth.sub });
+  // const { response: employee_team } = await get(teamStatusAtom);
+
+  const employee = {};
+  const employee_team = {};
+  const data = [];
 
   return {
     id: data?.employee_number,
@@ -79,11 +89,12 @@ export const profileAtom = atom(async (get) => {
     picture: user?.picture, // link to picture
     email: data?.email ? data?.email : user.email,
     address:
-      employee?.profile.application.employee_information.permanent_address ||
+      employee?.profile?.application?.employee_information?.permanent_address ||
       "N/A",
-    birthday: employee?.profile.application.employee_information.birthdate,
+    birthday: employee?.profile?.application?.employee_information?.birthdate,
     contactNumber:
-      employee?.profile.application.employee_information.mobile_number || "N/A",
+      employee?.profile?.application?.employee_information?.mobile_number ||
+      "N/A",
     status: data?.is_active, // true active : false inactive
     role: user.role,
     team: user.team,
@@ -111,7 +122,7 @@ export const profileAtom = atom(async (get) => {
     },
     onboarding: {
       startDate: data?.hiredate,
-      status: data?.status.toUpperCase(),
+      status: data?.status?.toUpperCase(),
     },
   };
 });

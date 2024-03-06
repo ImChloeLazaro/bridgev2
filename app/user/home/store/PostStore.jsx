@@ -54,7 +54,9 @@ export const fetchPostAtom = atom(null, async (get, set, sub) => {
       (post) => post.status === "published"
     );
     set(postAtom, filteredPosts);
+    return { success: true };
   } else {
     console.log("POSTS DATA FAILED");
+    return { success: false };
   }
 });

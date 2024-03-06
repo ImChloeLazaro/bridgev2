@@ -113,7 +113,7 @@ const ProfileInfo = ({ data }) => {
           <Divider />
 
           {/* // ### JOB TITLE */}
-          <div className="flex justify-start items-center gap-10 w-full">
+          {/* <div className="flex justify-start items-center gap-10 w-full">
             <div className="flex-col w-1/2 min-w-[30%]">
               <p className="font-medium text-base">{"Job Title"}</p>
             </div>
@@ -136,11 +136,11 @@ const ProfileInfo = ({ data }) => {
                 {"Show my job title under my name"}
               </Checkbox>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* // ### PASSWORD */}
-      <div className="mt-2 mb-12 py-2 w-full">
+      <div className="mt-2 py-2 w-full">
         <div className="flex-col justify-start items-center gap-2 mb-5">
           <div className="flex gap-2 items-center">
             <p className="font-bold text-lg">{"Password"}</p>
@@ -270,7 +270,6 @@ const ProfileInfo = ({ data }) => {
           </div>
         </div>
       </div>
-      <Divider />
     </>
   );
 };

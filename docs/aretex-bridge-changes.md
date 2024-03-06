@@ -673,7 +673,7 @@ postsAtom = atom({
 ## v.0.6.3
 
 * Changed named export from `ChipTag` to `LabelTagChip`to match its filename
-* Moved `recruitmentStatusAtom` from `UserStore` move to `profileStore`
+* Moved `recruitmentStatusAtom` from `UserStore` move to `ProfileStore`
 * Fixed `active` state of navigation when clicking a route in `NavSideBarStore`
 * Added @shadcn/ui latest `^0.8.0`
 
@@ -731,9 +731,18 @@ postsAtom = atom({
 * Add functionality for marking a `notification` read via `button` on `NotificationsList` Component
 
 * Added the `layout` prop to each media layout component to correctly display the media on post feed(`OneMedia` - `SixPlusMedia`)
+* Refactor posts to use `status` prop as filter for displaying `drafts`, `published`, and `archived` posts and use `sub` prop as filter for user's own posts
 
 ## v.0.6.5
 
 * Refactor functionality of shortcuts for optimization when initial page load and navigating pages
 * Refactor fetching data in Profile Page for optimization when initial page load
 * Added @types/react latest `^18.2.61` for dismissing a warning when importing `react`
+* Fixed a bug that triggers `Detected multiple Jotai instances. It may cause unexpected behavior with the default store.` when using an atom inside the `Provider` function from `jotai`
+* Moved `RegisterProfile` function from `profile.js` to `UserStore` and refactored to `registerProfile` atom then implemented to run once on `user` page
+* Renamed `recruitmentStatusAtom` to `profileAtom` in `ProfileStore`
+* Moved `leaveStatusAtom` from `UserStore` move to `ProfileStore`
+* Moved `benefitsStatusAtom` from `UserStore` move to `ProfileStore`
+* Moved `onboardingDataAtom` from `UserStore` move to `ProfileStore`
+* Moved `teamStatusAtom` from `UserStore` move to `ProfileStore`
+* Moved list of `Postcard` for posts to its own component for `Suspense` functionality

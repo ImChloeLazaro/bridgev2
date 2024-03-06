@@ -18,7 +18,6 @@ import {
 } from "./RoutesIconDetails";
 import Shortcuts from "./shortcuts/Shortcuts";
 import SideBarHeader from "./sidebar/SideBarHeader";
-import Loading from "@/app/loading";
 
 const SideBar = () => {
   const fetchRole = useSetAtom(fetchRoleAtom);

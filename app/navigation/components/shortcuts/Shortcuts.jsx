@@ -34,8 +34,6 @@ const Shortcuts = () => {
     fetchedShortcut(auth.sub);
   }, [auth, fetchedShortcut]);
 
-  console.log("SHORTCUT: shortcutsList", shortcutsList);
-
   return (
       <DndContext
         collisionDetection={closestCorners}

@@ -1,7 +1,4 @@
-import {
-  Tab,
-  Tabs
-} from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import {
@@ -17,7 +14,7 @@ import BackgroundOnboarding from "./BackgroundOnboarding";
 import ContactOnboarding from "./ContactOnboarding";
 import EmploymentOnboarding from "./EmploymentOnboarding";
 
-const OnboardingBody = ({viewOnly}) => {
+const OnboardingBody = ({ viewOnly }) => {
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
   const activeStep = useAtomValue(activeStepAtom);
 
@@ -53,7 +50,7 @@ const OnboardingBody = ({viewOnly}) => {
 
   return (
     <>
-      <div className="flex justify-center ">
+      <div className="w-full flex flex-col items-center">
         <Tabs
           key="onboarding navigation"
           selectedKey={selectedTab}
@@ -80,13 +77,14 @@ const OnboardingBody = ({viewOnly}) => {
                       : tab.title}
                   </p>
                 }
-              />
+              >
+                <div className="h-80 flex gap-y-6 px-6 mb-6 overflow-y-scroll">
+                  {onboardingContent[activeStep]}
+                </div>
+              </Tab>
             );
           })}
         </Tabs>
-      </div>
-      <div className="h-80 flex gap-y-6 px-6 mb-6 overflow-y-scroll">
-        {onboardingContent[activeStep]}
       </div>
     </>
   );

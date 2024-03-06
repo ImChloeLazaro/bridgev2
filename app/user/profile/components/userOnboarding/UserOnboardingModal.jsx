@@ -1,17 +1,35 @@
 import OnboardingBody from "@/app/onboarding/components/OnboardingBody";
 import OnboardingFooter from "@/app/onboarding/components/OnboardingFooter";
 import OnboardingHeader from "@/app/onboarding/components/OnboardingHeader";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { onboardingDataAtom } from "../../store/ProfileStore";
+import { useAtomValue, useSetAtom, useAtom } from "jotai";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const profile = useAtomValue(onboardingDataAtom);
+
+  const handleFetchDataWhenOpen = (open) => {
+    console.log("OPEN MODAL ONBOARDING");
+    console.log("ONBOARDING DATA: ", profile);
+    onOpen(open);
+  };
+
   return (
     <>
       <Button
         disableRipple={true}
         disableAnimation={true}
         className="bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
-        onPress={onOpen}
+        onPress={(open) => handleFetchDataWhenOpen(open)}
       >
         {"View Form"}
       </Button>
@@ -26,7 +44,7 @@ const UserOnboardingModal = () => {
                 <OnboardingBody viewOnly={true} />
               </ModalBody>
               <ModalFooter>
-                <OnboardingFooter allowSubmit={false} onClose={onClose}/>
+                <OnboardingFooter allowSubmit={false} onClose={onClose} />
               </ModalFooter>
             </>
           )}

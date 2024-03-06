@@ -17,18 +17,16 @@ import EmergencyContactContent from "./components/emergencyContact/EmergencyCont
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
-import { profileAtom } from "./store/ProfileStore";
 
 const Profile = () => {
   // const recruitment = useAtomValue(recruitmentStatusAtom);
   const auth = useAtomValue(authenticationAtom);
-  const profile = useAtomValue(profileAtom);
 
   return (
     auth.isAuthenticated && (
       <>
         <MainContent>
-          <ProfileCard data={profile} />
+          <ProfileCard />
         </MainContent>
         <RightBar>
           {/* LEAVE BALANCE */}

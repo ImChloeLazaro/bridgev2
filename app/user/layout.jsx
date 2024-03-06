@@ -24,7 +24,7 @@ const UserLayout = ({ children }) => {
             <NavigationBar />
           </div>
           <div className="flex max-w-full max-h-fit overflow-y-scroll bg-background ">
-            {children}
+            <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
         </div>
       </div>

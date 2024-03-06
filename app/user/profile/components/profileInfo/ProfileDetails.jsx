@@ -17,7 +17,7 @@ const ProfileDetails = ({ data }) => {
 
   return (
     <>
-      <div className="relative z-50 px-16 my-6">
+      <div className="relative z-50 px-16 my-6 overflow-y-auto">
         <Tabs
           key="Profile Navigation"
           selectedKey={selectedProfileTab}
@@ -25,7 +25,7 @@ const ProfileDetails = ({ data }) => {
           aria-label="Profile Navigation"
           variant="underlined"
           classNames={{
-            base: "py-0 ",
+            base: "py-0 sticky top-0 bg-white-default",
             tabList: "gap-8 w-full relative rounded-none p-0 ",
             tab: "max-w-fit px-0 h-12 ",
             tabContent:
@@ -38,17 +38,21 @@ const ProfileDetails = ({ data }) => {
               <Tab
                 key={tab.key}
                 title={<p className="capitalize">{tab.title}</p>}
-              />
+              >
+                <div className="mt-2">
+                  {selectedProfileTab === "about" && <AboutInfo data={data} />}
+                  {selectedProfileTab === "profile" && (
+                    <ProfileInfo data={data} />
+                  )}
+                  {selectedProfileTab === "clients" && (
+                    <ClientsInfo data={data} />
+                  )}
+                  {selectedProfileTab === "team" && <TeamInfo data={data} />}
+                </div>
+              </Tab>
             );
           })}
         </Tabs>
-        <Divider />
-      </div>
-      <div className="mt-2 px-16">
-        {selectedProfileTab === "about" && <AboutInfo data={data} />}
-        {selectedProfileTab === "profile" && <ProfileInfo data={data} />}
-        {selectedProfileTab === "clients" && <ClientsInfo data={data} />}
-        {selectedProfileTab === "team" && <TeamInfo data={data} />}
       </div>
     </>
   );
