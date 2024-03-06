@@ -24,6 +24,7 @@ const Profile = () => {
   const auth = useAtomValue(authenticationAtom);
   const profile = useAtomValue(profileAtom);
 
+  console.log("PROFILE:", profile);
   return (
     auth.isAuthenticated && (
       <>

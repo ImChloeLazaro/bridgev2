@@ -2,10 +2,9 @@ import { useAtomValue } from "jotai";
 import { onboardingStatusAtom } from "../../store/ProfileStore";
 
 const EmergencyContactContent = () => {
-  // const contact = useAtomValue(onboardingStatusAtom);
-  // console.log("CONTACT IN PROFILE", contact);
-  const data = useAtomValue(onboardingStatusAtom)?.response?.profile?.contact?.emergency_contact;
-  console.log(data)
+  const contact = useAtomValue(onboardingStatusAtom);
+  console.log("CONTACT IN PROFILE", contact); 
+  const data = useAtomValue(onboardingStatusAtom)?.emergency
   return (
     <div className="flex justify-between p-2">
       <div className="flex flex-col w-full gap-2">

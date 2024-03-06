@@ -26,10 +26,19 @@ const leaveSchema = mongoose.Schema({
 const leaveModel = mongoose.model('leave', leaveSchema)
 
 app.get('/leave/*', async function(req, res) {
-  const {sub} = req.query
   try {
-    const read = await leaveModel.findOne({sub})
-    res.json({success: true, response: read})
+    const sub = req.query.sub
+    const key = req.path;
+
+    switch (key) {
+      case '/leave/balance':
+          const balance = await leaveModel.findOne({sub})
+          res.json({success: true, response: balance})
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        break;
+    }
   } catch (error) {
     res.json({error: error})
   }

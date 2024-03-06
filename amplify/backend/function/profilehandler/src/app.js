@@ -169,7 +169,7 @@ const employeeSchema = mongoose.Schema({
       employment_history: [employmentHistorySchema],
       references: [referencesSchema], // Assuming this should be an array of references
     },
-    sub : String,
+    sub: String,
   },
 });
 
@@ -202,22 +202,22 @@ app.get('/profile/*', async function (req, res) {
     const key = req.path; // Use req.path to get the URL path
 
     switch (key) {
-      case '/profile/onboarding':
-        const onboarding = await profileModel.findOne({ "profile.sub": sub });
-        res.status(200).json({ success: true, route: "APPLICATION ROUTE", response: onboarding });
-        break;
-      case '/profile/background':
-        res.status(200).json({ success: true, response: "BACKGROUND ROUTE", url: req.url });
-        break;
-      case '/profile/contact':
-        res.status(200).json({ success: true, response: "CONTACT ROUTE", url: req.url });
+      case '/profile/information':
+        const data = await profileModel.findOne({ "profile.sub": sub });
+        const profile = data.profile.application.employee_information;
+        res.status(200).json({
+          address: profile.permanent_address,
+          birthday: profile.birthdate,
+          contact: profile.mobile_number,
+          emergency: data.profile.contact.emergency_contact,
+        });
         break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
         break;
     }
   } catch (error) {
-    res.json({ error: error }); 
+    res.json({ error: error });
   }
 });
 
