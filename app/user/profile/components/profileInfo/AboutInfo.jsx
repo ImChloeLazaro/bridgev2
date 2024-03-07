@@ -8,16 +8,13 @@ import {
   personalInfoAtom,
   teamStatusAtom,
 } from "../../store/ProfileStore";
-import { useAtomValue, useSetAtom, useAtom } from "jotai";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { useAtomValue } from "jotai";
 
-const AboutInfo = ({ data }) => {
+const AboutInfo = () => {
   const personalInfo = useAtomValue(personalInfoAtom);
-  const employeeInfo = useAtomValue(employeeInfoAtom);
   const teamStatus = useAtomValue(teamStatusAtom);
 
-  console.log("ABOUT PROFILE", personalInfo);
-
+  const {response: data} = useAtomValue(employeeInfoAtom);
   return (
     <>
       {/* // ### EMPLOYEE INFORMATION} */}
@@ -38,7 +35,7 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {employeeInfo.employee_number ?? "No Data Available"}
+              {data?.employee_number ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -48,10 +45,10 @@ const AboutInfo = ({ data }) => {
               {"Status"}
             </p>
 
-            {employeeInfo.is_active ? (
+            {data?.is_active ? (
               <LabelTagChip
-                text={employeeInfo.is_active ? "Active" : "Inactive"}
-                color={employeeInfo.is_active ? "green" : "red"}
+                text={data?.is_active ? "Active" : "Inactive"}
+                color={data?.is_active ? "green" : "red"}
               />
             ) : (
               <LabelTagChip text={"Unavailable"} color={"lightgrey"} />
@@ -68,8 +65,8 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {employeeInfo.hiredate != null
-                ? format(new Date(employeeInfo.hiredate), "MMMM dd yyyy")
+              {data?.hiredate != null
+                ? format(new Date(data?.hiredate), "MMMM dd yyyy")
                 : "No Data Available"}
             </p>
           </div>

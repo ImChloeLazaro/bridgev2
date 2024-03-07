@@ -37,13 +37,22 @@ app.get('/recruitment', async function(req, res) {
 });
 
 app.get('/recruitment/*', async function(req, res) {
-  const { sub } = req.query
   try {
-    const recruitment = await recruitmentModel.find({sub})
-    res.json({success: true, response: recruitment})
+    const sub = req.query.sub; // Extract sub from query parameters
+    const key = req.path; // Use req.path to get the URL path
+
+    switch (key) {
+      case '/recruitment/information':
+        const recruitment = await recruitmentModel.findOne({sub})
+          res.json({success: true, response: recruitment})
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        break;
+    }
   } catch (error) {
-    res.status(500).json({error: error})
-  }  
+    res.json({ error: error });
+  }
 });
 
 app.post('/recruitment', async function(req, res) {

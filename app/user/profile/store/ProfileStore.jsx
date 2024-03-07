@@ -29,7 +29,7 @@ export const personalInfoAtom = atom(async (get) => {
 // Employee Information
 export const employeeInfoAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/recruitment/profile", { sub: auth.sub });
+  return await readwithparams("/recruitment/information", { sub: auth.sub });
 });
 
 //Team
