@@ -15,24 +15,19 @@ const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
 
 const OnboardingForm = () => {
   return (
-    <div
-      className="flex items-center justify-center h-screen bg-cover bg-center "
-      style={{ backgroundImage: "url(bg.png)" }}
-    >
-      <Card className="w-[850px] h-[760px]">
-        <CardHeader className="flex justify-center p-1 mt-2">
-          <OnboardingHeader />
-        </CardHeader>
-        <Divider />
-        <CardBody className="gap-6 py-3 ">
-          <OnboardingBody />
-        </CardBody>
-        <Divider />
-        <CardFooter className="px-8">
-          <OnboardingFooter />
-        </CardFooter>
-      </Card>
-    </div>
+    <Card className="w-[850px] h-[760px]">
+      <CardHeader className="flex justify-center p-1 mt-2">
+        <OnboardingHeader />
+      </CardHeader>
+      <Divider />
+      <CardBody className="gap-6 py-3 ">
+        <OnboardingBody />
+      </CardBody>
+      <Divider />
+      <CardFooter className="px-8">
+        <OnboardingFooter />
+      </CardFooter>
+    </Card>
   );
 };
 

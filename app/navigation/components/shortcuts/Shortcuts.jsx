@@ -35,6 +35,10 @@ const Shortcuts = () => {
   }, [auth, fetchedShortcut]);
 
   return (
+    <>
+      <div className="sticky top-0 z-50 py-0 px-1 ml-1 mr-4">
+        <ShortcutsHeader />
+      </div>
       <DndContext
         collisionDetection={closestCorners}
         onDragEnd={handleDragEnd}
@@ -120,30 +124,26 @@ const Shortcuts = () => {
               },
             }}
           >
-            <div className="py-0 sticky top-0 z-50 ">
-              <ShortcutsHeader />
-            </div>
-            <div>
-              <SortableContext
-                items={shortcutsList}
-                strategy={verticalListSortingStrategy}
-              >
-                {shortcutsList?.map((shortcut) => (
-                  <SortableItem
-                    disabled={disableDraggable}
-                    id={shortcut.id} // makes dragging and sorting working
-                    key={shortcut.key}
-                    unique_key={shortcut._id}
-                    url={shortcut.url ?? ""}
-                  >
-                    {shortcut.title}
-                  </SortableItem>
-                ))}
-              </SortableContext>
-            </div>
+            <SortableContext
+              items={shortcutsList}
+              strategy={verticalListSortingStrategy}
+            >
+              {shortcutsList?.map((shortcut) => (
+                <SortableItem
+                  disabled={disableDraggable}
+                  id={shortcut.id} // makes dragging and sorting working
+                  key={shortcut.key}
+                  unique_key={shortcut._id}
+                  url={shortcut.url ?? ""}
+                >
+                  {shortcut.title}
+                </SortableItem>
+              ))}
+            </SortableContext>
           </Menu>
         </Sidebar>
       </DndContext>
+    </>
   );
 
   function handleDragEnd(event) {

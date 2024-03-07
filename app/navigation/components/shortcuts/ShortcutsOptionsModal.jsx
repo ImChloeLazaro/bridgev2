@@ -99,7 +99,11 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
       }}
     >
       <PopoverTrigger>
-        <Button isIconOnly className="bg-transparent">
+        <Button
+          aria-label={"Shortcut Options"}
+          isIconOnly
+          className="bg-transparent"
+        >
           <BiDotsVerticalRounded size={shortcutSize} />
         </Button>
       </PopoverTrigger>

@@ -15,11 +15,12 @@ const ExternalLinks = () => {
     <Popover placement="bottom-start" showArrow={true} className="shadow-base ">
       <PopoverTrigger>
         <Button
+          aria-label={"External Links"}
           isIconOnly
           className="p-6 text-orange-default bg-white-default hover:bg-grey-hover rounded-xl"
         >
           <div>
-            <IoApps size={32} />
+            <IoApps size={36} />
           </div>
         </Button>
       </PopoverTrigger>

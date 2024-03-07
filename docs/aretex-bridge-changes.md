@@ -746,3 +746,4 @@ postsAtom = atom({
 * Moved `onboardingDataAtom` from `UserStore` move to `ProfileStore`
 * Moved `teamStatusAtom` from `UserStore` move to `ProfileStore`
 * Moved list of `Postcard` for posts to its own component for `Suspense` functionality
+* Benchmarked project with Lighthouse from browser developer tools

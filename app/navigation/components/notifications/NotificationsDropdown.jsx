@@ -59,7 +59,7 @@ const NotificationsDropdown = () => {
   useEffect(() => {
     fetchNotifications();
     // unreadCountHandler(notifications);
-  }, [fetchNotifications, ]);
+  }, [fetchNotifications]);
 
   return (
     <Badge
@@ -96,7 +96,11 @@ const NotificationsDropdown = () => {
         }}
       >
         <PopoverTrigger>
-          <Button isIconOnly className="bg-transparent">
+          <Button
+            aria-label={"Notifications Button"}
+            isIconOnly
+            className="bg-transparent"
+          >
             {notificationsOpen ? (
               <MdNotificationsActive size={24} color="white" />
             ) : unreadCount.all === 0 ? (

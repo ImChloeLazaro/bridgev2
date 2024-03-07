@@ -1,3 +1,4 @@
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   Button,
   Input,
@@ -5,29 +6,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { post } from "aws-amplify/api";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import { MdAdd } from "react-icons/md";
 import CTAButtons from "../../../components/CTAButtons";
 import CloseButton from "../../../components/CloseButton";
-import { userAtom } from "../../../store/UserStore";
-import { restinsert } from "@/app/utils/amplify-rest";
 import {
   addShortcutAtom,
-  shortcutURLAtom,
-  shortcutTitleAtom,
-  shortcutCountAtom,
   fetchedShortcutAtom,
+  shortcutCountAtom,
+  shortcutTitleAtom,
+  shortcutURLAtom,
 } from "../../store/ShortcutsStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const ShortcutsHeader = () => {
   const auth = useAtomValue(authenticationAtom);
   const [isOpen, setIsOpen] = useState(false);
   const [shortcutTitle, setShortcutTitle] = useAtom(shortcutTitleAtom);
   const [shortcutURL, setShortcutURL] = useAtom(shortcutURLAtom);
-  const shortcutCount = useAtomValue(shortcutCountAtom);
   const addShortcut = useSetAtom(addShortcutAtom);
   const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
 
@@ -69,7 +65,11 @@ const ShortcutsHeader = () => {
         onOpenChange={setIsOpen}
       >
         <PopoverTrigger>
-          <Button isIconOnly className="bg-transparent">
+          <Button
+            aria-label={"Add Shortcut Button"}
+            isIconOnly
+            className="bg-transparent"
+          >
             {properties.trigger}
           </Button>
         </PopoverTrigger>

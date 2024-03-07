@@ -25,6 +25,7 @@ const RightBarCard = ({
           </p>
         </div>
         <Button
+          aria-label={title}
           isDisabled={!isExpandable}
           isIconOnly
           className="bg-transparent"
