@@ -40,7 +40,7 @@ export const personalInfoAtom = atom(async (get) => {
 // Employee Information
 export const employeeInfoAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/recruitment/profile", { sub: auth.sub });
+  return await readwithparams("/recruitment/information", { sub: auth.sub });
 });
 
 //Team
@@ -80,71 +80,3 @@ export const onboardingDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/profile", { sub: auth.sub });
 });
-
-// export const profileAtom = atom(async (get) => {
-//   const auth = await get(authenticationAtom);
-//   const user = await get(userDataAtom);
-//   // const { employee } = await get(onboardingDataAtom);
-//   // const {
-//   //   response: [data],
-//   // } = await readwithparams("/recruitment/profile", { sub: auth.sub });
-//   // const { response: employee_team } = await get(teamStatusAtom);
-
-//   const employee = {};
-//   const employee_team = {};
-//   const data = [];
-
-//   return {
-//     id: data?.employee_number,
-//     sub: auth.sub,
-//     name: user?.name,
-//     picture: user?.picture, // link to picture
-//     email: data?.email ? data?.email : user.email,
-//     address:
-//       employee?.profile?.application?.employee_information?.permanent_address ||
-//       "N/A",
-//     birthday: employee?.profile?.application?.employee_information?.birthdate,
-//     contactNumber:
-//       employee?.profile?.application?.employee_information?.mobile_number ||
-//       "N/A",
-//     status: data?.is_active, // true active : false inactive
-//     role: user.role,
-//     team: user.team,
-//     supervisor: {
-//       name: employee_team?.immediate_head?.name,
-//       picture: employee_team?.immediate_head?.picture,
-//     },
-//     position: data?.position,
-//     clients: ["NON-BLOOMS"],
-//     onboarding: {
-//       startDate: data?.hiredate,
-//       status: data?.status?.toUpperCase(),
-//     },
-//   };
-//   // return {
-//   //   id: data?.employee_number,
-//   //   sub: auth.sub,
-//   //   name: data?.name ? data?.name : user.name,
-//   //   picture: user?.picture, // link to picture
-//   //   email: data?.email ? data?.email : user.email,
-//   //   address:
-//   //     employee?.profile.application.employee_information.permanent_address ||
-//   //     "N/A",
-//   //   birthday: employee?.profile.application.employee_information.birthdate,
-//   //   contactNumber:
-//   //     employee?.profile.application.employee_information.mobile_number || "N/A",
-//   //   status: data?.is_active, // true active : false inactive
-//   //   role: user.role,
-//   //   team: user.team,
-//   //   supervisor: {
-//   //     name: employee_team?.immediate_head?.name,
-//   //     picture: employee_team?.immediate_head?.picture,
-//   //   },
-//   //   position: data?.position,
-//   //   clients: ["NON-BLOOMS"],
-//   //   onboarding: {
-//   //     startDate: data?.hiredate,
-//   //     status: data?.status.toUpperCase(),
-//   //   },
-//   // };
-// });
