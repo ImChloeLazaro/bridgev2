@@ -3,12 +3,19 @@ import { Avatar, Divider } from "@nextui-org/react";
 import { format } from "date-fns";
 import { MdInfoOutline } from "react-icons/md";
 import { IoPersonCircle } from "react-icons/io5";
-import { personalInfoAtom } from "../../store/ProfileStore";
+import {
+  employeeInfoAtom,
+  personalInfoAtom,
+  teamStatusAtom,
+} from "../../store/ProfileStore";
 import { useAtomValue, useSetAtom, useAtom } from "jotai";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const AboutInfo = ({ data }) => {
   const personalInfo = useAtomValue(personalInfoAtom);
+  const employeeInfo = useAtomValue(employeeInfoAtom);
+  const teamStatus = useAtomValue(teamStatusAtom);
+
   console.log("ABOUT PROFILE", personalInfo);
 
   return (
@@ -31,7 +38,7 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {personalInfo.employee_number ?? "No Data Available"}
+              {employeeInfo.employee_number ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -41,10 +48,10 @@ const AboutInfo = ({ data }) => {
               {"Status"}
             </p>
 
-            {personalInfo.status ? (
+            {employeeInfo.is_active ? (
               <LabelTagChip
-                text={personalInfo.status ? "Active" : "Inactive"}
-                color={personalInfo.status ? "green" : "red"}
+                text={employeeInfo.is_active ? "Active" : "Inactive"}
+                color={employeeInfo.is_active ? "green" : "red"}
               />
             ) : (
               <LabelTagChip text={"Unavailable"} color={"lightgrey"} />
@@ -61,8 +68,8 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {personalInfo.hiredate != null
-                ? format(new Date(personalInfo.hiredate), "MMMM dd yyyy")
+              {employeeInfo.hiredate != null
+                ? format(new Date(employeeInfo.hiredate), "MMMM dd yyyy")
                 : "No Data Available"}
             </p>
           </div>
@@ -74,16 +81,16 @@ const AboutInfo = ({ data }) => {
               {"Immediate Head"}
             </p>
             <div className="flex items-center gap-2">
-              {/* <Avatar
+              <Avatar
                 radius="full"
                 size="md"
-                src={aboutProfile.supervisor.picture ?? "/defaulthead.png"}
+                src={teamStatus.immediate_head?.picture ?? "/male-user-circle.png"}
+                fallbackSrc={"/male-user-circle.png"}
                 alt="Supervisor Profile picture"
-              /> */}
-              <div className="text-black-default">
-                <IoPersonCircle size={36} />
-              </div>
-              <p className="">{data.supervisor.name ?? "No Team Record"}</p>
+              />
+              <p className="">
+                {teamStatus.immediate_head?.name ?? "No Team Record"}
+              </p>
             </div>
           </div>
         </div>
@@ -106,9 +113,9 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {data.address === "N/A"
+              {personalInfo.address === "N/A"
                 ? "No Data Available"
-                : data.address ?? "No Data Available"}
+                : personalInfo.address ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -122,9 +129,9 @@ const AboutInfo = ({ data }) => {
               </p>
             </div>
             <p className="">
-              {data.contactNumber === "N/A"
+              {personalInfo.contact === "N/A"
                 ? "No Data Available"
-                : data.contactNumber ?? "No Data Available"}
+                : personalInfo.contact ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -135,8 +142,8 @@ const AboutInfo = ({ data }) => {
               <p className="font-medium text-base ">{"Birthday"}</p>
             </div>
             <p className="">
-              {data.birthday != null
-                ? format(new Date(data.birthday), "MMMM dd yyyy")
+              {personalInfo.birthday != null
+                ? format(new Date(personalInfo.birthday), "MMMM dd yyyy")
                 : "No Data Available"}
             </p>
           </div>

@@ -31,12 +31,6 @@ export const isConfirmPasswordVisibleAtom = atom(false);
 //   } else return {};
 // });
 
-// User Information (Displayed at Profile Page)
-export const userInfoAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  return await readwithparams("/user", { sub: auth.sub });
-});
-
 // Personal Information
 export const personalInfoAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);

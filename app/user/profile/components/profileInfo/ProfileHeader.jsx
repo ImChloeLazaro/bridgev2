@@ -6,11 +6,12 @@ import CTAButtons from "../../../../components/CTAButtons";
 import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
 
 import ProfileBanner from "../../../../../public/header-profile.png";
+import { userAtom } from "@/app/store/UserStore";
 
-const ProfileHeader = ({ data }) => {
+const ProfileHeader = () => {
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
+  const userInfo = useAtomValue(userAtom);
 
-  
   return (
     <>
       <div className="m-0 p-0 w-full ">
@@ -19,7 +20,7 @@ const ProfileHeader = ({ data }) => {
             alt="Profile Banner"
             src={ProfileBanner}
             loading="lazy"
-            placeholder={'blur'}
+            placeholder={"blur"}
             quality={50}
             sizes="(min-width: 808px) 50vw, 100vw"
             style={{
@@ -53,7 +54,7 @@ const ProfileHeader = ({ data }) => {
                 // as={Button}
                 // onPress={()=>{console.log("AVATAR CHANGE PROFILE PICTURE")}}
                 // radius="full"
-                src={data?.picture}
+                src={userInfo?.picture}
                 classNames={{
                   base: "data-[hover=true]:bg-darkgrey-default w-[140px] h-[140px] text-large border-8 border-white-default ",
                   img: "data-[hover=true]:bg-darkgrey-default",
@@ -94,15 +95,16 @@ const ProfileHeader = ({ data }) => {
 
           <div className="flex-col">
             <p className="text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
-              {data.name}
+              {userInfo.name}
             </p>
             {isVisibleJobTitle && (
               <p className="text-base font-medium text-darkgrey-hover leading-4">
-                {data.position}
+                {/* {userInfo.email} */}
+                {"Junior Data Anaylst"}
               </p>
             )}
             <p className="text-base font-medium text-darkgrey-hover leading-5">
-              {data.email}
+              {userInfo.email}
             </p>
           </div>
         </div>

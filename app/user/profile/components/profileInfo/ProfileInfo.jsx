@@ -1,5 +1,5 @@
 import { Avatar, Checkbox, Divider, Input, Button } from "@nextui-org/react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import {
@@ -13,8 +13,9 @@ import {
 } from "../../store/ProfileStore";
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { userAtom } from "@/app/store/UserStore";
 
-const ProfileInfo = ({ data }) => {
+const ProfileInfo = () => {
   const [isVisibleJobTitle, setIsVisibleJobTitle] = useAtom(
     isVisibleJobTitleAtom
   );
@@ -33,8 +34,12 @@ const ProfileInfo = ({ data }) => {
     isConfirmPasswordVisibleAtom
   );
 
-  const toggleVisibility = (setIsVisible, isVisible) =>
+  const toggleVisibility = (setIsVisible, isVisible) => {
     setIsVisible(!isVisible);
+  };
+  
+  const userInfo = useAtomValue(userAtom);
+
   return (
     <>
       {/* // ### UPDATE SETTINGS */}
@@ -63,7 +68,7 @@ const ProfileInfo = ({ data }) => {
               <Avatar
                 radius="full"
                 size="md"
-                src={data.picture}
+                src={userInfo.picture}
                 alt="Profile picture"
               />
               <div className="flex ">

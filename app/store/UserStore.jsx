@@ -20,8 +20,8 @@ async function fetchUserData() {
 // Register User Data
 export const registerProfileAtom = atom(null, async (get, set, update) => {
   const data = get(userDataAtom);
-  const user = restinsert("/user", data);
-  if (user.success) {
+  const userResponse = await restinsert("/user", data);
+  if (userResponse.success) {
     return { success: true };
   } else {
     return { success: false };
@@ -35,15 +35,15 @@ export const userDataAtom = atom(async () => {
 
 // User
 export const userAtom = atom(async (get) => {
-  const data = await get(userDataAtom);
+  const user = await get(userDataAtom);
   const userID = get(employeeIDAtom);
-  if (data != null) {
+  if (user != null) {
     // ### TODO ADD PLACEHOLDER VALUE WHEN IT'S NULL
     return {
       id: userID ?? "",
-      name: data.name ?? "",
-      picture: data.picture ?? "", // link to picture
-      email: data.email ?? "",
+      name: user.name ?? "",
+      picture: user.picture ?? "", // link to picture
+      email: user.email ?? "",
       role: ["user", "admin"],
       team: "DMS-FAST",
     };
