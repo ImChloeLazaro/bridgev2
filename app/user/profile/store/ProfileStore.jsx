@@ -78,7 +78,7 @@ export const emergencyContactAtom = atom(async (get) => {
 //Onboarding
 export const onboardingDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/profile/information", { sub: auth.sub });
+  return await readwithparams("/profile", { sub: auth.sub });
 });
 
 // export const profileAtom = atom(async (get) => {

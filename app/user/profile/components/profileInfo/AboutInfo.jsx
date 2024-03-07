@@ -85,7 +85,6 @@ const AboutInfo = ({ data }) => {
                 radius="full"
                 size="md"
                 src={teamStatus.immediate_head?.picture ?? "/male-user-circle.png"}
-                fallbackSrc={"/male-user-circle.png"}
                 alt="Supervisor Profile picture"
               />
               <p className="">

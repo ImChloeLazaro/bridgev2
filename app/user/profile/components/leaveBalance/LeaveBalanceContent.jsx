@@ -1,10 +1,11 @@
 import { Button } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { leaveStatusAtom } from "../../store/ProfileStore";
+import { Tooltip, Link } from "@nextui-org/react";
 
 const LeaveBalanceContent = () => {
   const leave = useAtomValue(leaveStatusAtom);
-  console.log("LEAVES: ", leave)
+  console.log("LEAVES: ", leave);
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">
@@ -13,11 +14,24 @@ const LeaveBalanceContent = () => {
             {"Vacation Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {leave.response !== null ? (
-              leave.response.VL_BALANCE
-            ) : (
-              <small className="text-red-600">No VL data</small>
-            )}
+            <Tooltip
+              showArrow={true}
+              content={
+                <p className="">{`You have ${leave.response.VL_BALANCE} VL left`}</p>
+              }
+            >
+              <Link
+                href="#"
+                underline="none"
+                className="text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
+              >
+                {leave.response !== null ? (
+                  leave.response.VL_BALANCE
+                ) : (
+                  <p className="text-red-600">No VL data</p>
+                )}
+              </Link>
+            </Tooltip>
           </p>
         </div>
         <div className="flex">
@@ -25,11 +39,24 @@ const LeaveBalanceContent = () => {
             {"Sick Leave:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {leave.response !== null ? (
-              leave.response.SL_BALANCE
-            ) : (
-              <small className="text-red-600">No SL data</small>
-            )}
+            <Tooltip
+              showArrow={true}
+              content={
+                <p className="">{`You have ${leave.response.SL_BALANCE} SL left`}</p>
+              }
+            >
+              <Link
+                href="#"
+                underline="none"
+                className="text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
+              >
+                {leave.response !== null ? (
+                  leave.response.SL_BALANCE
+                ) : (
+                  <p className="text-red-600">No SL data</p>
+                )}
+              </Link>
+            </Tooltip>
           </p>
         </div>
       </div>
