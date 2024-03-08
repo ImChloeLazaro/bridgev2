@@ -1,16 +1,12 @@
-import React from "react";
-import PostCard from "./PostCard";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { fetchPostAtom, postAtom } from "../../store/PostStore";
 import { useAtomValue, useSetAtom } from "jotai";
-import { Suspense, useEffect, useCallback } from "react";
-
+import { useEffect } from "react";
+import { fetchPostAtom, postAtom } from "../../store/PostStore";
+import PostCard from "./PostCard";
 const PostFeed = () => {
   const posts = useAtomValue(postAtom);
   const fetchPost = useSetAtom(fetchPostAtom);
 
   useEffect(() => {
-    console.log("FETCHED POSTS");
     fetchPost();
   }, [fetchPost]);
 

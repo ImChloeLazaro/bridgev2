@@ -34,10 +34,12 @@ export const employeeInfoAtom = atom(async (get) => {
 
 //Team
 export const teamStatusAtom = atom(async (get) => {
-  // const auth = await get(authenticationAtom);
+  const auth = await get(authenticationAtom);
   const teams = await readwithparams("/teams/employee", {
-    sub: "d0229811-67cc-4fb8-915b-38d8029b85df",
+    // sub: "d0229811-67cc-4fb8-915b-38d8029b85df",
+    sub: auth.sub,
   });
+
   if (teams.success) {
     return teams.response;
   } else {

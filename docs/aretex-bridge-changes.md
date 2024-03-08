@@ -14,7 +14,7 @@
 * Configured framework and components to match prototype's style in Figma
 * Implemented Cognito Authentication for `backend` and `frontend`
 * Added `Authenticator` Component from Amplify UI to test Cognito Authentication
-* Fixed Reference Error `_window_` being accessed on the server
+* Fixed a bug where Reference Error `_window_` is being accessed before the client renders
 
 ## v.0.3.0
 
@@ -30,12 +30,12 @@
 ## v.0.3.0 - hotfix
 
 * Added Notifications Component
-* Fixed Shortcuts to only scroll when overflowing
+* Fixed a bug where shortcuts scroll when it is not overflowing
 
 ## v.0.3.1
 
 * Added Functionality to Notifications & Shortcuts Component
-* Fixed scrolling issue on shortcuts Component
+* Fixed a bug on shortcuts Component that causes scrolling issue
 * Added respective links to External Links Component
 * Added respective links to Shortcuts Component
 * Added AU and PH Aretex Website links to External Links
@@ -56,7 +56,7 @@
 * Added jotai-core and jotai-cache for global and local state management
 * Added `store` folders for each component
 * Implemented atom approach for a cleaner state management and to avoid prop drilling
-* Fixed conflicting keys in sidebar Component
+* Fixed a bug where keys used in sidebar Component are conflicting causing sidebar items to have the same keys
 
 ## v.0.3.3 - hotfix
 
@@ -66,9 +66,9 @@
 
 * Removed Manual Sign In Component
 * Added Shortcuts Functionality
-* Fixed draggable shortcuts issue not updating on UI
-* Fixed index conflict of draggable shortcuts by setting unique id for each sortable item(numbers eg. 1,2,3,4,5) does not work and using key prop does not work either
-* Fixed unintentional behavior of draggable elements duplicating when double clicking it
+* Fixed a bug where draggable shortcuts issue are not updating the UI
+* Fixed a bug causing index conflict of draggable shortcuts by setting unique id for each sortable item(numbers eg. 1,2,3,4,5) does not work and using key prop does not work either
+* Fixed a bug causing unintentional behavior of draggable elements duplicating when double clicking it
 * Changed `shortcuts` object in `ShortcutsStore` from
 
 ```javascript
@@ -98,8 +98,8 @@ link: String,
 
 ## v.0.3.4 - hotfix
 
-* Fixed bug on saving changes/edits of shortcuts due to `toUpperCase` method
-* Fixed bug draggable shortcuts still draggable when editing shortcuts  
+* Fixed a bug on saving changes/edits of shortcuts due to `toUpperCase` method
+* Fixed a bug causing draggable shortcuts still being draggable when editing shortcuts  
 
 ## v.0.4.0
 
@@ -111,7 +111,7 @@ link: String,
 
 ## v.0.4.1
 
-* Fixed index conflicting issue with `stepper` Component and content of the form.
+* Fixed a bug causing index conflicting issue with `stepper` Component and content of the form.
 * Merged backend and frontend from `devchloe` branch
 * Created backup from `devchloe` branch
 
@@ -191,12 +191,12 @@ link: String,
 * Added @swiper latest `^11.0.5` for image carousel/gallery
 * Updated Media Layout Component to view the rest of the images via modal window
 * Synced `bridge-frontend` repo to latest changes
-* Checked and Fixed paths for Components
+* Checked and Updated paths for Components
 * Checked and Updated imports for Components
 * Removed dead code and unused code
 * Removed majority of `console.log()` left from development
 * Added `TODO`s across the source code for logging tasks and reminders `prefix:// ### TODO...`
-* Fixed post images now properly fill their container regardless of their shape
+* Fixed a bug where post images did not properly fill their container regardless of their shape
 
 ## v.0.4.10
 
@@ -221,7 +221,7 @@ link: String,
 
 ## v.0.5.0.1 - hotfix
 
-* Fixed Import Error of `SwitchRoles`
+* Updated Import Path for `SwitchRoles` Component
 * Added `Amplify.configure` to user page
 
 ## v.0.5.0.2 - hotfix
@@ -250,13 +250,13 @@ link: String,
 
 * Updated `UserDropdown` Component to get its state from `UserStore`
 * Added Functionality to view a post's images full screen and displayed in a carousel/ gallery
-* Fixed image gallery to display the correct selected image when viewing post
-* Fixed image background blur on posts
+* Fixed a bug where image gallery did not display the correct selected image when viewing post
+* Updated image background blur on posts
 * Added Functionality to increment and decrement reaction count
 * Added Functionality when reacted to the post already it will persist
 * Added tooltip for reaction's count
 * Added `height` to extend the `transitionProperty` tailwind property for animating when component height changes
-* Fixed animation for `Recognitions`, `Trainings`, and `HRBulletinBoard` Component when expanded and its height changes.
+* Updated animation for `Recognitions`, `Trainings`, and `HRBulletinBoard` Component when expanded and its height changes.
 * Changed named export from `HighlightArea` to `RightBar`to match its filename
 * Changed named export from `NewsFeed` to `MainContent` to match its filename
 * Changed named export from `page` to `Onboarding` to match its filename
@@ -266,7 +266,7 @@ link: String,
 
 * Merged Changelog from prod repo `bridgev2` to `bridge-frontend`
 * Removed `console.log()` on `PostFooter` Component
-* Fixed import error by updating `next/router` to `next/navigation` on `ReconnectButton` and `ReturnButton` Component
+* Updated import path by changing `next/router` to `next/navigation` on `ReconnectButton` and `ReturnButton` Component
 
 ## v.0.5.3
 
@@ -301,15 +301,15 @@ link: String,
 
 ## v.0.5.5
 
-* Fixed fetching of shortcut data from the backend
+* Fixed a bug where fetching shortcut data from the backend failed to send a response
 * Pulled backend resources from amplify
 * Rewrite atom architecture for manipulating data coming from the backend in `ShortcutStore`
 * Added backend functionality and resources for local development testing
 * Updated the links for `Shortcuts` to be clickable and open a new tab
 * Added `DEL` and `PUT` functions for deleting and editing shortcuts respectively (backend not yet implemented)
 * Removed the role check on `NavigationBar` to fix the route issue
-* Fixed `Badge` and `Sidebar` state from previous state still persists when switching roles
-* Fixed route issue when manually entering URL is does not reflect on the page
+* Fixed a bug where `Badge` and `Sidebar` state from previous state still persists when switching roles
+* Fixed a bug causing route issue when manually entering URL is does not reflect on the page
 * Updated illustration for when onboarding form is submitted
 * Added profile components for `Profile` page
 * Added `"-100":"-1"` to extend the `scale` tailwind property for flipping images, svg and related media horizontally.
@@ -325,7 +325,7 @@ link: String,
 * Updated `UserDropdown` Component to display job positon below the user's name
 * Updated `useEffect` dependency in `providers.jsx`
 * Moved `user` object from `authenticationAtom` in `AuthenticationStore` to `userAtom` in `UserStore`
-* Fixed the warning thrown when both `birthday` gif and `rexWinner` gif are being loaded on page load by setting the `priority` prop to true
+* Fixed a warning thrown when both `birthday` gif and `rexWinner` gif are being loaded on page load by setting the `priority` prop to true
 * Added `ProfileStore` for profile components
 * Added `MainContent` Component
 * Added `RightBar` Component
@@ -342,7 +342,7 @@ link: String,
 ## v.0.5.6.1 - hotfix
 
 * Renamed Component `OnboardingHeader.jsx` to `OnboardingStatusAlert.jsx` in `/app/components`
-* Fixed build error on `OnboardingStatusAlert.jsx` due to unescaped apostrophes
+* Fixed a build error on `OnboardingStatusAlert.jsx` due to unescaped apostrophes
 
 ## v.0.5.7
 
@@ -363,7 +363,7 @@ link: String,
 * Wrapped strings passed as children in curly brackets to prevent build error like unescaped apostrophes and such
 * Moved `MainContent` and `RightBar` components from each page to a single reusable component in `app/components` folder
 * Deleted `MainContent` and `RightBar` components from each page
-* Fixed content being clipped when scrolling in `MainContent` and `RightBar` component
+* Fixed a bug causing content being clipped when scrolling in `MainContent` and `RightBar` component
 * Moved `amplifyconfiguration.json` and `aws-exports.js` to `src` folder outside the `app` folder
 * Added `light blue` and `dark blue` variant for color `blue` in `tailwind.config.js`
 * Removed duplicate `HRBulletinBoard` component file
@@ -407,13 +407,13 @@ link: String,
 
 ## v.0.5.9
 
-* Fixed `NavigationBar` alignment
-* Fixed `ManagePostModal` window to be centered on the screen
+* Adjusted alignment for `NavigationBar` Component
+* Adjusted `ManagePostModal` window to be centered on the screen
 * Adjusted right padding in `Rightbar` Component for easier scrolling
 * Added notification function for notifications
 * Updated schema for `posthandler`
 * Added `notificationhandler` function
-* Fixed `ManagePostModal` Component alignment
+* Adjusted alignment for `ManagePostModal` Component
 * Added `reaction` folder for reaction related components
 * Moved all reaction related components to `reaction` folder
 
@@ -437,8 +437,8 @@ link: String,
 
 ## v.0.5.11
 
-* Fixed minor bug all templates are deleted when deleting custom template
-* Fixed media and template buttons correctly displaying post template details when creating new posts
+* Fixed a minor bug all templates are deleted when deleting custom template
+* Fixed a bug causing media and template buttons not correctly displaying post template details when creating new posts
 * Removed left over `console.log()` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
 * Added backend handler function for route `/account`
@@ -477,23 +477,23 @@ link: String,
 * Added `MediaLayoutDisplay` Component for previewing the media layout on `ManagePostSidebarContent` Component
 * Added `MediaLayoutSelect` Component
 * Added `MediaOrientationSelect` Component
-* Fixed media layout and orientation selection for `ManagePost` Component
+* Updated media layout and orientation selection for `ManagePost` Component
 * Added `recruitment` backend handler function
 * Updated employee information in `AboutInfo` Component in `Profile` Page
 * Added `recruitmentStatusAtom` in `UserStore` for fetching the recruitment status of an employee
 
 ## v.0.5.13
 
-* Fixed Media Layout Preview before posting on `ManagePostItemCard` Component
-* Fixed `backdrop-brightness` for displaying media only in the last media visible to the user in `ManagePostItemCard` Component
+* Added `MediaLayoutPreview` Component to display selected images before posting and displaying in `ManagePostItemCard` Component
+* Updated style for displaying media to only include `backdrop-brightness` in the last media visible to the user in `ManagePostItemCard` Component
 * Added display count overlay on the last media visible to indicate the excess count of media that are not visible
 * Added smooth transition when hovering `ManagePostItemCard` Component
 * Renamed `MediaLayoutDisplay` to `MediaLayoutPreview` Component for consistency of naming related components
-* Fixed Media Layout Preview to display placeholder media when `mediaFileList` does not exist or is empty in `MediaLayoutPreview` Component
+* Added functionality to display a placeholder when `mediaFileList` does not exist or is empty in `MediaLayoutPreview` Component
 * Refactor logic for displaying `mediaFileList` in `ManagePostSidebar` and `ManagePostMainContent` Component
 * Renamed `picture` to `profileURL` property for `draftPostListAtom`, `publishedPostListAtom`, and `archivedPostListAtom` in `ManagePostStore`
-* Fixed sorting of posts according to `datetimePublished`
-* Fixed center alignment for `ImageSwiper` Component
+* Updated sorting of posts according to `datetimePublished`
+* Adjusted center alignment for `ImageSwiper` Component
 * Added `publishKey` prop to track`postAtom` when published so the correct post is manipulated in `PostStore`
 * Updated logic for `AboutInfo` Component to check for falsy/ nullish profile data values
 * Added `under-construction.png` as illustration for pages that are still being developed or not yet developed
@@ -638,11 +638,11 @@ postsAtom = atom({
 
 ## v.0.6.1
 
-* Fixed issue on `ReactButton` Component not updating reaction count and throws an error
+* Fixed a bug causing issue on `ReactButton` Component not updating reaction count and throws an error
 * Added validation to `ReactButton` Component to check empty or null value for `reactionList` attribute
-* Fixed issue on `PostStore` rendering default/ initial data for `postAtom` before updating to the fetched data from API call
+* Fixed a bug causing issue on `PostStore` still rendering default/ initial data for `postAtom` before updating to the fetched data from API call
 * Removed default/initial data for `postAtom` from `PostStore`
-* Fixed issue on `PostHeader` Component not displaying the `user` picture from `user` data
+* Fixed a bug causing issue on `PostHeader` Component not displaying the `user` picture from `user` data
 * Renamed attribute from `picture` to `publisherPicture` to display `user` data on `PostHeader` Component
 * Added `status` attribute for `posts` to optimize filtering `posts` by `status` when rendering to `frontend`
 * Moved `postTemplateItemsAtom` from `PostTemplateStore` to `ManagePostStore` due to minimal usage of `PostTemplateStore`
@@ -658,9 +658,9 @@ postsAtom = atom({
 * Removed @jotai/optics
 * Removed @optics-ts
 * Implemented File Upload Functionality on `ManagePostSidebarContent` for uploading media
-* Fixed reactions not rendering properly and not updating when reacting
+* Fixed a bug where reactions not rendering properly and not updating when reacting
 * Updated maintenance image on `UnderConstruction` Component to have no watermarks
-* Fixed scrolling behavior for `MainContent` and `SideBar` Component
+* Fixed a bug causing unintentional scrolling behavior for `MainContent` and `SideBar` Component
 * Scrolling behavior for `MainContent` and `SideBar` Component now scrolls separately
 * `MainContent` scrolling behavior now scrolls with the main scrollbar without affecting `RightBar` Component
 * `RightBar` scrolling behavior now scrolls with its own hidden scrollbar
@@ -674,7 +674,7 @@ postsAtom = atom({
 
 * Changed named export from `ChipTag` to `LabelTagChip`to match its filename
 * Moved `recruitmentStatusAtom` from `UserStore` move to `ProfileStore`
-* Fixed `active` state of navigation when clicking a route in `NavSideBarStore`
+* Updated `active` state of navigation when clicking a route in `NavSideBarStore`
 * Added @shadcn/ui latest `^0.8.0`
 
 * Added dependencies for @shadcn/ui:
@@ -700,27 +700,27 @@ postsAtom = atom({
 * Fix sorting post issue due to not updated `schema` for posting
 * Cleaned up unused `imports` and `hooks` on `PostStore`
 * Moved `add`, `publish`, `delete` functionality of `drafts`, `publish`, and `archive` from `ManagePostMainContent` to their respective store `DraftedStore`, `PublishedStore`
-* Fixed `reaction` count not displaying properly on `PostFooter` Component of posts in the feed
+* Fixed a bug causing `reaction` count not displaying properly on `PostFooter` Component of posts in the feed
 * Removed `add`, `delete` ,`update`, `insert` backend function handler for posts in `PostStore` since the same functionality is implemented in `DraftedStore`, `PublishedStore`
 * Added a tooltip for the date on `PostHeader` Component for the exact date the post is published
-* Fixed `archive` key index issue when deleting `archived` posts
+* Fixed a bug causing `archive` key index issue when deleting `archived` posts
 
 ## v.0.6.4
 
 * Removed left-over `console.log()` from development
 * Cleaned up unused `imports` and `hooks` on `ManagePostMainContent` Component
-* Fixed Unauthenticated API Call on initial page load
+* Fixed a bug where Unauthenticated API Call is executed on initial page load
 * Removed `isSubmittedOnboardingFormAtom` due to Unauthenticated API Call on initial page load
 * Added validation for `auth` atom in `fetchHasOnboardingDataAtom` on `OnboardingStore`
-* Fixed handling for setting `date` value object of `onboarding` form in `Onboarding` Page
+* Updated handling for setting `date` value object of `onboarding` form in `Onboarding` Page
 * Merge `fetchAuthentication` atom and
 `authenticationAtom` atom in `AuthenticationStore`
-* Fixed issue in `MediaLayoutSelect` and `MediaOrientationSelect` Component when selecting `single` as the media layout of a post, the media orientation is not passed to the backend so it values to an empty string
-* Fixed the `post` index issue by changing the `PostCard` Component prop key to use the post's `_id` instead of post's `key`
+* Fixed a bug causing issue in `MediaLayoutSelect` and `MediaOrientationSelect` Component when selecting `single` as the media layout of a post, the media orientation is not passed to the backend so it values to an empty string
+* Fixed a bug where the `post` index issue by changing the `PostCard` Component prop key to use the post's `_id` instead of post's `key`
 * Rewrite logic for when changing post's `status` from `drafts` to `published` by only using the `post._id` as the filter to select the correct post to be changed in `DraftedStore` and `PublishedStore`
-* Fixed posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
+* Fixed a bug where posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
 * Included `fetchDraftPost`, `fetchPublishPost`, and `fetchArchivePost` when fetching post data for `drafts`, `published`, and `archived` then rendering the data to the component
-* Fixed issue on `reactions` on `post` not being updated properly
+* Fixed a bug causing issue on `reactions` on `post` not being updated properly
 
 * Merged Changes from Interns:
   * Add `zoom` functionality on `ImageSwiper` Component
@@ -735,6 +735,21 @@ postsAtom = atom({
 
 ## v.0.6.5
 
+* Updated Changelog
+* Cleaned up unused `imports` and `hooks` on `user` Page
+* Benchmarked project with Lighthouse from browser developer tools
+* Updated `fallback` picture for displaying immediate head in `profile` page
+* Fixed a bug where the UI of `ProfileCard` Component for displaying profile details in `profile` page is not consistent
+* Added @sharp latest `^0.33.2` for image optimization in production
+* Images are now optimized to improve performance and reduce latency when loading pages
+* Configured `Nextjs` to optimize images from `Google` such as profile photos of users
+* Fixed a bug where content for `Tabs` Component are not `children` hence causing rendering issues
+* Changed image used `"@nextui-org/react"` from `next/image`
+* Cleaned database queries used for fetching content on `profile` page
+* Adjusted alignment for `UnderConstruction` Component
+* Added additional content for `UnderConstruction` Component
+* Removed left-over `console.log()` from development
+* Adjusted alignment for `OnboardingBody` Component
 * Refactor functionality of shortcuts for optimization when initial page load and navigating pages
 * Refactor fetching data in Profile Page for optimization when initial page load
 * Added @types/react latest `^18.2.61` for dismissing a warning when importing `react`
@@ -746,4 +761,15 @@ postsAtom = atom({
 * Moved `onboardingDataAtom` from `UserStore` move to `ProfileStore`
 * Moved `teamStatusAtom` from `UserStore` move to `ProfileStore`
 * Moved list of `Postcard` for posts to its own component for `Suspense` functionality
-* Benchmarked project with Lighthouse from browser developer tools
+* Updated `Link` to have descriptive text on `OnboardingStatusAlert` Component
+* Added `aria-label` on `Button` of `RightBarCard` Component
+* Added `aria-label` on `Button` of `NotificationsDropdown` Component
+* Added `aria-label` on `Button` of `ShortcutsHeader` Component
+* Added `aria-label` on `Button` of `ShortcutsOptions` Component
+* Added `aria-label` on `Button` of `ExternalLinks` Component
+* Adjusted header alignment of the content on `SideBar` Component to improve accessibility
+* Adjusted placement of `UserDropdown`, `RoleBadge`, and `NotificationsDropdown` on `NavigationBar` Component to improve accessibility
+* Adjusted alignment and background for content in `onboarding` page
+* Adjusted alignment and gap of input fields in `OnboardingBody` Component
+* Added link headers to  preconnect to required origins to establish early connections to important third-party origins e.g. Google or AWS in `middleware`
+* Removed unused CSS in `globals.css` to reduce CSS file size

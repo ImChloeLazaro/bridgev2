@@ -12,6 +12,7 @@ import PostHeader from "./PostHeader";
 const PostCard = ({ data }) => {
   return (
     // mb-[number] for spacing between posts
+
     <Card className="mb-6 mx-4 bg-white-default">
       <CardHeader className="flex flex-col p-2 m-2 w-full">
         <PostHeader data={data} />

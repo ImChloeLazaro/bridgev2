@@ -40,8 +40,6 @@ const ReactionCount = ({ data, filter }) => {
         const icon = reactionIcons[`${reaction}`].label;
         const count = data[`${reaction}`];
 
-        console.log("REACTION COUNT", count);
-
         return count > 1 ? (
           <Tooltip
             key={index}
