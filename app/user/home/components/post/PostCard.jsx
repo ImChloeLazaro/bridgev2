@@ -35,6 +35,7 @@ const PostCard = ({ data }) => {
         <PostFooter data={data} />
       </CardFooter>
     </Card>
+    
   );
 };
 export default PostCard;
