@@ -9,7 +9,7 @@ import ClientsInfo from "./ClientsInfo";
 import ProfileInfo from "./ProfileInfo";
 import TeamInfo from "./TeamInfo";
 
-const ProfileDetails = ({ data }) => {
+const ProfileDetails = () => {
   const [selectedProfileTab, setSelectedProfileTab] = useAtom(
     selectedProfileTabAtom
   );
@@ -40,14 +40,10 @@ const ProfileDetails = ({ data }) => {
                 title={<p className="capitalize">{tab.title}</p>}
               >
                 <div className="mt-2">
-                  {selectedProfileTab === "about" && <AboutInfo data={data} />}
-                  {selectedProfileTab === "profile" && (
-                    <ProfileInfo data={data} />
-                  )}
-                  {selectedProfileTab === "clients" && (
-                    <ClientsInfo data={data} />
-                  )}
-                  {selectedProfileTab === "team" && <TeamInfo data={data} />}
+                  {selectedProfileTab === "about" && <AboutInfo />}
+                  {selectedProfileTab === "profile" && <ProfileInfo />}
+                  {selectedProfileTab === "clients" && <ClientsInfo />}
+                  {selectedProfileTab === "team" && <TeamInfo />}
                 </div>
               </Tab>
             );

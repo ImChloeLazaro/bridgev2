@@ -15,6 +15,9 @@ const AboutInfo = () => {
   const teamStatus = useAtomValue(teamStatusAtom);
 
   const {response: data} = useAtomValue(employeeInfoAtom);
+  console.log("INSIDE PERSONAL", personalInfo)
+  console.log("INSIDE TEAM", teamStatus)
+  console.log("INSIDE EMPLOYEE", data)
   return (
     <>
       {/* // ### EMPLOYEE INFORMATION} */}
@@ -81,11 +84,11 @@ const AboutInfo = () => {
               <Avatar
                 radius="full"
                 size="md"
-                src={teamStatus.immediate_head?.picture ?? "/male-user-circle.png"}
+                src={teamStatus.immediate_head.picture ?? "/male-user-circle.png"}
                 alt="Supervisor Profile picture"
               />
               <p className="">
-                {teamStatus.immediate_head?.name ?? "No Team Record"}
+                {teamStatus.immediate_head.name ?? "No Team Record"}
               </p>
             </div>
           </div>

@@ -15,11 +15,11 @@ import { useAtomValue, useSetAtom, useAtom } from "jotai";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const profile = useAtomValue(onboardingDataAtom);
+  const onboardingData = useAtomValue(onboardingDataAtom);
 
   const handleFetchDataWhenOpen = (open) => {
     console.log("OPEN MODAL ONBOARDING");
-    console.log("ONBOARDING DATA: ", profile);
+    console.log("ONBOARDING DATA: ", onboardingData);
     onOpen(open);
   };
 

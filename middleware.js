@@ -32,6 +32,24 @@ const protectedRoutes = [
 async function middleware(request) {
   const response = NextResponse.next();
 
+  // ## Preconnect to required origins to establish early connections to important third-party origins e.g. Google or AWS
+  response.headers.append(
+    "Link",
+    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=preconnect;"
+  );
+  response.headers.append(
+    "Link",
+    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=preconnect;"
+  );
+  response.headers.append(
+    "Link",
+    "<https://lh3.googleusercontent.com>; rel=preconnect;"
+  );
+  response.headers.append(
+    "Link",
+    "<https://oni3aoa6mf.execute-api.ap-southeast-1.amazonaws.com>; rel=preconnect;"
+  );
+
   const isAuthenticated = await runWithAmplifyServerContext({
     nextServerContext: { request, response },
     operation: async (contextSpec) => {
@@ -50,7 +68,7 @@ async function middleware(request) {
   if (isAuthenticated && request.nextUrl.pathname === "/") {
     return NextResponse.redirect(new URL("/user", request.nextUrl));
   }
-  
+
   // ### Redirect unauthorized access to sign in page
   // if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
   //   const absoluteURL = new URL("/", request.nextUrl.origin);

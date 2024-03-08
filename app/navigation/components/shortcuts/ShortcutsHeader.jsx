@@ -14,7 +14,6 @@ import CloseButton from "../../../components/CloseButton";
 import {
   addShortcutAtom,
   fetchedShortcutAtom,
-  shortcutCountAtom,
   shortcutTitleAtom,
   shortcutURLAtom,
 } from "../../store/ShortcutsStore";

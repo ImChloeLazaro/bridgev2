@@ -19,7 +19,7 @@ const ProfileHeader = () => {
           <NextImage
             alt="Profile Banner"
             src={ProfileBanner}
-            loading="lazy"
+            loading="eager"
             placeholder={"blur"}
             quality={50}
             sizes="(min-width: 808px) 50vw, 100vw"

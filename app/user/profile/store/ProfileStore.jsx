@@ -34,9 +34,15 @@ export const employeeInfoAtom = atom(async (get) => {
 
 //Team
 export const teamStatusAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  // return await readwithparams("/teams/employee", { sub: auth.sub });
-  return await readwithparams("/teams", { sub: auth.sub });
+  // const auth = await get(authenticationAtom);
+  const teams = await readwithparams("/teams/employee", {
+    sub: "d0229811-67cc-4fb8-915b-38d8029b85df",
+  });
+  if (teams.success) {
+    return teams.response;
+  } else {
+    return null;
+  }
 });
 
 //Leaves
@@ -62,7 +68,11 @@ export const benefitsStatusAtom = atom(async (get) => {
 // Emergency Contact
 export const emergencyContactAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/profile/information", { sub: auth.sub });
+  const profile = await readwithparams("/profile/information", {
+    sub: auth.sub,
+  });
+  console.log("CONTACT ATOM", profile.emergency);
+  return profile.emergency;
 });
 
 //Onboarding

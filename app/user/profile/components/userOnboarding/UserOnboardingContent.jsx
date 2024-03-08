@@ -2,10 +2,11 @@ import { format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../../../store/UserStore";
 import UserOnboardingModal from "./UserOnboardingModal";
-import { onboardingDataAtom } from "../../store/ProfileStore";
+import { employeeInfoAtom, onboardingDataAtom } from "../../store/ProfileStore";
 
 const UserOnboardingContent = () => {
-
+  const employeeInfo = useAtomValue(employeeInfoAtom);
+  console.log("INSIDE USER ONBOARD", employeeInfo);
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">
@@ -28,8 +29,7 @@ const UserOnboardingContent = () => {
           </p>
         </div>
       </div>
-      <UserOnboardingModal/>
-      
+      <UserOnboardingModal />
     </div>
   );
 };
