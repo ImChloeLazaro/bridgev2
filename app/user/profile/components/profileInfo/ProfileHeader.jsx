@@ -20,6 +20,7 @@ const ProfileHeader = () => {
             alt="Profile Banner"
             src={ProfileBanner}
             loading="eager"
+            priority
             placeholder={"blur"}
             quality={50}
             sizes="(min-width: 808px) 50vw, 100vw"
