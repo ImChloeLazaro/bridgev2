@@ -72,11 +72,11 @@ const ManagePostMainContent = ({ onClose }) => {
   const post = useAtomValue(postAtom);
 
   useEffect(() => {
-    // fetchPost();
+    fetchPost();
     fetchDraftPost(auth.sub);
     fetchPublishPost(auth.sub);
     fetchArchivePost(auth.sub);
-  }, [auth, fetchDraftPost, fetchPublishPost, fetchArchivePost]);
+  }, [auth, fetchDraftPost, fetchPublishPost, fetchArchivePost, fetchPost]);
 
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
@@ -222,6 +222,7 @@ const ManagePostMainContent = ({ onClose }) => {
 
       fetchDraftPost(auth.sub);
       fetchPublishPost(auth.sub);
+      fetchPost();
     }
   };
 
