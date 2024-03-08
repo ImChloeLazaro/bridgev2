@@ -6,7 +6,7 @@ import { employeeInfoAtom, onboardingDataAtom } from "../../store/ProfileStore";
 
 const UserOnboardingContent = () => {
   const employeeInfo = useAtomValue(employeeInfoAtom);
-  console.log("INSIDE USER ONBOARD", employeeInfo);
+
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">

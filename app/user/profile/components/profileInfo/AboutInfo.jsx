@@ -15,9 +15,7 @@ const AboutInfo = () => {
   const teamStatus = useAtomValue(teamStatusAtom);
 
   const {response: data} = useAtomValue(employeeInfoAtom);
-  console.log("INSIDE PERSONAL", personalInfo)
-  console.log("INSIDE TEAM", teamStatus)
-  console.log("INSIDE EMPLOYEE", data)
+
   return (
     <>
       {/* // ### EMPLOYEE INFORMATION} */}

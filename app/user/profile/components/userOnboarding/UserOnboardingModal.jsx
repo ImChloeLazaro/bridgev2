@@ -18,8 +18,6 @@ const UserOnboardingModal = () => {
   const onboardingData = useAtomValue(onboardingDataAtom);
 
   const handleFetchDataWhenOpen = (open) => {
-    console.log("OPEN MODAL ONBOARDING");
-    console.log("ONBOARDING DATA: ", onboardingData);
     onOpen(open);
   };
 
