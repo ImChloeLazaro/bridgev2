@@ -1,17 +1,11 @@
 import {
   destroywithparams,
-  restinsert,
   restread,
   restupdate,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import { postAtom, postCountAtom } from "./PostStore";
-import {
-  draftPostListAtom,
-  fetchDraftPostAtom,
-  selectedDraftPostAtom,
-} from "./DraftedStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { draftPostListAtom, selectedDraftPostAtom } from "./DraftedStore";
 
 // LIST FOR PUBLISHED POSTS
 export const publishedPostListAtom = atom([]);

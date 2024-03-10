@@ -20,9 +20,9 @@ const ReactionSelect = () => {
       items={reactionsSelection}
       variant="bordered"
       isMultiline={true}
-      selectionMode="multiple"
-      description="This will be the displayed reaction on your post"
-      placeholder="Select reaction/s"
+      selectionMode="single"
+      description="This will be the default reaction displayed on your post"
+      placeholder="Select reaction"
       labelPlacement="outside"
       defaultSelectedKeys={"all"}
       selectedKeys={selectedReactions}
@@ -33,21 +33,27 @@ const ReactionSelect = () => {
       }}
       renderValue={(displayItems) => {
         return (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 items-center">
             {displayItems.map((displayItem) => (
-              <Chip
-                key={displayItem.key}
-                startContent={displayItem.data.displayIcon}
-                onClose={() => {
-                  setSelectedReactions(() =>
-                    Array.from(selectedReactions).filter(
-                      (item) => item !== displayItem.key
-                    )
-                  );
-                }}
-              >
-                {displayItem.data.name}
-              </Chip>
+              // <Chip
+              //   key={displayItem.key}
+              //   startContent={displayItem.data.displayIcon}
+              //   onClose={() => {
+              //     setSelectedReactions(() =>
+              //       Array.from(selectedReactions).filter(
+              //         (item) => item !== displayItem.key
+              //       )
+              //     );
+              //   }}
+              // >
+              //   {displayItem.data.name}
+              // </Chip>
+              <>
+                <div className="">{displayItem.data.displayIcon}</div>
+                <div className="text-sm text-black-default">
+                  {displayItem.data.label}
+                </div>
+              </>
             ))}
           </div>
         );

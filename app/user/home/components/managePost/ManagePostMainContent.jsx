@@ -72,11 +72,10 @@ const ManagePostMainContent = ({ onClose }) => {
   const post = useAtomValue(postAtom);
 
   useEffect(() => {
-    fetchPost();
     fetchDraftPost(auth.sub);
     fetchPublishPost(auth.sub);
     fetchArchivePost(auth.sub);
-  }, [auth, fetchDraftPost, fetchPublishPost, fetchArchivePost, fetchPost]);
+  }, [auth, fetchDraftPost, fetchPublishPost, fetchArchivePost]);
 
   const [selectedDraftPost, setSelectedDraftPost] = useAtom(
     selectedDraftPostAtom
@@ -182,6 +181,7 @@ const ManagePostMainContent = ({ onClose }) => {
         console.log("NO PUBLISH POST DELETED");
       }
       fetchPublishPost(auth.sub);
+      fetchPost();
     }
 
     if (selectedPostStatusString === "archived") {
@@ -244,6 +244,7 @@ const ManagePostMainContent = ({ onClose }) => {
 
       fetchPublishPost(auth.sub);
       fetchArchivePost(auth.sub);
+      fetchPost();
     }
   };
 

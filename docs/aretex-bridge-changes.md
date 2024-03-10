@@ -755,6 +755,7 @@ postsAtom = atom({
 * Added @types/react latest `^18.2.61` for dismissing a warning when importing `react`
 * Fixed a bug that triggers `Detected multiple Jotai instances. It may cause unexpected behavior with the default store.` when using an atom inside the `Provider` function from `jotai`
 * Moved `RegisterProfile` function from `profile.js` to `UserStore` and refactored to `registerProfile` atom then implemented to run once on `user` page
+* Removed `profile.js` file from `utils` folder in favor of moving `RegisterProfile` function to `UserStore`
 * Renamed `recruitmentStatusAtom` to `profileAtom` in `ProfileStore`
 * Moved `leaveStatusAtom` from `UserStore` move to `ProfileStore`
 * Moved `benefitsStatusAtom` from `UserStore` move to `ProfileStore`

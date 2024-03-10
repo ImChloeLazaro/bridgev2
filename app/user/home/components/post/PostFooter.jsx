@@ -8,7 +8,7 @@ const PostFooter = ({ data }) => {
   return (
     <>
       <div className="flex justify-between w-full px-8 mb-3">
-        <ReactionCount data={data.reactions} filter={data.reactionList} />
+        <ReactionCount data={data.reactions} selectedReaction={data.reactionList} />
         <CommentCount data={data.comments} />
       </div>
       <Divider />
@@ -17,6 +17,7 @@ const PostFooter = ({ data }) => {
           id={data._id} // post ID
           reactionList={data.reactionList}
           reacted={data.reacted}
+          reactionsCount={data.reactions}
         />
 
         <CommentButton />

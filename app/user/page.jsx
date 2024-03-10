@@ -15,17 +15,20 @@ import PostFeed from "./home/components/post/PostFeed";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
+import { fetchPostAtom } from "./home/store/PostStore";
 
 const User = () => {
   const user = useAtomValue(userAtom);
   const auth = useAtomValue(authenticationAtom);
 
+  const fetchPost = useSetAtom(fetchPostAtom);
   const registerProfile = useSetAtom(registerProfileAtom);
 
   useEffect(() => {
     console.log("REGISTERED PROFILE");
     registerProfile();
-  }, [registerProfile]);
+    fetchPost();
+  }, [fetchPost, registerProfile]);
 
   return (
     auth.isAuthenticated && (

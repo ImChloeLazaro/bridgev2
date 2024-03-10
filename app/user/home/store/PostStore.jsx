@@ -1,39 +1,125 @@
 import { restread, restupdate } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import "../../../aws-auth";
 
 export const postAtom = atom([]);
 
 export const postCountAtom = atom((get) => get(postAtom).length);
 
 export const updatePostReactionAtom = atom(null, async (get, set, update) => {
-  const { id, selectedReaction, reacted } = update;
+  const { id, selectedReaction, reacted, reactions, prevReaction } = update;
 
   const selectedPost = get(postAtom).filter((post) => post._id === update.id);
-  const updateReactionCount = reacted
-    ? (selectedPost[0].reactions[selectedReaction] += 1)
-    : (selectedPost[0].reactions[selectedReaction] -= 1);
+  // const updatedSelectedReaction = reacted
+  //   ? (reactions[selectedReaction] += 1)
+  //   : (reactions[selectedReaction] -= 1);
 
-  const updatedReactions = {
-    ...selectedPost[0].reactions,
-    [selectedReaction]: updateReactionCount < 0 ? 0 : updateReactionCount,
-  };
+  // const updatedPrevReaction = reacted
+  //   ? (reactions[prevReaction] += 1)
+  //   : (reactions[prevReaction] -= 1);
+
+  // const updatedReactions = {
+  //   ...reactions,
+  //   [selectedReaction]:
+  //     updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
+  // };
+
+  const updatedReactions = reacted
+    ? selectedReaction === prevReaction
+      ? {
+          ...reactions,
+          [selectedReaction]: (reactions[selectedReaction] += 1),
+        }
+      : {
+          ...reactions,
+          [selectedReaction]: (reactions[selectedReaction] += 1),
+          [prevReaction]: (reactions[prevReaction] -= 1 <= 0)
+            ? 0
+            : (reactions[prevReaction] -= 1),
+        }
+    : selectedReaction !== prevReaction
+    ? {
+        ...reactions,
+        [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
+          ? 0
+          : (reactions[selectedReaction] -= 1),
+      }
+    : {
+        ...reactions,
+        [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
+          ? 0
+          : (reactions[selectedReaction] -= 1),
+      };
+  // const handleReaction = () => {
+  //   console.log("reacted", reacted);
+  //   console.log("selectedReaction", selectedReaction);
+  //   console.log("prevReaction", prevReaction);
+  //   if (reacted) {
+  //     console.log("reacted T", reacted);
+
+  //     if (selectedReaction === prevReaction) {
+  //       console.log("selectedReaction T", selectedReaction);
+
+  //       return {
+  //         ...reactions,
+  //         [selectedReaction]: (reactions[selectedReaction] += 1),
+  //       };
+  //     }
+  // else {
+  //   console.log("selectedReaction F", selectedReaction);
+
+  //   return {
+  //     ...reactions,
+  //     [selectedReaction]: (reactions[selectedReaction] += 1),
+  //     [prevReaction]:
+  //       (reactions[prevReaction] -= 1) < 0
+  //         ? 0
+  //         : (reactions[prevReaction] -= 1),
+  //   };
+  // }
+  //   } else {
+  //     console.log("reacted F", reacted);
+
+  //     return {
+  //       ...reactions,
+  //       [selectedReaction]:
+  //         (reactions[selectedReaction] -= 1) < 0
+  //           ? 0
+  //           : (reactions[selectedReaction] -= 1),
+  //     };
+  //   }
+  // };
+  // const t =
+  //   selectedReaction === prevReaction
+  //     ? {
+  //         ...reactions,
+  //         [selectedReaction]:
+  //           updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
+  //       }
+  //     : {
+  //         ...reactions,
+  //         [selectedReaction]:
+  //           updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
+  //         [prevReaction]: updatedPrevReaction < 0 ? 0 : updatedPrevReaction,
+  //       };
+
+  console.log("reactions: HERE", updatedReactions);
 
   const updatedPostReaction = {
     ...selectedPost[0],
-    _id: id,
+    // _id: id,
+    reactionList: [selectedReaction],
     reactions: updatedReactions,
     reacted: reacted,
   };
 
-  const updateDisplayedReaction = get(postAtom).map((post) => {
+  const updateSelectedReaction = get(postAtom).map((post) => {
     if (id === post._id) {
       return { ...post, ...updatedPostReaction };
     }
     return { ...post };
   });
 
-  set(postAtom, updateDisplayedReaction);
+  set(postAtom, updateSelectedReaction);
 
   const posts = await restupdate("/post/greeting", updatedPostReaction);
   const isReactionUpdated = posts.response.acknowledged;

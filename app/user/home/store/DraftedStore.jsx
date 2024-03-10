@@ -7,9 +7,7 @@ import {
   uploadfile,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import "../../../aws-auth";
 import { postAtom } from "./PostStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 // LIST FOR DRAFTED POSTS
 export const draftPostListAtom = atom([]);

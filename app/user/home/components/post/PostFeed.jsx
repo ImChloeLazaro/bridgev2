@@ -1,9 +1,8 @@
+import { Skeleton } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { fetchPostAtom, postAtom } from "../../store/PostStore";
 import PostCard from "./PostCard";
-import { Suspense } from "react";
-import { Skeleton } from "@nextui-org/react";
 
 const PostFeed = () => {
   const posts = useAtomValue(postAtom);

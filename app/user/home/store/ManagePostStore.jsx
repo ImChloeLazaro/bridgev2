@@ -1,4 +1,3 @@
-import { restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import { BiNews } from "react-icons/bi";
 import { FaMedal } from "react-icons/fa6";

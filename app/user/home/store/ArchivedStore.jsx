@@ -10,7 +10,6 @@ import {
   publishedPostListAtom,
   selectedPublishPostAtom,
 } from "./PublishedStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 // LIST FOR ARCHIVED POSTS
 export const archivedPostListAtom = atom([]);
