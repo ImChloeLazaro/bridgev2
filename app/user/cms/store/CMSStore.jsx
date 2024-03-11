@@ -1,4 +1,6 @@
 import { atom } from "jotai";
+import { AvatarGroup, Avatar } from "@nextui-org/react";
+import { format } from "date-fns";
 export const filterKeysAtom = atom([
   {
     label: "All",
@@ -18,6 +20,202 @@ export const filterKeysAtom = atom([
   },
 ]);
 
+let taskIndex = 0;
+const clientsList = (
+  <div className="h-full flex justify-start">
+    <AvatarGroup
+      size="md"
+      max={4}
+      total={10}
+      // renderCount={(count) => (
+      //   <p className="text-xs text-foreground font-medium ms-1">
+      //     +{count} others
+      //   </p>
+      // )}
+    >
+      <Avatar size="md" src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+      <Avatar size="md" src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+      <Avatar size="md" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+      <Avatar size="md" src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
+      <Avatar size="md" src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+      <Avatar size="md" src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+    </AvatarGroup>
+  </div>
+);
+
+export const taskTableRowsAtom = atom([
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+  {
+    key: (taskIndex += 1),
+    task: "Pellentesque suscipit fringilla libero eu ullamcorper. ",
+    clients: clientsList,
+    startDate: format(new Date(), "d  MMMM yyyy"),
+    endDate: format(new Date(), "d  MMMM yyyy"),
+    assignees: clientsList,
+  },
+]);
+export const taskTableColsAtom = atom([
+  {
+    key: "task",
+    label: "Tasks",
+  },
+  {
+    key: "clients",
+    label: "Clients",
+  },
+  {
+    key: "startDate",
+    label: "Start Date",
+  },
+  {
+    key: "endDate",
+    label: "End Date",
+  },
+  {
+    key: "assignees",
+    label: "Assignees",
+  },
+]);
+
+export const taskTableRowsCountAtom = atom(
+  (get) => get(taskTableRowsAtom).length
+);
+
 export const selectedFilterKeysAtom = atom(new Set(["all"]));
 
 let clientIndex = 0;
@@ -32,11 +230,17 @@ export const clientsListAtom = atom([
     datetimeOnboarded: "2023-01-16T00:00:00",
     assignedUsers: [""],
     status: {
-      todo: Math.floor(Math.random() * 10) + 1,
-      inProgress: Math.floor(Math.random() * 40) + 1,
-      done: Math.floor(Math.random() * 100) + 1,
-      forReview: Math.floor(Math.random() * 50) + 1,
-      due: Math.floor(Math.random() * 20) + 1,
+      todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+      inProgress: {
+        label: "In Progress",
+        count: Math.floor(Math.random() * 40) + 1,
+      },
+      done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+      forReview: {
+        label: "For Review",
+        count: Math.floor(Math.random() * 50) + 1,
+      },
+      due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
     },
     contact: {
       name: "Blooms Contact Name",
@@ -56,11 +260,17 @@ export const clientsListAtom = atom([
     datetimeOnboarded: "2024-01-28T00:00:00",
     assignedUsers: [""],
     status: {
-      todo: Math.floor(Math.random() * 10) + 1,
-      inProgress: Math.floor(Math.random() * 40) + 1,
-      done: Math.floor(Math.random() * 100) + 1,
-      forReview: Math.floor(Math.random() * 50) + 1,
-      due: Math.floor(Math.random() * 20) + 1,
+      todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+      inProgress: {
+        label: "In Progress",
+        count: Math.floor(Math.random() * 40) + 1,
+      },
+      done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+      forReview: {
+        label: "For Review",
+        count: Math.floor(Math.random() * 50) + 1,
+      },
+      due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
     },
     contact: {
       name: "Paula Mora",
@@ -80,11 +290,17 @@ export const clientsListAtom = atom([
     datetimeOnboarded: "2021-08-17T00:00:00",
     assignedUsers: [""],
     status: {
-      todo: Math.floor(Math.random() * 10) + 1,
-      inProgress: Math.floor(Math.random() * 40) + 1,
-      done: Math.floor(Math.random() * 100) + 1,
-      forReview: Math.floor(Math.random() * 50) + 1,
-      due: Math.floor(Math.random() * 20) + 1,
+      todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+      inProgress: {
+        label: "In Progress",
+        count: Math.floor(Math.random() * 40) + 1,
+      },
+      done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+      forReview: {
+        label: "For Review",
+        count: Math.floor(Math.random() * 50) + 1,
+      },
+      due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
     },
     contact: {
       name: "Corina McCoy",
@@ -104,11 +320,17 @@ export const clientsListAtom = atom([
     datetimeOnboarded: "2024-01-22T00:00:00",
     assignedUsers: [""],
     status: {
-      todo: Math.floor(Math.random() * 10) + 1,
-      inProgress: Math.floor(Math.random() * 40) + 1,
-      done: Math.floor(Math.random() * 100) + 1,
-      forReview: Math.floor(Math.random() * 50) + 1,
-      due: Math.floor(Math.random() * 20) + 1,
+      todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+      inProgress: {
+        label: "In Progress",
+        count: Math.floor(Math.random() * 40) + 1,
+      },
+      done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+      forReview: {
+        label: "For Review",
+        count: Math.floor(Math.random() * 50) + 1,
+      },
+      due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
     },
     contact: {
       name: "Chris Glasser",
@@ -128,11 +350,17 @@ export const clientsListAtom = atom([
     datetimeOnboarded: "2024-01-16T00:00:00",
     assignedUsers: [""],
     status: {
-      todo: Math.floor(Math.random() * 10) + 1,
-      inProgress: Math.floor(Math.random() * 40) + 1,
-      done: Math.floor(Math.random() * 100) + 1,
-      forReview: Math.floor(Math.random() * 50) + 1,
-      due: Math.floor(Math.random() * 20) + 1,
+      todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+      inProgress: {
+        label: "In Progress",
+        count: Math.floor(Math.random() * 40) + 1,
+      },
+      done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+      forReview: {
+        label: "For Review",
+        count: Math.floor(Math.random() * 50) + 1,
+      },
+      due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
     },
     contact: {
       name: "Frances Swann",
@@ -152,11 +380,17 @@ export const clientsListAtom = atom([
     datetimeOnboarded: "2024-02-16T00:00:00",
     assignedUsers: [""],
     status: {
-      todo: Math.floor(Math.random() * 10) + 1,
-      inProgress: Math.floor(Math.random() * 40) + 1,
-      done: Math.floor(Math.random() * 100) + 1,
-      forReview: Math.floor(Math.random() * 50) + 1,
-      due: Math.floor(Math.random() * 20) + 1,
+      todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+      inProgress: {
+        label: "In Progress",
+        count: Math.floor(Math.random() * 40) + 1,
+      },
+      done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+      forReview: {
+        label: "For Review",
+        count: Math.floor(Math.random() * 50) + 1,
+      },
+      due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
     },
     contact: {
       name: "Rhonda Rhodes",
@@ -166,12 +400,161 @@ export const clientsListAtom = atom([
     },
     sla: [""],
   },
+  // {
+  //   id: (clientIndex += 1),
+  //   key: `client-${clientIndex}`,
+  //   name: "Total Network Development",
+  //   location: "3522 West Fork Street, Missoula, MT 59801",
+  //   state: "3522 West Fork Street, Missoula, MT 59801",
+  //   address: "3522 West Fork Street, Missoula, MT 59801",
+  //   datetimeOnboarded: "2024-02-16T00:00:00",
+  //   assignedUsers: [""],
+  //   status: {
+  //     todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+  //     inProgress: {
+  //       label: "In Progress",
+  //       count: Math.floor(Math.random() * 40) + 1,
+  //     },
+  //     done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+  //     forReview: {
+  //       label: "For Review",
+  //       count: Math.floor(Math.random() * 50) + 1,
+  //     },
+  //     due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
+  //   },
+  //   contact: {
+  //     name: "Rhonda Rhodes",
+  //     number: "(406) 382-2670",
+  //     companyEmail: "client.company@email.com",
+  //     accountEmail: "r.g.rhodes@aol.com",
+  //   },
+  //   sla: [""],
+  // },
+  // {
+  //   id: (clientIndex += 1),
+  //   key: `client-${clientIndex}`,
+  //   name: "Total Network Development",
+  //   location: "3522 West Fork Street, Missoula, MT 59801",
+  //   state: "3522 West Fork Street, Missoula, MT 59801",
+  //   address: "3522 West Fork Street, Missoula, MT 59801",
+  //   datetimeOnboarded: "2024-02-16T00:00:00",
+  //   assignedUsers: [""],
+  //   status: {
+  //     todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+  //     inProgress: {
+  //       label: "In Progress",
+  //       count: Math.floor(Math.random() * 40) + 1,
+  //     },
+  //     done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+  //     forReview: {
+  //       label: "For Review",
+  //       count: Math.floor(Math.random() * 50) + 1,
+  //     },
+  //     due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
+  //   },
+  //   contact: {
+  //     name: "Rhonda Rhodes",
+  //     number: "(406) 382-2670",
+  //     companyEmail: "client.company@email.com",
+  //     accountEmail: "r.g.rhodes@aol.com",
+  //   },
+  //   sla: [""],
+  // },
+  // {
+  //   id: (clientIndex += 1),
+  //   key: `client-${clientIndex}`,
+  //   name: "Total Network Development",
+  //   location: "3522 West Fork Street, Missoula, MT 59801",
+  //   state: "3522 West Fork Street, Missoula, MT 59801",
+  //   address: "3522 West Fork Street, Missoula, MT 59801",
+  //   datetimeOnboarded: "2024-02-16T00:00:00",
+  //   assignedUsers: [""],
+  //   status: {
+  //     todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+  //     inProgress: {
+  //       label: "In Progress",
+  //       count: Math.floor(Math.random() * 40) + 1,
+  //     },
+  //     done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+  //     forReview: {
+  //       label: "For Review",
+  //       count: Math.floor(Math.random() * 50) + 1,
+  //     },
+  //     due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
+  //   },
+  //   contact: {
+  //     name: "Rhonda Rhodes",
+  //     number: "(406) 382-2670",
+  //     companyEmail: "client.company@email.com",
+  //     accountEmail: "r.g.rhodes@aol.com",
+  //   },
+  //   sla: [""],
+  // },
+  // {
+  //   id: (clientIndex += 1),
+  //   key: `client-${clientIndex}`,
+  //   name: "Total Network Development",
+  //   location: "3522 West Fork Street, Missoula, MT 59801",
+  //   state: "3522 West Fork Street, Missoula, MT 59801",
+  //   address: "3522 West Fork Street, Missoula, MT 59801",
+  //   datetimeOnboarded: "2024-02-16T00:00:00",
+  //   assignedUsers: [""],
+  //   status: {
+  //     todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+  //     inProgress: {
+  //       label: "In Progress",
+  //       count: Math.floor(Math.random() * 40) + 1,
+  //     },
+  //     done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+  //     forReview: {
+  //       label: "For Review",
+  //       count: Math.floor(Math.random() * 50) + 1,
+  //     },
+  //     due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
+  //   },
+  //   contact: {
+  //     name: "Rhonda Rhodes",
+  //     number: "(406) 382-2670",
+  //     companyEmail: "client.company@email.com",
+  //     accountEmail: "r.g.rhodes@aol.com",
+  //   },
+  //   sla: [""],
+  // },
+  // {
+  //   id: (clientIndex += 1),
+  //   key: `client-${clientIndex}`,
+  //   name: "Total Network Development",
+  //   location: "3522 West Fork Street, Missoula, MT 59801",
+  //   state: "3522 West Fork Street, Missoula, MT 59801",
+  //   address: "3522 West Fork Street, Missoula, MT 59801",
+  //   datetimeOnboarded: "2024-02-16T00:00:00",
+  //   assignedUsers: [""],
+  //   status: {
+  //     todo: { label: "To Do", count: Math.floor(Math.random() * 10) + 1 },
+  //     inProgress: {
+  //       label: "In Progress",
+  //       count: Math.floor(Math.random() * 40) + 1,
+  //     },
+  //     done: { label: "Done", count: Math.floor(Math.random() * 100) + 1 },
+  //     forReview: {
+  //       label: "For Review",
+  //       count: Math.floor(Math.random() * 50) + 1,
+  //     },
+  //     due: { label: "Due", count: Math.floor(Math.random() * 20) + 1 },
+  //   },
+  //   contact: {
+  //     name: "Rhonda Rhodes",
+  //     number: "(406) 382-2670",
+  //     companyEmail: "client.company@email.com",
+  //     accountEmail: "r.g.rhodes@aol.com",
+  //   },
+  //   sla: [""],
+  // },
 ]);
 
 export const selectedClientAtom = atom([]);
 
-export const clientsListCountAtom = atom(205);
-export const displayedClientsAtom = atom(10);
+export const clientsListCountAtom = atom((get) => get(clientsListAtom).length);
 
 let pageRowIndex = 0;
 export const pageRowsSelectionAtom = atom([

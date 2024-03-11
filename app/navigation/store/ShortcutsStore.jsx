@@ -88,7 +88,6 @@ export const fetchedShortcutAtom = atom(null, async (get, set, sub) => {
     id: (index += 1),
     key: `sct-${index}`,
   }));
-  console.log(convertedShortcuts)
   set(shortcutsAtom, convertedShortcuts);
 });
 

@@ -18,34 +18,46 @@ const tagColors = {
 
 import { MdChevronRight } from "react-icons/md";
 
-const ClientItemCard = ({ data }) => {
+const ClientItemList = ({ data }) => {
+  const handleClientTask = (status) => {
+    console.log("CLIENT TYPE STATUS", status);
+  };
+
   return (
     <div className="flex justify-between items-center h-full">
       <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
         <CardBody className=" pr-0 py-0">
           <div className="flex justify-around gap-12">
             <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
-              <Image
-                src="/image-placeholder.png"
-                alt="Image Placeholder"
-                width={80}
-                radius={"none"}
-                loading={"lazy"}
-              />
+              <div className="">
+                <Image
+                  src="/image-placeholder.png"
+                  alt="Image Placeholder"
+                  width={80}
+                  radius={"none"}
+                  loading={"lazy"}
+                />
+              </div>
               {data.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
               {Object.keys(data.status).map((status, s_index) => (
-                <LabelTagChip
+                <Button
                   key={s_index}
-                  text={`${status}`}
-                  color={tagColors[status]}
-                  type="tag"
-                  size="md"
-                  isFilled
-                  withBadge={true}
-                  badgeContent={data.status[status]}
-                />
+                  className="p-0 m-0"
+                  onPress={() => handleClientTask(status)}
+                >
+                  <LabelTagChip
+                    key={s_index}
+                    text={`${data.status[status].label}`}
+                    color={tagColors[status]}
+                    type="tag"
+                    size="md"
+                    isFilled
+                    withBadge={true}
+                    badgeContent={data.status[status].count}
+                  />
+                </Button>
               ))}
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
@@ -69,4 +81,4 @@ const ClientItemCard = ({ data }) => {
   );
 };
 
-export default ClientItemCard;
+export default ClientItemList;

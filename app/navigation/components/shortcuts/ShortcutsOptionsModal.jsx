@@ -10,6 +10,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { MdClose } from "react-icons/md";
 
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
@@ -20,7 +21,7 @@ import {
   updateShortcutAtom,
   deleteShortcutAtom,
 } from "../../store/ShortcutsStore";
-import CloseButton from "../../../components/CloseButton";
+import IconButton from "../../../components/IconButton";
 import { userAtom } from "../../../store/UserStore";
 import { destroywithparams, restupdate } from "@/app/utils/amplify-rest";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
@@ -117,7 +118,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
               >
                 {"Update Shortcut"}
               </p>
-              <CloseButton onPress={handleCloseWindow} />
+              <IconButton onPress={handleCloseWindow} ><MdClose size={24} /></IconButton>
             </div>
             <div className="flex flex-col gap-3 w-full">
               <Input

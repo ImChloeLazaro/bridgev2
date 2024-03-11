@@ -17,6 +17,7 @@ async function fetchUserData() {
     return null;
   }
 }
+
 // Register User Data
 export const registerProfileAtom = atom(null, async (get, set, update) => {
   const data = get(userDataAtom);

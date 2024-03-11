@@ -774,3 +774,11 @@ postsAtom = atom({
 * Adjusted alignment and gap of input fields in `OnboardingBody` Component
 * Added link headers to  preconnect to required origins to establish early connections to important third-party origins e.g. Google or AWS in `middleware`
 * Removed unused CSS in `globals.css` to reduce CSS file size
+
+## v.0.6.6
+
+* Updated `reaction` functionality on `posts`
+* Added extended `reaction` to `posts`, `reaction` hovering the default `reaction` same functionality as in Facebook
+* Added components for the remaining parts of CMS page
+* Added `label` attribute on atom for `ClientItemCard` Component
+* Renamed `CloseButton` to `IconButton` Component to cover all icon only buttons implementation

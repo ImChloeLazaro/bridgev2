@@ -8,9 +8,9 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdClose } from "react-icons/md";
 import CTAButtons from "../../../components/CTAButtons";
-import CloseButton from "../../../components/CloseButton";
+import IconButton from "../../../components/IconButton";
 import {
   addShortcutAtom,
   fetchedShortcutAtom,
@@ -82,7 +82,7 @@ const ShortcutsHeader = () => {
                 >
                   {properties.title}
                 </p>
-                <CloseButton onPress={handleCloseWindow} />
+                <IconButton onPress={handleCloseWindow} ><MdClose size={24} /></IconButton>
               </div>
               <div className="flex flex-col gap-3 w-full">
                 <Input

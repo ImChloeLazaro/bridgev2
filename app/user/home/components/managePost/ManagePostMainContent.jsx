@@ -1,11 +1,12 @@
 import CTAButtons from "@/app/components/CTAButtons";
-import CloseButton from "@/app/components/CloseButton";
+import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
+import { MdClose } from "react-icons/md";
 import { MdMinimize } from "react-icons/md";
 import "../../../../aws-auth";
 import {
@@ -347,7 +348,7 @@ const ManagePostMainContent = ({ onClose }) => {
           <Button isIconOnly onPress={onClose} className={"bg-transparent"}>
             <MdMinimize size={24} />
           </Button>
-          <CloseButton onPress={onClose} className={""} />
+          <IconButton onPress={onClose} ><MdClose size={24} /></IconButton>
         </div>
         <Divider />
         <div className="flex justify-between items-center px-7 mt-4 mb-3">

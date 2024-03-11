@@ -1,6 +1,6 @@
 # TODO for Aretex Bridge Changes
 
-## v.0.6.5
+## v.0.6.6
 
 ### GLOBAL: All Components and Files
 
@@ -55,10 +55,6 @@
 * Newly added `shortcut` should be on top of the list
 * Fix order of `shortcuts` does not persist after refresh or after sign in
 * Add `alert` when the link is invalid when editing or adding link after `regex` validation
-
-### Updating: `ClientItemCard` Component
-
-* Add `label` attribute on atom for `ClientItemCard` Component
 
 ### Updating: `CreatePostButton` Component
 
