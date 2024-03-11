@@ -28,19 +28,22 @@ const User = () => {
   console.log("auth", auth);
   console.log("user", user);
 
-  const insertProfile = async () => {
-    await restinsert("/user", {
-      sub: auth.sub,
-      name: user.name,
-      picture: user.picture,
-      email: user.email
-    });
-  }
-
   useEffect(() => {
-    insertProfile();
+    const insertProfile = async () => {
+      await restinsert("/user", {
+        sub: auth.sub,
+        name: user.name,
+        picture: user.picture,
+        email: user.email
+      });
+    }
+    
     fetchPost();
-  }, [fetchPost, insertProfile]);
+
+    return () => insertProfile();
+
+  }, [fetchPost]);
+
 
   return (
     auth.isAuthenticated && (
