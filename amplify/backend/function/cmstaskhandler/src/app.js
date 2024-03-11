@@ -81,7 +81,6 @@ app.post('/cms/task', async function (req, res) {
       status
     })
     res.status(200).json({ success: true, body: insert, message: "Task created successfully"})
-
   } catch (error) {
   res.json({ error: error })
 }

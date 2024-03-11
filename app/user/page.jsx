@@ -17,18 +17,33 @@ import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom } from "./home/store/PostStore";
 
+import { restinsert } from "../utils/amplify-rest";
+
 const User = () => {
   const user = useAtomValue(userAtom);
   const auth = useAtomValue(authenticationAtom);
 
   const fetchPost = useSetAtom(fetchPostAtom);
-  const registerProfile = useSetAtom(registerProfileAtom);
+
+  console.log("auth", auth);
+  console.log("user", user);
 
   useEffect(() => {
-    console.log("REGISTERED PROFILE");
-    registerProfile();
+    const insertProfile = async () => {
+      await restinsert("/user", {
+        sub: auth.sub,
+        name: user.name,
+        picture: user.picture,
+        email: user.email
+      });
+    }
+    
     fetchPost();
-  }, [fetchPost, registerProfile]);
+
+    return () => insertProfile();
+
+  }, [fetchPost]);
+
 
   return (
     auth.isAuthenticated && (

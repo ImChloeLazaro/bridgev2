@@ -45,8 +45,8 @@ export const userAtom = atom(async (get) => {
       name: user.name ?? "",
       picture: user.picture ?? "", // link to picture
       email: user.email ?? "",
-      role: ["user", "admin"],
-      team: "DMS-FAST",
+      role: ["user"],
+      team: "",
     };
   } else {
     return {};

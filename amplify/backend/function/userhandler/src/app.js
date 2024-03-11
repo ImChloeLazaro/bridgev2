@@ -22,7 +22,7 @@ mongoose.connect(process.env.DATABASE,{
 
 const roleSchema = mongoose.Schema({
   name : String,
-  permissions : String
+  permissions : [String]
 })
 
 const userSchema = mongoose.Schema({
@@ -36,11 +36,16 @@ const userSchema = mongoose.Schema({
   },
   role : {
     type : [roleSchema],
-    default : [{name: 'USER', permissions: 'USER'}]
+    default : [
+      {
+      name: 'USER', 
+      permissions: ['processor']
+    }
+  ]
   },
   createdBy: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 })
 
