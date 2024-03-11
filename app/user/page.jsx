@@ -25,9 +25,19 @@ const User = () => {
 
   const fetchPost = useSetAtom(fetchPostAtom);
 
+  console.log("auth", auth);
+  console.log("user", user);
+
   const insertProfile = async () => {
-    await restinsert("/user", user);
+    const response = await restinsert("/user", {
+      sub: auth.sub,
+      name: user.name,
+      picture: user.picture,
+      email: user.email
+    });
+    console.log("User profile inserted", response);
   }
+
   useEffect(() => {
     insertProfile();
     fetchPost();
