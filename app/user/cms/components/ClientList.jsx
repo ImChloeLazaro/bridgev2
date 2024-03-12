@@ -10,23 +10,30 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useState } from "react";
+
+import ClientFooter from "./CMSFooter";
+import ClientHeader from "./CMSHeader";
+import ClientItemCard from "./ClientItemCard";
 import {
-  clientsListAtom,
-  clientsListCountAtom,
+  clientFilterKeysAtom,
+  clientsAtom,
+  clientsCountAtom,
   selectedClientAtom,
-} from "../store/CMSStore";
-import ClientFooter from "./ClientFooter";
-import ClientHeader from "./ClientHeader";
-import ClientItemList from "./ClientItemList";
+  selectedClientFilterKeysAtom,
+} from "@/app/store/ClientStore";
 
 const ClientList = () => {
   const [searchItem, setSearchItem] = useState("");
   const [selectedAllClients, setSelectedAllClients] = useState(false);
   const [displayedClients, setDisplayedClients] = useState("10");
 
+  const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
+  const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
+    selectedClientFilterKeysAtom
+  );
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
-  const clientsListCount = useAtomValue(clientsListCountAtom);
-  const clients = useAtomValue(clientsListAtom);
+  const clientsCount = useAtomValue(clientsCountAtom);
+  const clients = useAtomValue(clientsAtom);
 
   const filteredClientList = clients.filter((client) => {
     return (
@@ -47,10 +54,18 @@ const ClientList = () => {
           setSearchItem={setSearchItem}
           selectedAllClients={selectedAllClients}
           setSelectedAllClients={setSelectedAllClients}
+          showCheckBox={true}
+          showActionButtons={true}
+          filterKeys={clientFilterKeys}
+          selectedFilterKeys={selectedClientFilterKeys}
+          setSelectedFilterKeys={setSelectedClientFilterKeys}
         />
       </CardHeader>
       <CardBody className="w-full max-h-screen">
-        <ScrollShadow size={25} className="w-full h-screen flex flex-col items-center gap-4 px-6">
+        <ScrollShadow
+          size={25}
+          className="w-full h-screen flex flex-col items-center gap-4 px-6"
+        >
           <CheckboxGroup
             aria-label="Client Item Card Checkbox Group"
             value={selectedClient}
@@ -77,7 +92,7 @@ const ClientList = () => {
                     label: "w-full",
                   }}
                 >
-                  <ClientItemList data={client} />
+                  <ClientItemCard data={client} />
                 </Checkbox>
               ))}
             </div>
@@ -86,7 +101,7 @@ const ClientList = () => {
       </CardBody>
       <CardFooter className="">
         <ClientFooter
-          clientsListCount={clientsListCount}
+          clientsListCount={clientsCount}
           displayedClients={displayedClients}
           setDisplayedClients={setDisplayedClients}
         />

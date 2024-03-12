@@ -7,28 +7,77 @@ import {
   TableRow,
   getKeyValue,
 } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
-import { useState } from "react";
-import {
-  clientsListCountAtom,
-  taskTableColsAtom,
-  taskTableRowsAtom,
-  taskTableRowsCountAtom,
-} from "../store/CMSStore";
-import ClientFooter from "./ClientFooter";
-import ClientHeader from "./ClientHeader";
+import { AvatarGroup, Avatar } from "@nextui-org/react";
 
-const ClientItemTable = ({ data }) => {
+import { useAtom, useAtomValue } from "jotai";
+import { useCallback, useState } from "react";
+
+import ClientFooter from "./CMSFooter";
+import ClientHeader from "./CMSHeader";
+import { selectedClientAtom } from "@/app/store/ClientStore";
+import {
+  selectedTaskFilterKeysAtom,
+  tableColumnsAtom,
+  taskFilterKeysAtom,
+  tasksAtom,
+} from "@/app/store/TaskStore";
+
+const TaskTableView = () => {
   const [searchItem, setSearchItem] = useState("");
   const [selectedAllClients, setSelectedAllClients] = useState(false);
   const [displayedClients, setDisplayedClients] = useState("10");
-  const taskTableRowsCount = useAtomValue(taskTableRowsCountAtom);
-  const taskTableRows = useAtomValue(taskTableRowsAtom);
-  const taskTableCols = useAtomValue(taskTableColsAtom);
 
-  const filteredTaskList = taskTableRows.filter((task) => {
+  const tasks = useAtomValue(tasksAtom);
+  const tableColumns = useAtomValue(tableColumnsAtom);
+  const selectedClient = useAtomValue(selectedClientAtom);
+
+  const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
+  const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
+    selectedTaskFilterKeysAtom
+  );
+
+  const tasksFromSelectedClient = tasks.filter(
+    (task) => task.clientKey === selectedClient
+  );
+
+  const filteredTaskList = tasksFromSelectedClient.filter((task) => {
     return task.task.toLowerCase().includes(searchItem.toLowerCase());
   });
+
+  const renderCell = useCallback((user, columnKey) => {
+    const cellValue = user[columnKey];
+
+    console.log("USER INSIDE RENDER CELL");
+
+    switch (columnKey) {
+      case "task":
+        return <div>{"task"}</div>;
+
+      case "status":
+        return <div>{"status"}</div>;
+
+      case "startDate":
+        return <div>{"startDate"}</div>;
+
+      case "endDate":
+        return <div>{"endDate"}</div>;
+
+      case "assignees":
+        return (
+          <div className="h-full flex justify-start">
+            <AvatarGroup size="md" max={4} total={10}>
+              <Avatar
+                size="md"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+              />
+            </AvatarGroup>
+          </div>
+        );
+
+      default:
+        return cellValue;
+    }
+  }, []);
 
   return (
     <div className="bg-white-default p-4 m-2 rounded-[1rem] max-h-screen">
@@ -39,6 +88,9 @@ const ClientItemTable = ({ data }) => {
         setSelectedAllClients={setSelectedAllClients}
         showCheckBox={false}
         showActionButtons={false}
+        filterKeys={taskFilterKeys}
+        selectedFilterKeys={selectedTaskFilterKeys}
+        setSelectedFilterKeys={setSelectedTaskFilterKeys}
         className={"sticky top-0"}
       />
       <div className="p-4">
@@ -61,7 +113,7 @@ const ClientItemTable = ({ data }) => {
             tr: "text-lg max-h-sm",
           }}
         >
-          <TableHeader columns={taskTableCols}>
+          <TableHeader columns={tableColumns}>
             {(column) => (
               <TableColumn key={column.key}>{column.label}</TableColumn>
             )}
@@ -70,7 +122,7 @@ const ClientItemTable = ({ data }) => {
             {(item) => (
               <TableRow key={item.key}>
                 {(columnKey) => (
-                  <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
                 )}
               </TableRow>
             )}
@@ -87,4 +139,4 @@ const ClientItemTable = ({ data }) => {
   );
 };
 
-export default ClientItemTable;
+export default TaskTableView;

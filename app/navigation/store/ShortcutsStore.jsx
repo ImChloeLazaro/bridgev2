@@ -76,7 +76,7 @@ export const deleteShortcutAtom = atom(null, async (get, set, update) => {
   }
 });
 
-export const fetchedShortcutAtom = atom(null, async (get, set, sub) => {
+export const fetchShortcutAtom = atom(null, async (get, set, sub) => {
   const shortcuts = await readwithparams("/shortcut", {
     sub: sub,
   });

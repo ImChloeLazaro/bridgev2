@@ -7,7 +7,6 @@ export const postCountAtom = atom((get) => get(postAtom).length);
 
 export const updatePostReactionAtom = atom(null, async (get, set, update) => {
   const { id, selectedReaction, reacted, reactions, prevReaction } = update;
-
   const selectedPost = get(postAtom).filter((post) => post._id === update.id);
   // const updatedSelectedReaction = reacted
   //   ? (reactions[selectedReaction] += 1)

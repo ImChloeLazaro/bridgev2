@@ -1,14 +1,14 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
+import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
+import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { Checkbox, cn } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
 import { MdRefresh } from "react-icons/md";
 import {
-  clientsListAtom,
-  filterKeysAtom,
-  selectedClientAtom,
-  selectedFilterKeysAtom,
+  selectedClientAtom
 } from "../store/CMSStore";
 
 const ClientHeader = ({
@@ -18,17 +18,25 @@ const ClientHeader = ({
   setSearchItem,
   showCheckBox = false,
   showActionButtons = false,
+  filterKeys,
+  selectedFilterKeys,
+  setSelectedFilterKeys,
   className,
 }) => {
-  const clients = useAtomValue(clientsListAtom);
-  const filterKeys = useAtomValue(filterKeysAtom);
+  const clients = useAtomValue(clientsAtom);
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
-  const [selectedFilterKeys, setSelectedFilterKeys] = useAtom(
-    selectedFilterKeysAtom
-  );
 
-  const handleRefreshClient = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const fetchTask = useSetAtom(fetchTaskAtom);
+  const fetchClient = useSetAtom(fetchClientAtom);
+
+  const handleRefreshClient = async () => {
     console.log("REFRESHED CLIENT DATA");
+    setIsDisabled(true);
+    await fetchTask();
+    await fetchClient();
+    setIsDisabled(false);
   };
 
   const handleUpdateTask = () => {
@@ -83,10 +91,15 @@ const ClientHeader = ({
           selectedFilterKeys={selectedFilterKeys}
           setSelectedFilterKeys={setSelectedFilterKeys}
         />
-        <IconButton onPress={handleRefreshClient} variant="bordered">
+        <IconButton
+          onPress={handleRefreshClient}
+          variant="bordered"
+          isDisabled={isDisabled}
+        >
           <div
+            data-loading={isDisabled}
             className={
-              "transition duration-1000 ease-in-out text-black-default hover:rotate-[360deg]"
+              "transition duration-1000 ease-in-out text-black-default hover:rotate-[360deg] data-[loading=true]:animate-spin"
             }
           >
             <MdRefresh size={24} />

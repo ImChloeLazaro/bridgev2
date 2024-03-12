@@ -2,6 +2,7 @@ import { Pagination, Select, SelectItem, cn } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { pageRowsSelectionAtom } from "../store/CMSStore";
+
 const ClientFooter = ({
   clientsListCount,
   displayedClients,
