@@ -212,6 +212,10 @@ app.get('/profile/*', async function (req, res) {
           emergency: data.profile.contact.emergency_contact,
         });
         break;
+      case '/profile/self_data':
+        const self_data = await profileModel.findOne({ "profile.sub": sub });
+        res.status(200).json({success: true, response: self_data});
+        break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
         break;

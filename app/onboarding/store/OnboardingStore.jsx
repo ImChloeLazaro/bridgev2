@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { readwithparams } from "@/app/utils/amplify-rest";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { onboardingDataAtom } from "@/app/user/profile/store/ProfileStore";
 
 export const stepsAtom = atom([
   "application",
@@ -33,10 +34,13 @@ export const selectedStepperAtom = atom("application");
 
 export const activeStepAtom = atom(0);
 
-//// Application Onboarding
+// Application Onboarding
 
 // Application Details
-export const firstNameAtom = atom("");
+export const firstNameAtom = atom((get) => {
+  const data = get(onboardingDataAtom);
+  return "" || data?.application?.application_details?.first_name;
+});
 export const lastNameAtom = atom("");
 export const middleNameAtom = atom("");
 export const vacancyThruAtom = atom("");
@@ -236,8 +240,6 @@ export const referencesAtom = atom([
     contact_number: "",
   },
 ]);
-
-//// Contact Onboarding
 
 // Emergency Contact
 export const contactAtom = atom({
