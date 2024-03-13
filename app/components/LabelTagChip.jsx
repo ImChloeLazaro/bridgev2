@@ -43,7 +43,7 @@ const LabelTagChip = ({
       unfilled: "text-black-default bg-black-default/20",
     },
     grey: {
-      filled: "bg-grey-default text-white-default",
+      filled: "bg-grey-default text-darkgrey-default",
       unfilled: "text-grey-default bg-grey-default/20",
     },
     lightgrey: {
@@ -55,10 +55,12 @@ const LabelTagChip = ({
       unfilled: "text-darkgrey-default bg-darkgrey-default/20",
     },
     clear: {
-      filled: "bg-transparent text-white-default",
-      unfilled: "bg-transparent text-white-default",
+      filled: "bg-transparent text-black-default",
+      unfilled: "bg-transparent text-black-default",
     },
   };
+
+  const lightColors = ["clear", "grey", "lightgrey"];
 
   const sizeVariants = {
     xs: "text-xs",
@@ -84,7 +86,11 @@ const LabelTagChip = ({
           "capitalize px-2.5 border-0"
         ),
         content: "font-bold",
-        dot: `bg-white-default`,
+        dot: `${
+          lightColors.includes(color)
+            ? "bg-darkgrey-default"
+            : "bg-white-default"
+        }`,
       }}
       {...props}
       endContent={
@@ -102,6 +108,7 @@ const LabelTagChip = ({
           </Chip>
         )
       }
+      {...props}
     >
       <div className="flex justify-center items-center gap-4">
         <p className="tracking-wider">{text}</p>

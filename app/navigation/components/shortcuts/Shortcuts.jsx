@@ -15,7 +15,7 @@ import { Suspense, useEffect } from "react";
 import { Menu, Sidebar, menuClasses, sidebarClasses } from "react-pro-sidebar";
 import {
   disableDraggableAtom,
-  fetchedShortcutAtom,
+  fetchShortcutAtom,
   shortcutsAtom,
 } from "../../store/ShortcutsStore";
 import ShortcutsHeader from "./ShortcutsHeader";
@@ -26,13 +26,13 @@ const Shortcuts = () => {
   const auth = useAtomValue(authenticationAtom);
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const disableDraggable = useAtomValue(disableDraggableAtom);
-  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
+  const fetchShortcut = useSetAtom(fetchShortcutAtom);
 
   // const filteredShortcutsList = shortcutsList.sort((a, b) => {});
 
   useEffect(() => {
-    fetchedShortcut(auth.sub);
-  }, [auth, fetchedShortcut]);
+    fetchShortcut(auth.sub);
+  }, [auth, fetchShortcut]);
 
   return (
     <>

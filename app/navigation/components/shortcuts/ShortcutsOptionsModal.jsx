@@ -17,7 +17,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   shortcutsAtom,
   disableDraggableAtom,
-  fetchedShortcutAtom,
+  fetchShortcutAtom,
   updateShortcutAtom,
   deleteShortcutAtom,
 } from "../../store/ShortcutsStore";
@@ -29,7 +29,7 @@ import { authenticationAtom } from "@/app/store/AuthenticationStore";
 const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const auth = useAtomValue(authenticationAtom);
 
-  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
+  const fetchShortcut = useSetAtom(fetchShortcutAtom);
 
   const shortcutSize = 28; //icon size
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +57,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
       setDisableDraggable(false);
       console.log("CONFIRM WINDOW DELETED SHORTCUT", response.success);
     }
-    fetchedShortcut(auth.sub);
+    fetchShortcut(auth.sub);
   };
 
   const handleEditShortcut = async () => {
@@ -71,7 +71,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
       setDisableDraggable(false);
       console.log("CONFIRM WINDOW EDITED SHORTCUT", response.success);
     }
-    fetchedShortcut(auth.sub);
+    fetchShortcut(auth.sub);
   };
 
   const handleCloseWindow = () => {

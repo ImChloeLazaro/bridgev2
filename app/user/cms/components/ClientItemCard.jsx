@@ -1,4 +1,6 @@
+import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
+import { selectedClientToViewAtom } from "@/app/store/ClientStore";
 import {
   Avatar,
   AvatarGroup,
@@ -14,13 +16,21 @@ const tagColors = {
   done: "green",
   forReview: "yellow",
   due: "red",
+  pending: "darkgrey",
 };
-
+import { useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
 
-const ClientItemList = ({ data }) => {
+const ClientItemCard = ({ data }) => {
+  const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
+
   const handleClientTask = (status) => {
     console.log("CLIENT TYPE STATUS", status);
+  };
+  const handleSelectClient = (selected) => {
+    setSelectedClientToView(selected);
+    
+    console.log("CLIENT SELECTED", selected);
   };
 
   return (
@@ -44,7 +54,7 @@ const ClientItemList = ({ data }) => {
               {Object.keys(data.status).map((status, s_index) => (
                 <Button
                   key={s_index}
-                  className="p-0 m-0"
+                  className="p-0 m-0 "
                   onPress={() => handleClientTask(status)}
                 >
                   <LabelTagChip
@@ -74,11 +84,14 @@ const ClientItemList = ({ data }) => {
           </div>
         </CardBody>
       </Card>
-      <Button className="bg-transparent w-1/12 h-32 ">
+      <IconButton
+        className="bg-transparent w-1/12 h-32"
+        onPress={() => handleSelectClient(data.key)}
+      >
         <MdChevronRight size={32} />
-      </Button>
+      </IconButton>
     </div>
   );
 };
 
-export default ClientItemList;
+export default ClientItemCard;

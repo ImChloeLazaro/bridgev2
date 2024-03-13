@@ -7,7 +7,7 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import "../aws-auth";
-import { registerProfileAtom, userAtom } from "../store/UserStore";
+import { userAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
 import CreatePostCard from "./home/components/createPost/CreatePostCard";
 import HRBulletinBoardList from "./home/components/hrBulletinBoard/HRBulletinBoardList";

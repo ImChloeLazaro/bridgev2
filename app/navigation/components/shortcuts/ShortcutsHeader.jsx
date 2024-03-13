@@ -13,7 +13,7 @@ import CTAButtons from "../../../components/CTAButtons";
 import IconButton from "../../../components/IconButton";
 import {
   addShortcutAtom,
-  fetchedShortcutAtom,
+  fetchShortcutAtom,
   shortcutTitleAtom,
   shortcutURLAtom,
 } from "../../store/ShortcutsStore";
@@ -24,7 +24,7 @@ const ShortcutsHeader = () => {
   const [shortcutTitle, setShortcutTitle] = useAtom(shortcutTitleAtom);
   const [shortcutURL, setShortcutURL] = useAtom(shortcutURLAtom);
   const addShortcut = useSetAtom(addShortcutAtom);
-  const fetchedShortcut = useSetAtom(fetchedShortcutAtom);
+  const fetchShortcut = useSetAtom(fetchShortcutAtom);
 
   const handleAddShortcut = async () => {
     if (auth.sub === null) {
@@ -40,7 +40,7 @@ const ShortcutsHeader = () => {
       handleCloseWindow();
       console.log("CONFIRM WINDOW ADDED SHORTCUT", response.success);
     }
-    fetchedShortcut(auth.sub);
+    fetchShortcut(auth.sub);
   };
 
   const handleCloseWindow = () => {
