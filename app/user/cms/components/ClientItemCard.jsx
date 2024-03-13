@@ -1,6 +1,6 @@
 import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
-import { selectedClientAtom } from "@/app/store/ClientStore";
+import { selectedClientToViewAtom } from "@/app/store/ClientStore";
 import {
   Avatar,
   AvatarGroup,
@@ -22,13 +22,14 @@ import { useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
 
 const ClientItemCard = ({ data }) => {
-  const setSelectedClient = useSetAtom(selectedClientAtom);
+  const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
 
   const handleClientTask = (status) => {
     console.log("CLIENT TYPE STATUS", status);
   };
   const handleSelectClient = (selected) => {
-    setSelectedClient(selected);
+    setSelectedClientToView(selected);
+    
     console.log("CLIENT SELECTED", selected);
   };
 

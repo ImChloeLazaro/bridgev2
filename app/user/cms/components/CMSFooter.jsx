@@ -3,20 +3,28 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { pageRowsSelectionAtom } from "../store/CMSStore";
 
-const ClientFooter = ({
-  clientsListCount,
-  displayedClients,
-  setDisplayedClients,
+const CMSFooter = ({
+  currentItemsCount,
+  itemListCount,
+  startPage,
+  setPage,
+  rowsPerPage = [],
+  setRowsPerPage,
+  totalPages,
   className,
 }) => {
-  const [value, setValue] = useState(new Set(["10"]));
+  
+  let rowsPerPageNumber = isNaN(parseInt(Array.from(rowsPerPage).join("")))
+    ? 10
+    : parseInt(Array.from(rowsPerPage).join(""));
+
+  console.log("rowsPerPage", rowsPerPageNumber);
 
   const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
-  const isDisabled = clientsListCount <= displayedClients;
+  const isDisabled = itemListCount <= rowsPerPageNumber;
 
   const handleRowsPerPage = (select) => {
-    setValue(select);
-    setDisplayedClients(Array.from(select).join(""));
+    setRowsPerPage(select);
   };
 
   return (
@@ -28,21 +36,22 @@ const ClientFooter = ({
     >
       <div className="w-1/3">
         <p>{`Showing ${
-          isDisabled ? clientsListCount : displayedClients
-        } of ${clientsListCount} results`}</p>
+          isDisabled ? currentItemsCount : rowsPerPageNumber
+        } of ${itemListCount} results`}</p>
       </div>
       <div className="w-1/3 h-fit flex justify-center items-center py-2 gap-2">
         <div className="h-full">{`Rows per page: `}</div>
         <Select
           items={pageRowsSelection}
-          aria-label="Client Select Filter"
+          aria-label="Rows per Page Filter"
           disallowEmptySelection
           variant={"underlined"}
-          selectedKeys={value}
+          selectedKeys={rowsPerPage}
           className="max-w-16 mb-0"
           onSelectionChange={(select) => {
             handleRowsPerPage(select);
           }}
+          // onSelectionChange={setRowsPerPage}
           classNames={{ popoverContent: "w-20" }}
         >
           {(pageRow) => (
@@ -55,14 +64,12 @@ const ClientFooter = ({
       <Pagination
         isCompact
         showControls
+        // showShadow
         isDisabled={isDisabled}
-        total={
-          isDisabled
-            ? clientsListCount
-            : Math.ceil(clientsListCount / displayedClients) +
-              Math.ceil(clientsListCount % displayedClients)
-        }
+        total={totalPages}
         initialPage={1}
+        page={startPage}
+        onChange={(page) => setPage(page)}
         className="w-1/3 flex justify-end"
         classNames={{ cursor: "bg-blue-default" }}
       />
@@ -70,4 +77,4 @@ const ClientFooter = ({
   );
 };
 
-export default ClientFooter;
+export default CMSFooter;

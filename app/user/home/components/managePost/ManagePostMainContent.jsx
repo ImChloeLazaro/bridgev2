@@ -348,7 +348,9 @@ const ManagePostMainContent = ({ onClose }) => {
           <Button isIconOnly onPress={onClose} className={"bg-transparent"}>
             <MdMinimize size={24} />
           </Button>
-          <IconButton onPress={onClose} ><MdClose size={24} /></IconButton>
+          <IconButton onPress={onClose}>
+            <MdClose size={24} />
+          </IconButton>
         </div>
         <Divider />
         <div className="flex justify-between items-center px-7 mt-4 mb-3">

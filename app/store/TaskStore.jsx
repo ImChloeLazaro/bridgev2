@@ -16,7 +16,7 @@ export const tableColumnsAtom = atom([
   { label: "Assignees", key: "assignees" },
 ]);
 
-export const selectedTaskAtom = atom();
+export const selectedTaskAtom = atom([]);
 export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 
 export const tasksCountAtom = atom((get) => get(tasksAtom).length);
@@ -68,6 +68,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
       };
     });
     console.log("convertedTasks", convertedTasks);
+
     set(tasksAtom, convertedTasks);
   } else {
     console.log("TASKS FAILED FETCH", tasks);

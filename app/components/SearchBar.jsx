@@ -46,6 +46,7 @@ const SearchBar = ({
           variant="flat"
           isMultiline={true}
           placeholder="All"
+          disallowEmptySelection={true}
           selectedKeys={selectedFilterKeys}
           className="max-w-xs"
           onSelectionChange={setSelectedFilterKeys}
@@ -76,7 +77,9 @@ const SearchBar = ({
             </div>
           }
           classNames={{
-            inputWrapper: ["bg-white-default rounded-l-none border border-l-0 shadow-sm"],
+            inputWrapper: [
+              "bg-white-default rounded-l-none border border-l-0 shadow-sm",
+            ],
             mainWrapper: ["w-64 max-w-64"],
           }}
         />

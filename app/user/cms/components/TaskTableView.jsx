@@ -1,26 +1,40 @@
 import {
+  Avatar,
+  AvatarGroup,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
-  getKeyValue,
 } from "@nextui-org/react";
-import { AvatarGroup, Avatar } from "@nextui-org/react";
 
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useState } from "react";
 
-import ClientFooter from "./CMSFooter";
-import ClientHeader from "./CMSHeader";
-import { selectedClientAtom } from "@/app/store/ClientStore";
+import { selectedClientToViewAtom } from "@/app/store/ClientStore";
 import {
   selectedTaskFilterKeysAtom,
   tableColumnsAtom,
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
+import CMSFooter from "./CMSFooter";
+import ClientHeader from "./CMSHeader";
+import LabelTagChip from "@/app/components/LabelTagChip";
+
+const tagColors = {
+  todo: "blue",
+  inProgress: "orange",
+  done: "green",
+  forReview: "yellow",
+  due: "red",
+  pending: "darkgrey",
+};
 
 const TaskTableView = () => {
   const [searchItem, setSearchItem] = useState("");
@@ -29,47 +43,65 @@ const TaskTableView = () => {
 
   const tasks = useAtomValue(tasksAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
-  const selectedClient = useAtomValue(selectedClientAtom);
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
   const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
     selectedTaskFilterKeysAtom
   );
 
+  console.log("tasks", tasks);
+
   const tasksFromSelectedClient = tasks.filter(
-    (task) => task.clientKey === selectedClient
+    (task) => task.clientKey === selectedClientToView
   );
 
-  const filteredTaskList = tasksFromSelectedClient.filter((task) => {
-    return task.task.toLowerCase().includes(searchItem.toLowerCase());
+  const filteredTask = selectedTaskFilterKeys.has("all")
+    ? tasksFromSelectedClient
+    : tasksFromSelectedClient.filter((task) => {
+        return selectedTaskFilterKeys.has(task.status.toLowerCase());
+      });
+
+  const filteredTaskList = filteredTask.filter((task) => {
+    return task.name.toLowerCase().includes(searchItem.toLowerCase());
   });
 
-  const renderCell = useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
 
-    console.log("USER INSIDE RENDER CELL");
+
+  const renderCell = useCallback((task, columnKey) => {
+    const cellValue = task[columnKey];
+
+
 
     switch (columnKey) {
       case "task":
-        return <div>{"task"}</div>;
+        return <div>{task.name}</div>;
 
       case "status":
-        return <div>{"status"}</div>;
+        return (
+          <LabelTagChip
+            size="md"
+            text={task.status.toLowerCase()}
+            color={tagColors[task.status.toLowerCase()]}
+          />
+        );
 
       case "startDate":
-        return <div>{"startDate"}</div>;
+        return <div>{task.startDate}</div>;
 
       case "endDate":
-        return <div>{"endDate"}</div>;
+        return <div>{task.endDate}</div>;
 
       case "assignees":
+        console.log("HERE ASSIGNEES", task.processor);
         return (
           <div className="h-full flex justify-start">
             <AvatarGroup size="md" max={4} total={10}>
-              <Avatar
-                size="md"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-              />
+              {task.processor.map((assignee) => {
+                return (
+                  <Avatar key={assignee._id} size="md" src={assignee.picture} />
+                );
+              })}
             </AvatarGroup>
           </div>
         );
@@ -80,20 +112,21 @@ const TaskTableView = () => {
   }, []);
 
   return (
-    <div className="bg-white-default p-4 m-2 rounded-[1rem] max-h-screen">
-      <ClientHeader
-        searchItem={searchItem}
-        setSearchItem={setSearchItem}
-        selectedAllClients={selectedAllClients}
-        setSelectedAllClients={setSelectedAllClients}
-        showCheckBox={false}
-        showActionButtons={false}
-        filterKeys={taskFilterKeys}
-        selectedFilterKeys={selectedTaskFilterKeys}
-        setSelectedFilterKeys={setSelectedTaskFilterKeys}
-        className={"sticky top-0"}
-      />
-      <div className="p-4">
+    <Card className="w-full h-full px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+      <CardHeader className="">
+        <ClientHeader
+          searchItem={searchItem}
+          setSearchItem={setSearchItem}
+          selectedAllClients={selectedAllClients}
+          setSelectedAllClients={setSelectedAllClients}
+          showCheckBox={false}
+          showActionButtons={false}
+          filterKeys={taskFilterKeys}
+          selectedFilterKeys={selectedTaskFilterKeys}
+          setSelectedFilterKeys={setSelectedTaskFilterKeys}
+        />
+      </CardHeader>
+      <CardBody className="w-full max-h-screen">
         <Table
           aria-label="Rows actions table example with dynamic content"
           // isStriped
@@ -104,13 +137,12 @@ const TaskTableView = () => {
           onRowAction={(key) => alert(`Opening item ${key}...`)}
           emptyContent={"No rows to display."}
           classNames={{
-            base: "rounded-[1rem] h-[50rem] ",
-            table: "min-h-[420px]",
+            base: "rounded-[1rem] h-full px-6",
             wrapper:
-              "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll",
-            th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4",
-            td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4",
-            tr: "text-lg max-h-sm",
+              "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll no-scrollbar",
+            th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4 text-left",
+            td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4 text-left",
+            tr: "text-lg h-18 max-h-sm",
           }}
         >
           <TableHeader columns={tableColumns}>
@@ -128,14 +160,15 @@ const TaskTableView = () => {
             )}
           </TableBody>
         </Table>
-      </div>
-
-      <ClientFooter
-        clientsListCount={filteredTaskList.length}
-        displayedClients={displayedClients}
-        setDisplayedClients={setDisplayedClients}
-      />
-    </div>
+      </CardBody>
+      <CardFooter className="">
+        <CMSFooter
+          clientsListCount={filteredTaskList.length}
+          displayedClients={displayedClients}
+          setDisplayedClients={setDisplayedClients}
+        />
+      </CardFooter>
+    </Card>
   );
 };
 

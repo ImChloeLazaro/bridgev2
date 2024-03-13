@@ -1,15 +1,21 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
-import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
+import {
+  clientsAtom,
+  fetchClientAtom,
+  selectedClientAtom,
+  showClientDetailsAtom,
+} from "@/app/store/ClientStore";
 import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { Checkbox, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import { MdRefresh } from "react-icons/md";
-import {
-  selectedClientAtom
-} from "../store/CMSStore";
+import { MdViewColumn } from "react-icons/md";
+import { MdViewList } from "react-icons/md";
+import { isTableViewAtom } from "../store/CMSStore";
+import { MdOutlineDescription } from "react-icons/md";
 
 const ClientHeader = ({
   selectedAllClients,
@@ -18,6 +24,7 @@ const ClientHeader = ({
   setSearchItem,
   showCheckBox = false,
   showActionButtons = false,
+  showOptions = false,
   filterKeys,
   selectedFilterKeys,
   setSelectedFilterKeys,
@@ -25,11 +32,16 @@ const ClientHeader = ({
 }) => {
   const clients = useAtomValue(clientsAtom);
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  const [isTableView, setIsTableView] = useAtom(isTableViewAtom);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
+
+  const [showClientDetails, setShowClientDetails] = useAtom(
+    showClientDetailsAtom
+  );
 
   const handleRefreshClient = async () => {
     console.log("REFRESHED CLIENT DATA");
@@ -44,6 +56,16 @@ const ClientHeader = ({
   };
   const handleDeleteTask = () => {
     console.log("DELETED");
+  };
+
+  const handleChangeView = () => {
+    console.log(!isTableView ? "TABLE" : "KANBAN");
+    setIsTableView(!isTableView);
+  };
+
+  const handleViewClientDetails = () => {
+    console.log("Client Details", showClientDetails);
+    setShowClientDetails(!showClientDetails);
   };
 
   const actionButtons = {
@@ -105,6 +127,34 @@ const ClientHeader = ({
             <MdRefresh size={24} />
           </div>
         </IconButton>
+        {showOptions && (
+          <div className="flex gap-2 ml-6">
+            <CTAButtons
+              radius={"lg"}
+              variant={"bordered"}
+              color={isTableView ? "blue" : "orange"}
+              size={"md"}
+              startContent={
+                isTableView ? (
+                  <MdViewList size={24} />
+                ) : (
+                  <MdViewColumn size={24} />
+                )
+              }
+              label={isTableView ? "Table View" : "Kanban View"}
+              onPress={handleChangeView}
+            />
+            <CTAButtons
+              radius={"lg"}
+              variant={"bordered"}
+              color={showClientDetails ? "green" : "white"}
+              size={"md"}
+              startContent={<MdOutlineDescription size={24} />}
+              label={"View Client Details"}
+              onPress={handleViewClientDetails}
+            />
+          </div>
+        )}
       </div>
       {showActionButtons && (
         <div className="w-full max-w-md flex justify-between mx-4 gap-4">
