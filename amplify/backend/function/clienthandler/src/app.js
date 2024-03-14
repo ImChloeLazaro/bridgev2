@@ -31,6 +31,8 @@ const clientSchema = mongoose.Schema({
     ABN: String,
     ACN: String,
     other_owner: Boolean,
+
+    
   },
   business: { // Business details
     description: String,

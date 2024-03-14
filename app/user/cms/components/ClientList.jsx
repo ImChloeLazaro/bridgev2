@@ -32,23 +32,23 @@ const ClientList = ({
       >
         <div className="flex flex-col w-full gap-y-3">
           {itemClients.map((client, index) => (
-            <Checkbox
-              value={client.key}
-              key={index}
-              aria-label="Client Item Card Checkbox"
-              classNames={{
-                base: cn(
-                  "w-full max-w-full bg-white-default m-0",
-                  "hover:bg-lightgrey-hover flex items-center justify-start",
-                  "cursor-pointer rounded-lg gap-6 py-0 pr-0 pl-6 border-[0.4px] shadow",
-                  "data-[selected=true]:border-3",
-                  "data-[selected=true]:border-blue-default/60"
-                ),
-                label: "w-full",
-              }}
-            >
-              <ClientItemCard data={client} />
-            </Checkbox>
+            // <Checkbox
+            //   value={client.key}
+            //   key={index}
+            //   aria-label="Client Item Card Checkbox"
+            //   classNames={{
+            //     base: cn(
+            //       "w-full max-w-full bg-white-default m-0",
+            //       "hover:bg-lightgrey-hover flex items-center justify-start",
+            //       "cursor-pointer rounded-lg gap-6 py-0 pr-0 pl-6 border-[0.4px] shadow",
+            //       "data-[selected=true]:border-3",
+            //       "data-[selected=true]:border-blue-default/60"
+            //     ),
+            //     label: "w-full",
+            //   }}
+            // >
+            // </Checkbox>
+            <ClientItemCard key={index} data={client} />
           ))}
         </div>
       </CheckboxGroup>

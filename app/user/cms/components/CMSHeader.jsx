@@ -16,6 +16,7 @@ import { MdViewColumn } from "react-icons/md";
 import { MdViewList } from "react-icons/md";
 import { isTableViewAtom } from "../store/CMSStore";
 import { MdOutlineDescription } from "react-icons/md";
+import { MdOutlineChevronLeft } from "react-icons/md";
 
 const ClientHeader = ({
   selectedAllClients,
@@ -88,6 +89,11 @@ const ClientHeader = ({
       )}
     >
       <div className="flex gap-2">
+        <IconButton>
+          <div className="text-black-default">
+            <MdOutlineChevronLeft size={24} />
+          </div>
+        </IconButton>
         {showCheckBox && (
           <Checkbox
             isSelected={selectedAllClients}

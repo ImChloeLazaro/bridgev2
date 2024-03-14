@@ -20,8 +20,10 @@ const CMS = () => {
   return (
     auth.isAuthenticated && (
       <>
-        <div className="relative w-full max-h-screen overflow-y-scroll no-scrollbar m-2 p-4">
-          <Clients />          
+        <div className="flex justify-center items-center w-full h-full p-6 ">
+          {/* <div className="mt-4 mb-8"> */}
+            <Clients />
+          {/* </div> */}
         </div>
       </>
     )

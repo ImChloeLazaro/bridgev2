@@ -36,7 +36,7 @@ const tagColors = {
   pending: "darkgrey",
 };
 
-const TaskTableView = () => {
+const TaskTableView = ({changeView}) => {
   const [searchItem, setSearchItem] = useState("");
   const [selectedAllClients, setSelectedAllClients] = useState(false);
   const [displayedClients, setDisplayedClients] = useState("10");
@@ -112,7 +112,7 @@ const TaskTableView = () => {
   }, []);
 
   return (
-    <Card className="w-full h-full px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+    <Card data-view={changeView} className="hidden data-[view=true]:block w-full h-full px-2 py-1.5 drop-shadow shadow-none bg-white-default">
       <CardHeader className="">
         <ClientHeader
           searchItem={searchItem}

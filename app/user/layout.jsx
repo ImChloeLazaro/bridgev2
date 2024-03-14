@@ -18,12 +18,12 @@ const UserLayout = ({ children }) => {
         {/* <Suspense fallback={<Loading />}> */}
         <SideBar />
         {/* </Suspense> */}
-        <div className="flex flex-col w-full h-screen max-h-screen">
+        <div className="flex flex-col w-full h-screen max-h-screen overflow-hidden">
           <div className="top-0">
             {!isHasOnboardingData && <OnboardingStatusAlert />}
             <NavigationBar />
           </div>
-          <div className="flex max-w-full h-screen max-h-screen overflow-y-auto bg-background ">
+          <div className="flex max-w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
             {/* <Suspense fallback={<Loading />}> */}
               {children}
             {/* </Suspense> */}

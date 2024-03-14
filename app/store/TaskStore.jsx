@@ -52,7 +52,32 @@ export const taskFilterKeysAtom = atom([
   },
 ]);
 
-
+export const taskBoardColsAtom = atom([
+  {
+    id: "todo",
+    title: "To Do",
+  },
+  {
+    id: "inProgress",
+    title: "In Progress",
+  },
+  {
+    id: "done",
+    title: "Done",
+  },
+  {
+    id: "forReview",
+    title: "For Review",
+  },
+  {
+    id: "due",
+    title: "Due",
+  },
+  {
+    id: "pending",
+    title: "Pending",
+  },
+]);
 
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");

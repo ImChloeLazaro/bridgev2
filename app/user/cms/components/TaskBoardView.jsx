@@ -13,7 +13,9 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
-import TaskCard from "./TaskCard";
+import TaskBoardCard from "./TaskBoardCard";
+import { useAtom } from "jotai";
+import { taskBoardColsAtom } from "@/app/store/TaskStore";
 
 const defaultCols = [
   {
@@ -111,7 +113,7 @@ const defaultTasks = [
   },
 ];
 const TaskBoardView = () => {
-  const [columns, setColumns] = useState(defaultCols);
+  const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState(defaultTasks);
@@ -129,7 +131,7 @@ const TaskBoardView = () => {
   );
 
   return (
-    <div className="flex min-h-screen w-screen max-w-screen items-center overflow-x-auto overflow-y-hidden px-[40px] ">
+    <div className="w-[100%] h-full flex items-center overflow-x-auto overflow-y-hidden px-4 ">
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
@@ -137,7 +139,7 @@ const TaskBoardView = () => {
         onDragOver={onDragOver}
       >
         <div className="flex gap-4 h-full">
-          <div className="flex gap-4 h-full ">
+          <div className="flex gap-4 h-full">
             <SortableContext items={columnsId}>
               {columns.map((col) => (
                 <ColumnContainer
@@ -194,14 +196,14 @@ const TaskBoardView = () => {
               />
             )}
             {activeTask && (
-              <TaskCard
+              <TaskBoardCard
                 task={activeTask}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
               />
             )}
           </DragOverlay>,
-          document.body
+          document.body // target DOM  element for creating portal overlay
         )}
       </DndContext>
     </div>
@@ -231,14 +233,14 @@ const TaskBoardView = () => {
     setTasks(newTasks);
   }
 
-  function createNewColumn() {
-    const columnToAdd = {
-      id: generateId(),
-      title: `Column ${columns.length + 1}`,
-    };
+  // function createNewColumn() {
+  //   const columnToAdd = {
+  //     id: generateId(),
+  //     title: `Column ${columns.length + 1}`,
+  //   };
 
-    setColumns([...columns, columnToAdd]);
-  }
+  //   setColumns([...columns, columnToAdd]);
+  // }
 
   function deleteColumn(id) {
     const filteredColumns = columns.filter((col) => col.id !== id);

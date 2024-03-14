@@ -76,7 +76,7 @@ const Clients = () => {
   );
 
   return (
-    <Card className="w-full h-full px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+    <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
       <CardHeader className="">
         <ClientHeader
           searchItem={searchItem}
@@ -91,7 +91,7 @@ const Clients = () => {
           setSelectedFilterKeys={setSelectedClientFilterKeys}
         />
       </CardHeader>
-      <CardBody className="w-full max-h-screen">
+      <CardBody className="h-max">
         {/* <ClientList
           showClientDetails={showClientDetails}
           selectedClient={selectedClient}

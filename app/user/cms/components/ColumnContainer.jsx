@@ -4,7 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
-import TaskCard from "./TaskCard";
+import TaskBoardCard from "./TaskBoardCard";
 
 function ColumnContainer({
   column,
@@ -53,7 +53,7 @@ function ColumnContainer({
       border-2
       border-pink-500
       w-[450px]
-      h-screen
+      h-full
       max-h-screen
       rounded-md
       flex
@@ -63,6 +63,15 @@ function ColumnContainer({
     );
   }
 
+  const tagColors = {
+    todo: "bg-blue-default border-blue-default",
+    inProgress: "bg-orange-default border-orange-default",
+    done: "bg-green-default border-green-default",
+    forReview: "bg-yellow-default border-yellow-default",
+    due: "bg-red-default border-red-default",
+    pending: "bg-darkgrey-default border-darkgrey-default",
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -70,9 +79,9 @@ function ColumnContainer({
       className="
   bg-grey-default
   w-[450px]
-  h-screen
+  h-full
   max-h-screen
-  rounded-md
+  rounded-lg
   flex
   flex-col
   "
@@ -81,11 +90,11 @@ function ColumnContainer({
       <div
         {...attributes}
         {...listeners}
-        onClick={() => {
-          setEditMode(true);
-        }}
-        className="
-      bg-mainBackgroundColor
+        // onClick={() => {
+        //   setEditMode(true);
+        // }}
+        className={`
+        ${tagColors[column.id]}
       text-md
       h-[60px]
       cursor-grab
@@ -93,29 +102,29 @@ function ColumnContainer({
       rounded-b-none
       p-3
       font-bold
-      border-columnBackgroundColor
+      text-white-default
       border-4
       flex
       items-center
       justify-between
-      "
+      `}
       >
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <div
-            className="
+            className={`
         flex
         justify-center
         items-center
-        bg-columnBackgroundColor
+        bg-inherit
         px-2
         py-1
         text-sm
         rounded-full
-        "
+        `}
           >
-            0
+            12
           </div>
-          {!editMode && column.title}
+          <div className="">{!editMode && column.title}</div>
           {editMode && (
             <input
               className="bg-black focus:border-rose-500 border rounded outline-none px-2"
@@ -132,7 +141,7 @@ function ColumnContainer({
             />
           )}
         </div>
-        <button
+        {/* <button
           onClick={() => {
             deleteColumn(column.id);
           }}
@@ -146,14 +155,14 @@ function ColumnContainer({
         "
         >
           <BsFillTrash3Fill size={24} />
-        </button>
+        </button> */}
       </div>
 
       {/* Column task container */}
-      <div className="h-screen flex flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto ">
+      <div className="h-full mb-6 flex flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto ">
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
-            <TaskCard
+            <TaskBoardCard
               key={task.id}
               task={task}
               deleteTask={deleteTask}
