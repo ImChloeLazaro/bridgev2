@@ -3,7 +3,7 @@ import { atom } from "jotai";
 
 export const postAtom = atom([]);
 
-export const postCountAtom = atom((get) => get(postAtom).length);
+export const postCountAtom = atom((get) => get(postAtom).length); 
 
 export const updatePostReactionAtom = atom(null, async (get, set, update) => {
   const { id, selectedReaction, reacted, reactions, prevReaction } = update;
