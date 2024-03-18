@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";
 
 import TaskBoardCard from "./TaskBoardCard";
-
+import { Image } from "@nextui-org/react";
 function ColumnContainer({
   column,
   deleteColumn,
@@ -16,7 +16,7 @@ function ColumnContainer({
   updateTask,
 }) {
   const [editMode, setEditMode] = useState(false);
-
+  const tasksCount = tasks?.length ? tasks.length : 0;
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
   }, [tasks]);
@@ -48,28 +48,31 @@ function ColumnContainer({
         ref={setNodeRef}
         style={style}
         className="
-      bg-grey-default
       opacity-40
       border-2
-      border-pink-500
-      w-[450px]
+      border-blue-default
+
+      bg-grey-default
+      
       h-full
       max-h-screen
-      rounded-md
+      rounded-lg
       flex
       flex-col
+      grow-1
+      basis-1/6
       "
       ></div>
     );
   }
 
-  const tagColors = {
-    todo: "bg-blue-default border-blue-default",
-    inProgress: "bg-orange-default border-orange-default",
-    done: "bg-green-default border-green-default",
-    forReview: "bg-yellow-default border-yellow-default",
-    due: "bg-red-default border-red-default",
-    pending: "bg-darkgrey-default border-darkgrey-default",
+  const columnColors = {
+    todo: "bg-blue-default border-blue-default text-white-default",
+    inProgress: "bg-orange-default border-orange-default text-white-default",
+    done: "bg-green-default border-green-default text-white-default",
+    forReview: "bg-yellow-default border-yellow-default text-white-default",
+    due: "bg-red-default border-red-default text-white-default",
+    pending: "bg-darkgrey-default border-darkgrey-default text-white-default",
   };
 
   return (
@@ -77,13 +80,15 @@ function ColumnContainer({
       ref={setNodeRef}
       style={style}
       className="
-  bg-grey-default
-  w-[450px]
-  h-full
-  max-h-screen
-  rounded-lg
-  flex
-  flex-col
+    bg-grey-default
+    
+    h-full
+    max-h-screen
+    rounded-lg
+    flex
+    flex-col
+    grow-1
+    basis-1/6
   "
     >
       {/* Column title */}
@@ -94,7 +99,7 @@ function ColumnContainer({
         //   setEditMode(true);
         // }}
         className={`
-        ${tagColors[column.id]}
+        ${columnColors[column.id]}
       text-md
       h-[60px]
       cursor-grab
@@ -102,30 +107,31 @@ function ColumnContainer({
       rounded-b-none
       p-3
       font-bold
-      text-white-default
       border-4
       flex
       items-center
       justify-between
       `}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <div
             className={`
         flex
         justify-center
         items-center
         bg-inherit
-        px-2
+        px-3
         py-1
         text-sm
         rounded-full
+        bg-white-default
+        text-black-default
         `}
           >
-            12
+            {tasksCount}
           </div>
-          <div className="">{!editMode && column.title}</div>
-          {editMode && (
+          <div className="">{column.title}</div>
+          {/* {editMode && (
             <input
               className="bg-black focus:border-rose-500 border rounded outline-none px-2"
               value={column.title}
@@ -139,7 +145,7 @@ function ColumnContainer({
                 setEditMode(false);
               }}
             />
-          )}
+          )} */}
         </div>
         {/* <button
           onClick={() => {
@@ -159,16 +165,22 @@ function ColumnContainer({
       </div>
 
       {/* Column task container */}
-      <div className="h-full mb-6 flex flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto ">
+      <div className="h-full mb-6 flex flex-col gap-4 p-3 overflow-x-hidden overflow-y-auto ">
         <SortableContext items={tasksIds}>
-          {tasks.map((task) => (
-            <TaskBoardCard
-              key={task.id}
-              task={task}
-              deleteTask={deleteTask}
-              updateTask={updateTask}
-            />
-          ))}
+          {tasks?.length ? (
+            tasks.map((task) => (
+              <TaskBoardCard
+                key={task.id}
+                task={task}
+                deleteTask={deleteTask}
+                updateTask={updateTask}
+              />
+            ))
+          ) : (
+            <div className="flex justify-center items-center p-2 rounded-lg">
+              {"No data to display"}
+            </div>
+          )}
         </SortableContext>
       </div>
       {/* Column footer */}

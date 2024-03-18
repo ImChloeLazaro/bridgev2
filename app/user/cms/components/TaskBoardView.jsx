@@ -14,109 +14,16 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import TaskBoardCard from "./TaskBoardCard";
-import { useAtom } from "jotai";
-import { taskBoardColsAtom } from "@/app/store/TaskStore";
+import { useAtom, useAtomValue } from "jotai";
+import { taskBoardColsAtom, tasksAtom } from "@/app/store/TaskStore";
+import { selectedClientToViewAtom } from "@/app/store/ClientStore";
 
-const defaultCols = [
-  {
-    id: "todo",
-    title: "To Do",
-  },
-  {
-    id: "inProgress",
-    title: "In Progress",
-  },
-  {
-    id: "done",
-    title: "Done",
-  },
-  {
-    id: "forReview",
-    title: "For Review",
-  },
-  // {
-  //   id: "due",
-  //   title: "Due",
-  // },
-  // {
-  //   id: "pending",
-  //   title: "Pending",
-  // },
-];
-
-const defaultTasks = [
-  {
-    id: "1",
-    columnId: "todo",
-    content: "List admin APIs for dashboard",
-  },
-  {
-    id: "2",
-    columnId: "todo",
-    content:
-      "Develop user registration functionality with OTP delivered on SMS after email confirmation and phone number confirmation",
-  },
-  {
-    id: "3",
-    columnId: "inProgress",
-    content: "Conduct security testing",
-  },
-  {
-    id: "4",
-    columnId: "inProgress",
-    content: "Analyze competitors",
-  },
-  {
-    id: "5",
-    columnId: "done",
-    content: "Create UI kit documentation",
-  },
-  {
-    id: "6",
-    columnId: "done",
-    content: "Dev meeting",
-  },
-  {
-    id: "7",
-    columnId: "done",
-    content: "Deliver dashboard prototype",
-  },
-  {
-    id: "8",
-    columnId: "todo",
-    content: "Optimize application performance",
-  },
-  {
-    id: "9",
-    columnId: "todo",
-    content: "Implement data validation",
-  },
-  {
-    id: "10",
-    columnId: "todo",
-    content: "Design database schema",
-  },
-  {
-    id: "11",
-    columnId: "todo",
-    content: "Integrate SSL web certificates into workflow",
-  },
-  {
-    id: "12",
-    columnId: "inProgress",
-    content: "Implement error logging and monitoring",
-  },
-  {
-    id: "13",
-    columnId: "inProgress",
-    content: "Design and implement responsive UI",
-  },
-];
-const TaskBoardView = () => {
+const TaskBoardView = ({ searchItem, showClientTask, changeView }) => {
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useState(defaultTasks);
+  const [tasks, setTasks] = useAtom(tasksAtom);
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const [activeColumn, setActiveColumn] = useState(null);
 
@@ -130,32 +37,51 @@ const TaskBoardView = () => {
     })
   );
 
+  const tasksFromSelectedClient = tasks.filter(
+    (task) => task.clientKey === selectedClientToView
+  );
+
+  //   const filteredTask = selectedTaskFilterKeys.has("all")
+  //   ? tasksFromSelectedClient
+  //   : tasksFromSelectedClient.filter((task) => {
+  //       return selectedTaskFilterKeys.has(task.status.toLowerCase());
+  //     });
+
+  // const filteredTaskList = filteredTask.filter((task) => {
+  //   return task.name.toLowerCase().includes(searchItem.toLowerCase());
+  // });
   return (
-    <div className="w-[100%] h-full flex items-center overflow-x-auto overflow-y-hidden px-4 ">
+    <div
+      data-view={showClientTask}
+      data-change={changeView}
+      className="hidden data-[view=true]:flex data-[change=false]:hidden w-screen h-full items-center overflow-x-auto overflow-y-hidden px-4 "
+    >
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <div className="flex gap-4 h-full">
-          <div className="flex gap-4 h-full">
-            <SortableContext items={columnsId}>
-              {columns.map((col) => (
-                <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  deleteColumn={deleteColumn}
-                  updateColumn={updateColumn}
-                  createTask={createTask}
-                  deleteTask={deleteTask}
-                  updateTask={updateTask}
-                  tasks={tasks.filter((task) => task.columnId === col.id)} // change to status as the filter key
-                />
-              ))}
-            </SortableContext>
-          </div>
-          {/* <button
+        {/* <div className="flex gap-4 w-screen h-full"> */}
+        <div className="flex gap-4 w-full h-full">
+          <SortableContext items={columnsId}>
+            {columns.map((col) => (
+              <ColumnContainer
+                key={col.id}
+                column={col}
+                deleteColumn={deleteColumn}
+                updateColumn={updateColumn}
+                createTask={createTask}
+                deleteTask={deleteTask}
+                updateTask={updateTask}
+                tasks={tasksFromSelectedClient.filter(
+                  (task) => task.columnId === col.id
+                )} // change to status as the filter key
+              />
+            ))}
+          </SortableContext>
+        </div>
+        {/* <button
             onClick={() => {
               createNewColumn();
             }}
@@ -178,7 +104,7 @@ const TaskBoardView = () => {
             <MdOutlineAdd size={24} />
             Add Column
           </button> */}
-        </div>
+        {/* </div> */}
 
         {createPortal(
           <DragOverlay>
@@ -295,6 +221,9 @@ const TaskBoardView = () => {
 
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
+
+    console.log("activeId", activeId);
+    console.log("overId", overId);
   }
 
   function onDragOver(event) {
@@ -335,6 +264,15 @@ const TaskBoardView = () => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
 
         tasks[activeIndex].columnId = overId;
+        console.log(tasks);
+        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
+        return arrayMove(tasks, activeIndex, activeIndex);
+      });
+      setTasks((tasks) => {
+        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+
+        tasks[activeIndex].status = overId;
+        console.log(tasks);
         console.log("DROPPING TASK OVER COLUMN", { activeIndex });
         return arrayMove(tasks, activeIndex, activeIndex);
       });

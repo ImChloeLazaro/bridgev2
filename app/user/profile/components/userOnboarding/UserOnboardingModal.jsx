@@ -12,14 +12,22 @@ import {
 } from "@nextui-org/react";
 import { onboardingDataAtom } from "../../store/ProfileStore";
 import { useAtomValue, useSetAtom, useAtom } from "jotai";
+import { browseOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
+import { useEffect } from "react";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const onboardingData = useAtomValue(onboardingDataAtom);
   console.log("ONBOARDING DATA", onboardingData);
+  const browseOnboardingData = useSetAtom(browseOnboardingDataAtom);
+
   const handleFetchDataWhenOpen = (open) => {
     onOpen(open);
   };
+
+  useEffect(() => {
+    browseOnboardingData();
+  }, [browseOnboardingData]);
 
   return (
     <>

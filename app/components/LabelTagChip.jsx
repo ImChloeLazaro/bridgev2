@@ -92,7 +92,6 @@ const LabelTagChip = ({
             : "bg-white-default"
         }`,
       }}
-      {...props}
       endContent={
         withBadge && (
           <Chip
@@ -101,7 +100,7 @@ const LabelTagChip = ({
             variant="flat"
             classNames={{
               base: cn("bg-white-default/90"),
-              content: "text-sm font-bold text-black-default/80",
+              content: `text-sm font-bold`,
             }}
           >
             {badgeContent}

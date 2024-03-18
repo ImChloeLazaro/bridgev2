@@ -10,16 +10,19 @@ import {
 } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
 const ClientList = ({
-  showClientDetails,
   selectedClient,
   setSelectedClient,
   itemClients,
+  searchItem,
+  showClientTask,
+  showClientDetails,
 }) => {
   return (
     <ScrollShadow
       size={25}
-      data-show={showClientDetails}
-      className="w-full h-screen flex flex-col items-center gap-4 px-6 data-[show=true]:hidden"
+      data-details={showClientDetails}
+      data-view={showClientTask}
+      className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-6 "
     >
       <CheckboxGroup
         aria-label="Client Item Card Checkbox Group"

@@ -37,10 +37,7 @@ export const activeStepAtom = atom(0);
 // Application Onboarding
 
 // Application Details
-export const firstNameAtom = atom((get) => {
-  const data = get(onboardingDataAtom);
-  return "" || data?.application?.application_details?.first_name;
-});
+export const firstNameAtom = atom("");
 export const lastNameAtom = atom("");
 export const middleNameAtom = atom("");
 export const vacancyThruAtom = atom("");
@@ -247,6 +244,20 @@ export const contactAtom = atom({
   address: "",
   relationship: "",
   contact_number: "",
+});
+
+// Updating Onboarding Data
+export const browseOnboardingDataAtom = atom(null, (get, set, update) => {
+  set(firstNameAtom, get(onboardingDataAtom)?.application?.application_details?.first_name);
+  set(lastNameAtom, "new data");
+  set(middleNameAtom, "new data");
+  set(vacancyThruAtom, "new data");
+  set(referredByAtom, "new data");
+  set(dateApplicationAtom, "new data");
+  set(dateAvailabilityAtom, "new data");
+  set(appliedForAtom, "new data");
+  set(salaryAtom, "new data");
+  set(employeeIDAtom, "new data");
 });
 
 //Fetch Onboarding Status
