@@ -1,6 +1,12 @@
 import { atom } from "jotai";
 
-export const isTableViewAtom = atom(false);
+export const changeViewAtom = atom(false);
+export const showClientTaskAtom = atom(false);
+
+export const showFooterAtom = atom(false);
+export const showOptionsAtom = atom(false);
+export const showCheckBoxAtom = atom(false);
+export const showActionButtonsAtom = atom(false);
 
 let pageRowIndex = 0;
 export const pageRowsSelectionAtom = atom([

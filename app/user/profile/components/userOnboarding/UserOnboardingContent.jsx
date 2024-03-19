@@ -5,16 +5,19 @@ import UserOnboardingModal from "./UserOnboardingModal";
 import { employeeInfoAtom } from "../../store/ProfileStore";
 
 const UserOnboardingContent = () => {
-  const {response: data} = useAtomValue(employeeInfoAtom);
+  const { response: data } = useAtomValue(employeeInfoAtom);
+  // const hiredate = data?.hiredate ?? "";
   return (
     <div className="flex items-center justify-between p-2">
       <div className="flex flex-col w-full gap-2">
         <div className="flex">
           <p className="text-base font-bold text-black-default w-3/5">
-            {"Start Dates:"}
+            {"Start Date:"}
           </p>
           <p className="text-base font-bold text-black-default w-3/5 ">
-            {format(new Date(data?.hiredate), "MMM dd yyyy") ?? "No Data Available"}
+            {data != null
+              ? format(new Date(data.hiredate), "MMM dd yyyy")
+              : "No Data Available"}
           </p>
         </div>
         <div className="flex">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { pageRowsSelectionAtom } from "../store/CMSStore";
 
 const CMSFooter = ({
+  showFooter,
   currentItemsCount,
   itemListCount,
   startPage,
@@ -29,8 +30,9 @@ const CMSFooter = ({
 
   return (
     <div
+    data-show={showFooter}
       className={cn(
-        "w-full flex items-center justify-between px-12",
+        "flex data-[show=true]:hidden w-full items-center justify-between px-12 ",
         className
       )}
     >

@@ -21,9 +21,7 @@ const CMS = () => {
     auth.isAuthenticated && (
       <>
         <div className="flex justify-center items-center w-full h-full p-6 ">
-          {/* <div className="mt-4 mb-8"> */}
             <Clients />
-          {/* </div> */}
         </div>
       </>
     )

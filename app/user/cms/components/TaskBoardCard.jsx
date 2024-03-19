@@ -3,10 +3,20 @@ import { BsFillTrash3Fill } from "react-icons/bs";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { MdDragIndicator } from "react-icons/md";
+import { User, Link } from "@nextui-org/react";
+import { format } from "date-fns";
+import { MdCalendarMonth } from "react-icons/md";
+import { showClientDetailsAtom } from "@/app/store/ClientStore";
+import { useSetAtom } from "jotai";
+import { showClientTaskAtom, showFooterAtom } from "../store/CMSStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
+
+  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
+  const setShowFooter = useSetAtom(showFooterAtom);
+  const setShowClientTask = useSetAtom(showClientTaskAtom);
 
   const {
     setNodeRef,
@@ -29,9 +39,16 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     transform: CSS.Transform.toString(transform),
   };
 
+  const handleViewClientDetails = () => {
+    setShowFooter(false);
+    setShowClientTask(false);
+    setShowClientDetails(true);
+  };
+
   const toggleEditMode = () => {
     setEditMode((prev) => !prev);
     setMouseIsOver(false);
+    console.log("CLICKED TASK CARD");
   };
 
   if (isDragging) {
@@ -41,7 +58,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         style={style}
         className="
         opacity-30
-      bg-white-default p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-default  cursor-grab relative
+      bg-white-default p-2.5 h-[125px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
       "
       ></div>
     );
@@ -75,7 +92,6 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
   //     </div>
   //   );
   // }
-
   return (
     <div
       ref={setNodeRef}
@@ -83,7 +99,12 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       {...listeners}
       style={style}
       onClick={toggleEditMode}
-      className="bg-white-default p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-lg hover:ring-2 hover:ring-inset hover:ring-blue-default cursor-grab relative"
+      className="
+      bg-white-default p-2.5 h-fit min-h-[125px] max-h-[200px]
+      items-center flex text-left rounded-lg 
+      hover:ring-2 hover:ring-inset hover:ring-blue-default 
+      border border-grey-default
+      cursor-grab relative shadow-md"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -91,9 +112,53 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         setMouseIsOver(false);
       }}
     >
-      <p className="basis-[90%] my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-        {task.content}
-      </p>
+      <div className="basis-[90%] flex flex-col justify-center px-2 my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+        {/* {task.content} */}
+        <div className="mb-4">
+          <Link
+            href="#"
+            underline="hover"
+            className="text-lg font-medium text-black-default "
+            onPress={handleViewClientDetails}
+          >
+            {task.name}
+          </Link>
+        </div>
+        <div className=""></div>
+        <div className="flex gap-2 justify-start items-center">
+          <MdCalendarMonth size={20} />
+          <Link
+            href="#"
+            underline="hover"
+            className="text-sm font-medium text-black-default/80"
+          >
+            {format(task?.duration?.end, "d MMM yyyy")}
+          </Link>
+        </div>
+        <div className="flex gap-2 justify-start items-center">
+          <User
+            name={
+              <Link
+                href="#"
+                underline="hover"
+                className="text-sm font-medium text-black-default/80"
+              >
+                {task.reviewer[0].name}
+              </Link>
+            }
+            // description="Reviewer"
+            avatarProps={{
+              src: task.reviewer[0].picture,
+              size: "sm",
+              classNames: { base: "w-[22px] h-[22px]" },
+            }}
+            classNames={{
+              name: "text-sm font-medium",
+              description: "text-xs font-medium",
+            }}
+          />
+        </div>
+      </div>
 
       {/* {mouseIsOver && (
         <button

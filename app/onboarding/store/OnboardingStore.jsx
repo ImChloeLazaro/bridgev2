@@ -244,6 +244,20 @@ export const contactAtom = atom({
   contact_number: "",
 });
 
+// Updating Onboarding Data
+export const browseOnboardingDataAtom = atom(null, (get, set, update) => {
+  set(firstNameAtom, get(onboardingDataAtom)?.application?.application_details?.first_name);
+  set(lastNameAtom, "new data");
+  set(middleNameAtom, "new data");
+  set(vacancyThruAtom, "new data");
+  set(referredByAtom, "new data");
+  set(dateApplicationAtom, "new data");
+  set(dateAvailabilityAtom, "new data");
+  set(appliedForAtom, "new data");
+  set(salaryAtom, "new data");
+  set(employeeIDAtom, "new data");
+});
+
 //Fetch Onboarding Status
 export const fetchHasOnboardingDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);

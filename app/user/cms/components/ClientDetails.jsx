@@ -1,9 +1,10 @@
 import { Avatar } from "@nextui-org/react";
+import ClientInfo from "./ClientInfo";
 const ClientDetails = ({ showClientDetails }) => {
   return (
     <div
       data-show={showClientDetails}
-      className="hidden data-[show=true]:block"
+      className="hidden data-[show=true]:block px-6"
     >
       <div className="flex gap-3 px-1 items-center relative z-20 ">
         <div className="flex">
@@ -57,9 +58,15 @@ const ClientDetails = ({ showClientDetails }) => {
             {"Client Name"}
           </p>
           <p className="text-base font-medium text-darkgrey-hover leading-5">
+            {"Store Name"}
+          </p>
+          <p className="text-base font-medium text-darkgrey-hover leading-5">
             {"Client@email.com"}
           </p>
         </div>
+      </div>
+      <div className="mx-4">
+        <ClientInfo />
       </div>
     </div>
   );

@@ -54,8 +54,12 @@ export const taskFilterKeysAtom = atom([
 
 export const taskBoardColsAtom = atom([
   {
-    id: "todo",
-    title: "To Do",
+    id: "due",
+    title: "Due",
+  },
+  {
+    id: "forReview",
+    title: "For Review",
   },
   {
     id: "inProgress",
@@ -66,12 +70,8 @@ export const taskBoardColsAtom = atom([
     title: "Done",
   },
   {
-    id: "forReview",
-    title: "For Review",
-  },
-  {
-    id: "due",
-    title: "Due",
+    id: "todo",
+    title: "To Do",
   },
   {
     id: "pending",
@@ -87,9 +87,12 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
       return {
         ...task,
         key: task._id,
-        clientKey: `client-${index += 1}`,
+        id: `${(index += 1)}`,
+        clientKey: `client-${(index += 1)}`,
         startDate: format(task.duration.start, "d  MMMM yyyy"),
         endDate: format(task.duration.end, "d  MMMM yyyy"),
+        status: task.status.toLowerCase(),
+        columnId: task.status.toLowerCase(),
       };
     });
     console.log("convertedTasks", convertedTasks);

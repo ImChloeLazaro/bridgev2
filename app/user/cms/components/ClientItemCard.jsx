@@ -1,6 +1,9 @@
 import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
-import { selectedClientToViewAtom } from "@/app/store/ClientStore";
+import {
+  selectedClientToViewAtom,
+  showClientDetailsAtom,
+} from "@/app/store/ClientStore";
 import {
   Avatar,
   AvatarGroup,
@@ -18,25 +21,32 @@ const tagColors = {
   due: "red",
   pending: "darkgrey",
 };
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
+import { changeViewAtom, showClientTaskAtom } from "../store/CMSStore";
 
 const ClientItemCard = ({ data }) => {
   const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
+  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
+  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
+  const [changeView, setChangeView] = useAtom(changeViewAtom);
 
-  const handleClientTask = (status) => {
+  const handleSelectTask = (status) => { // when user pressed on the tags on client list
+    handleSelectClient(data.key);
+    setChangeView(true);
     console.log("CLIENT TYPE STATUS", status);
   };
-  const handleSelectClient = (selected) => {
+  const handleSelectClient = (selected) => { // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
-    
+    setShowClientTask(true);
+
     console.log("CLIENT SELECTED", selected);
   };
 
   return (
     <div className="flex justify-between items-center h-full">
       <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
-        <CardBody className=" pr-0 py-0">
+        <CardBody className=" pr-0 py-1">
           <div className="flex justify-around gap-12">
             <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
               <div className="">
@@ -51,24 +61,28 @@ const ClientItemCard = ({ data }) => {
               {data.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
-              {Object.keys(data.status).map((status, s_index) => (
-                <Button
-                  key={s_index}
-                  className="p-0 m-0 "
-                  onPress={() => handleClientTask(status)}
-                >
-                  <LabelTagChip
-                    key={s_index}
-                    text={`${data.status[status].label}`}
-                    color={tagColors[status]}
-                    type="tag"
-                    size="md"
-                    isFilled
-                    withBadge={true}
-                    badgeContent={data.status[status].count}
-                  />
-                </Button>
-              ))}
+              {Object.keys(data.status).map((status, s_index) => {
+                if (data.status[status].count > 0) {
+                  return (
+                    <Button
+                      key={s_index}
+                      className="p-0 m-0 "
+                      onPress={() => handleSelectTask(status)}
+                    >
+                      <LabelTagChip
+                        key={s_index}
+                        text={`${data.status[status].label}`}
+                        color={tagColors[status]}
+                        type="tag"
+                        size="md"
+                        isFilled
+                        withBadge={true}
+                        badgeContent={data.status[status].count}
+                      />
+                    </Button>
+                  );
+                }
+              })}
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
               {data.assignedUsers ?? "No one is assigned "}

@@ -5,6 +5,7 @@ import {
   clientsAtom,
   fetchClientAtom,
   selectedClientAtom,
+  selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import { fetchTaskAtom } from "@/app/store/TaskStore";
@@ -14,15 +15,20 @@ import { useState } from "react";
 import { MdRefresh } from "react-icons/md";
 import { MdViewColumn } from "react-icons/md";
 import { MdViewList } from "react-icons/md";
-import { isTableViewAtom } from "../store/CMSStore";
+import {
+  changeViewAtom,
+  showClientTaskAtom,
+  showFooterAtom,
+} from "../store/CMSStore";
 import { MdOutlineDescription } from "react-icons/md";
 import { MdOutlineChevronLeft } from "react-icons/md";
+import { Tooltip } from "@nextui-org/react";
 
 const ClientHeader = ({
-  selectedAllClients,
-  setSelectedAllClients,
   searchItem,
   setSearchItem,
+  selectedAllClients,
+  setSelectedAllClients,
   showCheckBox = false,
   showActionButtons = false,
   showOptions = false,
@@ -33,7 +39,11 @@ const ClientHeader = ({
 }) => {
   const clients = useAtomValue(clientsAtom);
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
-  const [isTableView, setIsTableView] = useAtom(isTableViewAtom);
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+
+  const [changeView, setChangeView] = useAtom(changeViewAtom);
+  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
+  const [showFooter, setShowFooter] = useAtom(showFooterAtom);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -43,6 +53,16 @@ const ClientHeader = ({
   const [showClientDetails, setShowClientDetails] = useAtom(
     showClientDetailsAtom
   );
+
+  const clientNameToDisplay = clients.filter(
+    (client) => client.key === selectedClientToView
+  )[0]?.name;
+
+  const handleGoBackToClient = () => {
+    setShowFooter(false);
+    setShowClientTask(false);
+    setShowClientDetails(false);
+  };
 
   const handleRefreshClient = async () => {
     console.log("REFRESHED CLIENT DATA");
@@ -60,12 +80,13 @@ const ClientHeader = ({
   };
 
   const handleChangeView = () => {
-    console.log(!isTableView ? "TABLE" : "KANBAN");
-    setIsTableView(!isTableView);
+    setChangeView(!changeView);
+    setShowFooter(!showFooter);
   };
 
   const handleViewClientDetails = () => {
-    console.log("Client Details", showClientDetails);
+    setShowFooter(!showFooter);
+    setShowClientTask(!showClientTask);
     setShowClientDetails(!showClientDetails);
   };
 
@@ -89,11 +110,30 @@ const ClientHeader = ({
       )}
     >
       <div className="flex gap-2">
-        <IconButton>
-          <div className="text-black-default">
+        <IconButton
+          data-details={showClientDetails}
+          data-task={showClientTask}
+          isIconOnly={false}
+          onPress={handleGoBackToClient}
+          className="
+            hidden transition-all 
+            data-[task=true]:flex 
+            data-[details=true]:flex"
+        >
+          <div className="text-black-default gap-2 flex justify-center items-center">
             <MdOutlineChevronLeft size={24} />
+            <Tooltip content={clientNameToDisplay}>
+              <div
+                className="
+                  w-28 truncate 
+                  text-base font-medium text-black-default"
+              >
+                {clientNameToDisplay}
+              </div>
+            </Tooltip>
           </div>
         </IconButton>
+
         {showCheckBox && (
           <Checkbox
             isSelected={selectedAllClients}
@@ -133,34 +173,33 @@ const ClientHeader = ({
             <MdRefresh size={24} />
           </div>
         </IconButton>
-        {showOptions && (
-          <div className="flex gap-2 ml-6">
-            <CTAButtons
-              radius={"lg"}
-              variant={"bordered"}
-              color={isTableView ? "blue" : "orange"}
-              size={"md"}
-              startContent={
-                isTableView ? (
-                  <MdViewList size={24} />
-                ) : (
-                  <MdViewColumn size={24} />
-                )
-              }
-              label={isTableView ? "Table View" : "Kanban View"}
-              onPress={handleChangeView}
-            />
-            <CTAButtons
-              radius={"lg"}
-              variant={"bordered"}
-              color={showClientDetails ? "green" : "white"}
-              size={"md"}
-              startContent={<MdOutlineDescription size={24} />}
-              label={"View Client Details"}
-              onPress={handleViewClientDetails}
-            />
-          </div>
-        )}
+        <div
+          data-details={showClientDetails}
+          data-task={showClientTask}
+          className="hidden data-[task=true]:flex data-[details=true]:flex gap-2 ml-6 "
+        >
+          <CTAButtons
+            isDisabled={showClientDetails}
+            radius={"lg"}
+            variant={"bordered"}
+            color={changeView ? "blue" : "orange"}
+            size={"md"}
+            startContent={
+              changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
+            }
+            label={"Switch View"}
+            onPress={handleChangeView}
+          />
+          <CTAButtons
+            radius={"lg"}
+            variant={"bordered"}
+            color={showClientDetails ? "green" : "white"}
+            size={"md"}
+            startContent={<MdOutlineDescription size={24} />}
+            label={"View Client Details"}
+            onPress={handleViewClientDetails}
+          />
+        </div>
       </div>
       {showActionButtons && (
         <div className="w-full max-w-md flex justify-between mx-4 gap-4">

@@ -36,15 +36,14 @@ const tagColors = {
   pending: "darkgrey",
 };
 
-const TaskTableView = ({changeView}) => {
-  const [searchItem, setSearchItem] = useState("");
+const TaskTableView = ({ searchItem, showClientTask, changeView }) => {
+  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [selectedAllClients, setSelectedAllClients] = useState(false);
   const [displayedClients, setDisplayedClients] = useState("10");
 
   const tasks = useAtomValue(tasksAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-
   const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
   const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
     selectedTaskFilterKeysAtom
@@ -66,12 +65,8 @@ const TaskTableView = ({changeView}) => {
     return task.name.toLowerCase().includes(searchItem.toLowerCase());
   });
 
-
-
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
-
-
 
     switch (columnKey) {
       case "task":
@@ -93,7 +88,6 @@ const TaskTableView = ({changeView}) => {
         return <div>{task.endDate}</div>;
 
       case "assignees":
-        console.log("HERE ASSIGNEES", task.processor);
         return (
           <div className="h-full flex justify-start">
             <AvatarGroup size="md" max={4} total={10}>
@@ -112,63 +106,50 @@ const TaskTableView = ({changeView}) => {
   }, []);
 
   return (
-    <Card data-view={changeView} className="hidden data-[view=true]:block w-full h-full px-2 py-1.5 drop-shadow shadow-none bg-white-default">
-      <CardHeader className="">
-        <ClientHeader
-          searchItem={searchItem}
-          setSearchItem={setSearchItem}
-          selectedAllClients={selectedAllClients}
-          setSelectedAllClients={setSelectedAllClients}
-          showCheckBox={false}
-          showActionButtons={false}
-          filterKeys={taskFilterKeys}
-          selectedFilterKeys={selectedTaskFilterKeys}
-          setSelectedFilterKeys={setSelectedTaskFilterKeys}
-        />
-      </CardHeader>
-      <CardBody className="w-full max-h-screen">
-        <Table
-          aria-label="Rows actions table example with dynamic content"
-          // isStriped
-          isHeaderSticky
-          showSelectionCheckboxes
-          selectionMode="multiple"
-          selectionBehavior={"toggle"}
-          onRowAction={(key) => alert(`Opening item ${key}...`)}
+    <div
+      data-change={changeView}
+      data-view={showClientTask}
+      className="hidden data-[view=true]:flex data-[change=true]:hidden "
+    >
+      <Table
+        aria-label="Rows actions table example with dynamic content"
+        // isStriped
+        isHeaderSticky
+        // showSelectionCheckboxes
+        selectionMode="multiple"
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+        selectionBehavior={"toggle"}
+        onRowAction={(key) => alert(`Opening item ${key}...`)}
+        classNames={{
+          base: "rounded-[1rem] h-full px-6 ",
+          tbody: "h-full max-h-screen ",
+          wrapper:
+            "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll no-scrollbar",
+          th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4 text-left",
+          td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4 text-left",
+          tr: "text-lg h-18 max-h-sm",
+        }}
+      >
+        <TableHeader columns={tableColumns}>
+          {(column) => (
+            <TableColumn key={column.key}>{column.label}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
           emptyContent={"No rows to display."}
-          classNames={{
-            base: "rounded-[1rem] h-full px-6",
-            wrapper:
-              "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll no-scrollbar",
-            th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4 text-left",
-            td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4 text-left",
-            tr: "text-lg h-18 max-h-sm",
-          }}
+          items={filteredTaskList}
         >
-          <TableHeader columns={tableColumns}>
-            {(column) => (
-              <TableColumn key={column.key}>{column.label}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={filteredTaskList}>
-            {(item) => (
-              <TableRow key={item.key}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
-                )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </CardBody>
-      <CardFooter className="">
-        <CMSFooter
-          clientsListCount={filteredTaskList.length}
-          displayedClients={displayedClients}
-          setDisplayedClients={setDisplayedClients}
-        />
-      </CardFooter>
-    </Card>
+          {(item) => (
+            <TableRow key={item.index}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
