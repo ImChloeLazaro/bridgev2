@@ -35,12 +35,7 @@ export const selectedStepperAtom = atom("application");
 export const activeStepAtom = atom(0);
 
 // Application Onboarding
-
-// Application Details
-export const firstNameAtom = atom((get) => {
-  const data = get(onboardingDataAtom);
-  return "" || data?.application?.application_details?.first_name;
-});
+export const firstNameAtom = atom("");
 export const lastNameAtom = atom("");
 export const middleNameAtom = atom("");
 export const vacancyThruAtom = atom("");

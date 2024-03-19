@@ -15,8 +15,7 @@ import { useAtomValue, useSetAtom, useAtom } from "jotai";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const onboardingData = useAtomValue(onboardingDataAtom);
-  console.log("ONBOARDING DATA", onboardingData);
+  const {response: data} = useAtomValue(onboardingDataAtom);//temp
   const handleFetchDataWhenOpen = (open) => {
     onOpen(open);
   };
