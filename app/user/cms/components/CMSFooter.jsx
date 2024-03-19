@@ -1,20 +1,17 @@
-import { Pagination, Select, SelectItem, cn } from "@nextui-org/react";
+import { Pagination, Select, SelectItem } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { useState } from "react";
 import { pageRowsSelectionAtom } from "../store/CMSStore";
 
 const CMSFooter = ({
   showFooter,
-  currentItemsCount,
-  itemListCount,
-  startPage,
+  displayedItemCount,
+  totalItemCount = 0,
+  page = 1,
   setPage,
   rowsPerPage = [],
   setRowsPerPage,
-  totalPages,
-  className,
+  totalPages = 0,
 }) => {
-  
   let rowsPerPageNumber = isNaN(parseInt(Array.from(rowsPerPage).join("")))
     ? 10
     : parseInt(Array.from(rowsPerPage).join(""));
@@ -22,7 +19,7 @@ const CMSFooter = ({
   console.log("rowsPerPage", rowsPerPageNumber);
 
   const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
-  const isDisabled = itemListCount <= rowsPerPageNumber;
+  const isDisabled = displayedItemCount <= rowsPerPageNumber;
 
   const handleRowsPerPage = (select) => {
     setRowsPerPage(select);
@@ -30,16 +27,13 @@ const CMSFooter = ({
 
   return (
     <div
-    data-show={showFooter}
-      className={cn(
-        "flex data-[show=true]:hidden w-full items-center justify-between px-12 ",
-        className
-      )}
+      data-show={showFooter}
+      className={
+        "flex data-[show=true]:hidden w-full items-center justify-between px-12 "
+      }
     >
       <div className="w-1/3">
-        <p>{`Showing ${
-          isDisabled ? currentItemsCount : rowsPerPageNumber
-        } of ${itemListCount} results`}</p>
+        <p>{`Showing ${displayedItemCount} out of ${totalItemCount} results`}</p>
       </div>
       <div className="w-1/3 h-fit flex justify-center items-center py-2 gap-2">
         <div className="h-full">{`Rows per page: `}</div>
@@ -53,7 +47,6 @@ const CMSFooter = ({
           onSelectionChange={(select) => {
             handleRowsPerPage(select);
           }}
-          // onSelectionChange={setRowsPerPage}
           classNames={{ popoverContent: "w-20" }}
         >
           {(pageRow) => (
@@ -66,11 +59,10 @@ const CMSFooter = ({
       <Pagination
         isCompact
         showControls
-        // showShadow
         isDisabled={isDisabled}
-        total={totalPages}
+        total={totalPages <= 0 ? 1 : totalPages}
         initialPage={1}
-        page={startPage}
+        page={page}
         onChange={(page) => setPage(page)}
         className="w-1/3 flex justify-end"
         classNames={{ cursor: "bg-blue-default" }}

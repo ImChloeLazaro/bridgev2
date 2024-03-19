@@ -9,20 +9,21 @@ import {
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import { fetchTaskAtom } from "@/app/store/TaskStore";
-import { Checkbox, cn } from "@nextui-org/react";
+import { Checkbox, Tooltip, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
-import { MdRefresh } from "react-icons/md";
-import { MdViewColumn } from "react-icons/md";
-import { MdViewList } from "react-icons/md";
+import {
+  MdOutlineChevronLeft,
+  MdOutlineDescription,
+  MdRefresh,
+  MdViewColumn,
+  MdViewList,
+} from "react-icons/md";
 import {
   changeViewAtom,
   showClientTaskAtom,
   showFooterAtom,
 } from "../store/CMSStore";
-import { MdOutlineDescription } from "react-icons/md";
-import { MdOutlineChevronLeft } from "react-icons/md";
-import { Tooltip } from "@nextui-org/react";
 
 const ClientHeader = ({
   searchItem,
@@ -53,10 +54,6 @@ const ClientHeader = ({
   const [showClientDetails, setShowClientDetails] = useAtom(
     showClientDetailsAtom
   );
-
-  const clientNameToDisplay = clients.filter(
-    (client) => client.key === selectedClientToView
-  )[0]?.name;
 
   const handleGoBackToClient = () => {
     setShowFooter(false);
@@ -102,6 +99,11 @@ const ClientHeader = ({
       action: handleDeleteTask,
     },
   };
+
+  const clientNameToDisplay = clients.filter(
+    (client) => client.key === selectedClientToView
+  )[0]?.name;
+
   return (
     <div
       className={cn(
@@ -122,11 +124,12 @@ const ClientHeader = ({
         >
           <div className="text-black-default gap-2 flex justify-center items-center">
             <MdOutlineChevronLeft size={24} />
-            <Tooltip content={clientNameToDisplay}>
+            <Tooltip content={clientNameToDisplay} delay={1000}>
               <div
                 className="
-                  w-28 truncate 
-                  text-base font-medium text-black-default"
+                bg-white-default rounded-lg px-2 py-1
+                  w-28 truncate hover:underline hover:underline-offset-1
+                  text-base font-bold text-black-default"
               >
                 {clientNameToDisplay}
               </div>
@@ -211,7 +214,7 @@ const ClientHeader = ({
                 label={button.label}
                 color={button.color}
                 className={"py-5"}
-                // onPress={button.action}
+                onPress={button.action}
               />
             );
           })}

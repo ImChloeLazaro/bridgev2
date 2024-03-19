@@ -12,6 +12,9 @@ import {
   CardBody,
   Image,
 } from "@nextui-org/react";
+import { useAtom, useSetAtom } from "jotai";
+import { MdChevronRight } from "react-icons/md";
+import { changeViewAtom, showClientTaskAtom } from "../store/CMSStore";
 
 const tagColors = {
   todo: "blue",
@@ -21,22 +24,20 @@ const tagColors = {
   due: "red",
   pending: "darkgrey",
 };
-import { useAtom, useSetAtom } from "jotai";
-import { MdChevronRight } from "react-icons/md";
-import { changeViewAtom, showClientTaskAtom } from "../store/CMSStore";
 
 const ClientItemCard = ({ data }) => {
   const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
-  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
-  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
-  const [changeView, setChangeView] = useAtom(changeViewAtom);
+  const setShowClientTask = useSetAtom(showClientTaskAtom);
+  const setChangeView = useSetAtom(changeViewAtom);
 
-  const handleSelectTask = (status) => { // when user pressed on the tags on client list
+  const handleSelectTask = (status) => {
+    // when user pressed on the tags on client list
     handleSelectClient(data.key);
     setChangeView(true);
     console.log("CLIENT TYPE STATUS", status);
   };
-  const handleSelectClient = (selected) => { // when user pressed on the arrow on the right most side on client list
+  const handleSelectClient = (selected) => {
+    // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
     setShowClientTask(true);
 
@@ -49,7 +50,7 @@ const ClientItemCard = ({ data }) => {
         <CardBody className=" pr-0 py-1">
           <div className="flex justify-around gap-12">
             <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
-              <div className="">
+              <div className="max-w-[70px]">
                 <Image
                   src="/image-placeholder.png"
                   alt="Image Placeholder"
@@ -86,7 +87,7 @@ const ClientItemCard = ({ data }) => {
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
               {data.assignedUsers ?? "No one is assigned "}
-              <AvatarGroup size="lg" max={4} total={10}>
+              <AvatarGroup size="lg" max={4} total={data.assignedUsers.length}>
                 <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
                 <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
                 <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />

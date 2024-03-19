@@ -1,32 +1,25 @@
-import { MdOutlineAdd } from "react-icons/md";
-import { useMemo, useState } from "react";
-import ColumnContainer from "./ColumnContainer";
+import { taskBoardColsAtom, tasksAtom } from "@/app/store/TaskStore";
 import {
   DndContext,
-  DragEndEvent,
-  DragOverEvent,
   DragOverlay,
-  DragStartEvent,
   PointerSensor,
   useSensor,
-  useSensors,
+  useSensors
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import { useAtom } from "jotai";
+import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
-import { useAtom, useAtomValue } from "jotai";
-import { taskBoardColsAtom, tasksAtom } from "@/app/store/TaskStore";
-import { selectedClientToViewAtom } from "@/app/store/ClientStore";
 
-const TaskBoardView = ({ searchItem, showClientTask, changeView }) => {
+const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useAtom(tasksAtom);
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const [activeColumn, setActiveColumn] = useState(null);
-
   const [activeTask, setActiveTask] = useState(null);
 
   const sensors = useSensors(
@@ -37,19 +30,6 @@ const TaskBoardView = ({ searchItem, showClientTask, changeView }) => {
     })
   );
 
-  const tasksFromSelectedClient = tasks.filter(
-    (task) => task.clientKey === selectedClientToView
-  );
-
-  //   const filteredTask = selectedTaskFilterKeys.has("all")
-  //   ? tasksFromSelectedClient
-  //   : tasksFromSelectedClient.filter((task) => {
-  //       return selectedTaskFilterKeys.has(task.status.toLowerCase());
-  //     });
-
-  // const filteredTaskList = filteredTask.filter((task) => {
-  //   return task.name.toLowerCase().includes(searchItem.toLowerCase());
-  // });
   return (
     <div
       data-view={showClientTask}
@@ -74,7 +54,7 @@ const TaskBoardView = ({ searchItem, showClientTask, changeView }) => {
                 createTask={createTask}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
-                tasks={tasksFromSelectedClient.filter(
+                tasks={sortedItemTasks.filter(
                   (task) => task.columnId === col.id
                 )} // change to status as the filter key
               />

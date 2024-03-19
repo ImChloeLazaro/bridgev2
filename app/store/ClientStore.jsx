@@ -659,6 +659,13 @@ export const addClientAtom = atom();
 export const updateClientAtom = atom();
 export const deleteClientAtom = atom();
 
+export const tableColumnsAtom = atom([
+  { label: "Image", key: "image",},
+  { label: "Client", key: "client", sortable: true },
+  { label: "Status", key: "status", sortable: true },
+  { label: "Assignees", key: "assignees", sortable: true },
+]);
+
 export const selectedClientAtom = atom([]);
 export const selectedClientToViewAtom = atom();
 export const selectedClientFilterKeysAtom = atom(new Set(["all"]));

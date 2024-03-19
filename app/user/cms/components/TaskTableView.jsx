@@ -1,31 +1,21 @@
+import LabelTagChip from "@/app/components/LabelTagChip";
+import {
+  tableColumnsAtom,
+  tasksAtom
+} from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
-  TableRow,
+  TableRow
 } from "@nextui-org/react";
-
-import { useAtom, useAtomValue } from "jotai";
+import { format } from "date-fns";
+import { useAtomValue } from "jotai";
 import { useCallback, useState } from "react";
-
-import { selectedClientToViewAtom } from "@/app/store/ClientStore";
-import {
-  selectedTaskFilterKeysAtom,
-  tableColumnsAtom,
-  taskFilterKeysAtom,
-  tasksAtom,
-} from "@/app/store/TaskStore";
-import CMSFooter from "./CMSFooter";
-import ClientHeader from "./CMSHeader";
-import LabelTagChip from "@/app/components/LabelTagChip";
 
 const tagColors = {
   todo: "blue",
@@ -36,34 +26,18 @@ const tagColors = {
   pending: "darkgrey",
 };
 
-const TaskTableView = ({ searchItem, showClientTask, changeView }) => {
+const TaskTableView = ({ sortedItemTasks, showClientTask, changeView }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  const [selectedAllClients, setSelectedAllClients] = useState(false);
-  const [displayedClients, setDisplayedClients] = useState("10");
 
   const tasks = useAtomValue(tasksAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-  const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
-  const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
-    selectedTaskFilterKeysAtom
-  );
+
+  const [sortDescriptor, setSortDescriptor] = useState({
+    column: "name",
+    direction: "ascending",
+  });
 
   console.log("tasks", tasks);
-
-  const tasksFromSelectedClient = tasks.filter(
-    (task) => task.clientKey === selectedClientToView
-  );
-
-  const filteredTask = selectedTaskFilterKeys.has("all")
-    ? tasksFromSelectedClient
-    : tasksFromSelectedClient.filter((task) => {
-        return selectedTaskFilterKeys.has(task.status.toLowerCase());
-      });
-
-  const filteredTaskList = filteredTask.filter((task) => {
-    return task.name.toLowerCase().includes(searchItem.toLowerCase());
-  });
 
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
@@ -82,15 +56,15 @@ const TaskTableView = ({ searchItem, showClientTask, changeView }) => {
         );
 
       case "startDate":
-        return <div>{task.startDate}</div>;
+        return <div>{format(task.duration.start, "d  MMMM yyyy")}</div>;
 
       case "endDate":
-        return <div>{task.endDate}</div>;
+        return <div>{format(task.duration.end, "d  MMMM yyyy")}</div>;
 
       case "assignees":
         return (
           <div className="h-full flex justify-start">
-            <AvatarGroup size="md" max={4} total={10}>
+            <AvatarGroup size="md" max={4} total={task.processor.length}>
               {task.processor.map((assignee) => {
                 return (
                   <Avatar key={assignee._id} size="md" src={assignee.picture} />
@@ -115,7 +89,8 @@ const TaskTableView = ({ searchItem, showClientTask, changeView }) => {
         aria-label="Rows actions table example with dynamic content"
         // isStriped
         isHeaderSticky
-        // showSelectionCheckboxes
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
         selectionMode="multiple"
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
@@ -133,13 +108,12 @@ const TaskTableView = ({ searchItem, showClientTask, changeView }) => {
       >
         <TableHeader columns={tableColumns}>
           {(column) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
+            <TableColumn key={column.key} allowsSorting={column.sortable}>
+              {column.label}
+            </TableColumn>
           )}
         </TableHeader>
-        <TableBody
-          emptyContent={"No rows to display."}
-          items={filteredTaskList}
-        >
+        <TableBody emptyContent={"No rows to display."} items={sortedItemTasks}>
           {(item) => (
             <TableRow key={item.index}>
               {(columnKey) => (

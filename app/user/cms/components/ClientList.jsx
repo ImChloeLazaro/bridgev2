@@ -1,19 +1,10 @@
 import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Checkbox,
-  CheckboxGroup,
-  ScrollShadow,
-  cn,
+  ScrollShadow
 } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
+
 const ClientList = ({
-  selectedClient,
-  setSelectedClient,
   itemClients,
-  searchItem,
   showClientTask,
   showClientDetails,
 }) => {
@@ -24,7 +15,7 @@ const ClientList = ({
       data-view={showClientTask}
       className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-6 "
     >
-      <CheckboxGroup
+      {/* <CheckboxGroup
         aria-label="Client Item Card Checkbox Group"
         value={selectedClient}
         onValueChange={(value) => {
@@ -54,7 +45,12 @@ const ClientList = ({
             <ClientItemCard key={index} data={client} />
           ))}
         </div>
-      </CheckboxGroup>
+      </CheckboxGroup> */}
+      <div className="flex flex-col w-full gap-y-3">
+        {itemClients.map((client, index) => (
+          <ClientItemCard key={index} data={client} />
+        ))}
+      </div>
     </ScrollShadow>
   );
 };

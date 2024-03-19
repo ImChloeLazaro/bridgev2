@@ -1,13 +1,11 @@
-import { useState } from "react";
-import { BsFillTrash3Fill } from "react-icons/bs";
+import { showClientDetailsAtom } from "@/app/store/ClientStore";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { MdDragIndicator } from "react-icons/md";
-import { User, Link } from "@nextui-org/react";
+import { Link, User } from "@nextui-org/react";
 import { format } from "date-fns";
-import { MdCalendarMonth } from "react-icons/md";
-import { showClientDetailsAtom } from "@/app/store/ClientStore";
 import { useSetAtom } from "jotai";
+import { useState } from "react";
+import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
 import { showClientTaskAtom, showFooterAtom } from "../store/CMSStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
@@ -92,6 +90,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
   //     </div>
   //   );
   // }
+
   return (
     <div
       ref={setNodeRef}

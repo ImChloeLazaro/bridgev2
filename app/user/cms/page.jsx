@@ -1,12 +1,9 @@
 "use client";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtomValue, useSetAtom } from "jotai";
-import ClientList from "./components/ClientList";
-import TaskTableView from "./components/TaskTableView";
-import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { useEffect } from "react";
-import TaskBoardView from "./components/TaskBoardView";
 import Clients from "./components/Clients";
 
 const CMS = () => {

@@ -1,20 +1,4 @@
 import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Checkbox,
-  CheckboxGroup,
-  ScrollShadow,
-  cn,
-} from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
-import { useMemo, useState } from "react";
-
-import CMSFooter from "./CMSFooter";
-import ClientHeader from "./CMSHeader";
-import ClientItemCard from "./ClientItemCard";
-import {
   clientFilterKeysAtom,
   clientsAtom,
   clientsCountAtom,
@@ -23,10 +7,14 @@ import {
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
-import ClientDetails from "./ClientDetails";
-import TaskBoardView from "./TaskBoardView";
-import ClientList from "./ClientList";
-import TaskTableView from "./TaskTableView";
+import {
+  selectedTaskFilterKeysAtom,
+  taskFilterKeysAtom,
+  tasksAtom,
+} from "@/app/store/TaskStore";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
+import { useMemo, useState } from "react";
 import {
   changeViewAtom,
   showActionButtonsAtom,
@@ -35,25 +23,24 @@ import {
   showFooterAtom,
   showOptionsAtom,
 } from "../store/CMSStore";
-import {
-  selectedTaskFilterKeysAtom,
-  taskFilterKeysAtom,
-} from "@/app/store/TaskStore";
+import CMSFooter from "./CMSFooter";
+import ClientHeader from "./CMSHeader";
+import ClientDetails from "./ClientDetails";
+import ClientList from "./ClientList";
+import TaskBoardView from "./TaskBoardView";
+import TaskTableView from "./TaskTableView";
 
 const Clients = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [selectedAllClients, setSelectedAllClients] = useState(false);
 
-  const [showFooter, setShowFooter] = useAtom(showFooterAtom);
-  const [showOptions, setShowOptions] = useAtom(showOptionsAtom);
-  const [showCheckBox, setShowCheckBox] = useAtom(showCheckBoxAtom);
-  const [showActionButtons, setShowActionButtons] = useAtom(
-    showActionButtonsAtom
-  );
+  const showFooter = useAtomValue(showFooterAtom);
+  const showOptions = useAtomValue(showOptionsAtom);
+  const showCheckBox = useAtomValue(showCheckBoxAtom);
+  const showActionButtons = useAtomValue(showActionButtonsAtom);
 
-  const [changeView, setChangeView] = useAtom(changeViewAtom);
-
+  const changeView = useAtomValue(changeViewAtom);
   const showClientDetails = useAtomValue(showClientDetailsAtom);
 
   const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
@@ -67,59 +54,139 @@ const Clients = () => {
   );
 
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
-  const [selectedClientToView, setSelectedClientToView] = useAtom(
-    selectedClientToViewAtom
-  );
-  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+  const showClientTask = useAtomValue(showClientTaskAtom);
+
   const clientsCount = useAtomValue(clientsCountAtom);
   const clients = useAtomValue(clientsAtom);
 
-  const filteredClientList = clients.filter((client) => {
-    return (
-      client.name.toLowerCase().includes(searchClientItem.toLowerCase()) ||
-      client.address.toLowerCase().includes(searchClientItem.toLowerCase())
-    );
-  });
+  const tasks = useAtomValue(tasksAtom);
 
-  const sortedClients = filteredClientList.sort(
-    (a, b) => new Date(b.datetimeOnboarded) - new Date(a.datetimeOnboarded)
+  // ##########################################
+  const tasksFromSelectedClient = tasks.filter(
+    (task) => task.clientKey === selectedClientToView
+  );
+  const selectedTaskFilterKeyString = Array.from(selectedTaskFilterKeys).join(
+    ""
   );
 
+  const filteredTaskItems = useMemo(() => {
+    let filteredTasks = [...tasksFromSelectedClient];
 
+    if (Boolean(searchTaskItem)) {
+      filteredTasks = filteredTasks.filter(
+        (task) =>
+          task.name.toLowerCase().includes(searchTaskItem.toLowerCase()) ||
+          task.client.name.toLowerCase().includes(searchTaskItem.toLowerCase())
+      );
+    }
+    if (
+      selectedTaskFilterKeyString !== "all" &&
+      Array.from(selectedTaskFilterKeyString).length !== taskFilterKeys.length
+    ) {
+      filteredTasks = filteredTasks.filter((task) =>
+        Array.from(selectedTaskFilterKeyString).includes(task.status)
+      );
+    }
 
-  const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
-  const [clientPage, setClientPage] = useState(1);
-
-  let clientRowsPerPageNumber = isNaN(parseInt(Array.from(clientRowsPerPage).join("")))
-    ? 10
-    : parseInt(Array.from(clientRowsPerPage).join(""));
-
-  const clientTotalPages = Math.ceil(sortedClients.length / clientRowsPerPageNumber);
-  // console.log("totalPages", totalPages);
-
-  const itemClients = useMemo(() => {
-    const start = (clientPage - 1) * clientRowsPerPageNumber;
-    const end = start + clientRowsPerPageNumber;
-
-    return sortedClients.slice(start, end);
-  }, [clientPage, clientRowsPerPageNumber, sortedClients]);
+    return filteredTasks;
+  }, [
+    tasksFromSelectedClient,
+    searchTaskItem,
+    selectedTaskFilterKeyString,
+    taskFilterKeys.length,
+  ]);
 
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
   const [taskPage, setTaskPage] = useState(1);
 
-  let taskRowsPerPageNumber = isNaN(parseInt(Array.from(taskRowsPerPage).join("")))
+  let taskRowsPerPageNumber = isNaN(
+    parseInt(Array.from(taskRowsPerPage).join(""))
+  )
     ? 10
     : parseInt(Array.from(taskRowsPerPage).join(""));
 
-  const taskTotalPages = Math.ceil(sortedClients.length / taskRowsPerPageNumber);
-  // console.log("totalPages", totalPages);
+  const taskTotalPages = Math.ceil(
+    filteredTaskItems.length / taskRowsPerPageNumber
+  );
 
   const itemTasks = useMemo(() => {
     const start = (taskPage - 1) * taskRowsPerPageNumber;
     const end = start + taskRowsPerPageNumber;
 
-    return sortedClients.slice(start, end);
-  }, [taskPage, taskRowsPerPageNumber, sortedClients]);
+    return filteredTaskItems.slice(start, end);
+  }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
+
+  const sortedItemTasks = useMemo(() => {
+    return [...itemTasks].sort((a, b) => {
+      const first = a[sortDescriptor.column];
+      const second = b[sortDescriptor.column];
+      const cmp = first < second ? -1 : first > second ? 1 : 0;
+
+      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+    });
+  }, [itemTasks]);
+
+  // ######################################################
+  const selectedClientFilterKeyString = Array.from(
+    selectedClientFilterKeys
+  ).join("");
+
+  const filteredClientItems = useMemo(() => {
+    let filteredClients = [...clients];
+
+    if (Boolean(searchClientItem)) {
+      filteredClients = filteredClients.filter((client) =>
+        client.name.toLowerCase().includes(searchClientItem.toLowerCase())
+      );
+    }
+    if (
+      selectedClientFilterKeyString !== "all" &&
+      Array.from(selectedClientFilterKeyString).length !==
+        clientFilterKeys.length
+    ) {
+      filteredClients = filteredClients.filter((client) =>
+        Array.from(selectedClientFilterKeyString).includes(client.name)
+      );
+    }
+
+    return filteredClients;
+  }, [
+    clients,
+    searchClientItem,
+    selectedClientFilterKeyString,
+    clientFilterKeys.length,
+  ]);
+
+  const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
+  const [clientPage, setClientPage] = useState(1);
+
+  let clientRowsPerPageNumber = isNaN(
+    parseInt(Array.from(clientRowsPerPage).join(""))
+  )
+    ? 10
+    : parseInt(Array.from(clientRowsPerPage).join(""));
+
+  const clientTotalPages = Math.ceil(
+    filteredClientItems.length / clientRowsPerPageNumber
+  );
+
+  const itemClients = useMemo(() => {
+    const start = (clientPage - 1) * clientRowsPerPageNumber;
+    const end = start + clientRowsPerPageNumber;
+
+    return filteredClientItems.slice(start, end);
+  }, [clientPage, clientRowsPerPageNumber, filteredClientItems]);
+
+  // const sortedItemTasks = useMemo(() => {
+  //   return [...itemClients].sort((a, b) => {
+  //     const first = a[sortDescriptor.column];
+  //     const second = b[sortDescriptor.column];
+  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
+
+  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
+  //   });
+  // }, [itemClients]);
 
   return (
     <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
@@ -147,20 +214,17 @@ const Clients = () => {
       </CardHeader>
       <CardBody className="h-full w-full">
         <ClientList
-          selectedClient={selectedClient}
-          setSelectedClient={setSelectedClient}
           itemClients={itemClients}
-          searchItem={searchClientItem}
           showClientTask={showClientTask}
           showClientDetails={showClientDetails}
         />
         <TaskTableView
-          searchItem={searchTaskItem}
+          sortedItemTasks={sortedItemTasks}
           showClientTask={showClientTask}
           changeView={changeView}
         />
         <TaskBoardView
-          searchItem={searchTaskItem}
+          sortedItemTasks={sortedItemTasks}
           showClientTask={showClientTask}
           changeView={changeView}
         />
@@ -169,13 +233,19 @@ const Clients = () => {
       <CardFooter className="">
         <CMSFooter
           showFooter={showFooter}
-          currentItemsCount={itemClients.length}
-          itemListCount={clientsCount}
-          startPage={clientPage}
-          setPage={setClientPage}
-          rowsPerPage={clientRowsPerPage}
-          setRowsPerPage={setClientRowsPerPage}
-          totalPages={clientTotalPages}
+          displayedItemCount={
+            showClientTask ? sortedItemTasks.length : itemClients.length
+          }
+          totalItemCount={
+            showClientTask ? tasksFromSelectedClient.length : clientsCount
+          }
+          page={showClientTask ? taskPage : clientPage}
+          setPage={showClientTask ? setTaskPage : setClientPage}
+          rowsPerPage={showClientTask ? taskRowsPerPage : clientRowsPerPage}
+          setRowsPerPage={
+            showClientTask ? setTaskRowsPerPage : setClientRowsPerPage
+          }
+          totalPages={showClientTask ? taskTotalPages : clientTotalPages}
         />
       </CardFooter>
     </Card>

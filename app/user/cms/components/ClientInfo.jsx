@@ -1,10 +1,5 @@
-import LabelTagChip from "@/app/components/LabelTagChip";
-import { Avatar, Divider } from "@nextui-org/react";
-import { format } from "date-fns";
+import { Divider } from "@nextui-org/react";
 import { MdInfoOutline } from "react-icons/md";
-import { IoPersonCircle } from "react-icons/io5";
-
-import { useAtomValue } from "jotai";
 
 const ClientInfo = () => {
   return (

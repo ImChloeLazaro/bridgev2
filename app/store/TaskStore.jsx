@@ -9,11 +9,11 @@ export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom();
 
 export const tableColumnsAtom = atom([
-  { label: "Tasks", key: "task" },
-  { label: "Status", key: "status" },
-  { label: "Start Date", key: "startDate" },
-  { label: "End Date", key: "endDate" },
-  { label: "Assignees", key: "assignees" },
+  { label: "Tasks", key: "task", sortable: true },
+  { label: "Status", key: "status", sortable: true },
+  { label: "Start Date", key: "startDate", sortable: true },
+  { label: "End Date", key: "endDate", sortable: true },
+  { label: "Assignees", key: "assignees", sortable: true },
 ]);
 
 export const selectedTaskAtom = atom([]);
@@ -89,8 +89,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
         key: task._id,
         id: `${(index += 1)}`,
         clientKey: `client-${(index += 1)}`,
-        startDate: format(task.duration.start, "d  MMMM yyyy"),
-        endDate: format(task.duration.end, "d  MMMM yyyy"),
         status: task.status.toLowerCase(),
         columnId: task.status.toLowerCase(),
       };

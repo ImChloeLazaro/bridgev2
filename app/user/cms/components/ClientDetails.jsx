@@ -1,5 +1,6 @@
 import { Avatar } from "@nextui-org/react";
 import ClientInfo from "./ClientInfo";
+
 const ClientDetails = ({ showClientDetails }) => {
   return (
     <div

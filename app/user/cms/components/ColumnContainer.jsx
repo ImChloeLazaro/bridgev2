@@ -1,11 +1,8 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { BsFillTrash3Fill } from "react-icons/bs";
 import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
-import { MdOutlineAdd } from "react-icons/md";
-
 import TaskBoardCard from "./TaskBoardCard";
-import { Image } from "@nextui-org/react";
+
 function ColumnContainer({
   column,
   deleteColumn,
