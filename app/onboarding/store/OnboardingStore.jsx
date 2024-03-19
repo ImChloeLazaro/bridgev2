@@ -34,7 +34,7 @@ export const selectedStepperAtom = atom("application");
 
 export const activeStepAtom = atom(0);
 
-// Application Onboarding
+// Application Onboarding.
 export const firstNameAtom = atom("");
 export const lastNameAtom = atom("");
 export const middleNameAtom = atom("");
