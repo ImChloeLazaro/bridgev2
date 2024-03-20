@@ -23,7 +23,7 @@ const User = () => {
   const user = useAtomValue(userAtom);
   const auth = useAtomValue(authenticationAtom);
 
-  const fetchPost = useSetAtom(fetchPostAtom);
+  // const fetchPost = useSetAtom(fetchPostAtom);
 
   console.log("auth", auth);
   console.log("user", user);
@@ -38,11 +38,11 @@ const User = () => {
       });
     }
     
-    fetchPost();
+    // fetchPost();
 
     return () => insertProfile();
 
-  }, [fetchPost]);
+  }, []);
 
 
   return (

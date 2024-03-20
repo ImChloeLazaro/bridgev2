@@ -1,6 +1,6 @@
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { pageRowsSelectionAtom } from "../store/CMSUserStore";
+import { pageRowsSelectionAtom } from "../store/CMSAdminStore";
 
 const CMSFooter = ({
   showFooter,
