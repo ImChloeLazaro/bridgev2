@@ -85,8 +85,6 @@ const Clients = () => {
     (a, b) => new Date(b.datetimeOnboarded) - new Date(a.datetimeOnboarded)
   );
 
-
-
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
   const [clientPage, setClientPage] = useState(1);
 

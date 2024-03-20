@@ -14,8 +14,7 @@ export const insertwithparams = async (path, query, request) => {
     });
 
     const { body } = await insertOperation.response;
-    const response = await body.json();
-    return response;
+    return await body.json();
   } catch (error) {
     console.log(error);
   }
@@ -32,8 +31,7 @@ export const restinsert = async (path, request) => {
     });
 
     const { body } = await insertOperation.response;
-    const response = await body.json();
-    return response;
+    return await body.json();
   } catch (e) {
     console.log(e);
   }
@@ -50,8 +48,7 @@ export const readwithparams = async (path, request) => {
     });
 
     const { body } = await readOperation.response;
-    const response = await body.json();
-    return response;
+    return await body.json();
   } catch (e) {
     console.log(e);
   }
@@ -65,8 +62,7 @@ export const restread = async (path) => {
     });
 
     const { body } = await readOperation.response;
-    const response = await body.json();
-    return response;
+    return await body.json();
   } catch (e) {
     console.log(e);
   }
@@ -83,8 +79,7 @@ export const updatewithparams = async (path, request) => {
     });
 
     const { body } = await updateOperation.response;
-    const response = await body.json();
-    return response;
+    return await body.json();
   } catch (error) {
     console.log(error);
   }
@@ -100,8 +95,7 @@ export const restupdate = async (path, request) => {
     });
 
     const { body } = await updateOperation.response;
-    const response = await body.json();
-    return response;
+    return await body.json();
   } catch (e) {
     console.log(e);
   }
@@ -118,9 +112,7 @@ export const destroywithparams = async (path, request) => {
     });
 
     const { body } = await delOperation.response;
-    const response = await body.json();
-    console.log("DELETE params call succeeded");
-    return response;
+    return await body.json();
   } catch (error) {
     console.log("DELETE params call failed: ", error);
   }
@@ -137,9 +129,7 @@ export const restdestroy = async (path, request) => {
     });
 
     const { body } = await delOperation.response;
-    const response = await body.json();
-    console.log("DELETE call succeeded");
-    return response;
+    return await body.json();
   } catch (error) {
     console.log("DELETE call failed: ", error);
   }

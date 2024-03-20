@@ -1,4 +1,4 @@
-import { restread } from "@/app/utils/amplify-rest";
+import { restinsert, restread } from "@/app/utils/amplify-rest";
 import { format } from "date-fns";
 import { atom } from "jotai";
 
@@ -23,7 +23,7 @@ export const tasksCountAtom = atom((get) => get(tasksAtom).length);
 
 export const taskFilterKeysAtom = atom([
   {
-    label: "All",
+    label: "All", 
     value: "all",
   },
   {
@@ -78,6 +78,22 @@ export const taskBoardColsAtom = atom([
     title: "Pending",
   },
 ]);
+export const insertTaskAtom = atom(null, async (get, set, update) => {
+  const {name, client, processor, reviewer, duration, status} = update;
+  
+  await restinsert("/cms/task", {
+    name,
+    client,
+    processor,
+    reviewer,
+    duration, 
+    status
+  })
+
+  console.log("INSERT TASK")
+  //Add another function to fetch the tasks.
+
+})
 
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");

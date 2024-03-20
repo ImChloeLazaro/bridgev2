@@ -1,11 +1,28 @@
-import { restread } from "@/app/utils/amplify-rest";
+import { restinsert, restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 let clientIndex = 0;
+
+export const testClientValue = atom(null, async (get, set, update) => {
+  const { contact, company, business, financial, software, documents, another_bookkeeper, with_accountant } = update
+  const insert = await restinsert('/cms/client', {
+    contact, 
+    company, 
+    business, 
+    financial, 
+    software, 
+    documents, 
+    another_bookkeeper, 
+    with_accountant 
+  })
+
+  console.log("ADDED CLIENT", get(clientsAtom));
+})
+
 export const clientsAtom = atom([
   {
     id: (clientIndex += 1),
     key: `client-${clientIndex}`,
-    name: "Blooms",
+    name: "XXXX",
     location: "105 Jerry Dove Drive, Florence, SC 29501",
     state: "105 Jerry Dove Drive, Florence, SC 29501",
     address: "105 Jerry Dove Drive, Florence, SC 29501",

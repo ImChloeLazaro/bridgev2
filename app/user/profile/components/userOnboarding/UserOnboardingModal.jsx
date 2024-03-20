@@ -22,10 +22,6 @@ const UserOnboardingModal = () => {
     onOpen(open);
   };
 
-  useEffect(() => {
-    browseOnboardingData();
-  }, [browseOnboardingData]);
-
   return (
     <>
       <Button
