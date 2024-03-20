@@ -782,3 +782,7 @@ postsAtom = atom({
 * Added components for the remaining parts of CMS page
 * Added `label` attribute on atom for `ClientItemCard` Component
 * Renamed `CloseButton` to `IconButton` Component to cover all icon only buttons implementation
+
+
+- CMS SLA's Form - Ongoing
+      - CMS Client Onboarding Form - Ongoing

@@ -1,5 +1,6 @@
 import { restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
+
 let clientIndex = 0;
 export const clientsAtom = atom([
   {
@@ -660,7 +661,7 @@ export const updateClientAtom = atom();
 export const deleteClientAtom = atom();
 
 export const tableColumnsAtom = atom([
-  { label: "Image", key: "image",},
+  { label: "Image", key: "image" },
   { label: "Client", key: "client", sortable: true },
   { label: "Status", key: "status", sortable: true },
   { label: "Assignees", key: "assignees", sortable: true },
@@ -711,3 +712,61 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
     console.log("CLIENT FAILED FETCH", clients);
   }
 });
+
+export const selectedClientTabAtom = atom("contact");
+export const clientTabsAtom = atom([
+  {
+    key: "general",
+    title: "General Information",
+  },
+  {
+    key: "financial",
+    title: "Financial Tax and Information",
+  },
+  {
+    key: "software",
+    title: "Software Systems",
+  },
+  {
+    key: "documents",
+    title: "Documentation",
+  },
+]);
+
+export const contactNameAtom = atom("");
+export const contactAddressAtom = atom("");
+export const contactNumberAtom = atom("");
+export const contactEmailAtom = atom("");
+
+export const companyNameAtom = atom("");
+export const companyAddressAtom = atom("");
+export const companyNumberAtom = atom("");
+export const companyEmailAtom = atom("");
+export const companyABNAtom = atom("");
+export const companyACNAtom = atom("");
+export const companyOtherOwnerAtom = atom(false);
+
+export const businessDescriptionAtom = atom("");
+export const businessEntityAtom = atom("");
+export const businessTenureAtom = atom("");
+export const businessTradingNameAtom = atom("");
+
+export const financialMonthlyRevenueAtom = atom("");
+export const financialEmployeeCountAtom = atom(0);
+export const financialContractorCountAtom = atom(0);
+export const financialOutsourcePayrollAtom = atom(false);
+export const financialAccountCountAtom = atom(0);
+export const financialMonthlyTransactionsCountAtom = atom(0);
+export const financialLastFiledTaxAtom = atom("");
+export const financialAccountMethodAtom = atom("");
+export const financialInvoicePreparationMethodAtom = atom("");
+export const financialBillsPayingMethodAtom = atom("");
+export const financialGSTRegisteredAtom = atom(false);
+export const financialInventoryAtom = atom(false);
+
+export const softwareAccountingAtom = atom([]);
+export const softwarePayrollAtom = atom([]);
+export const softwareBillingAtom = atom([]);
+export const softwareExpenseManagementAtom = atom([]);
+export const softwareReportingAtom = atom([]);
+export const softwareBookkeepingAtom = atom([]);

@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai";
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
+import FormFieldInput from "../../components/FormFieldInput";
 import { employmentHistoryAtom, referencesAtom, selectedTabAtom, trainingsAttendedAtom } from "../store/OnboardingStore";
 
 const EmploymentOnboarding = ({ viewOnly }) => {
@@ -32,7 +32,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       key={"history" + h_index}
       className="flex flex-wrap justify-between gap-5 mb-5"
     >
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"employment_position_held" + h_index}
         label={"POSITION HELD"}
@@ -48,7 +48,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         }}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"employment_date_of_attendance" + h_index}
         label={"DATE OF ATTENDANCE"}
@@ -67,7 +67,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // date={history.date_of_attendance}
         // onDateChange={setEmploymentHistory}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"employment_duration" + h_index}
         label={"DURATION"}
@@ -84,7 +84,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
 
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"employment_reason_leaving" + h_index}
         label={"REASON FOR LEAVING"}
@@ -108,7 +108,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       key={"training" + t_index}
       className="flex flex-wrap justify-between gap-5 mb-5"
     >
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"training_program_name" + t_index}
         label={"NAME OF PROGRAM"}
@@ -125,7 +125,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
 
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"training_topic_specialization" + t_index}
         label={"TOPIC/SPECIALIZATION"}
@@ -141,7 +141,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         }}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"training_duration" + t_index}
         label={"DURATION"}
@@ -157,7 +157,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         }}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"training_provider" + t_index}
         label={"PROVIDER"}
@@ -180,7 +180,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       key={"reference" + r_index}
       className="flex flex-wrap justify-between gap-5 mb-5"
     >
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"reference_name" + r_index}
         label={"NAME"}
@@ -196,7 +196,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         }}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"reference_company_name_address" + r_index}
         label={"COMPANY NAME AND ADDRESS"}
@@ -212,7 +212,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         }}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"reference_position_held" + r_index}
         label={"POSITION HELD"}
@@ -228,7 +228,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         }}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         key={"reference_contact_number" + r_index}
         label={"CONTACT NUMBER"}

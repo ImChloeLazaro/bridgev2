@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
-import { showClientTaskAtom, showFooterAtom } from "../store/CMSUserStore";
+import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);

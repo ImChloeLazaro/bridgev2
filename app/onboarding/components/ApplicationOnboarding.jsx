@@ -36,7 +36,7 @@ import {
   philhealthAtom,
 } from "../store/OnboardingStore";
 
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
+import FormFieldInput from "../../components/FormFieldInput";
 import { useAtomValue, useAtom } from "jotai";
 
 const ApplicationOnboarding = ({ viewOnly }) => {
@@ -79,21 +79,21 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   const application_details = (
     <>
       <div className="flex flex-wrap justify-between gap-5 mb-5">
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"FIRST NAME"}
           value={firstName}
           onValueChange={setFirstName}
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"LAST NAME"}
           value={lastName}
           onValueChange={setLastName}
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"MIDDLE NAME (if None type N/A)"}
           value={middleName}
@@ -101,35 +101,35 @@ const ApplicationOnboarding = ({ viewOnly }) => {
           isRequired={false}
         />
       </div>
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"EMPLOYEE ID"}
         value={employeeID}
         onValueChange={setEmployeeID}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"REFERRED BY (if referrals)"}
         value={referredBy}
         onValueChange={setReferredBy}
         isRequired={false}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"VACANCY THRU"}
         value={vacancyThru}
         onValueChange={setVacancyThru}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"APPLIED FOR"}
         value={appliedFor}
         onValueChange={setAppliedFor}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"DATE OF APPLICATION"}
         value={dateApplication}
@@ -139,7 +139,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         date={dateApplication}
         onDateChange={setDateApplication}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"DATE OF AVAILABILITY"}
         value={dateAvailability}
@@ -149,7 +149,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         date={dateAvailability}
         onDateChange={setDateAvailability}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"EXPECTED SALARY"}
         value={salary}
@@ -161,35 +161,35 @@ const ApplicationOnboarding = ({ viewOnly }) => {
 
   const employee_information = (
     <>
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"PRESENT ADDRESS: (Complete address & ZIP code)"}
         value={presentAddress}
         onValueChange={setPresentAddress}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"PERMANENT ADDRESS: (Complete address & ZIP code)"}
         value={permanentAddress}
         onValueChange={setPermanentAddress}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"RESIDENCE STATUS"}
         value={residenceStatus}
         onValueChange={setResidenceStatus}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"GENDER"}
         value={gender}
         onValueChange={setGender}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"BIRTHDATE"}
         value={birthdate}
@@ -199,63 +199,63 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         date={birthdate}
         onDateChange={setBirthdate}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"CIVIL STATUS"}
         value={civilStatus}
         onValueChange={setCivilStatus}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"AGE"}
         value={age}
         onValueChange={setAge}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"EMAIL ADDRESS"}
         value={emailAddress}
         onValueChange={setEmailAddress}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"BIRTHPLACE"}
         value={birthplace}
         onValueChange={setBirthplace}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"LANDLINE NUMBER"}
         value={homePhoneNumber}
         onValueChange={setHomePhoneNumber}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"CITIZENSHIP"}
         value={citizenship}
         onValueChange={setCitizenship}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"MOBILE NUMBER"}
         value={mobileNumber}
         onValueChange={setMobileNumber}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"RELIGION"}
         value={religion}
         onValueChange={setReligion}
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"LANGUAGE"}
         value={language}
@@ -267,25 +267,25 @@ const ApplicationOnboarding = ({ viewOnly }) => {
 
   const government_id_information = (
     <>
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"TAX IDENTIFICATION NUMBER (if any)"}
         value={TIN}
         onValueChange={setTIN}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"SOCIAL SECURITY NUMBER (if any)"}
         value={SSS}
         onValueChange={setSSS}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"PAG-IBIG NUMBER (if any)"}
         value={pagibig}
         onValueChange={setPagibig}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"PHILHEALTH NUMBER (if any)"}
         value={philhealth}

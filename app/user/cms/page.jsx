@@ -4,7 +4,7 @@ import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
-import Clients from "./components/Clients";
+import CMSUser from "./components/CMSUser";
 
 const CMS = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -18,7 +18,7 @@ const CMS = () => {
     auth.isAuthenticated && (
       <>
         <div className="flex justify-center items-center w-full h-full p-6 ">
-            <Clients />
+            <CMSUser />
         </div>
       </>
     )

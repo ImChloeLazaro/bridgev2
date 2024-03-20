@@ -12,7 +12,13 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo, useState } from "react";
 import {
@@ -22,7 +28,9 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showOptionsAtom,
-} from "../store/CMSStore";
+} from "../store/CMSAdminStore";
+import AddClientModal from "./AddClientModal";
+import AddTaskModal from "./AddTaskModal";
 import CMSFooter from "./CMSFooter";
 import ClientHeader from "./CMSHeader";
 import ClientDetails from "./ClientDetails";
@@ -30,7 +38,10 @@ import ClientList from "./ClientList";
 import TaskBoardView from "./TaskBoardView";
 import TaskTableView from "./TaskTableView";
 
-const Clients = () => {
+const CMSAdmin = () => {
+  const { isOpenTask, onOpenTask, onCloseTask } = useDisclosure();
+  const { isOpenClient, onOpenClient, onCloseClient } = useDisclosure();
+
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [selectedAllClients, setSelectedAllClients] = useState(false);
@@ -188,68 +199,95 @@ const Clients = () => {
   //   });
   // }, [itemClients]);
 
+  const handleAddTask = () => {
+    console.log("ADDED TASK");
+    onOpenTask();
+  };
+  const handleAddClient = () => {
+    console.log("ADDED CLIENT");
+    onOpenClient();
+  };
+
+  const actionButtons = {
+    task: {
+      color: "blue",
+      label: "Add Task",
+      action: handleAddTask,
+      modal: <AddTaskModal isOpen={isOpenTask} onClose={onCloseTask} />,
+    },
+    client: {
+      color: "orange",
+      label: "Add Client",
+      action: handleAddClient,
+      modal: <AddClientModal isOpen={isOpenClient} onClose={onCloseClient} />,
+    },
+  };
+
   return (
-    <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
-      <CardHeader className="">
-        <ClientHeader
-          searchItem={showClientTask ? searchTaskItem : searchClientItem}
-          setSearchItem={
-            showClientTask ? setSearchTaskItem : setSearchClientItem
-          }
-          selectedAllClients={selectedAllClients}
-          setSelectedAllClients={setSelectedAllClients}
-          showCheckBox={showCheckBox}
-          showActionButtons={showActionButtons}
-          showOptions={showOptions}
-          filterKeys={showClientTask ? taskFilterKeys : clientFilterKeys}
-          selectedFilterKeys={
-            showClientTask ? selectedTaskFilterKeys : selectedClientFilterKeys
-          }
-          setSelectedFilterKeys={
-            showClientTask
-              ? setSelectedTaskFilterKeys
-              : setSelectedClientFilterKeys
-          }
-        />
-      </CardHeader>
-      <CardBody className="h-full w-full">
-        <ClientList
-          itemClients={itemClients}
-          showClientTask={showClientTask}
-          showClientDetails={showClientDetails}
-        />
-        <TaskTableView
-          sortedItemTasks={sortedItemTasks}
-          showClientTask={showClientTask}
-          changeView={changeView}
-        />
-        <TaskBoardView
-          sortedItemTasks={sortedItemTasks}
-          showClientTask={showClientTask}
-          changeView={changeView}
-        />
-        {<ClientDetails showClientDetails={showClientDetails} />}
-      </CardBody>
-      <CardFooter className="">
-        <CMSFooter
-          showFooter={showFooter}
-          displayedItemCount={
-            showClientTask ? sortedItemTasks.length : itemClients.length
-          }
-          totalItemCount={
-            showClientTask ? tasksFromSelectedClient.length : clientsCount
-          }
-          page={showClientTask ? taskPage : clientPage}
-          setPage={showClientTask ? setTaskPage : setClientPage}
-          rowsPerPage={showClientTask ? taskRowsPerPage : clientRowsPerPage}
-          setRowsPerPage={
-            showClientTask ? setTaskRowsPerPage : setClientRowsPerPage
-          }
-          totalPages={showClientTask ? taskTotalPages : clientTotalPages}
-        />
-      </CardFooter>
-    </Card>
+    <>
+      <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+        <CardHeader className="">
+          <ClientHeader
+            searchItem={showClientTask ? searchTaskItem : searchClientItem}
+            setSearchItem={
+              showClientTask ? setSearchTaskItem : setSearchClientItem
+            }
+            selectedAllClients={selectedAllClients}
+            setSelectedAllClients={setSelectedAllClients}
+            showCheckBox={showCheckBox}
+            showActionButtons={showActionButtons}
+            // actionButtons={actionButtons}
+            showOptions={showOptions}
+            filterKeys={showClientTask ? taskFilterKeys : clientFilterKeys}
+            selectedFilterKeys={
+              showClientTask ? selectedTaskFilterKeys : selectedClientFilterKeys
+            }
+            setSelectedFilterKeys={
+              showClientTask
+                ? setSelectedTaskFilterKeys
+                : setSelectedClientFilterKeys
+            }
+          />
+        </CardHeader>
+        <CardBody className="h-full w-full">
+          <ClientList
+            itemClients={itemClients}
+            showClientTask={showClientTask}
+            showClientDetails={showClientDetails}
+          />
+          <TaskTableView
+            sortedItemTasks={sortedItemTasks}
+            showClientTask={showClientTask}
+            changeView={changeView}
+          />
+          <TaskBoardView
+            sortedItemTasks={sortedItemTasks}
+            showClientTask={showClientTask}
+            changeView={changeView}
+          />
+          {<ClientDetails showClientDetails={showClientDetails} />}
+        </CardBody>
+        <CardFooter className="">
+          <CMSFooter
+            showFooter={showFooter}
+            displayedItemCount={
+              showClientTask ? sortedItemTasks.length : itemClients.length
+            }
+            totalItemCount={
+              showClientTask ? tasksFromSelectedClient.length : clientsCount
+            }
+            page={showClientTask ? taskPage : clientPage}
+            setPage={showClientTask ? setTaskPage : setClientPage}
+            rowsPerPage={showClientTask ? taskRowsPerPage : clientRowsPerPage}
+            setRowsPerPage={
+              showClientTask ? setTaskRowsPerPage : setClientRowsPerPage
+            }
+            totalPages={showClientTask ? taskTotalPages : clientTotalPages}
+          />
+        </CardFooter>
+      </Card>
+    </>
   );
 };
 
-export default Clients;
+export default CMSAdmin;
