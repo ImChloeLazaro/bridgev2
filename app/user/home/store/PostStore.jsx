@@ -1,12 +1,17 @@
+import { fetchRoleAtom } from "@/app/navigation/store/NavSideBarStore";
 import { restread, restupdate } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 
+export const testPostAtom = atom();
+
 export const postAtom = atom([]);
 
-export const postCountAtom = atom((get) => get(postAtom).length); 
-
+export const postCountAtom = atom((get) => get(postAtom).length);
+// const auth = useAtomValue(authenticationAtom);
 export const updatePostReactionAtom = atom(null, async (get, set, update) => {
-  const { id, selectedReaction, reacted, reactions, prevReaction } = update;
+  // console.log(auth);
+  const { id, selectedReaction, reacted, reactions, prevReaction, isReacted } =
+    update;
   const selectedPost = get(postAtom).filter((post) => post._id === update.id);
   // const updatedSelectedReaction = reacted
   //   ? (reactions[selectedReaction] += 1)
@@ -21,33 +26,99 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
   //   [selectedReaction]:
   //     updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
   // };
+  //new one
 
-  const updatedReactions = reacted
-    ? selectedReaction === prevReaction
+  const oldReactor = selectedPost[0].reacted;
+  const isNew = oldReactor
+    .map((react) => react)
+    .find((react) => react.sub === reacted.sub);
+  const userOldReaction = isNew?.reaction;
+  // const UpdatedReactor = oldReactor.map((react) =>
+  //   react.sub === reacted.sub
+  //     ? { ...selectedPost[0].reacted, reacted }
+  //     : reacted
+  // );
+  console.log("New Reacted at post store: ", reacted.sub);
+  const index = selectedPost[0].reacted.findIndex(
+    (react) => react.sub === reacted.sub
+  );
+
+  let updatedReacted;
+
+  if (index !== -1) {
+    selectedPost[0].reacted[index] = reacted;
+    updatedReacted = selectedPost[0].reacted;
+  } else {
+    updatedReacted = [
+      ...selectedPost[0].reacted,
+      {
+        sub: reacted.sub,
+        reaction: reacted.reaction,
+        reactedAt: reacted.reactedAt,
+      },
+    ];
+  }
+
+  const updatedReactions = isReacted
+    ? selectedReaction === userOldReaction
       ? {
           ...reactions,
-          [selectedReaction]: (reactions[selectedReaction] += 1),
+          [selectedReaction]:
+            reactions[selectedReaction] <= 0 ? 0 : reactions[selectedReaction],
+        }
+      : userOldReaction === ""
+      ? {
+          ...reactions,
+          [selectedReaction]: reactions[selectedReaction],
+          [selectedReaction]:
+            reactions[selectedReaction] + 1 <= 0
+              ? 0
+              : reactions[selectedReaction] + 1,
         }
       : {
           ...reactions,
-          [selectedReaction]: (reactions[selectedReaction] += 1),
-          [prevReaction]: (reactions[prevReaction] -= 1 <= 0)
-            ? 0
-            : (reactions[prevReaction] -= 1),
+          [selectedReaction]:
+            reactions[selectedReaction] + 1 <= 0
+              ? 0
+              : reactions[selectedReaction] + 1,
+          [userOldReaction]:
+            reactions[userOldReaction] - 1 <= 0
+              ? 0
+              : reactions[userOldReaction] - 1,
         }
-    : selectedReaction !== prevReaction
-    ? {
-        ...reactions,
-        [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
-          ? 0
-          : (reactions[selectedReaction] -= 1),
-      }
     : {
         ...reactions,
-        [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
-          ? 0
-          : (reactions[selectedReaction] -= 1),
+        [selectedReaction]:
+          reactions[selectedReaction] - 1 <= 0
+            ? 0
+            : reactions[selectedReaction] - 1,
       };
+  // const updatedReactions = isReacted
+  //   ? selectedReaction === userOldReaction
+  //     ? {
+  //         ...reactions,
+  //         [selectedReaction]: (reactions[selectedReaction] += 1),
+  //       }
+  //     : {
+  //         ...reactions,
+  //         [selectedReaction]: (reactions[selectedReaction] -= 1),
+  //         [userOldReaction]: (reactions[userOldReaction] -= 1 <= 0)
+  //           ? 0
+  //           : (reactions[userOldReaction] -= 1),
+  //       }
+  //   : selectedReaction !== userOldReaction
+  //   ? {
+  //       ...reactions,
+  //       [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
+  //         ? 0
+  //         : (reactions[selectedReaction] -= 1),
+  //     }
+  //   : {
+  //       ...reactions,
+  //       [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
+  //         ? 0
+  //         : (reactions[selectedReaction] -= 1),
+  //     };
   // const handleReaction = () => {
   //   console.log("reacted", reacted);
   //   console.log("selectedReaction", selectedReaction);
@@ -108,8 +179,9 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
     // _id: id,
     reactionList: [selectedReaction],
     reactions: updatedReactions,
-    reacted: reacted,
+    reacted: updatedReacted,
   };
+  console.log("Post: ", updatedPostReaction);
 
   const updateSelectedReaction = get(postAtom).map((post) => {
     if (id === post._id) {

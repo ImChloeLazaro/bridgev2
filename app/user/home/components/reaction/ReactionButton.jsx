@@ -3,18 +3,35 @@ import { reactionIcons } from "./ReactionIcons";
 import { updatePostReactionAtom } from "../../store/PostStore";
 import { Tooltip, Button } from "@nextui-org/react";
 import { reactionsSelectionAtom } from "../../store/ReactionStore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   const updatePostReaction = useSetAtom(updatePostReactionAtom);
   const reactionsSelection = useAtomValue(reactionsSelectionAtom);
   const [selectedReaction, setSelectedReaction] = useState(reactionList[0]);
-  const [isReacted, setIsReacted] = useState(reacted);
+  const [isReacted, setIsReacted] = useState(false);
+  const [userOldReaction, setReactedUser] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [prevReaction, setPrevReaction] = useState(selectedReaction)
+  const [prevReaction, setPrevReaction] = useState(selectedReaction);
+  const auth = useAtomValue(authenticationAtom);
+  const [toolBut, setToolBut] = useState(true);
 
+  const checkReactionStatus = () => {
+    const reactedUser = reacted?.find((react) => react.sub === auth.sub);
+    if (reactedUser && reactedUser?.reaction !== "") {
+      setIsReacted(true);
+      setReactedUser(reactedUser?.reaction);
+      setSelectedReaction(reactedUser?.reaction || reactionList[0]);
+    }
+  };
+  useEffect(() => {
+    if (reacted && reacted.length > 0) {
+      checkReactionStatus();
+    }
+  }, [reacted]);
   const label = {
     love: { label: "love", color: "text-[#FF4949]" },
     star: {
@@ -32,37 +49,43 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   };
 
   const reactionHoverSelection = (
-    <div className="flex gap-1">
+    <div className='flex gap-1'>
       {reactionsSelection.map((reaction) => (
         <div
           key={reaction.key}
-          className="flex flex-col items-center justify-start "
+          className='flex flex-col items-center justify-start '
         >
           <Button
             aria-label={reaction.label}
             isIconOnly
             className={"bg-transparent hover:animate-bounce "}
             onPress={() => {
-              if (reaction.key === selectedReaction) {
-                setIsReacted(!isReacted);
+              setPrevReaction(reaction.key);
+              if (isReacted && reaction.key === selectedReaction) {
+                setIsReacted(false);
+                setToolBut(false);
+                setSelectedReaction(reaction.key);
+                handleAddReaction(reaction.key, true);
               } else {
-                setIsReacted(!isReacted);
+                setIsReacted(true);
+                setSelectedReaction(reaction.key);
+                setToolBut(true);
+                handleAddReaction(reaction.key, false);
               }
-              setPrevReaction(reaction.key)
-              handleAddReaction(reaction.key);
+
               setIsOpen(false);
             }}
             key={reaction.key}
           >
             {reaction.displayIcon}
           </Button>
-          <div className="-mt-3">
+          <div className='-mt-3'>
             {isReacted & (reaction.key === selectedReaction) ? (
-              <div className="text-blue-default">
+              <div className='text-blue-default'>
                 <RxDotFilled size={18} />
               </div>
             ) : (
-              <div className="text-blue-default">
+              <div className='text-blue-default'>
                 <VscBlank size={18} />
               </div>
             )}
@@ -72,23 +95,53 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
     </div>
   );
 
-  const handleAddReaction = async (reaction) => {
-    setSelectedReaction(reaction);
-
+  const handleAddReaction = async (reaction, status) => {
+    // setSelectedReaction(reaction);
     console.log("BEFORE PASSING TO ATOM", {
       id: id,
       selectedReaction: reaction,
-      reacted: !isReacted,
+      reacted: {
+        sub: auth?.sub,
+        name: "",
+        picture: "",
+        reaction:
+          status === ""
+            ? !isReacted
+              ? reaction
+              : ""
+            : !status
+            ? reaction
+            : "",
+        reactedAt: new Date(),
+      },
+      isReacted: status === "" ? !isReacted : !status,
       reactions: reactionsCount,
       prevReaction: prevReaction,
+      userOldReaction: userOldReaction,
+      toolBut: toolBut,
     });
 
     const response = await updatePostReaction({
       id: id,
       selectedReaction: reaction,
-      reacted: !isReacted,
+      reacted: {
+        sub: auth?.sub,
+        name: "",
+        picture: "",
+        reaction:
+          status === ""
+            ? !isReacted
+              ? reaction
+              : ""
+            : !status
+            ? reaction
+            : "",
+        reactedAt: new Date(),
+      },
       reactions: reactionsCount,
+      isReacted: status === "" ? !isReacted : !status,
       prevReaction: prevReaction,
+      userOldReaction: userOldReaction,
     });
 
     if (response.success) {
@@ -99,7 +152,7 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   };
 
   return (
-    <div className="flex justify-start items-center gap-1">
+    <div className='flex justify-start items-center gap-1'>
       <Tooltip
         content={reactionHoverSelection}
         delay={1250} // 1250
@@ -108,16 +161,16 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
         onOpenChange={(open) => setIsOpen(open)}
       >
         <Button
-          size="lg"
+          size='lg'
           disableRipple
           disableAnimation
-          className="bg-transparent"
+          className='bg-transparent'
           onPress={() => {
             setIsReacted(!isReacted);
-            handleAddReaction(selectedReaction);
+            handleAddReaction(selectedReaction, "");
           }}
           startContent={
-            <div className="text-darkgrey-default">
+            <div className='text-darkgrey-default'>
               {isReacted
                 ? reactionIcons[selectedReaction]?.active
                 : reactionIcons[selectedReaction]?.inactive}

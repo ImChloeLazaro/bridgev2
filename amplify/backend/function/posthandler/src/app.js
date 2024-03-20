@@ -29,7 +29,15 @@ const postSchema = mongoose.Schema({
   postKey: String,
   publisher: String,
   publisherPicture: String,
-  reacted: Boolean,
+  reacted: [
+    {
+      sub: String,
+      name: String,
+      picture: String,
+      reaction: String,
+      reactedAt: { type: Date, default: Date.now },
+    },
+  ],
   reactionList: [String],
   reactions: {
     star: Number,
@@ -56,6 +64,7 @@ app.get("/post", async function (req, res) {
   try {
     const posts = await postModel.find().sort({ createdBy: -1 });
     res.status(200).json({ success: true, response: posts });
+    console.log(posts);
   } catch (error) {
     throw error;
   }
@@ -71,7 +80,7 @@ app.post("/post", async function (req, res) {
   }
 });
 
-app.put("/post", async function (req, res) { 
+app.put("/post", async function (req, res) {
   const posts = req.body;
   try {
     const update = await postModel.updateOne({ _id: posts._id }, posts);
@@ -79,19 +88,25 @@ app.put("/post", async function (req, res) {
   } catch (error) {
     res.status(500).json({ success: false, response: error });
   }
-})
+});
 
 app.put("/post/*", async function (req, res) {
   try {
     const proxy = req.path; // Use req.path to get the URL path
     const { _id, reactionList, reactions, reacted } = req.body;
     switch (proxy) {
-      case '/post/greeting':
-        const greeting = await postModel.updateOne({ _id: _id }, {reactionList, reactions, reacted});
-        res.status(200).json({ success: true, route: "GREETING ROUTE", response: greeting });
+      case "/post/greeting":
+        const greeting = await postModel.updateOne(
+          { _id: _id },
+          { reactionList, reactions, reacted }
+        );
+        res
+          .status(200)
+          .json({ success: true, route: "GREETING ROUTE", response: greeting });
+
         break;
       default:
-        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE"});
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE" });
         break;
     }
   } catch (error) {
