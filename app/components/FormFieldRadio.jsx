@@ -24,7 +24,7 @@ const FormFieldRadio = ({
       onValueChange={onValueChange}
       classNames={{
         base: [
-          `${fullWidth ? "w-full" : "w-fit"}`,
+          `${fullWidth ? "w-full" : "max-w-full"}`,
           "relative inline-flex tap-highlight-transparent",
           "shadow-sm px-3 py-2 bg-default-100 data-[hover=true]:bg-default-200",
           " group-data-[focus=true]:bg-default-100 rounded-medium",

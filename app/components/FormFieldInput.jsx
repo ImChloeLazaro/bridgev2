@@ -1,12 +1,16 @@
 import { Input } from "@nextui-org/react";
 import { DatePicker } from "./DatePicker";
+import IconButton from "./IconButton";
+import { MdFileUpload } from "react-icons/md";
 
 const FormFieldInput = ({
+  placeholder = "",
   label,
   value,
   onValueChange,
   isRequired,
   isDisabled,
+  withFile = false,
   withDate = false,
   date,
   onDateChange,
@@ -15,8 +19,9 @@ const FormFieldInput = ({
 }) => {
   return (
     <Input
+      placeholder={placeholder}
       aria-label={label}
-      isDisabled={isDisabled}
+      isReadOnly={isDisabled}
       isRequired={isRequired}
       size={"md"}
       label={`${label.toUpperCase()}`}
@@ -40,7 +45,12 @@ const FormFieldInput = ({
         errorMessage: ["text-red-default"],
       }}
       endContent={
-        withDate && <DatePicker date={date} onDateChange={onDateChange} />
+        (withDate && <DatePicker date={date} onDateChange={onDateChange} />) ||
+        (withFile && (
+          <IconButton>
+            <MdFileUpload size={16} />
+          </IconButton>
+        ))
       }
       {...props}
     />

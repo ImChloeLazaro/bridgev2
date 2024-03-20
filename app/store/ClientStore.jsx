@@ -721,7 +721,7 @@ export const clientTabsAtom = atom([
   },
   {
     key: "financial",
-    title: "Financial Tax and Information",
+    title: "Financial Information",
   },
   {
     key: "software",
@@ -752,11 +752,11 @@ export const businessTenureAtom = atom("");
 export const businessTradingNameAtom = atom("");
 
 export const financialMonthlyRevenueAtom = atom("");
-export const financialEmployeeCountAtom = atom(0);
-export const financialContractorCountAtom = atom(0);
+export const financialEmployeeCountAtom = atom();
+export const financialContractorCountAtom = atom();
 export const financialOutsourcePayrollAtom = atom(false);
-export const financialAccountCountAtom = atom(0);
-export const financialMonthlyTransactionsCountAtom = atom(0);
+export const financialAccountCountAtom = atom();
+export const financialMonthlyTransactionsCountAtom = atom();
 export const financialLastFiledTaxAtom = atom("");
 export const financialAccountMethodAtom = atom("");
 export const financialInvoicePreparationMethodAtom = atom("");
@@ -770,3 +770,67 @@ export const softwareBillingAtom = atom([]);
 export const softwareExpenseManagementAtom = atom([]);
 export const softwareReportingAtom = atom([]);
 export const softwareBookkeepingAtom = atom([]);
+
+export const documentASICAtom = atom();
+export const documentTaxReturnAtom = atom();
+
+export const generalAnotherBookKeeperAtom = atom();
+export const generalWithAccountantAtom = atom();
+
+export const clientDataAtom = atom((get) => {
+  return {
+    contact: {
+      name: get(contactNameAtom),
+      address: get(contactAddressAtom),
+      number: get(contactNumberAtom),
+      email: get(contactEmailAtom),
+    },
+    company: {
+      // Company details
+      name: get(companyNameAtom),
+      address: get(companyAddressAtom),
+      contact_number: get(companyNumberAtom),
+      email: get(companyEmailAtom),
+      ABN: get(companyABNAtom),
+      ACN: get(companyACNAtom),
+      other_owner: get(companyOtherOwnerAtom),
+    },
+    business: {
+      // Business details
+      description: get(businessDescriptionAtom),
+      entity: get(businessEntityAtom),
+      tenure: get(businessTenureAtom),
+      trading_name: get(businessTradingNameAtom),
+    },
+    financial: {
+      // Financial details
+      monthly_revenue: get(financialMonthlyRevenueAtom),
+      employee_count: get(financialEmployeeCountAtom),
+      contractors_count: get(financialContractorCountAtom),
+      has_outsource_payroll: get(financialOutsourcePayrollAtom),
+      accounts: get(financialAccountCountAtom),
+      monthly_transactions_count: get(financialMonthlyTransactionsCountAtom),
+      last_filed_tax: get(financialLastFiledTaxAtom),
+      accounting_method: get(financialAccountMethodAtom),
+      invoice_preparation_method: get(financialInvoicePreparationMethodAtom),
+      bills_paying_method: get(financialBillsPayingMethodAtom),
+      is_GST_registered: get(financialGSTRegisteredAtom),
+      has_inventory: get(financialInventoryAtom),
+    },
+    software: {
+      // Software details
+      accounting: get(softwareAccountingAtom),
+      payroll: get(softwarePayrollAtom),
+      billing: get(softwareBillingAtom),
+      expense_management: get(softwareExpenseManagementAtom),
+      reporting: get(softwareReportingAtom),
+      bookkeeping: get(softwareBookkeepingAtom),
+    },
+    documents: {
+      ASIC: get(documentASICAtom), //ASIC company registration certificate or trust deed.
+      tax_return: get(documentTaxReturnAtom), //previous year financial year
+    },
+    another_bookkeeper: get(generalAnotherBookKeeperAtom),
+    with_accountant: get(generalWithAccountantAtom),
+  };
+});

@@ -24,9 +24,10 @@ const FormFieldTextArea = ({
       minRows={1}
       maxRows={4}
       classNames={{
-        base: "max-w-full",
+        base: "max-w-full flex-row",
         label: "text-base font-medium text-black-default/80 px-2 py-2",
         input: "px-2",
+        inputWrapper: "h-full text-clip",
       }}
     />
   );
