@@ -17,10 +17,7 @@ import { useEffect } from "react";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const onboardingData = useAtomValue(onboardingDataAtom);
-  console.log("ONBOARDING DATA", onboardingData);
-  const browseOnboardingData = useSetAtom(browseOnboardingDataAtom);
-
+  const {response: data} = useAtomValue(onboardingDataAtom);//temp
   const handleFetchDataWhenOpen = (open) => {
     onOpen(open);
   };

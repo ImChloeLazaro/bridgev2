@@ -29,7 +29,15 @@ const postSchema = mongoose.Schema({
   postKey: String,
   publisher: String,
   publisherPicture: String,
-  reacted: Boolean,
+  reacted: [
+    {
+      sub: String,
+      name: String,
+      picture: String,
+      reaction: String,
+      reactedAt: {type: Date, default: Date.now},
+    }
+  ],
   reactionList: [String],
   reactions: {
     star: Number,
