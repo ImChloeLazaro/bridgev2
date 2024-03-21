@@ -14,7 +14,7 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
-import { changeViewAtom, showClientTaskAtom } from "../store/CMSUserStore";
+import { changeViewAtom, showClientTaskAtom } from "../store/CMSAdminStore";
 
 const tagColors = {
   todo: "blue",
@@ -52,8 +52,8 @@ const ClientItemCard = ({ data }) => {
             <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
               <div className="max-w-[70px]">
                 <Image
-                  src="/image-placeholder.png"
-                  alt="Image Placeholder"
+                  src="/store-placeholder.png"
+                  alt="Store Placeholder"
                   width={80}
                   radius={"none"}
                   loading={"lazy"}

@@ -17,17 +17,12 @@ import { useEffect } from "react";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const onboardingData = useAtomValue(onboardingDataAtom);
-  console.log("ONBOARDING DATA", onboardingData);
+  const { response: data } = useAtomValue(onboardingDataAtom); //temp
   const browseOnboardingData = useSetAtom(browseOnboardingDataAtom);
 
   const handleFetchDataWhenOpen = (open) => {
     onOpen(open);
   };
-
-  useEffect(() => {
-    browseOnboardingData();
-  }, [browseOnboardingData]);
 
   return (
     <>

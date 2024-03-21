@@ -11,7 +11,7 @@ import {
 import { examinationTakenAtom } from "../store/OnboardingStore";
 
 import { useAtom, useAtomValue } from "jotai";
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
+import FormFieldInput from "../../components/FormFieldInput";
 
 const BackgroundOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
@@ -42,7 +42,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
   const family_background = (
     <>
       <div className="flex flex-col gap-5 mb-5">
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"FATHER'S NAME"}
           value={father.name}
@@ -53,7 +53,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"AGE"}
           value={father.age}
@@ -64,7 +64,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"OCCUPATION"}
           value={father.occupation}
@@ -75,7 +75,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"COMPANY"}
           value={father.company}
@@ -89,7 +89,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
       </div>
 
       <div className="flex flex-col gap-5 mb-5">
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"MOTHER'S NAME"}
           value={mother.name}
@@ -100,7 +100,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"AGE"}
           value={mother.age}
@@ -111,7 +111,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"OCCUPATION"}
           value={mother.occupation}
@@ -122,7 +122,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"COMPANY"}
           value={mother.company}
@@ -137,7 +137,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
 
       {children.map((child, c_index) => (
         <div key={"child" + c_index} className="flex flex-col gap-5">
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"name" + c_index}
             label={"NAME/S OF CHILDREN (if applicable)"}
@@ -152,7 +152,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               );
             }}
           />
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"age" + c_index}
             label={"AGE"}
@@ -167,7 +167,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               );
             }}
           />
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"civilStatus" + c_index}
             label={"CIVIL STATUS"}
@@ -182,7 +182,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               );
             }}
           />
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"occupation" + c_index}
             label={"OCCUPATION"}
@@ -197,7 +197,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               );
             }}
           />
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"company" + c_index}
             label={"COMPANY"}
@@ -220,7 +220,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
   const educational_background = (
     <>
       <div className="flex flex-wrap justify-between gap-5 mb-5">
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"COLLEGE"}
           value={college.name}
@@ -231,7 +231,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"ADDRESS"}
           value={college.address}
@@ -242,7 +242,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.date_of_attendance}
@@ -253,7 +253,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DEGREE/MAJOR"}
           value={college.degree_major}
@@ -264,7 +264,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"OTHER COURSES"}
           value={college.other_courses}
@@ -275,7 +275,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.course_date_of_attendance}
@@ -288,7 +288,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
       </div>
       <div className="flex flex-wrap justify-between gap-5 mb-5">
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"POST GRADUATE"}
           value={postGraduate.name}
@@ -299,7 +299,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"ADDRESS"}
           value={postGraduate.address}
@@ -310,7 +310,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={postGraduate.date_of_attendance}
@@ -321,7 +321,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DEGREE/MAJOR"}
           value={postGraduate.degree_major}
@@ -332,7 +332,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"OTHER COURSES"}
           value={college.degree_major}
@@ -343,7 +343,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.date_of_attendance}
@@ -356,7 +356,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
       </div>
       <div className="flex flex-wrap justify-between gap-5 mb-5">
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"TECHNICAL/VOCATIONAL/SPECIAL COURSES"}
           value={techVocSpecial.name}
@@ -367,7 +367,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"ADDRESS"}
           value={techVocSpecial.address}
@@ -378,7 +378,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={techVocSpecial.date_of_attendance}
@@ -389,7 +389,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DEGREE/MAJOR"}
           value={techVocSpecial.degree_major}
@@ -400,7 +400,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"OTHER COURSES"}
           value={college.degree_major}
@@ -411,7 +411,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           }
           isRequired={true}
         />
-        <OnboardingFieldInput
+        <FormFieldInput
           isDisabled={viewOnly}
           label={"DATE OF ATTENDANCE"}
           value={college.date_of_attendance}
@@ -433,7 +433,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           key={"exam" + e_index}
           className="flex flex-wrap justify-between gap-5 mb-5"
         >
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"government_association" + e_index}
             label={"GOVERNMENT AGENCY/ASSOCIATION"}
@@ -449,7 +449,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
             }}
             isRequired={true}
           />
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"date_taken" + e_index}
             label={"DATE TAKEN"}
@@ -471,7 +471,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               setFunction: setExaminationTaken,
             }}
           />
-          <OnboardingFieldInput
+          <FormFieldInput
             isDisabled={viewOnly}
             key={"certification" + e_index}
             label={"CERTIFICATION"}

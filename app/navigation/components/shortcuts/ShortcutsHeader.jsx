@@ -30,7 +30,6 @@ const ShortcutsHeader = () => {
     if (auth.sub === null) {
       return;
     }
-
     const response = await addShortcut({
       sub: auth.sub,
       title: shortcutTitle,

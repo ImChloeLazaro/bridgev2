@@ -296,7 +296,7 @@ link: String,
 * Added `OnboardingSubmitted` Component to show after onboarding form is done and submitted
 * Merged all onboarding data object before submitting to server
 * Created a UI when user completed and submitted the onboarding form
-* Added illustration when onboarding form is completed and submitted and then redirects to login page
+* Added `onboarding-done-submitted.jpg` illustration when onboarding form is completed and submitted and then redirects to login page
 * Added `isRequired` check for the required fields in the onboarding form
 
 ## v.0.5.5
@@ -310,7 +310,7 @@ link: String,
 * Removed the role check on `NavigationBar` to fix the route issue
 * Fixed a bug where `Badge` and `Sidebar` state from previous state still persists when switching roles
 * Fixed a bug causing route issue when manually entering URL is does not reflect on the page
-* Updated illustration for when onboarding form is submitted
+* Updated illustration `onboarding-done-submitted.jpg` for when onboarding form is submitted
 * Added profile components for `Profile` page
 * Added `"-100":"-1"` to extend the `scale` tailwind property for flipping images, svg and related media horizontally.
 * Added a simple check to shortcuts link string if it includes `https://` or `http://`, includes it otherwise
@@ -336,7 +336,7 @@ link: String,
 * Added `header-profile.png` for default background header photo in profile page
 * Added `OnboardingHeader.jsx` as a reusable component for displaying to the users that they do not have onboarding data yet
 * Updated `Error` Page to be more verbose
-* Added illustration for `Error` Page
+* Added `error.jpg` illustration for `Error` Page
 * Disabled redirection logic when already signed in from `providers.jsx` to fix warning from jotai having `Detected multiple Jotai instances. It may cause unexpected behavior with the default store. https://github.com/pmndrs/jotai/discussions/2044`
 
 ## v.0.5.6.1 - hotfix
@@ -623,8 +623,7 @@ postsAtom = atom({
 ## v.0.6.0
 
 * Added `viewOnly` prop to `UserOnboardingModal` Component for browsing of onboarding details in `profile` page
-* Added `CMS` Components for `CMS` page
-* Added `CMSStore` store for `CMS` Components
+* Added `CMSStore` store for `CMS` Components in user page
 * Added `ClientItemList` Component
 * Updated `LabelTag` Component to include `Badge` functionality
 * Removed `LabelTag` Component
@@ -727,6 +726,7 @@ postsAtom = atom({
   * Add `keyboard` controls when sliding images on `ImageSwiper` Component
   * Add functionality for changing all `notification` to `read` status on `NotificationsList` Component
   * Add functionality for pressing the `notification` to change it to `read` status on `NotificationsList` Component
+
 * Add functionality for hiding a `notification` via `button` on `NotificationsList` Component
 * Add functionality for marking a `notification` read via `button` on `NotificationsList` Component
 
@@ -779,6 +779,87 @@ postsAtom = atom({
 
 * Updated `reaction` functionality on `posts`
 * Added extended `reaction` to `posts`, `reaction` hovering the default `reaction` same functionality as in Facebook
-* Added components for the remaining parts of CMS page
+
+* Added components for `CMS` page in `User` Side:
+  * Added `ClientDetails` Component
+  * Added `ClientInfo` Component
+  * Added `ClientItemCard` Component
+  * Added `ClientList` Component
+  * Added `Clients` Component
+  * Added `CMSFooter` Component
+  * Added `CMSHeader` Component
+  * Added `ColumnContainer` Component
+  * Added `TaskBoardCard` Component
+  * Added `TaskBoardView` Component
+  * Added `TaskTableView` Component
+
 * Added `label` attribute on atom for `ClientItemCard` Component
 * Renamed `CloseButton` to `IconButton` Component to cover all icon only buttons implementation
+* Updated `IconButton` to accept any icon as its `children`
+* Updated `IconButton` to accept `className` as its prop to override its base style
+* Updated lighter colors `["clear", "grey", "lightgrey"]` to have dark text color for readability in `LabelTagChip` Component
+* Renamed `fetchedShortcutAtom` to `fetchShortcutAtom` for consistency in naming setter atoms
+* Moved client-related atoms to its own store from `CMSStore` to be globally accessible
+* Added `ClientStore` to global store
+* Moved task-related atoms to its own store from `CMSStore` to be globally accessible
+* Added `TaskStore` to global store
+* Added `white` variant color for `CTAButtons` Component
+* Updated `CTAButtons` Component to include `size` prop
+* Added `disallowEmptySelection` prop in `SearchBar` Component for its base component and functionality
+* Added New API Endpoint URL `/profile/self_data` to provide the complete onboarding data
+* Renamed `profile` API Endpoint URL from `/profile` to `/profile/self_data` in `ProfileStore`
+* Removed the text color `text-black-default/80` of the badge counter from its base component in `LabelTagChip` Component
+* Added `browseOnboardingDataAtom` to handle fetching onboarding data for viewing/ browsing in `UserOnboardingModal` Component
+* Rearrange the order of task `status` column in `TaskStore` sorted by the status's urgency
+* Added `id` attribute to the converted task object in `TaskStore`
+* Added `columnId` attribute to the converted task object in `TaskStore` to corrected filter the tasks to their respective columns
+* Fixed a bug where nullish values are not handler correctly in `UserOnboardingContent` Component
+* Updated `UserOnboardingModal` Component to use `browseOnboardingDataAtom` instead for fetch onboarding data
+* Added `no-data.png` as illustration when no data is available to display
+* Updated `PostSchema`'s `reacted` attribute for handling reactions on posts
+* Added `search` functionality for list of clients and its respective tasks in `CMSHeader` Component
+* Added `filter` functionality for list of clients and its respective tasks in `CMSHeader` Component
+* Added `sort` functionality for list of clients and its respective tasks in `CMSHeader` Component
+* Removed `startDate` and `endDate` attribute from the converted task object in `TaskStore`
+* Removed fetching user data function in `user` page to reduce redundancy
+* Cleaned up unused `imports` and `hooks` on `ClientDetails` Component
+* Cleaned up unused `imports` and `hooks` on `ClientInfo` Component
+* Cleaned up unused `imports` and `hooks` on `ClientItemCard` Component
+* Cleaned up unused `imports` and `hooks` on `ClientList` Component
+* Cleaned up unused `imports` and `hooks` on `Clients` Component
+* Cleaned up unused `imports` and `hooks` on `CMSFooter` Component
+* Cleaned up unused `imports` and `hooks` on `CMSHeader` Component
+* Cleaned up unused `imports` and `hooks` on `ColumnContainer` Component
+* Cleaned up unused `imports` and `hooks` on `TaskBoardCard` Component
+* Cleaned up unused `imports` and `hooks` on `TaskBoardView` Component
+* Cleaned up unused `imports` and `hooks` on `TaskTableView` Component
+* Renamed Component `Clients` to `CMSUser` to distinguish from `admin` and `tl` side of CMS
+* Renamed Store `CMSStore` to `CMSUserStore` to distinguish from `admin` and `tl` side of CMS
+
+* Added components for `CMS` page in `Admin` Side:
+  * Added `ClientDetails` Component
+  * Added `ClientInfo` Component
+  * Added `ClientItemCard` Component
+  * Added `ClientList` Component
+  * Added `CMSAdmin` Component
+  * Added `CMSFooter` Component
+  * Added `CMSHeader` Component
+  * Added `ColumnContainer` Component
+  * Added `TaskBoardCard` Component
+  * Added `TaskBoardView` Component
+  * Added `TaskTableView` Component
+
+* Added components for Client Onboarding Form in `Admin` Side:
+  * Added `AddClientModal` Component
+  * Added `AddTaskModal` Component
+
+* Added `CMSAdminStore` for `CMS` admin Page
+* Updated admin `home` page to be the same as user `home` page
+
+* Added `FormField` Components for `Form` Components
+  * Renamed Component `OnboardingFieldInput` to `FormFieldInput`
+  * Added `FormFieldRadio` Component
+  * Added `FormFieldTextArea` Component
+
+* Added `store-placeholder.png` as illustration when no data is available to display
+* Added `isReadOnly` prop in `FormFieldInput` Component for its base component and functionality

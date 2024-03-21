@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai";
-import OnboardingFieldInput from "../../components/OnboardingFieldInput";
+import FormFieldInput from "../../components/FormFieldInput";
 import { contactAtom, selectedTabAtom } from "../store/OnboardingStore";
 
 const ContactOnboarding = ({ viewOnly }) => {
@@ -10,7 +10,7 @@ const ContactOnboarding = ({ viewOnly }) => {
 
   const emergency_contact = (
     <>
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"NAME"}
         value={contact.name}
@@ -21,7 +21,7 @@ const ContactOnboarding = ({ viewOnly }) => {
         }
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"ADDRESS"}
         value={contact.address}
@@ -32,7 +32,7 @@ const ContactOnboarding = ({ viewOnly }) => {
         }
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"RELATIONSHIP"}
         value={contact.relationship}
@@ -43,7 +43,7 @@ const ContactOnboarding = ({ viewOnly }) => {
         }
         isRequired={true}
       />
-      <OnboardingFieldInput
+      <FormFieldInput
         isDisabled={viewOnly}
         label={"CONTACT NUMBER"}
         value={contact.contact_number}

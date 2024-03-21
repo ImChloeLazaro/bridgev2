@@ -24,15 +24,13 @@ const clientSchema = mongoose.Schema({
     email: String,
   },
   company: {// Company details
-    name: {String},
+    name: String,
     address: String,
     contact_number: String,
     email: String,
     ABN: String,
     ACN: String,
     other_owner: Boolean,
-
-    
   },
   business: { // Business details
     description: String,
@@ -75,7 +73,7 @@ const clientModel = mongoose.model('Client', clientSchema)
 app.get('/cms/client', async function(req, res) {
   try {
     const read = await clientModel.find()
-    res.json({ success: true, response: 'test' })
+    res.status(200).json({ success: true, response: read })
   } catch (error) {
     res.json({ error: error })
   }
@@ -85,7 +83,7 @@ app.get('/cms/client/*', async function(req, res) {
   try {
     const { _id } = req.query
     const read = await clientModel.findOne({_id})
-    res.json({ success: true, response: read })
+    res.status(200).json({ success: true, response: read })
   } catch (error) {
     res.json({ error: error })
   }
@@ -104,7 +102,7 @@ app.post('/cms/client', async function(req, res) {
       another_bookkeeper, 
       with_accountant 
     })
-    res.json({ success: true, response: insert })
+    res.status(200).json({ success: true, response: insert })
   } catch (error) {
     res.json({ error: error })
   }
@@ -122,7 +120,7 @@ app.put('/cms/client', async function(req, res) {
       documents, 
       another_bookkeeper, 
       with_accountant })
-    res.json({ success: true, response: update })
+    res.status(200).json({ success: true, response: update })
   } catch (error) {
     res.json({ error: error })
   }
@@ -133,7 +131,7 @@ app.delete('/cms/client', async function(req, res) {
   try {
     const { _id } = req.body
     const destroy = await clientModel.deleteOne({ _id })
-    res.json({ success: true, response: destroy })
+    res.status(200).json({ success: true, response: destroy })
   } catch (error) {
     res.json({ error: error })
   }

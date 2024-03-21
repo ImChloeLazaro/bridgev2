@@ -1,46 +1,62 @@
 import { Input } from "@nextui-org/react";
 import { DatePicker } from "./DatePicker";
+import IconButton from "./IconButton";
+import { MdFileUpload } from "react-icons/md";
 
-const OnboardingFieldInput = ({
+const FormFieldInput = ({
+  placeholder = "",
   label,
   value,
   onValueChange,
   isRequired,
   isDisabled,
+  isReadOnly,
+  withFile = false,
   withDate = false,
   date,
   onDateChange,
+  fullWidth = false,
+  ...props
 }) => {
   return (
     <Input
+      placeholder={placeholder}
       aria-label={label}
+      isReadOnly={isReadOnly}
       isDisabled={isDisabled}
       isRequired={isRequired}
-      size="md"
+      size={"md"}
       label={`${label.toUpperCase()}`}
       value={value}
       onValueChange={onValueChange}
+      fullWidth={fullWidth}
       classNames={{
-        base: ["w-[370px]"],
+        base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
         label: [
           "font-medium",
-          "text-black-default/70",
+          "text-black-default/80",
           "text-sm",
           "group-data-[focus=true]:tracking-tight",
         ],
         input: [
           "font-medium",
-          "group-data-[filled=true]:text-black-default/80",
+          "group-data-[filled=true]:text-black-default/90",
           "text-sm",
         ],
         inputWrapper: ["font-medium", "text-black-default/90", "text-sm"],
         errorMessage: ["text-red-default"],
       }}
       endContent={
-        withDate && <DatePicker date={date} onDateChange={onDateChange} />
+        (withDate && <DatePicker date={date} onDateChange={onDateChange} />) ||
+        (withFile && (
+          <IconButton>
+            <MdFileUpload size={16} />
+          </IconButton>
+        ))
       }
+      {...props}
     />
   );
 };
 
-export default OnboardingFieldInput;
+export default FormFieldInput;

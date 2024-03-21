@@ -9,7 +9,7 @@ import {
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import { fetchTaskAtom } from "@/app/store/TaskStore";
-import { Checkbox, Tooltip, cn } from "@nextui-org/react";
+import { Checkbox, Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import {
@@ -23,7 +23,9 @@ import {
   changeViewAtom,
   showClientTaskAtom,
   showFooterAtom,
-} from "../store/CMSUserStore";
+} from "../store/CMSAdminStore";
+import AddClientModal from "./AddClientModal";
+import AddTaskModal from "./AddTaskModal";
 
 const ClientHeader = ({
   searchItem,
@@ -32,12 +34,24 @@ const ClientHeader = ({
   setSelectedAllClients,
   showCheckBox = false,
   showActionButtons = false,
+  // actionButtons,
   showOptions = false,
   filterKeys,
   selectedFilterKeys,
   setSelectedFilterKeys,
   className,
 }) => {
+  const {
+    isOpen: isOpenTask,
+    onOpen: onOpenTask,
+    onOpenChange: onOpenChangeTask,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenClient,
+    onOpen: onOpenClient,
+    onOpenChange: onOpenChangeClient,
+  } = useDisclosure();
+
   const clients = useAtomValue(clientsAtom);
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
@@ -69,13 +83,6 @@ const ClientHeader = ({
     setIsDisabled(false);
   };
 
-  const handleUpdateTask = () => {
-    console.log("UPDATED");
-  };
-  const handleDeleteTask = () => {
-    console.log("DELETED");
-  };
-
   const handleChangeView = () => {
     setChangeView(!changeView);
     setShowFooter(!showFooter);
@@ -87,16 +94,23 @@ const ClientHeader = ({
     setShowClientDetails(!showClientDetails);
   };
 
+  const handleAddTask = () => {
+    console.log("ADDED TASK");
+    onOpenTask();
+  };
+  const handleAddClient = () => {
+    console.log("ADDED CLIENT");
+    onOpenClient();
+  };
+
   const actionButtons = {
-    update: {
+    task: {
       color: "blue",
-      label: "Update Task",
-      action: handleUpdateTask,
-    },
-    add: {
-      color: "orange",
       label: "Add Task",
-      action: handleDeleteTask,
+    },
+    client: {
+      color: "orange",
+      label: "Add Client",
     },
   };
 
@@ -206,18 +220,29 @@ const ClientHeader = ({
       </div>
       {showActionButtons && (
         <div className="w-full max-w-md flex justify-between mx-4 gap-4">
-          {Object.values(actionButtons).map((button) => {
-            return (
-              <CTAButtons
-                key={button.label}
-                fullWidth={true}
-                label={button.label}
-                color={button.color}
-                className={"py-5"}
-                onPress={button.action}
-              />
-            );
-          })}
+          {/* <div className=""> */}
+          <CTAButtons
+            key={actionButtons.task.label}
+            fullWidth={true}
+            label={actionButtons.task.label}
+            color={actionButtons.task.color}
+            className={"py-5"}
+            onPress={() => handleAddTask()}
+          />
+          <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
+          <CTAButtons
+            key={actionButtons.client.label}
+            fullWidth={true}
+            label={actionButtons.client.label}
+            color={actionButtons.client.color}
+            className={"py-5"}
+            onPress={() => handleAddClient()}
+          />
+          <AddClientModal
+            isOpen={isOpenClient}
+            onOpenChange={onOpenChangeClient}
+          />
+          {/* </div> */}
         </div>
       )}
     </div>
