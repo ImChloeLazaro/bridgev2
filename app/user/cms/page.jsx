@@ -9,11 +9,9 @@ import CMSUser from "./components/CMSUser";
 const CMS = () => {
   const auth = useAtomValue(authenticationAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
-
   useEffect(() => {
     fetchTask();
   }, [fetchTask]);
-
   return (
     auth.isAuthenticated && (
       <>
