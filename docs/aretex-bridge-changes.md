@@ -778,7 +778,7 @@ postsAtom = atom({
 ## v.0.6.6
 
 * Updated `reaction` functionality on `posts`
-* Added extended `reaction` to `posts`, `reaction` hovering the default `reaction` same functionality as in Facebook
+* Added additional `reaction` to `posts`, when hovering the `reaction` button it is the same functionality as in Facebook's reactions
 
 * Added components for `CMS` page in `User` Side:
   * Added `ClientDetails` Component
@@ -794,7 +794,10 @@ postsAtom = atom({
   * Added `TaskTableView` Component
 
 * Added `label` attribute on atom for `ClientItemCard` Component
-* Renamed `CloseButton` to `IconButton` Component to cover all icon only buttons implementation
+* Updated `layout.jsx` to contain content within the viewport of the user by setting the `height` to match the screen of the user
+* Removed unused css in tailwind.config.js
+* Fixed user registration upon initial load of the page
+* Renamed `CloseButton` to `IconButton` Component to cover all icon only buttons use cases
 * Updated `IconButton` to accept any icon as its `children`
 * Updated `IconButton` to accept `className` as its prop to override its base style
 * Updated lighter colors `["clear", "grey", "lightgrey"]` to have dark text color for readability in `LabelTagChip` Component

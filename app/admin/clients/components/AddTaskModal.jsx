@@ -1,36 +1,38 @@
+import CTAButtons from "@/app/components/CTAButtons";
 import {
   Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
 } from "@nextui-org/react";
+import TaskFormSections from "./TaskFormSections";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   return (
-    <Modal size={"lg"} isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      size={"lg"}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      classNames={{ closeButton: "m-2" }}
+    >
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              {"Add Task"}
+            <ModalHeader className="flex flex-col gap-1 text-xl font-bold text-black-default m-2">
+              {"Add New Task"}
             </ModalHeader>
             <ModalBody>
-              <p>
-                Magna exercitation reprehenderit magna aute tempor cupidatat
-                consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                aliqua enim laboris do dolor eiusmod.
-              </p>
+              <TaskFormSections/>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onPress={onClose}>
-                Action
-              </Button>
+              <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
+              <CTAButtons
+                label={"Assign Task"}
+                color={"blue"}
+                onPress={onClose}
+              />
             </ModalFooter>
           </>
         )}

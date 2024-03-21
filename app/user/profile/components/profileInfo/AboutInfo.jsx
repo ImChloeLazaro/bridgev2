@@ -1,14 +1,13 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
 import { Avatar, Divider } from "@nextui-org/react";
 import { format } from "date-fns";
+import { useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
-import { IoPersonCircle } from "react-icons/io5";
 import {
   employeeInfoAtom,
   personalInfoAtom,
   teamStatusAtom,
 } from "../../store/ProfileStore";
-import { useAtomValue } from "jotai";
 
 const AboutInfo = () => {
   const personalInfo = useAtomValue(personalInfoAtom);
