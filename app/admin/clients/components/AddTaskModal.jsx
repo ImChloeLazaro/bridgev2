@@ -1,12 +1,10 @@
-import React from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader
 } from "@nextui-org/react";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {

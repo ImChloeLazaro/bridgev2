@@ -1,25 +1,19 @@
-import React from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Divider,
-} from "@nextui-org/react";
-import FormFieldInput from "@/app/components/FormFieldInput";
-import { MdInfoOutline } from "react-icons/md";
-import { Tab, Tabs } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import CTAButtons from "@/app/components/CTAButtons";
 import {
   clientDataAtom,
   clientTabsAtom,
   selectedClientTabAtom,
 } from "@/app/store/ClientStore";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Tab, Tabs
+} from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
 import ClientFormSections from "./ClientFormSections";
-import CTAButtons from "@/app/components/CTAButtons";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
   const [selectedClientTab, setSelectedClientTab] = useAtom(

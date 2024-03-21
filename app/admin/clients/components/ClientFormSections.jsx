@@ -1,47 +1,47 @@
 import FormFieldInput from "@/app/components/FormFieldInput";
+import FormFieldRadio from "@/app/components/FormFieldRadio";
+import FormFieldTextArea from "@/app/components/FormFieldTextArea";
 import {
-  contactNameAtom,
-  contactAddressAtom,
-  contactNumberAtom,
-  contactEmailAtom,
-  companyNameAtom,
-  companyAddressAtom,
-  companyNumberAtom,
-  companyEmailAtom,
-  companyABNAtom,
-  companyACNAtom,
-  companyOtherOwnerAtom,
   businessDescriptionAtom,
   businessEntityAtom,
   businessTenureAtom,
   businessTradingNameAtom,
-  financialMonthlyRevenueAtom,
-  financialEmployeeCountAtom,
-  financialContractorCountAtom,
-  financialOutsourcePayrollAtom,
-  financialAccountCountAtom,
-  financialMonthlyTransactionsCountAtom,
-  financialLastFiledTaxAtom,
-  financialAccountMethodAtom,
-  financialInvoicePreparationMethodAtom,
-  financialBillsPayingMethodAtom,
-  financialGSTRegisteredAtom,
-  financialInventoryAtom,
-  softwareAccountingAtom,
-  softwarePayrollAtom,
-  softwareBillingAtom,
-  softwareExpenseManagementAtom,
-  softwareReportingAtom,
-  softwareBookkeepingAtom,
+  companyABNAtom,
+  companyACNAtom,
+  companyAddressAtom,
+  companyEmailAtom,
+  companyNameAtom,
+  companyNumberAtom,
+  companyOtherOwnerAtom,
+  contactAddressAtom,
+  contactEmailAtom,
+  contactNameAtom,
+  contactNumberAtom,
   documentASICAtom,
   documentTaxReturnAtom,
+  financialAccountCountAtom,
+  financialAccountMethodAtom,
+  financialBillsPayingMethodAtom,
+  financialContractorCountAtom,
+  financialEmployeeCountAtom,
+  financialGSTRegisteredAtom,
+  financialInventoryAtom,
+  financialInvoicePreparationMethodAtom,
+  financialLastFiledTaxAtom,
+  financialMonthlyRevenueAtom,
+  financialMonthlyTransactionsCountAtom,
+  financialOutsourcePayrollAtom,
   generalAnotherBookKeeperAtom,
   generalWithAccountantAtom,
   selectedClientTabAtom,
+  softwareAccountingAtom,
+  softwareBillingAtom,
+  softwareBookkeepingAtom,
+  softwareExpenseManagementAtom,
+  softwarePayrollAtom,
+  softwareReportingAtom,
 } from "@/app/store/ClientStore";
 import { useAtom, useAtomValue } from "jotai";
-import FormFieldRadio from "@/app/components/FormFieldRadio";
-import FormFieldTextArea from "@/app/components/FormFieldTextArea";
 
 const ClientFormSections = () => {
   const selectedClientTab = useAtomValue(selectedClientTabAtom);
@@ -413,7 +413,7 @@ const ClientFormSections = () => {
   const documents = (
     <>
       <FormFieldInput
-        isDisabled={true}
+        isReadOnly={true}
         label={"Company Registration Certificate or Trust Deed"}
         placeholder={
           "Please upload your ASIC company registration certificate or trust deed."
@@ -424,7 +424,7 @@ const ClientFormSections = () => {
         onValueChange={setDocumentASIC}
       />
       <FormFieldInput
-        isDisabled={true}
+        isReadOnly={true}
         label={"Recent tax returns"}
         placeholder={"Upload your tax returns for the previous financial year"}
         withFile={true}

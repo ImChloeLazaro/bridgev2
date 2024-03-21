@@ -10,6 +10,7 @@ const FormFieldInput = ({
   onValueChange,
   isRequired,
   isDisabled,
+  isReadOnly,
   withFile = false,
   withDate = false,
   date,
@@ -21,7 +22,8 @@ const FormFieldInput = ({
     <Input
       placeholder={placeholder}
       aria-label={label}
-      isReadOnly={isDisabled}
+      isReadOnly={isReadOnly}
+      isDisabled={isDisabled}
       isRequired={isRequired}
       size={"md"}
       label={`${label.toUpperCase()}`}
