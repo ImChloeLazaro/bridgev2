@@ -16,10 +16,7 @@ const CMSFooter = ({
     ? 10
     : parseInt(Array.from(rowsPerPage).join(""));
 
-  console.log("rowsPerPage", rowsPerPageNumber);
-
   const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
-  const isDisabled = displayedItemCount <= rowsPerPageNumber;
 
   const handleRowsPerPage = (select) => {
     setRowsPerPage(select);
@@ -59,7 +56,6 @@ const CMSFooter = ({
       <Pagination
         isCompact
         showControls
-        isDisabled={isDisabled}
         total={totalPages <= 0 ? 1 : totalPages}
         initialPage={1}
         page={page}

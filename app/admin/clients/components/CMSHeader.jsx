@@ -242,7 +242,6 @@ const ClientHeader = ({
             isOpen={isOpenClient}
             onOpenChange={onOpenChangeClient}
           />
-          {/* </div> */}
         </div>
       )}
     </div>

@@ -15,7 +15,8 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
       size={"lg"}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      classNames={{ closeButton: "m-2" }}
+      classNames={{ closeButton: "m-2", base: "h-[600px]" }}
+      scrollBehavior={"inside"}
     >
       <ModalContent>
         {(onClose) => (
@@ -23,8 +24,8 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
             <ModalHeader className="flex flex-col gap-1 text-xl font-bold text-black-default m-2">
               {"Add New Task"}
             </ModalHeader>
-            <ModalBody>
-              <TaskFormSections/>
+            <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
+              <TaskFormSections />
             </ModalBody>
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />

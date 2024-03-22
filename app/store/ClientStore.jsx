@@ -769,11 +769,11 @@ export const businessTenureAtom = atom("");
 export const businessTradingNameAtom = atom("");
 
 export const financialMonthlyRevenueAtom = atom("");
-export const financialEmployeeCountAtom = atom();
-export const financialContractorCountAtom = atom();
+export const financialEmployeeCountAtom = atom(null);
+export const financialContractorCountAtom = atom(null);
 export const financialOutsourcePayrollAtom = atom(false);
-export const financialAccountCountAtom = atom();
-export const financialMonthlyTransactionsCountAtom = atom();
+export const financialAccountCountAtom = atom(null);
+export const financialMonthlyTransactionsCountAtom = atom(null);
 export const financialLastFiledTaxAtom = atom("");
 export const financialAccountMethodAtom = atom("");
 export const financialInvoicePreparationMethodAtom = atom("");
@@ -788,11 +788,11 @@ export const softwareExpenseManagementAtom = atom([]);
 export const softwareReportingAtom = atom([]);
 export const softwareBookkeepingAtom = atom([]);
 
-export const documentASICAtom = atom();
-export const documentTaxReturnAtom = atom();
+export const documentASICAtom = atom(null);
+export const documentTaxReturnAtom = atom(null);
 
-export const generalAnotherBookKeeperAtom = atom();
-export const generalWithAccountantAtom = atom();
+export const generalAnotherBookKeeperAtom = atom(null);
+export const generalWithAccountantAtom = atom(null);
 
 export const clientDataAtom = atom((get) => {
   return {

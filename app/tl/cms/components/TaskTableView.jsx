@@ -37,8 +37,6 @@ const TaskTableView = ({ sortedItemTasks, showClientTask, changeView }) => {
     direction: "ascending",
   });
 
-  console.log("tasks", tasks);
-
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
 

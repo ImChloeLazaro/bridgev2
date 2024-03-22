@@ -5,12 +5,12 @@ import { MdFileUpload } from "react-icons/md";
 
 const FormFieldInput = ({
   placeholder = "",
-  label,
+  label = "",
   value,
   onValueChange,
-  isRequired,
-  isDisabled,
-  isReadOnly,
+  isRequired = false,
+  isDisabled = false,
+  isReadOnly = false,
   withFile = false,
   withDate = false,
   date,
@@ -18,6 +18,19 @@ const FormFieldInput = ({
   fullWidth = false,
   ...props
 }) => {
+  const handleEndContent = () => {
+    if (withDate) {
+      return <DatePicker date={date} onDateChange={onDateChange} />;
+    }
+    if (withFile) {
+      return (
+        <IconButton>
+          <MdFileUpload size={16} />
+        </IconButton>
+      );
+    }
+  };
+
   return (
     <Input
       placeholder={placeholder}
@@ -47,12 +60,7 @@ const FormFieldInput = ({
         errorMessage: ["text-red-default"],
       }}
       endContent={
-        (withDate && <DatePicker date={date} onDateChange={onDateChange} />) ||
-        (withFile && (
-          <IconButton>
-            <MdFileUpload size={16} />
-          </IconButton>
-        ))
+        withDate && <DatePicker date={date} onDateChange={onDateChange} />
       }
       {...props}
     />

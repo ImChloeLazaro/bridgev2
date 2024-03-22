@@ -16,8 +16,6 @@ const CMSFooter = ({
     ? 10
     : parseInt(Array.from(rowsPerPage).join(""));
 
-  console.log("rowsPerPage", rowsPerPageNumber);
-
   const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
   const isDisabled = displayedItemCount <= rowsPerPageNumber;
 
