@@ -7,14 +7,18 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { notificationsAtom } from "../../store/NotificationsStore";
-import { useAtom } from "jotai";
+import {
+  fetchNotificationsCountAtom,
+  notificationsAtom,
+} from "../../store/NotificationsStore";
+import { useAtom, useSetAtom } from "jotai";
 
 export function NotificationsOptions({ trigger, condition, options, id }) {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useAtom(notificationsAtom);
+  const fetchNotificationsCount = useSetAtom(fetchNotificationsCountAtom);
 
-  const unreadHandler = (action, notifications, id) => {
+  const handleActions = (action, notifications, id) => {
     const updatedNotifications = notifications?.map((notification) => {
       if (action == "mark") {
         if (notification.id == id) {
@@ -32,6 +36,8 @@ export function NotificationsOptions({ trigger, condition, options, id }) {
       }
     });
     setNotifications(updatedNotifications);
+    fetchNotificationsCount();
+    setIsOpen(false);
   };
 
   return (
@@ -50,7 +56,7 @@ export function NotificationsOptions({ trigger, condition, options, id }) {
       <PopoverContent className="p-1 w-44">
         <Listbox
           aria-label="Actions"
-          onAction={(key) => unreadHandler(key, notifications, id)}
+          onAction={(key) => handleActions(key, notifications, id)}
           itemClasses={{
             base: [
               "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",

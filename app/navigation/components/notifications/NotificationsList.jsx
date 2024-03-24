@@ -1,5 +1,5 @@
 import { Avatar, Image, Listbox, ListboxItem } from "@nextui-org/react";
-import { useAtomValue, useAtom } from "jotai";
+import { useAtomValue, useAtom, useSetAtom } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
@@ -8,27 +8,25 @@ import {
   notificationsAtom,
   showUnreadAtom,
   selectedNotificationAtom,
+  fetchNotificationsCountAtom,
+  updateOneUnreadAtom,
 } from "../../store/NotificationsStore";
 import { NotificationsOptions } from "./NotificationsOptions";
 
 const NotificationsList = () => {
   const showUnread = useAtomValue(showUnreadAtom);
   const notificationType = useAtomValue(notificationTypeAtom);
-  const [notifications, setNotifications] = useAtom(notificationsAtom);
+  const notifications = useAtomValue(notificationsAtom);
+  const fetchNotificationsCount = useSetAtom(fetchNotificationsCountAtom);
+  const updateOneUnread = useSetAtom(updateOneUnreadAtom);
 
   const options = [
     { key: "hide", label: "Hide this notification" },
     { key: "mark", label: "Mark as " },
   ];
-  const updateOneUnread = (notifications, id) => {
-    const updatedNotifications = notifications.map((notification) => {
-      if (notification.id == id) {
-        return { ...notification, unread: false };
-      } else {
-        return notification;
-      }
-    });
-    setNotifications(updatedNotifications);
+  const handleUnreadNotification = (key) => {
+    updateOneUnread({ id: key });
+    fetchNotificationsCount();
   };
   const unreadNotifications = showUnread
     ? notifications.filter((notification) => {
@@ -46,14 +44,16 @@ const NotificationsList = () => {
             notification.type.includes(notificationType) && !notification.hidden
           );
         });
-  const handleListUser = (notifData) => {
-    console.log("notif-data: ", notifData);
-  };
+
   return (
     <Listbox
       items={filteredNotifications}
       aria-label="Notifications"
-      onAction={(key) => updateOneUnread(notifications, key)}
+      onAction={(key) => {
+        console.log("filteredNotifications", filteredNotifications);
+        console.log("PRESSED", key);
+        handleUnreadNotification(key);
+      }}
       className="w-[25.3rem] h-[21.2rem] overflow-auto no-scrollbar"
       emptyContent={
         <div className="flex flex-col items-center mt-6">
@@ -64,7 +64,7 @@ const NotificationsList = () => {
             src={"/NoNotifications.jpg"}
           />
           <p className="font-medium text-black-default/80">
-            {"No Notifications right now!"}
+            {"No notifications right now!"}
           </p>
           <p className="font-medium text-black-default/80">
             {"Come back later!"}

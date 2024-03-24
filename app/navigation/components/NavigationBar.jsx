@@ -52,11 +52,11 @@ const NavigationBar = () => {
         </NavbarItem>
       </NavbarContent> */}
       <NavbarContent as="div" justify="end">
-        {/* <NavbarItem className="flex items-center gap-6"> */}
+        <NavbarItem className="flex items-center gap-6">
           <UserDropdown />
           {userRoles.includes(selectedRole) && <RoleBadge />}
           <NotificationsDropdown />
-        {/* </NavbarItem> */}
+        </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (

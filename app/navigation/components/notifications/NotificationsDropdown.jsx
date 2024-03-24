@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   MdNotifications,
   MdNotificationsActive,
@@ -14,8 +14,8 @@ import {
 } from "react-icons/md";
 import {
   fetchNotificationsAtom,
+  fetchNotificationsCountAtom,
   notificationsAtom,
-  notificationsOpenAtom,
   unreadCountAtom,
 } from "../../store/NotificationsStore";
 import NotificationsFooter from "./NotificationsFooter";
@@ -24,42 +24,19 @@ import NotificationsList from "./NotificationsList";
 
 const NotificationsDropdown = () => {
   const notifications = useAtomValue(notificationsAtom);
-  const [notificationsOpen, setNotificationsOpen] = useAtom(
-    notificationsOpenAtom
-  );
-  const [unreadCount, setUnreadCount] = useAtom(unreadCountAtom);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const unreadCount = useAtomValue(unreadCountAtom);
   const fetchNotifications = useSetAtom(fetchNotificationsAtom);
-
-  //setUnreadCount function
-  const unreadCountHandler = useCallback(
-    (notifications) => {
-      setUnreadCount({
-        all: notifications.filter((notification) => {
-          return notification.unread && !notification.hidden;
-        }).length,
-        mentioned: notifications.filter((notification) => {
-          return (
-            notification.type.includes("mentioned") &&
-            notification.unread &&
-            !notification.hidden
-          );
-        }).length,
-        greeted: notifications.filter((notification) => {
-          return (
-            notification.type.includes("greeted") &&
-            notification.unread &&
-            !notification.hidden
-          );
-        }).length,
-      });
-    },
-    [setUnreadCount]
-  );
+  const fetchNotificationsCount = useSetAtom(fetchNotificationsCountAtom);
 
   useEffect(() => {
     fetchNotifications();
-    // unreadCountHandler(notifications);
-  }, [fetchNotifications]);
+    fetchNotificationsCount();
+  }, [fetchNotifications, fetchNotificationsCount]);
+
+  const totalCountNotifications = notifications.filter((notification) => {
+    return notification.unread && !notification.hidden;
+  }).length;
 
   return (
     <Badge
@@ -71,28 +48,9 @@ const NotificationsDropdown = () => {
       <Popover
         placement="bottom-end"
         showArrow={true}
+        isOpen={notificationsOpen}
         onOpenChange={(open) => {
-          setNotificationsOpen(!open);
-          // setUnreadCount({
-          //   all: notifications.filter((notification) => {
-          //     return notification.unread;
-          //   }).length,
-          //   mentioned: notifications
-          //     .filter((notification) => {
-          //       return notification.type.includes("mentioned");
-          //     })
-          //     .filter((notification) => {
-          //       return notification.unread;
-          //     }).length,
-          //   greeted: notifications
-          //     .filter((notification) => {
-          //       return notification.type.includes("greeted");
-          //     })
-          //     .filter((notification) => {
-          //       return notification.unread;
-          //     }).length,
-          // });
-          unreadCountHandler(notifications);
+          setNotificationsOpen(open);
         }}
       >
         <PopoverTrigger>
@@ -101,12 +59,12 @@ const NotificationsDropdown = () => {
             isIconOnly
             className="bg-transparent"
           >
-            {notificationsOpen ? (
-              <MdNotificationsActive size={24} color="white" />
-            ) : unreadCount.all === 0 ? (
+            {unreadCount.all === 0 ? (
               <MdNotificationsNone size={24} color="white" />
-            ) : (
+            ) : notificationsOpen ? (
               <MdNotifications size={24} color="white" />
+            ) : (
+              <MdNotificationsActive size={24} color="white" />
             )}
           </Button>
         </PopoverTrigger>

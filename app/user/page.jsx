@@ -23,11 +23,6 @@ const User = () => {
   const user = useAtomValue(userAtom);
   const auth = useAtomValue(authenticationAtom);
 
-  // const fetchPost = useSetAtom(fetchPostAtom);
-
-  console.log("auth", auth);
-  console.log("user", user);
-
   useEffect(() => {
     const insertProfile = async () => {
       await restinsert("/user", {
@@ -38,8 +33,6 @@ const User = () => {
       });
     }
     
-    // fetchPost();
-
     return () => insertProfile();
 
   }, []);

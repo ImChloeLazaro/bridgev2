@@ -1,19 +1,26 @@
 import { Button } from "@nextui-org/react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import {
+  fetchNotificationsCountAtom,
   notificationsAtom,
   unreadCountAtom,
+  updateAllUnreadAtom,
 } from "../../store/NotificationsStore";
 
 const NotificationsFooter = () => {
-  const [notifications, setNotifications] = useAtom(notificationsAtom);
+  const fetchNotificationsCount = useSetAtom(fetchNotificationsCountAtom);
+  const updateAllUnread = useSetAtom(updateAllUnreadAtom);
+  // const updateAllUnread = (notifications) => {
+  //   const updatedNotifications = notifications.map((notification) => {
+  //     return { ...notification, unread: false };
+  //   });
+  //   setNotifications(updatedNotifications);
+  //   console.log(updatedNotifications);
+  // };
 
-  const updateAllUnread = (notifications) => {
-    const updatedNotifications = notifications.map((notification) => {
-      return { ...notification, unread: false };
-    });
-    setNotifications(updatedNotifications);
-    console.log(updatedNotifications);
+  const handleAllUnread = () => {
+    updateAllUnread();
+    fetchNotificationsCount();
   };
   return (
     <div className="flex flex-col pt-1">
@@ -38,7 +45,7 @@ const NotificationsFooter = () => {
           //     console.log(notification);
           //   });
           // })}
-          onPress={() => updateAllUnread(notifications)}
+          onPress={() => handleAllUnread()}
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
             {"Mark All as Read"}
