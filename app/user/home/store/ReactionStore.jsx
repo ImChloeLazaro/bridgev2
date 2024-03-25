@@ -55,7 +55,7 @@ export const updateSelectedReactionAtom = atom(
 
     const updatedReactions = {
       ...selectedPost[0].reactions,
-      [selectedReaction]: updateReactionCount < 0 ? 0 : updateReactionCount,
+      [selectedReaction]: updateReactionCount <= 0 ? 0 : updateReactionCount,
     };
 
     const updatedPostReaction = {

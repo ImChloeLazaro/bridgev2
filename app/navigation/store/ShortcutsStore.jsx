@@ -142,8 +142,6 @@ export const fetchShortcutAtom = atom(null, async (get, set, sub) => {
     id: (index += 1),
     key: `sct-${index}`,
   }));
-  console.log("FETCHED INDEX SUCCESSFULLY", updatedIndexShortcuts);
-  console.log("FETCHED SHORTCUT SUCCESSFULLY", sortedShortcuts);
 
   set(indexPositionShortcutsAtom, updatedIndexShortcuts);
   set(shortcutsAtom, sortedShortcuts);

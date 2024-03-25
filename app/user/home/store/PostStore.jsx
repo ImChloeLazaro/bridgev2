@@ -6,110 +6,75 @@ export const postAtom = atom([]);
 export const postCountAtom = atom((get) => get(postAtom).length);
 
 export const updatePostReactionAtom = atom(null, async (get, set, update) => {
-  const { id, selectedReaction, reacted, reactions, prevReaction } = update;
+  const { id, selectedReaction, reacted, reactions, isReacted } = update;
   const selectedPost = get(postAtom).filter((post) => post._id === update.id);
-  // const updatedSelectedReaction = reacted
-  //   ? (reactions[selectedReaction] += 1)
-  //   : (reactions[selectedReaction] -= 1);
+  console.log("selectedPost", selectedPost);
 
-  // const updatedPrevReaction = reacted
-  //   ? (reactions[prevReaction] += 1)
-  //   : (reactions[prevReaction] -= 1);
+  const oldReactor = selectedPost[0].reacted;
+  const isNew = oldReactor
+    .map((react) => react)
+    .find((react) => react.sub === reacted.sub);
+  const userOldReaction = isNew?.reaction;
 
-  // const updatedReactions = {
-  //   ...reactions,
-  //   [selectedReaction]:
-  //     updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
-  // };
+  console.log("userOldReaction", userOldReaction);
 
-  const updatedReactions = reacted
-    ? selectedReaction === prevReaction
+  const index = selectedPost[0].reacted.findIndex(
+    (react) => react.sub === reacted.sub
+  );
+
+  let updatedReacted;
+
+  if (index !== -1) {
+    selectedPost[0].reacted[index] = reacted;
+    updatedReacted = [...selectedPost[0].reacted];
+  } else {
+    updatedReacted = [...selectedPost[0].reacted, reacted];
+  }
+
+  const updatedReactions = isReacted
+    ? selectedReaction === userOldReaction
       ? {
           ...reactions,
-          [selectedReaction]: (reactions[selectedReaction] += 1),
+          [selectedReaction]:
+            reactions[selectedReaction] <= 0 ? 0 : reactions[selectedReaction],
+        }
+      : !userOldReaction?.length
+      ? {
+          ...reactions,
+          [selectedReaction]: reactions[selectedReaction],
+          [selectedReaction]:
+            reactions[selectedReaction] + 1 <= 0
+              ? 0
+              : reactions[selectedReaction] + 1,
         }
       : {
           ...reactions,
-          [selectedReaction]: (reactions[selectedReaction] += 1),
-          [prevReaction]: (reactions[prevReaction] -= 1 <= 0)
-            ? 0
-            : (reactions[prevReaction] -= 1),
+          [selectedReaction]:
+            reactions[selectedReaction] + 1 <= 0
+              ? 0
+              : reactions[selectedReaction] + 1,
+          [userOldReaction]:
+            reactions[userOldReaction] - 1 <= 0
+              ? 0
+              : reactions[userOldReaction] - 1,
         }
-    : selectedReaction !== prevReaction
-    ? {
-        ...reactions,
-        [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
-          ? 0
-          : (reactions[selectedReaction] -= 1),
-      }
     : {
         ...reactions,
-        [selectedReaction]: (reactions[selectedReaction] -= 1 <= 0)
-          ? 0
-          : (reactions[selectedReaction] -= 1),
+        [selectedReaction]:
+          reactions[selectedReaction] - 1 <= 0
+            ? 0
+            : reactions[selectedReaction] - 1,
       };
-  // const handleReaction = () => {
-  //   console.log("reacted", reacted);
-  //   console.log("selectedReaction", selectedReaction);
-  //   console.log("prevReaction", prevReaction);
-  //   if (reacted) {
-  //     console.log("reacted T", reacted);
-
-  //     if (selectedReaction === prevReaction) {
-  //       console.log("selectedReaction T", selectedReaction);
-
-  //       return {
-  //         ...reactions,
-  //         [selectedReaction]: (reactions[selectedReaction] += 1),
-  //       };
-  //     }
-  // else {
-  //   console.log("selectedReaction F", selectedReaction);
-
-  //   return {
-  //     ...reactions,
-  //     [selectedReaction]: (reactions[selectedReaction] += 1),
-  //     [prevReaction]:
-  //       (reactions[prevReaction] -= 1) < 0
-  //         ? 0
-  //         : (reactions[prevReaction] -= 1),
-  //   };
-  // }
-  //   } else {
-  //     console.log("reacted F", reacted);
-
-  //     return {
-  //       ...reactions,
-  //       [selectedReaction]:
-  //         (reactions[selectedReaction] -= 1) < 0
-  //           ? 0
-  //           : (reactions[selectedReaction] -= 1),
-  //     };
-  //   }
-  // };
-  // const t =
-  //   selectedReaction === prevReaction
-  //     ? {
-  //         ...reactions,
-  //         [selectedReaction]:
-  //           updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
-  //       }
-  //     : {
-  //         ...reactions,
-  //         [selectedReaction]:
-  //           updatedSelectedReaction < 0 ? 0 : updatedSelectedReaction,
-  //         [prevReaction]: updatedPrevReaction < 0 ? 0 : updatedPrevReaction,
-  //       };
 
   console.log("reactions: HERE", updatedReactions);
 
   const updatedPostReaction = {
-    ...selectedPost[0],
-    // _id: id,
     reactionList: [selectedReaction],
     reactions: updatedReactions,
-    reacted: reacted,
+    reacted: updatedReacted,
   };
+
+  console.log("BEFORE: ", updatedPostReaction);
 
   const updateSelectedReaction = get(postAtom).map((post) => {
     if (id === post._id) {
@@ -117,7 +82,6 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
     }
     return { ...post };
   });
-
   set(postAtom, updateSelectedReaction);
 
   const posts = await restupdate("/post/greeting", updatedPostReaction);
