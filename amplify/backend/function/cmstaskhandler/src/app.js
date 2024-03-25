@@ -18,7 +18,12 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const taskSchema = mongoose.Schema({
-  name: String,
+  manager: {
+    sub: String,
+    name: String,
+    email: String,
+    picture: String
+  },
   client: {
     client_id: String,
     name: String,
@@ -30,7 +35,8 @@ const taskSchema = mongoose.Schema({
       sub: String,
       name: String,
       email: String,
-      picture: String
+      picture: String,
+      privilege: String //viewer, editor
     }
   ],
   reviewer: [
@@ -45,7 +51,19 @@ const taskSchema = mongoose.Schema({
     start: Date,
     end: Date
   },
-  status: String,
+  "sla" : [
+		{
+	  	"name" : String,
+	  	"status" : String, //todo, pending, to review, done
+			"progress" : String, //Good, Overdue, Adhoc
+      "done_by" : {
+        sub: String,
+        name: String,
+        email: String,
+        picture: String
+      } //sub 
+		}
+	]
 })
 
 const taskModel = mongoose.model('Task', taskSchema)
@@ -53,7 +71,7 @@ const taskModel = mongoose.model('Task', taskSchema)
 app.get('/cms/task', async function (req, res) {
   try {
     const read = await taskModel.find()
-    res.status(200).json({ success: true, body: read })
+    res.status(200).json({ success: true, response: read })
   } catch (error) {
     res.json({ error: error })
   }
@@ -61,26 +79,32 @@ app.get('/cms/task', async function (req, res) {
 
 app.get('/cms/task/*', async function (req, res) {
   try {
-    const { _id } = req.query
-    const read = await taskModel.findOne({ _id })
-    res.status(200).json({ success: true, body: read })
+    const proxy = req.path; // Use req.path to get the URL path
+    const { processor, reviewer } = req.query
+    switch (proxy) {
+      case '/cms/task/sla':
+          const sla = await taskModel.find({ 
+            $or: [
+              {"processor.sub": processor},
+              {"reviewer.sub": reviewer}
+            ]
+          })
+          res.status(200).json({ success: true, response: sla })
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE"});
+        break;
+    }
   } catch (error) {
-    res.json({ error: error })
+    res.status(500).json({ success: false, error: error });
   }
 });
 
 app.post('/cms/task', async function (req, res) {
   try {
-    const { name, client, processor, reviewer, duration, status } = req.body
-    const insert = await taskModel.create({
-      name,
-      client,
-      processor,
-      reviewer,
-      duration,
-      status
-    })
-    res.status(200).json({ success: true, body: insert, message: "Task created successfully"})
+    const { manager, client, processor, reviewer, duration, sla } = req.body
+    const insert = await taskModel.create({ manager, client, processor, reviewer, duration, sla })
+    res.status(200).json({ success: true, response: insert, message: "Task created successfully"})
   } catch (error) {
   res.json({ error: error })
 }
