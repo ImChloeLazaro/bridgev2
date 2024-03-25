@@ -35,10 +35,7 @@ const handlePostDatetime = (datetime) => {
 const PostHeader = ({ data }) => {
   const pinned = false;
 
-  const options = [
-    { key: "hide", label: "Hide this post" },
-    { key: "report", label: "Report this post" },
-  ];
+
   const datetime = data.datetimePublished;
   const postDateTime = datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -86,7 +83,6 @@ const PostHeader = ({ data }) => {
         <div className="p-0">
           <PostOptions
             trigger={<BiDotsVerticalRounded size={26} />}
-            options={options}
           />
         </div>
       </div>
