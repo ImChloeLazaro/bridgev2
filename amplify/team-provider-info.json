@@ -32,7 +32,7 @@
         "cmstaskhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/cmstaskhandler-53317a5356345730654a-build.zip"
+          "s3Key": "amplify-builds/cmstaskhandler-6c6230775361726f476d-build.zip"
         },
         "departmenthandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
