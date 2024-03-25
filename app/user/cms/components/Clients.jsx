@@ -162,7 +162,7 @@ const Clients = () => {
           showClientTask={showClientTask}
           changeView={changeView}
         />
-        {<ClientDetails showClientDetails={showClientDetails} />}
+        <ClientDetails showClientDetails={showClientDetails} />
       </CardBody>
       <CardFooter className="">
         <CMSFooter

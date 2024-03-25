@@ -40,9 +40,6 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const deleteShortcut = useSetAtom(deleteShortcutAtom);
   const updateShortcut = useSetAtom(updateShortcutAtom);
 
-  // const [uniqueShortcutID, setuniqueShortcutID] = useState(
-  //   shortcutsList.filter((item) => item._id === key).map((detail) => detail._id)
-  //   );
   const [selectedShortcut, setSelectedShortcut] = useState(unique_key);
 
   const [editShortcutName, setEditShortcutName] = useState(title);
@@ -118,7 +115,9 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
               >
                 {"Update Shortcut"}
               </p>
-              <IconButton onPress={handleCloseWindow} ><MdClose size={24} /></IconButton>
+              <IconButton onPress={handleCloseWindow}>
+                <MdClose size={24} />
+              </IconButton>
             </div>
             <div className="flex flex-col gap-3 w-full">
               <Input
@@ -157,15 +156,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
                 }}
               />
             </div>
-            <div className="flex justify-end gap-2.5">
-              {actionButtons.cta.map((details, index) => (
-                <CTAButtons
-                  key={`${details.label}-${index}`}
-                  label={details.label}
-                  color={details.color}
-                  onPress={details.action}
-                />
-              ))}
+            <div className="flex justify-end items-center gap-2.5">
               <Button
                 size="sm"
                 radius="sm"
@@ -179,6 +170,16 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
               >
                 {"Cancel"}
               </Button>
+              {actionButtons.cta.map((details, index) => (
+                <CTAButtons
+                  key={`${details.label}-${index}`}
+                  label={details.label}
+                  color={details.color}
+                  onPress={details.action}
+                  className={"py-0"}
+                  size="sm"
+                />
+              ))}
             </div>
           </div>
         )}

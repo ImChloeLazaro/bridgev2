@@ -20,6 +20,7 @@ const CTAButtons = ({ label, color, className, size="sm", ...props }) => {
       radius="sm"
       variant="solid"
       className={cn("px-5 py-0.5 font-bold text-base", buttonColor, className)}
+      size={size}
       {...props}
     >
       {label}
