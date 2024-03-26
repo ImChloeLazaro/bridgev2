@@ -5,14 +5,17 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import CMSAdmin from "./components/CMSAdmin";
+import { fetchClientAtom } from "@/app/store/ClientStore";
 
 const Clients = () => {
   const auth = useAtomValue(authenticationAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
+  const fetchClient = useSetAtom(fetchClientAtom);
 
   useEffect(() => {
     fetchTask();
-  }, [fetchTask]);
+    fetchClient();
+  }, [fetchClient, fetchTask]);
 
   return (
     auth.isAuthenticated && (

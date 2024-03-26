@@ -32,7 +32,7 @@ const ClientItemCard = ({ data }) => {
 
   const handleSelectTask = (status) => {
     // when user pressed on the tags on client list
-    handleSelectClient(data.key);
+    handleSelectClient(data.clientKey);
     setChangeView(true);
     console.log("CLIENT TYPE STATUS", status);
   };
@@ -43,6 +43,8 @@ const ClientItemCard = ({ data }) => {
 
     console.log("CLIENT SELECTED", selected);
   };
+
+  console.log("CLIENTS INSIDE LIST: ", data)
 
   return (
     <div className="flex justify-between items-center h-full">
@@ -59,10 +61,10 @@ const ClientItemCard = ({ data }) => {
                   loading={"lazy"}
                 />
               </div>
-              {data.name}
+              {data.company.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
-              {Object.keys(data.status).map((status, s_index) => {
+              {/* {Object.keys(data.status).map((status, s_index) => {
                 if (data.status[status].count > 0) {
                   return (
                     <Button
@@ -83,10 +85,10 @@ const ClientItemCard = ({ data }) => {
                     </Button>
                   );
                 }
-              })}
+              })} */}
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
-              {data.assignedUsers ?? "No one is assigned "}
+              {/* {data.assignedUsers ?? "No one is assigned "}
               <AvatarGroup size="lg" max={4} total={data.assignedUsers.length}>
                 <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
                 <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
@@ -94,14 +96,14 @@ const ClientItemCard = ({ data }) => {
                 <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
                 <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
                 <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-              </AvatarGroup>
+              </AvatarGroup> */}
             </div>
           </div>
         </CardBody>
       </Card>
       <IconButton
         className="bg-transparent w-1/12 h-32"
-        onPress={() => handleSelectClient(data.key)}
+        onPress={() => handleSelectClient(data.clientKey)}
       >
         <MdChevronRight size={32} />
       </IconButton>

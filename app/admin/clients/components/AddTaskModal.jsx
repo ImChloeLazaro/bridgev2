@@ -21,8 +21,8 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1 text-xl font-bold text-black-default m-2">
-              {"Add New Task"}
+            <ModalHeader className="flex flex-col gap-1 text-xl font-bold text-black-default my-2">
+              {"Assign New Task"}
             </ModalHeader>
             <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
               <TaskFormSections />

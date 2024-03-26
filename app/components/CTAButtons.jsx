@@ -1,6 +1,14 @@
 import { Button, cn } from "@nextui-org/react";
 
-const CTAButtons = ({ label, color, className, size="sm", ...props }) => {
+const CTAButtons = ({
+  label,
+  color,
+  className,
+  size = "sm",
+  startContent,
+  endContent,
+  ...props
+}) => {
   const colors = {
     red: "bg-red-default text-white-default",
     orange: "bg-orange-default text-white-default",
@@ -17,6 +25,9 @@ const CTAButtons = ({ label, color, className, size="sm", ...props }) => {
   let buttonColor = colors[color];
   return (
     <Button
+      aria-label={label}
+      startContent={startContent}
+      endContent={endContent}
       radius="sm"
       variant="solid"
       className={cn("px-5 py-0.5 font-bold text-base", buttonColor, className)}

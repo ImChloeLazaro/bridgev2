@@ -857,7 +857,7 @@ postsAtom = atom({
   * Added `AddTaskModal` Component
 
 * Added `CMSAdminStore` for `CMS` admin Page
-* Updated admin `home` page to be the same as user `home` page
+* Updated admin `home` page style to be the same as user `home` page style
 
 * Added `FormField` Components for `Form` Components
   * Renamed Component `OnboardingFieldInput` to `FormFieldInput`
@@ -866,3 +866,29 @@ postsAtom = atom({
 
 * Added `store-placeholder.png` as illustration when no data is available to display
 * Added `isReadOnly` prop in `FormFieldInput` Component for its base component and functionality
+
+* Added components for `CMS` page in `TL` Side:
+  * Added `ClientDetails` Component
+  * Added `ClientInfo` Component
+  * Added `ClientItemCard` Component
+  * Added `ClientList` Component
+  * Added `CMSTL` Component
+  * Added `CMSFooter` Component
+  * Added `CMSHeader` Component
+  * Added `ColumnContainer` Component
+  * Added `TaskBoardCard` Component
+  * Added `TaskBoardView` Component
+  * Added `TaskTableView` Component
+
+* Added `CMSTLStore` for `CMS` tl Page
+* Updated tl `home` page style to be the same as user `home` page style
+
+* Added components for SLA Form in `Admin` Side:
+  * Added `TaskFormSections` Component
+
+* Removed left-over `console.log()` from development
+* Merged and Approved PR of interns to Bridge main source code
+  * Merged Notifications changes
+  * Merged Shortcuts changes
+  * Merged Post Reactions changes
+  * Merged Reporting Post changes

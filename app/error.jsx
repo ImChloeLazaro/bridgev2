@@ -13,6 +13,7 @@ export default function Error({ error, reset }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.log("ERROR");
+    console.log(error);
     console.error(error);
   }, [error]);
   return (

@@ -64,7 +64,7 @@ const CMSAdmin = () => {
     selectedTaskFilterKeysAtom
   );
 
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  // const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const showClientTask = useAtomValue(showClientTaskAtom);
 
@@ -139,6 +139,10 @@ const CMSAdmin = () => {
   }, [itemTasks]);
 
   // ######################################################
+  const selectedClient = clients.filter(
+    (client) => client.clientKey === selectedClientToView
+  );
+
   const selectedClientFilterKeyString = Array.from(
     selectedClientFilterKeys
   ).join("");
@@ -235,7 +239,6 @@ const CMSAdmin = () => {
             selectedAllClients={selectedAllClients}
             setSelectedAllClients={setSelectedAllClients}
             showCheckBox={showCheckBox}
-            showActionButtons={showActionButtons}
             // actionButtons={actionButtons}
             showOptions={showOptions}
             filterKeys={showClientTask ? taskFilterKeys : clientFilterKeys}
@@ -265,7 +268,7 @@ const CMSAdmin = () => {
             showClientTask={showClientTask}
             changeView={changeView}
           />
-          {<ClientDetails showClientDetails={showClientDetails} />}
+          {<ClientDetails showClientDetails={showClientDetails} selectedClient={selectedClient}/>}
         </CardBody>
         <CardFooter className="">
           <CMSFooter

@@ -243,14 +243,14 @@ export const insertTaskAtom = atom(null, async (get, set, update) => {
 
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
+  console.log("TASKS:", tasks);
   if (tasks.success) {
-    console.log("TASKS SUCCESS FETCH", tasks.body);
-    const convertedTasks = tasks.body.map((task, index) => {
+    console.log("TASKS SUCCESS FETCH", tasks.response);
+    const convertedTasks = tasks.response.map((task, index) => {
       return {
         ...task,
         key: task._id,
         id: `${(index += 1)}`,
-        clientKey: `client-${(index += 1)}`,
         status: task.status.toLowerCase(),
         columnId: task.status.toLowerCase(),
       };
@@ -400,7 +400,7 @@ export const intervalSelectionAtom = atom([
 ]);
 export const selectedIntervalAtom = atom(new Set([]));
 
-export const startDateAtom = atom("")
-export const startTimeAtom = atom("")
-export const endDateAtom = atom("")
-export const endTimeAtom = atom("")
+export const startDateAtom = atom("");
+export const startTimeAtom = atom("");
+export const endDateAtom = atom("");
+export const endTimeAtom = atom("");

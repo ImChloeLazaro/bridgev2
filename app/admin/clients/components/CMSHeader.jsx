@@ -21,6 +21,7 @@ import {
 } from "react-icons/md";
 import {
   changeViewAtom,
+  showActionButtonsAtom,
   showClientTaskAtom,
   showFooterAtom,
 } from "../store/CMSAdminStore";
@@ -33,8 +34,6 @@ const ClientHeader = ({
   selectedAllClients,
   setSelectedAllClients,
   showCheckBox = false,
-  showActionButtons = false,
-  // actionButtons,
   showOptions = false,
   filterKeys,
   selectedFilterKeys,
@@ -55,6 +54,10 @@ const ClientHeader = ({
   const clients = useAtomValue(clientsAtom);
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+
+  const [showActionButtons, setShowActionButtons] = useAtom(
+    showActionButtonsAtom
+  );
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
@@ -89,6 +92,7 @@ const ClientHeader = ({
   };
 
   const handleViewClientDetails = () => {
+    setShowActionButtons(!showActionButtons);
     setShowFooter(!showFooter);
     setShowClientTask(!showClientTask);
     setShowClientDetails(!showClientDetails);
@@ -115,8 +119,8 @@ const ClientHeader = ({
   };
 
   const clientNameToDisplay = clients.filter(
-    (client) => client.key === selectedClientToView
-  )[0]?.name;
+    (client) => client.clientKey === selectedClientToView
+  )[0]?.company.name;
 
   return (
     <div
