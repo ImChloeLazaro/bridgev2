@@ -17,6 +17,7 @@ import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom } from "./home/store/PostStore";
 
+
 import { restinsert } from "../utils/amplify-rest";
 
 const User = () => {

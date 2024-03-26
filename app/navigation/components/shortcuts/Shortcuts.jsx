@@ -36,7 +36,7 @@ const Shortcuts = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-50 py-0 px-1 ml-1 mr-4">
+      <div className='sticky top-0 z-50 py-0 px-1 ml-1 mr-4'>
         <ShortcutsHeader />
       </div>
       <DndContext
@@ -49,14 +49,14 @@ const Shortcuts = () => {
         ]}
       >
         <Sidebar
-          customBreakPoint="760px"
+          customBreakPoint='330px'
           rootStyles={{
             // change sidebar Tailwind CSS here
             width: "100%",
             overflow: "auto",
             paddingLeft: "0.5rem",
             paddingRight: "0.5rem",
-            "@media (max-width: 767px)": { display: "none", width: "0%" },
+            "@media (max-width: 767px)": { display: "block", width: "100%" },
             backgroundColor: "#f9f9f9",
             [`.${sidebarClasses.container}`]: {
               overflowX: "hidden",
@@ -68,7 +68,7 @@ const Shortcuts = () => {
           }}
         >
           <Menu
-            key="shortcuts"
+            key='shortcuts'
             rootStyles={{
               [`.${menuClasses.icon}`]: {
                 color: "#EF8916",

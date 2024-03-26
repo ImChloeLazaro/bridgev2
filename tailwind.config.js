@@ -51,6 +51,7 @@ module.exports = {
         "-100": "-1",
       },
       screens: {
+        xs: "430px",
         xxs: "360px",
         "3xl": "1600px",
       },

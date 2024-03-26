@@ -6,53 +6,53 @@ import { Tooltip, Link } from "@nextui-org/react";
 const LeaveBalanceContent = () => {
   const leave = useAtomValue(leaveStatusAtom);
   return (
-    <div className="flex items-center justify-between p-2">
-      <div className="flex flex-col w-full gap-2">
-        <div className="flex">
-          <p className="text-base font-bold text-black-default w-3/5">
+    <div className='flex items-center justify-between p-2'>
+      <div className='flex flex-col w-full gap-2'>
+        <div className='flex'>
+          <p className='text-base font-bold text-black-default w-3/5'>
             {"Vacation Leave:"}
           </p>
-          <p className="text-base font-bold text-black-default w-3/5 ">
+          <p className='text-base font-bold text-black-default w-3/5 '>
             <Tooltip
               showArrow={true}
               content={
-                <p className="">{`You have ${leave.response.VL_BALANCE} VL left`}</p>
+                <p className=''>{`You have ${leave?.response?.VL_BALANCE} VL left`}</p>
               }
             >
               <Link
-                href="#"
-                underline="none"
-                className="text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
+                href='#'
+                underline='none'
+                className='text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline'
               >
-                {leave.response !== null ? (
-                  leave.response.VL_BALANCE
+                {leave?.response !== null ? (
+                  leave?.response?.VL_BALANCE
                 ) : (
-                  <p className="text-red-600">No VL data</p>
+                  <p className='text-red-600'>No VL data</p>
                 )}
               </Link>
             </Tooltip>
           </p>
         </div>
-        <div className="flex">
-          <p className="text-base font-bold text-black-default w-3/5">
+        <div className='flex'>
+          <p className='text-base font-bold text-black-default w-3/5'>
             {"Sick Leave:"}
           </p>
-          <p className="text-base font-bold text-black-default w-3/5 ">
+          <p className='text-base font-bold text-black-default w-3/5 '>
             <Tooltip
               showArrow={true}
               content={
-                <p className="">{`You have ${leave.response.SL_BALANCE} SL left`}</p>
+                <p className=''>{`You have ${leave?.response?.SL_BALANCE} SL left`}</p>
               }
             >
               <Link
-                href="#"
-                underline="none"
-                className="text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
+                href='#'
+                underline='none'
+                className='text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline'
               >
-                {leave.response !== null ? (
-                  leave.response.SL_BALANCE
+                {leave?.response !== null ? (
+                  leave?.response?.SL_BALANCE
                 ) : (
-                  <p className="text-red-600">No SL data</p>
+                  <p className='text-red-600'>No SL data</p>
                 )}
               </Link>
             </Tooltip>
@@ -62,7 +62,7 @@ const LeaveBalanceContent = () => {
       <Button
         disableRipple={true}
         disableAnimation={true}
-        className="bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
+        className='bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2'
       >
         {"File a Leave"}
       </Button>

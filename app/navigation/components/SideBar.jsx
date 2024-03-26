@@ -2,6 +2,7 @@ import { Link } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Suspense, useEffect } from "react";
 import { Menu, MenuItem, Sidebar, menuClasses } from "react-pro-sidebar";
+
 import {
   activeAdminRouteAtom,
   activeHRRouteAtom,
@@ -71,13 +72,15 @@ const SideBar = () => {
   };
 
   return (
-    <div className="sm:max-md:w-0 md:w-96 flex flex-col max-h-screen bg-white-default ">
+    <div className=' xxs:max-md:hidden xxs:max-md:pt-5 flex flex-col max-h-screen bg-white-default '>
       {/* <Suspense fallback={<Loading />}> */}
-      <div className="py-5 px-2">
+
+      <div className='py-5 px-2'>
         <SideBarHeader />
       </div>
+
       <Sidebar
-        customBreakPoint="760px"
+        // customBreakPoint='760px'
         rootStyles={{
           // change sidebar Tailwind CSS here
           width: "100%",
@@ -89,7 +92,7 @@ const SideBar = () => {
         }}
       >
         <Menu
-          key="navigation"
+          key='navigation'
           rootStyles={{
             [`.${menuClasses.icon}`]: {
               backgroundColor: "#EF8916",
@@ -162,7 +165,11 @@ const SideBar = () => {
       </Sidebar>
       {/* </Suspense> */}
       {/* <Suspense fallback={<Loading />}> */}
-      <Shortcuts />
+      <div className='xs:max-md:hidden'>
+        {" "}
+        <Shortcuts />
+      </div>
+
       {/* </Suspense> */}
     </div>
   );

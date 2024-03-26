@@ -12,12 +12,12 @@ import { externalLinks } from "../RoutesIconDetails";
 
 const ExternalLinks = () => {
   return (
-    <Popover placement="bottom-start" showArrow={true} className="shadow-base ">
+    <Popover placement='bottom-start' showArrow={true} className='shadow-base '>
       <PopoverTrigger>
         <Button
           aria-label={"External Links"}
           isIconOnly
-          className="p-6 text-orange-default bg-white-default hover:bg-grey-hover rounded-xl"
+          className='p-6 text-orange-default bg-white-default hover:bg-grey-hover rounded-xl'
         >
           <div>
             <IoApps size={36} />
@@ -25,7 +25,7 @@ const ExternalLinks = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <div className="px-1 py-2 w-full flex">
+        <div className='px-1 py-2 w-full flex'>
           <Menu
             rootStyles={{
               [`.${menuClasses.icon}`]: {
@@ -72,9 +72,9 @@ const ExternalLinks = () => {
               },
             }}
           >
-            <div className="flex items-center justify-between pt-1 pr-4 pb-3 pl-3 ">
-              <div className="text-xl font-bold">{"Switch To"}</div>
-              <div className="text-black-default">
+            <div className='flex items-center justify-between pt-1 pr-4 pb-3 pl-3 '>
+              <div className='text-xl font-bold'>{"Switch To"}</div>
+              <div className='text-black-default'>
                 <RxExternalLink size={24} />
               </div>
             </div>

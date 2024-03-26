@@ -88,7 +88,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
 
   return (
     <Popover
-      placement="bottom-start"
+      placement='bottom-start'
       showArrow
       offset={6}
       isOpen={isOpen}
@@ -103,30 +103,32 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
         <Button
           aria-label={"Shortcut Options"}
           isIconOnly
-          className="bg-transparent"
+          className='bg-transparent'
         >
           <BiDotsVerticalRounded size={shortcutSize} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-4">
+      <PopoverContent className='w-96 p-4'>
         {(titleProps) => (
-          <div className="flex flex-col gap-3 w-full">
-            <div className="flex items-center justify-between">
+          <div className='flex flex-col gap-3 w-full'>
+            <div className='flex items-center justify-between'>
               <p
-                className="text-xl font-extrabold text-black-default/90"
+                className='text-xl font-extrabold text-black-default/90'
                 {...titleProps}
               >
                 {"Update Shortcut"}
               </p>
-              <IconButton onPress={handleCloseWindow} ><MdClose size={24} /></IconButton>
+              <IconButton onPress={handleCloseWindow}>
+                <MdClose size={24} />
+              </IconButton>
             </div>
-            <div className="flex flex-col gap-3 w-full">
+            <div className='flex flex-col gap-3 w-full'>
               <Input
                 isClearable
-                label="Name"
-                labelPlacement="outside-left"
-                size="sm"
-                variant="bordered"
+                label='Name'
+                labelPlacement='outside-left'
+                size='sm'
+                variant='bordered'
                 value={editShortcutName}
                 onValueChange={setEditShortcutName}
                 classNames={{
@@ -141,10 +143,10 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
               <Input
                 autoFocus
                 isClearable
-                label="Link"
-                labelPlacement="outside-left"
-                size="sm"
-                variant="bordered"
+                label='Link'
+                labelPlacement='outside-left'
+                size='sm'
+                variant='bordered'
                 value={editShortcutURL}
                 onValueChange={setEditShortcutURL}
                 classNames={{
@@ -157,7 +159,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
                 }}
               />
             </div>
-            <div className="flex justify-end gap-2.5">
+            <div className='flex justify-end gap-2.5'>
               {actionButtons.cta.map((details, index) => (
                 <CTAButtons
                   key={`${details.label}-${index}`}
@@ -167,11 +169,11 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
                 />
               ))}
               <Button
-                size="sm"
-                radius="sm"
-                variant="light"
+                size='sm'
+                radius='sm'
+                variant='light'
                 disableRipple={true}
-                className="px-3 py-0.5 bg-transparent data-[hover=true]:bg-transparent text-black-default/60 font-bold text-base hover:underline hover:underline-offset-2"
+                className='px-3 py-0.5 bg-transparent data-[hover=true]:bg-transparent text-black-default/60 font-bold text-base hover:underline hover:underline-offset-2'
                 onPress={() => {
                   setIsOpen(false);
                   setDisableDraggable(false);

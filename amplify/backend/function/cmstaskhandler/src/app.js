@@ -18,7 +18,6 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const taskSchema = mongoose.Schema({
-  name: String,
   client: {
     client_id: String,
     name: String,
@@ -45,7 +44,13 @@ const taskSchema = mongoose.Schema({
     start: Date,
     end: Date
   },
-  status: String,
+  "sla" : [
+		{
+	  	"name" : String,
+	  	"status" : String, //todo, pending, to review, done
+			"progress" : String //Good, Overdue, Adhoc
+		}
+	]
 })
 
 const taskModel = mongoose.model('Task', taskSchema)
@@ -71,15 +76,53 @@ app.get('/cms/task/*', async function (req, res) {
 
 app.post('/cms/task', async function (req, res) {
   try {
-    const { name, client, processor, reviewer, duration, status } = req.body
-    const insert = await taskModel.create({
-      name,
-      client,
-      processor,
-      reviewer,
-      duration,
-      status
-    })
+    // const { client, processor, reviewer, duration, sla } = req.body
+    const client = {
+      "client": {
+        "client_id": "client-123",
+        "name": "BLOOMS UMINA",
+        "email": "blooms.umina@blooms.com.au",
+        "picture": "https://www.fluvouchers.com.au/logos/profile/limage-4224.jpg"
+      },
+      "duration": {
+        "start": "2024-02-16T02:21:48.455Z",
+        "end": "2024-03-16T02:21:48.455Z"
+      },
+      "processor": [
+        {
+          "sub": "d0229811-67cc-4fb8-915b-38d8029b85df",
+          "name": "Chloe Lazaro",
+          "email": "chloe.lazaro@aretex.com.au",
+          "picture": "https://lh3.googleusercontent.com/a/ACg8ocIxaddCAyXN_wh9WLB3DrR4tqUJOMWc31qXCUmmCtrLaA=s96-c",
+          "_id": "65dbe8aea9d595dfef10fa1f"
+        },
+        {
+          "sub": "a8dfd442-2977-499b-a917-a0e226c6c089",
+          "name": "Cyrus Layugan",
+          "email": "cyrus.layugan@aretex.com.au",
+          "picture": "https://lh3.googleusercontent.com/a/ACg8ocLpwxhx9lINMohpX7A8ewFwV4G9dKZ_oB2TK42jxweJ=s96-c",
+          "_id": "65dbe8aea9d595dfef10fa20"
+        }
+      ],
+      "reviewer": [
+        {
+          "sub": "1857671a-fad8-4dcb-b7ae-171be5845fe5",
+          "name": "Reinier Silo",
+          "email": "reinier.silo@aretex.com.au",
+          "picture": "https://lh3.googleusercontent.com/a/ACg8ocJUEKZAPNJj_fRKTTZHj5G0ucsGyD4Zo2OJLhCs6mPSOyM=s96-c",
+          "_id": "65dbe8aea9d595dfef10fa21"
+        }
+      ],
+      "sla" : [
+        {
+            "name" : "Dailies Review",
+            "status" : "Good",
+          "progress" : "pending"
+        }
+          
+      ]    
+    }
+    const insert = await taskModel.create(client)
     res.status(200).json({ success: true, body: insert, message: "Task created successfully"})
   } catch (error) {
   res.json({ error: error })
