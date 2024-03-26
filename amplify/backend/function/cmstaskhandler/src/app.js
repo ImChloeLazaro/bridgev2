@@ -47,23 +47,23 @@ const taskSchema = mongoose.Schema({
       picture: String
     }
   ],
-  duration: {
-    start: Date,
-    end: Date
-  },
-  "sla" : [
-		{
-	  	"name" : String,
-	  	"status" : String, //todo, pending, to review, done
-			"progress" : String, //Good, Overdue, Adhoc
-      "done_by" : {
+  recurrence: String, //Daily, Weekly, Monthly, Quarterly, Yearly
+  sla : [{
+	  	name : String,
+      instruction : String,
+	  	status : String, //todo, pending, to review, done
+			progress : String, //Good, Overdue, Adhoc
+      duration: {
+        start: Date,
+        end: Date
+      },
+      done_by : {
         sub: String,
         name: String,
         email: String,
         picture: String
       } //sub 
-		}
-	]
+		}]
 })
 
 const taskModel = mongoose.model('Task', taskSchema)
