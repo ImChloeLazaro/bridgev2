@@ -48,22 +48,22 @@ const taskSchema = mongoose.Schema({
     }
   ],
   recurrence: String, //Daily, Weekly, Monthly, Quarterly, Yearly
-  sla : [{
-	  	name : String,
-      instruction : String,
-	  	status : String, //todo, pending, to review, done
-			progress : String, //Good, Overdue, Adhoc
-      duration: {
-        start: Date,
-        end: Date
-      },
-      done_by : {
-        sub: String,
-        name: String,
-        email: String,
-        picture: String
-      } //sub 
-		}]
+  sla: [{
+    name: String,
+    instruction: String,
+    status: String, //todo, pending, to review, done
+    progress: String, //Good, Overdue, Adhoc
+    duration: {
+      start: Date,
+      end: Date
+    },
+    done_by: {
+      sub: String,
+      name: String,
+      email: String,
+      picture: String
+    } //sub 
+  }]
 })
 
 const taskModel = mongoose.model('Task', taskSchema)
@@ -83,16 +83,19 @@ app.get('/cms/task/*', async function (req, res) {
     const { processor, reviewer } = req.query
     switch (proxy) {
       case '/cms/task/sla':
-          const sla = await taskModel.find({ 
-            $or: [
-              {"processor.sub": processor},
-              {"reviewer.sub": reviewer}
-            ]
-          })
-          res.status(200).json({ success: true, response: sla })
+        const sla = await taskModel.find({
+          $or: [
+            { "processor.sub": processor },
+            { "reviewer.sub": reviewer }
+          ]
+        })
+        res.status(200).json({ success: true, response: sla })
+        break;
+      case '/cms/task/processor':
+        res.status(200).json({ success: true, response: 'reassign processor' })
         break;
       default:
-        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE"});
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE" });
         break;
     }
   } catch (error) {
@@ -104,24 +107,45 @@ app.post('/cms/task', async function (req, res) {
   try {
     const { manager, client, processor, reviewer, duration, sla } = req.body
     const insert = await taskModel.create({ manager, client, processor, reviewer, duration, sla })
-    res.status(200).json({ success: true, response: insert, message: "Task created successfully"})
+    res.status(200).json({ success: true, response: insert, message: "Task created successfully" })
   } catch (error) {
-  res.json({ error: error })
-}
+    res.json({ error: error })
+  }
 });
 
-app.put('/cms/task', async function (req, res) {
+app.put('/cms/task/', async function (req, res) {
+  res.status(200).json({ success: true, response: "DEFAULT PUT REQUEST" });
+});
+
+app.put('/cms/task/*', async function (req, res) {
   try {
     const { _id, name, client, processor, reviewer, duration, status } = req.body
-    const update = await taskModel.updateOne({ _id }, {
-      name,
-      client,
-      processor,
-      reviewer,
-      duration,
-      status
-    })
-    res.status(200).json({ success: true, body: update, message: "Task updated successfully" })
+    const proxy = req.path;
+    switch (proxy) {
+      case '/cms/task/sla':
+          const update = await taskModel.updateOne({ _id }, { name, client, processor, reviewer, duration, status})
+          res.status(200).json({ success: true, body: update, message: "Task Updated successfully" })
+        break;
+        case '/cms/task/update-processor':
+          await taskModel.updateOne({ _id },{ $push: { processor : {$each: processor}}})
+          res.status(200).json({ success: true,  message: "Processor Added Successfully" })
+        break;
+        case '/cms/task/update-reviewer':
+          await taskModel.updateOne({ _id },{ $push: { reviewer : {$each: reviewer}}})
+          res.status(200).json({ success: true,  message: "Reviewer Added Successfully" })
+        break;
+        case '/cms/task/remove-processor':
+          await taskModel.updateOne({ _id }, { $pull: { processor: { _id: { $in: processor.map(processor => processor._id) } } } });
+          res.status(200).json({ success: true, message: "Processor Removed Successfully" });
+        break;
+        case '/cms/task/remove-reviewer':
+          await taskModel.updateOne({ _id }, { $pull: { reviewer: { _id: { $in: reviewer.map(reviewer => reviewer._id) } } } });
+          res.status(200).json({ success: true, response: 'Remove Reviewer Successfully' })
+          break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE" });
+        break;
+    }
   } catch (error) {
     res.json({ error: error })
   }
@@ -130,7 +154,7 @@ app.put('/cms/task', async function (req, res) {
 app.delete('/cms/task', async function (req, res) {
   try {
     const { _id } = req.body
-    const destroy = await taskModel.deleteOne({ _id })
+    const destroy = await taskModel.deleteOne({ _id:'6603621046caf03268e77588' })
     res.status(200).json({ success: true, body: destroy, message: "Task deleted successfully" })
   } catch (error) {
     res.json({ error: error })
