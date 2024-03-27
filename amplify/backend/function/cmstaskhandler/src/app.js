@@ -114,18 +114,20 @@ app.post('/cms/task', async function (req, res) {
 });
 
 app.put('/cms/task/', async function (req, res) {
-  res.status(200).json({ success: true, response: "DEFAULT PUT REQUEST" });
+  try {
+    const { _id, name, client, processor, reviewer, duration, status } = req.body
+    const update = await taskModel.updateOne({ _id }, { name, client, processor, reviewer, duration, status})
+          res.status(200).json({ success: true, response: update, message: "Task Updated successfully" })
+  } catch (error) {
+    res.json({ error: error })
+  }
 });
 
 app.put('/cms/task/*', async function (req, res) {
   try {
-    const { _id, name, client, processor, reviewer, duration, status } = req.body
+    const { _id, reviewer, processor } = req.body 
     const proxy = req.path;
     switch (proxy) {
-      case '/cms/task/sla':
-          const update = await taskModel.updateOne({ _id }, { name, client, processor, reviewer, duration, status})
-          res.status(200).json({ success: true, body: update, message: "Task Updated successfully" })
-        break;
         case '/cms/task/update-processor':
           await taskModel.updateOne({ _id },{ $push: { processor : {$each: processor}}})
           res.status(200).json({ success: true,  message: "Processor Added Successfully" })

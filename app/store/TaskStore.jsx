@@ -243,7 +243,23 @@ export const insertTaskAtom = atom(null, async (get, set, update) => {
 
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
-  console.log("TASKS:", tasks);
+  const taskcount = tasks.response;
+  
+  const statusCount = taskcount.reduce((status, task) => {
+      task.sla.forEach(sla => {
+          if (sla.status === 'pending') {
+              status.pending++;
+          } else if (sla.status === 'todo') {
+              status.todo++;
+          } else if (sla.status === 'done') {
+              status.done++;
+          }
+      });
+      return status;
+  }, { pending: 0, todo: 0, done: 0 });
+  
+  console.log("COUNT:", statusCount);
+  
   if (tasks.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
     const convertedTasks = tasks.response.map((task, index) => {
