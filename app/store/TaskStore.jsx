@@ -258,7 +258,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
       return status;
   }, { pending: 0, todo: 0, done: 0 });
   
-  console.log("COUNT:", statusCount);
+  console.log("STATUS COUNT:", statusCount);
   
   if (tasks.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
