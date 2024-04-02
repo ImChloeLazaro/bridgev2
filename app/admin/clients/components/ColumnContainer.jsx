@@ -12,6 +12,7 @@ function ColumnContainer({
   deleteTask,
   updateTask,
 }) {
+  console.log("tasks inside column container: ", column, tasks);
   const [editMode, setEditMode] = useState(false);
   const tasksCount = tasks?.length ? tasks.length : 0;
   const tasksIds = useMemo(() => {
@@ -56,7 +57,6 @@ function ColumnContainer({
       rounded-lg
       flex
       flex-col
-      grow-1
       basis-1/6
       "
       ></div>
@@ -84,7 +84,6 @@ function ColumnContainer({
     rounded-lg
     flex
     flex-col
-    grow-1
     basis-1/6
   "
     >

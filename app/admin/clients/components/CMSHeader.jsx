@@ -4,7 +4,7 @@ import SearchBar from "@/app/components/SearchBar";
 import {
   clientsAtom,
   fetchClientAtom,
-  selectedClientAtom,
+  selectedClientToEditAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
@@ -52,7 +52,7 @@ const ClientHeader = ({
   } = useDisclosure();
 
   const clients = useAtomValue(clientsAtom);
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  const [selectedClient, setSelectedClient] = useAtom(selectedClientToEditAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const [showActionButtons, setShowActionButtons] = useAtom(
@@ -76,6 +76,9 @@ const ClientHeader = ({
     setShowFooter(false);
     setShowClientTask(false);
     setShowClientDetails(false);
+    if (showClientDetails) {
+      setShowActionButtons(true);
+    }
   };
 
   const handleRefreshClient = async () => {
@@ -119,7 +122,7 @@ const ClientHeader = ({
   };
 
   const clientNameToDisplay = clients.filter(
-    (client) => client.clientKey === selectedClientToView
+    (client) => client._id === selectedClientToView
   )[0]?.company.name;
 
   return (
@@ -224,7 +227,6 @@ const ClientHeader = ({
       </div>
       {showActionButtons && (
         <div className="w-full max-w-md flex justify-between mx-4 gap-4">
-          {/* <div className=""> */}
           <CTAButtons
             key={actionButtons.task.label}
             fullWidth={true}

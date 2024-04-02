@@ -297,6 +297,9 @@ const ClientFormSections = () => {
           label={"When was the last time you filed taxes?"}
           fullWidth={true}
           withDate={true}
+          date={financialLastFiledTax}
+          onDateChange={setFinancialLastFiledTax}
+          isDateModal={true}
           value={financialLastFiledTax}
           onValueChange={setFinancialLastFiledTax}
         />

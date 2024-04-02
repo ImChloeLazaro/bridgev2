@@ -1,5 +1,6 @@
 import { restinsert, restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
+import { tasksAtom } from "./TaskStore";
 
 let clientIndex = 0;
 
@@ -28,9 +29,7 @@ export const testClientValue = atom(null, async (get, set, update) => {
   console.log("ADDED CLIENT", get(clientsAtom));
 });
 
-export const clientsAtom = atom([
- 
-]);
+export const clientsAtom = atom([]);
 
 export const addClientAtom = atom();
 export const updateClientAtom = atom();
@@ -43,8 +42,8 @@ export const tableColumnsAtom = atom([
   { label: "Assignees", key: "assignees", sortable: true },
 ]);
 
-export const selectedClientAtom = atom([]);
-export const selectedClientToViewAtom = atom();
+export const selectedClientToEditAtom = atom([]);
+export const selectedClientToViewAtom = atom("");
 export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
 
 export const clientsCountAtom = atom((get) => get(clientsAtom).length);
@@ -78,11 +77,10 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
     const convertedClients = clients.response.map((client, index) => {
       return {
         ...client,
-        key: (index += 1),
-        clientKey: `client-${index}`,
+        company: { ...client.company, picture: "https://picsum.photos/200" },
       };
     });
-    console.log("convertedClients", convertedClients)
+    console.log("convertedClients", convertedClients);
     set(clientsAtom, convertedClients);
   } else {
     console.log("CLIENT FAILED FETCH", clients);

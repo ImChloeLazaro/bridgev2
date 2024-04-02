@@ -13,8 +13,8 @@ const Clients = () => {
   const fetchClient = useSetAtom(fetchClientAtom);
 
   useEffect(() => {
-    fetchTask();
     fetchClient();
+    fetchTask();
   }, [fetchClient, fetchTask]);
 
   return (

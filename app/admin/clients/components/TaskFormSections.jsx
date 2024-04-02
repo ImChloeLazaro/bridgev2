@@ -2,23 +2,33 @@ import React from "react";
 import { MdInfoOutline } from "react-icons/md";
 import { Divider, Select, SelectItem, Chip, Avatar } from "@nextui-org/react";
 import {
-  clientSelectionAtom,
+  clientSelectionForTaskAtom,
   endDateAtom,
-  intervalSelectionAtom,
+  recurrenceSelectionAtom,
+  managerSelectionAtom,
   processorSelectionAtom,
   reviewerSelectionAtom,
-  selectedIntervalAtom,
+  selectedClientForTaskAtom,
+  selectedRecurrenceAtom,
+  selectedManagerAtom,
   selectedProcessorAtom,
   selectedReviewerAtom,
   startDateAtom,
+  taskNameAtom,
+  taskInstructionAtom,
 } from "@/app/store/TaskStore";
 import { useAtom, useAtomValue } from "jotai";
-import { selectedClientAtom } from "@/app/store/ClientStore";
+
 import FormFieldInput from "@/app/components/FormFieldInput";
 
 const TaskFormSections = () => {
-  const clientSelection = useAtomValue(clientSelectionAtom);
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  const [taskName, setTaskName] = useAtom(taskNameAtom);
+  const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
+
+  const clientSelectionForTask = useAtomValue(clientSelectionForTaskAtom);
+  const [selectedClientForTask, setSelectedClientForTask] = useAtom(
+    selectedClientForTaskAtom
+  );
 
   const processorSelection = useAtomValue(processorSelectionAtom);
   const [selectedProcessor, setSelectedProcessor] = useAtom(
@@ -28,14 +38,19 @@ const TaskFormSections = () => {
   const reviewerSelection = useAtomValue(reviewerSelectionAtom);
   const [selectedReviewer, setSelectedReviewer] = useAtom(selectedReviewerAtom);
 
-  const intervalSelection = useAtomValue(intervalSelectionAtom);
-  const [selectedInterval, setSelectedInterval] = useAtom(selectedIntervalAtom);
+  const managerSelection = useAtomValue(managerSelectionAtom);
+  const [selectedManager, setSelectedManager] = useAtom(selectedManagerAtom);
+
+  const recurrenceSelection = useAtomValue(recurrenceSelectionAtom);
+  const [selectedRecurrence, setSelectedRecurrence] = useAtom(
+    selectedRecurrenceAtom
+  );
 
   const [startDate, setStartDate] = useAtom(startDateAtom);
   const [endDate, setEndDate] = useAtom(endDateAtom);
 
   const handleClientSelectionChange = (key) => {
-    setSelectedClient(key);
+    setSelectedClientForTask(key);
   };
   const handleProcessorSelectionChange = (key) => {
     setSelectedProcessor(key);
@@ -44,8 +59,12 @@ const TaskFormSections = () => {
     setSelectedReviewer(key);
   };
 
+  const handleManagerSelectionChange = (key) => {
+    setSelectedManager(key);
+  };
+
   const handleIntervalSelectionChange = (key) => {
-    setSelectedInterval(key);
+    setSelectedRecurrence(key);
   };
 
   return (
@@ -63,39 +82,27 @@ const TaskFormSections = () => {
             <p className="font-medium w-24">{"Client"}</p>
             <Select
               aria-label="Client Selection"
-              items={clientSelection}
+              items={clientSelectionForTask}
               variant="bordered"
               isMultiline={true}
-              selectionMode="multiple"
-              placeholder="Select Client/s"
-              selectedKeys={selectedClient}
+              selectionMode="single"
+              placeholder="Select Client"
+              selectedKeys={selectedClientForTask}
               onSelectionChange={(key) => handleClientSelectionChange(key)}
               classNames={{
                 base: "max-w-sm max-h-sm",
                 trigger: "min-h-unit-12 py-2",
-                // innerWrapper: "h-[200px]",
               }}
               renderValue={(displayItems) => {
                 return (
                   <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
                     {displayItems.map((displayItem) => (
-                      <Chip
+                      <p
                         key={displayItem.key}
-                        startContent={displayItem.data.picture}
-                        onClose={() => {
-                          setSelectedClient(() =>
-                            Array.from(selectedClient).filter(
-                              (item) => item !== displayItem.key
-                            )
-                          );
-                        }}
+                        className="text-sm font-medium text-black-default"
                       >
-                        {displayItem.data.picture ? (
-                          <p className="font-sm">{displayItem.data.name}</p>
-                        ) : (
-                          <p className="font-bold">{displayItem.data.name}</p>
-                        )}
-                      </Chip>
+                        {displayItem.data.name}
+                      </p>
                     ))}
                   </div>
                 );
@@ -143,13 +150,13 @@ const TaskFormSections = () => {
                         onClose={() => {
                           setSelectedProcessor(() =>
                             Array.from(selectedProcessor).filter(
-                              (item) => item !== displayItem.key
+                              (item) => item !== displayItem.data.key
                             )
                           );
                         }}
                       >
                         {displayItem.data.picture ? (
-                          <p className="font-sm">{displayItem.data.name}</p>
+                          <p className="font-medium">{displayItem.data.name}</p>
                         ) : (
                           <p className="font-bold">{displayItem.data.name}</p>
                         )}
@@ -202,13 +209,13 @@ const TaskFormSections = () => {
                         onClose={() => {
                           setSelectedReviewer(() =>
                             Array.from(selectedReviewer).filter(
-                              (item) => item !== displayItem.key
+                              (item) => item !== displayItem.data.key
                             )
                           );
                         }}
                       >
                         {displayItem.data.picture ? (
-                          <p className="font-sm">{displayItem.data.name}</p>
+                          <p className="font-medium">{displayItem.data.name}</p>
                         ) : (
                           <p className="font-bold">{displayItem.data.name}</p>
                         )}
@@ -233,27 +240,99 @@ const TaskFormSections = () => {
               )}
             </Select>
           </div>
+
+          {/* Manager */}
+          <div className="flex justify-between items-center gap-5">
+            <p className="font-medium w-24">{"Manager"}</p>
+
+            <Select
+              aria-label="Manager Selection"
+              items={managerSelection}
+              variant="bordered"
+              isMultiline={true}
+              selectionMode="single"
+              placeholder="Assign Manager/s"
+              selectedKeys={selectedManager}
+              onSelectionChange={(key) => handleManagerSelectionChange(key)}
+              classNames={{
+                base: "max-w-sm max-h-sm",
+                trigger: "min-h-unit-12 py-2",
+              }}
+              renderValue={(displayItems) => {
+                return (
+                  <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
+                    {displayItems.map((displayItem) => (
+                      <p
+                        key={displayItem.key}
+                        className="text-sm font-medium text-black-default"
+                      >
+                        {displayItem.data.name}
+                      </p>
+                    ))}
+                  </div>
+                );
+              }}
+            >
+              {(manager) => (
+                <SelectItem key={manager.key} textValue={manager.name}>
+                  <div className="flex gap-2 items-center">
+                    <Avatar
+                      alt={manager.name}
+                      className="flex-shrink-0"
+                      size="sm"
+                      src={manager.picture}
+                    />
+                    <span className="text-small">{manager.name}</span>
+                  </div>
+                </SelectItem>
+              )}
+            </Select>
+          </div>
         </div>
       </div>
-      {/* Duration */}
+      {/* Description */}
       <div className="mt-2 py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-lg">{"Duration"}</p>
+          <p className="font-bold text-lg">{"Description"}</p>
           <MdInfoOutline />
         </div>
 
         <div className="flex flex-col gap-3">
-          {/* Client */}
+          {/* Name */}
           <div className="flex justify-between items-center gap-5">
-            <p className="font-medium w-24">{"Interval"}</p>
+            <p className="font-medium w-24">{"Name"}</p>
+
+            <FormFieldInput
+              value={taskName}
+              onValueChange={setTaskName}
+              placeholder={"Give the task a name "}
+              fullWidth={true}
+            />
+          </div>
+
+          {/* Instruction */}
+          <div className="flex justify-between items-center gap-5">
+            <p className="font-medium w-24">{"Instruction"}</p>
+
+            <FormFieldInput
+              value={taskInstruction}
+              onValueChange={setTaskInstruction}
+              placeholder={"Special Instructions"}
+              fullWidth={true}
+            />
+          </div>
+
+          {/* Recurrence */}
+          <div className="flex justify-between items-center gap-5">
+            <p className="font-medium w-24">{"Recurrence"}</p>
             <Select
               aria-label="Client Selection"
-              items={intervalSelection}
+              items={recurrenceSelection}
               variant="bordered"
               isMultiline={true}
               selectionMode="single"
-              placeholder="Choose Interval"
-              selectedKeys={selectedInterval}
+              placeholder="Choose Recurrence"
+              selectedKeys={selectedRecurrence}
               onSelectionChange={(key) => handleIntervalSelectionChange(key)}
               classNames={{
                 base: "max-w-sm max-h-sm",
@@ -272,7 +351,7 @@ const TaskFormSections = () => {
               }}
             >
               {(client) => (
-                <SelectItem key={client.key} textValue={client.label}>
+                <SelectItem key={client.label} textValue={client.label}>
                   <div className="flex gap-2 items-center">
                     <span className="text-small">{client.label}</span>
                   </div>
@@ -281,7 +360,7 @@ const TaskFormSections = () => {
             </Select>
           </div>
 
-          {/* Processor */}
+          {/* Start Date */}
           <div className="flex justify-between items-center gap-5">
             <p className="font-medium w-24">{"Start Date"}</p>
 
@@ -292,11 +371,12 @@ const TaskFormSections = () => {
               withDate={true}
               date={startDate}
               onDateChange={setStartDate}
+              isDateModal={true}
               fullWidth={true}
             />
           </div>
 
-          {/* Processor */}
+          {/* End Date */}
           <div className="flex justify-between items-center gap-5">
             <p className="font-medium w-24">{"End Date"}</p>
 
@@ -307,6 +387,7 @@ const TaskFormSections = () => {
               withDate={true}
               date={endDate}
               onDateChange={setEndDate}
+              isDateModal={true}
               fullWidth={true}
             />
           </div>

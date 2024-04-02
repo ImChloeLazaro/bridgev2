@@ -28,7 +28,9 @@ module.exports = {
           foreground: "hsl(var(--popover-foreground))",
         },
       },
-
+      zIndex: {
+        100: "100",
+      },
       width: {
         18: "4.5rem",
       },

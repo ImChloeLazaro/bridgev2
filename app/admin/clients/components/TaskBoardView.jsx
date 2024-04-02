@@ -4,7 +4,7 @@ import {
   DragOverlay,
   PointerSensor,
   useSensor,
-  useSensors
+  useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useAtom } from "jotai";
@@ -17,10 +17,12 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useAtom(tasksAtom);
+  // const [tasks, setTasks] = useState(sortedItemTasks);
 
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
+
+  console.log("sortedItemTasks INSIDE BOARD:", sortedItemTasks);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -54,9 +56,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
                 createTask={createTask}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
-                tasks={sortedItemTasks.filter(
-                  (task) => task.columnId === col.id
-                )} // change to status as the filter key
+                tasks={tasks.filter((task) => task.status === col.id)} // change to status as the filter key
               />
             ))}
           </SortableContext>
@@ -96,9 +96,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
                 createTask={createTask}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id // change to status as the filter key
-                )}
+                tasks={tasks.filter((task) => task.status === col.id)} // change to status as the filter key
               />
             )}
             {activeTask && (
@@ -115,29 +113,29 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     </div>
   );
 
-  function createTask(columnId) {
-    const newTask = {
-      id: generateId(),
-      columnId,
-      content: `Task ${tasks.length + 1}`,
-    };
+  // function createTask(status) {
+  //   const newTask = {
+  //     id: generateId(),
+  //     status,
+  //     content: `Task ${tasks.length + 1}`,
+  //   };
 
-    setTasks([...tasks, newTask]);
-  }
+  //   setTasks([...tasks, newTask]);
+  // }
 
-  function deleteTask(id) {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks(newTasks);
-  }
+  // function deleteTask(id) {
+  //   const newTasks = tasks.filter((task) => task.id !== id);
+  //   setTasks(newTasks);
+  // }
 
-  function updateTask(id, content) {
-    const newTasks = tasks.map((task) => {
-      if (task.id !== id) return task;
-      return { ...task, content };
-    });
+  // function updateTask(id, content) {
+  //   const newTasks = tasks.map((task) => {
+  //     if (task.id !== id) return task;
+  //     return { ...task, content };
+  //   });
 
-    setTasks(newTasks);
-  }
+  //   setTasks(newTasks);
+  // }
 
   // function createNewColumn() {
   //   const columnToAdd = {
@@ -148,22 +146,22 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   //   setColumns([...columns, columnToAdd]);
   // }
 
-  function deleteColumn(id) {
-    const filteredColumns = columns.filter((col) => col.id !== id);
-    setColumns(filteredColumns);
+  // function deleteColumn(id) {
+  //   const filteredColumns = columns.filter((col) => col.id !== id);
+  //   setColumns(filteredColumns);
 
-    const newTasks = tasks.filter((t) => t.columnId !== id);
-    setTasks(newTasks);
-  }
+  //   const newTasks = tasks.filter((t) => t.status !== id);
+  //   setTasks(newTasks);
+  // }
 
-  function updateColumn(id, title) {
-    const newColumns = columns.map((col) => {
-      if (col.id !== id) return col;
-      return { ...col, title };
-    });
+  // function updateColumn(id, title) {
+  //   const newColumns = columns.map((col) => {
+  //     if (col.id !== id) return col;
+  //     return { ...col, title };
+  //   });
 
-    setColumns(newColumns);
-  }
+  //   setColumns(newColumns);
+  // }
 
   function onDragStart(event) {
     if (event.active.data.current?.type === "Column") {
@@ -184,8 +182,8 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     const { active, over } = event;
     if (!over) return;
 
-    const activeId = active.id;
-    const overId = over.id;
+    const activeId = active.status;
+    const overId = over.status;
 
     if (activeId === overId) return;
 
@@ -223,12 +221,12 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     // Im dropping a Task over another Task
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        const overIndex = tasks.findIndex((t) => t.id === overId);
+        const activeIndex = tasks.findIndex((t) => t.status === activeId);
+        const overIndex = tasks.findIndex((t) => t.status === overId);
 
-        if (tasks[activeIndex].columnId != tasks[overIndex].columnId) {
+        if (tasks[activeIndex].status != tasks[overIndex].status) {
           // Fix introduced after video recording
-          tasks[activeIndex].columnId = tasks[overIndex].columnId;
+          tasks[activeIndex].status = tasks[overIndex].status;
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
 
@@ -241,15 +239,15 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     // Im dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+        const activeIndex = tasks.findIndex((t) => t.status === activeId);
 
-        tasks[activeIndex].columnId = overId;
+        tasks[activeIndex].status = overId;
         console.log(tasks);
         console.log("DROPPING TASK OVER COLUMN", { activeIndex });
         return arrayMove(tasks, activeIndex, activeIndex);
       });
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+        const activeIndex = tasks.findIndex((t) => t.status === activeId);
 
         tasks[activeIndex].status = overId;
         console.log(tasks);

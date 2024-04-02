@@ -12,9 +12,10 @@ import {
   CardBody,
   Image,
 } from "@nextui-org/react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
 import { changeViewAtom, showClientTaskAtom } from "../store/CMSAdminStore";
+import { taskStatusCountAtom } from "@/app/store/TaskStore";
 
 const tagColors = {
   todo: "blue",
@@ -30,21 +31,26 @@ const ClientItemCard = ({ data }) => {
   const setShowClientTask = useSetAtom(showClientTaskAtom);
   const setChangeView = useSetAtom(changeViewAtom);
 
-  const handleSelectTask = (status) => {
+  const clientStatusTasksCount = useAtomValue(taskStatusCountAtom);
+
+  console.log("clientStatusTasksCount", clientStatusTasksCount);
+
+  const statusTasksCount = clientStatusTasksCount?.reduce((acc, curr) => {
+    return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+  }, {});
+
+  console.log("statusTasksCount", statusTasksCount);
+
+  const handleSelectTask = () => {
     // when user pressed on the tags on client list
-    handleSelectClient(data.clientKey);
+    handleSelectClient(data._id);
     setChangeView(true);
-    console.log("CLIENT TYPE STATUS", status);
   };
   const handleSelectClient = (selected) => {
     // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
     setShowClientTask(true);
-
-    console.log("CLIENT SELECTED", selected);
   };
-
-  console.log("CLIENTS INSIDE LIST: ", data)
 
   return (
     <div className="flex justify-between items-center h-full">
@@ -52,40 +58,38 @@ const ClientItemCard = ({ data }) => {
         <CardBody className=" pr-0 py-1">
           <div className="flex justify-around gap-12">
             <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
-              <div className="max-w-[70px]">
-                <Image
-                  src="/store-placeholder.png"
-                  alt="Store Placeholder"
-                  width={80}
-                  radius={"none"}
-                  loading={"lazy"}
+              <div className="max-w-[70px] pl-4 pr-1">
+                <Avatar
+                  src={data.company.picture}
+                  className="w-16 h-16 text-large"
                 />
               </div>
               {data.company.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
-              {/* {Object.keys(data.status).map((status, s_index) => {
-                if (data.status[status].count > 0) {
-                  return (
-                    <Button
-                      key={s_index}
-                      className="p-0 m-0 "
-                      onPress={() => handleSelectTask(status)}
-                    >
-                      <LabelTagChip
+              {statusTasksCount?.length &&
+                Object.keys(statusTasksCount).map((status, s_index) => {
+                  if (statusTasksCount[status] > 0) {
+                    return (
+                      <Button
                         key={s_index}
-                        text={`${data.status[status].label}`}
-                        color={tagColors[status]}
-                        type="tag"
-                        size="md"
-                        isFilled
-                        withBadge={true}
-                        badgeContent={data.status[status].count}
-                      />
-                    </Button>
-                  );
-                }
-              })} */}
+                        className="p-0 m-0 "
+                        onPress={() => handleSelectTask()}
+                      >
+                        <LabelTagChip
+                          key={s_index}
+                          text={`${status}`}
+                          color={tagColors[status]}
+                          type="tag"
+                          size="md"
+                          isFilled
+                          withBadge={true}
+                          badgeContent={statusTasksCount[status]}
+                        />
+                      </Button>
+                    );
+                  }
+                })}
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
               {/* {data.assignedUsers ?? "No one is assigned "}
@@ -103,7 +107,7 @@ const ClientItemCard = ({ data }) => {
       </Card>
       <IconButton
         className="bg-transparent w-1/12 h-32"
-        onPress={() => handleSelectClient(data.clientKey)}
+        onPress={() => handleSelectClient(data._id)}
       >
         <MdChevronRight size={32} />
       </IconButton>

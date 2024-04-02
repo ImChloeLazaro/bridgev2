@@ -4,6 +4,8 @@ import CTAButtons from "@/app/components/CTAButtons";
 import { MdInsertDriveFile } from "react-icons/md";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { RiCheckboxCircleFill } from "react-icons/ri";
+import { MdPerson } from "react-icons/md";
+import { BsPersonCheckFill } from "react-icons/bs";
 
 const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const clientInfo = selectedClient[0];
@@ -58,7 +60,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
                 // as={Button}
                 // onPress={()=>{console.log("AVATAR CHANGE PROFILE PICTURE")}}
                 // radius="full"
-                src="/image-placeholder.png"
+                src={clientInfo?.company.picture}
                 alt="Image Placeholder"
                 classNames={{
                   base: "data-[hover=true]:bg-darkgrey-default w-[140px] h-[140px] text-large border-8 border-white-default ",
@@ -100,13 +102,13 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
 
           <div className="flex-col">
             <p className="ml-1 text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
-              {selectedClient[0]?.company.name}
+              {clientInfo?.company.name}
             </p>
             <p className="ml-2 text-base font-medium text-darkgrey-hover leading-5">
-              {selectedClient[0]?.company.contact_number}
+              {clientInfo?.company.contact_number}
             </p>
             <p className="ml-2 text-base font-medium text-darkgrey-hover leading-5">
-              {selectedClient[0]?.company.email}
+              {clientInfo?.company.email}
             </p>
             <div className="flex justify-center items-center gap-4 mt-2">
               {clientInfo?.another_bookkeeper === undefined
@@ -132,6 +134,11 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
                   startContent={<MdInsertDriveFile size={20} />}
                   label={document}
                   color={"clear"}
+                  endContent={
+                    <div className="flex items-center gap-2 text-green-default">
+                      <RiCheckboxCircleFill size={18} />
+                    </div>
+                  }
                 />
               );
             })}

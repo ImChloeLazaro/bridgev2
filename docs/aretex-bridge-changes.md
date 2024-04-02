@@ -892,3 +892,7 @@ postsAtom = atom({
   * Merged Shortcuts changes
   * Merged Post Reactions changes
   * Merged Reporting Post changes
+
+## v.0.6.7
+
+* Added `100` to extend the `zIndex` tailwind property for adjusting stacking of elements

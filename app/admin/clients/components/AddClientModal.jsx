@@ -24,7 +24,9 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
 
   const handleAddClient = () => {
     console.log("clientData: ", clientData);
+
   };
+
 
   return (
     <Modal

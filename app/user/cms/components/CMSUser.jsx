@@ -2,7 +2,7 @@ import {
   clientFilterKeysAtom,
   clientsAtom,
   clientsCountAtom,
-  selectedClientAtom,
+  selectedClientToEditAtom,
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,

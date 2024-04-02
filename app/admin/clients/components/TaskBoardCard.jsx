@@ -9,6 +9,7 @@ import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
 import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
+  console.log("task inside task card: ", task);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
 
@@ -120,7 +121,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
             className="text-lg font-medium text-black-default "
             onPress={handleViewClientDetails}
           >
-            {task.name}
+            {task?.name?.length ? task.name : ""}
           </Link>
         </div>
         <div className=""></div>
@@ -131,7 +132,10 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
             underline="hover"
             className="text-sm font-medium text-black-default/80"
           >
-            {format(task?.duration?.end, "d MMM yyyy")}
+            {task?.duration?.end?.length
+              ? format(task.duration.end, "d MMM yyyy")
+              : ""}
+            {/* {""} */}
           </Link>
         </div>
         <div className="flex gap-2 justify-start items-center">
@@ -142,12 +146,12 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
                 underline="hover"
                 className="text-sm font-medium text-black-default/80"
               >
-                {task.reviewer[0].name}
+                {""}
               </Link>
             }
             // description="Reviewer"
             avatarProps={{
-              src: task.reviewer[0].picture,
+              src: "",
               size: "sm",
               classNames: { base: "w-[22px] h-[22px]" },
             }}

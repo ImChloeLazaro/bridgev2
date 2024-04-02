@@ -1,15 +1,23 @@
 import CTAButtons from "@/app/components/CTAButtons";
+import { taskDataAtom } from "@/app/store/TaskStore";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import { useAtomValue } from "jotai";
 import TaskFormSections from "./TaskFormSections";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
+  const newTask = useAtomValue(taskDataAtom);
+
+  const handleAddTask = () => {
+    const newTask = [{}];
+    console.log("NEW TASK CREATED: ", newTask);
+  };
+
   return (
     <Modal
       size={"lg"}
@@ -32,7 +40,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
               <CTAButtons
                 label={"Assign Task"}
                 color={"blue"}
-                onPress={onClose}
+                onPress={handleAddTask}
               />
             </ModalFooter>
           </>

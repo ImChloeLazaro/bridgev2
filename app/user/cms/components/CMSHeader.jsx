@@ -4,7 +4,7 @@ import SearchBar from "@/app/components/SearchBar";
 import {
   clientsAtom,
   fetchClientAtom,
-  selectedClientAtom,
+  selectedClientToEditAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
@@ -39,7 +39,7 @@ const ClientHeader = ({
   className,
 }) => {
   const clients = useAtomValue(clientsAtom);
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  const [selectedClient, setSelectedClient] = useAtom(selectedClientToEditAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);

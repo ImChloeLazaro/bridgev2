@@ -1,8 +1,5 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
-import {
-  tableColumnsAtom,
-  tasksAtom
-} from "@/app/store/TaskStore";
+import { tableColumnsAtom, tasksAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
@@ -11,10 +8,11 @@ import {
   TableCell,
   TableColumn,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useAtomValue } from "jotai";
+import { useMemo } from "react";
 import { useCallback, useState } from "react";
 
 const tagColors = {
@@ -26,46 +24,76 @@ const tagColors = {
   pending: "darkgrey",
 };
 
-const TaskTableView = ({ sortedItemTasks, showClientTask, changeView }) => {
+const TaskTableView = ({
+  sortedItemTasks,
+  showClientTask,
+  changeView,
+  sortDescriptor,
+  setSortDescriptor,
+}) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
   const tasks = useAtomValue(tasksAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
 
-  const [sortDescriptor, setSortDescriptor] = useState({
-    column: "name",
-    direction: "ascending",
-  });
+  // console.log("itemTasks after", itemTasks);
+
+  // const [sortDescriptor, setSortDescriptor] = useState({
+  //   column: "name",
+  //   direction: "ascending",
+  // });
 
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
+    const assigneesList = task.processor?.length ? task.processor : [];
+
+    console.log("task", task);
+    console.log("columnKey", columnKey);
 
     switch (columnKey) {
       case "task":
-        return <div>{task.name}</div>;
+        return <div>{task.name?.length ? task.name : ""}</div>;
 
       case "status":
         return (
           <LabelTagChip
             size="md"
-            text={task.status.toLowerCase()}
-            color={tagColors[task.status.toLowerCase()]}
+            text={task.status?.length ? task.status : ""}
+            color={tagColors[task.status?.length ? task.status : ""]}
           />
         );
 
       case "startDate":
-        return <div>{format(task.duration.start, "d  MMMM yyyy")}</div>;
+        return (
+          <div>
+            {format(
+              task.duration.start?.length ? task.duration.start : "",
+              "d  MMMM yyyy"
+            )}
+          </div>
+        );
 
       case "endDate":
-        return <div>{format(task.duration.end, "d  MMMM yyyy")}</div>;
+        return (
+          <div>
+            {format(
+              task.duration.end?.length ? task.duration.end : "",
+              "d  MMMM yyyy"
+            )}
+          </div>
+        );
 
       case "assignees":
         return (
           <div className="h-full flex justify-start">
-            <AvatarGroup size="md" max={4} total={task.processor.length}>
-              {task.processor.map((assignee) => {
+            <AvatarGroup size="md" max={3}>
+              {assigneesList.map((assignee) => {
                 return (
-                  <Avatar key={assignee._id} size="md" src={assignee.picture} />
+                  <Avatar
+                    key={assignee.sub}
+                    size="md"
+                    src={"https://picsum.photos/200"}
+                  />
                 );
               })}
             </AvatarGroup>
@@ -113,7 +141,7 @@ const TaskTableView = ({ sortedItemTasks, showClientTask, changeView }) => {
         </TableHeader>
         <TableBody emptyContent={"No rows to display."} items={sortedItemTasks}>
           {(item) => (
-            <TableRow key={item.index}>
+            <TableRow key={item.key}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
