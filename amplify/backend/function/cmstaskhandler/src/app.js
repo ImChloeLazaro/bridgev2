@@ -18,6 +18,7 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const taskSchema = mongoose.Schema({
+  index: String,
   manager: {
     sub: String,
     name: String,
@@ -47,7 +48,6 @@ const taskSchema = mongoose.Schema({
       picture: String
     }
   ],
-  recurrence: String, //Daily, Weekly, Monthly, Quarterly, Yearly
   sla: [{
     name: String,
     instruction: String,
@@ -55,7 +55,8 @@ const taskSchema = mongoose.Schema({
     progress: String, //Good, Overdue, Adhoc
     duration: {
       start: Date,
-      end: Date
+      end: Date,
+      recurrence: String, //Daily, Weekly, Monthly, Quarterly, Yearly
     },
     done_by: {
       sub: String,
@@ -105,7 +106,7 @@ app.get('/cms/task/*', async function (req, res) {
 
 app.post('/cms/task', async function (req, res) {
   try {
-    const { manager, client, processor, reviewer, duration, sla } = req.body
+    const { index, manager, client, processor, reviewer, duration, sla } = req.body
     const insert = await taskModel.create({ manager, client, processor, reviewer, duration, sla })
     res.status(200).json({ success: true, response: insert, message: "Task created successfully" })
   } catch (error) {
@@ -115,8 +116,8 @@ app.post('/cms/task', async function (req, res) {
 
 app.put('/cms/task/', async function (req, res) {
   try {
-    const { _id, name, client, processor, reviewer, duration, status } = req.body
-    const update = await taskModel.updateOne({ _id }, { name, client, processor, reviewer, duration, status})
+    const { _id, index, name, client, processor, reviewer, duration, sla } = req.body
+    const update = await taskModel.updateOne({ _id }, { _id, index, name, client, processor, reviewer, duration, sla })
           res.status(200).json({ success: true, response: update, message: "Task Updated successfully" })
   } catch (error) {
     res.json({ error: error })
@@ -156,7 +157,7 @@ app.put('/cms/task/*', async function (req, res) {
 app.delete('/cms/task', async function (req, res) {
   try {
     const { _id } = req.body
-    const destroy = await taskModel.deleteOne({ _id:'6603621046caf03268e77588' })
+    const destroy = await taskModel.deleteOne({ _id  })
     res.status(200).json({ success: true, body: destroy, message: "Task deleted successfully" })
   } catch (error) {
     res.json({ error: error })
