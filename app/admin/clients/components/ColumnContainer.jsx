@@ -12,7 +12,6 @@ function ColumnContainer({
   deleteTask,
   updateTask,
 }) {
-  console.log("tasks inside column container: ", column, tasks);
   const [editMode, setEditMode] = useState(false);
   const tasksCount = tasks?.length ? tasks.length : 0;
   const tasksIds = useMemo(() => {

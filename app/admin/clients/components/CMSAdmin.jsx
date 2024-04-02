@@ -87,14 +87,13 @@ const CMSAdmin = () => {
     (sla, index) => {
       return {
         ...sla,
-        id: `${(index += 1)}`,
+        id: (index += 1),
         key: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
     }
   );
-
 
   const selectedTaskFilterKeyString = Array.from(selectedTaskFilterKeys).join(
     ""

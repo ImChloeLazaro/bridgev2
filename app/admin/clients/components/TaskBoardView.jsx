@@ -17,7 +17,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  // const [tasks, setTasks] = useState(sortedItemTasks);
+  const [tasks, setTasks] = useAtom(tasksAtom);
 
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
@@ -51,12 +51,12 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
               <ColumnContainer
                 key={col.id}
                 column={col}
-                deleteColumn={deleteColumn}
-                updateColumn={updateColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter((task) => task.status === col.id)} // change to status as the filter key
+                // deleteColumn={deleteColumn}
+                // updateColumn={updateColumn}
+                // createTask={createTask}
+                // deleteTask={deleteTask}
+                // updateTask={updateTask}
+                tasks={sortedItemTasks.filter((task) => task.status === col.id)} // change to status as the filter key
               />
             ))}
           </SortableContext>
@@ -91,19 +91,19 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
             {activeColumn && (
               <ColumnContainer
                 column={activeColumn}
-                deleteColumn={deleteColumn}
-                updateColumn={updateColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter((task) => task.status === col.id)} // change to status as the filter key
+                // deleteColumn={deleteColumn}
+                // updateColumn={updateColumn}
+                // createTask={createTask}
+                // deleteTask={deleteTask}
+                // updateTask={updateTask}
+                tasks={sortedItemTasks.filter((task) => task.status === col.id)} // change to status as the filter key
               />
             )}
             {activeTask && (
               <TaskBoardCard
                 task={activeTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
+                // deleteTask={deleteTask}
+                // updateTask={updateTask}
               />
             )}
           </DragOverlay>,
@@ -164,6 +164,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   // }
 
   function onDragStart(event) {
+    console.log("DRAG START:", event);
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
@@ -176,6 +177,8 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   }
 
   function onDragEnd(event) {
+    console.log("DRAG END:", event);
+
     setActiveColumn(null);
     setActiveTask(null);
 
@@ -205,11 +208,13 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   }
 
   function onDragOver(event) {
+    console.log("DRAG OVER:", event);
+
     const { active, over } = event;
     if (!over) return;
 
-    const activeId = active.id;
-    const overId = over.id;
+    const activeId = active.status;
+    const overId = over.status;
 
     if (activeId === overId) return;
 
@@ -218,14 +223,13 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
 
     if (!isActiveATask) return;
 
-    // Im dropping a Task over another Task
+    // dropping a Task over another Task
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.status === activeId);
         const overIndex = tasks.findIndex((t) => t.status === overId);
 
         if (tasks[activeIndex].status != tasks[overIndex].status) {
-          // Fix introduced after video recording
           tasks[activeIndex].status = tasks[overIndex].status;
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
@@ -236,7 +240,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
 
     const isOverAColumn = over.data.current?.type === "Column";
 
-    // Im dropping a Task over a column
+    // dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.status === activeId);
@@ -246,21 +250,16 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
         console.log("DROPPING TASK OVER COLUMN", { activeIndex });
         return arrayMove(tasks, activeIndex, activeIndex);
       });
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.status === activeId);
+      // setTasks((tasks) => {
+      //   const activeIndex = tasks.findIndex((t) => t.status === activeId);
 
-        tasks[activeIndex].status = overId;
-        console.log(tasks);
-        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
-        return arrayMove(tasks, activeIndex, activeIndex);
-      });
+      //   tasks[activeIndex].status = overId;
+      //   console.log(tasks);
+      //   console.log("DROPPING TASK OVER COLUMN", { activeIndex });
+      //   return arrayMove(tasks, activeIndex, activeIndex);
+      // });
     }
   }
 };
-
-function generateId() {
-  /* Generate a random number between 0 and 10000 */
-  return Math.floor(Math.random() * 10001);
-}
 
 export default TaskBoardView;
