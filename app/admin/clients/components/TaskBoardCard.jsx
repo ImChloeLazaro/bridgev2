@@ -9,7 +9,6 @@ import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
 import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
-  console.log("task inside task card: ", task);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
 
