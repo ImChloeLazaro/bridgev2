@@ -5,6 +5,7 @@ import { MdFilterAlt } from "react-icons/md";
 import { LuSearch } from "react-icons/lu";
 
 const SearchBar = ({
+  showSearchBar,
   type = "filter",
   searchItem,
   setSearchItem,
@@ -86,7 +87,14 @@ const SearchBar = ({
       </>
     ),
   };
-  return <div className="flex gap-0">{typeVariant[type]}</div>;
+  return (
+    <div
+      data-show={showSearchBar}
+      className="flex data-[show=false]:hidden gap-0 "
+    >
+      {typeVariant[type]}
+    </div>
+  );
 };
 
 export default SearchBar;

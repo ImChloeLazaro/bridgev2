@@ -1,5 +1,6 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import {
+  addClientAtom,
   clientDataAtom,
   clientTabsAtom,
   selectedClientTabAtom,
@@ -10,9 +11,10 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Tab, Tabs
+  Tab,
+  Tabs,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import ClientFormSections from "./ClientFormSections";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
@@ -22,11 +24,17 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   const clientData = useAtomValue(clientDataAtom);
   const clientTabs = useAtomValue(clientTabsAtom);
 
-  const handleAddClient = () => {
-    console.log("clientData: ", clientData);
+  const addClient = useSetAtom(addClientAtom);
 
+  const handleAddClient = async () => {
+    console.log("HERE ADDING CLIENT");
+    const response = await addClient(clientData);
+    console.log("response", response);
+
+    if (response.success) {
+      console.log("CONFIRM WINDOW ADDED CLIENT", response.success);
+    }
   };
-
 
   return (
     <Modal

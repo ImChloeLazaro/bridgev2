@@ -1,8 +1,13 @@
 import { Button, cn } from "@nextui-org/react";
 
-const IconButton = ({ className, children, ...props }) => {
+const IconButton = ({ className, children, showSearchBar, ...props }) => {
   return (
-    <Button isIconOnly className={cn("bg-transparent", className)} {...props}>
+    <Button
+      data-show={showSearchBar}
+      isIconOnly
+      className={cn("flex data-[show=false]:hidden bg-transparent", className)}
+      {...props}
+    >
       {children}
     </Button>
   );

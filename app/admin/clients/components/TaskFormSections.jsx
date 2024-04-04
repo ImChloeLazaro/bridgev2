@@ -20,6 +20,7 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 
 import FormFieldInput from "@/app/components/FormFieldInput";
+import FormFieldTextArea from "@/app/components/FormFieldTextArea";
 
 const TaskFormSections = () => {
   const [taskName, setTaskName] = useAtom(taskNameAtom);
@@ -314,7 +315,7 @@ const TaskFormSections = () => {
           <div className="flex justify-between items-center gap-5">
             <p className="font-medium w-24">{"Instruction"}</p>
 
-            <FormFieldInput
+            <FormFieldTextArea
               value={taskInstruction}
               onValueChange={setTaskInstruction}
               placeholder={"Special Instructions"}

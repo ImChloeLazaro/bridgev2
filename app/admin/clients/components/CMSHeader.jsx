@@ -2,6 +2,7 @@ import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import {
+  addClientAtom,
   clientsAtom,
   fetchClientAtom,
   selectedClientToEditAtom,
@@ -24,6 +25,7 @@ import {
   showActionButtonsAtom,
   showClientTaskAtom,
   showFooterAtom,
+  showSearchBarAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
@@ -62,6 +64,7 @@ const ClientHeader = ({
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
   const [showFooter, setShowFooter] = useAtom(showFooterAtom);
+  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -73,7 +76,7 @@ const ClientHeader = ({
   );
 
   const handleGoBackToClient = () => {
-    setShowFooter(false);
+    // setShowFooter(false);
     setShowClientTask(false);
     setShowClientDetails(false);
     if (showClientDetails) {
@@ -91,10 +94,10 @@ const ClientHeader = ({
 
   const handleChangeView = () => {
     setChangeView(!changeView);
-    setShowFooter(!showFooter);
   };
 
   const handleViewClientDetails = () => {
+    setShowSearchBar(!showSearchBar);
     setShowActionButtons(!showActionButtons);
     setShowFooter(!showFooter);
     setShowClientTask(!showClientTask);
@@ -177,6 +180,7 @@ const ClientHeader = ({
           />
         )}
         <SearchBar
+          showSearchBar={showSearchBar}
           searchItem={searchItem}
           setSearchItem={setSearchItem}
           filterKeys={filterKeys}
@@ -184,6 +188,7 @@ const ClientHeader = ({
           setSelectedFilterKeys={setSelectedFilterKeys}
         />
         <IconButton
+          showSearchBar={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
           isDisabled={isDisabled}

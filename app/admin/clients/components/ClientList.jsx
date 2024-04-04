@@ -1,6 +1,4 @@
-import {
-  ScrollShadow
-} from "@nextui-org/react";
+import { ScrollShadow } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
 
 const ClientList = ({
@@ -48,9 +46,15 @@ const ClientList = ({
         </div>
       </CheckboxGroup> */}
       <div className="flex flex-col w-full gap-y-3">
-        {itemClients.map((client, index) => (
-          <ClientItemCard key={index} data={client} />
-        ))}
+        {!itemClients?.length ? (
+          <div className="w-full flex justify-center p-4">
+            {"No data to display"}
+          </div>
+        ) : (
+          itemClients.map((client, index) => (
+            <ClientItemCard key={index} data={client} />
+          ))
+        )}
       </div>
     </ScrollShadow>
   );

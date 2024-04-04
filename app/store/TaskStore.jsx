@@ -9,6 +9,23 @@ export const addTaskAtom = atom();
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom();
 
+export const updateTaskStatusAtom = atom(null, (get, set, update) => {
+  const updatedTask = get(tasksAtom).map(
+    // (task) => task.clientKey === get(selectedClientToViewAtom)
+    (task) => {
+      if (task.client.client_id === "client456") {
+        return { ...task, sla: update };
+      }
+      return task;
+    }
+  );
+
+  console.log("TASKS BEFORE", get(tasksAtom));
+  console.log("TASKS AFTER", updatedTask);
+
+  set(tasksAtom, updatedTask);
+});
+
 export const tableColumnsAtom = atom([
   { label: "Tasks", key: "task", sortable: true },
   { label: "Status", key: "status", sortable: true },
@@ -89,30 +106,32 @@ export const insertTaskAtom = atom(null, async (get, set, update) => {
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
   const taskcount = tasks.response;
-  
-  const statusCount = taskcount.reduce((status, task) => {
-      task.sla.forEach(sla => {
-          if (sla.status === 'pending') {
-              status.pending++;
-          } else if (sla.status === 'todo') {
-              status.todo++;
-          } else if (sla.status === 'done') {
-              status.done++;
-          }
+
+  const statusCount = taskcount.reduce(
+    (status, task) => {
+      task.sla.forEach((sla) => {
+        if (sla.status === "pending") {
+          status.pending++;
+        } else if (sla.status === "todo") {
+          status.todo++;
+        } else if (sla.status === "done") {
+          status.done++;
+        }
       });
       return status;
-  }, { pending: 0, todo: 0, done: 0 });
-  
+    },
+    { pending: 0, todo: 0, done: 0 }
+  );
+
   console.log("STATUS COUNT:", statusCount);
-  
+
   if (tasks.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
     const convertedTasks = tasks.response.map((task, index) => {
       return {
         ...task,
-        key: task._id,
+        key: task.client.client_id,
         id: `${(index += 1)}`,
-        
       };
     });
     console.log("convertedTasks", convertedTasks);
@@ -124,14 +143,36 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   }
 });
 
-export const taskStatusCountAtom = atom((get) => {
-  const statusCount = get(tasksAtom).map((task) => {
+export const clientTaskStatusCountAtom = atom((get) => {
+  console.log("HERE HERE CLIENT TASK 1:", get(tasksAtom));
+  const tasks = get(tasksAtom);
+  const statusCount = tasks.map((task) => {
     // if (task.client.client_id === selectedClientToView) {
     if (task.client.client_id === "client456") {
       return task.sla.map((sla) => sla.status);
     }
   });
-  return statusCount[0];
+
+  console.log("HERE HERE CLIENT TASK 2:", statusCount);
+
+  const count = statusCount[0]?.reduce(
+    (acc, curr) => {
+      return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+    },
+    { pending: 0, todo: 0, done: 0, forReview: 0 }
+  );
+  return count;
+});
+
+export const clientTaskProcessorsCountAtom = atom((get) => {
+  const processorCount = get(tasksAtom).map((task) => {
+    // if (task.client.client_id === selectedClientToView) {
+    if (task.client.client_id === "client456") {
+      return task.processor;
+    }
+  });
+  console.log("processorCount", processorCount);
+  return processorCount[0];
 });
 
 export const taskNameAtom = atom("");
@@ -252,7 +293,7 @@ export const recurrenceSelectionAtom = atom([
   {
     id: (intervalIndex += 1),
     key: `interval-${intervalIndex}`,
-    label: "Custom",
+    label: "No Recurrence",
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);

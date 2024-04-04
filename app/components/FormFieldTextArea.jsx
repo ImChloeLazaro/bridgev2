@@ -26,7 +26,7 @@ const FormFieldTextArea = ({
       classNames={{
         base: "max-w-full flex-row",
         label: "text-base font-medium text-black-default/80 px-2 py-2",
-        input: "px-2",
+        input: "text-sm font-medium text-black-default px-2",
         inputWrapper: "h-full text-clip",
       }}
     />

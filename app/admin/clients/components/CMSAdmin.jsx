@@ -108,8 +108,8 @@ const CMSAdmin = () => {
     if (Boolean(searchTaskItem)) {
       filteredTasks = filteredTasks.filter(
         (task) =>
-          task.name.toLowerCase().includes(searchTaskItem.toLowerCase()) ||
-          task.instruction.toLowerCase().includes(searchTaskItem.toLowerCase())
+          task.name.toLowerCase().includes(searchTaskItem.toLowerCase()) 
+          // task.instruction.toLowerCase().includes(searchTaskItem.toLowerCase())
       );
     }
     if (
@@ -270,7 +270,7 @@ const CMSAdmin = () => {
             setSortDescriptor={setSortDescriptor}
           />
           <TaskBoardView
-            sortedItemTasks={sortedItemTasks}
+            sortedItemTasks={filteredTaskItems}
             showClientTask={showClientTask}
             changeView={changeView}
           />

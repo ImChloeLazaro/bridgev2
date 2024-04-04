@@ -31,7 +31,7 @@ function ColumnContainer({
       type: "Column",
       column,
     },
-    disabled: editMode,
+    // disabled: editMode,
   });
 
   const style = {

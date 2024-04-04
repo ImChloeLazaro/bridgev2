@@ -9,8 +9,8 @@ import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
 import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
-  const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [editMode, setEditMode] = useState(true);
+  // const [mouseIsOver, setMouseIsOver] = useState(false);
+  // const [editMode, setEditMode] = useState(true);
 
   const setShowClientDetails = useSetAtom(showClientDetailsAtom);
   const setShowFooter = useSetAtom(showFooterAtom);
@@ -29,7 +29,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       type: "Task",
       task,
     },
-    disabled: false,
+    // disabled: false,
   });
 
   const style = {
@@ -37,17 +37,17 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     transform: CSS.Transform.toString(transform),
   };
 
-  const handleViewClientDetails = () => {
-    setShowFooter(false);
-    setShowClientTask(false);
-    setShowClientDetails(true);
-  };
+  // const handleViewClientDetails = () => {
+  //   setShowFooter(false);
+  //   setShowClientTask(false);
+  //   setShowClientDetails(true);
+  // };
 
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-    setMouseIsOver(false);
-    console.log("CLICKED TASK CARD");
-  };
+  // const toggleEditMode = () => {
+  //   setEditMode((prev) => !prev);
+  //   setMouseIsOver(false);
+  //   console.log("CLICKED TASK CARD");
+  // };
 
   if (isDragging) {
     return (
@@ -97,19 +97,18 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       {...attributes}
       {...listeners}
       style={style}
-      onClick={toggleEditMode}
+      // onClick={toggleEditMode}
       className="
-      bg-white-default p-2.5 h-fit min-h-[125px] max-h-[200px]
-      items-center flex text-left rounded-lg 
+      bg-white-default p-2.5 h-[125px] min-h-[100px] items-center flex text-left rounded-xl
       hover:ring-2 hover:ring-inset hover:ring-blue-default 
       border border-grey-default
       cursor-grab relative shadow-md"
-      onMouseEnter={() => {
-        setMouseIsOver(true);
-      }}
-      onMouseLeave={() => {
-        setMouseIsOver(false);
-      }}
+      // onMouseEnter={() => {
+      //   setMouseIsOver(true);
+      // }}
+      // onMouseLeave={() => {
+      //   setMouseIsOver(false);
+      // }}
     >
       <div className="basis-[90%] flex flex-col justify-center px-2 my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
@@ -118,7 +117,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
             href="#"
             underline="hover"
             className="text-lg font-medium text-black-default "
-            onPress={handleViewClientDetails}
+            // onPress={handleViewClientDetails}
           >
             {task?.name?.length ? task.name : ""}
           </Link>
