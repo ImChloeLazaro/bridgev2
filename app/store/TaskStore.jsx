@@ -1,11 +1,29 @@
 import { restinsert, restread } from "@/app/utils/amplify-rest";
 import { format } from "date-fns";
 import { atom } from "jotai";
-import { clientsAtom } from "./ClientStore";
+import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
 
 export const tasksAtom = atom([]);
 
-export const addTaskAtom = atom();
+export const addTaskAtom = atom(null, async (get, set, update) => {
+  const { manager, client, processor, reviewer, sla } = update;
+  const response = await restinsert("cms/task", {
+    manager,
+    client,
+    processor,
+    reviewer,
+    sla,
+  });
+  console.log("RESPONSE FROM API", response);
+  if (response.success) {
+    console.log("ADDED TASK", response.response);
+    console.log("ADDED TASK", get(tasksAtom));
+    return { success: true };
+  } else {
+    console.log("FAILED ADDING TASK");
+    return { success: false };
+  }
+});
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom();
 
@@ -13,7 +31,7 @@ export const updateTaskStatusAtom = atom(null, (get, set, update) => {
   const updatedTask = get(tasksAtom).map(
     // (task) => task.clientKey === get(selectedClientToViewAtom)
     (task) => {
-      if (task.client.client_id === "client456") {
+      if (task.client.client_id === get(selectedClientToViewAtom)) {
         return { ...task, sla: update };
       }
       return task;
@@ -107,23 +125,23 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
   const taskcount = tasks.response;
 
-  const statusCount = taskcount.reduce(
-    (status, task) => {
-      task.sla.forEach((sla) => {
-        if (sla.status === "pending") {
-          status.pending++;
-        } else if (sla.status === "todo") {
-          status.todo++;
-        } else if (sla.status === "done") {
-          status.done++;
-        }
-      });
-      return status;
-    },
-    { pending: 0, todo: 0, done: 0 }
-  );
+  // const statusCount = taskcount.reduce(
+  //   (status, task) => {
+  //     task.sla.forEach((sla) => {
+  //       if (sla.status === "pending") {
+  //         status.pending++;
+  //       } else if (sla.status === "todo") {
+  //         status.todo++;
+  //       } else if (sla.status === "done") {
+  //         status.done++;
+  //       }
+  //     });
+  //     return status;
+  //   },
+  //   { pending: 0, todo: 0, done: 0 }
+  // );
 
-  console.log("STATUS COUNT:", statusCount);
+  // console.log("STATUS COUNT:", statusCount);
 
   if (tasks.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
@@ -146,28 +164,31 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
 export const clientTaskStatusCountAtom = atom((get) => {
   console.log("HERE HERE CLIENT TASK 1:", get(tasksAtom));
   const tasks = get(tasksAtom);
-  const statusCount = tasks.map((task) => {
-    // if (task.client.client_id === selectedClientToView) {
-    if (task.client.client_id === "client456") {
-      return task.sla.map((sla) => sla.status);
-    }
-  });
 
-  console.log("HERE HERE CLIENT TASK 2:", statusCount);
-
-  const count = statusCount[0]?.reduce(
-    (acc, curr) => {
-      return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-    },
-    { pending: 0, todo: 0, done: 0, forReview: 0 }
-  );
-  return count;
+  if (get(selectedClientToViewAtom) === "") {
+    return {};
+  } else {
+    const statusCount = tasks.map((task) => {
+      // if (task.client.client_id === selectedClientToView) {
+      if (task.client.client_id === get(selectedClientToViewAtom)) {
+        return task.sla.map((sla) => sla.status);
+      }
+    });
+    console.log("HERE HERE CLIENT TASK 2:", statusCount);
+    const count = statusCount[0]?.reduce(
+      (acc, curr) => {
+        return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+      },
+      { pending: 0, todo: 0, done: 0, forReview: 0 }
+    );
+    return count;
+  }
 });
 
 export const clientTaskProcessorsCountAtom = atom((get) => {
   const processorCount = get(tasksAtom).map((task) => {
     // if (task.client.client_id === selectedClientToView) {
-    if (task.client.client_id === "client456") {
+    if (task.client.client_id === get(selectedClientToViewAtom)) {
       return task.processor;
     }
   });
@@ -181,7 +202,7 @@ export const taskInstructionAtom = atom("");
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
     return {
-      key: client._id,
+      client_id: client._id,
       name: client.company.name,
       email: client.company.email,
       picture: client.company.picture,
@@ -321,7 +342,7 @@ export const taskDataAtom = atom((get) => {
       Array.from(selectedManager).includes(manager.key)
     )[0],
     client: clientSelection.filter((client) =>
-      Array.from(selectedClient).includes(client.key)
+      Array.from(selectedClient).includes(client.client_id)
     )[0],
     processor: processorSelection.filter((processor) =>
       Array.from(selectedProcessor).includes(processor.key)

@@ -68,7 +68,9 @@ const ClientItemCard = ({ data }) => {
               {data.company.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-center items-center gap-4 p-0">
-              {Object.keys(clientTaskStatusCount)?.map((status, s_index) => {
+              {Object.keys(
+                clientTaskStatusCount === undefined ? {} : clientTaskStatusCount
+              )?.map((status, s_index) => {
                 if (clientTaskStatusCount[status] > 0) {
                   return (
                     <Button
@@ -93,7 +95,7 @@ const ClientItemCard = ({ data }) => {
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
               {!clientTaskProcessorsCount?.length ? (
-                "No one is assigned "
+                ""
               ) : (
                 <AvatarGroup size="lg" max={3}>
                   {clientTaskProcessorsCount.map((processor, index) => (

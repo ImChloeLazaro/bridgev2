@@ -1,5 +1,9 @@
 import CTAButtons from "@/app/components/CTAButtons";
-import { taskDataAtom } from "@/app/store/TaskStore";
+import {
+  addTaskAtom,
+  selectedClientForTaskAtom,
+  taskDataAtom,
+} from "@/app/store/TaskStore";
 import {
   Modal,
   ModalBody,
@@ -7,15 +11,26 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import TaskFormSections from "./TaskFormSections";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
-  const newTask = useAtomValue(taskDataAtom);
+  const taskData = useAtomValue(taskDataAtom);
+  const [selectedClientForTask, setSelectedClientForTask] = useAtom(
+    selectedClientForTaskAtom
+  );
 
-  const handleAddTask = () => {
-    const newTask = [{}];
-    console.log("NEW TASK CREATED: ", newTask);
+  const addTask = useSetAtom(addTaskAtom);
+
+  const handleAddTask = async () => {
+    console.log("selectedClientForTask", selectedClientForTask);
+    console.log("HERE ADDING TASK");
+    const response = await addTask(taskData);
+    console.log("response", response);
+
+    if (response.success) {
+      console.log("CONFIRM WINDOW ADDED TASK", response.success);
+    }
   };
 
   return (

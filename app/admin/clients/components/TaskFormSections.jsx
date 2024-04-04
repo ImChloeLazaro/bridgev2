@@ -110,7 +110,7 @@ const TaskFormSections = () => {
               }}
             >
               {(client) => (
-                <SelectItem key={client.key} textValue={client.name}>
+                <SelectItem key={client.client_id} textValue={client.name}>
                   <div className="flex gap-2 items-center">
                     <Avatar
                       alt={client.name}

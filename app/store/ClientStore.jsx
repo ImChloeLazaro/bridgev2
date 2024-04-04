@@ -27,6 +27,8 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     with_accountant,
   });
 
+  console.log("RESPONSE FROM API", response);
+
   if (response.success) {
     console.log("ADDED CLIENT", response.response);
     console.log("ADDED CLIENT", get(clientsAtom));

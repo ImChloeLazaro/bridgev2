@@ -2,7 +2,6 @@ import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import {
-  addClientAtom,
   clientsAtom,
   fetchClientAtom,
   selectedClientToEditAtom,

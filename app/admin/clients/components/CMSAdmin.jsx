@@ -79,8 +79,8 @@ const CMSAdmin = () => {
 
   // ##########################################
   const tasksFromSelectedClient = tasks.filter(
-    // (task) => task.clientKey === selectedClientToView
-    (task) => task.client.client_id === "client456"
+    (task) => task.client.client_id === selectedClientToView
+  //   (task) => task.client.client_id === "client456"
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
