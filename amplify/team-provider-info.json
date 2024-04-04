@@ -85,7 +85,8 @@
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
           "s3Key": "amplify-builds/userhandler-374c5531644c3641634f-build.zip"
-        }
+        },
+        "bridgev2f22396df": {}
       },
       "auth": {
         "bridgev2907806c3": {}
