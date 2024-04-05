@@ -16,13 +16,18 @@ import {
   startDateAtom,
   taskNameAtom,
   taskInstructionAtom,
+  clientSelectionChangeAtom,
 } from "@/app/store/TaskStore";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
+import { showClientTaskAtom } from "../store/CMSAdminStore";
 
 const TaskFormSections = () => {
+  const showClientTask = useAtomValue(showClientTaskAtom);
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+
   const [taskName, setTaskName] = useAtom(taskNameAtom);
   const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
 
@@ -51,37 +56,46 @@ const TaskFormSections = () => {
   const [endDate, setEndDate] = useAtom(endDateAtom);
 
   const handleClientSelectionChange = (key) => {
+    console.log("client key", key);
     setSelectedClientForTask(key);
+    clientSelectionChange(Array.from(key).join(""));
   };
+
   const handleProcessorSelectionChange = (key) => {
+    console.log("processor key", key);
     setSelectedProcessor(key);
   };
+
   const handleReviewerSelectionChange = (key) => {
+    console.log("reviewer key", key);
     setSelectedReviewer(key);
   };
 
   const handleManagerSelectionChange = (key) => {
+    console.log("manager key", key);
     setSelectedManager(key);
   };
 
   const handleIntervalSelectionChange = (key) => {
+    console.log("interval key", key);
     setSelectedRecurrence(key);
   };
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Description */}
+      {/* People */}
       <div className="mt-2 py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-lg">{"Description"}</p>
+          <p className="font-bold text-lg">{"People"}</p>
           <MdInfoOutline />
         </div>
 
         <div className="flex flex-col gap-3">
           {/* Client */}
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-8">
             <p className="font-medium w-24">{"Client"}</p>
             <Select
+              disallowEmptySelection={true}
               aria-label="Client Selection"
               items={clientSelectionForTask}
               variant="bordered"
@@ -91,7 +105,7 @@ const TaskFormSections = () => {
               selectedKeys={selectedClientForTask}
               onSelectionChange={(key) => handleClientSelectionChange(key)}
               classNames={{
-                base: "max-w-sm max-h-sm",
+                base: "w-full max-h-sm",
                 trigger: "min-h-unit-12 py-2",
               }}
               renderValue={(displayItems) => {
@@ -126,9 +140,10 @@ const TaskFormSections = () => {
           </div>
 
           {/* Processor */}
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-8">
             <p className="font-medium w-24">{"Processor"}</p>
             <Select
+            
               aria-label="Processor Selection"
               items={processorSelection}
               variant="bordered"
@@ -138,7 +153,7 @@ const TaskFormSections = () => {
               selectedKeys={selectedProcessor}
               onSelectionChange={(key) => handleProcessorSelectionChange(key)}
               classNames={{
-                base: "max-w-sm max-h-sm",
+                base: "w-full max-h-sm",
                 trigger: "min-h-unit-12 py-2",
               }}
               renderValue={(displayItems) => {
@@ -151,7 +166,7 @@ const TaskFormSections = () => {
                         onClose={() => {
                           setSelectedProcessor(() =>
                             Array.from(selectedProcessor).filter(
-                              (item) => item !== displayItem.data.key
+                              (item) => item !== displayItem.data.sub
                             )
                           );
                         }}
@@ -168,7 +183,7 @@ const TaskFormSections = () => {
               }}
             >
               {(processor) => (
-                <SelectItem key={processor.key} textValue={processor.name}>
+                <SelectItem key={processor.sub} textValue={processor.name}>
                   <div className="flex gap-2 items-center">
                     <Avatar
                       alt={processor.name}
@@ -184,7 +199,7 @@ const TaskFormSections = () => {
           </div>
 
           {/* Reviewer */}
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-8">
             <p className="font-medium w-24">{"Reviewer"}</p>
 
             <Select
@@ -197,7 +212,7 @@ const TaskFormSections = () => {
               selectedKeys={selectedReviewer}
               onSelectionChange={(key) => handleReviewerSelectionChange(key)}
               classNames={{
-                base: "max-w-sm max-h-sm",
+                base: "w-full max-h-sm",
                 trigger: "min-h-unit-12 py-2",
               }}
               renderValue={(displayItems) => {
@@ -210,7 +225,7 @@ const TaskFormSections = () => {
                         onClose={() => {
                           setSelectedReviewer(() =>
                             Array.from(selectedReviewer).filter(
-                              (item) => item !== displayItem.data.key
+                              (item) => item !== displayItem.data.sub
                             )
                           );
                         }}
@@ -227,7 +242,7 @@ const TaskFormSections = () => {
               }}
             >
               {(reviewer) => (
-                <SelectItem key={reviewer.key} textValue={reviewer.name}>
+                <SelectItem key={reviewer.sub} textValue={reviewer.name}>
                   <div className="flex gap-2 items-center">
                     <Avatar
                       alt={reviewer.name}
@@ -243,7 +258,7 @@ const TaskFormSections = () => {
           </div>
 
           {/* Manager */}
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-8">
             <p className="font-medium w-24">{"Manager"}</p>
 
             <Select
@@ -256,7 +271,7 @@ const TaskFormSections = () => {
               selectedKeys={selectedManager}
               onSelectionChange={(key) => handleManagerSelectionChange(key)}
               classNames={{
-                base: "max-w-sm max-h-sm",
+                base: "w-full max-h-sm",
                 trigger: "min-h-unit-12 py-2",
               }}
               renderValue={(displayItems) => {
@@ -275,7 +290,7 @@ const TaskFormSections = () => {
               }}
             >
               {(manager) => (
-                <SelectItem key={manager.key} textValue={manager.name}>
+                <SelectItem key={manager.sub} textValue={manager.name}>
                   <div className="flex gap-2 items-center">
                     <Avatar
                       alt={manager.name}
@@ -307,24 +322,24 @@ const TaskFormSections = () => {
               value={taskName}
               onValueChange={setTaskName}
               placeholder={"Give the task a name "}
-              fullWidth={true}
+              fullWidth={false}
             />
           </div>
 
           {/* Instruction */}
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-8">
             <p className="font-medium w-24">{"Instruction"}</p>
 
             <FormFieldTextArea
               value={taskInstruction}
               onValueChange={setTaskInstruction}
               placeholder={"Special Instructions"}
-              fullWidth={true}
+              fullWidth={false}
             />
           </div>
 
           {/* Recurrence */}
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-6">
             <p className="font-medium w-24">{"Recurrence"}</p>
             <Select
               aria-label="Client Selection"
@@ -336,8 +351,9 @@ const TaskFormSections = () => {
               selectedKeys={selectedRecurrence}
               onSelectionChange={(key) => handleIntervalSelectionChange(key)}
               classNames={{
-                base: "max-w-sm max-h-sm",
+                base: "w-full max-h-sm",
                 trigger: "min-h-unit-12 py-2",
+                innerWrapper: "px-2",
               }}
               renderValue={(displayItems) => {
                 return (
@@ -373,7 +389,7 @@ const TaskFormSections = () => {
               date={startDate}
               onDateChange={setStartDate}
               isDateModal={true}
-              fullWidth={true}
+              fullWidth={false}
             />
           </div>
 
@@ -389,7 +405,7 @@ const TaskFormSections = () => {
               date={endDate}
               onDateChange={setEndDate}
               isDateModal={true}
-              fullWidth={true}
+              fullWidth={false}
             />
           </div>
         </div>

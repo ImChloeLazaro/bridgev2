@@ -1,28 +1,79 @@
-import { restinsert, restread } from "@/app/utils/amplify-rest";
-import { format } from "date-fns";
+import {
+  destroywithparams,
+  restdestroy,
+  restinsert,
+  restread,
+  restupdate,
+} from "@/app/utils/amplify-rest";
+import { addDays, format } from "date-fns";
 import { atom } from "jotai";
 import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
 
 export const tasksAtom = atom([]);
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
-  const { manager, client, processor, reviewer, sla } = update;
-  const response = await restinsert("cms/task", {
-    manager,
-    client,
-    processor,
-    reviewer,
-    sla,
-  });
-  console.log("RESPONSE FROM API", response);
-  if (response.success) {
-    console.log("ADDED TASK", response.response);
-    console.log("ADDED TASK", get(tasksAtom));
-    return { success: true };
+  const { manager, client = "", processor, reviewer, duration, sla } = update;
+
+  console.log("selectedClient: ", client);
+
+  const clientAlreadyHaveTask = get(tasksAtom).filter(
+    (task) => task.client.client_id === client.client_id
+  );
+
+  console.log("clientAlreadyHaveTask: ", clientAlreadyHaveTask[0]);
+
+  if (client && clientAlreadyHaveTask?.length) {
+    console.log("CLIENT HAS TASK");
+    console.log("ADDED TASK WITH SAME TASK CONFIG", {
+      ...clientAlreadyHaveTask[0],
+      _id: clientAlreadyHaveTask[0]._id,
+      manager: [...manager],
+      processor: [...processor],
+      reviewer: [...reviewer],
+      sla: [...clientAlreadyHaveTask[0].sla, ...sla],
+    });
+    // const response = await restupdate("/cms/task", {
+    //   manager,
+    //   client,
+    //   processor,
+    //   reviewer,
+    //   duration,
+    //   sla,
+    // });
+    // { _id, index, name, client, processor, reviewer, duration, sla }
   } else {
-    console.log("FAILED ADDING TASK");
-    return { success: false };
+    console.log("CLIENT HAS NO TASK");
+    const response = await restinsert("/cms/task", {
+      manager,
+      client,
+      processor,
+      reviewer,
+      duration,
+      sla,
+    });
+    console.log("RESPONSE FROM API", response);
+
+    if (response.success) {
+      console.log("ADDED TASK", response.response);
+      console.log("ADDED TASK", get(tasksAtom));
+      return { success: true };
+    } else {
+      console.log("FAILED ADDING TASK");
+      return { success: false };
+    }
   }
+  // const response = await restinsert("/cms/task", {
+  //   manager,
+  //   client,
+  //   processor,
+  //   reviewer,
+  //   duration,
+  //   sla,
+  // });
+
+  // const response = await destroywithparams("/cms/task", {
+  //   _id: "660f6d01b78f8ac6fe6fa472",
+  // });
 });
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom();
@@ -42,6 +93,32 @@ export const updateTaskStatusAtom = atom(null, (get, set, update) => {
   console.log("TASKS AFTER", updatedTask);
 
   set(tasksAtom, updatedTask);
+});
+
+export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
+  const key = update;
+  console.log("SELECTION KEY", key);
+  const clientSelectionChange = get(tasksAtom).filter(
+    (task) => task.client.client_id === key
+  );
+  if (clientSelectionChange?.length) {
+    console.log("clientSelectionChange: ", clientSelectionChange);
+    const selectedProcessor = clientSelectionChange[0].processor.map(
+      (processor) => processor.sub
+    );
+    const selectedReviewer = clientSelectionChange[0].reviewer.map(
+      (reviewer) => reviewer.sub
+    );
+    const selectedManager = [clientSelectionChange[0].manager.sub];
+
+    set(selectedProcessorAtom, new Set(selectedProcessor));
+    set(selectedReviewerAtom, new Set(selectedReviewer));
+    set(selectedManagerAtom, new Set(selectedManager));
+  } else {
+    set(selectedProcessorAtom, new Set([]));
+    set(selectedReviewerAtom, new Set([]));
+    set(selectedManagerAtom, new Set([]));
+  }
 });
 
 export const tableColumnsAtom = atom([
@@ -103,49 +180,14 @@ export const taskBoardColsCountAtom = atom(
   (get) => get(taskBoardColsAtom).length
 );
 
-export const insertTaskAtom = atom(null, async (get, set, update) => {
-  const { name, client, processor, reviewer, duration, status } = update;
-
-  await restinsert("/cms/task", {
-    name,
-    client,
-    processor,
-    reviewer,
-    duration,
-    status,
-  });
-
-  console.log("INSERT TASK");
-  //Add another function to fetch the tasks.
-});
-
-// export const convertedTasks = atom()
-
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
-  const taskcount = tasks.response;
-
-  // const statusCount = taskcount.reduce(
-  //   (status, task) => {
-  //     task.sla.forEach((sla) => {
-  //       if (sla.status === "pending") {
-  //         status.pending++;
-  //       } else if (sla.status === "todo") {
-  //         status.todo++;
-  //       } else if (sla.status === "done") {
-  //         status.done++;
-  //       }
-  //     });
-  //     return status;
-  //   },
-  //   { pending: 0, todo: 0, done: 0 }
-  // );
-
-  // console.log("STATUS COUNT:", statusCount);
 
   if (tasks.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
     const convertedTasks = tasks.response.map((task, index) => {
+      console.log("SLA", task.sla);
+
       return {
         ...task,
         key: task.client.client_id,
@@ -154,34 +196,9 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
     });
     console.log("convertedTasks", convertedTasks);
 
-    // set(tasksAtom, [...get(tasksAtom), convertedTasks]);
     set(tasksAtom, convertedTasks);
   } else {
     console.log("TASKS FAILED FETCH", tasks);
-  }
-});
-
-export const clientTaskStatusCountAtom = atom((get) => {
-  console.log("HERE HERE CLIENT TASK 1:", get(tasksAtom));
-  const tasks = get(tasksAtom);
-
-  if (get(selectedClientToViewAtom) === "") {
-    return {};
-  } else {
-    const statusCount = tasks.map((task) => {
-      // if (task.client.client_id === selectedClientToView) {
-      if (task.client.client_id === get(selectedClientToViewAtom)) {
-        return task.sla.map((sla) => sla.status);
-      }
-    });
-    console.log("HERE HERE CLIENT TASK 2:", statusCount);
-    const count = statusCount[0]?.reduce(
-      (acc, curr) => {
-        return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-      },
-      { pending: 0, todo: 0, done: 0, forReview: 0 }
-    );
-    return count;
   }
 });
 
@@ -192,7 +209,6 @@ export const clientTaskProcessorsCountAtom = atom((get) => {
       return task.processor;
     }
   });
-  console.log("processorCount", processorCount);
   return processorCount[0];
 });
 
@@ -217,7 +233,7 @@ let processorIndex = 0;
 export const processorSelectionAtom = atom([
   {
     id: (processorIndex += 1),
-    key: `processor-${processorIndex}`,
+    sub: `processor-${processorIndex}`,
     name: "Tatiana Philips",
     email: "tatiana.philips@aretex.com.au",
     picture: "/Tatiana Philips.png",
@@ -225,7 +241,7 @@ export const processorSelectionAtom = atom([
   },
   {
     id: (processorIndex += 1),
-    key: `processor-${processorIndex}`,
+    sub: `processor-${processorIndex}`,
     name: "Aspen Donin",
     email: "aspen.donin@aretex.com.au",
     picture: "/Aspen Donin.png",
@@ -233,7 +249,7 @@ export const processorSelectionAtom = atom([
   },
   {
     id: (processorIndex += 1),
-    key: `processor-${processorIndex}`,
+    sub: `processor-${processorIndex}`,
     name: "Kaylynn Bergson",
     email: "kaylynn.bergson@aretex.com.au",
     picture: "/Kaylynn Bergson.png",
@@ -246,7 +262,7 @@ let reviewerIndex = 0;
 export const reviewerSelectionAtom = atom([
   {
     id: (reviewerIndex += 1),
-    key: `reviewer-${reviewerIndex}`,
+    sub: `reviewer-${reviewerIndex}`,
     name: "Madelyn Septimus",
     email: "madelyn.septimus@aretex.com.au",
     picture: "/Madelyn Septimus.png",
@@ -254,7 +270,7 @@ export const reviewerSelectionAtom = atom([
   },
   {
     id: (reviewerIndex += 1),
-    key: `reviewer-${reviewerIndex}`,
+    sub: `reviewer-${reviewerIndex}`,
     name: "Skylar Curtis",
     email: "skylar.curtis@aretex.com.au",
     picture: "/Skylar Curtis.png",
@@ -267,7 +283,7 @@ let managerIndex = 0;
 export const managerSelectionAtom = atom([
   {
     id: (managerIndex += 1),
-    key: `manager-${managerIndex}`,
+    sub: `manager-${managerIndex}`,
     name: "Wilson Herwitz",
     email: "wilson.herwitz@aretex.com.au",
     picture: "/Wilson Herwitz.png",
@@ -275,7 +291,7 @@ export const managerSelectionAtom = atom([
   },
   {
     id: (managerIndex += 1),
-    key: `manager-${managerIndex}`,
+    sub: `manager-${managerIndex}`,
     name: "Wilson Ferry Herwitz",
     email: "wilson.herwitz@aretex.com.au",
     picture: "/Wilson Herwitz.png",
@@ -321,16 +337,17 @@ export const recurrenceSelectionAtom = atom([
 export const selectedRecurrenceAtom = atom(new Set([]));
 
 export const startDateAtom = atom("");
-export const startTimeAtom = atom("");
 export const endDateAtom = atom("");
+
+export const startTimeAtom = atom("");
 export const endTimeAtom = atom("");
 
 export const taskDataAtom = atom((get) => {
-  const selectedClient = get(selectedClientForTaskAtom);
+  const selectedClientForTask = get(selectedClientForTaskAtom);
   const selectedProcessor = get(selectedProcessorAtom);
   const selectedReviewer = get(selectedReviewerAtom);
   const selectedManager = get(selectedManagerAtom);
-  const selectedInterval = get(selectedRecurrenceAtom);
+  const selectedRecurrence = get(selectedRecurrenceAtom);
 
   const clientSelection = get(clientSelectionForTaskAtom);
   const processorSelection = get(processorSelectionAtom);
@@ -339,34 +356,42 @@ export const taskDataAtom = atom((get) => {
 
   return {
     manager: managerSelection.filter((manager) =>
-      Array.from(selectedManager).includes(manager.key)
+      Array.from(selectedManager).includes(manager.sub)
     )[0],
     client: clientSelection.filter((client) =>
-      Array.from(selectedClient).includes(client.client_id)
+      Array.from(selectedClientForTask).includes(client.client_id)
     )[0],
     processor: processorSelection.filter((processor) =>
-      Array.from(selectedProcessor).includes(processor.key)
+      Array.from(selectedProcessor).includes(processor.sub)
     ),
     reviewer: reviewerSelection.filter((reviewer) =>
-      Array.from(selectedReviewer).includes(reviewer.key)
+      Array.from(selectedReviewer).includes(reviewer.sub)
     ),
-    recurrence: Array.from(selectedInterval).join(""), //Daily, Weekly, Monthly, Quarterly, Yearly
+    // duration: Array.from(selectedRecurrence).join(""), //Daily, Weekly, Monthly, Quarterly, Yearly
     sla: [
       {
-        name: get(taskNameAtom),
-        instruction: get(taskInstructionAtom),
+        name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
+        instruction:
+          get(taskInstructionAtom) === ""
+            ? "Add Instructions"
+            : get(taskInstructionAtom),
         status: "todo", //todo, pending, to review, done
         progress: "Good", //Good, Overdue, Adhoc
         duration: {
-          start: get(startDateAtom),
-          end: get(endDateAtom),
+          start: get(startDateAtom) === "" ? new Date() : get(startDateAtom),
+          end:
+            get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
+          recurrence:
+            Array.from(selectedRecurrence).join("") === ""
+              ? "Daily"
+              : Array.from(selectedRecurrence).join(""),
         },
-        done_by: {
-          sub: String,
-          name: String,
-          email: String,
-          picture: String,
-        }, //sub
+        // done_by: {
+        //   sub: String,
+        //   name: String,
+        //   email: String,
+        //   picture: String,
+        // }, //sub
       },
     ],
   };

@@ -56,7 +56,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         style={style}
         className="
         opacity-30
-      bg-white-default p-2.5 h-[125px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
+      bg-white-default p-2.5 h-[150px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
       "
       ></div>
     );
@@ -99,7 +99,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       style={style}
       // onClick={toggleEditMode}
       className="
-      bg-white-default p-2.5 h-[125px] min-h-[100px] items-center flex text-left rounded-xl
+      bg-white-default p-2.5 h-[150px] min-h-[100px] items-center flex text-left rounded-xl
       hover:ring-2 hover:ring-inset hover:ring-blue-default 
       border border-grey-default
       cursor-grab relative shadow-md"
@@ -116,11 +116,14 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           <Link
             href="#"
             underline="hover"
-            className="text-lg font-medium text-black-default "
+            className="text-xl font-semibold text-black-default "
             // onPress={handleViewClientDetails}
           >
             {task?.name?.length ? task.name : ""}
           </Link>
+          <p className="text-sm font-medium text-black-default">
+            {task?.instruction?.length ? task.instruction : ""}
+          </p>
         </div>
         <div className=""></div>
         <div className="flex gap-2 justify-start items-center">
@@ -171,9 +174,9 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           <BsFillTrash3Fill size={24}/>
         </button>
       )} */}
-      <div className="basis-[10%] justify-center items-center">
+      {/* <div className="basis-[10%] justify-center items-center">
         <MdDragIndicator size={24} />
-      </div>
+      </div> */}
     </div>
   );
 }

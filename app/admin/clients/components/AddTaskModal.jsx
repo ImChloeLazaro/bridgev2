@@ -1,6 +1,7 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import {
   addTaskAtom,
+  fetchTaskAtom,
   selectedClientForTaskAtom,
   taskDataAtom,
 } from "@/app/store/TaskStore";
@@ -16,6 +17,7 @@ import TaskFormSections from "./TaskFormSections";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskData = useAtomValue(taskDataAtom);
+  const fetchTask = useSetAtom(fetchTaskAtom);
   const [selectedClientForTask, setSelectedClientForTask] = useAtom(
     selectedClientForTaskAtom
   );
@@ -23,12 +25,12 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const addTask = useSetAtom(addTaskAtom);
 
   const handleAddTask = async () => {
-    console.log("selectedClientForTask", selectedClientForTask);
-    console.log("HERE ADDING TASK");
+    console.log("taskData", taskData);
     const response = await addTask(taskData);
     console.log("response", response);
 
     if (response.success) {
+      fetchTask();
       console.log("CONFIRM WINDOW ADDED TASK", response.success);
     }
   };

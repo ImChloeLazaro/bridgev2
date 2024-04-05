@@ -9,7 +9,6 @@ import { BsPersonCheckFill } from "react-icons/bs";
 
 const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const clientInfo = selectedClient[0];
-  console.log("clientInfo.documents", clientInfo);
 
   const checkStatusBookkeeper = (
     <div className="flex items-center gap-2 text-green-default">

@@ -75,12 +75,10 @@ const CMSAdmin = () => {
     direction: "ascending",
   });
 
-  console.log("tasks:", tasks);
-
   // ##########################################
   const tasksFromSelectedClient = tasks.filter(
     (task) => task.client.client_id === selectedClientToView
-  //   (task) => task.client.client_id === "client456"
+    //   (task) => task.client.client_id === "client456"
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -103,13 +101,11 @@ const CMSAdmin = () => {
     let filteredTasks = convertedTasksFromSelectedClient?.length
       ? [...convertedTasksFromSelectedClient]
       : [];
-    console.log("filteredTasks: ", filteredTasks);
 
     if (Boolean(searchTaskItem)) {
       filteredTasks = filteredTasks.filter(
-        (task) =>
-          task.name.toLowerCase().includes(searchTaskItem.toLowerCase()) 
-          // task.instruction.toLowerCase().includes(searchTaskItem.toLowerCase())
+        (task) => task.name.toLowerCase().includes(searchTaskItem.toLowerCase())
+        // task.instruction.toLowerCase().includes(searchTaskItem.toLowerCase())
       );
     }
     if (
@@ -149,10 +145,7 @@ const CMSAdmin = () => {
     return filteredTaskItems.slice(start, end);
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
-  console.log("itemTasks before", itemTasks);
-
   const sortedItemTasks = useMemo(() => {
-    console.log("HERE INSIDE SORTING", itemTasks);
     return [...itemTasks].sort((a, b) => {
       const first = a[sortDescriptor.column];
       const second = b[sortDescriptor.column];

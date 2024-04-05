@@ -33,8 +33,6 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
 
-  console.log("tasks INSIDE BOARD:", sortedItemTasks);
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -107,9 +105,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
                 // createTask={createTask}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.status === activeColumn.id
-                )} // change to status as the filter key
+                tasks={tasks.filter((task) => task.status === activeColumn.id)} // change to status as the filter key
               />
             )}
             {activeTask && (
@@ -206,8 +202,6 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     const isActiveAColumn = active.data.current?.type === "Column";
     if (!isActiveAColumn) return;
 
-    console.log("DRAG END");
-
     setColumns((columns) => {
       const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
 
@@ -215,9 +209,6 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
 
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
-
-    console.log("activeId", activeId);
-    console.log("overId", overId);
   }
 
   function onDragOver(event) {
@@ -228,9 +219,6 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
 
     const activeId = active.id;
     const overId = over.id;
-
-    console.log("activeId", activeId);
-    console.log("overId", overId);
 
     if (activeId === overId) return;
 
@@ -244,9 +232,6 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const overIndex = tasks.findIndex((t) => t.id === overId);
-
-        console.log("activeIndex: drag-over", activeIndex);
-        console.log("overIndex: drag-over", overIndex);
 
         if (tasks[activeIndex].status != tasks[overIndex].status) {
           tasks[activeIndex].status = tasks[overIndex].status;
@@ -267,11 +252,8 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
 
-        console.log("DRAG OVER activeIndex:", activeIndex);
-
         tasks[activeIndex].status = overId;
         console.log(tasks);
-        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
 
         const taskIndexMoved = arrayMove(tasks, activeIndex, activeIndex);
         updateTaskStatus(taskIndexMoved);

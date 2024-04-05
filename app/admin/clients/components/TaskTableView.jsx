@@ -45,10 +45,7 @@ const TaskTableView = ({
 
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
-    const assigneesList = task.processor?.length ? task.processor : [];
-
-    console.log("task", task);
-    console.log("columnKey", columnKey);
+    const processorList = task.processor?.length ? task.processor : [];
 
     switch (columnKey) {
       case "task":
@@ -87,10 +84,10 @@ const TaskTableView = ({
         return (
           <div className="h-full flex justify-start">
             <AvatarGroup size="md" max={3}>
-              {assigneesList.map((assignee) => {
+              {processorList.map((processor) => {
                 return (
                   <Avatar
-                    key={assignee.sub}
+                    key={processor.sub}
                     size="md"
                     src={"https://picsum.photos/200"}
                   />
