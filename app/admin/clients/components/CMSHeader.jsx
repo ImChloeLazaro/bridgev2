@@ -75,7 +75,7 @@ const ClientHeader = ({
   );
 
   const handleGoBackToClient = () => {
-    // setShowFooter(false);
+    setShowSearchBar(true);
     setShowClientTask(false);
     setShowClientDetails(false);
     if (showClientDetails) {
@@ -103,12 +103,10 @@ const ClientHeader = ({
     setShowClientDetails(!showClientDetails);
   };
 
-  const handleAddTask = () => {
-    console.log("ADDED TASK");
+  const handleOpenTaskWindow = () => {
     onOpenTask();
   };
-  const handleAddClient = () => {
-    console.log("ADDED CLIENT");
+  const handleOpenClientWindow = () => {
     onOpenClient();
   };
 
@@ -237,7 +235,7 @@ const ClientHeader = ({
             label={actionButtons.task.label}
             color={actionButtons.task.color}
             className={"py-5"}
-            onPress={() => handleAddTask()}
+            onPress={() => handleOpenTaskWindow()}
           />
           <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
           <CTAButtons
@@ -246,7 +244,7 @@ const ClientHeader = ({
             label={actionButtons.client.label}
             color={actionButtons.client.color}
             className={"py-5"}
-            onPress={() => handleAddClient()}
+            onPress={() => handleOpenClientWindow()}
           />
           <AddClientModal
             isOpen={isOpenClient}

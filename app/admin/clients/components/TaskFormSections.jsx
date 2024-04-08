@@ -262,6 +262,7 @@ const TaskFormSections = () => {
             <p className="font-medium w-24">{"Manager"}</p>
 
             <Select
+              disallowEmptySelection={true}
               aria-label="Manager Selection"
               items={managerSelection}
               variant="bordered"

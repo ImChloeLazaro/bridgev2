@@ -24,23 +24,20 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 
   if (client && clientAlreadyHaveTask?.length) {
     console.log("CLIENT HAS TASK");
-    console.log("ADDED TASK WITH SAME TASK CONFIG", {
+
+    const response = await restupdate("/cms/task", {
       ...clientAlreadyHaveTask[0],
-      _id: clientAlreadyHaveTask[0]._id,
-      manager: [...manager],
-      processor: [...processor],
-      reviewer: [...reviewer],
       sla: [...clientAlreadyHaveTask[0].sla, ...sla],
     });
-    // const response = await restupdate("/cms/task", {
-    //   manager,
-    //   client,
-    //   processor,
-    //   reviewer,
-    //   duration,
-    //   sla,
-    // });
-    // { _id, index, name, client, processor, reviewer, duration, sla }
+    console.log("RESPONSE HAS TASK FROM API", response);
+
+    if (response.success) {
+      console.log("ADDED TASK", response.response);
+      return { success: true };
+    } else {
+      console.log("FAILED ADDING TASK");
+      return { success: false };
+    }
   } else {
     console.log("CLIENT HAS NO TASK");
     const response = await restinsert("/cms/task", {
@@ -51,48 +48,60 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       duration,
       sla,
     });
-    console.log("RESPONSE FROM API", response);
+    console.log("RESPONSE HAS NO TASK FROM API", response);
 
     if (response.success) {
       console.log("ADDED TASK", response.response);
-      console.log("ADDED TASK", get(tasksAtom));
       return { success: true };
     } else {
       console.log("FAILED ADDING TASK");
       return { success: false };
     }
   }
-  // const response = await restinsert("/cms/task", {
-  //   manager,
-  //   client,
-  //   processor,
-  //   reviewer,
-  //   duration,
-  //   sla,
-  // });
-
-  // const response = await destroywithparams("/cms/task", {
-  //   _id: "660f6d01b78f8ac6fe6fa472",
-  // });
 });
 export const updateTaskAtom = atom();
-export const deleteTaskAtom = atom();
+export const deleteTaskAtom = atom(null, async (get, set, update) => {
+  const response = await destroywithparams("/cms/task", {
+    _id: "660fa0db6c5775f281500e3d", // "660fa0db6c5775f281500e3d"
+  });
+  if (response.success) {
+    console.log("DELETED TASK", response.response);
 
-export const updateTaskStatusAtom = atom(null, (get, set, update) => {
-  const updatedTask = get(tasksAtom).map(
-    // (task) => task.clientKey === get(selectedClientToViewAtom)
-    (task) => {
-      if (task.client.client_id === get(selectedClientToViewAtom)) {
-        return { ...task, sla: update };
-      }
-      return task;
-    }
+    return { success: true };
+  } else {
+    console.log("FAILED DELETED TASK");
+    return { success: false };
+  }
+});
+
+export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
+  const { sla } = update;
+
+  const updateTaskStatus = get(tasksAtom).filter(
+    (task) => task.client.client_id === get(selectedClientToViewAtom)
   );
 
-  console.log("TASKS BEFORE", get(tasksAtom));
-  console.log("TASKS AFTER", updatedTask);
+  const response = await restupdate("/cms/task", {
+    ...updateTaskStatus[0],
+    sla: [...sla],
+  });
+  console.log("RESPONSE FROM API", response);
 
-  set(tasksAtom, updatedTask);
+  if (response.success) {
+    const updatedTask = get(tasksAtom).map((task) => {
+      if (task.client.client_id === get(selectedClientToViewAtom)) {
+        return { ...task, sla: sla };
+      }
+      return task;
+    });
+    set(tasksAtom, updatedTask);
+    console.log("UPDATED TASK", response.response);
+
+    return { success: true };
+  } else {
+    console.log("FAILED UPDATING TASK");
+    return { success: false };
+  }
 });
 
 export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
@@ -126,7 +135,7 @@ export const tableColumnsAtom = atom([
   { label: "Status", key: "status", sortable: true },
   { label: "Start Date", key: "startDate", sortable: true },
   { label: "End Date", key: "endDate", sortable: true },
-  { label: "Assignees", key: "assignees", sortable: true },
+  { label: "Assignees", key: "assignees", sortable: false },
 ]);
 
 export const selectedTaskAtom = atom([]);

@@ -40,31 +40,40 @@ const ClientItemCard = ({ data }) => {
 
   const clientTaskProcessorsCount = useAtomValue(clientTaskProcessorsCountAtom);
 
-  const clientTaskStatusCount = tasks.map((task) => {
-    if (task.client.client_id === data._id) {
-      const count = task.sla
-        .map((sla) => sla.status)
-        .reduce(
-          (acc, curr) => {
-            return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-          },
-          { pending: 0, todo: 0, done: 0, forReview: 0 }
-        );
+  // const clientTaskStatusCount = tasks.map((task) => {
+  //   if (task.client.client_id === data._id) {
+  //     const count = task.sla
+  //       .map((sla) => sla.status)
+  //       .reduce(
+  //         (acc, curr) => {
+  //           return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+  //         },
+  //         { pending: 0, todo: 0, done: 0, forReview: 0 }
+  //       );
 
-      console.log("COUNT: ", count);
-      if (count === undefined) {
-        return { pending: 0, todo: 0, done: 0, forReview: 0 };
-      } else {
-        return count;
-      }
-    }
-    else{
-      console.log("NO TASK YET")
-    }
-  });
+  //     // console.log("COUNT: ", count);
+  //     if (count === undefined) {
+  //       return { pending: 0, todo: 0, done: 0, forReview: 0 };
+  //     } else {
+  //       return count;
+  //     }
+  //   }
+  //   // else{
+  //   //   console.log("NO TASK YET")
+  //   // }
+  // });
 
-  console.log("data", data.company.name);
-  console.log("clientTaskStatusCount", clientTaskStatusCount);
+  const clientTaskStatusCount = tasks
+    .filter((task) => task.client.client_id === data._id)[0]
+    .sla.map((sla) => sla.status)
+    .reduce(
+      (acc, curr) => {
+        return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+      },
+      { pending: 0, todo: 0, done: 0, forReview: 0 }
+    );
+
+  console.log("clientTaskStatusCount: ", clientTaskStatusCount);
 
   const handleSelectTask = () => {
     // when user pressed on the tags on client list
@@ -94,7 +103,7 @@ const ClientItemCard = ({ data }) => {
               {data.company.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-center items-center gap-4 p-0">
-              {/* {Object.keys(clientTaskStatusCount[0].count).map((status, s_index) => {
+              {Object.keys(clientTaskStatusCount).map((status, s_index) => {
                 if (clientTaskStatusCount[status] > 0) {
                   return (
                     <Button
@@ -115,7 +124,7 @@ const ClientItemCard = ({ data }) => {
                     </Button>
                   );
                 }
-              })} */}
+              })}
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
               {!clientTaskProcessorsCount?.length ? (

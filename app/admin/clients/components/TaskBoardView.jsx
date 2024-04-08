@@ -17,18 +17,18 @@ import { createPortal } from "react-dom";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
 
-const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
+const TaskBoardView = ({ itemTasks, showClientTask, changeView }) => {
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
-  const [tasks, setTasks] = useState(sortedItemTasks);
+  const [tasks, setTasks] = useState(itemTasks);
 
   useEffect(() => {
-    if (sortedItemTasks) {
-      setTasks(sortedItemTasks);
+    if (itemTasks) {
+      setTasks(itemTasks);
     }
-  }, [sortedItemTasks]);
+  }, [itemTasks]);
 
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
@@ -197,6 +197,27 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     const activeId = active.id;
     const overId = over.id;
 
+    const isActiveATask = active.data.current?.type === "Task";
+    console.log("isActiveATask", isActiveATask);
+    if (!isActiveATask) return;
+
+    if (isActiveATask) {
+      setTasks((tasks) => {
+        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+        const overIndex = tasks.findIndex((t) => t.id === overId);
+
+        if (tasks[activeIndex].status != tasks[overIndex].status) {
+          tasks[activeIndex].status = tasks[overIndex].status;
+          const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex - 1);
+          updateTaskStatus({ sla: taskIndexMoved });
+          return taskIndexMoved;
+        }
+        const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex);
+        updateTaskStatus({ sla: taskIndexMoved });
+        return taskIndexMoved;
+      });
+    }
+
     if (activeId === overId) return;
 
     const isActiveAColumn = active.data.current?.type === "Column";
@@ -206,8 +227,13 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
       const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
 
       const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
+      const taskIndexMoved = arrayMove(
+        columns,
+        activeColumnIndex,
+        overColumnIndex
+      );
+      // updateTaskStatus({ sla: taskIndexMoved });
+      return taskIndexMoved;
     });
   }
 
@@ -219,6 +245,9 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
 
     const activeId = active.id;
     const overId = over.id;
+
+    console.log("activeId", activeId);
+    console.log("overId", overId);
 
     if (activeId === overId) return;
 
@@ -236,11 +265,11 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
         if (tasks[activeIndex].status != tasks[overIndex].status) {
           tasks[activeIndex].status = tasks[overIndex].status;
           const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex - 1);
-          updateTaskStatus(taskIndexMoved);
+          // updateTaskStatus({ sla: taskIndexMoved });
           return taskIndexMoved;
         }
         const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex);
-        updateTaskStatus(taskIndexMoved);
+        // updateTaskStatus({ sla: taskIndexMoved });
         return taskIndexMoved;
       });
     }
@@ -253,10 +282,10 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
 
         tasks[activeIndex].status = overId;
-        console.log(tasks);
+        // console.log("DRAG OVER TO COLUMN", overId);
 
         const taskIndexMoved = arrayMove(tasks, activeIndex, activeIndex);
-        updateTaskStatus(taskIndexMoved);
+        // updateTaskStatus({ sla: taskIndexMoved });
         return taskIndexMoved;
       });
     }

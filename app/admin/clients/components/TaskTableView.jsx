@@ -25,7 +25,7 @@ const tagColors = {
 };
 
 const TaskTableView = ({
-  sortedItemTasks,
+  itemTasks,
   showClientTask,
   changeView,
   sortDescriptor,
@@ -33,15 +33,17 @@ const TaskTableView = ({
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
-  const tasks = useAtomValue(tasksAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
 
-  // console.log("itemTasks after", itemTasks);
+  const sortedItemTasks = useMemo(() => {
+    return [...itemTasks].sort((a, b) => {
+      const first = a[sortDescriptor.column];
+      const second = b[sortDescriptor.column];
+      const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-  // const [sortDescriptor, setSortDescriptor] = useState({
-  //   column: "name",
-  //   direction: "ascending",
-  // });
+      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+    });
+  }, [itemTasks, sortDescriptor]);
 
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
@@ -138,7 +140,7 @@ const TaskTableView = ({
         </TableHeader>
         <TableBody emptyContent={"No rows to display."} items={sortedItemTasks}>
           {(item) => (
-            <TableRow key={item.key}>
+            <TableRow key={item._id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

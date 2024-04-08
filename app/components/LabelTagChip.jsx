@@ -1,7 +1,7 @@
 import { Chip, cn } from "@nextui-org/react";
 const LabelTagChip = ({
   text,
-  color,
+  color = "clear",
   type = "label",
   size = "sm",
   isFilled = true,
@@ -74,7 +74,6 @@ const LabelTagChip = ({
       radius="sm"
       variant={type === "tag" && "dot"}
       size={isFilled ? "lg" : "sm"}
-      color="primary"
       classNames={{
         base: cn(
           `${

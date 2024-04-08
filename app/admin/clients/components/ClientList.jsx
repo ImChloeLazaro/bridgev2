@@ -3,7 +3,6 @@ import ClientItemCard from "./ClientItemCard";
 
 const ClientList = ({
   itemClients,
-  sortedItemTasks,
   showClientTask,
   showClientDetails,
 }) => {
