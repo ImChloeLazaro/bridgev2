@@ -7,6 +7,7 @@ const CTAButtons = ({
   size = "sm",
   startContent,
   endContent,
+  showButton = true,
   ...props
 }) => {
   const colors = {
@@ -25,12 +26,18 @@ const CTAButtons = ({
   let buttonColor = colors[color];
   return (
     <Button
+      data-show={showButton}
       aria-label={label}
       startContent={startContent}
       endContent={endContent}
       radius="sm"
       variant="solid"
-      className={cn("px-5 py-0.5 font-bold text-base", buttonColor, className)}
+      className={cn(
+        "hidden data-[show=true]:flex ",
+        "px-5 py-0.5 font-bold text-base",
+        buttonColor,
+        className
+      )}
       size={size}
       {...props}
     >

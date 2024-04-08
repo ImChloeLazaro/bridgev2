@@ -2,11 +2,13 @@ import {
   clientFilterKeysAtom,
   clientsAtom,
   clientsCountAtom,
+  fetchClientAtom,
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
+  fetchTaskAtom,
   selectedTaskFilterKeysAtom,
   taskFilterKeysAtom,
   tasksAtom,
@@ -18,8 +20,8 @@ import {
   CardHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
-import { useMemo, useState } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useMemo, useState } from "react";
 import {
   changeViewAtom,
   showActionButtonsAtom,
@@ -28,8 +30,6 @@ import {
   showFooterAtom,
   showOptionsAtom,
 } from "../store/CMSAdminStore";
-import AddClientModal from "./AddClientModal";
-import AddTaskModal from "./AddTaskModal";
 import CMSFooter from "./CMSFooter";
 import ClientHeader from "./CMSHeader";
 import ClientDetails from "./ClientDetails";
@@ -76,9 +76,10 @@ const CMSAdmin = () => {
   });
 
   // ##########################################
-  const tasksFromSelectedClient = tasks.filter(
-    (task) => task.client.client_id === selectedClientToView
-    //   (task) => task.client.client_id === "client456"
+  const tasksFromSelectedClient = useMemo(
+    () =>
+      tasks.filter((task) => task.client.client_id === selectedClientToView),
+    [selectedClientToView, tasks]
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -102,10 +103,6 @@ const CMSAdmin = () => {
       ? [...convertedTasksFromSelectedClient]
       : [];
 
-    console.log("filteredTasks", filteredTasks);
-    console.log("selectedTaskFilterKeyString", selectedTaskFilterKeyString);
-    console.log("selectedTaskFilterKeys", selectedTaskFilterKeys);
-
     if (Boolean(searchTaskItem)) {
       filteredTasks = filteredTasks.filter(
         (task) =>
@@ -123,7 +120,13 @@ const CMSAdmin = () => {
     }
 
     return filteredTasks;
-  }, [convertedTasksFromSelectedClient, searchTaskItem, selectedTaskFilterKeyString, selectedTaskFilterKeys, taskFilterKeys.length]);
+  }, [
+    convertedTasksFromSelectedClient,
+    searchTaskItem,
+    selectedTaskFilterKeyString,
+    selectedTaskFilterKeys,
+    taskFilterKeys.length,
+  ]);
 
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
   const [taskPage, setTaskPage] = useState(1);
@@ -223,6 +226,8 @@ const CMSAdmin = () => {
   //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
   //   });
   // }, [itemClients]);
+
+
 
   return (
     <>

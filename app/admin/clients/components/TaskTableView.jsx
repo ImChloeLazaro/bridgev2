@@ -3,6 +3,7 @@ import { tableColumnsAtom, tasksAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -51,7 +52,15 @@ const TaskTableView = ({
 
     switch (columnKey) {
       case "task":
-        return <div>{task.name?.length ? task.name : ""}</div>;
+        return (
+          <Link
+            href="#"
+            underline="hover"
+            className="text-xl font-semibold text-black-default "
+          >
+            {task.name?.length ? task.name : ""}
+          </Link>
+        );
 
       case "status":
         return (

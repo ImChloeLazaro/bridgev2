@@ -8,7 +8,11 @@ import {
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
-import { fetchTaskAtom } from "@/app/store/TaskStore";
+import {
+  clientSelectionChangeAtom,
+  fetchTaskAtom,
+  selectedClientForTaskAtom,
+} from "@/app/store/TaskStore";
 import { Checkbox, Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
@@ -55,7 +59,8 @@ const ClientHeader = ({
   const clients = useAtomValue(clientsAtom);
   const [selectedClient, setSelectedClient] = useAtom(selectedClientToEditAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+  const setSelectedClientForTask = useSetAtom(selectedClientForTaskAtom);
   const [showActionButtons, setShowActionButtons] = useAtom(
     showActionButtonsAtom
   );
@@ -104,6 +109,9 @@ const ClientHeader = ({
   };
 
   const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      clientSelectionChange(selectedClientToView);
+    }
     onOpenTask();
   };
   const handleOpenClientWindow = () => {
@@ -227,31 +235,30 @@ const ClientHeader = ({
           />
         </div>
       </div>
-      {showActionButtons && (
-        <div className="w-full max-w-md flex justify-between mx-4 gap-4">
-          <CTAButtons
-            key={actionButtons.task.label}
-            fullWidth={true}
-            label={actionButtons.task.label}
-            color={actionButtons.task.color}
-            className={"py-5"}
-            onPress={() => handleOpenTaskWindow()}
-          />
-          <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
-          <CTAButtons
-            key={actionButtons.client.label}
-            fullWidth={true}
-            label={actionButtons.client.label}
-            color={actionButtons.client.color}
-            className={"py-5"}
-            onPress={() => handleOpenClientWindow()}
-          />
-          <AddClientModal
-            isOpen={isOpenClient}
-            onOpenChange={onOpenChangeClient}
-          />
-        </div>
-      )}
+      <div className="w-full flex justify-end mx-4 gap-4">
+        <CTAButtons
+          key={actionButtons.task.label}
+          fullWidth={true}
+          label={actionButtons.task.label}
+          color={actionButtons.task.color}
+          className={"py-5 max-w-[16rem]"}
+          onPress={() => handleOpenTaskWindow()}
+        />
+        <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
+        <CTAButtons
+          showButton={!showClientTask || !showClientDetails}
+          key={actionButtons.client.label}
+          fullWidth={true}
+          label={actionButtons.client.label}
+          color={actionButtons.client.color}
+          className={"py-5 max-w-[16rem]"}
+          onPress={() => handleOpenClientWindow()}
+        />
+        <AddClientModal
+          isOpen={isOpenClient}
+          onOpenChange={onOpenChangeClient}
+        />
+      </div>
     </div>
   );
 };

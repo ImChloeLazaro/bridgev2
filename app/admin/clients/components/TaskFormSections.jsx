@@ -92,58 +92,60 @@ const TaskFormSections = () => {
 
         <div className="flex flex-col gap-3">
           {/* Client */}
-          <div className="flex justify-between items-center gap-8">
-            <p className="font-medium w-24">{"Client"}</p>
-            <Select
-              disallowEmptySelection={true}
-              aria-label="Client Selection"
-              items={clientSelectionForTask}
-              variant="bordered"
-              isMultiline={true}
-              selectionMode="single"
-              placeholder="Select Client"
-              selectedKeys={selectedClientForTask}
-              onSelectionChange={(key) => handleClientSelectionChange(key)}
-              classNames={{
-                base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2",
-              }}
-              renderValue={(displayItems) => {
-                return (
-                  <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                    {displayItems.map((displayItem) => (
-                      <p
-                        key={displayItem.key}
-                        className="text-sm font-medium text-black-default"
-                      >
-                        {displayItem.data.name}
-                      </p>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(client) => (
-                <SelectItem key={client.client_id} textValue={client.name}>
-                  <div className="flex gap-2 items-center">
-                    <Avatar
-                      alt={client.name}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={client.picture}
-                    />
-                    <span className="text-small">{client.name}</span>
-                  </div>
-                </SelectItem>
-              )}
-            </Select>
-          </div>
+          {!showClientTask && (
+            <div className="flex justify-between items-center gap-8">
+              <p className="font-medium w-24">{"Client"}</p>
+              <Select
+                isDisabled={showClientTask}
+                disallowEmptySelection={true}
+                aria-label="Client Selection"
+                items={clientSelectionForTask}
+                variant="bordered"
+                isMultiline={true}
+                selectionMode="single"
+                placeholder="Select Client"
+                selectedKeys={selectedClientForTask}
+                onSelectionChange={(key) => handleClientSelectionChange(key)}
+                classNames={{
+                  base: "w-full max-h-sm",
+                  trigger: "min-h-unit-12 py-2",
+                }}
+                renderValue={(displayItems) => {
+                  return (
+                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
+                      {displayItems.map((displayItem) => (
+                        <p
+                          key={displayItem.key}
+                          className="text-sm font-medium text-black-default"
+                        >
+                          {displayItem.data.name}
+                        </p>
+                      ))}
+                    </div>
+                  );
+                }}
+              >
+                {(client) => (
+                  <SelectItem key={client.client_id} textValue={client.name}>
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt={client.name}
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={client.picture}
+                      />
+                      <span className="text-small">{client.name}</span>
+                    </div>
+                  </SelectItem>
+                )}
+              </Select>
+            </div>
+          )}
 
           {/* Processor */}
           <div className="flex justify-between items-center gap-8">
             <p className="font-medium w-24">{"Processor"}</p>
             <Select
-            
               aria-label="Processor Selection"
               items={processorSelection}
               variant="bordered"

@@ -211,6 +211,15 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   }
 });
 
+export const clientTaskStatusCountAtom = atom(null, (get, set, update) => {
+  const clientKey = update;
+  const selectedClient = get(tasksAtom)
+    .filter((task) => task.client.client_id === clientKey)[0]
+    .sla.map((sla) => sla.status);
+
+  return selectedClient;
+});
+
 export const clientTaskProcessorsCountAtom = atom((get) => {
   const processorCount = get(tasksAtom).map((task) => {
     // if (task.client.client_id === selectedClientToView) {

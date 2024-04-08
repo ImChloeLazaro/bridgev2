@@ -22,6 +22,7 @@ import {
   taskStatusCountAtom,
 } from "@/app/store/TaskStore";
 import { Spinner } from "@nextui-org/react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
 const tagColors = {
   todo: "blue",
@@ -37,43 +38,43 @@ const ClientItemCard = ({ data }) => {
   const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
   const setShowClientTask = useSetAtom(showClientTaskAtom);
   const setChangeView = useSetAtom(changeViewAtom);
+  const clientTaskStatusCount = useSetAtom(clientTaskStatusCountAtom);
 
+  console.log("data", data);
   const clientTaskProcessorsCount = useAtomValue(clientTaskProcessorsCountAtom);
 
-  // const clientTaskStatusCount = tasks.map((task) => {
-  //   if (task.client.client_id === data._id) {
-  //     const count = task.sla
-  //       .map((sla) => sla.status)
-  //       .reduce(
-  //         (acc, curr) => {
-  //           return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-  //         },
-  //         { pending: 0, todo: 0, done: 0, forReview: 0 }
-  //       );
-
-  //     // console.log("COUNT: ", count);
-  //     if (count === undefined) {
-  //       return { pending: 0, todo: 0, done: 0, forReview: 0 };
-  //     } else {
-  //       return count;
-  //     }
+  // const [selectedClient, setSelectedClient] = useState(
+  //   clientTaskStatusCount(data._id)
+  // );
+  const selectedClient = clientTaskStatusCount(data._id);
+  // useEffect(() => {
+  //   if (selectedClient) {
+  //     setSelectedClient(selectedClient);
   //   }
-  //   // else{
-  //   //   console.log("NO TASK YET")
-  //   // }
-  // });
+  // }, [selectedClient]);
 
-  const clientTaskStatusCount = tasks
-    .filter((task) => task.client.client_id === data._id)[0]
-    .sla.map((sla) => sla.status)
-    .reduce(
-      (acc, curr) => {
-        return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-      },
-      { pending: 0, todo: 0, done: 0, forReview: 0 }
-    );
+  console.log("selectedClient", selectedClient);
 
-  console.log("clientTaskStatusCount: ", clientTaskStatusCount);
+  let statusCount = {
+    pending: 0,
+    todo: 0,
+    done: 0,
+    forReview: 0,
+  };
+
+  statusCount = selectedClient?.reduce(
+    (acc, curr) => {
+      return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+    },
+    {
+      pending: 0,
+      todo: 0,
+      done: 0,
+      forReview: 0,
+    }
+  );
+
+  console.log("statusCount: ", statusCount);
 
   const handleSelectTask = () => {
     // when user pressed on the tags on client list
@@ -84,6 +85,7 @@ const ClientItemCard = ({ data }) => {
     // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
     setShowClientTask(true);
+    // auto select processor, managers, reviewers on task form when adding task inside the client view
   };
 
   return (
@@ -103,9 +105,17 @@ const ClientItemCard = ({ data }) => {
               {data.company.name}
             </div>
             <div className="w-2/3 flex flex-wrap justify-center items-center gap-4 p-0">
-              {Object.keys(clientTaskStatusCount).map((status, s_index) => {
-                if (clientTaskStatusCount[status] > 0) {
+              {Object.keys(statusCount).map((status, s_index) => {
+                if (statusCount[status] > 0) {
                   return (
+                    // <Suspense
+                    //   key={s_index}
+                    //   fallback={
+                    //     <div className="w-full flex justify-center items-center">
+                    //       {"LOADING"}
+                    //     </div>
+                    //   }
+                    // >
                     <Button
                       key={s_index}
                       className="p-0 m-0 "
@@ -119,9 +129,10 @@ const ClientItemCard = ({ data }) => {
                         size="md"
                         isFilled
                         withBadge={true}
-                        badgeContent={clientTaskStatusCount[status]}
+                        badgeContent={statusCount[status]}
                       />
                     </Button>
+                    // </Suspense>
                   );
                 }
               })}
