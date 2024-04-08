@@ -143,6 +143,36 @@ export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 
 export const tasksCountAtom = atom((get) => get(tasksAtom).length);
 
+export const statusCountAtom = atom({
+  pending: 0,
+  todo: 0,
+  done: 0,
+  forReview: 0,
+});
+
+export const fetchStatusCountAtom = atom(null, (get, set, update) => {
+  const clientKey = update;
+  const selectedClient = get(tasksAtom).filter(
+    (task) => task.client.client_id === clientKey
+  )[0];
+  console.log("selectedClient", selectedClient);
+  const updatedStatusCount = selectedClient?.sla
+    .map((sla) => sla.status)
+    .reduce(
+      (acc, curr) => {
+        return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+      },
+      {
+        pending: 0,
+        todo: 0,
+        done: 0,
+        forReview: 0,
+      }
+    );
+
+  set(statusCountAtom, updatedStatusCount);
+});
+
 export const taskFilterKeysAtom = atom([
   {
     label: "All",
@@ -209,15 +239,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   } else {
     console.log("TASKS FAILED FETCH", tasks);
   }
-});
-
-export const clientTaskStatusCountAtom = atom(null, (get, set, update) => {
-  const clientKey = update;
-  const selectedClient = get(tasksAtom)
-    .filter((task) => task.client.client_id === clientKey)[0]
-    .sla.map((sla) => sla.status);
-
-  return selectedClient;
 });
 
 export const clientTaskProcessorsCountAtom = atom((get) => {

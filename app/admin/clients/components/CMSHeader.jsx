@@ -235,7 +235,7 @@ const ClientHeader = ({
           />
         </div>
       </div>
-      <div className="w-full flex justify-end mx-4 gap-4">
+      <div data-show={showClientDetails} className="w-full flex data-[show=true]:hidden justify-end mx-4 gap-4">
         <CTAButtons
           key={actionButtons.task.label}
           fullWidth={true}
@@ -246,7 +246,7 @@ const ClientHeader = ({
         />
         <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
         <CTAButtons
-          showButton={!showClientTask || !showClientDetails}
+          showButton={!showClientTask}
           key={actionButtons.client.label}
           fullWidth={true}
           label={actionButtons.client.label}

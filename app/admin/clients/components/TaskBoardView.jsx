@@ -197,6 +197,22 @@ const TaskBoardView = ({ itemTasks, showClientTask, changeView }) => {
     const activeId = active.id;
     const overId = over.id;
 
+    const isActiveAColumn = active.data.current?.type === "Column";
+    if (!isActiveAColumn) return;
+
+    setColumns((columns) => {
+      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
+
+      const overColumnIndex = columns.findIndex((col) => col.id === overId);
+      const taskIndexMoved = arrayMove(
+        columns,
+        activeColumnIndex,
+        overColumnIndex
+      );
+      // updateTaskStatus({ sla: taskIndexMoved });
+      return taskIndexMoved;
+    });
+
     const isActiveATask = active.data.current?.type === "Task";
     console.log("isActiveATask", isActiveATask);
     if (!isActiveATask) return;
@@ -219,22 +235,6 @@ const TaskBoardView = ({ itemTasks, showClientTask, changeView }) => {
     }
 
     if (activeId === overId) return;
-
-    const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
-
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
-
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
-      const taskIndexMoved = arrayMove(
-        columns,
-        activeColumnIndex,
-        overColumnIndex
-      );
-      // updateTaskStatus({ sla: taskIndexMoved });
-      return taskIndexMoved;
-    });
   }
 
   function onDragOver(event) {

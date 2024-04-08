@@ -17,7 +17,9 @@ import { MdChevronRight } from "react-icons/md";
 import { changeViewAtom, showClientTaskAtom } from "../store/CMSAdminStore";
 import {
   clientTaskProcessorsCountAtom,
-  clientTaskStatusCountAtom,
+  fetchStatusCountAtom,
+  // clientTaskStatusCountAtom,
+  statusCountAtom,
   tasksAtom,
   taskStatusCountAtom,
 } from "@/app/store/TaskStore";
@@ -38,41 +40,41 @@ const ClientItemCard = ({ data }) => {
   const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
   const setShowClientTask = useSetAtom(showClientTaskAtom);
   const setChangeView = useSetAtom(changeViewAtom);
-  const clientTaskStatusCount = useSetAtom(clientTaskStatusCountAtom);
+  const fetchStatusCount = useSetAtom(fetchStatusCountAtom);
+  // const clientTaskStatusCount = useSetAtom(clientTaskStatusCountAtom);
 
   console.log("data", data);
   const clientTaskProcessorsCount = useAtomValue(clientTaskProcessorsCountAtom);
+  const statusCount = useAtomValue(statusCountAtom);
 
   // const [selectedClient, setSelectedClient] = useState(
   //   clientTaskStatusCount(data._id)
   // );
-  const selectedClient = clientTaskStatusCount(data._id);
-  // useEffect(() => {
-  //   if (selectedClient) {
-  //     setSelectedClient(selectedClient);
+  // const selectedClient = clientTaskStatusCount(data._id);
+  useEffect(() => {
+    fetchStatusCount(data._id);
+  }, [data._id, fetchStatusCount]);
+
+  // console.log("selectedClient", selectedClient);
+
+  // let statusCount = {
+  //   pending: 0,
+  //   todo: 0,
+  //   done: 0,
+  //   forReview: 0,
+  // };
+
+  // statusCount = selectedClient?.reduce(
+  //   (acc, curr) => {
+  //     return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+  //   },
+  //   {
+  //     pending: 0,
+  //     todo: 0,
+  //     done: 0,
+  //     forReview: 0,
   //   }
-  // }, [selectedClient]);
-
-  console.log("selectedClient", selectedClient);
-
-  let statusCount = {
-    pending: 0,
-    todo: 0,
-    done: 0,
-    forReview: 0,
-  };
-
-  statusCount = selectedClient?.reduce(
-    (acc, curr) => {
-      return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-    },
-    {
-      pending: 0,
-      todo: 0,
-      done: 0,
-      forReview: 0,
-    }
-  );
+  // );
 
   console.log("statusCount: ", statusCount);
 
