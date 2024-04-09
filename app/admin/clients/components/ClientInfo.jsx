@@ -9,7 +9,6 @@ import { MdContentCopy } from "react-icons/md";
 import { format } from "date-fns";
 
 const ClientInfo = ({ selectedClient }) => {
-  console.log("INSIDE CLIENT INFO: ", selectedClient);
   const clientInfo = selectedClient[0];
 
   return (

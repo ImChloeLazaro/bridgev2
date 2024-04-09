@@ -5,41 +5,78 @@ import {
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
+  clientTaskProcessorsCountAtom,
+  tasksAtom,
+} from "@/app/store/TaskStore";
+import {
   Avatar,
   AvatarGroup,
   Button,
   Card,
   CardBody,
-  Image,
+  Link,
+  Spinner,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
-import { changeViewAtom, showClientTaskAtom } from "../store/CMSAdminStore";
-import { taskStatusCountAtom } from "@/app/store/TaskStore";
+import {
+  changeViewAtom,
+  showClientTaskAtom,
+  showFooterAtom,
+  showSearchBarAtom,
+} from "../store/CMSAdminStore";
 
 const tagColors = {
   todo: "blue",
-  inProgress: "orange",
   done: "green",
   forReview: "yellow",
-  due: "red",
   pending: "darkgrey",
 };
 
 const ClientItemCard = ({ data }) => {
+  const tasks = useAtomValue(tasksAtom);
   const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
+  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
   const setShowClientTask = useSetAtom(showClientTaskAtom);
   const setChangeView = useSetAtom(changeViewAtom);
+  const setShowFooter = useSetAtom(showFooterAtom);
+  const setShowSearchBar = useSetAtom(showSearchBarAtom);
+  const clientTaskProcessorsCount = useAtomValue(clientTaskProcessorsCountAtom);
 
-  const clientStatusTasksCount = useAtomValue(taskStatusCountAtom);
+  const [statusCount, setStatusCount] = useState({
+    pending: 0,
+    todo: 0,
+    done: 0,
+    forReview: 0,
+  });
 
-  console.log("clientStatusTasksCount", clientStatusTasksCount);
+  useEffect(() => {
+    const updatedStatusCount = tasks.filter(
+      (task) => task.client.client_id === data._id
+    )[0];
 
-  const statusTasksCount = clientStatusTasksCount?.reduce((acc, curr) => {
-    return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-  }, {});
-
-  console.log("statusTasksCount", statusTasksCount);
+    if (typeof updatedStatusCount !== "undefined") {
+      const convertedStatusCount = updatedStatusCount.sla
+        .map((sla) => sla.status)
+        .reduce(
+          (acc, curr) => {
+            return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+          },
+          {
+            pending: 0,
+            todo: 0,
+            done: 0,
+            forReview: 0,
+          }
+        );
+      setStatusCount(
+        Object.fromEntries(
+          Object.entries(convertedStatusCount).sort(([, a], [, b]) => b - a)
+        )
+      );
+    }
+  }, [data._id, tasks]);
 
   const handleSelectTask = () => {
     // when user pressed on the tags on client list
@@ -50,6 +87,16 @@ const ClientItemCard = ({ data }) => {
     // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
     setShowClientTask(true);
+    // auto select processor, managers, reviewers on task form when adding task inside the client view
+  };
+
+  const handleViewClientDetails = (selected) => {
+    // when user pressed on the name of the client
+    setSelectedClientToView(selected);
+    setShowFooter(false);
+    setShowClientTask(false);
+    setShowClientDetails(true);
+    setShowSearchBar(false);
   };
 
   return (
@@ -60,16 +107,28 @@ const ClientItemCard = ({ data }) => {
             <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
               <div className="max-w-[70px] pl-4 pr-1">
                 <Avatar
+                  showFallback
+                  fallback={<Spinner />}
                   src={data.company.picture}
                   className="w-16 h-16 text-large"
                 />
               </div>
-              {data.company.name}
+              <Link
+                href="#"
+                underline="hover"
+                className="text-xl font-semibold text-black-default "
+                onPress={() => handleViewClientDetails(data._id)}
+              >
+                {data.company?.name?.length ? data.company.name : ""}
+              </Link>
             </div>
-            <div className="w-2/3 flex flex-wrap justify-start items-center gap-4 p-0">
-              {statusTasksCount?.length &&
-                Object.keys(statusTasksCount).map((status, s_index) => {
-                  if (statusTasksCount[status] > 0) {
+            <div className="w-2/3 flex flex-wrap justify-center items-center gap-4 p-0">
+              {typeof statusCount !== "undefined" &&
+                Object.keys(statusCount).map((status, s_index) => {
+                  if (
+                    statusCount[status] > 0 &&
+                    Object.keys(tagColors).includes(status)
+                  ) {
                     return (
                       <Button
                         key={s_index}
@@ -78,13 +137,15 @@ const ClientItemCard = ({ data }) => {
                       >
                         <LabelTagChip
                           key={s_index}
-                          text={`${status}`}
+                          text={`${
+                            status === "forReview" ? "For Review" : status
+                          }`}
                           color={tagColors[status]}
                           type="tag"
                           size="md"
                           isFilled
                           withBadge={true}
-                          badgeContent={statusTasksCount[status]}
+                          badgeContent={statusCount[status]}
                         />
                       </Button>
                     );
@@ -92,15 +153,16 @@ const ClientItemCard = ({ data }) => {
                 })}
             </div>
             <div className="w-1/4 flex justify-between items-center gap-2">
-              {/* {data.assignedUsers ?? "No one is assigned "}
-              <AvatarGroup size="lg" max={4} total={data.assignedUsers.length}>
-                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-                <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-              </AvatarGroup> */}
+              {!clientTaskProcessorsCount?.length ? (
+                ""
+              ) : (
+                <AvatarGroup size="lg" max={3}>
+                  {clientTaskProcessorsCount.map((processor, index) => (
+                    <Avatar key={index} src={processor.picture} />
+                    // <Avatar key={index} src={"https://picsum.photos/200"} />
+                  ))}
+                </AvatarGroup>
+              )}
             </div>
           </div>
         </CardBody>

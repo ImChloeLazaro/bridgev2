@@ -15,42 +15,25 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import TaskFormSections from "./TaskFormSections";
-import { toast } from "sonner";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskData = useAtomValue(taskDataAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
+
 
   const addTask = useSetAtom(addTaskAtom);
   // const deleteTask = useSetAtom(deleteTaskAtom);
 
   const handleAddTask = async (onClose) => {
     console.log("taskData", taskData);
-    // const response = await addTask(taskData);
-    // // const response = await deleteTask();
-    // console.log("response", response);
+    const response = await addTask(taskData);
+    // const response = await deleteTask();
+    console.log("response", response);
 
-    // if (response.success) {
-    //   // fetchTask();
-
-    //   console.log("CONFIRM WINDOW ADDED TASK", response.success);
-    // }
-    const promise = async () =>
-      new Promise((resolve) =>
-        setTimeout(
-          async () => resolve(await addTask(taskData), await fetchTask()),
-          2000
-        )
-      );
-
-    toast.promise(promise, {
-      loading: "Adding Task...",
-      success: () => {
-        return `Task Successfully Created`;
-      },
-      error: "Error",
-    });
-
+    if (response.success) {
+      fetchTask();
+      console.log("CONFIRM WINDOW ADDED TASK", response.success);
+    }
     onClose();
   };
 

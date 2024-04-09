@@ -22,7 +22,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
-import { showClientTaskAtom } from "../store/CMSAdminStore";
+import { showClientTaskAtom } from "../store/CMSUserStore";
 
 const TaskFormSections = () => {
   const showClientTask = useAtomValue(showClientTaskAtom);

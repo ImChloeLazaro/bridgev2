@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { SelectItem } from "@nextui-org/react";
-import { Select, Input, Chip } from "@nextui-org/react";
-import { MdFilterAlt } from "react-icons/md";
+import { Input, Select, SelectItem } from "@nextui-org/react";
 import { LuSearch } from "react-icons/lu";
+import { MdFilterAlt } from "react-icons/md";
 
 const SearchBar = ({
+  disabledSearch = false,
+  disabledFilter = false,
+  showSearchBar,
   type = "filter",
   searchItem,
   setSearchItem,
@@ -15,6 +16,8 @@ const SearchBar = ({
   const typeVariant = {
     search: (
       <Input
+        radius={"sm"}
+        isDisabled={disabledSearch}
         value={searchItem}
         onValueChange={setSearchItem}
         labelPlacement="outside"
@@ -39,8 +42,9 @@ const SearchBar = ({
     filter: (
       <>
         <Select
+          isDisabled={disabledFilter}
           size="sm"
-          radius="lg"
+          radius={"sm"}
           aria-label="Post Filter Selection"
           items={filterKeys}
           variant="flat"
@@ -53,7 +57,7 @@ const SearchBar = ({
           startContent={<MdFilterAlt size={24} />}
           classNames={{
             trigger: "min-h-unit-10 rounded-r-none border border-r-0 shadow-sm",
-            mainWrapper: "w-32 max-w-48",
+            mainWrapper: "w-44 max-w-48",
           }}
         >
           {(filter) => (
@@ -61,6 +65,8 @@ const SearchBar = ({
           )}
         </Select>
         <Input
+          radius={"sm"}
+          isDisabled={disabledSearch}
           value={searchItem}
           onValueChange={setSearchItem}
           labelPlacement="outside"
@@ -86,7 +92,14 @@ const SearchBar = ({
       </>
     ),
   };
-  return <div className="flex gap-0">{typeVariant[type]}</div>;
+  return (
+    <div
+      data-show={showSearchBar}
+      className="flex data-[show=false]:hidden gap-0 "
+    >
+      {typeVariant[type]}
+    </div>
+  );
 };
 
 export default SearchBar;

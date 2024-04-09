@@ -1,4 +1,4 @@
-import { taskBoardColsAtom, tasksAtom } from "@/app/store/TaskStore";
+import { taskBoardColsAtom, updateTaskStatusAtom } from "@/app/store/TaskStore";
 import {
   DndContext,
   DragOverlay,
@@ -7,27 +7,34 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-import { useAtom } from "jotai";
-import { useMemo, useState } from "react";
+import { useAtom, useSetAtom } from "jotai";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
 
-const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
+const TaskBoardView = ({ itemTasks, showClientTask, changeView }) => {
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useAtom(tasksAtom);
+  const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
+  const [tasks, setTasks] = useState(itemTasks);
+
+  useEffect(() => {
+    if (itemTasks) {
+      setTasks(itemTasks);
+    }
+  }, [itemTasks]);
 
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
 
-  console.log("sortedItemTasks INSIDE BOARD:", sortedItemTasks);
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 10,
+        distance: 25,
+        delay: 100,
+        tolerance: 500,
       },
     })
   );
@@ -36,7 +43,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     <div
       data-view={showClientTask}
       data-change={changeView}
-      className="hidden data-[view=true]:flex data-[change=false]:hidden w-screen h-full items-center overflow-x-auto overflow-y-hidden px-4 "
+      className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto overflow-y-hidden px-4 "
     >
       <DndContext
         sensors={sensors}
@@ -56,7 +63,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
                 // createTask={createTask}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
-                tasks={sortedItemTasks.filter((task) => task.status === col.id)} // change to status as the filter key
+                tasks={tasks.filter((task) => task.status === col.id)} // change to status as the filter key
               />
             ))}
           </SortableContext>
@@ -96,7 +103,7 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
                 // createTask={createTask}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
-                tasks={sortedItemTasks.filter((task) => task.status === col.id)} // change to status as the filter key
+                tasks={tasks.filter((task) => task.status === activeColumn.id)} // change to status as the filter key
               />
             )}
             {activeTask && (
@@ -185,26 +192,51 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     const { active, over } = event;
     if (!over) return;
 
-    const activeId = active.status;
-    const overId = over.status;
+    const activeId = active.id;
+    const overId = over.id;
+
+    const isActiveATask = active.data.current?.type === "Task";
+    console.log("isActiveATask", isActiveATask);
+    // if (!isActiveATask) return;
+
+    if (isActiveATask) {
+      setTasks((tasks) => {
+        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+        const overIndex = tasks.findIndex((t) => t.id === overId);
+
+        if (tasks[activeIndex].status != tasks[overIndex]?.status) {
+          tasks[activeIndex].status = tasks[overIndex]?.status;
+          const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex - 1);
+          updateTaskStatus({ sla: taskIndexMoved });
+          return taskIndexMoved;
+        }
+        const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex);
+        updateTaskStatus({ sla: taskIndexMoved });
+        return taskIndexMoved;
+      });
+    }
 
     if (activeId === overId) return;
 
     const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
+    // if (!isActiveAColumn) return;
 
-    console.log("DRAG END");
+    if (isActiveAColumn) {
+      setColumns((columns) => {
+        const activeColumnIndex = columns.findIndex(
+          (col) => col.id === activeId
+        );
 
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
-
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    });
-
-    console.log("activeId", activeId);
-    console.log("overId", overId);
+        const overColumnIndex = columns.findIndex((col) => col.id === overId);
+        const taskIndexMoved = arrayMove(
+          columns,
+          activeColumnIndex,
+          overColumnIndex
+        );
+        // updateTaskStatus({ sla: taskIndexMoved });
+        return taskIndexMoved;
+      });
+    }
   }
 
   function onDragOver(event) {
@@ -213,8 +245,8 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     const { active, over } = event;
     if (!over) return;
 
-    const activeId = active.status;
-    const overId = over.status;
+    const activeId = active.id;
+    const overId = over.id;
 
     if (activeId === overId) return;
 
@@ -226,15 +258,21 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     // dropping a Task over another Task
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.status === activeId);
-        const overIndex = tasks.findIndex((t) => t.status === overId);
+        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+        const overIndex = tasks.findIndex((t) => t.id === overId);
+
+        console.log("TASK activeIndex", activeIndex);
+        console.log("TASK overIndex", overIndex);
 
         if (tasks[activeIndex].status != tasks[overIndex].status) {
           tasks[activeIndex].status = tasks[overIndex].status;
-          return arrayMove(tasks, activeIndex, overIndex - 1);
+          const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex - 1);
+          // updateTaskStatus({ sla: taskIndexMoved });
+          return taskIndexMoved;
         }
-
-        return arrayMove(tasks, activeIndex, overIndex);
+        const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex);
+        // updateTaskStatus({ sla: taskIndexMoved });
+        return taskIndexMoved;
       });
     }
 
@@ -243,21 +281,17 @@ const TaskBoardView = ({ sortedItemTasks, showClientTask, changeView }) => {
     // dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.status === activeId);
+        const activeIndex = tasks.findIndex((t) => t.id === activeId);
+
+        console.log("COLUMN activeIndex", activeIndex);
 
         tasks[activeIndex].status = overId;
-        console.log(tasks);
-        console.log("DROPPING TASK OVER COLUMN", { activeIndex });
-        return arrayMove(tasks, activeIndex, activeIndex);
-      });
-      // setTasks((tasks) => {
-      //   const activeIndex = tasks.findIndex((t) => t.status === activeId);
+        // console.log("DRAG OVER TO COLUMN", overId);
 
-      //   tasks[activeIndex].status = overId;
-      //   console.log(tasks);
-      //   console.log("DROPPING TASK OVER COLUMN", { activeIndex });
-      //   return arrayMove(tasks, activeIndex, activeIndex);
-      // });
+        const taskIndexMoved = arrayMove(tasks, activeIndex, activeIndex);
+        // updateTaskStatus({ sla: taskIndexMoved });
+        return taskIndexMoved;
+      });
     }
   }
 };

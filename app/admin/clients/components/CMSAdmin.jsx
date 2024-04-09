@@ -2,34 +2,25 @@ import {
   clientFilterKeysAtom,
   clientsAtom,
   clientsCountAtom,
+  fetchClientAtom,
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
+  fetchTaskAtom,
   selectedTaskFilterKeysAtom,
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  useDisclosure,
-} from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
-import { useMemo, useState } from "react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useMemo, useState } from "react";
 import {
   changeViewAtom,
-  showActionButtonsAtom,
-  showCheckBoxAtom,
   showClientTaskAtom,
   showFooterAtom,
-  showOptionsAtom,
 } from "../store/CMSAdminStore";
-import AddClientModal from "./AddClientModal";
-import AddTaskModal from "./AddTaskModal";
 import CMSFooter from "./CMSFooter";
 import ClientHeader from "./CMSHeader";
 import ClientDetails from "./ClientDetails";
@@ -38,49 +29,39 @@ import TaskBoardView from "./TaskBoardView";
 import TaskTableView from "./TaskTableView";
 
 const CMSAdmin = () => {
-  const { isOpenTask, onOpenTask, onCloseTask } = useDisclosure();
-  const { isOpenClient, onOpenClient, onCloseClient } = useDisclosure();
-
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
-  const [selectedAllClients, setSelectedAllClients] = useState(false);
+  const [sortDescriptor, setSortDescriptor] = useState({
+    column: "status",
+    direction: "ascending",
+  });
 
-  const showFooter = useAtomValue(showFooterAtom);
-  const showOptions = useAtomValue(showOptionsAtom);
-  const showCheckBox = useAtomValue(showCheckBoxAtom);
-  const showActionButtons = useAtomValue(showActionButtonsAtom);
-
-  const changeView = useAtomValue(changeViewAtom);
-  const showClientDetails = useAtomValue(showClientDetailsAtom);
+  const clients = useAtomValue(clientsAtom);
+  const tasks = useAtomValue(tasksAtom);
 
   const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
+  const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
+
   const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
     selectedClientFilterKeysAtom
   );
-
-  const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
   const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
     selectedTaskFilterKeysAtom
   );
 
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+  const changeView = useAtomValue(changeViewAtom);
+  const showFooter = useAtomValue(showFooterAtom);
+  const showClientDetails = useAtomValue(showClientDetailsAtom);
   const showClientTask = useAtomValue(showClientTaskAtom);
 
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientsCount = useAtomValue(clientsCountAtom);
-  const clients = useAtomValue(clientsAtom);
-
-  const tasks = useAtomValue(tasksAtom);
-  const [sortDescriptor, setSortDescriptor] = useState({
-    column: "name",
-    direction: "ascending",
-  });
-
-  console.log("tasks:", tasks);
 
   // ##########################################
-  const tasksFromSelectedClient = tasks.filter(
-    // (task) => task.clientKey === selectedClientToView
-    (task) => task.client.client_id === "client456"
+  const tasksFromSelectedClient = useMemo(
+    () =>
+      tasks.filter((task) => task.client.client_id === selectedClientToView),
+    [selectedClientToView, tasks]
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -88,7 +69,7 @@ const CMSAdmin = () => {
       return {
         ...sla,
         id: (index += 1),
-        key: tasksFromSelectedClient[0].key,
+        clientKey: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
@@ -103,7 +84,6 @@ const CMSAdmin = () => {
     let filteredTasks = convertedTasksFromSelectedClient?.length
       ? [...convertedTasksFromSelectedClient]
       : [];
-    console.log("filteredTasks: ", filteredTasks);
 
     if (Boolean(searchTaskItem)) {
       filteredTasks = filteredTasks.filter(
@@ -114,10 +94,10 @@ const CMSAdmin = () => {
     }
     if (
       selectedTaskFilterKeyString !== "all" &&
-      Array.from(selectedTaskFilterKeyString).length !== taskFilterKeys.length
+      Array.from(selectedTaskFilterKeys).length !== taskFilterKeys.length
     ) {
       filteredTasks = filteredTasks.filter((task) =>
-        Array.from(selectedTaskFilterKeyString).includes(task.status)
+        Array.from(selectedTaskFilterKeys).includes(task.status)
       );
     }
 
@@ -126,6 +106,7 @@ const CMSAdmin = () => {
     convertedTasksFromSelectedClient,
     searchTaskItem,
     selectedTaskFilterKeyString,
+    selectedTaskFilterKeys,
     taskFilterKeys.length,
   ]);
 
@@ -149,18 +130,15 @@ const CMSAdmin = () => {
     return filteredTaskItems.slice(start, end);
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
-  console.log("itemTasks before", itemTasks);
+  // const sortedItemTasks = useMemo(() => {
+  //   return [...itemTasks].sort((a, b) => {
+  //     const first = a[sortDescriptor.column];
+  //     const second = b[sortDescriptor.column];
+  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-  const sortedItemTasks = useMemo(() => {
-    console.log("HERE INSIDE SORTING", itemTasks);
-    return [...itemTasks].sort((a, b) => {
-      const first = a[sortDescriptor.column];
-      const second = b[sortDescriptor.column];
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [itemTasks, sortDescriptor]);
+  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
+  //   });
+  // }, [itemTasks, sortDescriptor]);
 
   // ######################################################
   const selectedClient = clients.filter(
@@ -231,6 +209,14 @@ const CMSAdmin = () => {
   //   });
   // }, [itemClients]);
 
+  const fetchTask = useSetAtom(fetchTaskAtom);
+  const fetchClient = useSetAtom(fetchClientAtom);
+
+  useEffect(() => {
+    fetchClient();
+    fetchTask();
+  }, [fetchClient, fetchTask]);
+
   return (
     <>
       <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
@@ -240,10 +226,6 @@ const CMSAdmin = () => {
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
             }
-            selectedAllClients={selectedAllClients}
-            setSelectedAllClients={setSelectedAllClients}
-            showCheckBox={showCheckBox}
-            showOptions={showOptions}
             filterKeys={showClientTask ? taskFilterKeys : clientFilterKeys}
             selectedFilterKeys={
               showClientTask ? selectedTaskFilterKeys : selectedClientFilterKeys
@@ -258,20 +240,19 @@ const CMSAdmin = () => {
         <CardBody className="h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
-            sortedItemTasks={sortedItemTasks}
             showClientTask={showClientTask}
             showClientDetails={showClientDetails}
           />
           <TaskTableView
-            sortedItemTasks={sortedItemTasks}
-            showClientTask={showClientTask}
+            itemTasks={filteredTaskItems}
+            showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
             sortDescriptor={sortDescriptor}
             setSortDescriptor={setSortDescriptor}
           />
           <TaskBoardView
-            sortedItemTasks={sortedItemTasks}
-            showClientTask={showClientTask}
+            itemTasks={filteredTaskItems}
+            showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
           />
           <ClientDetails
@@ -283,10 +264,12 @@ const CMSAdmin = () => {
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={
-              showClientTask ? sortedItemTasks.length : itemClients.length
+              showClientTask ? itemTasks?.length : itemClients?.length
             }
             totalItemCount={
-              showClientTask ? tasksFromSelectedClient.length : clientsCount
+              showClientTask
+                ? tasksFromSelectedClient[0]?.sla?.length
+                : clientsCount
             }
             page={showClientTask ? taskPage : clientPage}
             setPage={showClientTask ? setTaskPage : setClientPage}

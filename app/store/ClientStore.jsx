@@ -2,9 +2,9 @@ import { restinsert, restread } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import { tasksAtom } from "./TaskStore";
 
-let clientIndex = 0;
+export const clientsAtom = atom([]);
 
-export const testClientValue = atom(null, async (get, set, update) => {
+export const addClientAtom = atom(null, async (get, set, update) => {
   const {
     contact,
     company,
@@ -15,7 +15,8 @@ export const testClientValue = atom(null, async (get, set, update) => {
     another_bookkeeper,
     with_accountant,
   } = update;
-  const insert = await restinsert("/cms/client", {
+  console.log("CLIENT DATA TO BE ADDED:", update);
+  const response = await restinsert("/cms/client", {
     contact,
     company,
     business,
@@ -26,12 +27,17 @@ export const testClientValue = atom(null, async (get, set, update) => {
     with_accountant,
   });
 
-  console.log("ADDED CLIENT", get(clientsAtom));
+  console.log("RESPONSE FROM API", response);
+
+  if (response.success) {
+    console.log("ADDED CLIENT", response.response);
+    console.log("ADDED CLIENT", get(clientsAtom));
+    return { success: true };
+  } else {
+    console.log("FAILED ADDING CLIENT");
+    return { success: false };
+  }
 });
-
-export const clientsAtom = atom([]);
-
-export const addClientAtom = atom();
 export const updateClientAtom = atom();
 export const deleteClientAtom = atom();
 
@@ -55,16 +61,96 @@ export const clientFilterKeysAtom = atom([
     value: "all",
   },
   {
-    label: "Blooms",
-    value: "blooms",
+    label: "DMS - Austin",
+    value: "dmsAustin",
   },
   {
-    label: "Client 1",
-    value: "client1",
+    label: "DMS - Sheila",
+    value: "dmsSheila",
   },
   {
-    label: "Client 2",
-    value: "client2",
+    label: "AP - Richmond",
+    value: "apRichmond",
+  },
+  {
+    label: "Financials - Jess",
+    value: "financialsJess",
+  },
+  {
+    label: "Financials - Melai",
+    value: "financialsMelai",
+  },
+  {
+    label: "Admin/Ops",
+    value: "adminOps",
+  },
+  {
+    label: "DMS - James",
+    value: "dmsJames",
+  },
+  {
+    label: "DMS - Bea",
+    value: "dmsBea",
+  },
+  {
+    label: "DMS - Dennis",
+    value: "dmsDennis",
+  },
+  {
+    label: "SD - Raquel",
+    value: "sdRaquel",
+  },
+  {
+    label: "SD - CO",
+    value: "sdCO",
+  },
+  {
+    label: "SD - Charlene",
+    value: "sdCharlene",
+  },
+  {
+    label: "BMS - Lester",
+    value: "bmsLester",
+  },
+  {
+    label: "AP - Lady",
+    value: "apLady",
+  },
+  {
+    label: "Financials - Bert",
+    value: "financialsBert",
+  },
+  {
+    label: "Financials - Mel",
+    value: "financialsMel",
+  },
+  {
+    label: "Financials - Tin",
+    value: "financialsTin",
+  },
+  {
+    label: "Financials - Kamille",
+    value: "financialsKamille",
+  },
+  {
+    label: "Financials - Rhiziel",
+    value: "financialsRhiziel",
+  },
+  {
+    label: "Financials - Regina",
+    value: "financialsRegina",
+  },
+  {
+    label: "Financials - Dom",
+    value: "financialsDom",
+  },
+  {
+    label: "AP - Jayne",
+    value: "apJayne",
+  },
+  {
+    label: "Financials - Junalyn",
+    value: "financialsJunalyn",
   },
 ]);
 
@@ -145,8 +231,8 @@ export const softwareExpenseManagementAtom = atom([]);
 export const softwareReportingAtom = atom([]);
 export const softwareBookkeepingAtom = atom([]);
 
-export const documentASICAtom = atom(null);
-export const documentTaxReturnAtom = atom(null);
+export const documentASICAtom = atom("");
+export const documentTaxReturnAtom = atom("");
 
 export const generalAnotherBookKeeperAtom = atom(null);
 export const generalWithAccountantAtom = atom(null);

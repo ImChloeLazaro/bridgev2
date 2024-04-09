@@ -156,8 +156,8 @@ app.put('/cms/task/*', async function (req, res) {
 
 app.delete('/cms/task', async function (req, res) {
   try {
-    const { _id } = req.body
-    const destroy = await taskModel.deleteOne({ _id  })
+    const { _id } = req.query
+    const destroy = await taskModel.deleteOne({ _id: _id  })
     res.status(200).json({ success: true, body: destroy, message: "Task deleted successfully" })
   } catch (error) {
     res.json({ error: error })

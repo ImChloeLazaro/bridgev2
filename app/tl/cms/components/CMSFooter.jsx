@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { pageRowsSelectionAtom } from "../store/CMSTLStore";
 
 const CMSFooter = ({
-  showFooter,
+  showFooter = true,
   displayedItemCount,
   totalItemCount = 0,
   page = 1,
@@ -12,12 +12,7 @@ const CMSFooter = ({
   setRowsPerPage,
   totalPages = 0,
 }) => {
-  let rowsPerPageNumber = isNaN(parseInt(Array.from(rowsPerPage).join("")))
-    ? 10
-    : parseInt(Array.from(rowsPerPage).join(""));
-
   const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
-  const isDisabled = displayedItemCount <= rowsPerPageNumber;
 
   const handleRowsPerPage = (select) => {
     setRowsPerPage(select);
@@ -27,7 +22,7 @@ const CMSFooter = ({
     <div
       data-show={showFooter}
       className={
-        "flex data-[show=true]:hidden w-full items-center justify-between px-12 "
+        "hidden data-[show=true]:flex w-full items-center justify-between px-12 "
       }
     >
       <div className="w-1/3">
@@ -57,7 +52,6 @@ const CMSFooter = ({
       <Pagination
         isCompact
         showControls
-        isDisabled={isDisabled}
         total={totalPages <= 0 ? 1 : totalPages}
         initialPage={1}
         page={page}

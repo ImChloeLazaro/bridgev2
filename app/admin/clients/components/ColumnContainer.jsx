@@ -31,7 +31,7 @@ function ColumnContainer({
       type: "Column",
       column,
     },
-    disabled: editMode,
+    // disabled: editMode,
   });
 
   const style = {
@@ -56,7 +56,7 @@ function ColumnContainer({
       rounded-lg
       flex
       flex-col
-      basis-1/6
+      w-full
       "
       ></div>
     );
@@ -77,13 +77,12 @@ function ColumnContainer({
       style={style}
       className="
     bg-grey-default
-    
     h-full
     max-h-screen
     rounded-lg
     flex
     flex-col
-    basis-1/6
+    w-full
   "
     >
       {/* Column title */}
@@ -98,7 +97,7 @@ function ColumnContainer({
       text-md
       h-[60px]
       cursor-grab
-      rounded-md
+      rounded-lg
       rounded-b-none
       p-3
       font-bold

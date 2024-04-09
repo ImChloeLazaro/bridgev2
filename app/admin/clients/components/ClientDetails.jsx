@@ -1,15 +1,11 @@
-import { Avatar } from "@nextui-org/react";
-import ClientInfo from "./ClientInfo";
 import CTAButtons from "@/app/components/CTAButtons";
+import { Avatar } from "@nextui-org/react";
 import { MdInsertDriveFile } from "react-icons/md";
-import { RiCloseCircleFill } from "react-icons/ri";
-import { RiCheckboxCircleFill } from "react-icons/ri";
-import { MdPerson } from "react-icons/md";
-import { BsPersonCheckFill } from "react-icons/bs";
+import { RiCheckboxCircleFill, RiCloseCircleFill } from "react-icons/ri";
+import ClientInfo from "./ClientInfo";
 
 const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const clientInfo = selectedClient[0];
-  console.log("clientInfo.documents", clientInfo);
 
   const checkStatusBookkeeper = (
     <div className="flex items-center gap-2 text-green-default">

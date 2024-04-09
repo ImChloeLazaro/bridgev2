@@ -4,13 +4,12 @@ import { CSS } from "@dnd-kit/utilities";
 import { Link, User } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useSetAtom } from "jotai";
-import { useState } from "react";
-import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
 import { showClientTaskAtom, showFooterAtom } from "../store/CMSUserStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
-  const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [editMode, setEditMode] = useState(true);
+  // const [mouseIsOver, setMouseIsOver] = useState(false);
+  // const [editMode, setEditMode] = useState(true);
 
   const setShowClientDetails = useSetAtom(showClientDetailsAtom);
   const setShowFooter = useSetAtom(showFooterAtom);
@@ -29,7 +28,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       type: "Task",
       task,
     },
-    disabled: false,
+    // disabled: false,
   });
 
   const style = {
@@ -37,17 +36,17 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     transform: CSS.Transform.toString(transform),
   };
 
-  const handleViewClientDetails = () => {
-    setShowFooter(false);
-    setShowClientTask(false);
-    setShowClientDetails(true);
-  };
+  // const handleViewClientDetails = () => {
+  //   setShowFooter(false);
+  //   setShowClientTask(false);
+  //   setShowClientDetails(true);
+  // };
 
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-    setMouseIsOver(false);
-    console.log("CLICKED TASK CARD");
-  };
+  // const toggleEditMode = () => {
+  //   setEditMode((prev) => !prev);
+  //   setMouseIsOver(false);
+  //   console.log("CLICKED TASK CARD");
+  // };
 
   if (isDragging) {
     return (
@@ -56,7 +55,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         style={style}
         className="
         opacity-30
-      bg-white-default p-2.5 h-[125px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
+      bg-white-default p-2.5 h-[8rem] min-h-[4rem] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
       "
       ></div>
     );
@@ -97,65 +96,74 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       {...attributes}
       {...listeners}
       style={style}
-      onClick={toggleEditMode}
+      // onClick={toggleEditMode}
       className="
-      bg-white-default p-2.5 h-fit min-h-[125px] max-h-[200px]
-      items-center flex text-left rounded-lg 
+      bg-white-default p-2.5 h-[6rem] min-h-[4rem] items-center flex text-left rounded-xl
       hover:ring-2 hover:ring-inset hover:ring-blue-default 
       border border-grey-default
       cursor-grab relative shadow-md"
-      onMouseEnter={() => {
-        setMouseIsOver(true);
-      }}
-      onMouseLeave={() => {
-        setMouseIsOver(false);
-      }}
+      // onMouseEnter={() => {
+      //   setMouseIsOver(true);
+      // }}
+      // onMouseLeave={() => {
+      //   setMouseIsOver(false);
+      // }}
     >
-      <div className="basis-[90%] flex flex-col justify-center px-2 my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+      <div className="basis-[90%] flex flex-col justify-start px-2 my-auto h-[90%] w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
         <div className="mb-4">
           <Link
             href="#"
             underline="hover"
-            className="text-lg font-medium text-black-default "
-            onPress={handleViewClientDetails}
+            className="text-xl font-semibold text-black-default "
+            // onPress={handleViewClientDetails}
           >
-            {task.name}
+            {task?.name?.length ? task.name : ""}
           </Link>
+          <p className="text-sm font-medium text-black-default min-h-[1.5rem]">
+            {task?.instruction?.length ? task.instruction : ""}
+          </p>
         </div>
         <div className=""></div>
         <div className="flex gap-2 justify-start items-center">
-          <MdCalendarMonth size={20} />
+          <MdCalendarMonth size={24} />
           <Link
             href="#"
             underline="hover"
             className="text-sm font-medium text-black-default/80"
           >
-            {format(task?.duration?.end, "d MMM yyyy")}
+            {task?.duration?.end?.length
+              ? format(task.duration.end, "d MMM yyyy")
+              : ""}
           </Link>
         </div>
-        <div className="flex gap-2 justify-start items-center">
-          <User
-            name={
-              <Link
-                href="#"
-                underline="hover"
-                className="text-sm font-medium text-black-default/80"
-              >
-                {task.reviewer[0].name}
-              </Link>
-            }
-            // description="Reviewer"
-            avatarProps={{
-              src: task.reviewer[0].picture,
-              size: "sm",
-              classNames: { base: "w-[22px] h-[22px]" },
-            }}
-            classNames={{
-              name: "text-sm font-medium",
-              description: "text-xs font-medium",
-            }}
-          />
+        <div className="flex gap-2 justify-start items-center mb-1">
+          {task.reviewer.map((reviewer, index) => {
+            return (
+              <User
+                key={index}
+                name={
+                  <Link
+                    href="#"
+                    underline="hover"
+                    className="text-sm font-medium text-black-default/80"
+                  >
+                    {reviewer.name}
+                  </Link>
+                }
+                // description="Reviewer"
+                avatarProps={{
+                  src: `${reviewer.picture}`,
+                  size: "sm",
+                  classNames: { base: "w-[24px] h-[24px]" },
+                }}
+                classNames={{
+                  name: "text-sm font-medium",
+                  description: "text-xs font-medium",
+                }}
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -169,9 +177,9 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           <BsFillTrash3Fill size={24}/>
         </button>
       )} */}
-      <div className="basis-[10%] justify-center items-center">
+      {/* <div className="basis-[10%] justify-center items-center">
         <MdDragIndicator size={24} />
-      </div>
+      </div> */}
     </div>
   );
 }

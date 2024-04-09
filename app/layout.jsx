@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Providers } from "./providers";
 import { helveticaNowDisplay } from "./assets/fonts/fontTypeWeight";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "Aretex Bridge",
@@ -10,10 +11,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="aretex">
+      <head />
       {/*// theme */}
-      <body className={helveticaNowDisplay.className} suppressHydrationWarning={true}>
+      <body
+        className={helveticaNowDisplay.className}
+        suppressHydrationWarning={true}
+      >
         {/*// font */}
-        <Providers>{children}</Providers>
+        <Providers>
+          <main>{children}</main>
+          <Toaster richColors  />
+        </Providers>
       </body>
     </html>
   );

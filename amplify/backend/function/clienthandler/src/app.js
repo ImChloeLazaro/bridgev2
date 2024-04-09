@@ -129,8 +129,8 @@ app.put('/cms/client', async function(req, res) {
 
 app.delete('/cms/client', async function(req, res) {
   try {
-    const { _id } = req.body
-    const destroy = await clientModel.deleteOne({ _id })
+    const { _id } = req.query
+    const destroy = await clientModel.deleteOne({ _id: _id })
     res.status(200).json({ success: true, response: destroy })
   } catch (error) {
     res.json({ error: error })

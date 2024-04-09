@@ -4,12 +4,14 @@ import SearchBar from "@/app/components/SearchBar";
 import {
   clientsAtom,
   fetchClientAtom,
-  selectedClientToEditAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
 } from "@/app/store/ClientStore";
-import { fetchTaskAtom } from "@/app/store/TaskStore";
-import { Checkbox, Tooltip, cn, useDisclosure } from "@nextui-org/react";
+import {
+  clientSelectionChangeAtom,
+  fetchTaskAtom,
+} from "@/app/store/TaskStore";
+import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import {
@@ -21,20 +23,17 @@ import {
 } from "react-icons/md";
 import {
   changeViewAtom,
-  showActionButtonsAtom,
   showClientTaskAtom,
   showFooterAtom,
+  showSearchBarAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
+import { toast } from "sonner";
 
 const ClientHeader = ({
   searchItem,
   setSearchItem,
-  selectedAllClients,
-  setSelectedAllClients,
-  showCheckBox = false,
-  showOptions = false,
   filterKeys,
   selectedFilterKeys,
   setSelectedFilterKeys,
@@ -52,16 +51,13 @@ const ClientHeader = ({
   } = useDisclosure();
 
   const clients = useAtomValue(clientsAtom);
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientToEditAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-
-  const [showActionButtons, setShowActionButtons] = useAtom(
-    showActionButtonsAtom
-  );
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
   const [showFooter, setShowFooter] = useAtom(showFooterAtom);
+  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -73,7 +69,7 @@ const ClientHeader = ({
   );
 
   const handleGoBackToClient = () => {
-    setShowFooter(false);
+    setShowSearchBar(true);
     setShowClientTask(false);
     setShowClientDetails(false);
     if (showClientDetails) {
@@ -82,31 +78,46 @@ const ClientHeader = ({
   };
 
   const handleRefreshClient = async () => {
-    console.log("REFRESHED CLIENT DATA");
     setIsDisabled(true);
-    await fetchTask();
-    await fetchClient();
+
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () => resolve(await fetchTask(), await fetchClient()),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: () => {
+        return `Refreshed`;
+      },
+      error: "Error",
+    });
+
+    console.log("REFRESHED CLIENT DATA");
     setIsDisabled(false);
   };
 
   const handleChangeView = () => {
     setChangeView(!changeView);
-    setShowFooter(!showFooter);
   };
 
   const handleViewClientDetails = () => {
-    setShowActionButtons(!showActionButtons);
+    setShowSearchBar(!showSearchBar);
     setShowFooter(!showFooter);
     setShowClientTask(!showClientTask);
     setShowClientDetails(!showClientDetails);
   };
 
-  const handleAddTask = () => {
-    console.log("ADDED TASK");
+  const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      clientSelectionChange(selectedClientToView);
+    }
     onOpenTask();
   };
-  const handleAddClient = () => {
-    console.log("ADDED CLIENT");
+  const handleOpenClientWindow = () => {
     onOpenClient();
   };
 
@@ -158,25 +169,9 @@ const ClientHeader = ({
           </div>
         </IconButton>
 
-        {showCheckBox && (
-          <Checkbox
-            isSelected={selectedAllClients}
-            onValueChange={(value) => {
-              setSelectedAllClients(value);
-              console.log("SELECTED ALL CLIENT:", selectedClient);
-              if (!selectedAllClients) {
-                setSelectedClient(() => {
-                  return clients.map((client, index) => {
-                    return `client-${index + 1}`;
-                  });
-                });
-              } else {
-                setSelectedClient([]);
-              }
-            }}
-          />
-        )}
         <SearchBar
+          disabledFilter={showClientTask && changeView}
+          showSearchBar={showSearchBar}
           searchItem={searchItem}
           setSearchItem={setSearchItem}
           filterKeys={filterKeys}
@@ -184,6 +179,8 @@ const ClientHeader = ({
           setSelectedFilterKeys={setSelectedFilterKeys}
         />
         <IconButton
+          radius={"md"}
+          showSearchBar={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
           isDisabled={isDisabled}
@@ -204,7 +201,7 @@ const ClientHeader = ({
         >
           <CTAButtons
             isDisabled={showClientDetails}
-            radius={"lg"}
+            radius={"sm"}
             variant={"bordered"}
             color={changeView ? "blue" : "orange"}
             size={"md"}
@@ -215,7 +212,7 @@ const ClientHeader = ({
             onPress={handleChangeView}
           />
           <CTAButtons
-            radius={"lg"}
+            radius={"sm"}
             variant={"bordered"}
             color={showClientDetails ? "green" : "white"}
             size={"md"}
@@ -225,31 +222,35 @@ const ClientHeader = ({
           />
         </div>
       </div>
-      {showActionButtons && (
-        <div className="w-full max-w-md flex justify-between mx-4 gap-4">
-          <CTAButtons
-            key={actionButtons.task.label}
-            fullWidth={true}
-            label={actionButtons.task.label}
-            color={actionButtons.task.color}
-            className={"py-5"}
-            onPress={() => handleAddTask()}
-          />
-          <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
-          <CTAButtons
-            key={actionButtons.client.label}
-            fullWidth={true}
-            label={actionButtons.client.label}
-            color={actionButtons.client.color}
-            className={"py-5"}
-            onPress={() => handleAddClient()}
-          />
-          <AddClientModal
-            isOpen={isOpenClient}
-            onOpenChange={onOpenChangeClient}
-          />
-        </div>
-      )}
+      <div
+        data-show={showClientDetails}
+        className="w-full flex data-[show=true]:hidden justify-end mx-4 gap-4"
+      >
+        <CTAButtons
+          radius={"sm"}
+          key={actionButtons.task.label}
+          fullWidth={true}
+          label={actionButtons.task.label}
+          color={actionButtons.task.color}
+          className={"py-5 max-w-[16rem]"}
+          onPress={() => handleOpenTaskWindow()}
+        />
+        <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
+        <CTAButtons
+          radius={"sm"}
+          showButton={!showClientTask}
+          key={actionButtons.client.label}
+          fullWidth={true}
+          label={actionButtons.client.label}
+          color={actionButtons.client.color}
+          className={"py-5 max-w-[16rem]"}
+          onPress={() => handleOpenClientWindow()}
+        />
+        <AddClientModal
+          isOpen={isOpenClient}
+          onOpenChange={onOpenChangeClient}
+        />
+      </div>
     </div>
   );
 };

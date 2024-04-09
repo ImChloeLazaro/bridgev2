@@ -3,6 +3,7 @@ import { tableColumnsAtom, tasksAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -25,7 +26,7 @@ const tagColors = {
 };
 
 const TaskTableView = ({
-  sortedItemTasks,
+  itemTasks,
   showClientTask,
   changeView,
   sortDescriptor,
@@ -33,26 +34,33 @@ const TaskTableView = ({
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
-  const tasks = useAtomValue(tasksAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
 
-  // console.log("itemTasks after", itemTasks);
+  const sortedItemTasks = useMemo(() => {
+    return [...itemTasks].sort((a, b) => {
+      const first = a[sortDescriptor.column];
+      const second = b[sortDescriptor.column];
+      const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-  // const [sortDescriptor, setSortDescriptor] = useState({
-  //   column: "name",
-  //   direction: "ascending",
-  // });
+      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+    });
+  }, [itemTasks, sortDescriptor]);
 
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
-    const assigneesList = task.processor?.length ? task.processor : [];
-
-    console.log("task", task);
-    console.log("columnKey", columnKey);
+    const processorList = task.processor?.length ? task.processor : [];
 
     switch (columnKey) {
       case "task":
-        return <div>{task.name?.length ? task.name : ""}</div>;
+        return (
+          <Link
+            href="#"
+            underline="hover"
+            className="text-xl font-semibold text-black-default "
+          >
+            {task.name?.length ? task.name : ""}
+          </Link>
+        );
 
       case "status":
         return (
@@ -87,12 +95,12 @@ const TaskTableView = ({
         return (
           <div className="h-full flex justify-start">
             <AvatarGroup size="md" max={3}>
-              {assigneesList.map((assignee) => {
+              {processorList.map((processor) => {
                 return (
                   <Avatar
-                    key={assignee.sub}
+                    key={processor.sub}
                     size="md"
-                    src={"https://picsum.photos/200"}
+                    src={processor.picture}
                   />
                 );
               })}
@@ -141,7 +149,7 @@ const TaskTableView = ({
         </TableHeader>
         <TableBody emptyContent={"No rows to display."} items={sortedItemTasks}>
           {(item) => (
-            <TableRow key={item.key}>
+            <TableRow key={item._id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
