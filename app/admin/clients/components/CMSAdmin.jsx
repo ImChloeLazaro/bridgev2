@@ -251,7 +251,7 @@ const CMSAdmin = () => {
             setSortDescriptor={setSortDescriptor}
           />
           <TaskBoardView
-            itemTasks={convertedTasksFromSelectedClient}
+            itemTasks={filteredTaskItems}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
           />

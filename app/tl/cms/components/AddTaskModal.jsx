@@ -15,11 +15,11 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import TaskFormSections from "./TaskFormSections";
-import { toast } from "sonner";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskData = useAtomValue(taskDataAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
+
 
   const addTask = useSetAtom(addTaskAtom);
   // const deleteTask = useSetAtom(deleteTaskAtom);
@@ -32,16 +32,8 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
 
     if (response.success) {
       fetchTask();
-
       console.log("CONFIRM WINDOW ADDED TASK", response.success);
     }
-    toast("Event has been created", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "Undo",
-        onClick: () => console.log("Undo"),
-      },
-    });
     onClose();
   };
 

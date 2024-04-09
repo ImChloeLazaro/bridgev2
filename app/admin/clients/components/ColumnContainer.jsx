@@ -77,7 +77,6 @@ function ColumnContainer({
       style={style}
       className="
     bg-grey-default
-    
     h-full
     max-h-screen
     rounded-lg
@@ -98,7 +97,7 @@ function ColumnContainer({
       text-md
       h-[60px]
       cursor-grab
-      rounded-md
+      rounded-lg
       rounded-b-none
       p-3
       font-bold

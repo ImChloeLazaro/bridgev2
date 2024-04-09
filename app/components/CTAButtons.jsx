@@ -1,6 +1,7 @@
 import { Button, cn } from "@nextui-org/react";
 
 const CTAButtons = ({
+  radius = 'sm',
   label,
   color,
   className,
@@ -30,7 +31,7 @@ const CTAButtons = ({
       aria-label={label}
       startContent={startContent}
       endContent={endContent}
-      radius="sm"
+      radius={radius}
       variant="solid"
       className={cn(
         "hidden data-[show=true]:flex ",

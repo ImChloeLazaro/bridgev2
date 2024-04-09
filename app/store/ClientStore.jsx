@@ -61,16 +61,96 @@ export const clientFilterKeysAtom = atom([
     value: "all",
   },
   {
-    label: "Blooms",
-    value: "blooms",
+    label: "DMS - Austin",
+    value: "dmsAustin",
   },
   {
-    label: "Client 1",
-    value: "client1",
+    label: "DMS - Sheila",
+    value: "dmsSheila",
   },
   {
-    label: "Client 2",
-    value: "client2",
+    label: "AP - Richmond",
+    value: "apRichmond",
+  },
+  {
+    label: "Financials - Jess",
+    value: "financialsJess",
+  },
+  {
+    label: "Financials - Melai",
+    value: "financialsMelai",
+  },
+  {
+    label: "Admin/Ops",
+    value: "adminOps",
+  },
+  {
+    label: "DMS - James",
+    value: "dmsJames",
+  },
+  {
+    label: "DMS - Bea",
+    value: "dmsBea",
+  },
+  {
+    label: "DMS - Dennis",
+    value: "dmsDennis",
+  },
+  {
+    label: "SD - Raquel",
+    value: "sdRaquel",
+  },
+  {
+    label: "SD - CO",
+    value: "sdCO",
+  },
+  {
+    label: "SD - Charlene",
+    value: "sdCharlene",
+  },
+  {
+    label: "BMS - Lester",
+    value: "bmsLester",
+  },
+  {
+    label: "AP - Lady",
+    value: "apLady",
+  },
+  {
+    label: "Financials - Bert",
+    value: "financialsBert",
+  },
+  {
+    label: "Financials - Mel",
+    value: "financialsMel",
+  },
+  {
+    label: "Financials - Tin",
+    value: "financialsTin",
+  },
+  {
+    label: "Financials - Kamille",
+    value: "financialsKamille",
+  },
+  {
+    label: "Financials - Rhiziel",
+    value: "financialsRhiziel",
+  },
+  {
+    label: "Financials - Regina",
+    value: "financialsRegina",
+  },
+  {
+    label: "Financials - Dom",
+    value: "financialsDom",
+  },
+  {
+    label: "AP - Jayne",
+    value: "apJayne",
+  },
+  {
+    label: "Financials - Junalyn",
+    value: "financialsJunalyn",
   },
 ]);
 

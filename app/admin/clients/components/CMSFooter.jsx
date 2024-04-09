@@ -12,10 +12,6 @@ const CMSFooter = ({
   setRowsPerPage,
   totalPages = 0,
 }) => {
-  let rowsPerPageNumber = isNaN(parseInt(Array.from(rowsPerPage).join("")))
-    ? 10
-    : parseInt(Array.from(rowsPerPage).join(""));
-
   const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
 
   const handleRowsPerPage = (select) => {

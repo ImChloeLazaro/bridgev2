@@ -4,8 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Link, User } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useSetAtom } from "jotai";
-import { useState } from "react";
-import { MdCalendarMonth, MdDragIndicator } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
 import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
@@ -56,7 +55,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         style={style}
         className="
         opacity-30
-      bg-white-default p-2.5 h-[150px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
+      bg-white-default p-2.5 h-[8rem] min-h-[4rem] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
       "
       ></div>
     );
@@ -99,7 +98,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       style={style}
       // onClick={toggleEditMode}
       className="
-      bg-white-default p-2.5 h-fit min-h-[100px] items-center flex text-left rounded-xl
+      bg-white-default p-2.5 h-[6rem] min-h-[4rem] items-center flex text-left rounded-xl
       hover:ring-2 hover:ring-inset hover:ring-blue-default 
       border border-grey-default
       cursor-grab relative shadow-md"
@@ -110,7 +109,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       //   setMouseIsOver(false);
       // }}
     >
-      <div className="basis-[90%] flex flex-col justify-start px-2 my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+      <div className="basis-[90%] flex flex-col justify-start px-2 my-auto h-[90%] w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
         <div className="mb-4">
           <Link
@@ -127,7 +126,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         </div>
         <div className=""></div>
         <div className="flex gap-2 justify-start items-center">
-          <MdCalendarMonth size={20} />
+          <MdCalendarMonth size={24} />
           <Link
             href="#"
             underline="hover"
@@ -136,31 +135,35 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
             {task?.duration?.end?.length
               ? format(task.duration.end, "d MMM yyyy")
               : ""}
-            {/* {""} */}
           </Link>
         </div>
-        <div className="flex gap-2 justify-start items-center">
-          <User
-            name={
-              <Link
-                href="#"
-                underline="hover"
-                className="text-sm font-medium text-black-default/80"
-              >
-                {""}
-              </Link>
-            }
-            // description="Reviewer"
-            avatarProps={{
-              src: "",
-              size: "sm",
-              classNames: { base: "w-[22px] h-[22px]" },
-            }}
-            classNames={{
-              name: "text-sm font-medium",
-              description: "text-xs font-medium",
-            }}
-          />
+        <div className="flex gap-2 justify-start items-center mb-1">
+          {task.reviewer.map((reviewer, index) => {
+            return (
+              <User
+                key={index}
+                name={
+                  <Link
+                    href="#"
+                    underline="hover"
+                    className="text-sm font-medium text-black-default/80"
+                  >
+                    {reviewer.name}
+                  </Link>
+                }
+                // description="Reviewer"
+                avatarProps={{
+                  src: `${reviewer.picture}`,
+                  size: "sm",
+                  classNames: { base: "w-[24px] h-[24px]" },
+                }}
+                classNames={{
+                  name: "text-sm font-medium",
+                  description: "text-xs font-medium",
+                }}
+              />
+            );
+          })}
         </div>
       </div>
 

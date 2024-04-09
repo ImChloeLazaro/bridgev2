@@ -29,10 +29,8 @@ import {
 
 const tagColors = {
   todo: "blue",
-  inProgress: "orange",
   done: "green",
   forReview: "yellow",
-  due: "red",
   pending: "darkgrey",
 };
 
@@ -72,7 +70,11 @@ const ClientItemCard = ({ data }) => {
             forReview: 0,
           }
         );
-      setStatusCount(convertedStatusCount);
+      setStatusCount(
+        Object.fromEntries(
+          Object.entries(convertedStatusCount).sort(([, a], [, b]) => b - a)
+        )
+      );
     }
   }, [data._id, tasks]);
 
@@ -123,7 +125,10 @@ const ClientItemCard = ({ data }) => {
             <div className="w-2/3 flex flex-wrap justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
-                  if (statusCount[status] > 0) {
+                  if (
+                    statusCount[status] > 0 &&
+                    Object.keys(tagColors).includes(status)
+                  ) {
                     return (
                       <Button
                         key={s_index}
@@ -132,7 +137,9 @@ const ClientItemCard = ({ data }) => {
                       >
                         <LabelTagChip
                           key={s_index}
-                          text={`${status === "forReview" ? "For Review" : status}`}
+                          text={`${
+                            status === "forReview" ? "For Review" : status
+                          }`}
                           color={tagColors[status]}
                           type="tag"
                           size="md"

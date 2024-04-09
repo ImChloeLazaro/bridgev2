@@ -4,16 +4,14 @@ import SearchBar from "@/app/components/SearchBar";
 import {
   clientsAtom,
   fetchClientAtom,
-  selectedClientToEditAtom,
   selectedClientToViewAtom,
-  showClientDetailsAtom,
+  showClientDetailsAtom
 } from "@/app/store/ClientStore";
 import {
   clientSelectionChangeAtom,
-  fetchTaskAtom,
-  selectedClientForTaskAtom,
+  fetchTaskAtom
 } from "@/app/store/TaskStore";
-import { Checkbox, Tooltip, cn, useDisclosure } from "@nextui-org/react";
+import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import {
@@ -25,10 +23,9 @@ import {
 } from "react-icons/md";
 import {
   changeViewAtom,
-  showActionButtonsAtom,
   showClientTaskAtom,
   showFooterAtom,
-  showSearchBarAtom,
+  showSearchBarAtom
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
@@ -55,9 +52,6 @@ const ClientHeader = ({
   const clients = useAtomValue(clientsAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
-  const [showActionButtons, setShowActionButtons] = useAtom(
-    showActionButtonsAtom
-  );
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
@@ -96,7 +90,6 @@ const ClientHeader = ({
 
   const handleViewClientDetails = () => {
     setShowSearchBar(!showSearchBar);
-    setShowActionButtons(!showActionButtons);
     setShowFooter(!showFooter);
     setShowClientTask(!showClientTask);
     setShowClientDetails(!showClientDetails);
@@ -161,6 +154,7 @@ const ClientHeader = ({
         </IconButton>
 
         <SearchBar
+          disabledFilter={showClientTask && changeView}
           showSearchBar={showSearchBar}
           searchItem={searchItem}
           setSearchItem={setSearchItem}
@@ -169,6 +163,7 @@ const ClientHeader = ({
           setSelectedFilterKeys={setSelectedFilterKeys}
         />
         <IconButton
+          radius={"md"}
           showSearchBar={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
@@ -190,7 +185,7 @@ const ClientHeader = ({
         >
           <CTAButtons
             isDisabled={showClientDetails}
-            radius={"lg"}
+            radius={"sm"}
             variant={"bordered"}
             color={changeView ? "blue" : "orange"}
             size={"md"}
@@ -201,7 +196,7 @@ const ClientHeader = ({
             onPress={handleChangeView}
           />
           <CTAButtons
-            radius={"lg"}
+            radius={"sm"}
             variant={"bordered"}
             color={showClientDetails ? "green" : "white"}
             size={"md"}
@@ -211,8 +206,12 @@ const ClientHeader = ({
           />
         </div>
       </div>
-      <div data-show={showClientDetails} className="w-full flex data-[show=true]:hidden justify-end mx-4 gap-4">
+      <div
+        data-show={showClientDetails}
+        className="w-full flex data-[show=true]:hidden justify-end mx-4 gap-4"
+      >
         <CTAButtons
+          radius={"sm"}
           key={actionButtons.task.label}
           fullWidth={true}
           label={actionButtons.task.label}
@@ -222,6 +221,7 @@ const ClientHeader = ({
         />
         <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
         <CTAButtons
+          radius={"sm"}
           showButton={!showClientTask}
           key={actionButtons.client.label}
           fullWidth={true}

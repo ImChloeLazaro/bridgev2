@@ -204,8 +204,8 @@ const TaskBoardView = ({ itemTasks, showClientTask, changeView }) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const overIndex = tasks.findIndex((t) => t.id === overId);
 
-        if (tasks[activeIndex].status != tasks[overIndex].status) {
-          tasks[activeIndex].status = tasks[overIndex].status;
+        if (tasks[activeIndex].status != tasks[overIndex]?.status) {
+          tasks[activeIndex].status = tasks[overIndex]?.status;
           const taskIndexMoved = arrayMove(tasks, activeIndex, overIndex - 1);
           updateTaskStatus({ sla: taskIndexMoved });
           return taskIndexMoved;
