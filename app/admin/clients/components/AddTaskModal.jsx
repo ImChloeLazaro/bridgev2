@@ -27,6 +27,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const handleAddTask = async (onClose) => {
     console.log("taskData", taskData);
     const response = await addTask(taskData);
+    // const response = await deleteTask();
     console.log("response", response);
 
     if (response.success) {

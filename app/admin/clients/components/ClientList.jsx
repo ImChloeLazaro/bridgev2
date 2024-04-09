@@ -1,19 +1,8 @@
 import { ScrollShadow } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
 import { Suspense, useEffect } from "react";
-import { fetchTaskAtom } from "@/app/store/TaskStore";
-import { fetchClientAtom } from "@/app/store/ClientStore";
-import { useSetAtom } from "jotai";
 
 const ClientList = ({ itemClients, showClientTask, showClientDetails }) => {
-  const fetchTask = useSetAtom(fetchTaskAtom);
-  const fetchClient = useSetAtom(fetchClientAtom);
-
-  useEffect(() => {
-    fetchClient();
-    fetchTask();
-  }, [fetchClient, fetchTask]);
-  
   return (
     <ScrollShadow
       size={25}
@@ -23,12 +12,21 @@ const ClientList = ({ itemClients, showClientTask, showClientDetails }) => {
     >
       <div className="flex flex-col w-full gap-y-3">
         {!itemClients?.length ? (
-          <div className="w-full flex justify-center p-4">
+          <div className="w-full h-full flex justify-center p-4 text-lg font-medium text-black-default">
             {"No data to display"}
           </div>
         ) : (
           itemClients.map((client, index) => (
-            <ClientItemCard key={index} data={client} />
+            <Suspense
+              key={index}
+              fallback={
+                <div className="w-full flex justify-center items-center">
+                  {"LOADING"}
+                </div>
+              }
+            >
+              <ClientItemCard key={index} data={client} />
+            </Suspense>
           ))
         )}
       </div>

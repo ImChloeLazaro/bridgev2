@@ -1,6 +1,6 @@
 import React from "react";
 import { MdInfoOutline } from "react-icons/md";
-import { Divider, Select, SelectItem, Chip, Avatar } from "@nextui-org/react";
+import { Select, SelectItem, Chip, Avatar } from "@nextui-org/react";
 import {
   clientSelectionForTaskAtom,
   endDateAtom,

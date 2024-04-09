@@ -100,7 +100,7 @@ const TaskTableView = ({
                   <Avatar
                     key={processor.sub}
                     size="md"
-                    src={"https://picsum.photos/200"}
+                    src={processor.picture}
                   />
                 );
               })}

@@ -99,7 +99,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       style={style}
       // onClick={toggleEditMode}
       className="
-      bg-white-default p-2.5 h-[150px] min-h-[100px] items-center flex text-left rounded-xl
+      bg-white-default p-2.5 h-fit min-h-[100px] items-center flex text-left rounded-xl
       hover:ring-2 hover:ring-inset hover:ring-blue-default 
       border border-grey-default
       cursor-grab relative shadow-md"
@@ -110,7 +110,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       //   setMouseIsOver(false);
       // }}
     >
-      <div className="basis-[90%] flex flex-col justify-center px-2 my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+      <div className="basis-[90%] flex flex-col justify-start px-2 my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
         <div className="mb-4">
           <Link
@@ -121,7 +121,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           >
             {task?.name?.length ? task.name : ""}
           </Link>
-          <p className="text-sm font-medium text-black-default">
+          <p className="text-sm font-medium text-black-default min-h-[1.5rem]">
             {task?.instruction?.length ? task.instruction : ""}
           </p>
         </div>

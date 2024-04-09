@@ -36,10 +36,6 @@ import AddTaskModal from "./AddTaskModal";
 const ClientHeader = ({
   searchItem,
   setSearchItem,
-  selectedAllClients,
-  setSelectedAllClients,
-  showCheckBox = false,
-  showOptions = false,
   filterKeys,
   selectedFilterKeys,
   setSelectedFilterKeys,
@@ -57,10 +53,8 @@ const ClientHeader = ({
   } = useDisclosure();
 
   const clients = useAtomValue(clientsAtom);
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientToEditAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
-  const setSelectedClientForTask = useSetAtom(selectedClientForTaskAtom);
   const [showActionButtons, setShowActionButtons] = useAtom(
     showActionButtonsAtom
   );
@@ -166,24 +160,6 @@ const ClientHeader = ({
           </div>
         </IconButton>
 
-        {showCheckBox && (
-          <Checkbox
-            isSelected={selectedAllClients}
-            onValueChange={(value) => {
-              setSelectedAllClients(value);
-              console.log("SELECTED ALL CLIENT:", selectedClient);
-              if (!selectedAllClients) {
-                setSelectedClient(() => {
-                  return clients.map((client, index) => {
-                    return `client-${index + 1}`;
-                  });
-                });
-              } else {
-                setSelectedClient([]);
-              }
-            }}
-          />
-        )}
         <SearchBar
           showSearchBar={showSearchBar}
           searchItem={searchItem}

@@ -13,22 +13,13 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
   changeViewAtom,
-  showActionButtonsAtom,
-  showCheckBoxAtom,
   showClientTaskAtom,
   showFooterAtom,
-  showOptionsAtom,
 } from "../store/CMSAdminStore";
 import CMSFooter from "./CMSFooter";
 import ClientHeader from "./CMSHeader";
@@ -38,42 +29,33 @@ import TaskBoardView from "./TaskBoardView";
 import TaskTableView from "./TaskTableView";
 
 const CMSAdmin = () => {
-  const { isOpenTask, onOpenTask, onCloseTask } = useDisclosure();
-  const { isOpenClient, onOpenClient, onCloseClient } = useDisclosure();
-
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
-  const [selectedAllClients, setSelectedAllClients] = useState(false);
-
-  const showFooter = useAtomValue(showFooterAtom);
-  const showOptions = useAtomValue(showOptionsAtom);
-  const showCheckBox = useAtomValue(showCheckBoxAtom);
-  const showActionButtons = useAtomValue(showActionButtonsAtom);
-
-  const changeView = useAtomValue(changeViewAtom);
-  const showClientDetails = useAtomValue(showClientDetailsAtom);
-
-  const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
-  const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
-    selectedClientFilterKeysAtom
-  );
-
-  const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
-  const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
-    selectedTaskFilterKeysAtom
-  );
-
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-  const showClientTask = useAtomValue(showClientTaskAtom);
-
-  const clientsCount = useAtomValue(clientsCountAtom);
-  const clients = useAtomValue(clientsAtom);
-
-  const tasks = useAtomValue(tasksAtom);
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "status",
     direction: "ascending",
   });
+
+  const clients = useAtomValue(clientsAtom);
+  const tasks = useAtomValue(tasksAtom);
+
+  const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
+  const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
+
+  const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
+    selectedClientFilterKeysAtom
+  );
+  const [selectedTaskFilterKeys, setSelectedTaskFilterKeys] = useAtom(
+    selectedTaskFilterKeysAtom
+  );
+
+  const changeView = useAtomValue(changeViewAtom);
+  const showFooter = useAtomValue(showFooterAtom);
+  const showClientDetails = useAtomValue(showClientDetailsAtom);
+  const showClientTask = useAtomValue(showClientTaskAtom);
+
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+  const clientsCount = useAtomValue(clientsCountAtom);
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -227,7 +209,13 @@ const CMSAdmin = () => {
   //   });
   // }, [itemClients]);
 
+  const fetchTask = useSetAtom(fetchTaskAtom);
+  const fetchClient = useSetAtom(fetchClientAtom);
 
+  useEffect(() => {
+    fetchClient();
+    fetchTask();
+  }, [fetchClient, fetchTask]);
 
   return (
     <>
@@ -238,10 +226,6 @@ const CMSAdmin = () => {
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
             }
-            selectedAllClients={selectedAllClients}
-            setSelectedAllClients={setSelectedAllClients}
-            showCheckBox={showCheckBox}
-            showOptions={showOptions}
             filterKeys={showClientTask ? taskFilterKeys : clientFilterKeys}
             selectedFilterKeys={
               showClientTask ? selectedTaskFilterKeys : selectedClientFilterKeys
@@ -267,7 +251,7 @@ const CMSAdmin = () => {
             setSortDescriptor={setSortDescriptor}
           />
           <TaskBoardView
-            itemTasks={filteredTaskItems}
+            itemTasks={convertedTasksFromSelectedClient}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
           />

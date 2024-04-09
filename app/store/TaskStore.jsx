@@ -62,7 +62,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/task", {
-    _id: "660fa0db6c5775f281500e3d", // "660fa0db6c5775f281500e3d"
+    _id: "66149efa8cf1401df0973562", // "660fa0db6c5775f281500e3d"
   });
   if (response.success) {
     console.log("DELETED TASK", response.response);
@@ -112,6 +112,7 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
   );
   if (clientSelectionChange?.length) {
     console.log("clientSelectionChange: ", clientSelectionChange);
+    const selectedClient = [clientSelectionChange[0].client.client_id];
     const selectedProcessor = clientSelectionChange[0].processor.map(
       (processor) => processor.sub
     );
@@ -120,6 +121,7 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
     );
     const selectedManager = [clientSelectionChange[0].manager.sub];
 
+    set(selectedClientForTaskAtom, new Set(selectedClient));
     set(selectedProcessorAtom, new Set(selectedProcessor));
     set(selectedReviewerAtom, new Set(selectedReviewer));
     set(selectedManagerAtom, new Set(selectedManager));
@@ -142,36 +144,6 @@ export const selectedTaskAtom = atom([]);
 export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 
 export const tasksCountAtom = atom((get) => get(tasksAtom).length);
-
-export const statusCountAtom = atom({
-  pending: 0,
-  todo: 0,
-  done: 0,
-  forReview: 0,
-});
-
-export const fetchStatusCountAtom = atom(null, (get, set, update) => {
-  const clientKey = update;
-  const selectedClient = get(tasksAtom).filter(
-    (task) => task.client.client_id === clientKey
-  )[0];
-  console.log("selectedClient", selectedClient);
-  const updatedStatusCount = selectedClient?.sla
-    .map((sla) => sla.status)
-    .reduce(
-      (acc, curr) => {
-        return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-      },
-      {
-        pending: 0,
-        todo: 0,
-        done: 0,
-        forReview: 0,
-      }
-    );
-
-  set(statusCountAtom, updatedStatusCount);
-});
 
 export const taskFilterKeysAtom = atom([
   {
@@ -231,6 +203,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
         ...task,
         key: task.client.client_id,
         id: `${(index += 1)}`,
+        sla: [...task.sla],
       };
     });
     console.log("convertedTasks", convertedTasks);
@@ -373,7 +346,7 @@ export const recurrenceSelectionAtom = atom([
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);
-export const selectedRecurrenceAtom = atom(new Set([]));
+export const selectedRecurrenceAtom = atom(new Set(["Daily"]));
 
 export const startDateAtom = atom("");
 export const endDateAtom = atom("");

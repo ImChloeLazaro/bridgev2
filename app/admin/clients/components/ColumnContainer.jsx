@@ -56,7 +56,7 @@ function ColumnContainer({
       rounded-lg
       flex
       flex-col
-      basis-1/6
+      w-full
       "
       ></div>
     );
@@ -83,7 +83,7 @@ function ColumnContainer({
     rounded-lg
     flex
     flex-col
-    basis-1/6
+    w-full
   "
     >
       {/* Column title */}
