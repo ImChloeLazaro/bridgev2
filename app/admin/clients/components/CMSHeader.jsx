@@ -5,11 +5,11 @@ import {
   clientsAtom,
   fetchClientAtom,
   selectedClientToViewAtom,
-  showClientDetailsAtom
+  showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
   clientSelectionChangeAtom,
-  fetchTaskAtom
+  fetchTaskAtom,
 } from "@/app/store/TaskStore";
 import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -25,10 +25,11 @@ import {
   changeViewAtom,
   showClientTaskAtom,
   showFooterAtom,
-  showSearchBarAtom
+  showSearchBarAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
+import { toast } from "sonner";
 
 const ClientHeader = ({
   searchItem,
@@ -77,10 +78,25 @@ const ClientHeader = ({
   };
 
   const handleRefreshClient = async () => {
-    console.log("REFRESHED CLIENT DATA");
     setIsDisabled(true);
-    await fetchTask();
-    await fetchClient();
+
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () => resolve(await fetchTask(), await fetchClient()),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: () => {
+        return `Refreshed`;
+      },
+      error: "Error",
+    });
+
+    console.log("REFRESHED CLIENT DATA");
     setIsDisabled(false);
   };
 

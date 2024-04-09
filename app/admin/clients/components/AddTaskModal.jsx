@@ -26,22 +26,31 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
 
   const handleAddTask = async (onClose) => {
     console.log("taskData", taskData);
-    const response = await addTask(taskData);
-    // const response = await deleteTask();
-    console.log("response", response);
+    // const response = await addTask(taskData);
+    // // const response = await deleteTask();
+    // console.log("response", response);
 
-    if (response.success) {
-      fetchTask();
+    // if (response.success) {
+    //   // fetchTask();
 
-      console.log("CONFIRM WINDOW ADDED TASK", response.success);
-    }
-    toast("Event has been created", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "Undo",
-        onClick: () => console.log("Undo"),
+    //   console.log("CONFIRM WINDOW ADDED TASK", response.success);
+    // }
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () => resolve(await addTask(taskData), await fetchTask()),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Adding Task...",
+      success: () => {
+        return `Task Successfully Created`;
       },
+      error: "Error",
     });
+
     onClose();
   };
 
