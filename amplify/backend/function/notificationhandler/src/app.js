@@ -21,6 +21,8 @@ const notificationSchema = mongoose.Schema({
   title: String,
   type: String,
   description : String,
+  unread: { type: Boolean, default: false }, // read or unread
+  hidden: { type: Boolean, default: false}, //hide or unhide
   notified_from : {
     sub: String,
     name: String,
@@ -35,56 +37,84 @@ const notificationSchema = mongoose.Schema({
 
 const notificationModel = mongoose.model('notification', notificationSchema)  
 
-app.get('/notification', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+app.get('/notification', async function(req, res) {
+  try {
+    const notifications = await notificationModel.find()
+    res.status(200).json({success: true, response: notifications})
+  } catch (error) {
+    res.json(error)
+  }
 });
 
-app.get('/notification/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+app.get('/notification/*', async function(req, res) {
+  try {
+    const proxy = req.path;
+    const {sub} = req.body
+    switch(proxy) {
+      case '/notification/sub':
+        const notifications = await notificationModel.findOne({ sub })  
+        res.status(200).json({success: true, response: notifications});
+        break;
+      default:
+        res.status(200).json({success: true, response: "NO ROUTES INCLUDE" });
+      break;
+    }
+  } catch (error) {
+    res.json(error)
+  }
 });
 
-/****************************
-* Example post method *
-****************************/
-
-app.post('/notification', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.post('/notification', async function(req, res) {
+  try {
+    const { sub, title, type, description, notified_from } = req.body
+    const notification = await notificationModel.create({ sub, title, type, description, notified_from })
+    res.status(200).json({success: true, response: notification})
+  } catch (error) {
+    res.json(error)
+  }
 });
 
-app.post('/notification/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+app.put('/notification', async function(req, res) {
+  try {
+    const { sub, title, type, description, notified_from } = req.body
+    const notification = await notificationModel.updateOne({ _id }, { sub, title, type, description, notified_from})
+    res.status(200).json({success: true, response: notification})
+  } catch (error) {
+    res.json(error)
+  }
 });
 
-/****************************
-* Example put method *
-****************************/
-
-app.put('/notification', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+app.put('/notification/*', async function(req, res) {
+  try {
+    const proxy = req.path;
+    const { _id, unread, hidden } = req.body
+    switch(proxy) {
+      case '/notification/markasread':
+        const markAsRead = await notification({ _id }, { unread })
+        res.status(200).json({success: true, response: markAsRead });
+      break;
+      case '/notification/hideorunhide':
+        const hideOrUnhide = await notification({ _id }, { hidden })
+        res.status(200).json({success: true, response: hideOrUnhide});
+      break;
+      default:
+        res.status(200).json({success: true, response: "NO ROUTES INCLUDE" });
+      break;
+    }
+  } catch (error) {
+    res.json(error)
+}
 });
 
-app.put('/notification/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
 
-/****************************
-* Example delete method *
-****************************/
-
-app.delete('/notification', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/notification/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+app.delete('/notification', async function(req, res) {
+  try {
+    const { _id } = req.body
+    const notification = await notificationModel.deleteOne({ _id })
+    res.status(200).json({success: true, response: notification})
+  } catch (error) {
+    res.json(error)
+  }
 });
 
 app.listen(3000, function() {
