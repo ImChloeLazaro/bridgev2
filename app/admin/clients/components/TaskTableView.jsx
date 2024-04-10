@@ -1,8 +1,19 @@
+import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
+import {
+  selectedClientToViewAtom,
+  showClientDetailsAtom,
+} from "@/app/store/ClientStore";
 import { tableColumnsAtom, tasksAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Image,
   Link,
   Table,
   TableBody,
@@ -12,10 +23,13 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { format } from "date-fns";
-import { useAtomValue } from "jotai";
-import { useMemo } from "react";
-import { useCallback, useState } from "react";
-
+import { useAtomValue, useSetAtom } from "jotai";
+import { useMemo, useEffect, useState } from "react";
+import { useCallback } from "react";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { MdRefresh } from "react-icons/md";
+import { showClientTaskAtom } from "../store/CMSAdminStore";
+// import { showClientTaskAtom } from "../store/CMSAdminStore";
 const tagColors = {
   todo: "blue",
   inProgress: "orange",
@@ -34,7 +48,14 @@ const TaskTableView = ({
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
+  const setShowClientTask = useSetAtom(showClientTaskAtom);
+
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
+
+  const handleRefreshTable = () => {
+    setShowClientTask(false);
+  };
 
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
@@ -108,12 +129,62 @@ const TaskTableView = ({
           </div>
         );
 
+      case "action":
+        return (
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                aria-label={"Shortcut Options"}
+                isIconOnly
+                className="bg-transparent"
+              >
+                <div className="">
+                  <BiDotsVerticalRounded size={24} />
+                </div>
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Action event example"
+              onAction={(key) => alert(key)}
+            >
+              <DropdownItem key="new">New file</DropdownItem>
+              <DropdownItem key="copy">Copy link</DropdownItem>
+              <DropdownItem key="edit">Edit file</DropdownItem>
+              <DropdownItem key="delete" className="text-danger" color="danger">
+                Delete file
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        );
+
       default:
         return cellValue;
     }
   }, []);
 
-  return (
+  return !selectedClientToView?.length ? (
+    <div
+      data-view={showClientTask}
+      className="hidden data-[view=true]:flex w-full h-full justify-center items-center text-clip"
+    >
+      <div className="flex flex-col items-center justify-center">
+        <Image width={450} height={450} alt={"No Data"} src={"/no-data.png"} />
+        <p className="text-lg font-medium text-black-default/80">
+          {"No Data to Display"}
+        </p>
+
+        <Link
+          href="#"
+          underline="hover"
+          className="text-lg font-medium text-black-default/80 flex gap-1"
+          onPress={handleRefreshTable}
+        >
+          <MdRefresh size={20} />
+          <p>{"Refresh"}</p>
+        </Link>
+      </div>
+    </div>
+  ) : (
     <div
       data-change={changeView}
       data-view={showClientTask}

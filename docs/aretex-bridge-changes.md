@@ -898,3 +898,4 @@ postsAtom = atom({
 * Added `100` to extend the `zIndex` tailwind property for adjusting stacking of elements
 * Added "next-themes" shadcn
 * Added "sonner" shadcn
+* Bug when filtering/ searching via searchbar dragging task cards deletes all task that does not satisfy the search

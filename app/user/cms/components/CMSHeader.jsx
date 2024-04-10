@@ -164,10 +164,11 @@ const ClientHeader = ({
         />
         <IconButton
           radius={"md"}
-          showSearchBar={showSearchBar}
+          data-show={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
           isDisabled={isDisabled}
+          className={"hidden data-[show=true]:flex"}
         >
           <div
             data-loading={isDisabled}

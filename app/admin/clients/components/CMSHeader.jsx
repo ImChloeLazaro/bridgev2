@@ -10,6 +10,7 @@ import {
 import {
   clientSelectionChangeAtom,
   fetchTaskAtom,
+  taskNameAtom,
 } from "@/app/store/TaskStore";
 import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -68,6 +69,8 @@ const ClientHeader = ({
     showClientDetailsAtom
   );
 
+  const taskName = useAtomValue(taskNameAtom);
+
   const handleGoBackToClient = () => {
     setShowSearchBar(true);
     setShowClientTask(false);
@@ -91,9 +94,9 @@ const ClientHeader = ({
     toast.promise(promise, {
       loading: "Loading...",
       success: () => {
-        return `Refreshed`;
+        return `Task Data Updated`;
       },
-      error: "Error",
+      error: "Error refreshing data",
     });
 
     console.log("REFRESHED CLIENT DATA");
@@ -156,14 +159,21 @@ const ClientHeader = ({
         >
           <div className="text-black-default gap-2 flex justify-center items-center">
             <MdOutlineChevronLeft size={24} />
-            <Tooltip content={clientNameToDisplay} delay={1000}>
+            <Tooltip
+              content={
+                !selectedClientToView?.length ? "Go Back" : clientNameToDisplay
+              }
+              delay={1000}
+            >
               <div
                 className="
                 bg-white-default rounded-lg px-2 py-1
                   w-28 truncate hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default"
               >
-                {clientNameToDisplay}
+                {!selectedClientToView?.length
+                  ? "Client List"
+                  : clientNameToDisplay}
               </div>
             </Tooltip>
           </div>
@@ -180,10 +190,11 @@ const ClientHeader = ({
         />
         <IconButton
           radius={"md"}
-          showSearchBar={showSearchBar}
+          data-show={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
           isDisabled={isDisabled}
+          className={"hidden data-[show=true]:flex"}
         >
           <div
             data-loading={isDisabled}

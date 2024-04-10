@@ -32,7 +32,7 @@ const CMSAdmin = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "status",
+    column: "age",
     direction: "ascending",
   });
 
@@ -56,6 +56,8 @@ const CMSAdmin = () => {
 
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientsCount = useAtomValue(clientsCountAtom);
+
+  console.log("selectedClientToView", selectedClientToView);
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -245,7 +247,7 @@ const CMSAdmin = () => {
           />
           <TaskTableView
             itemTasks={filteredTaskItems}
-            showClientTask={showClientTask && selectedClientToView !== ""}
+            showClientTask={showClientTask}
             changeView={changeView}
             sortDescriptor={sortDescriptor}
             setSortDescriptor={setSortDescriptor}
@@ -254,6 +256,7 @@ const CMSAdmin = () => {
             itemTasks={filteredTaskItems}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
+            selectedClient={tasksFromSelectedClient[0]}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

@@ -159,7 +159,7 @@ function ColumnContainer({
       </div>
 
       {/* Column task container */}
-      <div className="h-full mb-6 flex flex-col gap-4 p-3 overflow-x-hidden overflow-y-auto ">
+      <div className="h-full mb-3 flex flex-col gap-4 p-3 overflow-x-hidden overflow-y-auto ">
         <SortableContext items={tasksIds}>
           {tasks?.length ? (
             tasks.map((task) => (
