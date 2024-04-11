@@ -216,9 +216,15 @@ const CMSUser = () => {
   const fetchClient = useSetAtom(fetchClientAtom);
 
   useEffect(() => {
-    fetchClient();
-    fetchTask();
-  }, [fetchClient, fetchTask]);
+    const interval = setInterval(() => {
+      fetchTask();
+      fetchClient();
+    }, 2500);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

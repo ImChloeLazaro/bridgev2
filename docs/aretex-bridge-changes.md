@@ -456,9 +456,9 @@ link: String,
 * Added input field for `Employee ID` in `ApplicationOnboarding`
 * Added input field for `Other Courses` and `Date of Attendance` for each education level in `BackgroundOnboarding`
 * Removed `HighSchool` input field in `BackgroundOnboarding` Component
-* Updated `draftPostListAtom` to include `orientation` property
-* Updated `publishedPostListAtom` to include `orientation` property
-* Updated `archivedPostListAtom` to include `orientation` property
+* Updated `draftPostListAtom` to include `orientation` as property
+* Updated `publishedPostListAtom` to include `orientation` as property
+* Updated `archivedPostListAtom` to include `orientation` as property
 * Changed `home_phone_number` to `landline_number` in `OnboardingStore`
 * Renamed filename and named export of `PostMediaButton` to `ManagePostMediaButton` Component for consistency of naming related components
 * Renamed filename and named export of `PostItemCard` to `ManagePostItemCard` Component for consistency of naming related components
@@ -807,7 +807,7 @@ postsAtom = atom({
 * Moved task-related atoms to its own store from `CMSStore` to be globally accessible
 * Added `TaskStore` to global store
 * Added `white` variant color for `CTAButtons` Component
-* Updated `CTAButtons` Component to include `size` prop
+* Updated `CTAButtons` Component to include `size` as prop
 * Added `disallowEmptySelection` prop in `SearchBar` Component for its base component and functionality
 * Added New API Endpoint URL `/profile/self_data` to provide the complete onboarding data
 * Renamed `profile` API Endpoint URL from `/profile` to `/profile/self_data` in `ProfileStore`
@@ -895,7 +895,156 @@ postsAtom = atom({
 
 ## v.0.6.7
 
+* Migrated `TODO.md` to Google Spreadsheet
+* Removed `TODO.md` due to migration
+* Updated `CTAButtons` Component to include `aria-label` as prop
+* Updated `CTAButtons` Component to include `startContent` as prop
+* Updated `CTAButtons` Component to include `endContent` as prop
+* Added `/cms/task/sla` path for `/cms/task/*` `GET` endpoint to fetch tasks assigned to the user
+* Added `/cms/task/processor` path for `/cms/task/*` `GET` endpoint
+* Updated `PUT` endpoint for `/cms/task*` for updating a task's `processor` and `reviewer` and the task itself
+* Added `/cms/task/update-processor` path for `/cms/task/*` `PUT` endpoint
+* Added `/cms/task/remove-processor` path for `/cms/task/*` `PUT` endpoint
+* Added `/cms/task/update-reviewer` path for `/cms/task/*` `PUT` endpoint
+* Added `/cms/task/remove-reviewer` path for `/cms/task/*` `PUT` endpoint
+* Updated `PUT` endpoint for `/cms/task` for updating all of a task's details
+* Updated `PUT` endpoint for `/cms/task/*` to only include `reviewer` and `processor` as the query
+* Renamed Component `Clients` to `CMSTL`
+* Renamed Component `Clients` to `CMSUser`
 * Added `100` to extend the `zIndex` tailwind property for adjusting stacking of elements
-* Added "next-themes" shadcn
-* Added "sonner" shadcn
-* Bug when filtering/ searching via searchbar dragging task cards deletes all task that does not satisfy the search
+* Renamed atom `selectedClient` to `selectedClientToEdit` to avoid confusion and to better distinguish its purpose in `ClientStore` Store
+* Added utility functions for tasks in `TasksStore` Store
+* Added utility functions for clients in `ClientStore` Store
+* Removed dummy data from atoms in `TasksStore` and `ClientStore` in preparation of API integration
+* Added `popover` component to `FormFieldInput` as `endContent` Component to handle selecting date inside the component
+* Updated `FormFieldInput` Component to include `isDateModal`as prop
+* Fixed a bug where`popover` component from @shadcn/ui to stack higher than the `modal` window from @nextUI
+* Added `DatePicker` Component to wrap the `modal` window from @nextUI and `popover` component from @shadcn/ui in order to render correctly the `popover` component on top of the `modal` window
+* Added `DatePicker` component to `FormFieldInput` as `endContent` Component to handle selecting date inside the component
+* Updated `DatePicker` Component to inherit its parent's prop
+* Changed datatype of `id` attribute in tasks from `String` to `Number`
+* Added `index` attribute to `taskSchema` for handling dragging tasks in `TaskBoardView` Component
+* Moved `recurrence` attribute from main object to the inside of each `sla`'s duration attribute
+* Implemented `backend` integration to CMS Components across roles(Admin, TL, User)
+* Added error handling to utility functions for tasks in `TasksStore` Store
+* Added error handling to utility functions for clients in `ClientStore` Store
+* Added `showSearchBar` atom to `CMSAdminStore` Store
+* Updated `SearchBar` Component to include `showSearchBar` prop to handle `hidden` state of the component via `data-attributes`
+* Adjusted font style and size for `FormFieldInput` Component
+* Adjusted font style and size for `FormFieldTextArea` Component
+* Fixed a bug where `TaskBoardView` Component does not update its data automatically
+* Added empty message for `ClientList` Component when list of clients is empty or does not exist
+* Added `Spinner` Component as fallback to the `Avatar` Component inside `ClientItemCard` Component
+* Adjusted alignment of `LabelTagChip` Component for `ClientItemCard` Component
+* Updated CMS Components to use the `client_id` attribute as their unique identifier instead of using the `key` attribute
+* Added `unread` attribute to `notificationSchema`
+* Added `hidden` attribute to `notificationSchema`
+* Added `GET` endpoint for `/notification/` and `/notification/*`
+* Added `POST`endpoint for `/notification/` and `/notification/*`
+* Added `PUT` endpoint for `/notification/` and `/notification/*`
+* Added `DEL` endpoint for `/notification/` and `/notification/*`
+* Updated `req.body` to `req.query` in `DEL` endpoint for `/cms/client` to correctly `delete` the selected client
+* Updated `req.body` to `req.query` in `DEL` endpoint for `/cms/task` to correctly `delete` the selected task
+* Updated `calendar` Component to disable past days in the date picker
+* Updated `taskDataAtom` schema to match its new changes in `TaskStore` Store
+* Adjusted width for `FormFieldTextArea` Component
+* Updated `assigneesList` to `processorList` to match its name in its schema in `TaskTableView` Component
+* Updated `select` Components for `TaskFormSections` Component to disallow empty selection
+* Adjusted width for `TaskFormSections` Component
+* Updated `key` used in `select` Components for `TaskFormSections` Component to instead use `sub` attribute as the `key` of each item in the selection
+* Adjusted vertical alignment of `select` Components for `TaskFormSections` Component
+* Adjusted font style and size, height, and min-height for `TaskBoardCard` Component
+* Fixed a bug where `task` `status` `count` does not update automatically on the list of clients when task is created or updated in `ClientItemCard` Component
+* Removed `ClientInfoCard` Component due to redundancy
+* Fixed a bug when adding task the `filter` function returns `undefined` as a result disrupts the rendering of `data` on components
+* Updated `LabelTagChip` Component to include a default value of its `color` prop
+* Added sorting functionality for `TaskTableView` Component
+* Updated `key` used in `TableRow` Component for `TaskTableView` Component to instead use `_id` attribute as the `key` of each `TableRow` item
+* Updated manager `select` Component for `TaskFormSection` Component to disallow empty selection
+* Renamed prop `sortedItemTasks` to `itemTasks` for `TaskBoardView` Component
+* Fixed a bug when updating the `status` of `task` via dragging the task card to another column or over a task it maxes out on re-renders and triggering max `recursion` depth on the `setState` function
+* Moved the updating code block from `onDragOver` function to `onDragEnd` function to only update the status of the task card when it is done dragging to avoid triggering max `recursion` depth on the `setState` function
+* Renamed handler function `handleAddTask` to `handleOpenTaskWindow` in `CMSHeader` Component
+* Renamed handler function `handleAddClient` to `handleOpenClientWindow` in `CMSHeader` Component
+* Renamed attribute `key` to `clientKey` in `CMSAdmin` Component
+* Renamed prop `sortedItemTasks` to `itemTasks` in `CMSAdmin` Component
+* Updated prop `values` for renamed `props` in `CMSAdmin` Component
+* Moved sorting functionality from `CMSAdmin` Component to `TaskTableView` Component
+* Fixed a bug where the total item `count` on the `footer` displays the number of `clients` instead of number of `tasks` based from the selected `client`
+* Removed `sortedItemTasks` prop in `ClientList` Component
+* Fixed a bug where filtering for the task `status` count because it runs earlier than the the `fetch` function so it receives `undefined` thus when rendering the `data` in the `component` it triggers a crash
+* Updated `CTAButtons` to include `showButton` as prop
+* Updated `CTAButtons` Component to include `showButton` prop to handle `hidden` state of the component via `data-attributes`
+* Updated task name in `TaskTableView` Component to be a `Link` Component
+* Updated Client Selection Component in `TaskFormSections` to be hidden when adding `task` while selected a `client` already
+* Adjusted width for `CTAButtons` in `ClientHeader` Component to fill all the available space
+* Wrapped the `filter` function with `useMemo` to increase `performance` when `tasks` are filtered
+* Updated action buttons in `CMSHeader` Component to be `hidden` when viewing client details
+* Added error handling for fetching the task `status` `count`
+* Added initial value for `selectedRecurrenceAtom` in `TaskStore` Store
+* Removed `statusCountAtom` in `TaskStore` Store
+* Updated `clientSelectionChangeAtom` to include `selectedClient` when changing selection during adding task in `TaskStore` Store
+* Added `constraints` when dragging task cards to minimize its `impact` when updating `status` of `task` in in `TableBoardView` Component
+* Adjusted width for `TableBoardView` Component
+* Adjusted height for `TaskBoardCard` Component
+* Adjusted width for `ColumnContainer` Component
+* Removed `checkbox` component from `ClientHeader` Component
+* Removed `selectedAllClients` prop from `CMSAdmin` Component
+* Removed `setSelectedAllClients` prop from `CMSAdmin` Component
+* Removed `showCheckBox` prop from `CMSAdmin` Component
+* Removed `showOptions` prop from `CMSAdmin` Component
+* Added `Suspense` to display for `ClientItemCard` Component in `ClientList` Component when client and task data is still loading
+* Fixed a bug where `fetch` task status `count` still receives `undefined` despite being called inside `useEffect`
+* Updated `LabelTagChip` Component in `ClientItemCard` Component to display status label for `forReview` to `For Review`
+* Added error handling for `ClientItemCard` Component to handle `LabelTagChip` Component receiving `undefined` as value
+* Added `onPress` functionality for clicking `client` name on `ClientItemCard` Component to view the client's details
+
+* Added dependencies for @shadcn/ui:
+  * @next-themes latest `^0.3.0`
+  * @sonner latest `^1.4.41`
+
+* Configured `sonner/toaster` Component to be able to `display` throughout the `project` and be able to be called from any `component`
+* Added real `team` data for `clientFilterKeysAtom`
+* Updated `SearchBar` Component to include `disabledSearch` prop to handle `hidden` state of the component via `data-attributes`
+* Updated `SearchBar` Component to include `disabledFilter` prop to handle `hidden` state of the component via `data-attributes`
+* Adjusted border radius for `SearchBar` Component
+* Adjusted border radius for `CTAButtons` Component
+* Adjusted border radius for `ColumnContainer` Component
+* Adjusted border radius if action buttons for `ClientHeader` Component
+* Added sorting functionality when rendering `LabelTagChip` Component in `ClientItemCard` Component
+* Updated `sonner/toaster` Component to render more vibrant colors
+* Added `promise` toaster when adding `task` and waits for the `task` to be successful and displays the corresponding `message`
+* Bug when filtering/ searching in `searchBar` dragging `task` cards deletes all `task` that does not satisfy the `condition`
+* Removed data-attribute for showing and hiding `IconButton` Component due to redundancy
+* Added dropdown selection for each task in `TaskTableView` Component
+* Fixed a bug where updating `task` status does not `render` properly its outline where to drop off when dragging in `TaskBoardView` Component
+* Added dropdown selection for each task in `TaskBoardCard` Component
+* Adjusted margin for `ColumnContainer` Component
+* Converted `file` extension from `.png` to `.webp` of the illustration for `No-Shortcuts.webp`
+* Refactored CMS Components to have `shared` components and `individual` components
+* Removed `ToastNotifications` Component
+* Removed `NotificationToaster` Component
+* Moved `ClientDetails` Component to `components` folder
+* Moved `ClientInfo` Component to `components` folder
+* Moved `ClientItemCard` Component to `components` folder
+* Moved `ClientList` Component to `components` folder
+* Moved `ColumnContainer` Component to `components` folder
+* Moved `TaskBoardCard` Component to `components` folder
+* Moved `TaskBoardView` Component to `components` folder
+* Moved `TaskTableView` Component to `components` folder
+* Renamed Component `CMSHeader` to `CMSAdminHeader`
+* Renamed Component `CMSFooter` to `CMSAdminFooter`
+* Renamed Component `CMSHeader` to `CMSTLHeader`
+* Renamed Component `CMSFooter` to `CMSTLFooter`
+* Renamed Component `CMSHeader` to `CMSUserHeader`
+* Renamed Component `CMSFooter` to `CMSUserFooter`
+* Added `aria-label` on `Button` of `ShortcutsHeader` Component
+* Added `aria-label` on `Button` of `SearchBar` Component
+* Cleaned up and refactored source code
+* Organized Project Structure
+* Removed unused imports and dead code
+* Removed left-over `console.log()` from development
+* Fix a bug where incorrectly redirecting the user after sign-in and despite already authenticated
+* Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSAdmin` Component
+* Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSTL` Component
+* Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSUSer` Component

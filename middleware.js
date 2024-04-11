@@ -1,25 +1,25 @@
 import { fetchAuthSession } from "aws-amplify/auth/server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@/app/utils/amplifyServerUtils";
 
 const protectedRoutes = [
-  "/user/",
+  "/user",
   "/user/dashboard",
   "/user/profile",
   "/user/cms",
   "/user/empower",
-  "/tl/",
+  "/tl",
   "/tl/cms",
   "/tl/team",
   "/tl/schedule",
   "/tl/appraisals",
-  "/admin/",
+  "/admin",
   "/admin/team",
   "/admin/clients",
   "/admin/appraisals",
   "/admin/roles",
   "/admin/help_desk",
-  "/hr/",
+  "/hr",
   "/hr/pre_employment",
   "/hr/onboarding",
   "/hr/endorse",
@@ -59,7 +59,7 @@ async function middleware(request) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-        // console.log("SESSION",session)
+        console.log("SESSION", session, session.tokens !== undefined);
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -74,14 +74,16 @@ async function middleware(request) {
   }
 
   // ### Redirect unauthorized access to sign in page
-  // if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
-  //   const absoluteURL = new URL("/", request.nextUrl.origin);
-  //   return NextResponse.redirect(absoluteURL.toString());
-  // }
+  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+    const absoluteURL = new URL("/", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  }
 }
 
 const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sign-in).*)"],
+  matcher: [
+    "/((?!api|bridge|auth|_next/static|_next/image|favicon.ico|sign-in).*)",
+  ],
 };
 
 export { middleware, config };
