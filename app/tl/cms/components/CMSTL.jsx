@@ -20,19 +20,21 @@ import {
   changeViewAtom,
   showClientTaskAtom,
   showFooterAtom,
+  showSearchBarAtom,
 } from "../store/CMSTLStore";
-import CMSFooter from "./CMSFooter";
-import ClientHeader from "./CMSHeader";
-import ClientDetails from "./ClientDetails";
-import ClientList from "./ClientList";
-import TaskBoardView from "./TaskBoardView";
-import TaskTableView from "./TaskTableView";
 
-const CMSTL = () => {
+import ClientList from "@/app/components/cms/ClientList";
+import TaskTableView from "@/app/components/cms/TaskTableView";
+import TaskBoardView from "@/app/components/cms/TaskBoardView";
+import ClientDetails from "@/app/components/cms/ClientDetails";
+import CMSTLHeader from "./CMSTLHeader";
+import CMSTLFooter from "./CMSTLFooter";
+
+const CMSAdmin = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "status",
+    column: "age",
     direction: "ascending",
   });
 
@@ -49,13 +51,16 @@ const CMSTL = () => {
     selectedTaskFilterKeysAtom
   );
 
-  const changeView = useAtomValue(changeViewAtom);
-  const showFooter = useAtomValue(showFooterAtom);
+  const [changeView, setChangeView] = useAtom(changeViewAtom);
+  const [showFooter, setShowFooter] = useAtom(showFooterAtom);
   const showClientDetails = useAtomValue(showClientDetailsAtom);
-  const showClientTask = useAtomValue(showClientTaskAtom);
+  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
+  const setShowSearchBar = useSetAtom(showSearchBarAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientsCount = useAtomValue(clientsCountAtom);
+
+  console.log("selectedClientToView", selectedClientToView);
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -221,7 +226,7 @@ const CMSTL = () => {
     <>
       <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
         <CardHeader className="">
-          <ClientHeader
+          <CMSTLHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
@@ -241,19 +246,25 @@ const CMSTL = () => {
           <ClientList
             itemClients={itemClients}
             showClientTask={showClientTask}
+            setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
+            setChangeView={setChangeView}
+            setShowFooter={setShowFooter}
+            setShowSearchBar={setShowSearchBar}
           />
           <TaskTableView
             itemTasks={filteredTaskItems}
-            showClientTask={showClientTask && selectedClientToView !== ""}
+            showClientTask={showClientTask}
             changeView={changeView}
             sortDescriptor={sortDescriptor}
             setSortDescriptor={setSortDescriptor}
+            setShowClientTask={setShowClientTask}
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
+            selectedClient={tasksFromSelectedClient[0]}
           />
           <ClientDetails
             showClientDetails={showClientDetails}
@@ -261,7 +272,7 @@ const CMSTL = () => {
           />
         </CardBody>
         <CardFooter className="">
-          <CMSFooter
+          <CMSTLFooter
             showFooter={showFooter}
             displayedItemCount={
               showClientTask ? itemTasks?.length : itemClients?.length
@@ -285,4 +296,4 @@ const CMSTL = () => {
   );
 };
 
-export default CMSTL;
+export default CMSAdmin;

@@ -1,8 +1,16 @@
 import { ScrollShadow } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 
-const ClientList = ({ itemClients, showClientTask, showClientDetails }) => {
+const ClientList = ({
+  itemClients,
+  showClientTask,
+  setShowClientTask,
+  showClientDetails,
+  setChangeView,
+  setShowFooter,
+  setShowSearchBar,
+}) => {
   return (
     <ScrollShadow
       size={25}
@@ -25,7 +33,14 @@ const ClientList = ({ itemClients, showClientTask, showClientDetails }) => {
                 </div>
               }
             >
-              <ClientItemCard key={index} data={client} />
+              <ClientItemCard
+                key={index}
+                data={client}
+                setShowClientTask={setShowClientTask}
+                setChangeView={setChangeView}
+                setShowFooter={setShowFooter}
+                setShowSearchBar={setShowSearchBar}
+              />
             </Suspense>
           ))
         )}

@@ -1,41 +1,23 @@
 import { showClientDetailsAtom } from "@/app/store/ClientStore";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { User, cn } from "@nextui-org/react";
-import { format } from "date-fns";
-import { useSetAtom } from "jotai";
-import { MdCalendarMonth } from "react-icons/md";
-import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
-import { useState } from "react";
-import IconButton from "@/app/components/IconButton";
-import { MdOutlineArrowForward } from "react-icons/md";
-import { MdCheck } from "react-icons/md";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {
-  Avatar,
-  AvatarGroup,
   Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Image,
   Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
+  User,
+  cn,
 } from "@nextui-org/react";
+import { format } from "date-fns";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { MdCalendarMonth } from "react-icons/md";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
-
-  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
-  const setShowFooter = useSetAtom(showFooterAtom);
-  const setShowClientTask = useSetAtom(showClientTaskAtom);
 
   const {
     setNodeRef,

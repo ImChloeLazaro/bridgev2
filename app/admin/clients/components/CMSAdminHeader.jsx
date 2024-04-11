@@ -9,8 +9,7 @@ import {
 } from "@/app/store/ClientStore";
 import {
   clientSelectionChangeAtom,
-  fetchTaskAtom,
-  taskNameAtom,
+  fetchTaskAtom
 } from "@/app/store/TaskStore";
 import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -22,6 +21,7 @@ import {
   MdViewColumn,
   MdViewList,
 } from "react-icons/md";
+import { toast } from "sonner";
 import {
   changeViewAtom,
   showClientTaskAtom,
@@ -30,9 +30,8 @@ import {
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
-import { toast } from "sonner";
 
-const ClientHeader = ({
+const ClientAdminHeader = ({
   searchItem,
   setSearchItem,
   filterKeys,
@@ -69,24 +68,22 @@ const ClientHeader = ({
     showClientDetailsAtom
   );
 
-  const taskName = useAtomValue(taskNameAtom);
-
   const handleGoBackToClient = () => {
     setShowSearchBar(true);
     setShowClientTask(false);
     setShowClientDetails(false);
-    if (showClientDetails) {
-      setShowActionButtons(true);
-    }
   };
 
-  const handleRefreshClient = async () => {
+  const handleRefreshClient = () => {
     setIsDisabled(true);
-
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchTask(), await fetchClient()),
+          async () =>
+            resolve(
+              await fetchTask(),
+              await fetchClient()
+            ),
           2000
         )
       );
@@ -94,13 +91,13 @@ const ClientHeader = ({
     toast.promise(promise, {
       loading: "Loading...",
       success: () => {
+        setIsDisabled(false);
         return `Task Data Updated`;
       },
       error: "Error refreshing data",
     });
 
     console.log("REFRESHED CLIENT DATA");
-    setIsDisabled(false);
   };
 
   const handleChangeView = () => {
@@ -190,6 +187,7 @@ const ClientHeader = ({
         />
         <IconButton
           radius={"md"}
+          aria-label={"Refresh Task Client Data Button"}
           data-show={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
@@ -266,4 +264,4 @@ const ClientHeader = ({
   );
 };
 
-export default ClientHeader;
+export default ClientAdminHeader;

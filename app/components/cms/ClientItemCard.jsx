@@ -20,12 +20,6 @@ import {
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
-import {
-  changeViewAtom,
-  showClientTaskAtom,
-  showFooterAtom,
-  showSearchBarAtom,
-} from "../store/CMSAdminStore";
 
 const tagColors = {
   todo: "blue",
@@ -34,14 +28,17 @@ const tagColors = {
   pending: "darkgrey",
 };
 
-const ClientItemCard = ({ data }) => {
+const ClientItemCard = ({
+  data,
+  setShowClientTask,
+  setChangeView,
+  setShowFooter,
+  setShowSearchBar,
+}) => {
   const tasks = useAtomValue(tasksAtom);
   const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
   const setShowClientDetails = useSetAtom(showClientDetailsAtom);
-  const setShowClientTask = useSetAtom(showClientTaskAtom);
-  const setChangeView = useSetAtom(changeViewAtom);
-  const setShowFooter = useSetAtom(showFooterAtom);
-  const setShowSearchBar = useSetAtom(showSearchBarAtom);
+
   const clientTaskProcessorsCount = useAtomValue(clientTaskProcessorsCountAtom);
 
   const [statusCount, setStatusCount] = useState({
@@ -159,7 +156,6 @@ const ClientItemCard = ({ data }) => {
                 <AvatarGroup size="lg" max={3}>
                   {clientTaskProcessorsCount.map((processor, index) => (
                     <Avatar key={index} src={processor.picture} />
-                    // <Avatar key={index} src={"https://picsum.photos/200"} />
                   ))}
                 </AvatarGroup>
               )}
@@ -168,6 +164,7 @@ const ClientItemCard = ({ data }) => {
         </CardBody>
       </Card>
       <IconButton
+        aria-label={"Show Client Tasks Button"}
         className="bg-transparent w-1/12 h-32"
         onPress={() => handleSelectClient(data._id)}
       >

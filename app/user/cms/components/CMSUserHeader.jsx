@@ -5,11 +5,11 @@ import {
   clientsAtom,
   fetchClientAtom,
   selectedClientToViewAtom,
-  showClientDetailsAtom
+  showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
   clientSelectionChangeAtom,
-  fetchTaskAtom
+  fetchTaskAtom,
 } from "@/app/store/TaskStore";
 import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -21,16 +21,15 @@ import {
   MdViewColumn,
   MdViewList,
 } from "react-icons/md";
+import { toast } from "sonner";
 import {
   changeViewAtom,
   showClientTaskAtom,
   showFooterAtom,
-  showSearchBarAtom
+  showSearchBarAtom,
 } from "../store/CMSUserStore";
-import AddClientModal from "./AddClientModal";
-import AddTaskModal from "./AddTaskModal";
 
-const ClientHeader = ({
+const CMSUserHeader = ({
   searchItem,
   setSearchItem,
   filterKeys,
@@ -71,17 +70,32 @@ const ClientHeader = ({
     setShowSearchBar(true);
     setShowClientTask(false);
     setShowClientDetails(false);
-    if (showClientDetails) {
-      setShowActionButtons(true);
-    }
   };
 
-  const handleRefreshClient = async () => {
-    console.log("REFRESHED CLIENT DATA");
+  const handleRefreshClient = () => {
     setIsDisabled(true);
-    await fetchTask();
-    await fetchClient();
-    setIsDisabled(false);
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              await fetchTask(),
+              await fetchClient()
+            ),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: () => {
+        setIsDisabled(false);
+        return `Task Data Updated`;
+      },
+      error: "Error refreshing data",
+    });
+
+    console.log("REFRESHED CLIENT DATA");
   };
 
   const handleChangeView = () => {
@@ -140,14 +154,21 @@ const ClientHeader = ({
         >
           <div className="text-black-default gap-2 flex justify-center items-center">
             <MdOutlineChevronLeft size={24} />
-            <Tooltip content={clientNameToDisplay} delay={1000}>
+            <Tooltip
+              content={
+                !selectedClientToView?.length ? "Go Back" : clientNameToDisplay
+              }
+              delay={1000}
+            >
               <div
                 className="
                 bg-white-default rounded-lg px-2 py-1
                   w-28 truncate hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default"
               >
-                {clientNameToDisplay}
+                {!selectedClientToView?.length
+                  ? "Client List"
+                  : clientNameToDisplay}
               </div>
             </Tooltip>
           </div>
@@ -164,11 +185,11 @@ const ClientHeader = ({
         />
         <IconButton
           radius={"md"}
+          aria-label={"Refresh Task Client Data Button"}
           data-show={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
-          isDisabled={isDisabled}
-          className={"hidden data-[show=true]:flex"}
+          isLoading={isDisabled}
         >
           <div
             data-loading={isDisabled}
@@ -207,37 +228,8 @@ const ClientHeader = ({
           />
         </div>
       </div>
-      <div
-        data-show={showClientDetails}
-        className="w-full flex data-[show=true]:hidden justify-end mx-4 gap-4"
-      >
-        {/* <CTAButtons
-          radius={"sm"}
-          key={actionButtons.task.label}
-          fullWidth={true}
-          label={actionButtons.task.label}
-          color={actionButtons.task.color}
-          className={"py-5 max-w-[16rem]"}
-          onPress={() => handleOpenTaskWindow()}
-        />
-        <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} /> */}
-        {/* <CTAButtons
-          radius={"sm"}
-          showButton={!showClientTask}
-          key={actionButtons.client.label}
-          fullWidth={true}
-          label={actionButtons.client.label}
-          color={actionButtons.client.color}
-          className={"py-5 max-w-[16rem]"}
-          onPress={() => handleOpenClientWindow()}
-        />
-        <AddClientModal
-          isOpen={isOpenClient}
-          onOpenChange={onOpenChangeClient}
-        /> */}
-      </div>
     </div>
   );
 };
 
-export default ClientHeader;
+export default CMSUserHeader;

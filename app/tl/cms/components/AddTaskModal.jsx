@@ -5,6 +5,7 @@ import {
   fetchTaskAtom,
   selectedClientForTaskAtom,
   taskDataAtom,
+  taskNameAtom,
 } from "@/app/store/TaskStore";
 import {
   Modal,
@@ -15,25 +16,38 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import TaskFormSections from "./TaskFormSections";
+import { toast } from "sonner";
+import { selectedClientToViewAtom } from "@/app/store/ClientStore";
+import { showClientTaskAtom } from "../store/CMSTLStore";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskData = useAtomValue(taskDataAtom);
-  const fetchTask = useSetAtom(fetchTaskAtom);
-
-
+  const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
+  const fetchTask = useSetAtom(fetchTaskAtom);
   // const deleteTask = useSetAtom(deleteTaskAtom);
+
+  const showClientTask = useAtomValue(showClientTaskAtom);
+  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async (onClose) => {
     console.log("taskData", taskData);
-    const response = await addTask(taskData);
-    // const response = await deleteTask();
-    console.log("response", response);
 
-    if (response.success) {
-      fetchTask();
-      console.log("CONFIRM WINDOW ADDED TASK", response.success);
-    }
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () => resolve(await addTask(taskData), await fetchTask()),
+          2000
+        )
+      );
+    toast.promise(promise, {
+      loading: "Creating Task...",
+      success: () => {
+        return `${!taskName?.length ? "Task" : taskName} Successfully Created`;
+      },
+      error: "Error task creation failed",
+    });
+
     onClose();
   };
 
@@ -57,6 +71,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
+                isDisabled={!selectedClientToView?.length && showClientTask}
                 label={"Assign Task"}
                 color={"blue"}
                 onPress={() => handleAddTask(onClose)}

@@ -62,6 +62,7 @@ const ShortcutsHeader = () => {
       <div className="text-xl font-bold">{"SHORTCUTS"}</div>
       <div className="flex justify-center items-center gap-1">
         <IconButton
+          aria-label={"Shortcut Sort Button"}
           onPress={() => {
             setSorted(!sorted);
             updateSortedShortcuts({ sort: sorted, sub: auth.sub });

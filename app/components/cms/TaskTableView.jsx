@@ -1,10 +1,6 @@
-import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
-import {
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
-} from "@/app/store/ClientStore";
-import { tableColumnsAtom, tasksAtom } from "@/app/store/TaskStore";
+import { selectedClientToViewAtom } from "@/app/store/ClientStore";
+import { tableColumnsAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
@@ -24,12 +20,10 @@ import {
 } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useMemo, useEffect, useState } from "react";
-import { useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";
-import { showClientTaskAtom } from "../store/CMSAdminStore";
-// import { showClientTaskAtom } from "../store/CMSAdminStore";
+
 const tagColors = {
   todo: "blue",
   inProgress: "orange",
@@ -45,10 +39,9 @@ const TaskTableView = ({
   changeView,
   sortDescriptor,
   setSortDescriptor,
+  setShowClientTask,
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-
-  const setShowClientTask = useSetAtom(showClientTaskAtom);
 
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);

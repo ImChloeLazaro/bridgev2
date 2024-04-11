@@ -1,8 +1,8 @@
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { pageRowsSelectionAtom } from "../store/CMSTLStore";
+import { pageRowsSelectionAtom } from "../store/CMSUserStore";
 
-const CMSFooter = ({
+const CMSUserFooter = ({
   showFooter = true,
   displayedItemCount,
   totalItemCount = 0,
@@ -63,4 +63,4 @@ const CMSFooter = ({
   );
 };
 
-export default CMSFooter;
+export default CMSUserFooter;
