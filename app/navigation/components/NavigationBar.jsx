@@ -9,7 +9,11 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { roleAtom, selectedRoleAtom, userRolesAtom } from "../store/NavSideBarStore";
+import {
+  roleAtom,
+  selectedRoleAtom,
+  userRolesAtom,
+} from "../store/NavSideBarStore";
 import { routesUser } from "./RoutesIconDetails";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
@@ -51,10 +55,14 @@ const NavigationBar = () => {
           />
         </NavbarItem>
       </NavbarContent> */}
-      <NavbarContent as="div" justify="end">
+      <NavbarContent justify="end">
         <NavbarItem className="flex items-center gap-6">
           <UserDropdown />
+        </NavbarItem>
+        <NavbarItem className="flex items-center gap-6">
           {userRoles.includes(selectedRole) && <RoleBadge />}
+        </NavbarItem>
+        <NavbarItem className="flex items-center gap-6">
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>

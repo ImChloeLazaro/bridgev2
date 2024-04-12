@@ -35,11 +35,11 @@ async function middleware(request) {
   // ## Preconnect to required origins to establish early connections to important third-party origins e.g. Google or AWS
   response.headers.append(
     "Link",
-    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=dns-prefetch;"
+    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=preconnect;"
   );
   response.headers.append(
     "Link",
-    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=dns-prefetch;"
+    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=preconnect;"
   );
   response.headers.append(
     "Link",
@@ -59,7 +59,9 @@ async function middleware(request) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-        console.log("SESSION", session, session.tokens !== undefined);
+        console.log("SESSION", session.tokens !== undefined);
+        console.log("ORIGIN", request.nextUrl.href);
+        console.log("PATHNAME", request.nextUrl.pathname, "\n");
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -74,15 +76,15 @@ async function middleware(request) {
   }
 
   // ### Redirect unauthorized access to sign in page
-  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
-    const absoluteURL = new URL("/", request.nextUrl.origin);
-    return NextResponse.redirect(absoluteURL.toString());
-  }
+  // if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+  //   const absoluteURL = new URL("/", request.nextUrl.origin);
+  //   return NextResponse.redirect(absoluteURL.toString());
+  // }
 }
 
 const config = {
   matcher: [
-    "/((?!api|bridge|auth|_next/static|_next/image|favicon.ico|sign-in).*)",
+    "/((?!api|_next/static|_next/image|header.png|bg.png|favicon.ico|sign-in).*)",
   ],
 };
 
