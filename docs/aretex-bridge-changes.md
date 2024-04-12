@@ -1048,3 +1048,7 @@ postsAtom = atom({
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSAdmin` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSTL` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSUSer` Component
+* @updated tailwindcss
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3"

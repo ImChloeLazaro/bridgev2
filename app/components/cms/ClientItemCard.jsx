@@ -119,7 +119,7 @@ const ClientItemCard = ({
                 {data.company?.name?.length ? data.company.name : ""}
               </Link>
             </div>
-            <div className="w-2/3 flex flex-wrap justify-center items-center gap-4 p-0">
+            <div className="w-1/3 flex flex-wrap justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
                   if (
@@ -149,7 +149,7 @@ const ClientItemCard = ({
                   }
                 })}
             </div>
-            <div className="w-1/4 flex justify-between items-center gap-2">
+            <div className="w-1/3 flex justify-end items-center gap-2">
               {!clientTaskProcessorsCount?.length ? (
                 ""
               ) : (

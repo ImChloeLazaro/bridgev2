@@ -54,6 +54,7 @@ const CMSAdminFooter = ({
         </Select>
       </div>
       <Pagination
+        aria-label={"CMS Page Footer Admin"}
         isCompact
         showControls
         total={totalPages <= 0 ? 1 : totalPages}

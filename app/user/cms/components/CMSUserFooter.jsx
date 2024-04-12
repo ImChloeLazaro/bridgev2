@@ -50,6 +50,7 @@ const CMSUserFooter = ({
         </Select>
       </div>
       <Pagination
+        aria-label={"CMS Page Footer User"}
         isCompact
         showControls
         total={totalPages <= 0 ? 1 : totalPages}
