@@ -78,7 +78,7 @@ module.exports = {
     nextui({
       themes: {
         aretex: {
-          extend: "light",
+          // extend: "light",
           colors: {
             background: "#D9D9D9",
             foreground: "#393939",

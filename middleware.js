@@ -59,9 +59,14 @@ async function middleware(request) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-        console.log("SESSION", session.tokens !== undefined);
-        console.log("ORIGIN", request.nextUrl.href);
-        console.log("PATHNAME", request.nextUrl.pathname, "\n");
+        // console.log("SESSION", session.tokens === undefined);
+        // console.log("ORIGIN", request.nextUrl.href);
+        // console.log("PATHNAME", request.nextUrl.pathname);
+        // console.log(
+        //   "CHECK PATH",
+        //   protectedRoutes.includes(request.nextUrl.pathname),
+        //   "\n"
+        // );
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -83,9 +88,7 @@ async function middleware(request) {
 }
 
 const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|header.png|bg.png|favicon.ico|sign-in).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
 
 export { middleware, config };

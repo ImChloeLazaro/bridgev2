@@ -263,7 +263,7 @@ export const browseOnboardingDataAtom = atom(null, (get, set, update) => {
 
 //Fetch Onboarding Status
 export const fetchHasOnboardingDataAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
+  const auth = get(authenticationAtom);
   if (auth.sub) {
     const data = await readwithparams("/user", { sub: auth.sub });
     if (!data) {

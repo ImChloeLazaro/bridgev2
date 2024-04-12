@@ -161,7 +161,7 @@ const TaskTableView = ({
       className="hidden data-[view=true]:flex w-full h-full justify-center items-center text-clip"
     >
       <div className="flex flex-col items-center justify-center">
-        <Image width={450} height={450} alt={"No Data"} src={"/no-data.png"} />
+        <Image width={450} height={450} alt={"No Data"} src={"/no-data.webp"} />
         <p className="text-lg font-medium text-black-default/80">
           {"No Data to Display"}
         </p>

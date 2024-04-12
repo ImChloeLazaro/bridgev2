@@ -9,7 +9,7 @@ const ExternalLinksHeader = () => {
       <NextImage
         alt="Aretex Logo"
         src={SidebarHeader}
-        loading="lazy"
+        // loading="lazy"
         width={200}
         height={50}
         placeholder={"blur"}

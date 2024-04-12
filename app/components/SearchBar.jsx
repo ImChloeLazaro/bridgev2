@@ -79,7 +79,7 @@ const SearchBar = ({
           }
           endContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-darkgrey-default text-small">
+              <span className="text-darkgrey-hover text-small">
                 {"Search"}
               </span>
             </div>
