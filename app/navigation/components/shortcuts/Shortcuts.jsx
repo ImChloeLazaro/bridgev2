@@ -152,7 +152,7 @@ const Shortcuts = () => {
             width={180}
             height={180}
             alt={"No Shortcuts"}
-            src={"/No-Shortcuts.png"}
+            src={"/No-Shortcuts.webp"}
           />
           <p className="font-medium text-black-default/80">
             {"No Shortcuts Availale!"}

@@ -1,8 +1,8 @@
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { pageRowsSelectionAtom } from "../store/CMSUserStore";
+import { pageRowsSelectionAtom } from "../store/CMSAdminStore";
 
-const CMSFooter = ({
+const CMSAdminFooter = ({
   showFooter = true,
   displayedItemCount,
   totalItemCount = 0,
@@ -43,13 +43,18 @@ const CMSFooter = ({
           classNames={{ popoverContent: "w-20" }}
         >
           {(pageRow) => (
-            <SelectItem key={pageRow.value} value={pageRow.value}>
+            <SelectItem
+              key={pageRow.value}
+              id={pageRow.value}
+              value={pageRow.value}
+            >
               {pageRow.label}
             </SelectItem>
           )}
         </Select>
       </div>
       <Pagination
+        aria-label={"CMS Page Footer Admin"}
         isCompact
         showControls
         total={totalPages <= 0 ? 1 : totalPages}
@@ -63,4 +68,4 @@ const CMSFooter = ({
   );
 };
 
-export default CMSFooter;
+export default CMSAdminFooter;

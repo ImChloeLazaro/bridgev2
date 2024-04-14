@@ -48,7 +48,7 @@ const NotificationsList = () => {
   return (
     <Listbox
       items={filteredNotifications}
-      aria-label="Notifications"
+      aria-label={"Notifications"}
       onAction={(key) => {
         console.log("filteredNotifications", filteredNotifications);
         console.log("PRESSED", key);
@@ -77,6 +77,7 @@ const NotificationsList = () => {
         <ListboxItem
           textValue={item.title}
           key={item.id}
+          aria-label={`Notifications ${item.id}`}
           startContent={
             item.unread ? (
               <div className="text-blue-default">

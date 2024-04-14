@@ -7,7 +7,7 @@ const BirthdayCard = () => {
       width={500}
       // height={200}
       priority={true}
-      unoptimized={true}
+      // unoptimized={true}
       alt="Birthday GIF"
       src={Birthday}
       className="rounded-xl"

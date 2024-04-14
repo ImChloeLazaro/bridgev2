@@ -78,7 +78,7 @@ module.exports = {
     nextui({
       themes: {
         aretex: {
-          extend: "light",
+          // extend: "light",
           colors: {
             background: "#D9D9D9",
             foreground: "#393939",
@@ -96,8 +96,8 @@ module.exports = {
               hover: "#D0D0D0",
             },
             darkgrey: {
-              default: "#7d7d85",
-              hover: "#55555A",
+              default: "#6B6B72",
+              hover: "#565656",
             },
             lightgrey: {
               default: "#A1A1AA",
@@ -116,8 +116,8 @@ module.exports = {
               hover: "#7dd3fc",
             },
             green: {
-              default: "#01C875",
-              hover: "#0A7147",
+              default: "#005D38",
+              hover: "#006736",
             },
             red: {
               default: "#E2445B",
@@ -146,6 +146,12 @@ module.exports = {
         ".no-scrollbar": {
           "-ms-overflow-style": "none",
           "scrollbar-width": "none",
+        },
+        ".text-stroke": {
+          color: "black",
+          "-webkit-text-fill-color": "white" /* Will override color (regardless of order) */,
+          "-webkit-text-stroke-width": "0.2px",
+          "-webkit-text-stroke-color": "black",
         },
       };
       addUtilities(newUtilities);

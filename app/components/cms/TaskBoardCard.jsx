@@ -1,19 +1,23 @@
 import { showClientDetailsAtom } from "@/app/store/ClientStore";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Link, User } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+  User,
+  cn,
+} from "@nextui-org/react";
 import { format } from "date-fns";
-import { useSetAtom } from "jotai";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth } from "react-icons/md";
-import { showClientTaskAtom, showFooterAtom } from "../store/CMSAdminStore";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
-
-  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
-  const setShowFooter = useSetAtom(showFooterAtom);
-  const setShowClientTask = useSetAtom(showClientTaskAtom);
 
   const {
     setNodeRef,
@@ -36,11 +40,13 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     transform: CSS.Transform.toString(transform),
   };
 
-  // const handleViewClientDetails = () => {
-  //   setShowFooter(false);
-  //   setShowClientTask(false);
-  //   setShowClientDetails(true);
-  // };
+  const cardSize = "h-[10rem] min-h-[10rem]";
+
+  const handleTaskIsDone = (key) => {
+    console.log("OPTIONS FOR TASK CARD");
+    console.log("key", key);
+    console.log("task.id", task.id);
+  };
 
   // const toggleEditMode = () => {
   //   setEditMode((prev) => !prev);
@@ -53,10 +59,14 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       <div
         ref={setNodeRef}
         style={style}
-        className="
-        opacity-30
-      bg-white-default p-2.5 h-[8rem] min-h-[4rem] items-center flex text-left rounded-xl border-2 border-blue-default cursor-grab relative
-      "
+        className={cn(
+          cardSize,
+          "bg-white-default p-2.5",
+          "items-center flex text-left relative",
+          "rounded-xl border-2 border-blue-default",
+          "opacity-30 ",
+          "cursor-grab"
+        )}
       ></div>
     );
   }
@@ -97,11 +107,15 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       {...listeners}
       style={style}
       // onClick={toggleEditMode}
-      className="
-      bg-white-default p-2.5 h-[6rem] min-h-[4rem] items-center flex text-left rounded-xl
-      hover:ring-2 hover:ring-inset hover:ring-blue-default 
-      border border-grey-default
-      cursor-grab relative shadow-md"
+      className={cn(
+        cardSize,
+        "bg-white-default p-2.5",
+        "items-center flex text-left relative",
+        "rounded-xl border border-grey-default",
+        "hover:ring-2 hover:ring-inset hover:ring-blue-default ",
+        "shadow-md",
+        "cursor-grab select-none"
+      )}
       // onMouseEnter={() => {
       //   setMouseIsOver(true);
       // }}
@@ -109,21 +123,48 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       //   setMouseIsOver(false);
       // }}
     >
-      <div className="basis-[90%] flex flex-col justify-start px-2 my-auto h-[90%] w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+      <div className="flex flex-col justify-start px-2 my-auto h-full w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
-        <div className="mb-4">
-          <Link
-            href="#"
-            underline="hover"
-            className="text-xl font-semibold text-black-default "
-            // onPress={handleViewClientDetails}
-          >
-            {task?.name?.length ? task.name : ""}
-          </Link>
-          <p className="text-sm font-medium text-black-default min-h-[1.5rem]">
-            {task?.instruction?.length ? task.instruction : ""}
-          </p>
+        <div className="flex justify-between items-start gap-2 h-[5.5rem]">
+          <div className="my-2">
+            <Link
+              href="#"
+              underline="hover"
+              className="text-xl font-semibold text-black-default "
+              // onPress={handleViewClientDetails}
+            >
+              {task?.name?.length ? task.name : ""}
+            </Link>
+            <p className="text-sm font-medium text-black-default min-h-[1.5rem]">
+              {task?.instruction?.length ? task.instruction : ""}
+            </p>
+          </div>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                aria-label={"Shortcut Options"}
+                isIconOnly
+                className="bg-transparent mb-4"
+              >
+                <div className="">
+                  <BiDotsHorizontalRounded size={24} />
+                </div>
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Action event example"
+              onAction={(key) => handleTaskIsDone(key)}
+            >
+              <DropdownItem key="new">New file</DropdownItem>
+              <DropdownItem key="copy">Copy link</DropdownItem>
+              <DropdownItem key="edit">Edit file</DropdownItem>
+              <DropdownItem key="delete" className="text-danger" color="danger">
+                Delete file
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
+
         <div className=""></div>
         <div className="flex gap-2 justify-start items-center">
           <MdCalendarMonth size={24} />

@@ -2,7 +2,7 @@ import { Pagination, Select, SelectItem } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { pageRowsSelectionAtom } from "../store/CMSTLStore";
 
-const CMSFooter = ({
+const CMSTLFooter = ({
   showFooter = true,
   displayedItemCount,
   totalItemCount = 0,
@@ -50,6 +50,7 @@ const CMSFooter = ({
         </Select>
       </div>
       <Pagination
+        aria-label={"CMS Page Footer TL"}
         isCompact
         showControls
         total={totalPages <= 0 ? 1 : totalPages}
@@ -63,4 +64,4 @@ const CMSFooter = ({
   );
 };
 
-export default CMSFooter;
+export default CMSTLFooter;

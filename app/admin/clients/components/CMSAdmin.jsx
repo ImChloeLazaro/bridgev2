@@ -15,24 +15,26 @@ import {
 } from "@/app/store/TaskStore";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   changeViewAtom,
   showClientTaskAtom,
   showFooterAtom,
+  showSearchBarAtom,
 } from "../store/CMSAdminStore";
-import CMSFooter from "./CMSFooter";
-import ClientHeader from "./CMSHeader";
-import ClientDetails from "./ClientDetails";
-import ClientList from "./ClientList";
-import TaskBoardView from "./TaskBoardView";
-import TaskTableView from "./TaskTableView";
+
+import ClientList from "@/app/components/cms/ClientList";
+import TaskTableView from "@/app/components/cms/TaskTableView";
+import TaskBoardView from "@/app/components/cms/TaskBoardView";
+import ClientDetails from "@/app/components/cms/ClientDetails";
+import ClientAdminHeader from "./CMSAdminHeader";
+import CMSAdminFooter from "./CMSAdminFooter";
 
 const CMSAdmin = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "status",
+    column: "age",
     direction: "ascending",
   });
 
@@ -49,11 +51,12 @@ const CMSAdmin = () => {
     selectedTaskFilterKeysAtom
   );
 
-  const changeView = useAtomValue(changeViewAtom);
-  const showFooter = useAtomValue(showFooterAtom);
+  const [changeView, setChangeView] = useAtom(changeViewAtom);
+  const [showFooter, setShowFooter] = useAtom(showFooterAtom);
   const showClientDetails = useAtomValue(showClientDetailsAtom);
-  const showClientTask = useAtomValue(showClientTaskAtom);
+  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
+  const setShowSearchBar = useSetAtom(showSearchBarAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientsCount = useAtomValue(clientsCountAtom);
 
@@ -213,15 +216,21 @@ const CMSAdmin = () => {
   const fetchClient = useSetAtom(fetchClientAtom);
 
   useEffect(() => {
-    fetchClient();
-    fetchTask();
-  }, [fetchClient, fetchTask]);
+    const interval = setInterval(() => {
+      fetchTask();
+      fetchClient();
+    }, 2500);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <Card className="flex w-full h-full mt-4 mb-8 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
         <CardHeader className="">
-          <ClientHeader
+          <ClientAdminHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
@@ -238,30 +247,44 @@ const CMSAdmin = () => {
           />
         </CardHeader>
         <CardBody className="h-full w-full overflow-x-auto">
-          <ClientList
-            itemClients={itemClients}
-            showClientTask={showClientTask}
-            showClientDetails={showClientDetails}
-          />
-          <TaskTableView
-            itemTasks={filteredTaskItems}
-            showClientTask={showClientTask && selectedClientToView !== ""}
-            changeView={changeView}
-            sortDescriptor={sortDescriptor}
-            setSortDescriptor={setSortDescriptor}
-          />
-          <TaskBoardView
-            itemTasks={filteredTaskItems}
-            showClientTask={showClientTask && selectedClientToView !== ""}
-            changeView={changeView}
-          />
-          <ClientDetails
-            showClientDetails={showClientDetails}
-            selectedClient={selectedClient}
-          />
+          <Suspense
+            fallback={
+              <div className="text-lg font-medium text-black-default">
+                {"CLIENT DATA LOADING"}
+              </div>
+            }
+          >
+            <ClientList
+              itemClients={itemClients}
+              showClientTask={showClientTask}
+              setShowClientTask={setShowClientTask}
+              showClientDetails={showClientDetails}
+              setChangeView={setChangeView}
+              setShowFooter={setShowFooter}
+              setShowSearchBar={setShowSearchBar}
+            />
+            <TaskTableView
+              itemTasks={filteredTaskItems}
+              showClientTask={showClientTask}
+              changeView={changeView}
+              sortDescriptor={sortDescriptor}
+              setSortDescriptor={setSortDescriptor}
+              setShowClientTask={setShowClientTask}
+            />
+            <TaskBoardView
+              itemTasks={filteredTaskItems}
+              showClientTask={showClientTask && selectedClientToView !== ""}
+              changeView={changeView}
+              selectedClient={tasksFromSelectedClient[0]}
+            />
+            <ClientDetails
+              showClientDetails={showClientDetails}
+              selectedClient={selectedClient}
+            />
+          </Suspense>
         </CardBody>
         <CardFooter className="">
-          <CMSFooter
+          <CMSAdminFooter
             showFooter={showFooter}
             displayedItemCount={
               showClientTask ? itemTasks?.length : itemClients?.length

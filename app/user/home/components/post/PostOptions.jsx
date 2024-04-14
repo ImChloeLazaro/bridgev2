@@ -34,7 +34,7 @@ const PostOptions = ({ trigger }) => {
         classNames={{ content: ["m-0 p-0"] }}
       >
         <PopoverTrigger>
-          <Button isIconOnly className="bg-transparent">
+          <Button aria-label={"Post Options Button"} isIconOnly className="bg-transparent">
             {trigger}
           </Button>
         </PopoverTrigger>
@@ -59,7 +59,7 @@ const PostOptions = ({ trigger }) => {
             }}
           >
             {options.map((option) => (
-              <ListboxItem key={option.key}>{option.label}</ListboxItem>
+              <ListboxItem key={option.key} id={option.key}>{option.label}</ListboxItem>
             ))}
           </Listbox>
         </PopoverContent>

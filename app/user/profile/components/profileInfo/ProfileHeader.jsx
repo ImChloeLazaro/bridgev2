@@ -5,7 +5,7 @@ import { MdManageAccounts } from "react-icons/md";
 import CTAButtons from "../../../../components/CTAButtons";
 import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
 
-import ProfileBanner from "../../../../../public/header-profile.png";
+import ProfileBanner from "../../../../../public/header-profile.webp";
 import { userAtom } from "@/app/store/UserStore";
 
 const ProfileHeader = () => {
@@ -19,7 +19,7 @@ const ProfileHeader = () => {
           <NextImage
             alt="Profile Banner"
             src={ProfileBanner}
-            priority
+            priority={true}
             placeholder={"blur"}
             quality={50}
             sizes="(min-width: 808px) 50vw, 100vw"

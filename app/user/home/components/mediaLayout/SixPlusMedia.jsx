@@ -1,6 +1,7 @@
 import { Button, Image, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
 import ImagePostCarouselModal from "./ImagePostCarouselModal";
+import NextImage from "next/image";
 
 const SixPlusMedia = ({ data, orientation, layout }) => {
   const filteredPost =
@@ -63,26 +64,36 @@ const SixPlusMedia = ({ data, orientation, layout }) => {
               disableAnimation
               className={`${featuredMedia(
                 index
-              )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full relative px-unit-0 `}
+              )} relative bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full px-unit-0 `}
               onPress={() => {
                 handleOnOpen(index);
                 onOpen();
               }}
             >
-              <Image
-                //   isZoomed
-                removeWrapper
-                key={index}
-                width={400}
-                // height={300}
-                sizes={
-                  "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                }
-                radius={"none"}
-                loading={"lazy"}
-                alt={`Media Layout ${index}`}
-                src={media}
-              />
+              <div className="relative z-0 h-full w-full overflow-hidden flex justify-center items-center">
+                <NextImage
+                  priority={true}
+                  fill={true}
+                  // placeholder={"blur"}
+                  //   isZoomed
+                  // removeWrapper
+                  key={index}
+                  // width={400}
+                  // height={300}
+                  sizes={
+                    "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  }
+                  radius={"none"}
+                  // loading={"lazy"}
+                  alt={`Media Layout ${index}`}
+                  src={media}
+                  style={{
+                    // width: "100%",
+                    // height: "auto",
+                    objectFit: "contain", // cover, contain, none
+                  }}
+                />
+              </div>
               <div className="z-50 absolute w-full h-full backdrop-brightness-[.50] flex items-center justify-center">
                 <p className="font-medium text-3xl text-white-default">{`+${
                   data.length - 5
@@ -99,25 +110,34 @@ const SixPlusMedia = ({ data, orientation, layout }) => {
               disableAnimation
               className={`${featuredMedia(
                 index
-              )} bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full px-unit-0 `}
+              )} relative bg-white-default backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full px-unit-0 `}
               onPress={() => {
                 handleOnOpen(index);
                 onOpen();
               }}
             >
-              <Image
-                //   isZoomed
-                key={index}
-                width={1000}
-                // height={300}
-                sizes={
-                  "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                }
-                radius={"none"}
-                loading={"lazy"}
-                alt={`Media Layout ${index}`}
-                src={media}
-              />
+              <div className="relative z-0 h-full w-full overflow-hidden flex justify-center items-center">
+                <NextImage
+                  priority={true}
+                  fill={true}
+                  // placeholder={"blur"}
+                  //   isZoomed
+                  key={index}
+                  // width={1000}
+                  // height={300}
+                  sizes={
+                    "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  }
+                  radius={"none"}
+                  alt={`Media Layout ${index}`}
+                  src={media}
+                  style={{
+                    // width: "100%",
+                    // height: "auto",
+                    objectFit: "contain", // cover, contain, none
+                  }}
+                />
+              </div>
             </Button>
           );
         }

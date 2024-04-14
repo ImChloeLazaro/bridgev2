@@ -32,7 +32,7 @@ const MediaLayoutSelect = () => {
           : setSelectedMediaOrientation(selectedMediaOrientation);
       }}
       classNames={{
-        base: "max-w-sm",
+        base: "",
         trigger: "min-h-unit-12 py-2",
       }}
     >

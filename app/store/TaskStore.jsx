@@ -11,6 +11,8 @@ import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
 
 export const tasksAtom = atom([]);
 
+export const draggableTasksAtom = atom([])
+
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const { manager, client = "", processor, reviewer, duration, sla } = update;
 
@@ -133,11 +135,12 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
 });
 
 export const tableColumnsAtom = atom([
-  { label: "Tasks", key: "task", sortable: true },
+  { label: "Task  Name", key: "task", sortable: true },
   { label: "Status", key: "status", sortable: true },
   { label: "Start Date", key: "startDate", sortable: true },
   { label: "End Date", key: "endDate", sortable: true },
   { label: "Assignees", key: "assignees", sortable: false },
+  { label: "", key: "action", sortable: false },
 ]);
 
 export const selectedTaskAtom = atom([]);
@@ -185,6 +188,10 @@ export const taskBoardColsAtom = atom([
     id: "pending",
     title: "Pending",
   },
+  // {
+  //   id: "undefined",
+  //   title: "Undefined",
+  // },
 ]);
 
 export const taskBoardColsCountAtom = atom(

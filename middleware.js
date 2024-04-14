@@ -1,25 +1,25 @@
 import { fetchAuthSession } from "aws-amplify/auth/server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@/app/utils/amplifyServerUtils";
 
 const protectedRoutes = [
-  "/user/",
+  "/user",
   "/user/dashboard",
   "/user/profile",
   "/user/cms",
   "/user/empower",
-  "/tl/",
+  "/tl",
   "/tl/cms",
   "/tl/team",
   "/tl/schedule",
   "/tl/appraisals",
-  "/admin/",
+  "/admin",
   "/admin/team",
   "/admin/clients",
   "/admin/appraisals",
   "/admin/roles",
   "/admin/help_desk",
-  "/hr/",
+  "/hr",
   "/hr/pre_employment",
   "/hr/onboarding",
   "/hr/endorse",
@@ -35,11 +35,11 @@ async function middleware(request) {
   // ## Preconnect to required origins to establish early connections to important third-party origins e.g. Google or AWS
   response.headers.append(
     "Link",
-    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=dns-prefetch;"
+    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=preconnect;"
   );
   response.headers.append(
     "Link",
-    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=dns-prefetch;"
+    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=preconnect;"
   );
   response.headers.append(
     "Link",
@@ -59,7 +59,14 @@ async function middleware(request) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-        // console.log("SESSION",session)
+        // console.log("SESSION", session.tokens === undefined);
+        // console.log("ORIGIN", request.nextUrl.href);
+        // console.log("PATHNAME", request.nextUrl.pathname);
+        // console.log(
+        //   "CHECK PATH",
+        //   protectedRoutes.includes(request.nextUrl.pathname),
+        //   "\n"
+        // );
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -74,14 +81,19 @@ async function middleware(request) {
   }
 
   // ### Redirect unauthorized access to sign in page
-  // if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
-  //   const absoluteURL = new URL("/", request.nextUrl.origin);
-  //   return NextResponse.redirect(absoluteURL.toString());
-  // }
+  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+    console.log("!isAuthenticated", !isAuthenticated);
+    console.log(
+      "protectedRoutes",
+      protectedRoutes.includes(request.nextUrl.pathname)
+    );
+    // const absoluteURL = new URL("/", request.nextUrl.origin);
+    // return NextResponse.redirect(absoluteURL.toString());
+  }
 }
 
 const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sign-in).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
 
 export { middleware, config };

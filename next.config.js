@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "bridgebucket150517-dev.s3.ap-southeast-1.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 };

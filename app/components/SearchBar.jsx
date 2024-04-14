@@ -17,6 +17,7 @@ const SearchBar = ({
     search: (
       <Input
         radius={"sm"}
+        aria-label="SearchBar search function"
         isDisabled={disabledSearch}
         value={searchItem}
         onValueChange={setSearchItem}
@@ -28,7 +29,7 @@ const SearchBar = ({
         }
         endContent={
           <div className="pointer-events-none flex items-center">
-            <span className="text-lightgrey-default text-small">
+            <span className="text-darkgrey-default text-small">
               {"Search"}
             </span>
           </div>
@@ -45,7 +46,7 @@ const SearchBar = ({
           isDisabled={disabledFilter}
           size="sm"
           radius={"sm"}
-          aria-label="Post Filter Selection"
+          aria-label="SearchBar filter function"
           items={filterKeys}
           variant="flat"
           isMultiline={true}
@@ -61,11 +62,12 @@ const SearchBar = ({
           }}
         >
           {(filter) => (
-            <SelectItem key={filter.value}>{filter.label}</SelectItem>
+            <SelectItem key={filter.value} id={filter.value}>{filter.label}</SelectItem>
           )}
         </Select>
         <Input
           radius={"sm"}
+          aria-label="SearchBar search function"
           isDisabled={disabledSearch}
           value={searchItem}
           onValueChange={setSearchItem}
@@ -77,7 +79,7 @@ const SearchBar = ({
           }
           endContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-lightgrey-default text-small">
+              <span className="text-darkgrey-hover text-small">
                 {"Search"}
               </span>
             </div>

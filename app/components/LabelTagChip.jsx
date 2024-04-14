@@ -16,7 +16,7 @@ const LabelTagChip = ({
     },
     orange: {
       filled: "bg-orange-default text-white-default",
-      unfilled: "text-orange-default bg-orange-default/20",
+      unfilled: "text-orange-default bg-orange-default/15",
     },
     yellow: {
       filled: "bg-yellow-default text-white-default",
@@ -24,7 +24,7 @@ const LabelTagChip = ({
     },
     green: {
       filled: "bg-green-default text-white-default",
-      unfilled: "text-green-default bg-green-default/20",
+      unfilled: "text-green-default bg-green-default/15",
     },
     blue: {
       filled: "bg-blue-default text-white-default",
