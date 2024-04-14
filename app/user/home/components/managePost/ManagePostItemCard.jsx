@@ -77,13 +77,13 @@ const ManagePostItemCard = ({ data }) => {
       <CardFooter>
         <div className="flex justify-between items-center w-full">
           <div className="flex relative isolate ml-1">
-            {Object.keys(data.reactions).map((reaction, index) => (
+            {/* {Object.keys(data.reactions).map((reaction, index) => (
               <div key={reaction} className={`${reactionStack[index]}`}>
                 {reactionIcons[`${reaction}`].badge}
               </div>
-            ))}
+            ))} */}
             <p className="ml-2 font-bold text-darkgrey-default">
-              {handleReactionCount(data.reactions)}
+              {/* {handleReactionCount(data.reactions)} */}
             </p>
           </div>
 

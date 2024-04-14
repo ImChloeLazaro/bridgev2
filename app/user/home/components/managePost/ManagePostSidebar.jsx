@@ -1,5 +1,5 @@
 import CTAButtons from "@/app/components/CTAButtons";
-import { Divider } from "@nextui-org/react";
+import { Divider, ScrollShadow } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   filterKeysAtom,
@@ -124,7 +124,6 @@ const ManagePostSidebar = () => {
 
     if (filteredTemplateName.includes(templateName.toLowerCase())) {
       console.log("ALREADY ON SELECTION CHANGE NAME");
-
     } else {
       setTemplateTypeSelection((prev) => [
         ...prev,
@@ -189,22 +188,28 @@ const ManagePostSidebar = () => {
       : customActionButtons;
 
   return (
-    <div className="flex-col py-4">
-      <div className="flex-col py-2 px-6">
+    <div className="flex flex-col h-full justify-between items-stretch pt-3 rounded-l-lg">
+      <div className="flex flex-col py-2 px-6 rounded-l-lg">
         <p className="text-2xl font-bold">{"Community Post"}</p>
         <p className="text-xs font-normal mb-4">
           {"Manage your community posts here"}
         </p>
         <Divider />
       </div>
+      <div className="w-full h-full overflow-y-scroll">
+        <div className="flex flex-col justify-between w-full h-full py-2 px-8 gap-3">
+          <ManagePostSidebarContent />
+        </div>
+      </div>
 
-      <ManagePostSidebarContent />
-      <div className="flex justify-end py-4 px-6 gap-8">
+      <div className="flex flex-col pt-0 pb-4 px-6 gap-8">
+        <Divider />
         {Object.values(actionButtons).map((button) => {
           return (
             <CTAButtons
               key={button.label}
               fullWidth={true}
+              size="md"
               label={button.label}
               color={button.color}
               onPress={button.action}

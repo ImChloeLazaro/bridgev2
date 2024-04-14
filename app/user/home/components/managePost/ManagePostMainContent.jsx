@@ -342,15 +342,15 @@ const ManagePostMainContent = ({ onClose }) => {
   });
 
   return (
-    <div className="flex flex-col w-[72rem] h-fit">
+    <div className="flex flex-col h-full justify-between items-stretch p-0 rounded-r-lg">
       {/* HEADER */}
-      <div className="flex-col ">
-        <div className="flex items-end justify-end pt-4 pb-3 px-6 text-lightgrey-default bg-lightgrey-hover">
+      <div className="flex-col rounded-r-lg">
+        <div className="flex items-end justify-end py-1 px-2 rounded-r-lg text-lightgrey-default bg-lightgrey-hover">
           <Button isIconOnly onPress={onClose} className={"bg-transparent"}>
-            <MdMinimize size={24} />
+            <MdMinimize size={18} />
           </Button>
           <IconButton onPress={onClose}>
-            <MdClose size={24} />
+            <MdClose size={18} />
           </IconButton>
         </div>
         <Divider />
@@ -368,7 +368,7 @@ const ManagePostMainContent = ({ onClose }) => {
 
       {/* BODY */}
       {filteredPostList.length != 0 ? (
-        <div className="grid justify-center w-full h-[50rem] overflow-y-scroll px-6 ">
+        <div className="grid justify-center w-full h-full overflow-y-scroll px-6 ">
           <CheckboxGroup
             aria-label="Post Item Card Checkbox Group"
             value={selectedPosts}
@@ -400,7 +400,7 @@ const ManagePostMainContent = ({ onClose }) => {
           </CheckboxGroup>
         </div>
       ) : (
-        <div className="w-full h-[48rem] flex justify-center mt-6">
+        <div className="w-full h-full flex justify-center mt-6">
           <div className="flex-col">
             <Image
               width={500}
@@ -420,19 +420,22 @@ const ManagePostMainContent = ({ onClose }) => {
       )}
 
       {/* FOOTER */}
-      <Divider />
-      <div className="flex items-end justify-end gap-2 px-7 py-4 bottom-0 bg-lightgrey-hover rounded">
-        {Object.values(actionButtons).map((button) => {
-          return (
-            <CTAButtons
-              key={button.label}
-              // fullWidth={true}
-              label={button.label}
-              color={button.color}
-              onPress={button.action}
-            />
-          );
-        })}
+      <div className="flex flex-col">
+        <Divider />
+        <div className="flex items-end justify-end gap-4 px-8 py-4 bottom-0 bg-lightgrey-hover rounded">
+          {Object.values(actionButtons).map((button) => {
+            return (
+              <CTAButtons
+                key={button.label}
+                fullWidth={false}
+                size="md"
+                label={button.label}
+                color={button.color}
+                onPress={button.action}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
