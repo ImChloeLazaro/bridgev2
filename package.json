@@ -35,6 +35,7 @@
     "react-icons": "^5.0.1",
     "react-pro-sidebar": "^1.1.0-alpha.2",
     "sharp": "^0.33.2",
+    "socket.io-client": "^4.7.5",
     "sonner": "^1.4.41",
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.2.1",

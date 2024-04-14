@@ -208,6 +208,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "wssbridgehandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -544,6 +549,22 @@
         {
           "category": "function",
           "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_wssbridgehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wssbridgehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_wssbridgehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "wssbridgehandler"
         }
       ]
     }
