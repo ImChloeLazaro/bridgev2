@@ -1,6 +1,7 @@
-import { ScrollShadow } from "@nextui-org/react";
+import { ScrollShadow, Image, Link } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
 import { Suspense } from "react";
+import { MdRefresh } from "react-icons/md";
 
 const ClientList = ({
   itemClients,
@@ -21,7 +22,17 @@ const ClientList = ({
       <div className="flex flex-col w-full gap-y-3">
         {!itemClients?.length ? (
           <div className="w-full h-full flex justify-center p-4 text-lg font-medium text-black-default">
-            {"No data to display"}
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                width={450}
+                height={450}
+                alt={"No Data"}
+                src={"/no-data-1.webp"}
+              />
+              <p className="text-lg font-medium text-black-default/80">
+                {"No clients found. Try again"}
+              </p>
+            </div>
           </div>
         ) : (
           itemClients.map((client, index) => (

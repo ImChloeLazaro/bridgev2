@@ -23,6 +23,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";
+import TaskOptionsDropdown from "./TaskOptionsDropdown";
 
 const tagColors = {
   todo: "blue",
@@ -127,31 +128,16 @@ const TaskTableView = ({
         );
 
       case "action":
+        const actions = [
+          { label: task.status === "done" ? "" : `Mark as done`, key: "mark" },
+          { label: "Escalate to TL", key: "escalate" },
+        ];
         return (
-          <Dropdown>
-            <DropdownTrigger>
-              <Button
-                aria-label={"Shortcut Options"}
-                isIconOnly
-                className="bg-transparent"
-              >
-                <div className="">
-                  <BiDotsVerticalRounded size={24} />
-                </div>
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Action event example"
-              onAction={(key) => alert(key)}
-            >
-              <DropdownItem key="new">New file</DropdownItem>
-              <DropdownItem key="copy">Copy link</DropdownItem>
-              <DropdownItem key="edit">Edit file</DropdownItem>
-              <DropdownItem key="delete" className="text-danger" color="danger">
-                Delete file
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <TaskOptionsDropdown
+            id={task?._id}
+            actions={actions}
+            trigger={<BiDotsVerticalRounded size={24} />}
+          />
         );
 
       default:
@@ -215,7 +201,7 @@ const TaskTableView = ({
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No rows to display."} items={sortedItemTasks}>
+        <TableBody emptyContent={"No available tasks."} items={sortedItemTasks}>
           {(item) => (
             <TableRow key={item._id}>
               {(columnKey) => (

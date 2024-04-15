@@ -14,6 +14,7 @@ import {
 import { format } from "date-fns";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth } from "react-icons/md";
+import TaskOptionsDropdown from "./TaskOptionsDropdown";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
@@ -35,18 +36,17 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     // disabled: false,
   });
 
+  const actions = [
+    { label: task.status === "done" ? "" : `Mark as done`, key: "mark" },
+    { label: "Escalate to TL", key: "escalate" },
+  ];
+
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
   };
 
   const cardSize = "h-[10rem] min-h-[10rem]";
-
-  const handleTaskIsDone = (key) => {
-    console.log("OPTIONS FOR TASK CARD");
-    console.log("key", key);
-    console.log("task.id", task.id);
-  };
 
   // const toggleEditMode = () => {
   //   setEditMode((prev) => !prev);
@@ -139,30 +139,12 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
               {task?.instruction?.length ? task.instruction : ""}
             </p>
           </div>
-          <Dropdown>
-            <DropdownTrigger>
-              <Button
-                aria-label={"Shortcut Options"}
-                isIconOnly
-                className="bg-transparent mb-4"
-              >
-                <div className="">
-                  <BiDotsHorizontalRounded size={24} />
-                </div>
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Action event example"
-              onAction={(key) => handleTaskIsDone(key)}
-            >
-              <DropdownItem key="new">New file</DropdownItem>
-              <DropdownItem key="copy">Copy link</DropdownItem>
-              <DropdownItem key="edit">Edit file</DropdownItem>
-              <DropdownItem key="delete" className="text-danger" color="danger">
-                Delete file
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <TaskOptionsDropdown
+            id={task?._id}
+            task={task}
+            actions={actions}
+            trigger={<BiDotsHorizontalRounded size={24} />}
+          />
         </div>
 
         <div className=""></div>

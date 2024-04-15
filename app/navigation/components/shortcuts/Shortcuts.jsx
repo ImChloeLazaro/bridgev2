@@ -42,7 +42,7 @@ const Shortcuts = () => {
       <div className="sticky top-0 z-50 py-0 px-1 ml-1 mr-4">
         <ShortcutsHeader />
       </div>
-      {!shortcuts?.length ? (
+      {shortcuts?.length ? (
         <DndContext
           collisionDetection={closestCorners}
           onDragEnd={handleDragEnd}

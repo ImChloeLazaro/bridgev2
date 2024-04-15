@@ -72,6 +72,7 @@ const ClientAdminHeader = ({
     setShowSearchBar(true);
     setShowClientTask(false);
     setShowClientDetails(false);
+    setShowFooter(true);
   };
 
   const handleRefreshClient = () => {

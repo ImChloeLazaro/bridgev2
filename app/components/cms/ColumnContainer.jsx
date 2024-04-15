@@ -172,7 +172,7 @@ function ColumnContainer({
             ))
           ) : (
             <div className="flex justify-center items-center p-2 rounded-lg">
-              {"No data to display"}
+              {"No available tasks."}
             </div>
           )}
         </SortableContext>
