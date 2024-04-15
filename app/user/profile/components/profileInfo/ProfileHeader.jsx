@@ -17,7 +17,7 @@ const ProfileHeader = () => {
       <div className="m-0 p-0 w-full ">
         <div className="relative z-0 h-full w-full overflow-hidden flex justify-center items-center">
           <NextImage
-            alt="Profile Banner"
+            alt={"Profile Banner"}
             src={ProfileBanner}
             priority={true}
             placeholder={"blur"}

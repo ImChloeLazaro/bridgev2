@@ -23,7 +23,8 @@ import {
 import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { Image } from "@nextui-org/react";
+import NextImage from "next/image";
+import NoShortcut from "../../../../public/No-Shortcuts.webp";
 
 const Shortcuts = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -41,7 +42,7 @@ const Shortcuts = () => {
       <div className="sticky top-0 z-50 py-0 px-1 ml-1 mr-4">
         <ShortcutsHeader />
       </div>
-      {shortcuts?.length ? (
+      {!shortcuts?.length ? (
         <DndContext
           collisionDetection={closestCorners}
           onDragEnd={handleDragEnd}
@@ -148,12 +149,16 @@ const Shortcuts = () => {
         </DndContext>
       ) : (
         <div className="flex flex-col items-center mt-6">
-          <Image
-            // width={180}
-            // height={180}
+          <NextImage
+            placeholder={"blur"}
+            quality={50}            
+            width={180}
+            height={180}
+            priority={true}
             alt={"No Shortcuts"}
-            src={"/No-Shortcuts.webp"}
+            src={NoShortcut}
           />
+
           <p className="font-medium text-black-default/80">
             {"No Shortcuts Available!"}
           </p>
