@@ -210,8 +210,9 @@ const TaskBoardView = ({
     console.log("DRAG END", event);
 
     console.log("selectedClient inside board card", selectedClient);
-
-    updateTaskStatus({ sla: taskStatusIndex });
+    if (Object.keys(taskStatusIndex).length !== 0) {
+      updateTaskStatus({ sla: taskStatusIndex });
+    }
 
     setActiveColumn(null);
     setActiveTask(null);

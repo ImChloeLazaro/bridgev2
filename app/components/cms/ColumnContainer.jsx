@@ -66,7 +66,7 @@ function ColumnContainer({
     todo: "bg-blue-default border-blue-default text-white-default",
     inProgress: "bg-orange-default border-orange-default text-white-default",
     done: "bg-green-default border-green-default text-white-default",
-    forReview: "bg-yellow-default border-yellow-default text-white-default",
+    forReview: "bg-yellow-default border-yellow-default text-white-default text-shadow",
     due: "bg-red-default border-red-default text-white-default",
     pending: "bg-darkgrey-default border-darkgrey-default text-white-default",
   };

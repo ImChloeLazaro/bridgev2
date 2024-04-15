@@ -11,7 +11,7 @@ import {
   clientSelectionChangeAtom,
   fetchTaskAtom,
 } from "@/app/store/TaskStore";
-import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
+import { Tooltip, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import {
@@ -37,17 +37,6 @@ const CMSUserHeader = ({
   setSelectedFilterKeys,
   className,
 }) => {
-  const {
-    isOpen: isOpenTask,
-    onOpen: onOpenTask,
-    onOpenChange: onOpenChangeTask,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenClient,
-    onOpen: onOpenClient,
-    onOpenChange: onOpenChangeClient,
-  } = useDisclosure();
-
   const clients = useAtomValue(clientsAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
@@ -57,7 +46,7 @@ const CMSUserHeader = ({
   const [showFooter, setShowFooter] = useAtom(showFooterAtom);
   const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
 
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
@@ -73,15 +62,11 @@ const CMSUserHeader = ({
   };
 
   const handleRefreshClient = () => {
-    setIsDisabled(true);
+    setIsLoading(true);
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () =>
-            resolve(
-              await fetchTask(),
-              await fetchClient()
-            ),
+          async () => resolve(await fetchTask(), await fetchClient()),
           2000
         )
       );
@@ -89,8 +74,8 @@ const CMSUserHeader = ({
     toast.promise(promise, {
       loading: "Loading...",
       success: () => {
-        setIsDisabled(false);
-        return `Task Data Updated`;
+        setIsLoading(false);
+        return showClientTask ? "Task Data Updated" : "Client Data Updated";
       },
       error: "Error refreshing data",
     });
@@ -107,16 +92,6 @@ const CMSUserHeader = ({
     setShowFooter(!showFooter);
     setShowClientTask(!showClientTask);
     setShowClientDetails(!showClientDetails);
-  };
-
-  const handleOpenTaskWindow = () => {
-    if (showClientTask) {
-      clientSelectionChange(selectedClientToView);
-    }
-    onOpenTask();
-  };
-  const handleOpenClientWindow = () => {
-    onOpenClient();
   };
 
   const actionButtons = {
@@ -189,16 +164,10 @@ const CMSUserHeader = ({
           data-show={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
-          isLoading={isDisabled}
+          isLoading={isLoading}
+          className={"hidden data-[show=true]:flex"}
         >
-          <div
-            data-loading={isDisabled}
-            className={
-              "transition duration-1000 ease-in-out text-black-default hover:rotate-[360deg] data-[loading=true]:animate-spin"
-            }
-          >
-            <MdRefresh size={24} />
-          </div>
+          <MdRefresh size={24} />
         </IconButton>
         <div
           data-details={showClientDetails}

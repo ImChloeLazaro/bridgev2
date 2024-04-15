@@ -29,9 +29,7 @@ const SearchBar = ({
         }
         endContent={
           <div className="pointer-events-none flex items-center">
-            <span className="text-darkgrey-default text-small">
-              {"Search"}
-            </span>
+            <span className="text-darkgrey-default text-small">{"Search"}</span>
           </div>
         }
         classNames={{
@@ -58,11 +56,14 @@ const SearchBar = ({
           startContent={<MdFilterAlt size={24} />}
           classNames={{
             trigger: "min-h-unit-10 rounded-r-none border border-r-0 shadow-sm",
-            mainWrapper: "w-44 max-w-48",
+            mainWrapper: "w-48 max-w-48",
+            value: "w-32 truncate",
           }}
         >
           {(filter) => (
-            <SelectItem key={filter.value} id={filter.value}>{filter.label}</SelectItem>
+            <SelectItem key={filter.value} id={filter.value}>
+              {filter.label}
+            </SelectItem>
           )}
         </Select>
         <Input
@@ -79,9 +80,7 @@ const SearchBar = ({
           }
           endContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-darkgrey-hover text-small">
-                {"Search"}
-              </span>
+              <span className="text-darkgrey-hover text-small">{"Search"}</span>
             </div>
           }
           classNames={{

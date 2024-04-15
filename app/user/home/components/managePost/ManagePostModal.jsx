@@ -11,15 +11,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
       isDismissable={isDismissable}
       hideCloseButton
       size={"full"}
-      // scrollBehavior={"outside"}
       placement={"center"}
-      // classNames={{
-      //   // inset-x-16 inset-y-8 inset-0 top-8 left-16
-      //   wrapper: "my-0 p-0",
-      //   base: "my-6 p-0 bg-transparent shadow-none relative sm:my-6 sm:relative sm:max-h-fit sm:h-fit",
-      //   body: "flex-row justify-center m-0 p-0 text-clip",
-      //   backdrop: "text-clip text-strokee",
-      // }}
       classNames={{
         // inset-x-16 inset-y-8 inset-0 top-8 left-16
         wrapper: "m-auto p-0",
@@ -36,22 +28,12 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
 */}
       <ModalContent>
         {(onClose) => (
-          // <ModalBody>
-          //   <div className="flex">
-          //     <div className="bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
-          //       <ManagePostSidebar />
-          //     </div>
-          //     <div className="bg-background rounded-r-lg border-darkgrey-default/40">
-          //       <ManagePostMainContent onClose={onClose} />
-          //     </div>
-          //   </div>
-          // </ModalBody>
           <ModalBody>
-            <div className="flex rounded-lg h-full ">
-              <div className="basis-1/3 bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
+            <div className="flex flex-row rounded-lg h-full ">
+              <div className="w-[34rem] bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
                 <ManagePostSidebar />
               </div>
-              <div className="basis-2/3 bg-background rounded-r-lg border-darkgrey-default/40">
+              <div className="bg-background rounded-r-lg border-darkgrey-default/40">
                 <ManagePostMainContent onClose={onClose} />
               </div>
             </div>

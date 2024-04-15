@@ -196,8 +196,8 @@ const ManagePostSidebar = () => {
         </p>
         <Divider />
       </div>
-      <div className="w-full h-full overflow-y-scroll">
-        <div className="flex flex-col justify-between w-full h-full py-2 px-8 gap-3">
+      <div className="h-full overflow-y-scroll">
+        <div className="flex flex-col justify-between h-fit py-2 px-8 gap-3">
           <ManagePostSidebarContent />
         </div>
       </div>

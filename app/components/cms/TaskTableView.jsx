@@ -80,7 +80,11 @@ const TaskTableView = ({
         return (
           <LabelTagChip
             size="md"
-            text={task.status?.length ? task.status : ""}
+            text={
+              task.status?.length
+                ? `${task.status === "forReview" ? "For Review" : task.status}`
+                : ""
+            }
             color={tagColors[task.status?.length ? task.status : ""]}
           />
         );

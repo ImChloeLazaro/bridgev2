@@ -28,7 +28,7 @@ const ManagePostItemCard = ({ data }) => {
   };
 
   return (
-    <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
+    <Card className="max-w-[20rem] w-[20rem] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
           name={

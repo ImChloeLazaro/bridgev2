@@ -198,22 +198,9 @@ const ManagePostSidebarContent = () => {
             </p>
           )}
         </div>
-        {/* <div className=""> */}
-        {(selectedMediaLayoutString ? (
-          <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
-            <MediaLayoutPreview
-              mediaFileList={fileUrlList}
-              layout={selectedMediaLayoutString}
-              orientation={selectedMediaOrientationString}
-            />
-          </div>
-        ) : (
-          <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
-            {"No media to display"}
-          </div>
-        )) &&
-          (selectedMediaOrientationString ? (
-            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+        <div className="w-80 h-40 text-center">
+          {(selectedMediaLayoutString ? (
+            <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               <MediaLayoutPreview
                 mediaFileList={fileUrlList}
                 layout={selectedMediaLayoutString}
@@ -221,19 +208,28 @@ const ManagePostSidebarContent = () => {
               />
             </div>
           ) : (
-            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+            <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               {"No media to display"}
             </div>
-          ))}
-        {/* </div> */}
+          )) &&
+            (selectedMediaOrientationString ? (
+              <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+                <MediaLayoutPreview
+                  mediaFileList={fileUrlList}
+                  layout={selectedMediaLayoutString}
+                  orientation={selectedMediaOrientationString}
+                />
+              </div>
+            ) : (
+              <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+                {"No media to display"}
+              </div>
+            ))}
+        </div>
       </div>
 
       <div className="flex justify-start items-center gap-5">
         <p className="font-normal w-20">{"Files"}</p>
-        {/* <Button startContent={<MdFileUpload size={24} />}>
-             {"Upload"} 
-            
-          </Button> */}
         <input
           ref={inputFile}
           type="file"
@@ -275,7 +271,7 @@ const ManagePostSidebarContent = () => {
         <p className="font-normal w-24">{"Tag People"}</p>
         <TagPersonSelect />
       </div>
-      <div className="flex justify-between items-center gap-5 mb-6">
+      <div className="flex justify-between items-center gap-5 mb-2">
         <p className="font-normal w-24">{"Caption"}</p>
         <Textarea
           value={postCaption}

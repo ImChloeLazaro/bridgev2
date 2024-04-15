@@ -83,6 +83,8 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client.client_id === get(selectedClientToViewAtom)
   );
 
+  console.log("sla inside task store  ", sla);
+
   const response = await restupdate("/cms/task", {
     ...updateTaskStatus[0],
     sla: [...sla],
