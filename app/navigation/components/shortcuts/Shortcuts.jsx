@@ -149,13 +149,13 @@ const Shortcuts = () => {
       ) : (
         <div className="flex flex-col items-center mt-6">
           <Image
-            width={180}
-            height={180}
+            // width={180}
+            // height={180}
             alt={"No Shortcuts"}
             src={"/No-Shortcuts.webp"}
           />
           <p className="font-medium text-black-default/80">
-            {"No Shortcuts Availale!"}
+            {"No Shortcuts Available!"}
           </p>
           <p className="font-medium text-black-default/80">
             {"Create new shortcut now!"}
