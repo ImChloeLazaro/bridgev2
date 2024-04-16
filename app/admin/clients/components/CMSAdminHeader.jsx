@@ -30,6 +30,7 @@ import {
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
+import { MdGroups } from "react-icons/md";
 
 const ClientAdminHeader = ({
   searchItem,
@@ -99,6 +100,10 @@ const ClientAdminHeader = ({
 
   const handleChangeView = () => {
     setChangeView(!changeView);
+  };
+
+  const handleAssignTeam = () => {
+    console.log("ASSIGNED TO A TEAM");
   };
 
   const handleViewClientDetails = () => {
@@ -218,6 +223,16 @@ const ClientAdminHeader = ({
             startContent={<MdOutlineDescription size={24} />}
             label={"View Client Details"}
             onPress={handleViewClientDetails}
+          />
+          <CTAButtons
+            showButton={showClientDetails}
+            radius={"sm"}
+            variant={"bordered"}
+            color={"orange"}
+            size={"md"}
+            startContent={<MdGroups size={24} />}
+            label={"Assign to a Team"}
+            onPress={handleAssignTeam}
           />
         </div>
       </div>

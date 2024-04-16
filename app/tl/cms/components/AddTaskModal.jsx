@@ -41,7 +41,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
         )
       );
     toast.promise(promise, {
-      loading: "Creating Task...",
+      loading: "Creating New Task...",
       success: () => {
         return `${!taskName?.length ? "Task" : taskName} Successfully Created`;
       },

@@ -1,20 +1,14 @@
-import { showClientDetailsAtom } from "@/app/store/ClientStore";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Link,
-  User,
-  cn,
-} from "@nextui-org/react";
+import { Link, User, cn } from "@nextui-org/react";
 import { format } from "date-fns";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth } from "react-icons/md";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
+import { MdCheck } from "react-icons/md";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdOutlineAssignment } from "react-icons/md";
+import { MdRemoveCircleOutline } from "react-icons/md";
 
 function TaskBoardCard({ task, deleteTask, updateTask }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
@@ -37,8 +31,30 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
   });
 
   const actions = [
-    { label: task.status === "done" ? "" : `Mark as done`, key: "mark" },
-    { label: "Escalate to TL", key: "escalate" },
+    {
+      key: "mark",
+      color: task.status === "done" ? "yellow" : "green",
+      label: task.status === "done" ? "Mark for review" : `Mark as done`,
+      icon: <MdCheck size={18} />,
+    },
+    {
+      key: "escalate",
+      color: "red",
+      label: "Escalate to team lead",
+      icon: <MdKeyboardDoubleArrowUp size={18} />,
+    },
+    {
+      key: "assign",
+      color: "orange",
+      label: "Assign to a team member",
+      icon: <MdOutlineAssignment size={18} />,
+    },
+    {
+      key: "assign",
+      color: "orange",
+      label: "Assign to a team member",
+      icon: <MdOutlineAssignment size={18} />,
+    },
   ];
 
   const style = {
@@ -153,7 +169,10 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           <Link
             href="#"
             underline="hover"
-            className="text-sm font-medium text-black-default/80"
+            className={cn(
+              `${task.status === "done" ? "line-through" : ""}`,
+              "text-sm font-medium text-black-default/80"
+            )}
           >
             {task?.duration?.end?.length
               ? format(task.duration.end, "d MMM yyyy")

@@ -4,6 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  cn,
 } from "@nextui-org/react";
 
 const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
@@ -13,6 +14,15 @@ const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
     console.log("task.id", id);
     console.log("task", task);
   };
+
+  const taskOptionsColors = {
+    green:"data-[hover=true]:bg-green-default",
+    orange:"data-[hover=true]:bg-orange-default",
+    red:"data-[hover=true]:bg-red-default",
+    blue:"data-[hover=true]:bg-blue-default",
+    yellow:"data-[hover=true]:bg-yellow-default",
+  }
+
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -29,13 +39,23 @@ const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
         onAction={(key) => handleSelectOption(key)}
         items={actions}
         itemClasses={{
-          base: [
-            "data-[disabled=true]:opacity-100 data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
-          ],
-          title: "text-base font-normal ",
+          base: ["data-[disabled=true]:opacity-100 text-black-default"],
+          title: "text-base font-medium ",
         }}
       >
-        {(item) => <DropdownItem key={item.key}>{item.label}</DropdownItem>}
+        {(item) => (
+          <DropdownItem
+          startContent={item.icon}
+            key={item.key}
+            className={cn(
+              taskOptionsColors[item.color],
+              "data-[hover=true]:text-white-default",
+              item.color === 'yellow' && "data-[hover=true]:text-shadow"
+            )}
+          >
+            {item.label}
+          </DropdownItem>
+        )}
       </DropdownMenu>
     </Dropdown>
   );
