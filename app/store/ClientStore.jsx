@@ -60,33 +60,29 @@ export const clientFilterKeysAtom = atom([
     label: "All",
     value: "all",
   },
+  // {
+  //   label: "Admin/Ops",
+  //   value: "adminOps",
+  // },
   {
-    label: "DMS - Austin",
-    value: "dmsAustin",
+    label: "AP - Jayne",
+    value: "apJayne",
   },
   {
-    label: "DMS - Sheila",
-    value: "dmsSheila",
+    label: "AP - Lady",
+    value: "apLady",
   },
   {
     label: "AP - Richmond",
     value: "apRichmond",
   },
   {
-    label: "Financials - Jess",
-    value: "financialsJess",
+    label: "BMS - Lester",
+    value: "bmsLester",
   },
   {
-    label: "Financials - Melai",
-    value: "financialsMelai",
-  },
-  {
-    label: "Admin/Ops",
-    value: "adminOps",
-  },
-  {
-    label: "DMS - James",
-    value: "dmsJames",
+    label: "DMS - Austin",
+    value: "dmsAustin",
   },
   {
     label: "DMS - Bea",
@@ -97,60 +93,60 @@ export const clientFilterKeysAtom = atom([
     value: "dmsDennis",
   },
   {
-    label: "SD - Raquel",
-    value: "sdRaquel",
+    label: "DMS - James",
+    value: "dmsJames",
   },
   {
-    label: "SD - CO",
-    value: "sdCO",
-  },
-  {
-    label: "SD - Charlene",
-    value: "sdCharlene",
-  },
-  {
-    label: "BMS - Lester",
-    value: "bmsLester",
-  },
-  {
-    label: "AP - Lady",
-    value: "apLady",
+    label: "DMS - Sheila",
+    value: "dmsSheila",
   },
   {
     label: "Financials - Bert",
     value: "financialsBert",
   },
   {
-    label: "Financials - Mel",
-    value: "financialsMel",
+    label: "Financials - Dom",
+    value: "financialsDom",
   },
   {
-    label: "Financials - Tin",
-    value: "financialsTin",
+    label: "Financials - Jess",
+    value: "financialsJess",
+  },
+  {
+    label: "Financials - Junalyn",
+    value: "financialsJunalyn",
   },
   {
     label: "Financials - Kamille",
     value: "financialsKamille",
   },
   {
+    label: "Financials - Mel",
+    value: "financialsMel",
+  },
+  {
+    label: "Financials - Melai",
+    value: "financialsMelai",
+  },
+  {
     label: "Financials - Rhiziel",
     value: "financialsRhiziel",
   },
   {
-    label: "Financials - Regina",
-    value: "financialsRegina",
+    label: "Financials - Tin",
+    value: "financialsTin",
   },
   {
-    label: "Financials - Dom",
-    value: "financialsDom",
+    label: "SD - Charlene",
+    value: "sdCharlene",
   },
   {
-    label: "AP - Jayne",
-    value: "apJayne",
+    label: "SD - CO",
+    value: "sdCO",
   },
   {
-    label: "Financials - Junalyn",
-    value: "financialsJunalyn",
+    label: "SD - Raquel",
+    value: "sdRaquel",
   },
 ]);
 

@@ -224,16 +224,6 @@ const ClientAdminHeader = ({
             label={"View Client Details"}
             onPress={handleViewClientDetails}
           />
-          <CTAButtons
-            showButton={showClientDetails}
-            radius={"sm"}
-            variant={"bordered"}
-            color={"orange"}
-            size={"md"}
-            startContent={<MdGroups size={24} />}
-            label={"Assign to a Team"}
-            onPress={handleAssignTeam}
-          />
         </div>
       </div>
       <div
