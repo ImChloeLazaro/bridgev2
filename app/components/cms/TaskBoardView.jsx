@@ -13,11 +13,14 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
+import { userAtom } from "@/app/store/UserStore";
+import { toast } from "sonner";
+import { format } from "date-fns";
 
 const TaskBoardView = ({
   itemTasks,
@@ -25,6 +28,7 @@ const TaskBoardView = ({
   changeView,
   selectedClient,
 }) => {
+  const user = useAtomValue(userAtom);
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -210,8 +214,9 @@ const TaskBoardView = ({
     console.log("DRAG END", event);
 
     console.log("selectedClient inside board card", selectedClient);
-
-    updateTaskStatus({ sla: taskStatusIndex });
+    if (Object.keys(taskStatusIndex).length !== 0) {
+      updateTaskStatus({ sla: taskStatusIndex });
+    }
 
     setActiveColumn(null);
     setActiveTask(null);
@@ -221,6 +226,22 @@ const TaskBoardView = ({
 
     const activeId = active.id;
     const overId = over.id;
+
+    const dateTaskDone = new Date();
+
+    const taskDone = tasks.filter(
+      (t) => t.id === activeId && t.status === "done"
+    );
+
+    if (taskDone?.length) {
+      console.log("Task Filter", taskDone[0].name);
+      console.log("Task Done", dateTaskDone);
+      console.log("Done by", user);
+
+      toast.success(`Task Completed: ${taskDone[0].name} `, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+      });
+    }
 
     if (activeId === overId) return;
 

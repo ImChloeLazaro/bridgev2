@@ -16,8 +16,11 @@ import {
   MdAirlineSeatIndividualSuite,
   MdDirectionsRun,
   MdOtherHouses,
+  MdOutlineLocalLibrary,
+  MdOutlineDiversity2,
 } from "react-icons/md";
 import { BsPersonCheckFill } from "react-icons/bs";
+import { PiStarBold } from "react-icons/pi";
 
 import AretexWebsite from "../../../public/Aretex.svg";
 import AretexMeet from "../../../public/Aretex Meet.svg";
@@ -42,6 +45,9 @@ const SideBarIcons = {
   profile: <MdPerson size={size} />,
   cms: <MdArticle size={size} />,
   empower: <MdCampaign size={size} />,
+  evp: <MdOutlineLocalLibrary size={size + 6} />,
+  culture: <MdOutlineDiversity2 size={size + 6} />,
+  learning: <PiStarBold size={size + 6} />,
   employees: <MdGroup size={size} />,
   team_mngt: <MdDiversity3 size={size} />,
   schedule: <MdCalendarMonth size={size} />,
@@ -88,6 +94,26 @@ export const routesUser = [
     label: "Empower",
     link: "/user/empower",
     icon: SideBarIcons.empower,
+    routes: [
+      {
+        key: "evp",
+        label: "EVP",
+        link: "/user/empower/evp",
+        icon: SideBarIcons.evp,
+      },
+      {
+        key: "culture",
+        label: "Culture & Diversity",
+        link: "/user/empower/culture",
+        icon: SideBarIcons.culture,
+      },
+      {
+        key: "learning",
+        label: "Learning & Development",
+        link: "/user/empower/learning",
+        icon: SideBarIcons.learning,
+      },
+    ],
   },
 ];
 

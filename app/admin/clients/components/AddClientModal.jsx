@@ -3,6 +3,8 @@ import {
   addClientAtom,
   clientDataAtom,
   clientTabsAtom,
+  companyNameAtom,
+  fetchClientAtom,
   selectedClientTabAtom,
 } from "@/app/store/ClientStore";
 import {
@@ -16,6 +18,7 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import ClientFormSections from "./ClientFormSections";
+import { toast } from "sonner";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
   const [selectedClientTab, setSelectedClientTab] = useAtom(
@@ -23,17 +26,29 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   );
   const clientData = useAtomValue(clientDataAtom);
   const clientTabs = useAtomValue(clientTabsAtom);
-
+  const clientName = useAtomValue(companyNameAtom);
   const addClient = useSetAtom(addClientAtom);
+  const fetchClient = useSetAtom(fetchClientAtom);
 
-  const handleAddClient = async () => {
-    console.log("HERE ADDING CLIENT");
-    const response = await addClient(clientData);
-    console.log("response", response);
+  const handleAddClient = async (onClose) => {
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () => resolve(await addClient(clientData), await fetchClient()),
+          2000
+        )
+      );
+    toast.promise(promise, {
+      loading: "Onboarding New Client...",
+      success: () => {
+        return `${
+          !clientName?.length ? "Client" : clientName
+        } Successfully Onboarded`;
+      },
+      error: "Error onboarding client failed",
+    });
 
-    if (response.success) {
-      console.log("CONFIRM WINDOW ADDED CLIENT", response.success);
-    }
+    onClose();
   };
 
   return (
@@ -90,7 +105,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
               <CTAButtons
                 label={"Onboard New Client"}
                 color={"blue"}
-                onPress={handleAddClient}
+                onPress={() => handleAddClient(onClose)}
               />
             </ModalFooter>
           </>

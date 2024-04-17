@@ -17,6 +17,9 @@ export const activeUserRouteAtom = atom({
   dashboard: false,
   cms: false,
   empower: false,
+  evp: false,
+  culture: false,
+  learning: false,
 });
 
 export const activeAdminRouteAtom = atom({

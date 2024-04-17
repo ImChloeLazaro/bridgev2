@@ -35,11 +35,11 @@ async function middleware(request) {
   // ## Preconnect to required origins to establish early connections to important third-party origins e.g. Google or AWS
   response.headers.append(
     "Link",
-    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=preconnect;"
+    "<https://cognito-idp.ap-southeast-1.amazonaws.com>; rel=dns-prefetch;"
   );
   response.headers.append(
     "Link",
-    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=preconnect;"
+    "<https://cognito-identity.ap-southeast-1.amazonaws.com>; rel=dns-prefetch;"
   );
   response.headers.append(
     "Link",

@@ -1,5 +1,6 @@
 // tailwind.config.js
 import { nextui } from "@nextui-org/react";
+import { color } from "framer-motion";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -149,9 +150,14 @@ module.exports = {
         },
         ".text-stroke": {
           color: "black",
-          "-webkit-text-fill-color": "white" /* Will override color (regardless of order) */,
+          "-webkit-text-fill-color":
+            "white" /* Will override color (regardless of order) */,
           "-webkit-text-stroke-width": "0.2px",
           "-webkit-text-stroke-color": "black",
+        },
+        ".text-shadow": {
+          "text-shadow": "0px 1px 2px rgb(30 29 39 / 19%), 1px 2px 4px rgb(54 64 147 / 18%)",
+          color: "#f9f9f9",
         },
       };
       addUtilities(newUtilities);

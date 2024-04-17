@@ -83,6 +83,8 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client.client_id === get(selectedClientToViewAtom)
   );
 
+  console.log("sla inside task store  ", sla);
+
   const response = await restupdate("/cms/task", {
     ...updateTaskStatus[0],
     sla: [...sla],
@@ -256,7 +258,7 @@ export const processorSelectionAtom = atom([
     name: "Tatiana Philips",
     email: "tatiana.philips@aretex.com.au",
     picture: "/Tatiana Philips.png",
-    team: "DMS-BEA",
+    team: "DMS - Bea",
   },
   {
     id: (processorIndex += 1),
@@ -264,7 +266,7 @@ export const processorSelectionAtom = atom([
     name: "Aspen Donin",
     email: "aspen.donin@aretex.com.au",
     picture: "/Aspen Donin.png",
-    team: "DMS-JAMES",
+    team: "DMS - James",
   },
   {
     id: (processorIndex += 1),
@@ -272,7 +274,31 @@ export const processorSelectionAtom = atom([
     name: "Kaylynn Bergson",
     email: "kaylynn.bergson@aretex.com.au",
     picture: "/Kaylynn Bergson.png",
-    team: "DMS-DENNIS",
+    team: "DMS - Dennis",
+  },
+  {
+    id: (processorIndex += 1),
+    sub: `processor-${processorIndex}`,
+    name: "Eddie Lake",
+    email: "eddie.lake@aretex.com.au",
+    picture: "/Eddie Lake.png",
+    team: "DMS - Dennis",
+  },
+  {
+    id: (processorIndex += 1),
+    sub: `processor-${processorIndex}`,
+    name: "John Dukes",
+    email: "john.dukes@aretex.com.au",
+    picture: "/John Dukes.png",
+    team: "Financials - Dom",
+  },
+  {
+    id: (processorIndex += 1),
+    sub: `processor-${processorIndex}`,
+    name: "Katie Sims",
+    email: "katie.sims@aretex.com.au",
+    picture: "/Katie Sims.png",
+    team: "SD - Charlene",
   },
 ]);
 export const selectedProcessorAtom = atom(new Set([]));
@@ -285,7 +311,7 @@ export const reviewerSelectionAtom = atom([
     name: "Madelyn Septimus",
     email: "madelyn.septimus@aretex.com.au",
     picture: "/Madelyn Septimus.png",
-    team: "DMS-FAST",
+    team: "DMS - Dennis",
   },
   {
     id: (reviewerIndex += 1),
@@ -293,7 +319,23 @@ export const reviewerSelectionAtom = atom([
     name: "Skylar Curtis",
     email: "skylar.curtis@aretex.com.au",
     picture: "/Skylar Curtis.png",
-    team: "Financials",
+    team: "Financials - Jess",
+  },
+  {
+    id: (reviewerIndex += 1),
+    sub: `reviewer-${reviewerIndex}`,
+    name: "Joshua Jones",
+    email: "joshua.jones@aretex.com.au",
+    picture: "/Joshua Jones.png",
+    team: "AP - Lady",
+  },
+  {
+    id: (reviewerIndex += 1),
+    sub: `reviewer-${reviewerIndex}`,
+    name: "Patricia Sanders",
+    email: "patricia.sanders@aretex.com.au",
+    picture: "/Patricia Sanders.png",
+    team: "SD - Raquel",
   },
 ]);
 export const selectedReviewerAtom = atom(new Set([]));
@@ -306,15 +348,15 @@ export const managerSelectionAtom = atom([
     name: "Wilson Herwitz",
     email: "wilson.herwitz@aretex.com.au",
     picture: "/Wilson Herwitz.png",
-    team: "AP",
+    team: "AP - Richmond",
   },
   {
     id: (managerIndex += 1),
     sub: `manager-${managerIndex}`,
-    name: "Wilson Ferry Herwitz",
-    email: "wilson.herwitz@aretex.com.au",
-    picture: "/Wilson Herwitz.png",
-    team: "AP",
+    name: "Corina McCoy",
+    email: "corina.mccoy@aretex.com.au",
+    picture: "/Corina McCoy.png",
+    team: "AP - Richmond",
   },
 ]);
 export const selectedManagerAtom = atom(new Set([]));

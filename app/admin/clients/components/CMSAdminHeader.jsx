@@ -9,7 +9,7 @@ import {
 } from "@/app/store/ClientStore";
 import {
   clientSelectionChangeAtom,
-  fetchTaskAtom
+  fetchTaskAtom,
 } from "@/app/store/TaskStore";
 import { Tooltip, cn, useDisclosure } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -30,6 +30,7 @@ import {
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
+import { MdGroups } from "react-icons/md";
 
 const ClientAdminHeader = ({
   searchItem,
@@ -59,7 +60,7 @@ const ClientAdminHeader = ({
   const [showFooter, setShowFooter] = useAtom(showFooterAtom);
   const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
 
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
@@ -72,18 +73,15 @@ const ClientAdminHeader = ({
     setShowSearchBar(true);
     setShowClientTask(false);
     setShowClientDetails(false);
+    setShowFooter(true);
   };
 
   const handleRefreshClient = () => {
-    setIsDisabled(true);
+    setIsLoading(true);
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () =>
-            resolve(
-              await fetchTask(),
-              await fetchClient()
-            ),
+          async () => resolve(await fetchTask(), await fetchClient()),
           2000
         )
       );
@@ -91,7 +89,7 @@ const ClientAdminHeader = ({
     toast.promise(promise, {
       loading: "Loading...",
       success: () => {
-        setIsDisabled(false);
+        setIsLoading(false);
         return `Task Data Updated`;
       },
       error: "Error refreshing data",
@@ -102,6 +100,10 @@ const ClientAdminHeader = ({
 
   const handleChangeView = () => {
     setChangeView(!changeView);
+  };
+
+  const handleAssignTeam = () => {
+    console.log("ASSIGNED TO A TEAM");
   };
 
   const handleViewClientDetails = () => {
@@ -191,17 +193,10 @@ const ClientAdminHeader = ({
           data-show={showSearchBar}
           onPress={handleRefreshClient}
           variant="bordered"
-          isDisabled={isDisabled}
+          isLoading={isLoading}
           className={"hidden data-[show=true]:flex"}
         >
-          <div
-            data-loading={isDisabled}
-            className={
-              "transition duration-1000 ease-in-out text-black-default hover:rotate-[360deg] data-[loading=true]:animate-spin"
-            }
-          >
-            <MdRefresh size={24} />
-          </div>
+          <MdRefresh size={24} />
         </IconButton>
         <div
           data-details={showClientDetails}

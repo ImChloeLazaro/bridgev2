@@ -27,8 +27,10 @@ const ManagePostItemCard = ({ data }) => {
     }, 0);
   };
 
+  console.log("data.reactions", data);
+
   return (
-    <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
+    <Card className="max-w-[20rem] w-[20rem] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
           name={
@@ -46,23 +48,31 @@ const ManagePostItemCard = ({ data }) => {
           className="mb-1"
         />
         <div className="flex gap-2">
-          <LabelTagChip
-            text={data.team}
-            color={"lightblue"}
-            size={"xs"}
-            isFilled={false}
-          />
-          <LabelTagChip
-            text={data.type}
-            color={"orange"}
-            size={"xs"}
-            isFilled={false}
-          />
+          {data.team?.length ? (
+            <LabelTagChip
+              text={data.team}
+              color={"lightblue"}
+              size={"xs"}
+              isFilled={false}
+            />
+          ) : (
+            <div></div>
+          )}
+          {data.type?.length ? (
+            <LabelTagChip
+              text={data.type}
+              color={"orange"}
+              size={"xs"}
+              isFilled={false}
+            />
+          ) : (
+            <div></div>
+          )}
         </div>
       </CardHeader>
 
       <CardBody className="w-full py-0">
-        <p className="h-[2.25rem] font-medium text-sm tracking-tight leading-tight line-clamp-2">
+        <p className="px-2 h-[2.25rem] font-medium text-sm tracking-tight leading-tight line-clamp-2">
           {data.caption?.length ? data.caption : "NO CAPTION"}
         </p>
         <div className="h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md ">

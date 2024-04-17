@@ -4,11 +4,6 @@ import { tableColumnsAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Image,
   Link,
   Table,
@@ -23,6 +18,11 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";
+import TaskOptionsDropdown from "./TaskOptionsDropdown";
+import { MdCheck } from "react-icons/md";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdOutlineAssignment } from "react-icons/md";
+import { MdRemoveCircleOutline } from "react-icons/md";
 
 const tagColors = {
   todo: "blue",
@@ -50,6 +50,10 @@ const TaskTableView = ({
     setShowClientTask(false);
   };
 
+  const taskAlert = () => {
+
+  }
+
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
       const first = a[sortDescriptor.column];
@@ -63,6 +67,32 @@ const TaskTableView = ({
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
     const processorList = task.processor?.length ? task.processor : [];
+    const actions = [
+      {
+        key: "mark",
+        color: task.status === "done" ? "yellow" : "green",
+        label: task.status === "done" ? "Mark for review" : `Mark as done`,
+        icon: <MdCheck size={18}/>,
+      },
+      {
+        key: "escalate",
+        color: "red",
+        label: "Escalate to team lead",
+        icon: <MdKeyboardDoubleArrowUp size={18}/>,
+      },
+      {
+        key: "assign",
+        color: "orange",
+        label: "Assign to a team member",
+        icon: <MdOutlineAssignment size={18}/>,
+      },
+      {
+        key: "remove",
+        color: "orange",
+        label: "Remove a team member",
+        icon: <MdRemoveCircleOutline size={18}/>,
+      },
+    ];
 
     switch (columnKey) {
       case "task":
@@ -80,7 +110,11 @@ const TaskTableView = ({
         return (
           <LabelTagChip
             size="md"
-            text={task.status?.length ? task.status : ""}
+            text={
+              task.status?.length
+                ? `${task.status === "forReview" ? "For Review" : task.status}`
+                : ""
+            }
             color={tagColors[task.status?.length ? task.status : ""]}
           />
         );
@@ -96,6 +130,7 @@ const TaskTableView = ({
         );
 
       case "endDate":
+
         return (
           <div>
             {format(
@@ -124,30 +159,12 @@ const TaskTableView = ({
 
       case "action":
         return (
-          <Dropdown>
-            <DropdownTrigger>
-              <Button
-                aria-label={"Shortcut Options"}
-                isIconOnly
-                className="bg-transparent"
-              >
-                <div className="">
-                  <BiDotsVerticalRounded size={24} />
-                </div>
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Action event example"
-              onAction={(key) => alert(key)}
-            >
-              <DropdownItem key="new">New file</DropdownItem>
-              <DropdownItem key="copy">Copy link</DropdownItem>
-              <DropdownItem key="edit">Edit file</DropdownItem>
-              <DropdownItem key="delete" className="text-danger" color="danger">
-                Delete file
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <TaskOptionsDropdown
+            id={task?._id}
+            task={task}
+            actions={actions}
+            trigger={<BiDotsVerticalRounded size={24} />}
+          />
         );
 
       default:
@@ -211,7 +228,7 @@ const TaskTableView = ({
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No rows to display."} items={sortedItemTasks}>
+        <TableBody emptyContent={"No available tasks."} items={sortedItemTasks}>
           {(item) => (
             <TableRow key={item._id}>
               {(columnKey) => (

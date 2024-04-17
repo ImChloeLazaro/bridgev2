@@ -63,12 +63,12 @@ function ColumnContainer({
   }
 
   const columnColors = {
-    todo: "bg-blue-default border-blue-default text-white-default",
-    inProgress: "bg-orange-default border-orange-default text-white-default",
-    done: "bg-green-default border-green-default text-white-default",
-    forReview: "bg-yellow-default border-yellow-default text-white-default",
-    due: "bg-red-default border-red-default text-white-default",
-    pending: "bg-darkgrey-default border-darkgrey-default text-white-default",
+    todo: "bg-blue-default border-blue-default ",
+    inProgress: "bg-orange-default border-orange-default ",
+    done: "bg-green-default border-green-default ",
+    forReview: "bg-yellow-default border-yellow-default  ",
+    due: "bg-red-default border-red-default ",
+    pending: "bg-darkgrey-default border-darkgrey-default ",
   };
 
   return (
@@ -124,7 +124,7 @@ function ColumnContainer({
           >
             {tasksCount}
           </div>
-          <div className="">{column.title}</div>
+          <div className="text-white-default text-shadow">{column.title}</div>
           {/* {editMode && (
             <input
               className="bg-black focus:border-rose-500 border rounded outline-none px-2"
@@ -172,7 +172,7 @@ function ColumnContainer({
             ))
           ) : (
             <div className="flex justify-center items-center p-2 rounded-lg">
-              {"No data to display"}
+              {"No available tasks."}
             </div>
           )}
         </SortableContext>
