@@ -45,7 +45,7 @@
         "notificationhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/notificationhandler-5637797855782f374373-build.zip"
+          "s3Key": "amplify-builds/notificationhandler-4b736a6a343638736c4b-build.zip"
         },
         "posthandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -86,9 +86,10 @@
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
           "s3Key": "amplify-builds/userhandler-374c5531644c3641634f-build.zip"
         },
-        "wssbridgehandler": {
+        "bridgesocket": {
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/wssbridgehandler-39416d62686e7539722b-build.zip"
+          "s3Key": "amplify-builds/bridgesocket-55424e6e7874392f7869-build.zip"
         }
       },
       "auth": {

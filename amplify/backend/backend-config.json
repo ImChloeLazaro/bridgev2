@@ -146,6 +146,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "bridgesocket": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "clienthandler": {
       "build": true,
       "dependsOn": [],
@@ -208,11 +213,6 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-    },
-    "wssbridgehandler": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
     }
   },
   "parameters": {
@@ -261,6 +261,30 @@
         {
           "category": "function",
           "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgesocket_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgesocket"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgesocket_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgesocket"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgesocket_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgesocket"
         }
       ]
     },
@@ -549,22 +573,6 @@
         {
           "category": "function",
           "resourceName": "userhandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_wssbridgehandler_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "wssbridgehandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_wssbridgehandler_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "wssbridgehandler"
         }
       ]
     }

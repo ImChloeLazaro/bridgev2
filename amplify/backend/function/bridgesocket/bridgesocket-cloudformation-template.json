@@ -15,6 +15,9 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "database": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -47,12 +50,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wssbridgehandler",
+            "bridgesocket",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wssbridgehandler",
+                  "bridgesocket",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +72,9 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "DATABASE": {
+              "Ref": "database"
             }
           }
         },
@@ -89,12 +95,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "bridgev2LambdaRole08142c06",
+            "bridgev2LambdaRole413c8e16",
             {
               "Fn::Join": [
                 "",
                 [
-                  "bridgev2LambdaRole08142c06",
+                  "bridgev2LambdaRole413c8e16",
                   "-",
                   {
                     "Ref": "env"
