@@ -1,7 +1,6 @@
 import { ScrollShadow, Image, Link } from "@nextui-org/react";
 import ClientItemCard from "./ClientItemCard";
 import { Suspense } from "react";
-import { MdRefresh } from "react-icons/md";
 
 const ClientList = ({
   itemClients,
@@ -11,6 +10,8 @@ const ClientList = ({
   setChangeView,
   setShowFooter,
   setShowSearchBar,
+  setSelectedClientToView,
+  setShowClientDetails,
 }) => {
   return (
     <ScrollShadow
@@ -51,6 +52,8 @@ const ClientList = ({
                 setChangeView={setChangeView}
                 setShowFooter={setShowFooter}
                 setShowSearchBar={setShowSearchBar}
+                setSelectedClientToView={setSelectedClientToView}
+                setShowClientDetails={setShowClientDetails}
               />
             </Suspense>
           ))

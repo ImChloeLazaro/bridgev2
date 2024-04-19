@@ -3,7 +3,6 @@ import {
   addTaskAtom,
   deleteTaskAtom,
   fetchTaskAtom,
-  selectedClientForTaskAtom,
   taskDataAtom,
   taskNameAtom,
 } from "@/app/store/TaskStore";
@@ -17,8 +16,10 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import TaskFormSections from "./TaskFormSections";
 import { toast } from "sonner";
-import { selectedClientToViewAtom } from "@/app/store/ClientStore";
-import { showClientTaskAtom } from "../store/CMSTLStore";
+import {
+  showClientTaskAtom,
+  selectedClientToViewAtom,
+} from "../store/CMSTLStore";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskData = useAtomValue(taskDataAtom);

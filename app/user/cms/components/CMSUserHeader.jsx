@@ -1,12 +1,7 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
-import {
-  clientsAtom,
-  fetchClientAtom,
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
-} from "@/app/store/ClientStore";
+import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
   clientSelectionChangeAtom,
   fetchTaskAtom,
@@ -27,6 +22,8 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
+  selectedClientToViewAtom,
+  showClientDetailsAtom,
 } from "../store/CMSUserStore";
 
 const CMSUserHeader = ({
@@ -39,7 +36,6 @@ const CMSUserHeader = ({
 }) => {
   const clients = useAtomValue(clientsAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);

@@ -11,7 +11,7 @@ import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
 
 export const tasksAtom = atom([]);
 
-export const draggableTasksAtom = atom([])
+export const draggableTasksAtom = atom([]);
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const { manager, client = "", processor, reviewer, duration, sla } = update;
@@ -77,10 +77,10 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
-  const { sla } = update;
+  const { sla, client_id } = update;
 
   const updateTaskStatus = get(tasksAtom).filter(
-    (task) => task.client.client_id === get(selectedClientToViewAtom)
+    (task) => task.client.client_id === client_id
   );
 
   console.log("sla inside task store  ", sla);
@@ -93,7 +93,7 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 
   if (response.success) {
     const updatedTask = get(tasksAtom).map((task) => {
-      if (task.client.client_id === get(selectedClientToViewAtom)) {
+      if (task.client.client_id === client_id) {
         return { ...task, sla: sla };
       }
       return task;
@@ -206,8 +206,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   if (tasks.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
     const convertedTasks = tasks.response.map((task, index) => {
-      console.log("SLA", task.sla);
-
       return {
         ...task,
         key: task.client.client_id,
@@ -221,16 +219,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   } else {
     console.log("TASKS FAILED FETCH", tasks);
   }
-});
-
-export const clientTaskProcessorsCountAtom = atom((get) => {
-  const processorCount = get(tasksAtom).map((task) => {
-    // if (task.client.client_id === selectedClientToView) {
-    if (task.client.client_id === get(selectedClientToViewAtom)) {
-      return task.processor;
-    }
-  });
-  return processorCount[0];
 });
 
 export const taskNameAtom = atom("");

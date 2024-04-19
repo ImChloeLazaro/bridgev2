@@ -1,9 +1,5 @@
-import {
-  draggableTasksAtom,
-  taskBoardColsAtom,
-  tasksAtom,
-  updateTaskStatusAtom,
-} from "@/app/store/TaskStore";
+import { taskBoardColsAtom, updateTaskStatusAtom } from "@/app/store/TaskStore";
+import { userAtom } from "@/app/store/UserStore";
 import {
   closestCorners,
   DndContext,
@@ -12,21 +8,23 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import { Image, Link } from "@nextui-org/react";
+import { format } from "date-fns";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { MdRefresh } from "react-icons/md";
+import { toast } from "sonner";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
-import { userAtom } from "@/app/store/UserStore";
-import { toast } from "sonner";
-import { format } from "date-fns";
 
 const TaskBoardView = ({
   itemTasks,
   showClientTask,
   changeView,
-  selectedClient,
+  setShowClientTask,
+  selectedClientToView,
 }) => {
   const user = useAtomValue(userAtom);
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
@@ -36,12 +34,6 @@ const TaskBoardView = ({
   const [tasks, setTasks] = useState(itemTasks);
 
   const [taskStatusIndex, setTaskStatusIndex] = useState({});
-
-  useEffect(() => {
-    if (itemTasks) {
-      setTasks(itemTasks);
-    }
-  }, [itemTasks]);
 
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
@@ -54,8 +46,40 @@ const TaskBoardView = ({
       },
     })
   );
+  const handleRefreshTable = () => {
+    setShowClientTask(false);
+  };
 
-  return (
+  useEffect(() => {
+    if (itemTasks) {
+      setTasks(itemTasks);
+    }
+  }, [itemTasks]);
+
+  return !selectedClientToView?.length ? (
+    <div
+      data-change={changeView}
+      data-view={showClientTask}
+      className="hidden data-[view=true]:flex data-[change=true]:hidden  w-full h-full justify-center items-center text-clip"
+    >
+      <div className="flex flex-col items-center justify-center">
+        <Image width={450} height={450} alt={"No Data"} src={"/no-data.webp"} />
+        <p className="text-lg font-medium text-black-default/80">
+          {"No Data to Display"}
+        </p>
+
+        <Link
+          href="#"
+          underline="hover"
+          className="text-lg font-medium text-black-default/80 flex gap-1"
+          onPress={handleRefreshTable}
+        >
+          <MdRefresh size={20} />
+          <p>{"Refresh"}</p>
+        </Link>
+      </div>
+    </div>
+  ) : (
     <div
       data-view={showClientTask}
       data-change={changeView}
@@ -213,9 +237,8 @@ const TaskBoardView = ({
   function onDragEnd(event) {
     console.log("DRAG END", event);
 
-    console.log("selectedClient inside board card", selectedClient);
     if (Object.keys(taskStatusIndex).length !== 0) {
-      updateTaskStatus({ sla: taskStatusIndex });
+      updateTaskStatus({ sla: taskStatusIndex, client_id: selectedClientToView});
     }
 
     setActiveColumn(null);

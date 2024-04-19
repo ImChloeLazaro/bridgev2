@@ -20,6 +20,7 @@ import {
   updateSortedShortcutsAtom,
 } from "../../store/ShortcutsStore";
 import IconButton from "@/app/components/IconButton";
+import { toast } from "sonner";
 
 const ShortcutsHeader = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -35,16 +36,31 @@ const ShortcutsHeader = () => {
     if (auth.sub === null) {
       return;
     }
-    const response = await addShortcut({
-      sub: auth.sub,
-      title: shortcutTitle,
-      url: shortcutURL,
+
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              await addShortcut({
+                sub: auth.sub,
+                title: shortcutTitle,
+                url: shortcutURL,
+              }),
+              await fetchShortcut(auth.sub)
+            ),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: () => {
+        handleCloseWindow();
+        return `Successfully added shortcut`;
+      },
+      error: "Error adding shortcut",
     });
-    if (response.success) {
-      handleCloseWindow();
-      console.log("CONFIRM WINDOW ADDED SHORTCUT", response.success);
-    }
-    fetchShortcut(auth.sub);
   };
 
   const handleCloseWindow = () => {

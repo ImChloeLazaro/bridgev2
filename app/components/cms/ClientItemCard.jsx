@@ -1,13 +1,6 @@
 import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
-import {
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
-} from "@/app/store/ClientStore";
-import {
-  clientTaskProcessorsCountAtom,
-  tasksAtom,
-} from "@/app/store/TaskStore";
+import { tasksAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
@@ -34,12 +27,15 @@ const ClientItemCard = ({
   setChangeView,
   setShowFooter,
   setShowSearchBar,
+  setSelectedClientToView,
+  setShowClientDetails,
 }) => {
   const tasks = useAtomValue(tasksAtom);
-  const setSelectedClientToView = useSetAtom(selectedClientToViewAtom);
-  const setShowClientDetails = useSetAtom(showClientDetailsAtom);
+  const clientTaskProcessorsCount = tasks.filter(
+    (task) => task.client.client_id === data._id
+  )[0]?.processor;
 
-  const clientTaskProcessorsCount = useAtomValue(clientTaskProcessorsCountAtom);
+  console.log("clientTaskProcessorsCount", data._id, clientTaskProcessorsCount);
 
   const [statusCount, setStatusCount] = useState({
     pending: 0,
@@ -84,7 +80,6 @@ const ClientItemCard = ({
     // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
     setShowClientTask(true);
-    // auto select processor, managers, reviewers on task form when adding task inside the client view
   };
 
   const handleViewClientDetails = (selected) => {

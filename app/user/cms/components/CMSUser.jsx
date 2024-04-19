@@ -3,9 +3,6 @@ import {
   clientsAtom,
   clientsCountAtom,
   fetchClientAtom,
-  selectedClientFilterKeysAtom,
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
@@ -21,6 +18,9 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
+  selectedClientFilterKeysAtom,
+  selectedClientToViewAtom,
+  showClientDetailsAtom,
 } from "../store/CMSUserStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -53,11 +53,15 @@ const CMSUser = () => {
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showFooter, setShowFooter] = useAtom(showFooterAtom);
-  const showClientDetails = useAtomValue(showClientDetailsAtom);
+  const [showClientDetails, setShowClientDetails] = useAtom(
+    showClientDetailsAtom
+  );
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
   const setShowSearchBar = useSetAtom(showSearchBarAtom);
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+  const [selectedClientToView, setSelectedClientToView] = useAtom(
+    selectedClientToViewAtom
+  );
   const clientsCount = useAtomValue(clientsCountAtom);
 
   // ##########################################
@@ -66,6 +70,9 @@ const CMSUser = () => {
       tasks.filter((task) => task.client.client_id === selectedClientToView),
     [selectedClientToView, tasks]
   );
+
+  console.log("selectedClientToView", selectedClientToView);
+  console.log("tasksFromSelectedClient", tasksFromSelectedClient);
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
     (sla, index) => {
@@ -255,6 +262,8 @@ const CMSUser = () => {
             setChangeView={setChangeView}
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}
+            setSelectedClientToView={setSelectedClientToView}
+            setShowClientDetails={setShowClientDetails}
           />
           <TaskTableView
             itemTasks={filteredTaskItems}
@@ -263,12 +272,14 @@ const CMSUser = () => {
             sortDescriptor={sortDescriptor}
             setSortDescriptor={setSortDescriptor}
             setShowClientTask={setShowClientTask}
+            selectedClientToView={selectedClientToView}
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
-            selectedClient={tasksFromSelectedClient[0]}
+            setShowClientTask={setShowClientTask}
+            selectedClientToView={selectedClientToView}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

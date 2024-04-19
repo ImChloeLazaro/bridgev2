@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@/app/utils/amplifyServerUtils";
 
 const protectedRoutes = [
-  "/user",
+  "/user/",
   "/user/dashboard",
   "/user/profile",
   "/user/cms",
@@ -59,14 +59,6 @@ async function middleware(request) {
     operation: async (contextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
-        // console.log("SESSION", session.tokens === undefined);
-        // console.log("ORIGIN", request.nextUrl.href);
-        // console.log("PATHNAME", request.nextUrl.pathname);
-        // console.log(
-        //   "CHECK PATH",
-        //   protectedRoutes.includes(request.nextUrl.pathname),
-        //   "\n"
-        // );
         return session.tokens !== undefined;
       } catch (error) {
         console.log(error);
@@ -82,18 +74,13 @@ async function middleware(request) {
 
   // ### Redirect unauthorized access to sign in page
   if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
-    console.log("!isAuthenticated", !isAuthenticated);
-    console.log(
-      "protectedRoutes",
-      protectedRoutes.includes(request.nextUrl.pathname)
-    );
-    // const absoluteURL = new URL("/", request.nextUrl.origin);
-    // return NextResponse.redirect(absoluteURL.toString());
+    const absoluteURL = new URL("/", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
   }
 }
 
 const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?api|_next/static|_next/image|favicon.ico).*)"],
 };
 
 export { middleware, config };

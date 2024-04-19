@@ -179,7 +179,6 @@ const SideBar = () => {
         >
           {routes &&
             routes.map((sidebarButtons) => {
-              console.log("SHORTCUT KEY", sidebarButtons.routes);
               if (sidebarButtons.key === "empower") {
                 return (
                   <SubMenu
@@ -203,7 +202,6 @@ const SideBar = () => {
                     }
                   >
                     {sidebarButtons.routes.map((subRoute) => {
-                      console.log("SUB SHORTCUT KEY", subRoute);
                       return (
                         <MenuItem
                           key={subRoute.key}

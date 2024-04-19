@@ -1,30 +1,25 @@
-import CTAButtons from "../../../components/CTAButtons";
-import React, { useState } from "react";
-import { post, put, del } from "aws-amplify/api";
-
+import CTAButtons from "@/app/components/CTAButtons";
+import IconButton from "@/app/components/IconButton";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Button,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
-
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-
+import { toast } from "sonner";
 import {
-  shortcutsAtom,
+  deleteShortcutAtom,
   disableDraggableAtom,
   fetchShortcutAtom,
+  shortcutsAtom,
   updateShortcutAtom,
-  deleteShortcutAtom,
 } from "../../store/ShortcutsStore";
-import IconButton from "../../../components/IconButton";
-import { userAtom } from "../../../store/UserStore";
-import { destroywithparams, restupdate } from "@/app/utils/amplify-rest";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -35,7 +30,6 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const setDisableDraggable = useSetAtom(disableDraggableAtom);
-  const user = useAtomValue(userAtom);
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
   const deleteShortcut = useSetAtom(deleteShortcutAtom);
   const updateShortcut = useSetAtom(updateShortcutAtom);
@@ -46,29 +40,57 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const [editShortcutURL, setEditShortcutURL] = useState(url);
 
   const handleDeleteShortcut = async () => {
-    const response = await deleteShortcut({
-      _id: selectedShortcut,
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              await deleteShortcut({
+                _id: selectedShortcut,
+              }),
+              await fetchShortcut(auth.sub)
+            ),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: () => {
+        setIsOpen(false);
+        setDisableDraggable(false);
+        return `Successfully Deleted Shortcut`;
+      },
+      error: "Error deleting shortcut",
     });
-    if (response.success) {
-      setIsOpen(false);
-      setDisableDraggable(false);
-      console.log("CONFIRM WINDOW DELETED SHORTCUT", response.success);
-    }
-    fetchShortcut(auth.sub);
   };
 
-  const handleEditShortcut = async () => {
-    const response = await updateShortcut({
-      _id: unique_key,
-      title: editShortcutName,
-      url: editShortcutURL,
+  const handleUpdateShortcut = async () => {
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              await updateShortcut({
+                _id: unique_key,
+                title: editShortcutName,
+                url: editShortcutURL,
+              }),
+              await fetchShortcut(auth.sub)
+            ),
+          2000
+        )
+      );
+
+    toast.promise(promise, {
+      loading: "Loading...",
+      success: () => {
+        setIsOpen(false);
+        setDisableDraggable(false);
+        return `Successfully Updated Shortcut`;
+      },
+      error: "Error updating shortcut",
     });
-    if (response.success) {
-      setIsOpen(false);
-      setDisableDraggable(false);
-      console.log("CONFIRM WINDOW EDITED SHORTCUT", response.success);
-    }
-    fetchShortcut(auth.sub);
   };
 
   const handleCloseWindow = () => {
@@ -79,7 +101,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const actionButtons = {
     cta: [
       { color: "red", label: "Delete", action: handleDeleteShortcut },
-      { color: "blue", label: "Edit", action: handleEditShortcut },
+      { color: "blue", label: "Update", action: handleUpdateShortcut },
     ],
   };
 

@@ -1,5 +1,4 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
-import { selectedClientToViewAtom } from "@/app/store/ClientStore";
 import { tableColumnsAtom } from "@/app/store/TaskStore";
 import {
   Avatar,
@@ -40,19 +39,17 @@ const TaskTableView = ({
   sortDescriptor,
   setSortDescriptor,
   setShowClientTask,
+  selectedClientToView,
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
   const tableColumns = useAtomValue(tableColumnsAtom);
 
   const handleRefreshTable = () => {
     setShowClientTask(false);
   };
 
-  const taskAlert = () => {
-
-  }
+  const taskAlert = () => {};
 
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
@@ -72,25 +69,25 @@ const TaskTableView = ({
         key: "mark",
         color: task.status === "done" ? "yellow" : "green",
         label: task.status === "done" ? "Mark for review" : `Mark as done`,
-        icon: <MdCheck size={18}/>,
+        icon: <MdCheck size={18} />,
       },
       {
         key: "escalate",
         color: "red",
         label: "Escalate to team lead",
-        icon: <MdKeyboardDoubleArrowUp size={18}/>,
+        icon: <MdKeyboardDoubleArrowUp size={18} />,
       },
       {
         key: "assign",
         color: "orange",
         label: "Assign to a team member",
-        icon: <MdOutlineAssignment size={18}/>,
+        icon: <MdOutlineAssignment size={18} />,
       },
       {
         key: "remove",
         color: "orange",
         label: "Remove a team member",
-        icon: <MdRemoveCircleOutline size={18}/>,
+        icon: <MdRemoveCircleOutline size={18} />,
       },
     ];
 
@@ -130,7 +127,6 @@ const TaskTableView = ({
         );
 
       case "endDate":
-
         return (
           <div>
             {format(
@@ -174,8 +170,9 @@ const TaskTableView = ({
 
   return !selectedClientToView?.length ? (
     <div
+      data-change={changeView}
       data-view={showClientTask}
-      className="hidden data-[view=true]:flex w-full h-full justify-center items-center text-clip"
+      className="hidden data-[view=true]:flex data-[change=true]:hidden  w-full h-full justify-center items-center text-clip"
     >
       <div className="flex flex-col items-center justify-center">
         <Image width={450} height={450} alt={"No Data"} src={"/no-data.webp"} />

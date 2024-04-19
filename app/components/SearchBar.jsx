@@ -49,6 +49,7 @@ const SearchBar = ({
           variant="flat"
           isMultiline={true}
           placeholder="All"
+          // selectionMode="multiple"
           disallowEmptySelection={true}
           selectedKeys={selectedFilterKeys}
           className="max-w-xs"

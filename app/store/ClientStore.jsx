@@ -47,15 +47,8 @@ export const tableColumnsAtom = atom([
   { label: "Status", key: "status", sortable: true },
   { label: "Assignees", key: "assignees", sortable: true },
 ]);
-
-export const selectedClientToEditAtom = atom([]);
-export const selectedClientToViewAtom = atom("");
-export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
-
 export const clientsCountAtom = atom((get) => get(clientsAtom).length);
-
-export const showClientDetailsAtom = atom(false);
-export const clientFilterKeysAtom = atom([
+ export const clientFilterKeysAtom = atom([
   {
     label: "All",
     value: "all",
@@ -152,7 +145,6 @@ export const clientFilterKeysAtom = atom([
 
 export const fetchClientAtom = atom(null, async (get, set, sub) => {
   const clients = await restread("/cms/client");
-  console.log("CLIENTS:", clients);
 
   if (clients.success) {
     console.log("CLIENT SUCCESS FETCH", clients.response);

@@ -3,9 +3,6 @@ import {
   clientsAtom,
   clientsCountAtom,
   fetchClientAtom,
-  selectedClientFilterKeysAtom,
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
@@ -21,6 +18,9 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
+  selectedClientFilterKeysAtom,
+  selectedClientToViewAtom,
+  showClientDetailsAtom,
 } from "../store/CMSTLStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -53,11 +53,15 @@ const CMSAdmin = () => {
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
   const [showFooter, setShowFooter] = useAtom(showFooterAtom);
-  const showClientDetails = useAtomValue(showClientDetailsAtom);
+  const [showClientDetails, setShowClientDetails] = useAtom(
+    showClientDetailsAtom
+  );
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
   const setShowSearchBar = useSetAtom(showSearchBarAtom);
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+  const [selectedClientToView, setSelectedClientToView] = useAtom(
+    selectedClientToViewAtom
+  );
   const clientsCount = useAtomValue(clientsCountAtom);
 
   console.log("selectedClientToView", selectedClientToView);
@@ -257,6 +261,8 @@ const CMSAdmin = () => {
             setChangeView={setChangeView}
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}
+            setSelectedClientToView={setSelectedClientToView}
+            setShowClientDetails={setShowClientDetails}
           />
           <TaskTableView
             itemTasks={filteredTaskItems}
@@ -265,12 +271,14 @@ const CMSAdmin = () => {
             sortDescriptor={sortDescriptor}
             setSortDescriptor={setSortDescriptor}
             setShowClientTask={setShowClientTask}
+            selectedClientToView={selectedClientToView}
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
-            selectedClient={tasksFromSelectedClient[0]}
+            setShowClientTask={setShowClientTask}
+            selectedClientToView={selectedClientToView}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

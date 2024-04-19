@@ -49,7 +49,7 @@ const UserDropdown = () => {
           avatarProps={{
             showFallback: true,
             fallback: (
-              <div className="text-lg font-medium ">{user.name[0]}</div>
+              <div className="text-lg font-medium ">{user?.name[0]}</div>
             ),
             src: user.picture,
             isBordered: true,

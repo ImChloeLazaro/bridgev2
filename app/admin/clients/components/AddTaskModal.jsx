@@ -17,8 +17,10 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import TaskFormSections from "./TaskFormSections";
 import { toast } from "sonner";
-import { selectedClientToViewAtom } from "@/app/store/ClientStore";
-import { showClientTaskAtom } from "../store/CMSAdminStore";
+import {
+  showClientTaskAtom,
+  selectedClientToViewAtom,
+} from "../store/CMSAdminStore";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskData = useAtomValue(taskDataAtom);
