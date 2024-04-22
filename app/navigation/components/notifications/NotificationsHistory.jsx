@@ -14,6 +14,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       isDismissable={false}
+      className="z-20"
     >
       <ModalContent>
         {(onClose) => (

@@ -3,12 +3,11 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { notificationCountAtom } from "../../store/NotificationsStore";
 import NotificationsHistory from "./NotificationsHistory";
 
-const NotificationsFooter = ({ markAllAsRead, setNotificationsOpen }) => {
+const NotificationsFooter = ({ markAllAsRead }) => {
   const notificationCount = useAtomValue(notificationCountAtom);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleWindowClose = () => {
-    // setNotificationsOpen(false);
     onOpen();
   };
 

@@ -199,6 +199,9 @@ const NotificationsDropdown = () => {
       className=""
     >
       <Popover
+      style={{
+        zIndex: 10,
+      }}
         placement="bottom-end"
         showArrow={true}
         isOpen={notificationsOpen}
@@ -231,7 +234,6 @@ const NotificationsDropdown = () => {
             />
             <NotificationsFooter
               markAllAsRead={markAllAsRead}
-              setNotificationsOpen={setNotificationsOpen}
             />
           </div>
         </PopoverContent>
