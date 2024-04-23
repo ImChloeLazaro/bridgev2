@@ -24,7 +24,7 @@ import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import NextImage from "next/image";
-import NoShortcut from "../../../../public/No-Shortcuts.webp";
+import NoShortcut from "../../../../public/no-shortcuts.webp";
 
 const Shortcuts = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -159,11 +159,11 @@ const Shortcuts = () => {
             src={NoShortcut}
           />
 
-          <p className="font-medium text-black-default/80">
+          <p className="text-base font-medium text-black-default/80">
             {"No Shortcuts Available!"}
           </p>
-          <p className="font-medium text-black-default/80">
-            {"Create new shortcut now!"}
+          <p className="text-base font-medium text-black-default/80">
+            {"Create your new shortcut now!"}
           </p>
         </div>
       )}

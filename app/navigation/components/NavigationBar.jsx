@@ -18,6 +18,7 @@ import { routesUser } from "./RoutesIconDetails";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
+// @refresh reset
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,7 +36,7 @@ const NavigationBar = () => {
       // className="md:bg-blue-default"
       classNames={{
         base: "flex justify-end m-0 p-0 md:bg-blue-default",
-        wrapper: "mr-16 pr-16 py-2",
+        wrapper: "mr-16 pr-16 my-[0.3rem]",
       }}
     >
       {/* <NavbarContent>

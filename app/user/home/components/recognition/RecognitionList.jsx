@@ -1,4 +1,4 @@
-import { Listbox, ListboxItem } from "@nextui-org/react";
+import { Listbox, ListboxItem, Image } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -9,7 +9,7 @@ import { useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { recognitionsAtom } from "../../store/RecognitionsStore";
 import RecognitionOptions from "./RecognitionOptions";
-
+// @refresh reset
 const RecognitionList = () => {
   const recognitions = useAtomValue(recognitionsAtom);
 
@@ -44,57 +44,56 @@ const RecognitionList = () => {
       onAction={(key) => console.log(key)} 
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
-          {/* <Image
-              width={180}
-              height={180}
+          <Image
+              width={280}
+              height={280}
               alt={"No Notifications"}
-              src={"/NoNotifications.jpg"}
-            /> */}
+              src={"/no-recognition.png"}
+            />
           <p className="font-medium text-black-default/80">
-            {"No Recognitions right now!"}
+            {"You don't have recognitions lately"}
           </p>
           <p className="font-medium text-black-default/80">
-            {"Come back later!"}
+            {"Don't worry! You got this!"}
           </p>
         </div>
       }
       classNames={{
-        base: ["w-full h-auto p-2 m-0 overflow-y-scroll"],
-        list: "w-full pl-0 mx-0 ",
+        base: ["w-full h-auto overflow-y-auto"],
+        list: "flex gap-4",
       }}
       itemClasses={{
         base: [
-          "mx-0 my-2 p-2 w-full flex",
+          // "my-2",
           "data-[hover=true]:bg-grey-default bg-white-default ",
           "drop-shadow-sm rounded-md outline outline-[1.8px] outline-grey-default",
         ],
-        wrapper: "w-full",
       }}
     >
-      {(recognition) => {
+      {/* {(recognition) => {
         return (
           <ListboxItem textValue={recognition.title} key={recognition.id}>
-            <div className="flex items-start justify-center gap-4">
-              <div className="p-2 w-18 h-18 flex justify-center">
+            <div className="my-2 flex items-start justify-between">
+              <div className="pl-2 pr-2 my-2 mr-4 flex items-center justify-center">
                 {recognition.icon}
               </div>
-              <div className="w-full">
-                <p className="font-extrabold text-lg truncate w-56">
+              <div className="flex flex-col w-[14rem]">
+                <p className="font-extrabold text-lg truncate w-full">
                   {recognition.title}
                 </p>
-                <p className="font-medium text-md truncate w-56">
+                <p className="font-medium text-md truncate w-full">
                   {recognition.description}
                 </p>
-                <p className="font-normal text-sm">{`${handleRecognitionDateTime(recognition.datetime)}`}</p>
+                <p className="font-medium text-xs">{`${handleRecognitionDateTime(recognition.datetime)}`}</p>
               </div>
               <RecognitionOptions
-                trigger={<BiDotsVerticalRounded size={28} />}
+                trigger={<BiDotsVerticalRounded size={24} />}
                 options={options}
               />
             </div>
           </ListboxItem>
         );
-      }}
+      }} */}
     </Listbox>
   );
 };

@@ -2,6 +2,7 @@ import { Modal, ModalBody, ModalContent } from "@nextui-org/react";
 import "../../../../aws-auth";
 import ManagePostMainContent from "./ManagePostMainContent";
 import ManagePostSidebar from "./ManagePostSidebar";
+// @refresh reset
 
 const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
   return (
@@ -33,7 +34,7 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
               <div className="w-[34rem] bg-white-default rounded-l-lg border-2 border-darkgrey-default/50">
                 <ManagePostSidebar />
               </div>
-              <div className="bg-background rounded-r-lg border-darkgrey-default/40">
+              <div className="w-[75rem] bg-background rounded-r-lg border-darkgrey-default/40">
                 <ManagePostMainContent onClose={onClose} />
               </div>
             </div>

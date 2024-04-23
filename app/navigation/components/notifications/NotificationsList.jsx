@@ -104,13 +104,13 @@ const NotificationsList = ({ getNotificationId }) => {
             width={180}
             height={180}
             alt={"No Notifications"}
-            src={"/NoNotifications.jpg"}
+            src={"/no-notifications.png"}
           />
           <p className="font-medium text-black-default/80">
-            {"No notifications right now!"}
+            {"No notifications yet!"}
           </p>
           <p className="font-medium text-black-default/80">
-            {"Come back later!"}
+            {"We'll notify you when something arrives"}
           </p>
         </div>
       }

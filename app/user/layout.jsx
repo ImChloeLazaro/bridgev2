@@ -18,7 +18,7 @@ const UserLayout = ({ children }) => {
         {/* </Suspense> */}
         <div className="flex flex-col w-full h-screen max-h-screen overflow-hidden">
           <div className="top-0">
-            {!isHasOnboardingData && <OnboardingStatusAlert />}
+            {isHasOnboardingData && <OnboardingStatusAlert />}
             <NavigationBar />
           </div>
           <div className="flex max-w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
