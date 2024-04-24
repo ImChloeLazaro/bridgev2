@@ -26,7 +26,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
 
   const fetchShortcut = useSetAtom(fetchShortcutAtom);
 
-  const shortcutSize = 28; //icon size
+  const shortcutSize = 22; //icon size
   const [isOpen, setIsOpen] = useState(false);
 
   const setDisableDraggable = useSetAtom(disableDraggableAtom);

@@ -12,7 +12,7 @@ const ExternalLinksHeader = () => {
         placeholder={"blur"}
         priority={true}
         quality={50}
-        sizes="(min-width: 808px) 50vw, 100vw"
+        sizes="(min-width: 808px) 50vw, 25vw"
         style={{
           width: "100%",
           height: "auto",

@@ -2,7 +2,7 @@
 import { Link } from "@nextui-org/react";
 import { forwardRef, useMemo } from "react";
 import { MdBookmark } from "react-icons/md";
-import { MenuItem } from "react-pro-sidebar";
+import { MenuItem, menuClasses } from "react-pro-sidebar";
 import ShortcutsOptionsModal from "./ShortcutsOptionsModal";
 
 const shortcutSize = 28; //icon size
@@ -21,14 +21,59 @@ const ShortcutItem = forwardRef(
     }, [shortcutURL]);
 
     shortcutURL = isURLvalid ? shortcutURL : "";
-    
+
     return (
       <MenuItem
         {...props}
         ref={ref}
         component="div"
         icon={<MdBookmark size={shortcutSize} />}
-        suffix={<ShortcutsOptionsModal unique_key={unique_key} url={url} title={children} />}
+        suffix={
+          <ShortcutsOptionsModal
+            unique_key={unique_key}
+            url={url}
+            title={children}
+          />
+        }
+        // return {
+        //   width: "16rem",
+        //   backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
+        //   paddingRight: "0rem",
+        //   paddingLeft: active ? "0.875rem" : "0.375rem",
+        //   cursor: active ? "grabbing" : "grab",
+        //   ":hover": {
+        //     backgroundColor: "#D0D0D0",
+        //     paddingLeft: "0.875rem",
+        //   },
+        //   ":focus": {
+        //     backgroundColor: "#D0D0D0",
+        //   },
+        //   ":active": {
+        //     cursor: "grabbing",
+        //   },
+        // };
+        rootStyles={{
+          ["." + menuClasses.button]: {
+            width: "100%",
+            backgroundColor: "#f9f9f9",
+            paddingRight: "0rem",
+            paddingLeft: "0.375rem",
+            cursor: "grab",
+            "&:hover": {
+              backgroundColor: "#D0D0D0",
+              paddingLeft: "0.875rem",
+            },
+            "&:focus": {
+              backgroundColor: "#D0D0D0",
+            },
+            "&:active": {
+              cursor: "grabbing",
+              backgroundColor: "#D0D0D0",
+              paddingLeft: "0.875rem",
+              cursor: "grabbing",
+            },
+          },
+        }}
       >
         <Link
           isExternal

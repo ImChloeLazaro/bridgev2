@@ -1,5 +1,6 @@
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
+  cn,
   Badge,
   Button,
   Popover,
@@ -196,12 +197,18 @@ const NotificationsDropdown = () => {
       content={notificationCount}
       shape="circle"
       isInvisible={notificationCount === 0}
-      className=""
+      classNames={{
+        badge: cn(
+          "px-1 text-xs",
+          "font-medium text-white-default bg-blue-default",
+          "md:font-bold md:text-black-darker md:bg-grey-default"
+        ),
+      }}
     >
       <Popover
-      style={{
-        zIndex: 10,
-      }}
+        style={{
+          zIndex: 10,
+        }}
         placement="bottom-end"
         showArrow={true}
         isOpen={notificationsOpen}
@@ -216,11 +223,23 @@ const NotificationsDropdown = () => {
             className="bg-transparent"
           >
             {notificationCount === 0 ? (
-              <MdNotificationsNone size={24} color="white" />
+              <MdNotificationsNone
+                size={24}
+                fill="currentColor"
+                className="text-orange-default md:text-white-default"
+              />
             ) : notificationsOpen ? (
-              <MdNotifications size={24} color="white" />
+              <MdNotifications
+                size={24}
+                fill="currentColor"
+                className="text-orange-default md:text-white-default"
+              />
             ) : (
-              <MdNotificationsActive size={24} color="white" />
+              <MdNotificationsActive
+                size={24}
+                fill="currentColor"
+                className="text-orange-default md:text-white-default"
+              />
             )}
           </Button>
         </PopoverTrigger>
@@ -232,9 +251,7 @@ const NotificationsDropdown = () => {
               updateNotificationState={updateNotificationState}
               getNotificationId={getNotificationId}
             />
-            <NotificationsFooter
-              markAllAsRead={markAllAsRead}
-            />
+            <NotificationsFooter markAllAsRead={markAllAsRead} />
           </div>
         </PopoverContent>
       </Popover>
