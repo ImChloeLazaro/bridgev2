@@ -21,7 +21,7 @@ const UserLayout = ({ children }) => {
             {isHasOnboardingData && <OnboardingStatusAlert />}
             <NavigationBar />
           </div>
-          <div className="flex max-w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
+          <div className="flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
             {/* <Suspense fallback={<Loading />}> */}
               {children}
             {/* </Suspense> */}

@@ -43,9 +43,9 @@ const ManagePostMediaButton = () => {
       <Button
         disableRipple
         disableAnimation
-        size="lg"
+        size="sm"
         startContent={<BsImage size={24} />}
-        className="bg-transparent font-medium text-lg text-black-default hover:text-orange-default/90"
+        className="bg-transparent font-medium text-base md:text-lg text-black-default hover:text-orange-default/90"
         onPress={() => handleSelectionChange(new Set(["custom"]))}
       >
         {"Media"}

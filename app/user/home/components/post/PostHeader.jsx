@@ -35,7 +35,6 @@ const handlePostDatetime = (datetime) => {
 const PostHeader = ({ data }) => {
   const pinned = false;
 
-
   const datetime = data.datetimePublished;
   const postDateTime = datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -44,11 +43,11 @@ const PostHeader = ({ data }) => {
   return (
     <>
       {pinned && <div>Pinned</div>}
-      <div className="flex justify-between w-full px-4 py-2 mt-1">
+      <div className="flex justify-between w-full px-1 md:px-4 py-2 mt-1">
         <User
           // as="button"
           name={
-            <Link className="text-xl font-extrabold text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
+            <Link className="text-md lg:text-xl font-extrabold text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
               {data.publisher}
             </Link>
           }
@@ -57,7 +56,11 @@ const PostHeader = ({ data }) => {
               <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
                 {data.team}
               </Link>
-              <Tooltip placement={'bottom'} content={tooltipDate}>
+              <Tooltip
+                placement={"bottom"}
+                content={tooltipDate}
+                classNames={{ base: "hidden lg:block" }}
+              >
                 <Link
                   // underline="hover"
                   className="text-xs font-medium text-darkgrey-hover hover:text-darkgrey-default leading-5 cursor-pointer"
@@ -67,8 +70,7 @@ const PostHeader = ({ data }) => {
           }
           avatarProps={{
             src: data.publisherPicture,
-            // size: "lg",
-            className: "w-16 h-16 text-large",
+            className: "w-10 h-10 text-large",
           }}
           classNames={{
             base: ["gap-3"],
@@ -81,9 +83,7 @@ const PostHeader = ({ data }) => {
           }}
         />
         <div className="p-0">
-          <PostOptions
-            trigger={<BiDotsVerticalRounded size={26} />}
-          />
+          <PostOptions trigger={<BiDotsVerticalRounded size={26} />} />
         </div>
       </div>
     </>

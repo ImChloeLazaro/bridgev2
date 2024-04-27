@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useState } from "react";
-import { userRolesAtom } from "../store/NavSideBarStore";
+import { userOptionsAtom, userRolesAtom } from "../store/NavSideBarStore";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
@@ -29,11 +29,13 @@ import {
   routesTeamLead,
   routesUser,
 } from "./RoutesIconDetails";
+import { signOut } from "aws-amplify/auth";
+import "../../aws-auth";
 // @refresh reset
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const userOptions = useAtomValue(userOptionsAtom);
   const selectedRole = useAtomValue(selectedRoleAtom);
   const userRoles = useAtomValue(userRolesAtom);
   const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
@@ -67,20 +69,28 @@ const NavigationBar = () => {
     ? routesTeamLead
     : role.includes("user") && routesUser;
 
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
+  }
+
   return (
     <Navbar
       isBordered
+      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       position="static"
-      // className="md:bg-blue-default"
       classNames={{
-        base: "flex justify-end m-0 p-0 bg-white-default md:bg-blue-default",
+        base: "flex justify-end m-0 p-0 bg-white-default lg:bg-blue-default",
         wrapper:
-          "mr-4 pr-4 my-[0.3rem] sm:mr-8 sm:pr-8 md:mr-12 md:pr-12 lg:mr-16 lg:pr-16",
+          "mr-2 pr-4 my-[0.3rem] sm:mr-8 sm:pr-8 md:mr-12 md:pr-12 lg:mr-16 lg:pr-16",
         // toggleIcon: "text-white-default",
       }}
     >
-      <NavbarContent>
+      <NavbarContent justify="start">
         <NavbarMenuToggle
           icon={
             <div>
@@ -92,7 +102,7 @@ const NavigationBar = () => {
             </div>
           }
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="md:hidden"
+          className="lg:hidden"
         />
       </NavbarContent>
 
@@ -102,29 +112,56 @@ const NavigationBar = () => {
             radius="none"
             alt="Aretex Logo"
             src="/header.png"
-            className="md:hidden"
+            className="lg:hidden"
           />
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden md:flex items-center gap-2 md:gap-6">
+        <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
           <UserDropdown />
         </NavbarItem>
-        <NavbarItem className="flex items-center gap-2 md:gap-6">
+        <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
           {userRoles.includes(selectedRole) && <RoleBadge />}
         </NavbarItem>
-        <NavbarItem className="flex items-center gap-2 md:gap-6">
+        <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {routes.map((item, index) => (
-          <NavbarMenuItem key={`${item.key}-${index}`}>
-            <Link className="w-full" size="lg" href={item.link}>
-              {item.label}
-            </Link>
-          </NavbarMenuItem>
-        ))}
+        {Object.values(userOptions).map((option) => {
+          if (option.key === "logout") {
+            return (
+              <NavbarMenuItem
+                key={option.key}
+                className="hover:bg-red-default rounded p-2"
+              >
+                <Link
+                  href=""
+                  size="md"
+                  className="px-2 text-base font-medium hover:text-white-default text-black-default"
+                  onPress={handleSignOut}
+                >
+                  {option.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          } else {
+            return (
+              <NavbarMenuItem
+                key={option.key}
+                className="hover:bg-orange-default rounded p-2"
+              >
+                <Link
+                  href=""
+                  size="md"
+                  className="px-2 text-base font-medium hover:text-white-default text-black-default"
+                >
+                  {option.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          }
+        })}
       </NavbarMenu>
     </Navbar>
   );

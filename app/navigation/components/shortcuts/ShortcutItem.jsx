@@ -25,36 +25,21 @@ const ShortcutItem = forwardRef(
     return (
       <MenuItem
         {...props}
+        component={"div"}
         ref={ref}
-        component="div"
         icon={<MdBookmark size={shortcutSize} />}
-        suffix={
-          <ShortcutsOptionsModal
-            unique_key={unique_key}
-            url={url}
-            title={children}
-          />
-        }
-        // return {
-        //   width: "16rem",
-        //   backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
-        //   paddingRight: "0rem",
-        //   paddingLeft: active ? "0.875rem" : "0.375rem",
-        //   cursor: active ? "grabbing" : "grab",
-        //   ":hover": {
-        //     backgroundColor: "#D0D0D0",
-        //     paddingLeft: "0.875rem",
-        //   },
-        //   ":focus": {
-        //     backgroundColor: "#D0D0D0",
-        //   },
-        //   ":active": {
-        //     cursor: "grabbing",
-        //   },
-        // };
         rootStyles={{
+          ["." + menuClasses.icon]: {
+            color: "#EF8916",
+          },
+          ["." + menuClasses.label]: {
+            marginLeft: "0.30rem",
+            fontSize: "1rem",
+            lineHeight: "1.5rem",
+            fontWeight: 700,
+          },
           ["." + menuClasses.button]: {
-            width: "100%",
+            // width: "100%",
             backgroundColor: "#f9f9f9",
             paddingRight: "0rem",
             paddingLeft: "0.375rem",
@@ -70,18 +55,24 @@ const ShortcutItem = forwardRef(
               cursor: "grabbing",
               backgroundColor: "#D0D0D0",
               paddingLeft: "0.875rem",
-              cursor: "grabbing",
             },
           },
         }}
       >
-        <Link
-          isExternal
-          href={shortcutURL}
-          className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 "
-        >
-          {children}
-        </Link>
+        <div className="flex justify-between">
+          <Link
+            isExternal
+            href={shortcutURL}
+            className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 "
+          >
+            {children}
+          </Link>
+          <ShortcutsOptionsModal
+            unique_key={unique_key}
+            url={url}
+            title={children}
+          />
+        </div>
       </MenuItem>
     );
   }

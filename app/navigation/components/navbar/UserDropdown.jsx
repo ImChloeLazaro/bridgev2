@@ -23,13 +23,6 @@ async function handleSignOut() {
 }
 
 const UserDropdown = () => {
-  // const userOptions = {
-  //   switch: { key: "switch", label: "Switch Roles" },
-  //   settings: { key: "settings", label: "Settings" },
-  //   help: { key: "help", label: "Help & Feedback" },
-  //   logout: { key: "logout", label: "Log out" },
-  // };
-
   const userOptions = useAtomValue(userOptionsAtom);
 
   const user = useAtomValue(userAtom);

@@ -15,6 +15,8 @@ import {
   activeUserRouteAtom,
   fetchRoleAtom,
   selectedRoleAtom,
+  sidebarBreakpointAtom,
+  sidebarToggleAtom,
 } from "../store/NavSideBarStore";
 import {
   routesAdmin,
@@ -34,9 +36,11 @@ const SideBar = () => {
     fetchRole();
   }, [fetchRole]);
 
-  const [toggled, setToggled] = useState(false);
+  const breakpoint = "780";
+
+  const [toggled, setToggled] = useAtom(sidebarToggleAtom);
   const [broken, setBroken] = useState(
-    window.matchMedia("(max-width: 760px)").matches
+    window.matchMedia(`(max-width: ${breakpoint}px)`).matches
   );
 
   const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
@@ -85,199 +89,21 @@ const SideBar = () => {
   };
 
   return (
-    // bg-white-default sm:max-md:w-0 bg-white-default md:w-96
-    // <div className="flex flex-col max-h-screen ">
-    //   {/* <div className="py-5 px-2 bg-white-default">
-    //     <SideBarHeader />
-    //   </div> */}
-    //   <>
-    //     <Sidebar
-    //       toggled={toggled}
-    //       customBreakPoint="760px"
-    //       onBreakPoint={setBroken}
-    //       rootStyles={{
-    //         // change sidebar Tailwind CSS here
-    //         width: "100%",
-    //         paddingLeft: "0.5rem",
-    //         paddingRight: "0.5rem",
-    //         marginBottom: "4rem",
-    //         // "@media (max-width: 767px)": { display: "none", width: "0%" },
-    //         backgroundColor: "#f9f9f9",
-    //       }}
-    //     >
-    //       <Menu
-    //         key="navigation"
-    //         rootStyles={{
-    //           [`.${menuClasses.button}`]: {
-    //             borderRadius: "0.313rem",
-    //             color: "#393939",
-    //             marginBottom: "0.75rem",
-    //             transition: "0.3s",
-    //             transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-    //           },
-    //           padding: "0.5rem",
-    //           paddingRight: "2.5rem",
-    //           backgroundColor: "#f9f9f9",
-    //         }}
-    //         menuItemStyles={{
-    //           root: () => {
-    //             return {
-    //               gap: "7rem",
-    //             };
-    //           },
-    //           label: () => {
-    //             return {
-    //               marginLeft: "0.30rem",
-    //               fontSize: "1rem",
-    //               lineHeight: "1.5rem",
-    //               fontWeight: 700,
-    //             };
-    //           },
-    //           icon: ({ level, active }) => {
-    //             if (level === 0) {
-    //               return {
-    //                 backgroundColor: "#EF8916",
-    //                 borderRadius: "0.313rem",
-    //                 color: "#f9f9f9",
-    //               };
-    //             }
-    //             if (level === 1) {
-    //               return {
-    //                 backgroundColor: "transparent",
-    //                 borderRadius: "0.313rem",
-    //                 color: "#393939",
-    //               };
-    //             }
-    //           },
-    //           button: ({ level, active }) => {
-    //             // only apply styles on first level elements of the tree
-    //             if (level === 0) {
-    //               return {
-    //                 width: "16rem",
-    //                 backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
-    //                 paddingLeft: active ? "0.875rem" : "0.375rem",
-    //                 ":hover": {
-    //                   backgroundColor: "#D0D0D0",
-    //                   paddingLeft: "0.875rem",
-    //                 },
-    //                 ":focus": {
-    //                   backgroundColor: "#D0D0D0",
-    //                 },
-    //               };
-    //             }
-    //             if (level === 1) {
-    //               return {
-    //                 width: "16rem",
-    //                 color: "#f9f9f9",
-    //                 backgroundColor: "#f9f9f9",
-    //                 paddingLeft: active ? "0.875rem" : "1.875rem",
-    //                 ":hover": {
-    //                   color: "#EF8916",
-    //                   backgroundColor: "#EF891620",
-    //                   paddingLeft: "0.875rem",
-    //                   [`.${menuClasses.icon}`]: {
-    //                     color: "#EF8916",
-    //                   },
-    //                 },
-    //                 ":focus": {
-    //                   backgroundColor: "#EF891620",
-    //                 },
-    //               };
-    //             }
-    //           },
-    //         }}
-    //       >
-    //         {routes &&
-    //           routes.map((sidebarButtons) => {
-    //             if (sidebarButtons.key === "empower") {
-    //               return (
-    //                 <SubMenu
-    //                   label={sidebarButtons.label.toUpperCase()}
-    //                   active={activeRoutes[sidebarButtons.key]}
-    //                   key={sidebarButtons.key}
-    //                   icon={sidebarButtons.icon}
-    //                   rootStyles={{
-    //                     // change sidebar Tailwind CSS here
-    //                     ["." + menuClasses.subMenuContent]: {
-    //                       backgroundColor: "#f9f9f9",
-    //                     },
-    //                   }}
-    //                   component={
-    //                     <Link
-    //                       href={sidebarButtons.link}
-    //                       onPress={() => {
-    //                         handleSidebarButtonsActive(sidebarButtons.key);
-    //                       }}
-    //                     />
-    //                   }
-    //                 >
-    //                   {sidebarButtons.routes.map((subRoute) => {
-    //                     return (
-    //                       <MenuItem
-    //                         key={subRoute.key}
-    //                         active={activeRoutes[subRoute.key]}
-    //                         icon={subRoute.icon}
-    //                         component={
-    //                           <Link
-    //                             href={subRoute.link}
-    //                             onPress={() => {
-    //                               handleSidebarButtonsActive(subRoute.key);
-    //                             }}
-    //                           />
-    //                         }
-    //                       >
-    //                         {subRoute.label.toUpperCase()}
-    //                       </MenuItem>
-    //                     );
-    //                   })}
-    //                 </SubMenu>
-    //               );
-    //             } else {
-    //               return (
-    //                 <MenuItem
-    //                   key={sidebarButtons.key}
-    //                   active={activeRoutes[sidebarButtons.key]}
-    //                   icon={sidebarButtons.icon}
-    //                   component={
-    //                     <Link
-    //                       href={sidebarButtons.link}
-    //                       onPress={() => {
-    //                         handleSidebarButtonsActive(sidebarButtons.key);
-    //                       }}
-    //                     />
-    //                   }
-    //                 >
-    //                   {sidebarButtons.label.toUpperCase()}
-    //                 </MenuItem>
-    //               );
-    //             }
-    //           })}
-    //       </Menu>
-    //     </Sidebar>
-    //     <Shortcuts toggled={toggled} />
-    //   </>
-    //   {broken && (
-    //     <div className="h-full">
-    //       <IconButton className={"z-50"} onPress={() => setToggled(!toggled)}>
-    //         <MdArrowDropDownCircle size={24} />
-    //       </IconButton>
-    //     </div>
-    //   )}
-    // </div>style={{ display: "flex", height: "100%", minHeight: "400px" }}
     <div className="h-full flex flex-col lg:justify-start justify-center items-center ">
       <Sidebar
+        style={{ backgroundColor: "#f9f9f9" }}
         toggled={toggled}
         onBackdropClick={() => setToggled(false)}
-        customBreakPoint="800px"
+        customBreakPoint={`${breakpoint}px`}
         onBreakPoint={setBroken}
         rootStyles={{
           width: "14rem",
           height: "100%",
-          paddingRight: "0.2rem",
           backgroundColor: "#f9f9f9",
           display: "flex",
           flexDirection: "column",
           gap: "2rem",
+          overflowY: "auto",
         }}
       >
         <Menu
@@ -291,78 +117,17 @@ const SideBar = () => {
               transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
             },
             padding: "0.5rem",
-            
+            height: "100%",
             backgroundColor: "#f9f9f9",
           }}
-          menuItemStyles={{
-            root: () => {
-              return {
-                gap: "7rem",
-              };
-            },
-            label: () => {
-              return {
-                marginLeft: "0.30rem",
-                fontSize: "1rem",
-                lineHeight: "1.5rem",
-                fontWeight: 700,
-              };
-            },
-            icon: ({ level, active }) => {
-              if (level === 0) {
-                return {
-                  backgroundColor: "#EF8916",
-                  borderRadius: "0.313rem",
-                  color: "#f9f9f9",
-                };
-              }
-              if (level === 1) {
-                return {
-                  backgroundColor: "transparent",
-                  borderRadius: "0.313rem",
-                  color: "#393939",
-                };
-              }
-            },
-            button: ({ level, active }) => {
-              // only apply styles on first level elements of the tree
-              if (level === 0) {
-                return {
-                  width: "100%",
-                  backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
-                  paddingLeft: active ? "0.875rem" : "0.375rem",
-                  ":hover": {
-                    backgroundColor: "#D0D0D0",
-                    paddingLeft: "0.875rem",
-                  },
-                  ":focus": {
-                    backgroundColor: "#D0D0D0",
-                  },
-                };
-              }
-              if (level === 1) {
-                return {
-                  width: "100%",
-                  color: "#f9f9f9",
-                  backgroundColor: "#f9f9f9",
-                  paddingLeft: active ? "0.875rem" : "1.875rem",
-                  ":hover": {
-                    color: "#EF8916",
-                    backgroundColor: "#EF891620",
-                    paddingLeft: "0.875rem",
-                    [`.${menuClasses.icon}`]: {
-                      color: "#EF8916",
-                    },
-                  },
-                  ":focus": {
-                    backgroundColor: "#EF891620",
-                  },
-                };
-              }
-            },
-          }}
         >
-          {!broken && <SideBarHeader />}
+          {!broken ? (
+            <SideBarHeader />
+          ) : (
+            <div className="flex items-center justify-between mt-6 pl-2 pb-4 bg-white-default">
+              <p className="text-xl font-bold">{"NAVIGATION"}</p>
+            </div>
+          )}
           {routes &&
             routes.map((sidebarButtons) => {
               if (sidebarButtons.key === "empower") {
@@ -374,8 +139,61 @@ const SideBar = () => {
                     icon={sidebarButtons.icon}
                     rootStyles={{
                       // change sidebar Tailwind CSS here
+                      ["." + menuClasses.label]: {
+                        marginLeft: "0.30rem",
+                        fontSize: "1rem",
+                        lineHeight: "1.5rem",
+                        fontWeight: 700,
+                      },
+                      ["." + menuClasses.icon]: {
+                        backgroundColor: "#EF8916",
+                        borderRadius: "0.313rem",
+                        color: "#f9f9f9",
+                      },
+                      ["." + menuClasses.button]: {
+                        // width: "100%",
+                        backgroundColor: "#f9f9f9",
+                        paddingRight: "0rem",
+                        paddingLeft: "0.375rem",
+                        "&:hover": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                        "&:focus": {
+                          backgroundColor: "#D0D0D0",
+                        },
+                        "&:active": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                      },
                       ["." + menuClasses.subMenuContent]: {
                         backgroundColor: "#f9f9f9",
+                        ["." + menuClasses.icon]: {
+                          backgroundColor: "transparent",
+                          borderRadius: "0.313rem",
+                          color: "#393939",
+                        },
+                        ["." + menuClasses.button]: {
+                          // width: "100%",
+                          backgroundColor: "#f9f9f9",
+                          paddingRight: "0rem",
+                          paddingLeft: "1.875rem",
+                          "&:hover": {
+                            color: "#EF8916",
+                            paddingLeft: "0.875rem",
+                            ["." + menuClasses.icon]: {
+                              color: "#EF8916",
+                            },
+                            backgroundColor: "#EF891620",
+                          },
+                          "&:focus": {
+                            backgroundColor: "#EF891620",
+                          },
+                          "&:active": {
+                            paddingLeft: "0.875rem",
+                          },
+                        },
                       },
                     }}
                     component={
@@ -422,6 +240,36 @@ const SideBar = () => {
                         }}
                       />
                     }
+                    rootStyles={{
+                      ["." + menuClasses.icon]: {
+                        backgroundColor: "#EF8916",
+                        borderRadius: "0.313rem",
+                        color: "#f9f9f9",
+                      },
+                      ["." + menuClasses.label]: {
+                        marginLeft: "0.30rem",
+                        fontSize: "1rem",
+                        lineHeight: "1.5rem",
+                        fontWeight: 700,
+                      },
+                      ["." + menuClasses.button]: {
+                        // width: "100%",
+                        backgroundColor: "#f9f9f9",
+                        paddingRight: "0rem",
+                        paddingLeft: "0.375rem",
+                        "&:hover": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                        "&:focus": {
+                          backgroundColor: "#D0D0D0",
+                        },
+                        "&:active": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                      },
+                    }}
                   >
                     {sidebarButtons.label.toUpperCase()}
                   </MenuItem>
@@ -440,7 +288,11 @@ const SideBar = () => {
             "h-18",
             "bg-orange-default hover:bg-orange-hover/80 text-white-default"
           )}
-          onPress={() => setToggled(!toggled)}
+          onPress={() => {
+            console.log("TOGGLED: ", toggled);
+            setToggled(!toggled);
+            console.log("TOGGLED: ", toggled);
+          }}
         >
           <MdOutlineKeyboardArrowRight size={24} />
         </IconButton>

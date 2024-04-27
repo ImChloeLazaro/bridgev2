@@ -201,7 +201,7 @@ const NotificationsDropdown = () => {
         badge: cn(
           "px-1 text-xs",
           "font-medium text-white-default bg-blue-default",
-          "md:font-bold md:text-black-darker md:bg-grey-default"
+          "lg:font-bold lg:text-black-darker lg:bg-grey-default"
         ),
       }}
     >
@@ -226,19 +226,19 @@ const NotificationsDropdown = () => {
               <MdNotificationsNone
                 size={24}
                 fill="currentColor"
-                className="text-orange-default md:text-white-default"
+                className="text-orange-default lg:text-white-default"
               />
             ) : notificationsOpen ? (
               <MdNotifications
                 size={24}
                 fill="currentColor"
-                className="text-orange-default md:text-white-default"
+                className="text-orange-default lg:text-white-default"
               />
             ) : (
               <MdNotificationsActive
                 size={24}
                 fill="currentColor"
-                className="text-orange-default md:text-white-default"
+                className="text-orange-default lg:text-white-default"
               />
             )}
           </Button>
