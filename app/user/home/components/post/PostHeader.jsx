@@ -53,7 +53,7 @@ const PostHeader = ({ data }) => {
           }
           description={
             <>
-              <Link className="text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
+              <Link className="text-xs lg:text-sm font-medium text-darkgrey-hover hover:text-darkgrey-default leading-4 cursor-pointer">
                 {data.team}
               </Link>
               <Tooltip
@@ -70,7 +70,7 @@ const PostHeader = ({ data }) => {
           }
           avatarProps={{
             src: data.publisherPicture,
-            className: "w-10 h-10 text-large",
+            className: "w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16 text-large",
           }}
           classNames={{
             base: ["gap-3"],

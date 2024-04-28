@@ -5,7 +5,7 @@ import CreatePostTemplateButton from "./CreatePostTemplateButton";
 
 const CreatePostCard = ({ data }) => {
   return (
-    <Card className="p-2 md:p-4 mx-4 mb-3 md:mb-6 bg-white-default">
+    <Card className="p-2 md:p-4 mx-0 lg:mx-4 mb-2 md:mb-4 lg:mb-6 bg-white-default rounded-none md:rounded-lg">
       <CardBody>
         <div className="flex gap-6 px-2 md:px-6">
           <div className="hidden md:block ">

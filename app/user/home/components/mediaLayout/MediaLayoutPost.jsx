@@ -10,7 +10,7 @@ const MediaLayout = ({
   orientation = "landscape",
   layout = "single",
 }) => {
-  const imageCount = mediaList?.length;
+  const imageCount = mediaList?.length <= 0 ? 1 : mediaList?.length;
   const displayMedia = {
     1: <OneMedia data={mediaList} orientation={orientation} layout={layout} />,
     2: <TwoMedia data={mediaList} orientation={orientation} layout={layout} />,
@@ -23,7 +23,7 @@ const MediaLayout = ({
   };
 
   return (
-    <div className=" w-full justify-center items-center p-0 m-0 bg-white-default h-[58rem]">
+    <div className=" w-full justify-center items-center p-0 m-0 bg-white-default h-[16rem] lg:h-[36rem]">
       {imageCount > 5 ? (
         <SixPlusMedia
           data={mediaList}

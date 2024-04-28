@@ -36,7 +36,7 @@ const SideBar = () => {
     fetchRole();
   }, [fetchRole]);
 
-  const breakpoint = "780";
+  const breakpoint = "1023";
 
   const [toggled, setToggled] = useAtom(sidebarToggleAtom);
   const [broken, setBroken] = useState(
