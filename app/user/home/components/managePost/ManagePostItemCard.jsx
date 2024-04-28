@@ -21,9 +21,16 @@ const ManagePostItemCard = ({ data }) => {
     4: "-ml-4",
   };
 
+  const handleReactionCount = (object) => {
+    return Object.values(object).reduce((accumulator, value) => {
+      return accumulator + value;
+    }, 0);
+  };
+
+  console.log("data.reactions", data);
+
   return (
-    // {/* border-blue-default border-2 */}
-    <Card className="max-w-[300px] w-[300px] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
+    <Card className="max-w-[20rem] w-[20rem] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
           name={
@@ -41,23 +48,31 @@ const ManagePostItemCard = ({ data }) => {
           className="mb-1"
         />
         <div className="flex gap-2">
-          <LabelTagChip
-            text={data.team}
-            color={"lightblue"}
-            size={"xs"}
-            isFilled={false}
-          />
-          <LabelTagChip
-            text={data.type}
-            color={"orange"}
-            size={"xs"}
-            isFilled={false}
-          />
+          {data.team?.length ? (
+            <LabelTagChip
+              text={data.team}
+              color={"lightblue"}
+              size={"xs"}
+              isFilled={false}
+            />
+          ) : (
+            <div></div>
+          )}
+          {data.type?.length ? (
+            <LabelTagChip
+              text={data.type}
+              color={"orange"}
+              size={"xs"}
+              isFilled={false}
+            />
+          ) : (
+            <div></div>
+          )}
         </div>
       </CardHeader>
 
       <CardBody className="w-full py-0">
-        <p className="h-[2.25rem] font-medium text-sm tracking-tight leading-tight line-clamp-2">
+        <p className="px-2 h-[2.25rem] font-medium text-sm tracking-tight leading-tight line-clamp-2">
           {data.caption?.length ? data.caption : "NO CAPTION"}
         </p>
         <div className="h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md ">
@@ -72,11 +87,14 @@ const ManagePostItemCard = ({ data }) => {
       <CardFooter>
         <div className="flex justify-between items-center w-full">
           <div className="flex relative isolate ml-1">
-            {data.reactionList.map((reaction, index) => (
+            {/* {Object.keys(data.reactions).map((reaction, index) => (
               <div key={reaction} className={`${reactionStack[index]}`}>
                 {reactionIcons[`${reaction}`].badge}
               </div>
-            ))}
+            ))} */}
+            <p className="ml-2 font-bold text-darkgrey-default">
+              {/* {handleReactionCount(data.reactions)} */}
+            </p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -102,18 +120,6 @@ const ManagePostItemCard = ({ data }) => {
               <Avatar
                 size="sm"
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-              />
-              <Avatar
-                size="sm"
-                src="https://i.pravatar.cc/150?u=a04258114e29026302d"
-              />
-              <Avatar
-                size="sm"
-                src="https://i.pravatar.cc/150?u=a04258114e29026702d"
-              />
-              <Avatar
-                size="sm"
-                src="https://i.pravatar.cc/150?u=a04258114e29026708c"
               />
             </AvatarGroup>
           </div>

@@ -1,61 +1,88 @@
-import { Input } from "@nextui-org/react";
+import { Input, useDisclosure } from "@nextui-org/react";
 import { DatePicker } from "./DatePicker";
 import IconButton from "./IconButton";
 import { MdFileUpload } from "react-icons/md";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 
 const FormFieldInput = ({
   placeholder = "",
-  label,
+  label = "",
   value,
   onValueChange,
-  isRequired,
-  isDisabled,
-  isReadOnly,
+  isRequired = false,
+  isDisabled = false,
+  isReadOnly = false,
   withFile = false,
   withDate = false,
   date,
   onDateChange,
+  isDateModal = false,
   fullWidth = false,
   ...props
 }) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const handleEndContent = () => {
+    if (withDate) {
+      return <DatePicker date={date} onDateChange={onDateChange} />;
+    }
+    if (withFile) {
+      return (
+        <IconButton>
+          <MdFileUpload size={16} />
+        </IconButton>
+      );
+    }
+  };
+
   return (
-    <Input
-      placeholder={placeholder}
-      aria-label={label}
-      isReadOnly={isReadOnly}
-      isDisabled={isDisabled}
-      isRequired={isRequired}
-      size={"md"}
-      label={`${label.toUpperCase()}`}
-      value={value}
-      onValueChange={onValueChange}
-      fullWidth={fullWidth}
-      classNames={{
-        base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
-        label: [
-          "font-medium",
-          "text-black-default/80",
-          "text-sm",
-          "group-data-[focus=true]:tracking-tight",
-        ],
-        input: [
-          "font-medium",
-          "group-data-[filled=true]:text-black-default/90",
-          "text-sm",
-        ],
-        inputWrapper: ["font-medium", "text-black-default/90", "text-sm"],
-        errorMessage: ["text-red-default"],
-      }}
-      endContent={
-        (withDate && <DatePicker date={date} onDateChange={onDateChange} />) ||
-        (withFile && (
-          <IconButton>
-            <MdFileUpload size={16} />
-          </IconButton>
-        ))
-      }
-      {...props}
-    />
+    <>
+      <Input
+        placeholder={placeholder}
+        aria-label={label}
+        isReadOnly={isReadOnly}
+        isDisabled={isDisabled}
+        isRequired={isRequired}
+        size={"md"}
+        label={`${label.toUpperCase()}`}
+        data-label={Boolean(label)}
+        value={
+          new Date(date) > 0 && withDate ? format(date, "LLLL d, y") : value
+        }
+        onValueChange={onValueChange}
+        fullWidth={fullWidth}
+        classNames={{
+          base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
+          label: [
+            "font-medium",
+            "text-black-default/80",
+            "text-sm",
+            "group-data-[focus=true]:tracking-tight",
+          ],
+          input: [
+            "font-medium",
+            "group-data-[filled=true]:text-black-default/90",
+            "text-sm data-[label=false]:px-2",
+          ],
+          inputWrapper: ["font-medium", "text-black-default/90", "text-sm"],
+          errorMessage: ["text-red-default"],
+        }}
+        endContent={
+          withDate && (
+            <DatePicker
+              date={date}
+              onDateChange={onDateChange}
+              isOpen={isOpen}
+              onOpen={onOpen}
+              onOpenChange={onOpenChange}
+              isDateModal={isDateModal}
+            />
+          )
+        }
+        {...props}
+      />
+    </>
   );
 };
 

@@ -191,18 +191,20 @@ const ClientFormSections = () => {
           />
         </div>
         <div className="w-full flex justify-center gap-3">
-          <FormFieldRadio
-            label="ACN"
-            fullWidth={true}
-            value={companyACN}
-            onValueChange={setCompanyACN}
-          />
-          <FormFieldInput
-            label={"ABN"}
-            fullWidth={true}
-            value={companyABN}
-            onValueChange={setCompanyABN}
-          />
+          <div className="w-full flex flex-col justify-between items-center gap-4">
+            <FormFieldInput
+              label={"Australian Company Number(ACN)"}
+              fullWidth={true}
+              value={companyACN}
+              onValueChange={setCompanyACN}
+            />
+            <FormFieldInput
+              label={"Australian Business Number(ABN)"}
+              fullWidth={true}
+              value={companyABN}
+              onValueChange={setCompanyABN}
+            />
+          </div>
           <FormFieldRadio
             label={"Are there any other owners or directors?"}
             choices={[
@@ -295,6 +297,9 @@ const ClientFormSections = () => {
           label={"When was the last time you filed taxes?"}
           fullWidth={true}
           withDate={true}
+          date={financialLastFiledTax}
+          onDateChange={setFinancialLastFiledTax}
+          isDateModal={true}
           value={financialLastFiledTax}
           onValueChange={setFinancialLastFiledTax}
         />

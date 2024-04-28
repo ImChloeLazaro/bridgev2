@@ -1,5 +1,6 @@
 // tailwind.config.js
 import { nextui } from "@nextui-org/react";
+import { color } from "framer-motion";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -28,7 +29,9 @@ module.exports = {
           foreground: "hsl(var(--popover-foreground))",
         },
       },
-
+      zIndex: {
+        100: "100",
+      },
       width: {
         18: "4.5rem",
       },
@@ -77,7 +80,7 @@ module.exports = {
     nextui({
       themes: {
         aretex: {
-          extend: "light",
+          // extend: "light",
           colors: {
             background: "#D9D9D9",
             foreground: "#393939",
@@ -95,8 +98,8 @@ module.exports = {
               hover: "#D0D0D0",
             },
             darkgrey: {
-              default: "#7d7d85",
-              hover: "#55555A",
+              default: "#6B6B72",
+              hover: "#565656",
             },
             lightgrey: {
               default: "#A1A1AA",
@@ -115,8 +118,8 @@ module.exports = {
               hover: "#7dd3fc",
             },
             green: {
-              default: "#01C875",
-              hover: "#0A7147",
+              default: "#005D38",
+              hover: "#006736",
             },
             red: {
               default: "#E2445B",
@@ -145,6 +148,17 @@ module.exports = {
         ".no-scrollbar": {
           "-ms-overflow-style": "none",
           "scrollbar-width": "none",
+        },
+        ".text-stroke": {
+          color: "black",
+          "-webkit-text-fill-color":
+            "white" /* Will override color (regardless of order) */,
+          "-webkit-text-stroke-width": "0.2px",
+          "-webkit-text-stroke-color": "black",
+        },
+        ".text-shadow": {
+          "text-shadow": "0px 1px 2px rgb(30 29 39 / 19%), 1px 2px 4px rgb(54 64 147 / 18%)",
+          color: "#f9f9f9",
         },
       };
       addUtilities(newUtilities);

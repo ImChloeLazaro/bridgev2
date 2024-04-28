@@ -1,24 +1,36 @@
 "use client";
+import { useAtomValue } from "jotai";
+import { Suspense } from "react";
+import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
-import dynamic from "next/dynamic";
+import SideBar from "../navigation/components/SideBar";
+import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
+import { authenticationAtom } from "../store/AuthenticationStore";
+// import Loading from "./loading";
 
-// //// To fix ReferenceError due to window being accessing before sent to client (Sidebar Component)
-const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
-  ssr: false,
-});
-// ////####################################################################/////
+const TLLayout = ({ children }) => {
+  const auth = useAtomValue(authenticationAtom);
 
-export default function TLLayout({ children }) {
-  
-  return (
-    <div className="flex h-screen top-0">
-      <SideBar />
-      <div className="flex flex-col w-full">
-        <div className="top-0">
-          <NavigationBar />
+  const isHasOnboardingData = useAtomValue(fetchHasOnboardingDataAtom);
+  if (auth.isAuthenticated) {
+    return (
+      <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
+        {/* <Suspense fallback={<Loading />}> */}
+        <SideBar />
+        {/* </Suspense> */}
+        <div className="flex flex-col w-full h-screen max-h-screen overflow-hidden">
+          <div className="top-0">
+            {!isHasOnboardingData && <OnboardingStatusAlert />}
+            <NavigationBar />
+          </div>
+          <div className="flex max-w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
+            {/* <Suspense fallback={<Loading />}> */}
+              {children}
+            {/* </Suspense> */}
+          </div>
         </div>
-        <div className="">{children}</div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+};
+export default TLLayout;

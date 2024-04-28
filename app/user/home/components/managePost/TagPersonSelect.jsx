@@ -25,7 +25,7 @@ const TagPersonSelect = () => {
       selectedKeys={selectedTaggedPeople}
       onSelectionChange={setSelectedTaggedPeople}
       classNames={{
-        base: "max-w-sm max-h-xs",
+        base: "",
         trigger: "min-h-unit-12 py-2",
       }}
       renderValue={(displayItems) => {

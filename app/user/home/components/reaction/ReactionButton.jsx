@@ -7,31 +7,31 @@ import { useState, useEffect } from "react";
 import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { userAtom } from "@/app/store/UserStore";
 
 const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   const updatePostReaction = useSetAtom(updatePostReactionAtom);
   const reactionsSelection = useAtomValue(reactionsSelectionAtom);
   const [selectedReaction, setSelectedReaction] = useState(reactionList[0]);
   const [isReacted, setIsReacted] = useState(false);
-  const [userOldReaction, setReactedUser] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [prevReaction, setPrevReaction] = useState(selectedReaction);
   const auth = useAtomValue(authenticationAtom);
-  const [toolBut, setToolBut] = useState(true);
+  const user = useAtomValue(userAtom);
 
   const checkReactionStatus = () => {
     const reactedUser = reacted?.find((react) => react.sub === auth.sub);
     if (reactedUser && reactedUser?.reaction !== "") {
       setIsReacted(true);
-      setReactedUser(reactedUser?.reaction);
       setSelectedReaction(reactedUser?.reaction || reactionList[0]);
     }
   };
+
   useEffect(() => {
     if (reacted && reacted.length > 0) {
       checkReactionStatus();
     }
   }, [reacted]);
+
   const label = {
     love: { label: "love", color: "text-[#FF4949]" },
     star: {
@@ -60,19 +60,15 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
             isIconOnly
             className={"bg-transparent hover:animate-bounce "}
             onPress={() => {
-              setPrevReaction(reaction.key);
               if (isReacted && reaction.key === selectedReaction) {
                 setIsReacted(false);
-                setToolBut(false);
                 setSelectedReaction(reaction.key);
                 handleAddReaction(reaction.key, true);
               } else {
                 setIsReacted(true);
                 setSelectedReaction(reaction.key);
-                setToolBut(true);
                 handleAddReaction(reaction.key, false);
               }
-
               setIsOpen(false);
             }}
             key={reaction.key}
@@ -96,14 +92,15 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   );
 
   const handleAddReaction = async (reaction, status) => {
-    // setSelectedReaction(reaction);
+    setSelectedReaction(reaction);
+
     console.log("BEFORE PASSING TO ATOM", {
       id: id,
       selectedReaction: reaction,
       reacted: {
         sub: auth?.sub,
-        name: "",
-        picture: "",
+        name: user.name,
+        picture: user.picture,
         reaction:
           status === ""
             ? !isReacted
@@ -114,11 +111,8 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
             : "",
         reactedAt: new Date(),
       },
-      isReacted: status === "" ? !isReacted : !status,
       reactions: reactionsCount,
-      prevReaction: prevReaction,
-      userOldReaction: userOldReaction,
-      toolBut: toolBut,
+      isReacted: status === "" ? !isReacted : !status,
     });
 
     const response = await updatePostReaction({
@@ -126,8 +120,8 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
       selectedReaction: reaction,
       reacted: {
         sub: auth?.sub,
-        name: "",
-        picture: "",
+        name: user.name,
+        picture: user.picture,
         reaction:
           status === ""
             ? !isReacted
@@ -140,8 +134,6 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
       },
       reactions: reactionsCount,
       isReacted: status === "" ? !isReacted : !status,
-      prevReaction: prevReaction,
-      userOldReaction: userOldReaction,
     });
 
     if (response.success) {

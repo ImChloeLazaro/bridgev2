@@ -76,19 +76,75 @@ export const deleteShortcutAtom = atom(null, async (get, set, update) => {
   }
 });
 
+export const indexPositionShortcutsAtom = atom([]);
+
+export const updateIndexPositionShortcutsAtom = atom(
+  null,
+  async (get, set, update) => {
+    const { updatedIndex } = update;
+    // const response = await restupdate("/shortcut", {
+    //   _id: _id,
+    //   title: title,
+    //   url: url,
+    // });
+    // if (response.success) {
+    //   console.log("UPDATED INDEX SUCCESSFULLY", response);
+    //   set(indexPositionShortcutsAtom, updatedIndex);
+    //   return { success: true };
+    // } else {
+    //   return { success: false };
+    // }
+    console.log("updatedIndex", updatedIndex);
+  }
+);
+
+export const updateSortedShortcutsAtom = atom(null, (get, set, update) => {
+  const { sort, sub } = update;
+
+  const filteredShortcuts = get(shortcutsAtom).filter(
+    (shortcut) => shortcut.sub === sub
+  );
+
+  if (sort) {
+    const sortedByDateASECShortcuts = filteredShortcuts.sort(
+      (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
+    );
+    set(shortcutsAtom, sortedByDateASECShortcuts);
+  } else {
+    const sortedByDateDESCShortcuts = filteredShortcuts.sort(
+      (a, b) => new Date(a.createdBy) - new Date(b.createdBy)
+    );
+    set(shortcutsAtom, sortedByDateDESCShortcuts);
+  }
+});
+
 export const fetchShortcutAtom = atom(null, async (get, set, sub) => {
   const shortcuts = await readwithparams("/shortcut", {
     sub: sub,
   });
+
   const filteredShortcuts = shortcuts.response.filter(
     (shortcut) => shortcut.sub === sub
   );
+
   const convertedShortcuts = filteredShortcuts.map((item, index) => ({
     ...item,
     id: (index += 1),
     key: `sct-${index}`,
   }));
-  set(shortcutsAtom, convertedShortcuts);
+
+  const sortedShortcuts = convertedShortcuts.sort(
+    (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
+  );
+
+  const updatedIndexShortcuts = sortedShortcuts.map((item, index) => ({
+    _id: item._id,
+    id: (index += 1),
+    key: `sct-${index}`,
+  }));
+
+  set(indexPositionShortcutsAtom, updatedIndexShortcuts);
+  set(shortcutsAtom, sortedShortcuts);
 });
 
 export const selectedShortcutAtom = atom();

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { SelectItem } from "@nextui-org/react";
-import { Select, Input, Chip } from "@nextui-org/react";
-import { MdFilterAlt } from "react-icons/md";
+import { Input, Select, SelectItem } from "@nextui-org/react";
 import { LuSearch } from "react-icons/lu";
+import { MdFilterAlt } from "react-icons/md";
 
 const SearchBar = ({
+  disabledSearch = false,
+  disabledFilter = false,
+  showSearchBar,
   type = "filter",
   searchItem,
   setSearchItem,
@@ -15,6 +16,9 @@ const SearchBar = ({
   const typeVariant = {
     search: (
       <Input
+        radius={"sm"}
+        aria-label="SearchBar search function"
+        isDisabled={disabledSearch}
         value={searchItem}
         onValueChange={setSearchItem}
         labelPlacement="outside"
@@ -25,9 +29,7 @@ const SearchBar = ({
         }
         endContent={
           <div className="pointer-events-none flex items-center">
-            <span className="text-lightgrey-default text-small">
-              {"Search"}
-            </span>
+            <span className="text-darkgrey-default text-small">{"Search"}</span>
           </div>
         }
         classNames={{
@@ -39,13 +41,15 @@ const SearchBar = ({
     filter: (
       <>
         <Select
+          isDisabled={disabledFilter}
           size="sm"
-          radius="lg"
-          aria-label="Post Filter Selection"
+          radius={"sm"}
+          aria-label="SearchBar filter function"
           items={filterKeys}
           variant="flat"
           isMultiline={true}
           placeholder="All"
+          // selectionMode="multiple"
           disallowEmptySelection={true}
           selectedKeys={selectedFilterKeys}
           className="max-w-xs"
@@ -53,14 +57,20 @@ const SearchBar = ({
           startContent={<MdFilterAlt size={24} />}
           classNames={{
             trigger: "min-h-unit-10 rounded-r-none border border-r-0 shadow-sm",
-            mainWrapper: "w-32 max-w-48",
+            mainWrapper: "w-48 max-w-48",
+            value: "w-32 truncate",
           }}
         >
           {(filter) => (
-            <SelectItem key={filter.value}>{filter.label}</SelectItem>
+            <SelectItem key={filter.value} id={filter.value}>
+              {filter.label}
+            </SelectItem>
           )}
         </Select>
         <Input
+          radius={"sm"}
+          aria-label="SearchBar search function"
+          isDisabled={disabledSearch}
           value={searchItem}
           onValueChange={setSearchItem}
           labelPlacement="outside"
@@ -71,9 +81,7 @@ const SearchBar = ({
           }
           endContent={
             <div className="pointer-events-none flex items-center">
-              <span className="text-lightgrey-default text-small">
-                {"Search"}
-              </span>
+              <span className="text-darkgrey-hover text-small">{"Search"}</span>
             </div>
           }
           classNames={{
@@ -86,7 +94,14 @@ const SearchBar = ({
       </>
     ),
   };
-  return <div className="flex gap-0">{typeVariant[type]}</div>;
+  return (
+    <div
+      data-show={showSearchBar}
+      className="flex data-[show=false]:hidden gap-0 "
+    >
+      {typeVariant[type]}
+    </div>
+  );
 };
 
 export default SearchBar;

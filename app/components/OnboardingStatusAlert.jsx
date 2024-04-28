@@ -12,7 +12,7 @@ const OnboardingStatusAlert = () => {
         underline="hover"
         showAnchorIcon
       >
-        <span className="font-semibold uppercase">{"REMINDER :"}</span>
+        <p className="font-semibold uppercase">{"REMINDER :"}</p>
         {"You don't have any onboarding data yet, click here to proceed."}
       </Link>
     </div>

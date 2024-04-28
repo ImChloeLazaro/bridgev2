@@ -35,10 +35,7 @@ export const selectedStepperAtom = atom("application");
 export const activeStepAtom = atom(0);
 
 // Application Onboarding.
-export const firstNameAtom = atom(async(get) => {
-  const data = await get(onboardingDataAtom);
-  return data;
-});
+export const firstNameAtom = atom("");
 export const lastNameAtom = atom("");
 export const middleNameAtom = atom("");
 export const vacancyThruAtom = atom("");
@@ -249,7 +246,10 @@ export const contactAtom = atom({
 
 // Updating Onboarding Data
 export const browseOnboardingDataAtom = atom(null, (get, set, update) => {
-  set(firstNameAtom, get(onboardingDataAtom)?.application?.application_details?.first_name);
+  set(
+    firstNameAtom,
+    get(onboardingDataAtom)?.application?.application_details?.first_name
+  );
   set(lastNameAtom, "new data");
   set(middleNameAtom, "new data");
   set(vacancyThruAtom, "new data");
@@ -263,7 +263,7 @@ export const browseOnboardingDataAtom = atom(null, (get, set, update) => {
 
 //Fetch Onboarding Status
 export const fetchHasOnboardingDataAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
+  const auth = get(authenticationAtom);
   if (auth.sub) {
     const data = await readwithparams("/user", { sub: auth.sub });
     if (!data) {

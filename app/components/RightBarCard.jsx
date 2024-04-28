@@ -20,7 +20,7 @@ const RightBarCard = ({
       <CardHeader className="flex justify-between pl-4 pr-3">
         <div className="flex flex-col">
           <p className="font-bold text-2xl text-black-default ">{title}</p>
-          <p className="font-medium text-sm text-darkgrey-default">
+          <p className="font-medium text-sm text-darkgrey-hover">
             {description}
           </p>
         </div>

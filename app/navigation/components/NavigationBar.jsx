@@ -55,12 +55,16 @@ const NavigationBar = () => {
           />
         </NavbarItem>
       </NavbarContent> */}
-      <NavbarContent as='div' justify='end'>
-        {/* <NavbarItem className="flex items-center gap-6"> */}
-        <UserDropdown />
-        {userRoles.includes(selectedRole) && <RoleBadge />}
-        <NotificationsDropdown />
-        {/* </NavbarItem> */}
+      <NavbarContent justify="end">
+        <NavbarItem className="flex items-center gap-6">
+          <UserDropdown />
+        </NavbarItem>
+        <NavbarItem className="flex items-center gap-6">
+          {userRoles.includes(selectedRole) && <RoleBadge />}
+        </NavbarItem>
+        <NavbarItem className="flex items-center gap-6">
+          <NotificationsDropdown />
+        </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (

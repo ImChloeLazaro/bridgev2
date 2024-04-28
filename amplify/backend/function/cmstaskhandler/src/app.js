@@ -18,6 +18,7 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE);
 
 const taskSchema = mongoose.Schema({
+  name: String,
   client: {
     client_id: String,
     name: String,
@@ -29,7 +30,8 @@ const taskSchema = mongoose.Schema({
       sub: String,
       name: String,
       email: String,
-      picture: String
+      picture: String,
+      privilege: String //viewer, editor
     }
   ],
   reviewer: [
@@ -40,17 +42,23 @@ const taskSchema = mongoose.Schema({
       picture: String
     }
   ],
-  duration: {
-    start: Date,
-    end: Date
-  },
-  "sla" : [
-		{
-	  	"name" : String,
-	  	"status" : String, //todo, pending, to review, done
-			"progress" : String //Good, Overdue, Adhoc
-		}
-	]
+  sla: [{
+    name: String,
+    instruction: String,
+    status: String, //todo, pending, to review, done
+    progress: String, //Good, Overdue, Adhoc
+    duration: {
+      start: Date,
+      end: Date,
+      recurrence: String, //Daily, Weekly, Monthly, Quarterly, Yearly
+    },
+    done_by: {
+      sub: String,
+      name: String,
+      email: String,
+      picture: String
+    } //sub 
+  }]
 })
 
 const taskModel = mongoose.model('Task', taskSchema)
@@ -58,7 +66,7 @@ const taskModel = mongoose.model('Task', taskSchema)
 app.get('/cms/task', async function (req, res) {
   try {
     const read = await taskModel.find()
-    res.status(200).json({ success: true, body: read })
+    res.status(200).json({ success: true, response: read })
   } catch (error) {
     res.json({ error: error })
   }
@@ -66,64 +74,45 @@ app.get('/cms/task', async function (req, res) {
 
 app.get('/cms/task/*', async function (req, res) {
   try {
-    const { _id } = req.query
-    const read = await taskModel.findOne({ _id })
-    res.status(200).json({ success: true, body: read })
+    const proxy = req.path; // Use req.path to get the URL path
+    const { processor, reviewer } = req.query
+    switch (proxy) {
+      case '/cms/task/sla':
+        const sla = await taskModel.find({
+          $or: [
+            { "processor.sub": processor },
+            { "reviewer.sub": reviewer }
+          ]
+        })
+        res.status(200).json({ success: true, response: sla })
+        break;
+      case '/cms/task/processor':
+        res.status(200).json({ success: true, response: 'reassign processor' })
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE" });
+        break;
+    }
   } catch (error) {
-    res.json({ error: error })
+    res.status(500).json({ success: false, error: error });
   }
 });
 
 app.post('/cms/task', async function (req, res) {
   try {
-    // const { client, processor, reviewer, duration, sla } = req.body
-    const client = {
-      "client": {
-        "client_id": "client-123",
-        "name": "BLOOMS UMINA",
-        "email": "blooms.umina@blooms.com.au",
-        "picture": "https://www.fluvouchers.com.au/logos/profile/limage-4224.jpg"
-      },
-      "duration": {
-        "start": "2024-02-16T02:21:48.455Z",
-        "end": "2024-03-16T02:21:48.455Z"
-      },
-      "processor": [
-        {
-          "sub": "d0229811-67cc-4fb8-915b-38d8029b85df",
-          "name": "Chloe Lazaro",
-          "email": "chloe.lazaro@aretex.com.au",
-          "picture": "https://lh3.googleusercontent.com/a/ACg8ocIxaddCAyXN_wh9WLB3DrR4tqUJOMWc31qXCUmmCtrLaA=s96-c",
-          "_id": "65dbe8aea9d595dfef10fa1f"
-        },
-        {
-          "sub": "a8dfd442-2977-499b-a917-a0e226c6c089",
-          "name": "Cyrus Layugan",
-          "email": "cyrus.layugan@aretex.com.au",
-          "picture": "https://lh3.googleusercontent.com/a/ACg8ocLpwxhx9lINMohpX7A8ewFwV4G9dKZ_oB2TK42jxweJ=s96-c",
-          "_id": "65dbe8aea9d595dfef10fa20"
-        }
-      ],
-      "reviewer": [
-        {
-          "sub": "1857671a-fad8-4dcb-b7ae-171be5845fe5",
-          "name": "Reinier Silo",
-          "email": "reinier.silo@aretex.com.au",
-          "picture": "https://lh3.googleusercontent.com/a/ACg8ocJUEKZAPNJj_fRKTTZHj5G0ucsGyD4Zo2OJLhCs6mPSOyM=s96-c",
-          "_id": "65dbe8aea9d595dfef10fa21"
-        }
-      ],
-      "sla" : [
-        {
-            "name" : "Dailies Review",
-            "status" : "Good",
-          "progress" : "pending"
-        }
-          
-      ]    
-    }
-    const insert = await taskModel.create(client)
-    res.status(200).json({ success: true, body: insert, message: "Task created successfully"})
+    const { index, manager, client, processor, reviewer, duration, sla } = req.body
+    const insert = await taskModel.create({ manager, client, processor, reviewer, duration, sla })
+    res.status(200).json({ success: true, response: insert, message: "Task created successfully" })
+  } catch (error) {
+    res.json({ error: error })
+  }
+});
+
+app.put('/cms/task/', async function (req, res) {
+  try {
+    const { _id, index, name, client, processor, reviewer, duration, sla } = req.body
+    const update = await taskModel.updateOne({ _id }, { _id, index, name, client, processor, reviewer, duration, sla })
+          res.status(200).json({ success: true, response: update, message: "Task Updated successfully" })
   } catch (error) {
   res.json({ error: error })
 }

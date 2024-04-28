@@ -1,7 +1,7 @@
 import { Chip, cn } from "@nextui-org/react";
 const LabelTagChip = ({
   text,
-  color,
+  color = "clear",
   type = "label",
   size = "sm",
   isFilled = true,
@@ -16,15 +16,15 @@ const LabelTagChip = ({
     },
     orange: {
       filled: "bg-orange-default text-white-default",
-      unfilled: "text-orange-default bg-orange-default/20",
+      unfilled: "text-orange-default bg-orange-default/15",
     },
     yellow: {
-      filled: "bg-yellow-default text-white-default",
+      filled: "bg-yellow-default text-white-default text-shadow",
       unfilled: "text-yellow-default bg-yellow-default/20",
     },
     green: {
-      filled: "bg-green-default text-white-default",
-      unfilled: "text-green-default bg-green-default/20",
+      filled: "bg-green-default text-white-default text-shadow",
+      unfilled: "text-green-default bg-green-default/15",
     },
     blue: {
       filled: "bg-blue-default text-white-default",
@@ -74,7 +74,6 @@ const LabelTagChip = ({
       radius="sm"
       variant={type === "tag" && "dot"}
       size={isFilled ? "lg" : "sm"}
-      color="primary"
       classNames={{
         base: cn(
           `${

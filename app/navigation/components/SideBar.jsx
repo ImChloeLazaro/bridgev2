@@ -1,8 +1,13 @@
 import { Link } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Suspense, useEffect } from "react";
-import { Menu, MenuItem, Sidebar, menuClasses } from "react-pro-sidebar";
-
+import {
+  Menu,
+  MenuItem,
+  Sidebar,
+  SubMenu,
+  menuClasses,
+} from "react-pro-sidebar";
 import {
   activeAdminRouteAtom,
   activeHRRouteAtom,
@@ -94,11 +99,6 @@ const SideBar = () => {
         <Menu
           key='navigation'
           rootStyles={{
-            [`.${menuClasses.icon}`]: {
-              backgroundColor: "#EF8916",
-              borderRadius: "0.313rem",
-              color: "#f9f9f9",
-            },
             [`.${menuClasses.button}`]: {
               borderRadius: "0.313rem",
               color: "#393939",
@@ -124,6 +124,22 @@ const SideBar = () => {
                 fontWeight: 700,
               };
             },
+            icon: ({ level, active }) => {
+              if (level === 0) {
+                return {
+                  backgroundColor: "#EF8916",
+                  borderRadius: "0.313rem",
+                  color: "#f9f9f9",
+                };
+              }
+              if (level === 1) {
+                return {
+                  backgroundColor: "transparent",
+                  borderRadius: "0.313rem",
+                  color: "#393939",
+                };
+              }
+            },
             button: ({ level, active }) => {
               // only apply styles on first level elements of the tree
               if (level === 0) {
@@ -140,27 +156,94 @@ const SideBar = () => {
                   },
                 };
               }
+              if (level === 1) {
+                return {
+                  width: "16rem",
+                  color: "#f9f9f9",
+                  backgroundColor: "#f9f9f9",
+                  paddingLeft: active ? "0.875rem" : "1.875rem",
+                  ":hover": {
+                    color: "#EF8916",
+                    backgroundColor: "#EF891620",
+                    paddingLeft: "0.875rem",
+                    [`.${menuClasses.icon}`]: {
+                      color: "#EF8916",
+                    },
+                  },
+                  ":focus": {
+                    backgroundColor: "#EF891620",
+                  },
+                  
+                };
+              }
             },
           }}
         >
           {routes &&
-            routes.map((sidebarButtons) => (
-              <MenuItem
-                key={sidebarButtons.key}
-                active={activeRoutes[sidebarButtons.key]}
-                icon={sidebarButtons.icon}
-                component={
-                  <Link
-                    href={sidebarButtons.link}
-                    onPress={() => {
-                      handleSidebarButtonsActive(sidebarButtons.key);
+            routes.map((sidebarButtons) => {
+              if (sidebarButtons.key === "empower") {
+                return (
+                  <SubMenu
+                    label={sidebarButtons.label.toUpperCase()}
+                    active={activeRoutes[sidebarButtons.key]}
+                    key={sidebarButtons.key}
+                    icon={sidebarButtons.icon}
+                    rootStyles={{
+                      // change sidebar Tailwind CSS here
+                      ["." + menuClasses.subMenuContent]: {
+                        backgroundColor: "#f9f9f9",
+                      },
                     }}
-                  />
-                }
-              >
-                {sidebarButtons.label.toUpperCase()}
-              </MenuItem>
-            ))}
+                    component={
+                      <Link
+                        href={sidebarButtons.link}
+                        onPress={() => {
+                          handleSidebarButtonsActive(sidebarButtons.key);
+                        }}
+                      />
+                    }
+                  >
+                    {sidebarButtons.routes.map((subRoute) => {
+                      return (
+                        <MenuItem
+                          key={subRoute.key}
+                          active={activeRoutes[subRoute.key]}
+                          icon={subRoute.icon}
+                          component={
+                            <Link
+                              href={subRoute.link}
+                              onPress={() => {
+                                handleSidebarButtonsActive(subRoute.key);
+                              }}
+                            />
+                          }
+                        >
+                          {subRoute.label.toUpperCase()}
+                        </MenuItem>
+                      );
+                    })}
+                  </SubMenu>
+                );
+              } else {
+                return (
+                  <MenuItem
+                    key={sidebarButtons.key}
+                    active={activeRoutes[sidebarButtons.key]}
+                    icon={sidebarButtons.icon}
+                    component={
+                      <Link
+                        href={sidebarButtons.link}
+                        onPress={() => {
+                          handleSidebarButtonsActive(sidebarButtons.key);
+                        }}
+                      />
+                    }
+                  >
+                    {sidebarButtons.label.toUpperCase()}
+                  </MenuItem>
+                );
+              }
+            })}
         </Menu>
       </Sidebar>
       {/* </Suspense> */}

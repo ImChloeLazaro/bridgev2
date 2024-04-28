@@ -1,6 +1,6 @@
 import NextImage from "next/image";
 import ExternalLinks from "./ExternalLinks";
-import SidebarHeader from "../../../../public/header.png";
+import SidebarHeader from "../../../../public/header.webp";
 
 const ExternalLinksHeader = () => {
   return (
@@ -9,10 +9,8 @@ const ExternalLinksHeader = () => {
       <NextImage
         alt='Aretex Logo'
         src={SidebarHeader}
-        loading='lazy'
-        width={200}
-        height={50}
         placeholder={"blur"}
+        priority={true}
         quality={50}
         // sizes='(min-width: 808px) 50vw, 100vw'
         style={{

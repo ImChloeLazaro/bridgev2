@@ -1,13 +1,11 @@
 "use client";
 import { useAtomValue } from "jotai";
-import { Suspense } from "react";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
 import SideBar from "../navigation/components/SideBar";
 import DrawerSideBar from "../navigation/components/DrawerSideBar";
 import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
-// import Loading from "./loading";
 
 const UserLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);

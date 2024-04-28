@@ -7,7 +7,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { MdInfoOutline } from "react-icons/md";
 import {
   fileListAtom,
@@ -69,8 +69,13 @@ const ManagePostSidebarContent = () => {
     });
 
   const handleRemoveMedia = () => {
-    setFileList(undefined);
-    setFileUrlList(undefined);
+    if (inputFile.current) {
+      inputFile.current.value = "";
+      inputFile.current.type = "text";
+      inputFile.current.type = "file";
+    }
+    setFileList(null);
+    setFileUrlList(null);
     setMediaFileList([]);
   };
 
@@ -105,7 +110,6 @@ const ManagePostSidebarContent = () => {
       (template) => template.type === Array.from(key).join("")
     )[0];
 
-
     if (selectedTemplate) {
       setTemplateName(selectedTemplate.type);
       setSelectedMediaOrientation([...selectedTemplate.orientation]);
@@ -118,84 +122,85 @@ const ManagePostSidebarContent = () => {
     setSelectedTemplateType(key);
   };
 
+  const inputFile = useRef(null);
+
   return (
-    <div className="w-full max-w-lg max-h-full overflow-y-scroll no-scrollbar">
-      <div className="flex flex-col justify-between w-full h-screen max-h-[50rem] py-2 px-6 gap-3 ">
-        <div className="flex justify-start items-center gap-1">
-          <p className="font-bold">{"Template Settings"}</p>
-          <MdInfoOutline />
-        </div>
+    <>
+      <div className="flex justify-start items-center gap-1 mt-2">
+        <p className="font-bold">{"Template Settings"}</p>
+        <MdInfoOutline />
+      </div>
+      <div className="flex justify-between items-center gap-5">
+        <p className="font-normal w-24">{"Type"}</p>
+
+        <Select
+          aria-label="Template Type Selection"
+          items={templateTypeSelection}
+          disallowEmptySelection={true}
+          selectedKeys={selectedTemplateType}
+          onSelectionChange={(key) => handleSelectionChange(key)}
+          classNames={{
+            base: "",
+            trigger: "min-h-unit-12 py-2",
+          }}
+        >
+          {(template) => (
+            <SelectItem
+              key={template.value}
+              value={template.value}
+              textValue={template.label}
+            >
+              {template.label}
+            </SelectItem>
+          )}
+        </Select>
+      </div>
+      {(Array.from(selectedTemplateType).join("") === "custom" ||
+        !templateOnlyList.includes(selectedTemplateTypeString)) && (
         <div className="flex justify-between items-center gap-5">
-          <p className="font-normal w-24">{"Type"}</p>
-
-          <Select
-            aria-label="Template Type Selection"
-            items={templateTypeSelection}
-            disallowEmptySelection={true}
-            selectedKeys={selectedTemplateType}
-            onSelectionChange={(key) => handleSelectionChange(key)}
-            classNames={{
-              base: "max-w-sm",
-              trigger: "min-h-unit-12 py-2",
-            }}
-          >
-            {(template) => (
-              <SelectItem
-                key={template.value}
-                value={template.value}
-                textValue={template.label}
-              >
-                {template.label}
-              </SelectItem>
-            )}
-          </Select>
+          <p className="font-normal w-24">{"Name"}</p>
+          <Input
+            fullWidth
+            size="sm"
+            label="Give your custom template a name"
+            className=""
+            value={templateName}
+            onValueChange={setTemplateName}
+          />
         </div>
-        {(Array.from(selectedTemplateType).join("") === "custom" ||
-          !templateOnlyList.includes(selectedTemplateTypeString)) && (
-          <div className="flex justify-between items-center gap-5">
-            <p className="font-normal w-24">{"Name"}</p>
-            <Input
-              fullWidth
-              size="sm"
-              label="Give your custom template a name"
-              className="max-w-sm"
-              value={templateName}
-              onValueChange={setTemplateName}
-            />
+      )}
+
+      <div className="flex justify-between items-center gap-5">
+        <p className="font-normal w-24">{"Reaction"}</p>
+        <ReactionSelect />
+      </div>
+
+      {/* Media */}
+      <Divider />
+      <div className="flex justify-start items-center gap-1">
+        <p className="font-bold">{"Media"}</p>
+        <MdInfoOutline />
+      </div>
+      <div className="flex justify-start items-center w-full h-fit gap-8">
+        {/* // Layout & Orientation */}
+        <div className="flex-col justify-center items-center w-full">
+          <div className="flex justify-start items-center gap-5 mb-5">
+            <p className="font-normal w-28">{"Layout"}</p>
+            <MediaLayoutSelect />
           </div>
-        )}
-
-        <div className="flex justify-between items-center gap-5">
-          <p className="font-normal w-24">{"Reaction"}</p>
-          <ReactionSelect />
-        </div>
-
-        {/* Media */}
-        <Divider />
-        <div className="flex justify-start items-center gap-1">
-          <p className="font-bold">{"Media"}</p>
-          <MdInfoOutline />
-        </div>
-        <div className="flex justify-start items-center w-full h-fit gap-8">
-          {/* // Layout & Orientation */}
-          <div className="flex-col justify-center items-center w-full">
-            <div className="flex justify-start items-center gap-5 mb-5">
-              <p className="font-normal w-28">{"Layout"}</p>
-              <MediaLayoutSelect />
-            </div>
-            <div className="flex justify-start items-center gap-5 mb-5">
-              <p className="font-normal w-24">{"Orientation"}</p>
-              <MediaOrientationSelect />
-            </div>
-            {!mediaFileList?.length && (
-              <p className="text-sm font-medium text-red-default">
-                {"*Note: this will not display any media on your post"}
-              </p>
-            )}
+          <div className="flex justify-start items-center gap-5 mb-5">
+            <p className="font-normal w-28">{"Orientation"}</p>
+            <MediaOrientationSelect />
           </div>
-          {/* <div className=""> */}
+          {!mediaFileList?.length && (
+            <p className="text-sm font-medium text-red-default">
+              {"*Note: this will not display any media on your post"}
+            </p>
+          )}
+        </div>
+        <div className="w-80 h-40 text-center">
           {(selectedMediaLayoutString ? (
-            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+            <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               <MediaLayoutPreview
                 mediaFileList={fileUrlList}
                 layout={selectedMediaLayoutString}
@@ -203,12 +208,12 @@ const ManagePostSidebarContent = () => {
               />
             </div>
           ) : (
-            <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+            <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               {"No media to display"}
             </div>
           )) &&
             (selectedMediaOrientationString ? (
-              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+              <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 <MediaLayoutPreview
                   mediaFileList={fileUrlList}
                   layout={selectedMediaLayoutString}
@@ -216,70 +221,66 @@ const ManagePostSidebarContent = () => {
                 />
               </div>
             ) : (
-              <div className="w-80 h-40 bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+              <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
                 {"No media to display"}
               </div>
             ))}
-          {/* </div> */}
-        </div>
-
-        <div className="flex justify-start items-center gap-5">
-          <p className="font-normal w-20">{"Files"}</p>
-          {/* <Button startContent={<MdFileUpload size={24} />}>
-             {"Upload"} 
-            
-          </Button> */}
-          <input
-            type="file"
-            id="post media"
-            name="post media"
-            accept=".jpg, .jpeg, .png"
-            placeholder="Upload file"
-            multiple
-            className="border-none"
-            onChange={(e) => handleUploadFile(e)}
-          />
-          {fileList && (
-            <CTAButtons
-              label={"Remove media"}
-              color={"clear"}
-              onPress={handleRemoveMedia}
-            />
-          )}
-        </div>
-
-        {/* Description */}
-        <Divider />
-        <div className="flex justify-start items-center gap-1">
-          <p className="font-bold">{"Description"}</p>
-          <MdInfoOutline />
-        </div>
-        <div className="flex justify-between items-center gap-5">
-          <p className="font-normal w-24">{"Title"}</p>
-          <Input
-            fullWidth
-            size="sm"
-            label="Give your post a name"
-            className="max-w-sm"
-            value={postTitle}
-            onValueChange={setPostTitle}
-          />
-        </div>
-        <div className="flex justify-between items-center gap-5">
-          <p className="font-normal w-24">{"Tag People"}</p>
-          <TagPersonSelect />
-        </div>
-        <div className="flex justify-between items-center gap-5">
-          <p className="font-normal w-24">{"Caption"}</p>
-          <Textarea
-            value={postCaption}
-            onValueChange={setPostCaption}
-            label="Give your post a caption"
-            className="max-w-sm"
-          />
         </div>
       </div>
-    </div>
+
+      <div className="flex justify-start items-center gap-5">
+        <p className="font-normal w-20">{"Files"}</p>
+        <input
+          ref={inputFile}
+          type="file"
+          id="post media"
+          name="post media"
+          accept=".jpg, .jpeg, .png"
+          placeholder="Upload file"
+          multiple
+          className="border-none"
+          onChange={(e) => handleUploadFile(e)}
+        />
+        {fileList && (
+          <CTAButtons
+            label={"Remove media"}
+            color={"clear"}
+            onPress={handleRemoveMedia}
+          />
+        )}
+      </div>
+
+      {/* Description */}
+      <Divider />
+      <div className="flex justify-start items-center gap-1">
+        <p className="font-bold">{"Description"}</p>
+        <MdInfoOutline />
+      </div>
+      <div className="flex justify-between items-center gap-5">
+        <p className="font-normal w-24">{"Title"}</p>
+        <Input
+          fullWidth
+          size="sm"
+          label="Give your post a name"
+          className=""
+          value={postTitle}
+          onValueChange={setPostTitle}
+        />
+      </div>
+      <div className="flex justify-between items-center gap-5">
+        <p className="font-normal w-24">{"Tag People"}</p>
+        <TagPersonSelect />
+      </div>
+      <div className="flex justify-between items-center gap-5 mb-2">
+        <p className="font-normal w-24">{"Caption"}</p>
+        <Textarea
+          value={postCaption}
+          onValueChange={setPostCaption}
+          label="Give your post a caption"
+          className=""
+        />
+      </div>
+    </>
   );
 };
 

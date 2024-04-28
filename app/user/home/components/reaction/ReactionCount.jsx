@@ -2,6 +2,8 @@ import { Link, Tooltip } from "@nextui-org/react";
 import { reactionIcons } from "./ReactionIcons";
 
 const ReactionCount = ({ data, selectedReaction }) => {
+  // console.log("INSIDE REACTION COUNT:", data, selectedReaction);
+
   const handleReactionCount = (object) => {
     return Object.values(object).reduce((accumulator, value) => {
       return accumulator + value;
@@ -35,11 +37,11 @@ const ReactionCount = ({ data, selectedReaction }) => {
     <Link className="flex justify-start items-center isolate relative">
       {handleReactionCount(data) <= 0 ? (
         <div className={`${reactionStack[0]}`}>
-          {reactionIcons[`${selectedReaction[0]}`].badge}
+          {reactionIcons[`${selectedReaction[0]}`]?.badge}
         </div>
       ) : (
         Object.keys(data).map((reaction, index) => {
-          const icon = reactionIcons[reaction].label;
+          const icon = reactionIcons[reaction]?.label;
           const count = data[reaction];
 
           if (count > 0) {
@@ -59,7 +61,7 @@ const ReactionCount = ({ data, selectedReaction }) => {
                   key={index}
                   className={`${reactionStack[(stackIndex += 1)]}`}
                 >
-                  {reactionIcons[`${reaction}`].badge}
+                  {reactionIcons[`${reaction}`]?.badge}
                 </div>
               </Tooltip>
             );
