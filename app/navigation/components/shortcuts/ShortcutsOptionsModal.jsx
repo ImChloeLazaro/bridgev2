@@ -20,24 +20,31 @@ import {
   shortcutsAtom,
   updateShortcutAtom,
 } from "../../store/ShortcutsStore";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const auth = useAtomValue(authenticationAtom);
-
-  const fetchShortcut = useSetAtom(fetchShortcutAtom);
-
-  const shortcutSize = 28; //icon size
-  const [isOpen, setIsOpen] = useState(false);
-
-  const setDisableDraggable = useSetAtom(disableDraggableAtom);
   const [shortcutsList, setShortcutsList] = useAtom(shortcutsAtom);
-  const deleteShortcut = useSetAtom(deleteShortcutAtom);
-  const updateShortcut = useSetAtom(updateShortcutAtom);
 
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedShortcut, setSelectedShortcut] = useState(unique_key);
 
   const [editShortcutName, setEditShortcutName] = useState(title);
   const [editShortcutURL, setEditShortcutURL] = useState(url);
+
+  const setDisableDraggable = useSetAtom(disableDraggableAtom);
+  const fetchShortcut = useSetAtom(fetchShortcutAtom);
+  const deleteShortcut = useSetAtom(deleteShortcutAtom);
+  const updateShortcut = useSetAtom(updateShortcutAtom);
 
   const handleDeleteShortcut = async () => {
     const promise = async () =>
@@ -124,7 +131,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
           isIconOnly
           className='bg-transparent'
         >
-          <BiDotsVerticalRounded size={shortcutSize} />
+          <BiDotsVerticalRounded size={22} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-96 p-4'>

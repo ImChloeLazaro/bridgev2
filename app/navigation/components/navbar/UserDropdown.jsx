@@ -12,6 +12,7 @@ import "../../../aws-auth";
 import { userAtom } from "../../../store/UserStore";
 import { isVisibleJobTitleAtom } from "../../../user/profile/store/ProfileStore";
 import SwitchRoles from "./SwitchRoles";
+import { userOptionsAtom } from "../../store/NavSideBarStore";
 
 async function handleSignOut() {
   try {
@@ -22,12 +23,7 @@ async function handleSignOut() {
 }
 
 const UserDropdown = () => {
-  const options = {
-    switch: { key: "switch", label: "Switch Roles" },
-    settings: { key: "settings", label: "Settings" },
-    help: { key: "help", label: "Help & Feedback" },
-    logout: { key: "logout", label: "Log out" },
-  };
+  const userOptions = useAtomValue(userOptionsAtom);
 
   const user = useAtomValue(userAtom);
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
@@ -53,7 +49,7 @@ const UserDropdown = () => {
             ),
             src: user.picture,
             isBordered: true,
-            alt: "User Profile Picture"
+            alt: "User Profile Picture",
           }}
           className="transition-transform mr-3"
           classNames={{
@@ -79,23 +75,25 @@ const UserDropdown = () => {
         }}
       >
         <DropdownItem
-          key={options.switch.key}
+          key={userOptions.switch.key}
           className={"font-medium data-[hover=true]:bg-transparent p-0 "}
-          textValue={options.switch.key}
+          textValue={userOptions.switch.key}
         >
           <SwitchRoles />
         </DropdownItem>
 
-        <DropdownItem key={options.settings.key}>
-          {options.settings.label}
+        <DropdownItem key={userOptions.settings.key}>
+          {userOptions.settings.label}
         </DropdownItem>
-        <DropdownItem key={options.help.key}>{options.help.label}</DropdownItem>
+        <DropdownItem key={userOptions.help.key}>
+          {userOptions.help.label}
+        </DropdownItem>
         <DropdownItem
-          key={options.logout.key}
+          key={userOptions.logout.key}
           className="data-[hover=true]:bg-red-default"
           onPress={handleSignOut}
         >
-          {options.logout.label}
+          {userOptions.logout.label}
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

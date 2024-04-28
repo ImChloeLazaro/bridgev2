@@ -20,7 +20,7 @@ const ExternalLinks = () => {
           className='p-6 text-orange-default bg-white-default hover:bg-grey-hover rounded-xl'
         >
           <div>
-            <IoApps size={36} />
+            <IoApps size={28} />
           </div>
         </Button>
       </PopoverTrigger>
@@ -72,10 +72,10 @@ const ExternalLinks = () => {
               },
             }}
           >
-            <div className='flex items-center justify-between pt-1 pr-4 pb-3 pl-3 '>
-              <div className='text-xl font-bold'>{"Switch To"}</div>
-              <div className='text-black-default'>
-                <RxExternalLink size={24} />
+            <div className="flex items-center justify-between pt-1 pr-4 pb-3 pl-3 ">
+              <div className="text-xl font-bold">{"Switch To"}</div>
+              <div className="text-black-default">
+                <RxExternalLink size={28} />
               </div>
             </div>
             {externalLinks.map((sidebarButtons) => (

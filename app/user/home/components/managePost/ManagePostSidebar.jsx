@@ -203,7 +203,7 @@ const ManagePostSidebar = () => {
       </div>
 
       <div className="flex flex-col pt-0 pb-4 px-6 gap-8">
-        <Divider />
+        {Array.from(selectedTemplateType).join("") === "custom" && <Divider />}
         {Object.values(actionButtons).map((button) => {
           return (
             <CTAButtons

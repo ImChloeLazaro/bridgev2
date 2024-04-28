@@ -1,7 +1,15 @@
-import { Button } from "@nextui-org/react";
-import { useAtom, useSetAtom } from "jotai";
+import { Button, useDisclosure } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { notificationCountAtom } from "../../store/NotificationsStore";
+import NotificationsHistory from "./NotificationsHistory";
 
-const NotificationsFooter = () => {
+const NotificationsFooter = ({ markAllAsRead }) => {
+  const notificationCount = useAtomValue(notificationCountAtom);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const handleWindowClose = () => {
+    onOpen();
+  };
 
   return (
     <div className="flex flex-col pt-1">
@@ -11,22 +19,20 @@ const NotificationsFooter = () => {
           disableRipple={true}
           disableAnimation={true}
           className="py-0 bg-transparent data-[hover=true]:bg-transparent"
+          onPress={() => handleWindowClose()}
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
             {"See All Notifications"}
           </p>
         </Button>
+        <NotificationsHistory isOpen={isOpen} onOpenChange={onOpenChange} />
         <Button
           variant="light"
+          isDisabled={notificationCount === 0}
           disableRipple={true}
           disableAnimation={true}
           className="py-0 bg-transparent data-[hover=true]:bg-transparent"
-          // onPress={setNotifications(() => {
-          //   notifications.map((notification) => {
-          //     console.log(notification);
-          //   });
-          // })}
-          onPress={() => {}}
+          onPress={() => markAllAsRead()}
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
             {"Mark All as Read"}

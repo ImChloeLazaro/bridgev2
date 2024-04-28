@@ -1,84 +1,167 @@
 import {
   Link,
+  Image,
   Navbar,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarMenuToggle,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  roleAtom,
-  selectedRoleAtom,
-  userRolesAtom,
-} from "../store/NavSideBarStore";
-import { routesUser } from "./RoutesIconDetails";
+import { userOptionsAtom, userRolesAtom } from "../store/NavSideBarStore";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
+import { MdMenu } from "react-icons/md";
+import {
+  activeAdminRouteAtom,
+  activeHRRouteAtom,
+  activeTLRouteAtom,
+  activeUserRouteAtom,
+  fetchRoleAtom,
+  selectedRoleAtom,
+} from "../store/NavSideBarStore";
+import {
+  routesAdmin,
+  routesHR,
+  routesTeamLead,
+  routesUser,
+} from "./RoutesIconDetails";
+import { signOut } from "aws-amplify/auth";
+import "../../aws-auth";
+// @refresh reset
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const menuItems = routesUser.map((details) => details.label);
-  const router = useRouter();
-
+  const userOptions = useAtomValue(userOptionsAtom);
   const selectedRole = useAtomValue(selectedRoleAtom);
   const userRoles = useAtomValue(userRolesAtom);
+  const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
+  const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
+  const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
+  const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
+
+  const role = useAtomValue(selectedRoleAtom);
+
+  const activeRoutes = role.includes("admin")
+    ? activeAdminRoute
+    : role.includes("hr")
+    ? activeHRRoute
+    : role.includes("tl")
+    ? activeTLRoute
+    : role.includes("user") && activeUserRoute;
+
+  const setActiveRoutes = role.includes("admin")
+    ? setActiveAdminRoute
+    : role.includes("hr")
+    ? setActiveHRRoute
+    : role.includes("tl")
+    ? setActiveTLRoute
+    : role.includes("user") && setActiveUserRoute;
+
+  const routes = role.includes("admin")
+    ? routesAdmin
+    : role.includes("hr")
+    ? routesHR
+    : role.includes("tl")
+    ? routesTeamLead
+    : role.includes("user") && routesUser;
+
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
+  }
 
   return (
     <Navbar
+      isBordered
+      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      position='static'
-      // className="md:bg-blue-default"
+      position="static"
       classNames={{
-        base: "flex justify-end m-0 p-0 bg-blue-default",
-        wrapper: "xxs:max-sm:mr-2 xxs:max-sm:pr-2 mr-16 pr-16 py-2",
+        base: "flex justify-end m-0 p-0 bg-white-default lg:bg-blue-default",
+        wrapper:
+          "mr-2 pr-4 my-[0.3rem] sm:mr-8 sm:pr-8 md:mr-12 md:pr-12 lg:mr-16 lg:pr-16",
+        // toggleIcon: "text-white-default",
       }}
     >
-      {/* <NavbarContent>
+      <NavbarContent justify="start">
         <NavbarMenuToggle
+          icon={
+            <div>
+              <MdMenu
+                className="text-orange-default"
+                fill="currentColor"
+                size={36}
+              />
+            </div>
+          }
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="md:hidden"
+          className="lg:hidden"
         />
-      </NavbarContent> */}
+      </NavbarContent>
 
-      {/* <NavbarContent justify="center">
+      <NavbarContent justify="center">
         <NavbarItem>
           <Image
             radius="none"
             alt="Aretex Logo"
             src="/header.png"
-            className="md:hidden"
+            className="lg:hidden"
           />
         </NavbarItem>
-      </NavbarContent> */}
+      </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="flex items-center gap-6">
+        <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
           <UserDropdown />
         </NavbarItem>
-        <NavbarItem className="flex items-center gap-6">
+        <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
           {userRoles.includes(selectedRole) && <RoleBadge />}
         </NavbarItem>
-        <NavbarItem className="flex items-center gap-6">
+        <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={"foreground"}
-              className='w-full'
-              size='lg'
-              onPress={() => router.push("/")}
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
+        {Object.values(userOptions).map((option) => {
+          if (option.key === "logout") {
+            return (
+              <NavbarMenuItem
+                key={option.key}
+                className="hover:bg-red-default rounded p-2"
+              >
+                <Link
+                  href=""
+                  size="md"
+                  className="px-2 text-base font-medium hover:text-white-default text-black-default"
+                  onPress={handleSignOut}
+                >
+                  {option.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          } else {
+            return (
+              <NavbarMenuItem
+                key={option.key}
+                className="hover:bg-orange-default rounded p-2"
+              >
+                <Link
+                  href=""
+                  size="md"
+                  className="px-2 text-base font-medium hover:text-white-default text-black-default"
+                >
+                  {option.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          }
+        })}
       </NavbarMenu>
     </Navbar>
   );

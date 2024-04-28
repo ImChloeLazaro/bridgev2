@@ -6,8 +6,7 @@ import { Divider } from "@aws-amplify/ui-react";
 import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { MdClose } from "react-icons/md";
-import { MdMinimize } from "react-icons/md";
+import { MdClose, MdMinimize } from "react-icons/md";
 import "../../../../aws-auth";
 import {
   addArchivePostAtom,
@@ -48,6 +47,7 @@ import {
 } from "../../store/PublishedStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
+// @refresh reset
 
 const ManagePostMainContent = ({ onClose }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -73,7 +73,6 @@ const ManagePostMainContent = ({ onClose }) => {
   const post = useAtomValue(postAtom);
 
   useEffect(() => {
-    // fetchPost();
     fetchDraftPost(auth.sub);
     fetchPublishPost(auth.sub);
     fetchArchivePost(auth.sub);
@@ -341,6 +340,38 @@ const ManagePostMainContent = ({ onClose }) => {
     );
   });
 
+  // tabs count
+  // const filteredDraftsPostList = draftsPostList.filter((post) => {
+  //   return (
+  //     selectedFilterKeys.has(post.type) &&
+  //     (post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //       post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //       post.title.toLowerCase().includes(searchItem.toLowerCase()))
+  //   );
+  // });
+  // const filteredPublishedPostList = publishedPostList.filter((post) => {
+  //   return (
+  //     selectedFilterKeys.has(post.type) &&
+  //     (post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //       post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //       post.title.toLowerCase().includes(searchItem.toLowerCase()))
+  //   );
+  // });
+  // const filteredArchivedPostList = archivedPostList.filter((post) => {
+  //   return (
+  //     selectedFilterKeys.has(post.type) &&
+  //     (post.team.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //       post.caption.toLowerCase().includes(searchItem.toLowerCase()) ||
+  //       post.title.toLowerCase().includes(searchItem.toLowerCase()))
+  //   );
+  // });
+
+  // const filteredPostsCount = {
+  //   drafts: filteredDraftsPostList.length,
+  //   published: filteredPublishedPostList.length,
+  //   archived: filteredArchivedPostList.length,
+  // };
+
   return (
     <div className="flex flex-col h-full justify-between items-stretch p-0 rounded-r-lg">
       {/* HEADER */}
@@ -368,7 +399,7 @@ const ManagePostMainContent = ({ onClose }) => {
 
       {/* BODY */}
       {filteredPostList.length != 0 ? (
-        <div className="grid justify-center w-full h-full overflow-y-scroll px-6 ">
+        <div className="grid justify-center w-full h-full overflow-y-auto px-6 ">
           <CheckboxGroup
             aria-label="Post Item Card Checkbox Group"
             value={selectedPosts}
@@ -432,6 +463,7 @@ const ManagePostMainContent = ({ onClose }) => {
                 label={button.label}
                 color={button.color}
                 onPress={button.action}
+                className={"w-48"}
               />
             );
           })}

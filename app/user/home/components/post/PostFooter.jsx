@@ -12,7 +12,7 @@ const PostFooter = ({ data }) => {
         <CommentCount data={data.comments} />
       </div>
       <Divider />
-      <div className="flex justify-between w-full px-8">
+      <div className="flex justify-between w-full px-0 lg:px-8">
         <ReactionButton
           id={data._id} // post ID
           reactionList={data.reactionList}

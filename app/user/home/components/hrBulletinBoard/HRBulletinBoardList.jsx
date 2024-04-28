@@ -1,4 +1,4 @@
-import { Listbox, ListboxItem } from "@nextui-org/react";
+import { Listbox, ListboxItem, Image } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -8,7 +8,7 @@ import {
 import { useAtomValue } from "jotai";
 import LabelTagChip from "../../../../components/LabelTagChip";
 import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
-
+// @refresh reset
 const HRBulletinBoardList = () => {
   const hrBulletinBoard = useAtomValue(hrBulletinBoardAtom);
 
@@ -38,13 +38,12 @@ const HRBulletinBoardList = () => {
       onAction={(key) => console.log(key)}
       emptyContent={
         <div className="w-full p-0 flex flex-col items-center mt-6">
-
-          {/* <Image
+          <Image
               width={180}
               height={180}
               alt={"No Notifications"}
-              src={"/NoNotifications.jpg"}
-            /> */}
+              src={"/no-announcement.png"}
+            />
           <p className="font-medium text-black-default/80">
             {"No announcements right now!"}
           </p>
@@ -54,7 +53,7 @@ const HRBulletinBoardList = () => {
         </div>
       }
       classNames={{
-        base: ["w-full h-auto p-2 m-0 mb-2 overflow-y-scroll"],
+        base: ["w-full h-auto p-2 m-0 mb-2 overflow-y-auto"],
         list: "w-full pl-0 ml-0 ",
       }}
       itemClasses={{
@@ -66,7 +65,7 @@ const HRBulletinBoardList = () => {
         wrapper: "w-full",
       }}
     >
-      {(hrBulletin) => {
+      {/* {(hrBulletin) => {
         return (
           <ListboxItem textValue={hrBulletin.title} key={hrBulletin.id}>
             <div className="flex flex-col items-center justify-start px-4 py-4 my-2 gap-4">
@@ -80,7 +79,7 @@ const HRBulletinBoardList = () => {
                     isFilled={false}
                   />
                 </div>
-                <p className="font-normal text-sm">{`${handleHRBulletinDateTime(
+                <p className="font-normal text-sm p-1">{`${handleHRBulletinDateTime(
                   hrBulletin.datetime
                 )}`}</p>
               </div>
@@ -93,7 +92,7 @@ const HRBulletinBoardList = () => {
             </div>
           </ListboxItem>
         );
-      }}
+      }} */}
     </Listbox>
   );
 };

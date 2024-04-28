@@ -10,12 +10,14 @@ const SignInCard = () => {
       style={{ backgroundImage: "url(/bg.png)" }}
     >
       <Card
-        className="p-4 h-max gap-1
+        className="
+        p-4 h-max gap-1
         min-w-fit
         sm:min-w-fit
         md:w-80 
         lg:w-96
-        max-w-2xl"
+        max-w-2xl
+        "
       >
         <CardHeader className="flex justify-left">
           {/*       

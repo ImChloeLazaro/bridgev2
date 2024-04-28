@@ -1,6 +1,6 @@
-import { Link } from "@nextui-org/react";
+import { Link, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   Menu,
   MenuItem,
@@ -15,6 +15,8 @@ import {
   activeUserRouteAtom,
   fetchRoleAtom,
   selectedRoleAtom,
+  sidebarBreakpointAtom,
+  sidebarToggleAtom,
 } from "../store/NavSideBarStore";
 import {
   routesAdmin,
@@ -24,12 +26,22 @@ import {
 } from "./RoutesIconDetails";
 import Shortcuts from "./shortcuts/Shortcuts";
 import SideBarHeader from "./sidebar/SideBarHeader";
+import IconButton from "@/app/components/IconButton";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import ShortcutsHeader from "./shortcuts/ShortcutsHeader";
 
 const SideBar = () => {
   const fetchRole = useSetAtom(fetchRoleAtom);
   useEffect(() => {
     fetchRole();
   }, [fetchRole]);
+
+  const breakpoint = "1023";
+
+  const [toggled, setToggled] = useAtom(sidebarToggleAtom);
+  const [broken, setBroken] = useState(
+    window.matchMedia(`(max-width: ${breakpoint}px)`).matches
+  );
 
   const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
   const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
@@ -77,23 +89,21 @@ const SideBar = () => {
   };
 
   return (
-    <div className=' xxs:max-md:hidden xxs:max-md:pt-5 flex flex-col max-h-screen bg-white-default '>
-      {/* <Suspense fallback={<Loading />}> */}
-
-      <div className='py-5 px-2'>
-        <SideBarHeader />
-      </div>
-
+    <div className="h-full flex flex-col lg:justify-start justify-center items-center ">
       <Sidebar
-        // customBreakPoint='760px'
+        style={{ backgroundColor: "#f9f9f9" }}
+        toggled={toggled}
+        onBackdropClick={() => setToggled(false)}
+        customBreakPoint={`${breakpoint}px`}
+        onBreakPoint={setBroken}
         rootStyles={{
-          // change sidebar Tailwind CSS here
-          width: "100%",
-          paddingLeft: "0.5rem",
-          paddingRight: "0.5rem",
-          marginBottom: "4rem",
-          "@media (max-width: 767px)": { display: "none", width: "0%" },
+          width: "14rem",
+          height: "100%",
           backgroundColor: "#f9f9f9",
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+          overflowY: "auto",
         }}
       >
         <Menu
@@ -107,78 +117,17 @@ const SideBar = () => {
               transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
             },
             padding: "0.5rem",
-            paddingRight: "2.5rem",
+            height: "100%",
             backgroundColor: "#f9f9f9",
           }}
-          menuItemStyles={{
-            root: () => {
-              return {
-                gap: "7rem",
-              };
-            },
-            label: () => {
-              return {
-                marginLeft: "0.30rem",
-                fontSize: "1rem",
-                lineHeight: "1.5rem",
-                fontWeight: 700,
-              };
-            },
-            icon: ({ level, active }) => {
-              if (level === 0) {
-                return {
-                  backgroundColor: "#EF8916",
-                  borderRadius: "0.313rem",
-                  color: "#f9f9f9",
-                };
-              }
-              if (level === 1) {
-                return {
-                  backgroundColor: "transparent",
-                  borderRadius: "0.313rem",
-                  color: "#393939",
-                };
-              }
-            },
-            button: ({ level, active }) => {
-              // only apply styles on first level elements of the tree
-              if (level === 0) {
-                return {
-                  width: "16rem",
-                  backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
-                  paddingLeft: active ? "0.875rem" : "0.375rem",
-                  ":hover": {
-                    backgroundColor: "#D0D0D0",
-                    paddingLeft: "0.875rem",
-                  },
-                  ":focus": {
-                    backgroundColor: "#D0D0D0",
-                  },
-                };
-              }
-              if (level === 1) {
-                return {
-                  width: "16rem",
-                  color: "#f9f9f9",
-                  backgroundColor: "#f9f9f9",
-                  paddingLeft: active ? "0.875rem" : "1.875rem",
-                  ":hover": {
-                    color: "#EF8916",
-                    backgroundColor: "#EF891620",
-                    paddingLeft: "0.875rem",
-                    [`.${menuClasses.icon}`]: {
-                      color: "#EF8916",
-                    },
-                  },
-                  ":focus": {
-                    backgroundColor: "#EF891620",
-                  },
-                  
-                };
-              }
-            },
-          }}
         >
+          {!broken ? (
+            <SideBarHeader />
+          ) : (
+            <div className="flex items-center justify-between mt-6 pl-2 pb-4 bg-white-default">
+              <p className="text-xl font-bold">{"NAVIGATION"}</p>
+            </div>
+          )}
           {routes &&
             routes.map((sidebarButtons) => {
               if (sidebarButtons.key === "empower") {
@@ -190,8 +139,61 @@ const SideBar = () => {
                     icon={sidebarButtons.icon}
                     rootStyles={{
                       // change sidebar Tailwind CSS here
+                      ["." + menuClasses.label]: {
+                        marginLeft: "0.30rem",
+                        fontSize: "1rem",
+                        lineHeight: "1.5rem",
+                        fontWeight: 700,
+                      },
+                      ["." + menuClasses.icon]: {
+                        backgroundColor: "#EF8916",
+                        borderRadius: "0.313rem",
+                        color: "#f9f9f9",
+                      },
+                      ["." + menuClasses.button]: {
+                        // width: "100%",
+                        backgroundColor: "#f9f9f9",
+                        paddingRight: "0rem",
+                        paddingLeft: "0.375rem",
+                        "&:hover": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                        "&:focus": {
+                          backgroundColor: "#D0D0D0",
+                        },
+                        "&:active": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                      },
                       ["." + menuClasses.subMenuContent]: {
                         backgroundColor: "#f9f9f9",
+                        ["." + menuClasses.icon]: {
+                          backgroundColor: "transparent",
+                          borderRadius: "0.313rem",
+                          color: "#393939",
+                        },
+                        ["." + menuClasses.button]: {
+                          // width: "100%",
+                          backgroundColor: "#f9f9f9",
+                          paddingRight: "0rem",
+                          paddingLeft: "1.875rem",
+                          "&:hover": {
+                            color: "#EF8916",
+                            paddingLeft: "0.875rem",
+                            ["." + menuClasses.icon]: {
+                              color: "#EF8916",
+                            },
+                            backgroundColor: "#EF891620",
+                          },
+                          "&:focus": {
+                            backgroundColor: "#EF891620",
+                          },
+                          "&:active": {
+                            paddingLeft: "0.875rem",
+                          },
+                        },
                       },
                     }}
                     component={
@@ -238,22 +240,63 @@ const SideBar = () => {
                         }}
                       />
                     }
+                    rootStyles={{
+                      ["." + menuClasses.icon]: {
+                        backgroundColor: "#EF8916",
+                        borderRadius: "0.313rem",
+                        color: "#f9f9f9",
+                      },
+                      ["." + menuClasses.label]: {
+                        marginLeft: "0.30rem",
+                        fontSize: "1rem",
+                        lineHeight: "1.5rem",
+                        fontWeight: 700,
+                      },
+                      ["." + menuClasses.button]: {
+                        // width: "100%",
+                        backgroundColor: "#f9f9f9",
+                        paddingRight: "0rem",
+                        paddingLeft: "0.375rem",
+                        "&:hover": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                        "&:focus": {
+                          backgroundColor: "#D0D0D0",
+                        },
+                        "&:active": {
+                          backgroundColor: "#D0D0D0",
+                          paddingLeft: "0.875rem",
+                        },
+                      },
+                    }}
                   >
                     {sidebarButtons.label.toUpperCase()}
                   </MenuItem>
                 );
               }
             })}
+          <ShortcutsHeader />
+          <Shortcuts />
         </Menu>
       </Sidebar>
-      {/* </Suspense> */}
-      {/* <Suspense fallback={<Loading />}> */}
-      <div className='xs:max-md:hidden'>
-        {" "}
-        <Shortcuts />
-      </div>
 
-      {/* </Suspense> */}
+      {broken && (
+        <IconButton
+          className={cn(
+            "fixed left-0 z-50 -ml-2",
+            "h-18",
+            "bg-orange-default hover:bg-orange-hover/80 text-white-default"
+          )}
+          onPress={() => {
+            console.log("TOGGLED: ", toggled);
+            setToggled(!toggled);
+            console.log("TOGGLED: ", toggled);
+          }}
+        >
+          <MdOutlineKeyboardArrowRight size={24} />
+        </IconButton>
+      )}
     </div>
   );
 };

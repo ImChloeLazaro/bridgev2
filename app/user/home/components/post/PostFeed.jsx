@@ -21,7 +21,7 @@ const PostFeed = () => {
     return (
       <Suspense
         key={post._id}
-        fallback={<Skeleton className="w-full h-full rounded-lg" />}
+        fallback={<Skeleton className="w-full h-full" />}
       >
         <PostCard key={post._id} data={post} />
       </Suspense>

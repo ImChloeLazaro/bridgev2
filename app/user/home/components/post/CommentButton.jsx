@@ -21,7 +21,7 @@ const CommentButton = () => {
           </div>
         }
       >
-        <p className="font-semibold text-darkgrey-default">{"Comment"}</p>
+        <p className="text-sm lg:text-md font-semibold text-darkgrey-default">{"Comment"}</p>
       </Button>
     </div>
   );

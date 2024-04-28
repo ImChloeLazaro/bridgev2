@@ -172,9 +172,9 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
           <p
             className={`${
               isReacted
-                ? `font-semibold
+                ? `text-sm lg:text-md font-semibold
                 capitalize ${label[selectedReaction]?.color}`
-                : "font-semibold capitalize text-darkgrey-default"
+                : "text-sm lg:text-md font-semibold capitalize text-darkgrey-default"
             }`}
           >
             {`${label[selectedReaction]?.label}`}

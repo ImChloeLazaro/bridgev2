@@ -27,6 +27,10 @@ import {
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
+import {
+  notifyFromUserAtom,
+  sendNotificationAtom,
+} from "@/app/navigation/store/NotificationsStore";
 
 const ClientAdminHeader = ({
   searchItem,
@@ -49,6 +53,7 @@ const ClientAdminHeader = ({
 
   const clients = useAtomValue(clientsAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
+  const notifyFromUser = useAtomValue(notifyFromUserAtom);
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   const [changeView, setChangeView] = useAtom(changeViewAtom);
@@ -60,6 +65,7 @@ const ClientAdminHeader = ({
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
+  const sendNotification = useSetAtom(sendNotificationAtom);
 
   const [showClientDetails, setShowClientDetails] = useAtom(
     showClientDetailsAtom
@@ -77,7 +83,16 @@ const ClientAdminHeader = ({
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchTask(), await fetchClient()),
+          async () =>
+            resolve(
+              await fetchTask(),
+              await fetchClient(),
+              // sendNotification({
+              //   title: "NEW TASK IS ADDED",
+              //   type: ["mentioned"],
+              //   description: `Task Notification from ${notifyFromUser.name}`,
+              // })
+            ),
           2000
         )
       );

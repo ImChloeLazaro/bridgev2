@@ -9,7 +9,15 @@ export const fetchRoleAtom = atom(null, async (get, set) => {
 
 export const selectedRoleAtom = atom(["user"]);
 
+export const sidebarToggleAtom = atom(false);
+
 export const userRolesAtom = atom(["hr", "tl", "admin"]);
+export const userOptionsAtom = atom({
+  switch: { key: "switch", label: "Switch Roles" },
+  settings: { key: "settings", label: "Settings" },
+  help: { key: "help", label: "Help & Feedback" },
+  logout: { key: "logout", label: "Log out" },
+});
 
 export const activeUserRouteAtom = atom({
   home: true,

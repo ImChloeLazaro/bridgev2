@@ -74,7 +74,7 @@ const ShortcutsHeader = () => {
   };
 
   return (
-    <div className="flex items-center justify-between pt-1 pr-4 pb-3 pl-3 bg-white-default">
+    <div className="flex items-center justify-between mt-16 pl-2 bg-white-default">
       <div className="text-xl font-bold">{"SHORTCUTS"}</div>
       <div className="flex justify-center items-center gap-1">
         <IconButton
