@@ -29,7 +29,7 @@ const UserOnboardingModal = () => {
       <Button
         disableRipple={true}
         disableAnimation={true}
-        className="bg-transparent text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
+        className="bg-transparent text-sm sm:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
         onPress={(open) => handleFetchDataWhenOpen(open)}
       >
         {"View Form"}

@@ -17,6 +17,8 @@ import EmergencyContactContent from "./components/emergencyContact/EmergencyCont
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
+import NavigationTab from "@/app/navigation/components/NavigationTab";
+import { MdPerson, MdGridView } from "react-icons/md";
 
 const Profile = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -25,7 +27,55 @@ const Profile = () => {
     auth.isAuthenticated && (
       <>
         <MainContent>
-          <ProfileCard />
+          <NavigationTab
+            className={"block lg:hidden"}
+            mainIcon={<MdPerson size={24} />}
+            rightIcon={<MdGridView size={24} />}
+            main={<ProfileCard />}
+            right={
+              <div className="w-full flex flex-col justify-center items-center gap-2">
+                <RightBarCard
+                  title={"Leave Balance"}
+                  description={"Shows your current balance for VL & SL"}
+                  icon={<MdBolt size={32} />}
+                  isExpandable={false}
+                >
+                  <LeaveBalanceContent />
+                </RightBarCard>
+
+                <RightBarCard
+                  title={"Benefits"}
+                  description={
+                    "Displays all of your currently unlocked benefits"
+                  }
+                  icon={<MdEmojiEvents size={32} />}
+                  isExpandable={false}
+                >
+                  <BenefitsContent />
+                </RightBarCard>
+
+                <RightBarCard
+                  title={"Emergency Contact"}
+                  description={"In case of emergency; please contact:"}
+                  icon={<MdHealing size={32} />}
+                  isExpandable={false}
+                >
+                  <EmergencyContactContent />
+                </RightBarCard>
+
+                <RightBarCard
+                  title={"Onboarding"}
+                  description={"Shows your onboarding progress and status"}
+                  icon={<MdMarkunreadMailbox size={32} />}
+                  isExpandable={false}
+                >
+                  <UserOnboardingContent />
+                </RightBarCard>
+              </div>
+            }
+          />
+
+          <ProfileCard className={"hidden lg:block"} />
         </MainContent>
         <RightBar>
           {/* LEAVE BALANCE */}

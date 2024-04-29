@@ -1,11 +1,17 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, cn } from "@nextui-org/react";
 import ProfileDetails from "./ProfileDetails";
 import ProfileHeader from "./ProfileHeader";
 
-const ProfileCard = () => {
+const ProfileCard = ({ className }) => {
   return (
     // mb-[number] for spacing between posts
-    <Card className="mb-6 mx-4 bg-white-default">
+    <Card
+      className={cn(
+        "lg:mb-6 lg:mx-4 bg-white-default",
+        "rounded-none lg:rounded-xl",
+        className
+      )}
+    >
       <CardHeader className="flex flex-col p-0 m-0 w-full">
         <ProfileHeader />
       </CardHeader>

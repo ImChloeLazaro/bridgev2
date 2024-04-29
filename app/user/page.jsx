@@ -18,6 +18,7 @@ import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom } from "./home/store/PostStore";
 import { restinsert } from "../utils/amplify-rest";
 import NavigationTab from "../navigation/components/NavigationTab";
+import { MdFeed, MdGridView } from "react-icons/md";
 
 const User = () => {
   const user = useAtomValue(userAtom);
@@ -40,7 +41,47 @@ const User = () => {
     auth.isAuthenticated && (
       <>
         <MainContent>
-          <NavigationTab data={user} className={"block lg:hidden "} />
+          <NavigationTab
+            className={"block lg:hidden"}
+            mainIcon={<MdFeed size={24} />}
+            rightIcon={<MdGridView size={24} />}
+            main={
+              <>
+                <CreatePostCard data={user} />
+                <PostFeed />
+              </>
+            }
+            right={
+              <div className="w-full flex flex-col justify-center items-center gap-2">
+                <RexWinnerCard />
+                <BirthdayCard />
+
+                <RightBarCard
+                  title={"What's New"}
+                  description={"Shows the latest announcements from HR"}
+                  isExpandable={true}
+                >
+                  <HRBulletinBoardList />
+                </RightBarCard>
+
+                <RightBarCard
+                  title={"Recognition"}
+                  description={"Displays all your feedbacks and recognitions"}
+                  isExpandable={true}
+                >
+                  <RecognitionList />
+                </RightBarCard>
+
+                <RightBarCard
+                  title={"Trainings"}
+                  description={"Displays all your latest trainings this year"}
+                  isExpandable={true}
+                >
+                  <TrainingList />
+                </RightBarCard>
+              </div>
+            }
+          />
           <CreatePostCard data={user} className={"hidden lg:block"} />
           <PostFeed className={"hidden lg:block"} />
         </MainContent>

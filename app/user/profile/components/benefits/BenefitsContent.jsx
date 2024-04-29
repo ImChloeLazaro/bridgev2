@@ -16,7 +16,7 @@ const BenefitsContent = () => {
                 key={index}
                 className="flex justify-between items-center p-2"
               >
-                <p className="text-base font-bold text-black-default w-1/4">
+                <p className="text-sm sm:text-base font-bold text-black-default w-1/4">
                   {benefit.name ?? "No Data Available"}
                 </p>
                 <Tooltip
@@ -28,7 +28,7 @@ const BenefitsContent = () => {
                   <Link
                     href="#"
                     underline="none"
-                    className="text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
+                    className="text-sm sm:text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
                   >
                     {benefit.number ?? "No Data Available"}
                   </Link>
@@ -39,7 +39,8 @@ const BenefitsContent = () => {
                     benefit.status === "available" ? "Available" : "Unavailable"
                   }
                   color={benefit.status === "available" ? "green" : "red"}
-                  size="sm"
+                  size="xs"
+                  className={"px-1 py-2"}
                 ></LabelTagChip>
               </div>
             );
