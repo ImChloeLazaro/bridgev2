@@ -41,19 +41,19 @@ const RecognitionList = () => {
     <Listbox
       items={recognitions}
       aria-label="Recognition List"
-      onAction={(key) => console.log(key)} 
+      onAction={(key) => console.log(key)}
       emptyContent={
-        <div className="w-full p-0 flex flex-col items-center mt-6">
+        <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">
           <Image
-              width={280}
-              height={280}
-              alt={"No Notifications"}
-              src={"/no-recognition.png"}
-            />
-          <p className="font-medium text-black-default/80">
+            width={280}
+            height={280}
+            alt={"No Recognition"}
+            src={"/no-recognition.png"}
+          />
+          <p className="text-sm xl:text-base font-medium text-black-default/80">
             {"You don't have recognitions lately"}
           </p>
-          <p className="font-medium text-black-default/80">
+          <p className="text-sm xl:text-base font-medium text-black-default/80">
             {"Don't worry! You got this!"}
           </p>
         </div>
@@ -70,21 +70,23 @@ const RecognitionList = () => {
         ],
       }}
     >
-      {/* {(recognition) => {
+      {(recognition) => {
         return (
           <ListboxItem textValue={recognition.title} key={recognition.id}>
             <div className="my-2 flex items-start justify-between">
-              <div className="pl-2 pr-2 my-2 mr-4 flex items-center justify-center">
+              <div className="pl-1 xl:pl-2 pr-1 xl:pr-2 my-2 mr-2 xl:mr-4 flex items-center justify-center">
                 {recognition.icon}
               </div>
-              <div className="flex flex-col w-[14rem]">
-                <p className="font-extrabold text-lg truncate w-full">
+              <div className="flex flex-col px-0 md:px-6 lg:px-2 w-[12rem] sm:w-full md:w-full lg:w-[10rem] 2xl:w-[20rem]">
+                <p className="font-extrabold text-md xl:text-lg truncate w-full">
                   {recognition.title}
                 </p>
-                <p className="font-medium text-md truncate w-full">
+                <p className="font-medium text-sm xl:text-md truncate w-full">
                   {recognition.description}
                 </p>
-                <p className="font-medium text-xs">{`${handleRecognitionDateTime(recognition.datetime)}`}</p>
+                <p className="font-medium text-xs">{`${handleRecognitionDateTime(
+                  recognition.datetime
+                )}`}</p>
               </div>
               <RecognitionOptions
                 trigger={<BiDotsVerticalRounded size={24} />}
@@ -93,7 +95,7 @@ const RecognitionList = () => {
             </div>
           </ListboxItem>
         );
-      }} */}
+      }}
     </Listbox>
   );
 };

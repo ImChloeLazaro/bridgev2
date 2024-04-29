@@ -11,16 +11,16 @@ const RightBarCard = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardStyle = {
-    expand: "pt-0 pb-2 px-2 w-full h-[550px] ",
-    collapse: "pt-0 pb-2 px-2 w-full h-[350px] ",
+    expand: "pt-0 pb-2 px-2 w-full h-[450px] lg:h-[450px] xl:h-[550px] ",
+    collapse: "pt-0 pb-2 px-2 w-full h-[250px] lg:h-[250px] xl:h-[350px] ",
   };
 
   return (
-    <Card className="w-full max-w-lg h-min-fit px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+    <Card className="w-full h-min-fit px-2 py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
       <CardHeader className="flex justify-between pl-4 pr-3">
         <div className="flex flex-col">
-          <p className="font-bold text-2xl text-black-default ">{title}</p>
-          <p className="font-medium text-sm text-darkgrey-hover">
+          <p className="font-bold text-md lg:text-lg xl:text-2xl text-black-default ">{title}</p>
+          <p className="font-medium text-xs text-darkgrey-hover">
             {description}
           </p>
         </div>
@@ -43,7 +43,7 @@ const RightBarCard = ({
         </Button>
       </CardHeader>
       <CardBody
-        className={`transition-[height] duration-300 overflow-y-scroll no-scrollbar 
+        className={`w-full transition-[height] duration-300 overflow-y-scroll no-scrollbar 
         ${
           isExpandable
             ? isExpanded

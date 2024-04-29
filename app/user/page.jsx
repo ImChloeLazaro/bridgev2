@@ -16,8 +16,8 @@ import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
 import { fetchPostAtom } from "./home/store/PostStore";
-
 import { restinsert } from "../utils/amplify-rest";
+import NavigationTab from "../navigation/components/NavigationTab";
 
 const User = () => {
   const user = useAtomValue(userAtom);
@@ -29,21 +29,20 @@ const User = () => {
         sub: auth.sub,
         name: user.name,
         picture: user.picture,
-        email: user.email
+        email: user.email,
       });
-    }
-    
+    };
+
     return () => insertProfile();
-
   }, []);
-
 
   return (
     auth.isAuthenticated && (
       <>
         <MainContent>
-          <CreatePostCard data={user} />
-          <PostFeed />
+          <NavigationTab data={user} className={"block lg:hidden "} />
+          <CreatePostCard data={user} className={"hidden lg:block"} />
+          <PostFeed className={"hidden lg:block"} />
         </MainContent>
         <RightBar>
           <RexWinnerCard />

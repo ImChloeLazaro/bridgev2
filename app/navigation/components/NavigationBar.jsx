@@ -86,7 +86,7 @@ const NavigationBar = () => {
       classNames={{
         base: "flex justify-end m-0 p-0 bg-white-default lg:bg-blue-default",
         wrapper:
-          "mr-2 pr-4 my-[0.3rem] sm:mr-8 sm:pr-8 md:mr-12 md:pr-12 lg:mr-16 lg:pr-16",
+          "mr-2 pr-4 my-[0.3rem] md:mr-6 md:pr-6 lg:mr-8 lg:pr-8 xl:mr-16 xl:pr-16",
         // toggleIcon: "text-white-default",
       }}
     >

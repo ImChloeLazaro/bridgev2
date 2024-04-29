@@ -10,7 +10,7 @@ const BirthdayCard = () => {
       // unoptimized={true}
       alt="Birthday GIF"
       src={Birthday}
-      className="rounded-xl"
+      className="rounded-none lg:rounded-xl"
     />
   );
 };

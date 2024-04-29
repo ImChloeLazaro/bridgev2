@@ -20,17 +20,18 @@ const TrainingList = () => {
       aria-label="Training List"
       onAction={(key) => console.log(key)}
       emptyContent={
-        <div className="w-full p-0 flex flex-col items-center mt-6">
+        <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">
           <Image
-              width={180}
-              height={180}
-              alt={"No Notifications"}
-              src={"/no-training.png"}
-            />
-          <p className="font-medium text-black-default/80">
+            width={180}
+            height={180}
+            alt={"No Training"}
+            src={"/no-training.png"}
+            classNames={{ img: "aspect-square lg:w-32 xl:w-44" }}
+          />
+          <p className="text-sm xl:text-base font-medium text-black-default/80">
             {"Feeling extra today?"}
           </p>
-          <p className="font-medium text-black-default/80">
+          <p className="text-sm xl:text-base font-medium text-black-default/80">
             {"Start your training now!"}
           </p>
         </div>
@@ -47,14 +48,19 @@ const TrainingList = () => {
         ],
       }}
     >
-      {/* {(training) => {
+      {(training) => {
+        const smallStartTime = format(new Date(training.datetimeStart), "h b", {
+          locale: enAU,
+        }); // h:mm aa
+        const smallEndTime = format(new Date(training.datetimeEnd), "h b", {
+          locale: enAU,
+        }); // h:mm aa
         const startTime = format(new Date(training.datetimeStart), "p", {
           locale: enAU,
         }); // h:mm aa
         const endTime = format(new Date(training.datetimeEnd), "p", {
           locale: enAU,
         }); // h:mm aa
-
         const postDay = format(new Date(training.datetimeEnd), "d", {
           locale: enAU,
         }); // h:mm aa
@@ -69,25 +75,30 @@ const TrainingList = () => {
             <div className="flex items-center justify-between">
               <div
                 className={cn(
-                  "py-1.5 px-2.5 basis-1/5 rounded-l-md",
+                  "py-1.5 rounded-l-md",
                   `bg-${training.color}-default text-white-default`,
-                  `${training.color === 'yellow' ? " text-shadow" : ""}`,
+                  `${training.color === "yellow" ? "text-shadow" : ""}`
                 )}
               >
-                <div className="my-2 flex flex-col items-center justify-center">
-                  <p className="font-extrabold text-2xl">{postDay}</p>
-                  <p className="font-medium text-base uppercase">{postMonth}</p>
+                <div className="w-[2.5rem] xl:w-[3rem] mx-2 xl:mx-3 my-2 flex flex-col items-center justify-center">
+                  <p className="font-extrabold text-lg xl:text-2xl">
+                    {postDay}
+                  </p>
+                  <p className="font-medium text-sm xl:text-base uppercase">
+                    {postMonth}
+                  </p>
                   <p className="font-light text-xs">{postDate}</p>
                 </div>
               </div>
-              <div className="flex flex-col w-[12rem]">
-                <p className="font-extrabold text-lg truncate w-full">
+              <div className="ml-0 lg:ml-2.5 2xl:ml-3 flex flex-col px-2 sm:px-6 lg:px-2 w-[10rem] sm:w-full md:w-full lg:w-[10rem] 2xl:w-[20rem]">
+                <p className="font-extrabold text-md xl:text-lg truncate w-full">
                   {training.title}
                 </p>
-                <p className="font-medium text-md truncate w-full">
+                <p className="font-medium text-sm xl:text-md truncate w-full">
                   {training.description}
                 </p>
-                <p className="font-medium text-xs">{`${startTime} - ${endTime}`}</p>
+                <p className="hidden xl:block font-medium text-xs">{`${startTime} - ${endTime}`}</p>
+                <p className="block xl:hidden font-medium text-xs">{`${smallStartTime} - ${smallEndTime}`}</p>
               </div>
               <TrainingOptions
                 trigger={<BiDotsVerticalRounded size={24} />}
@@ -96,7 +107,7 @@ const TrainingList = () => {
             </div>
           </ListboxItem>
         );
-      }} */}
+      }}
     </Listbox>
   );
 };

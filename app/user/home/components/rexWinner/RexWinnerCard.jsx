@@ -10,7 +10,7 @@ const RexWinnerCard = () => {
       // unoptimized={true}
       alt="Rex Winner GIF"
       src={RexWinner}
-      className="rounded-xl"
+      className="rounded-none lg:rounded-xl"
     />
   );
 };

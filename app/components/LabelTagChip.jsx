@@ -7,6 +7,7 @@ const LabelTagChip = ({
   isFilled = true,
   withBadge = false,
   badgeContent,
+  className,
   ...props
 }) => {
   const colorVariants = {
@@ -82,7 +83,8 @@ const LabelTagChip = ({
               : colorVariants[color].unfilled
           } ${sizeVariants[size]}`,
           `${isFilled ? "py-5" : "py-1 rounded"}`,
-          "capitalize px-2.5 border-0"
+          "capitalize px-2.5 border-0",
+          className
         ),
         content: "font-bold",
         dot: `${
