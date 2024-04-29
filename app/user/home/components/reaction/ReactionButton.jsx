@@ -36,15 +36,15 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
     love: { label: "love", color: "text-[#FF4949]" },
     star: {
       label: "congrats",
-      color: "text-[#EF8B16]",
+      color: "text-orange-default",
     },
     birthday: {
       label: "greetings",
-      color: "text-[#A44BFD]",
+      color: "text-purple-default",
     },
     happy: {
       label: "greetings",
-      color: "text-[#FDCA4B]",
+      color: "text-yellow-default",
     },
   };
 

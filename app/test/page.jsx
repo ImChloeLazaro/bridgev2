@@ -131,16 +131,16 @@ const Test = () => {
             <h1>Live Notification Count: {notificationCount}</h1>
             <div className="w-96 p-2">
                 {notifications.map((notification, index) => (
-                    <div key={index} className={`m-1 rounded-md flex gap-1 content-between p-5 border border-slate-700`} style={{ backgroundColor: notification.unread ? '#6B7280' : '#E5E7EB' }}>
+                    <div key={index} className={`m-1 rounded-md flex gap-1 content-between p-5 border border-foreground`} style={{ backgroundColor: notification.unread ? '#6B7280' : '#E5E7EB' }}>
                         <img src={notification.notified_from.picture} className=" rounded-full w-12 h-12" />
                         <div>
                             <p className="font-bold">{notification.title}</p>
                             <p>{notification.description}</p>
                         </div>
                         <div className="flex gap-1 items-center content-center">
-                            <button onClick={() => getNotificationId(`${notification.unread ? 'read' : 'unread'}`, notification._id)} className="bg-green-400 p-1 rounded-md">{`${notification.unread ? 'read' : 'unread'}`}</button>
-                            <button onClick={() => getNotificationId(`${notification.hidden ? 'setshow' : 'hide'}`, notification._id)} className={`${notification.hidden ? 'bg-yellow-400' : 'bg-red-400'} p-1 rounded-md`}>{`${notification.hidden ? 'Show' : 'Hide'}`}</button>
-                            <button onClick={() => getNotificationId('delete', notification._id)} className="bg-red-400 p-1 rounded-md">delete</button>
+                            <button onClick={() => getNotificationId(`${notification.unread ? 'read' : 'unread'}`, notification._id)} className="bg-green-default p-1 rounded-md">{`${notification.unread ? 'read' : 'unread'}`}</button>
+                            <button onClick={() => getNotificationId(`${notification.hidden ? 'setshow' : 'hide'}`, notification._id)} className={`${notification.hidden ? 'bg-yellow-default' : 'bg-red-default'} p-1 rounded-md`}>{`${notification.hidden ? 'Show' : 'Hide'}`}</button>
+                            <button onClick={() => getNotificationId('delete', notification._id)} className="bg-red-default p-1 rounded-md">delete</button>
                         </div>
                     </div>
                 ))}
@@ -148,8 +148,8 @@ const Test = () => {
 
             {connected && (
                 <div className="flex">
-                    <button className="m-1 p-1 bg-blue-400 rounded-md text-white" onClick={sendnotification}>Send Notification</button>
-                    <button className="m-1 p-1 bg-red-400 rounded-md" onClick={handleDisconnect}>Disconnect</button>
+                    <button className="m-1 p-1 bg-blue-default rounded-md text-white" onClick={sendnotification}>Send Notification</button>
+                    <button className="m-1 p-1 bg-red-default rounded-md" onClick={handleDisconnect}>Disconnect</button>
                 </div>
             )}
         </>

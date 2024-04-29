@@ -15,7 +15,7 @@ const OnboardingHeader = () => {
             label: step.toLocaleUpperCase(),
             style: {
               borderWidth: "3px",
-              borderColor: "#32449C",
+              borderColor: "var(--aretex-blue)",
               borderStyle: "solid",
             },
           };
@@ -24,7 +24,7 @@ const OnboardingHeader = () => {
           label: step.toLocaleUpperCase(),
           style: {
             borderWidth: "3px",
-            borderColor: "#32449C",
+            borderColor: "var(--aretex-blue)",
           },
         };
       }),
@@ -45,10 +45,10 @@ const OnboardingHeader = () => {
           }}
           styleConfig={{
             size: 24,
-            activeBgColor: "#F9F9F9",
-            activeTextColor: "#393939",
-            completedBgColor: "#32449C",
-            completedTextColor: "#F9F9F9",
+            activeBgColor: "var(--aretex-white)",
+            activeTextColor: "var(--aretex-black)",
+            completedBgColor: "var(--aretex-blue)",
+            completedTextColor: "var(--aretex-white)",
             circleFontSize: "0.70rem",
             labelFontSize: "0.70rem",
             fontWeight: "700",

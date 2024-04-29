@@ -85,7 +85,7 @@ const DrawerSideBar = () => {
     <Drawer className='hidden xs:max-md:flex' direction='left'>
       <DrawerTrigger asChild>
         <div className='hover:cursor hidden xxs:max-md:block  xxs:max-md:fixed sm:top-[70px] top-[80px] z-40 left-8'>
-          <RxHamburgerMenu size={32} color='#EF8B16' />
+          <RxHamburgerMenu size={32} color='var(--aretex-orange)' />
         </div>
       </DrawerTrigger>
       <DrawerContent>
@@ -105,27 +105,27 @@ const DrawerSideBar = () => {
               paddingRight: "0.5rem",
               marginBottom: "4rem",
 
-              backgroundColor: "#f9f9f9",
+              backgroundColor: "var(--aretex-white)",
             }}
           >
             <Menu
               key='navigation'
               rootStyles={{
                 [`.${menuClasses.icon}`]: {
-                  backgroundColor: "#EF8916",
+                  backgroundColor: "var(--aretex-orange)",
                   borderRadius: "0.313rem",
-                  color: "#f9f9f9",
+                  color: "var(--aretex-white)",
                 },
                 [`.${menuClasses.button}`]: {
                   borderRadius: "0.313rem",
-                  color: "#393939",
+                  color: "var(--aretex-black)",
                   marginBottom: "0.75rem",
                   transition: "0.3s",
                   transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
                 },
                 padding: "0.5rem",
                 paddingRight: "2.5rem",
-                backgroundColor: "#f9f9f9",
+                backgroundColor: "var(--aretex-white)",
               }}
               menuItemStyles={{
                 root: () => {
@@ -146,14 +146,16 @@ const DrawerSideBar = () => {
                   if (level === 0) {
                     return {
                       width: "16rem",
-                      backgroundColor: active ? "#D0D0D0" : "#f9f9f9",
+                      backgroundColor: active
+                        ? "var(--aretex-grey-hover)"
+                        : "var(--aretex-white)",
                       paddingLeft: active ? "0.875rem" : "0.375rem",
                       ":hover": {
-                        backgroundColor: "#D0D0D0",
+                        backgroundColor: "var(--aretex-grey-hover)",
                         paddingLeft: "0.875rem",
                       },
                       ":focus": {
-                        backgroundColor: "#D0D0D0",
+                        backgroundColor: "var(--aretex-grey-hover)",
                       },
                     };
                   }

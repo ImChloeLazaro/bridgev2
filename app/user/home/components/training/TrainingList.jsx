@@ -5,6 +5,7 @@ import { useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { trainingsAtom } from "../../store/TrainingStore";
 import TrainingOptions from "./TrainingOptions";
+import { Button } from "@/components/ui/button";
 // @refresh reset
 const TrainingList = () => {
   const trainings = useAtomValue(trainingsAtom);
@@ -17,20 +18,21 @@ const TrainingList = () => {
   return (
     <Listbox
       items={trainings}
-      aria-label="Training List"
+      aria-label='Training List'
       onAction={(key) => console.log(key)}
       emptyContent={
-        <div className="w-full p-0 flex flex-col items-center mt-6">
+        <div className='w-full p-0 flex flex-col items-center mt-6'>
           <Image
-              width={180}
-              height={180}
-              alt={"No Notifications"}
-              src={"/no-training.png"}
-            />
-          <p className="font-medium text-black-default/80">
+            width={180}
+            height={180}
+            alt={"No Notifications"}
+            src={"/no-training.png"}
+          />
+          <p className='font-medium text-black-default/80'>
             {"Feeling extra today?"}
           </p>
-          <p className="font-medium text-black-default/80">
+
+          <p className='font-medium text-black-default/80'>
             {"Start your training now!"}
           </p>
         </div>

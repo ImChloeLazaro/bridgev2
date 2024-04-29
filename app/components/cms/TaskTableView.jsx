@@ -95,9 +95,9 @@ const TaskTableView = ({
       case "task":
         return (
           <Link
-            href="#"
-            underline="hover"
-            className="text-xl font-semibold text-black-default "
+            href='#'
+            underline='hover'
+            className='text-xl font-semibold text-black-default '
           >
             {task.name?.length ? task.name : ""}
           </Link>
@@ -106,7 +106,7 @@ const TaskTableView = ({
       case "status":
         return (
           <LabelTagChip
-            size="md"
+            size='md'
             text={
               task.status?.length
                 ? `${task.status === "forReview" ? "For Review" : task.status}`
@@ -138,13 +138,13 @@ const TaskTableView = ({
 
       case "assignees":
         return (
-          <div className="h-full flex justify-start">
-            <AvatarGroup size="md" max={3}>
+          <div className='h-full flex justify-start'>
+            <AvatarGroup size='md' max={3}>
               {processorList.map((processor) => {
                 return (
                   <Avatar
                     key={processor.sub}
-                    size="md"
+                    size='md'
                     src={processor.picture}
                   />
                 );
@@ -172,18 +172,18 @@ const TaskTableView = ({
     <div
       data-change={changeView}
       data-view={showClientTask}
-      className="hidden data-[view=true]:flex data-[change=true]:hidden  w-full h-full justify-center items-center text-clip"
+      className='hidden data-[view=true]:flex data-[change=true]:hidden  w-full h-full justify-center items-center text-clip'
     >
-      <div className="flex flex-col items-center justify-center">
+      <div className='flex flex-col items-center justify-center'>
         <Image width={450} height={450} alt={"No Data"} src={"/no-data.webp"} />
-        <p className="text-lg font-medium text-black-default/80">
+        <p className='text-lg font-medium text-black-default/80'>
           {"No Data to Display"}
         </p>
 
         <Link
-          href="#"
-          underline="hover"
-          className="text-lg font-medium text-black-default/80 flex gap-1"
+          href='#'
+          underline='hover'
+          className='text-lg font-medium text-black-default/80 flex gap-1'
           onPress={handleRefreshTable}
         >
           <MdRefresh size={20} />
@@ -195,15 +195,15 @@ const TaskTableView = ({
     <div
       data-change={changeView}
       data-view={showClientTask}
-      className="hidden data-[view=true]:flex data-[change=true]:hidden "
+      className='hidden data-[view=true]:flex data-[change=true]:hidden '
     >
       <Table
-        aria-label="Rows actions table example with dynamic content"
+        aria-label='Rows actions table example with dynamic content'
         // isStriped
         isHeaderSticky
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
-        selectionMode="multiple"
+        selectionMode='multiple'
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
         selectionBehavior={"toggle"}

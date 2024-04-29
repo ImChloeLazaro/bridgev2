@@ -27,7 +27,7 @@ const LeaveBalanceContent = () => {
                 {leave?.response !== null ? (
                   leave?.response?.VL_BALANCE
                 ) : (
-                  <p className='text-red-600'>No VL data</p>
+                  <p className='text-red-default'>No VL data</p>
                 )}
               </Link>
             </Tooltip>
@@ -52,7 +52,7 @@ const LeaveBalanceContent = () => {
                 {leave?.response !== null ? (
                   leave?.response?.SL_BALANCE
                 ) : (
-                  <p className='text-red-600'>No SL data</p>
+                  <p className='text-red-default'>No SL data</p>
                 )}
               </Link>
             </Tooltip>

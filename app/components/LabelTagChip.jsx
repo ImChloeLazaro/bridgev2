@@ -71,7 +71,7 @@ const LabelTagChip = ({
 
   return (
     <Chip
-      radius="sm"
+      radius='sm'
       variant={type === "tag" && "dot"}
       size={isFilled ? "lg" : "sm"}
       classNames={{
@@ -94,12 +94,12 @@ const LabelTagChip = ({
       endContent={
         withBadge && (
           <Chip
-            radius="full"
-            size="sm"
-            variant="flat"
+            radius='full'
+            size='sm'
+            variant='flat'
             classNames={{
               base: cn("bg-white-default/90"),
-              content: `text-sm font-bold`,
+              content: `text-sm text-white-default font-bold`,
             }}
           >
             {badgeContent}
@@ -108,8 +108,8 @@ const LabelTagChip = ({
       }
       {...props}
     >
-      <div className="flex justify-center items-center gap-4">
-        <p className="tracking-wider">{text}</p>
+      <div className='flex justify-center items-center gap-4'>
+        <p className='tracking-wider'>{text}</p>
       </div>
     </Chip>
   );
