@@ -30,7 +30,7 @@ const ShortcutItem = forwardRef(
         icon={<MdBookmark size={shortcutSize} />}
         rootStyles={{
           ["." + menuClasses.icon]: {
-            color: "#EF8916",
+            color: "var(--aretex-orange)",
           },
           ["." + menuClasses.label]: {
             marginLeft: "0.30rem",
@@ -40,30 +40,30 @@ const ShortcutItem = forwardRef(
           },
           ["." + menuClasses.button]: {
             // width: "100%",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "var(--aretex-white)",
             paddingRight: "0rem",
             paddingLeft: "0.375rem",
             cursor: "grab",
             "&:hover": {
-              backgroundColor: "#D0D0D0",
+              backgroundColor: "var(aretex-grey-hover)",
               paddingLeft: "0.875rem",
             },
             "&:focus": {
-              backgroundColor: "#D0D0D0",
+              backgroundColor: "var(aretex-grey-hover)",
             },
             "&:active": {
               cursor: "grabbing",
-              backgroundColor: "#D0D0D0",
+              backgroundColor: "var(aretex-grey-hover)",
               paddingLeft: "0.875rem",
             },
           },
         }}
       >
-        <div className="flex justify-between">
+        <div className='flex justify-between'>
           <Link
             isExternal
             href={shortcutURL}
-            className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 "
+            className='w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 '
           >
             {children}
           </Link>

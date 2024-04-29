@@ -40,7 +40,7 @@ const CreatePostButton = () => {
         disableRipple
         disableAnimation
         isIconOnly
-        className="bg-transparent w-full h-12 lg:h-16 text-sm lg:text-lg font-medium text-black-default border-[2.5px] rounded-lg border-[#BEBEBE]/80 border-solid flex justify-start items-center pl-4"
+        className="bg-transparent w-full h-12 lg:h-16 text-sm lg:text-lg font-medium text-black-default border-[2.5px] rounded-lg border-grey-hover/80 border-solid flex justify-start items-center pl-4"
         onPress={() => handleSelectionChange(new Set(["custom"]))}
       >
         {"Create a Post"}

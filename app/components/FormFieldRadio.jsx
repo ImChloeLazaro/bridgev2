@@ -26,8 +26,8 @@ const FormFieldRadio = ({
         base: [
           `${fullWidth ? "w-full" : "max-w-full"}`,
           "relative inline-flex tap-highlight-transparent",
-          "shadow-sm px-3 py-2 bg-default-100 data-[hover=true]:bg-default-200",
-          " group-data-[focus=true]:bg-default-100 rounded-medium",
+          "shadow-sm px-3 py-2 bg-background data-[hover=true]:bg-background",
+          " group-data-[focus=true]:bg-background rounded-medium",
         ],
         wrapper: "px-2",
         label: "p-2 text-sm font-medium text-black-default/80",

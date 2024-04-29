@@ -89,12 +89,12 @@ const LabelTagChip = ({
       endContent={
         withBadge && (
           <Chip
-            radius="full"
-            size="sm"
-            variant="flat"
+            radius='full'
+            size='sm'
+            variant='flat'
             classNames={{
               base: cn("bg-white-default/90"),
-              content: `text-sm font-bold`,
+              content: `text-sm text-white-default font-bold`,
             }}
           >
             {badgeContent}

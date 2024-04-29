@@ -47,7 +47,7 @@ const BenefitsContent = () => {
           })}
         </>
       ) : (
-        <p className="text-red-600 text-center">{"No Data Available"}</p>
+        <p className="text-red-default text-center">{"No Data Available"}</p>
       )}
     </div>
   );

@@ -98,7 +98,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
+    <div className='h-full relative z-50 flex lg:justify-start justify-center items-center '>
       <Sidebar
         width={"300px"}
         style={{ backgroundColor: "#f9f9f9" }}
@@ -124,21 +124,21 @@ const SideBar = () => {
           rootStyles={{
             [`.${menuClasses.button}`]: {
               borderRadius: "0.313rem",
-              color: "#393939",
+              color: "var(--aretex-black)",
               marginBottom: "0.75rem",
               transition: "0.3s",
               transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
             },
             padding: "0.5rem",
             height: "100%",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "var(--aretex-white)",
           }}
         >
           {!broken ? (
             <SideBarHeader />
           ) : (
-            <div className="flex items-center justify-between mt-6 pl-2 pb-4 bg-white-default">
-              <p className="text-xl font-bold">{"NAVIGATION"}</p>
+            <div className='flex items-center justify-between mt-6 pl-2 pb-4 bg-white-default'>
+              <p className='text-xl font-bold'>{"NAVIGATION"}</p>
             </div>
           )}
           {routes &&
@@ -159,49 +159,48 @@ const SideBar = () => {
                         fontWeight: 700,
                       },
                       ["." + menuClasses.icon]: {
-                        backgroundColor: "#EF8916",
+                        backgroundColor: "var(--aretex-orange)",
                         borderRadius: "0.313rem",
-                        color: "#f9f9f9",
+                        color: "var(--aretex-white)",
                       },
                       ["." + menuClasses.button]: {
                         // width: "100%",
-                        backgroundColor: "#f9f9f9",
                         paddingRight: "0rem",
                         paddingLeft: "0.375rem",
                         "&:hover": {
-                          backgroundColor: "#D0D0D0",
+                          backgroundColor: "var(--aretex-grey-hover)",
                           paddingLeft: "0.875rem",
                         },
                         "&:focus": {
-                          backgroundColor: "#D0D0D0",
+                          backgroundColor: "var(--aretex-grey-hover)",
                         },
                         "&:active": {
-                          backgroundColor: "#D0D0D0",
+                          backgroundColor: "var(--aretex-grey-hover)",
                           paddingLeft: "0.875rem",
                         },
                       },
                       ["." + menuClasses.subMenuContent]: {
-                        backgroundColor: "#f9f9f9",
+                        backgroundColor: "var(--aretex-white)",
                         ["." + menuClasses.icon]: {
                           backgroundColor: "transparent",
                           borderRadius: "0.313rem",
-                          color: "#393939",
+                          color: "var(--aretex-black)",
                         },
                         ["." + menuClasses.button]: {
                           // width: "100%",
-                          backgroundColor: "#f9f9f9",
+                          backgroundColor: "var(--aretex-white)",
                           paddingRight: "0rem",
                           paddingLeft: "1.875rem",
                           "&:hover": {
-                            color: "#EF8916",
+                            color: "var(--aretex-orange)",
                             paddingLeft: "0.875rem",
                             ["." + menuClasses.icon]: {
-                              color: "#EF8916",
+                              color: "var(--aretex-orange)",
                             },
-                            backgroundColor: "#EF891620",
+                            backgroundColor: "var(--aretex-orange)",
                           },
                           "&:focus": {
-                            backgroundColor: "#EF891620",
+                            backgroundColor: "var(--aretex-orange)",
                           },
                           "&:active": {
                             paddingLeft: "0.875rem",
@@ -255,9 +254,9 @@ const SideBar = () => {
                     }
                     rootStyles={{
                       ["." + menuClasses.icon]: {
-                        backgroundColor: "#EF8916",
+                        backgroundColor: "var(--aretex-orange)",
                         borderRadius: "0.313rem",
-                        color: "#f9f9f9",
+                        color: "var(--aretex-white)",
                       },
                       ["." + menuClasses.label]: {
                         marginLeft: "0.30rem",
@@ -267,18 +266,18 @@ const SideBar = () => {
                       },
                       ["." + menuClasses.button]: {
                         // width: "100%",
-                        backgroundColor: "#f9f9f9",
+                        backgroundColor: "var(--aretex-white)",
                         paddingRight: "0rem",
                         paddingLeft: "0.375rem",
                         "&:hover": {
-                          backgroundColor: "#D0D0D0",
+                          backgroundColor: "var(--aretex-grey-hover)",
                           paddingLeft: "0.875rem",
                         },
                         "&:focus": {
-                          backgroundColor: "#D0D0D0",
+                          backgroundColor: "var(--aretex-grey-hover)",
                         },
                         "&:active": {
-                          backgroundColor: "#D0D0D0",
+                          backgroundColor: "var(--aretex-grey-hover)",
                           paddingLeft: "0.875rem",
                         },
                       },
