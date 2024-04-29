@@ -6,7 +6,7 @@ import { Tooltip, Link } from "@nextui-org/react";
 const LeaveBalanceContent = () => {
   const leave = useAtomValue(leaveStatusAtom);
   return (
-    <div className="flex items-center justify-between p-2">
+    <div className="flex items-center justify-between p-1 lg:p-2">
       <div className="flex flex-col w-full gap-2">
         <div className="flex">
           <p className="text-sm sm:text-base font-bold text-black-default w-3/5">
@@ -62,7 +62,7 @@ const LeaveBalanceContent = () => {
       <Button
         disableRipple={true}
         disableAnimation={true}
-        className="bg-transparent text-sm sm:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
+        className="bg-transparent text-sm sm:text-md lg:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
       >
         {"File a Leave"}
       </Button>

@@ -1,12 +1,11 @@
+import { userAtom } from "@/app/store/UserStore";
 import { Avatar } from "@nextui-org/react";
-import NextImage from "next/image";
 import { useAtomValue } from "jotai";
+import NextImage from "next/image";
 import { MdManageAccounts } from "react-icons/md";
+import ProfileBanner from "../../../../../public/header-profile.webp";
 import CTAButtons from "../../../../components/CTAButtons";
 import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
-
-import ProfileBanner from "../../../../../public/header-profile.webp";
-import { userAtom } from "@/app/store/UserStore";
 
 const ProfileHeader = () => {
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);

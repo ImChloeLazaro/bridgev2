@@ -14,7 +14,7 @@ const BenefitsContent = () => {
             return (
               <div
                 key={index}
-                className="flex justify-between items-center p-2"
+                className="flex justify-between items-center p-1 lg:p-2"
               >
                 <p className="text-sm sm:text-base font-bold text-black-default w-1/4">
                   {benefit.name ?? "No Data Available"}

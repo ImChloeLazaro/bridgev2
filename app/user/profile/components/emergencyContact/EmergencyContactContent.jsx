@@ -5,7 +5,7 @@ const EmergencyContactContent = () => {
   const data = useAtomValue(emergencyContactAtom);
   console.log("INSIDE EMERGENCY CONTACT", data);
   return (
-    <div className="flex justify-between p-2">
+    <div className="flex justify-between p-1 lg:p-2">
       <div className="flex flex-col w-full gap-2">
         <div className="flex">
           <p className="text-sm sm:text-base font-bold text-black-default w-2/5">
