@@ -37,13 +37,13 @@ const ProfileInfo = () => {
   const toggleVisibility = (setIsVisible, isVisible) => {
     setIsVisible(!isVisible);
   };
-  
+
   const userInfo = useAtomValue(userAtom);
 
   return (
     <>
       {/* // ### UPDATE SETTINGS */}
-      <div className="mt-2 mb-12 py-2 w-full">
+      <div className="mt-2 mb-8 lg:mb-12 py-2 w-full ">
         <div className="flex-col justify-start items-center gap-2 mb-12">
           <div className="flex gap-2 items-center">
             <p className="font-bold text-lg">{"Profile Settings"}</p>
@@ -57,21 +57,21 @@ const ProfileInfo = () => {
         {/* // ### LIST */}
         <div className="flex flex-col items-start gap-4 ">
           {/* // ### PROFILE PHOTO */}
-          <div className="flex justify-start items-center gap-10 w-full">
-            <div className="flex-col w-1/2 min-w-[30%]">
+          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+            <div className="flex-col w-1/2 md:w-1/3">
               <p className="font-medium text-base">{"Your Photo"}</p>
               <p className="font-medium text-sm text-darkgrey-default">
                 {"This will be displayed on your profile"}
               </p>
             </div>
-            <div className="w-full flex justify-between items-center">
+            <div className="px-2 w-1/2 md:w-2/3 flex justify-end md:gap-16 items-center">
               <Avatar
                 radius="full"
                 size="md"
                 src={userInfo.picture}
                 alt="Profile picture"
               />
-              <div className="flex ">
+              <div className="hidden flex-col md:flex md:flex-row md:gap-6">
                 <CTAButtons
                   label="Delete"
                   color="clear"
@@ -87,29 +87,31 @@ const ProfileInfo = () => {
           </div>
           <Divider />
           {/* // ### HEADER PHOTO */}
-          <div className="flex justify-start items-center gap-10 w-full">
-            <div className="flex-col w-1/2 min-w-[30%]">
+          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+            <div className="flex-col w-1/2 md:w-1/3">
               <p className="font-medium text-base">{"Header Photo"}</p>
               <p className="font-medium text-sm text-darkgrey-default">
                 {"This will be displayed on your profile"}
               </p>
             </div>
-            <div className="w-full flex justify-between items-center">
+            <div className="px-2 w-1/2 md:w-2/3 flex justify-end md:gap-16 items-center">
               <Avatar
                 radius="full"
                 size="md"
                 src="/header-profile.png"
                 alt="Header picture"
               />
-              <div className="flex ">
+              <div className="hidden flex-col md:flex md:flex-row md:gap-6">
                 <CTAButtons
                   label="Delete"
                   color="clear"
+                  size="sm"
                   disableRipple
                 ></CTAButtons>
                 <CTAButtons
                   label="Update"
                   color="clear"
+                  size="sm"
                   disableRipple
                 ></CTAButtons>
               </div>
@@ -119,7 +121,7 @@ const ProfileInfo = () => {
 
           {/* // ### JOB TITLE */}
           {/* <div className="flex justify-start items-center gap-10 w-full">
-            <div className="flex-col w-1/2 min-w-[30%]">
+            <div className="flex-col w-1/2">
               <p className="font-medium text-base">{"Job Title"}</p>
             </div>
             <div className="w-full mr-32 flex flex-col gap-2">
@@ -159,12 +161,11 @@ const ProfileInfo = () => {
         {/* // ### LIST */}
         <div className="flex flex-col items-start gap-4">
           {/* // ### CURRENT PASSWORD */}
-          <div className="flex justify-start items-center gap-10 w-full">
-            <div className="flex-col w-1/2 min-w-[30%]">
-              <p className="font-medium text-base">{"Current Password"}</p>
-            </div>
-            <div className="w-full mr-32 flex flex-col gap-2">
+          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+            <p className="w-1/3 font-medium text-base">{"Current Password"}</p>
+            <div className="w-2/3 flex flex-col gap-2">
               <Input
+                fullWidth={true}
                 disabled
                 description="Your password was last changed 2 days ago"
                 size="sm"
@@ -173,7 +174,7 @@ const ProfileInfo = () => {
                 type={isCurrentPasswordVisible ? "text" : "password"}
                 value={currentPassword}
                 onValueChange={setCurrentPassword}
-                classNames={{ input: "text-sm" }}
+                classNames={{ base: "", input: "w-full text-sm" }}
                 endContent={
                   <Button
                     className="focus:outline-none bg-transparent"
@@ -198,11 +199,9 @@ const ProfileInfo = () => {
           <Divider />
 
           {/* // ### NEW PASSWORD */}
-          <div className="flex justify-start items-center gap-10 w-full">
-            <div className="flex-col w-1/2 min-w-[30%]">
-              <p className="font-medium text-base">{"New Password"}</p>
-            </div>
-            <div className="w-full mr-32 flex flex-col gap-2">
+          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+            <p className="w-1/3 font-medium text-base">{"New Password"}</p>
+            <div className="w-2/3 flex flex-col gap-2">
               <Input
                 description="You can change your password once every 90 days"
                 size="sm"
@@ -236,11 +235,9 @@ const ProfileInfo = () => {
           <Divider />
 
           {/* // ### CONFIRM PASSWORD */}
-          <div className="flex justify-start items-center gap-10 w-full">
-            <div className="flex-col w-1/2 min-w-[30%]">
-              <p className="font-medium text-base">{"Confirm Password"}</p>
-            </div>
-            <div className="w-full mr-32 flex flex-col gap-2">
+          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+            <p className="w-1/3 font-medium text-base">{"Confirm Password"}</p>
+            <div className="w-2/3 flex flex-col gap-2">
               <Input
                 // disabled
 

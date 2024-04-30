@@ -3,12 +3,13 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { notificationCountAtom } from "../../store/NotificationsStore";
 import NotificationsHistory from "./NotificationsHistory";
 
-const NotificationsFooter = ({ markAllAsRead }) => {
+const NotificationsFooter = ({ setNotificationsOpen, markAllAsRead }) => {
   const notificationCount = useAtomValue(notificationCountAtom);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen: onOpenNotification, onOpenChange } = useDisclosure();
 
-  const handleWindowClose = () => {
-    onOpen();
+  const handleOpenNotificationHistory = () => {
+    onOpenNotification();
+    setNotificationsOpen(false);
   };
 
   return (
@@ -19,7 +20,7 @@ const NotificationsFooter = ({ markAllAsRead }) => {
           disableRipple={true}
           disableAnimation={true}
           className="py-0 bg-transparent data-[hover=true]:bg-transparent"
-          onPress={() => handleWindowClose()}
+          onPress={() => handleOpenNotificationHistory()}
         >
           <p className="font-extrabold text-md hover:underline hover:underline-offset-2">
             {"See All Notifications"}

@@ -26,7 +26,9 @@ const CMSUserFooter = ({
       }
     >
       <div className="w-1/3">
-        <p>{`Showing ${displayedItemCount} out of ${totalItemCount} results`}</p>
+        <p>{`Showing ${displayedItemCount} out of ${totalItemCount} ${
+          totalItemCount === 1 ? "result" : "results"
+        } `}</p>
       </div>
       <div className="w-1/3 h-fit flex justify-center items-center py-2 gap-2">
         <div className="h-full">{`Rows per page: `}</div>

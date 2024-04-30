@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 import {
   differenceInDays,
@@ -19,7 +20,9 @@ import { useAtomValue } from "jotai";
 import { notificationsAtom } from "../../store/NotificationsStore";
 // @refresh reset
 
-const NotificationsHistory = ({ isOpen, onOpenChange }) => {
+const NotificationsHistory = () => {
+  const { isOpen, onOpen: onOpenNotification, onOpenChange } = useDisclosure();
+
   const notifications = useAtomValue(notificationsAtom);
 
   const filteredTodayNotifications = notifications.filter((notification) => {
@@ -51,6 +54,17 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
 
     const difference = differenceInDays(new Date(), notificationDateTime);
     if (difference > 1 && difference <= 7) {
+      return notification;
+    }
+  });
+
+  const filteredOlderNotifications = notifications.filter((notification) => {
+    const datetime = notification.createdBy;
+    const notificationDateTime =
+      datetime instanceof Date ? datetime : new Date(datetime);
+
+    const difference = differenceInDays(new Date(), notificationDateTime);
+    if (difference > 7) {
       return notification;
     }
   });
@@ -159,6 +173,29 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
                       showDivider
                     >
                       {filteredThisWeekNotifications.map((notification) => {
+                        return (
+                          <ListboxItem key={notification._id}>
+                            <div className="flex flex-col gap-1 overflow-hidden whitespace-pre-line">
+                              <p className="font-bold text-xs leading-tight">
+                                {notification.title}
+                              </p>
+                              <p className="font-medium text-xs truncate">
+                                {notification.description}
+                              </p>
+                              <p className="font-normal text-xs">
+                                {`${handleNotificationDatetime(
+                                  notification.createdBy ?? new Date()
+                                )}`}
+                              </p>
+                            </div>
+                          </ListboxItem>
+                        );
+                      })}
+                    </ListboxSection>
+                  )}
+                  {filteredOlderNotifications?.length && (
+                    <ListboxSection key={"older"} title="Older" showDivider>
+                      {filteredOlderNotifications.map((notification) => {
                         return (
                           <ListboxItem key={notification._id}>
                             <div className="flex flex-col gap-1 overflow-hidden whitespace-pre-line">

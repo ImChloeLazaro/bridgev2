@@ -4,11 +4,11 @@ export function UnderConstruction({ src }) {
   return (
     <div className="w-full max-h-screen m-0 p-0">
       <div className="h-full flex items-center justify-center">
-        <div className="flex flex-col items-center gap-12">
-          <p className="text-black-default font-bold text-[56px] text-center">
+        <div className="flex flex-col items-center gap-6 lg:gap-12">
+          <p className="text-black-default font-bold text-[2rem] lg:text-[3.5rem] text-center">
             {"OOPS! WE'RE SORRY!"}
           </p>
-          <p className="text-black-default font-bold text-lg text-center">
+          <p className="text-black-default font-bold text-md lg:text-lg text-center">
             {
               "We'll be back very soon. We are currently developing this page and will be online soon. Stay tuned."
             }

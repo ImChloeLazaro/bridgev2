@@ -14,9 +14,9 @@ const BenefitsContent = () => {
             return (
               <div
                 key={index}
-                className="flex justify-between items-center p-1 lg:p-2"
+                className="w-full flex justify-between items-center p-1 lg:p-2"
               >
-                <p className="text-sm sm:text-base font-bold text-black-default w-1/4">
+                <p className="w-1/3 text-sm sm:text-base font-bold text-black-default">
                   {benefit.name ?? "No Data Available"}
                 </p>
                 <Tooltip
@@ -28,7 +28,7 @@ const BenefitsContent = () => {
                   <Link
                     href="#"
                     underline="none"
-                    className="text-sm sm:text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
+                    className="w-1/3 text-sm sm:text-base font-bold text-black-default hover:underline-offset-1 hover:underline"
                   >
                     {benefit.number ?? "No Data Available"}
                   </Link>
@@ -40,7 +40,7 @@ const BenefitsContent = () => {
                   }
                   color={benefit.status === "available" ? "green" : "red"}
                   size="xs"
-                  className={"px-1 py-2"}
+                  className={"w-1/3 px-1 py-2 lg:px-0"}
                 ></LabelTagChip>
               </div>
             );

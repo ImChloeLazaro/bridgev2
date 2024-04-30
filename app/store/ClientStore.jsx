@@ -146,7 +146,7 @@ export const clientsCountAtom = atom((get) => get(clientsAtom).length);
 export const fetchClientAtom = atom(null, async (get, set, sub) => {
   const clients = await restread("/cms/client");
 
-  if (clients.success) {
+  if (clients?.success) {
     console.log("CLIENT SUCCESS FETCH", clients.response);
     const convertedClients = clients.response.map((client, index) => {
       return {

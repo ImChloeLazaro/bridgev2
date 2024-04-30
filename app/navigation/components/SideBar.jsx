@@ -283,9 +283,10 @@ const SideBar = () => {
 
       {broken && (
         <IconButton
+          size="sm"
           className={cn(
             "fixed left-0 z-50 -ml-2",
-            "h-18",
+            "h-16",
             "bg-orange-default hover:bg-orange-hover/80 text-white-default"
           )}
           onPress={() => {

@@ -203,7 +203,7 @@ export const taskBoardColsCountAtom = atom(
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
-  if (tasks.success) {
+  if (tasks?.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
     const convertedTasks = tasks.response.map((task, index) => {
       return {

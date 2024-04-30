@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         {/*// font */}
         <Providers>
           <main>{children}</main>
-          <Toaster richColors  />
+          <Toaster richColors />
         </Providers>
       </body>
     </html>

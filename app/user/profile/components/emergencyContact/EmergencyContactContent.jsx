@@ -7,27 +7,27 @@ const EmergencyContactContent = () => {
   return (
     <div className="flex justify-between p-1 lg:p-2">
       <div className="flex flex-col w-full gap-2">
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-2/5">
+        <div className="w-full flex">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {"Name:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {data?.name ?? "No Data Available"}
           </p>
         </div>
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-2/5">
+        <div className="w-full flex">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {"Relationship:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {data?.relationship ?? "No Data Available"}
           </p>
         </div>
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-2/5">
+        <div className="w-full flex">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {"Contact No:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {data?.contact_number ?? "No Data Available"}
           </p>
         </div>

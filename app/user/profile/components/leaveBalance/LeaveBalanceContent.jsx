@@ -8,11 +8,11 @@ const LeaveBalanceContent = () => {
   return (
     <div className="flex items-center justify-between p-1 lg:p-2">
       <div className="flex flex-col w-full gap-2">
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5">
+        <div className="w-full flex">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {"Vacation Leave:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             <Tooltip
               showArrow={true}
               content={
@@ -33,11 +33,11 @@ const LeaveBalanceContent = () => {
             </Tooltip>
           </p>
         </div>
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5">
+        <div className="w-full flex">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
             {"Sick Leave:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className="w-1/2 text-sm sm:text-base font-bold text-black-default ">
             <Tooltip
               showArrow={true}
               content={

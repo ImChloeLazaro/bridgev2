@@ -17,7 +17,7 @@ const ProfileDetails = () => {
 
   return (
     <>
-      <div className="relative z-50 px-16 my-6 overflow-y-auto">
+      <div className="relative z-10 px-6 lg:px-16 my-2 lg:my-6 overflow-y-auto bg-white-default">
         <Tabs
           key="Profile Navigation"
           selectedKey={selectedProfileTab}
@@ -26,8 +26,8 @@ const ProfileDetails = () => {
           variant="underlined"
           classNames={{
             base: "py-0 sticky top-0 bg-white-default",
-            tabList: "gap-8 w-full relative rounded-none p-0 ",
-            tab: "max-w-fit px-0 h-12 ",
+            tabList: "gap-8 w-full relative rounded-none p-0",
+            tab: "max-w-fit px-0 h-12 bg-white-default",
             tabContent:
               "group-data-[selected=true]:text-blue-default group-data-[selected=true]:font-extrabold font-medium text-base text-black-default/90",
             cursor: "w-full bg-blue-default",

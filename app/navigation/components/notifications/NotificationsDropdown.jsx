@@ -26,6 +26,8 @@ import {
 import NotificationsFooter from "./NotificationsFooter";
 import NotificationsHeader from "./NotificationsHeader";
 import NotificationsList from "./NotificationsList";
+import addNotification from "react-push-notification";
+import { toast } from "sonner";
 
 const NotificationsDropdown = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -69,10 +71,30 @@ const NotificationsDropdown = () => {
       console.log(data);
       console.log("NOTIFICATION RECEIVED");
       if (data.notifications) {
+        console.log("NEW NOTIFICATION MESSAGE!!!!!!!!!!");
+
         const filteredNotifications = data.notifications.filter(
           (notification) => notification.sub === auth.sub
         );
-        console.log("FILTERED NOTIF ONLY FOR USER", filteredNotifications);
+
+        const sortedNotifications = filteredNotifications.sort(
+          (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
+        );
+
+        console.log("FILTERED NOTIF ONLY FOR USER", sortedNotifications[0]);
+
+        if ("Notification" in window) {
+          addNotification({
+            title: sortedNotifications[0]?.title,
+            subtitle: sortedNotifications[0]?.title,
+            message: sortedNotifications[0]?.description,
+            theme: "darkblue",
+            native: true, // when using native, your OS will handle theming.
+          });
+          toast(sortedNotifications[0]?.title, {
+            description: sortedNotifications[0]?.description,
+          });
+        }
 
         setNotifications((prevNotifications) => {
           return [...prevNotifications, ...filteredNotifications];
@@ -206,9 +228,6 @@ const NotificationsDropdown = () => {
       }}
     >
       <Popover
-        style={{
-          zIndex: 10,
-        }}
         placement="bottom-end"
         showArrow={true}
         isOpen={notificationsOpen}
@@ -251,7 +270,10 @@ const NotificationsDropdown = () => {
               updateNotificationState={updateNotificationState}
               getNotificationId={getNotificationId}
             />
-            <NotificationsFooter markAllAsRead={markAllAsRead} />
+            <NotificationsFooter
+              markAllAsRead={markAllAsRead}
+              setNotificationsOpen={setNotificationsOpen}
+            />
           </div>
         </PopoverContent>
       </Popover>

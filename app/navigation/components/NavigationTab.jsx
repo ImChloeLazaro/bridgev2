@@ -7,7 +7,7 @@ const NavigationTab = ({ main, right, mainIcon, rightIcon, className }) => {
       <Tabs
         aria-label="Mobile Navigation"
         classNames={{
-          base: cn("relative z-10 sticky top-0 w-full", className),
+          base: cn("relative z-20 sticky top-0 w-full", className),
           panel: "w-full py-0 px-0",
           cursor: "w-full group-data-[selected=true]:bg-blue-default/90",
           tabList: "rounded-none py-1 w-full",
