@@ -29,6 +29,7 @@ const NotificationsHeader = () => {
 
   const handleActions = (action) => {
     console.log("ACTION", action);
+    console.log("DOCUMENT", document);
   };
 
   const options = [

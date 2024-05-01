@@ -20,7 +20,12 @@ export default function RootLayout({ children }) {
         {/*// font */}
         <Providers>
           <main>{children}</main>
-          <Toaster richColors />
+          <Toaster
+            // offset={"64px"}
+            richColors
+            // position="top-right"
+            pauseWhenPageIsHidden={true}
+          />
         </Providers>
       </body>
     </html>

@@ -35,8 +35,6 @@ const ClientItemCard = ({
     (task) => task.client.client_id === data._id
   )[0]?.processor;
 
-  console.log("clientTaskProcessorsCount", data._id, clientTaskProcessorsCount);
-
   const [statusCount, setStatusCount] = useState({
     pending: 0,
     todo: 0,

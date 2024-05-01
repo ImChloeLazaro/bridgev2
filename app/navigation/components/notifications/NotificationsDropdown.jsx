@@ -26,7 +26,6 @@ import {
 import NotificationsFooter from "./NotificationsFooter";
 import NotificationsHeader from "./NotificationsHeader";
 import NotificationsList from "./NotificationsList";
-import addNotification from "react-push-notification";
 import { toast } from "sonner";
 
 const NotificationsDropdown = () => {
@@ -43,6 +42,14 @@ const NotificationsDropdown = () => {
   const [connected, setConnected] = useState(false);
   const [user, setUser] = useAtom(notifyFromUserAtom);
   const socketRef = useRef(null);
+
+  const [pageVisible, setPageVisible] = useState(document.hidden);
+
+  console.log("DOCUMENT HERE", pageVisible, document.hidden);
+
+  document.addEventListener("visibilitychange", () => {
+    setPageVisible(document.hidden);
+  });
 
   useEffect(() => {
     socketRef.current = new WebSocket(notificationSocketURL);
@@ -73,32 +80,37 @@ const NotificationsDropdown = () => {
       if (data.notifications) {
         console.log("NEW NOTIFICATION MESSAGE!!!!!!!!!!");
 
-        const filteredNotifications = data.notifications.filter(
-          (notification) => notification.sub === auth.sub
-        );
+        setNotifications((prevNotifications) => {
+          return [...prevNotifications, ...data.notifications];
+        });
 
-        const sortedNotifications = filteredNotifications.sort(
-          (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
-        );
+        console.log("pageVisible", pageVisible);
 
-        console.log("FILTERED NOTIF ONLY FOR USER", sortedNotifications[0]);
-
-        if ("Notification" in window) {
-          addNotification({
-            title: sortedNotifications[0]?.title,
-            subtitle: sortedNotifications[0]?.title,
-            message: sortedNotifications[0]?.description,
-            theme: "darkblue",
-            native: true, // when using native, your OS will handle theming.
-          });
-          toast(sortedNotifications[0]?.title, {
-            description: sortedNotifications[0]?.description,
+        if (document.hidden) {
+          // if (
+          //   "Notification" in window &&
+          //   Notification.permission === "granted"
+          // ) {
+            console.log("PUSH NOTIF");
+            var notification = new Notification(
+              "NOTIFICATION PUSH DROPDOWN NOTIFICATION",
+              {
+                body: "notification description",
+                icon: "/defaulthead.png",
+              }
+            );
+            notification.addEventListener("error", (e) => {
+              console.log("ERROR NOTIFICATION", e);
+              toast("Push Notification Failed");
+            });
+          // }
+        } else {
+          console.log("TOAST NOTIF");
+          toast("DATA CHANGE IN NOTIFICATION", {
+            description:
+              "detected changes in data when new notification is received",
           });
         }
-
-        setNotifications((prevNotifications) => {
-          return [...prevNotifications, ...filteredNotifications];
-        });
       }
       if (data.count !== undefined) {
         if (data.count > 10) {
@@ -213,6 +225,11 @@ const NotificationsDropdown = () => {
       );
     }
   };
+
+  // useEffect(() => {
+  //   console.log("DATA CHANGE IN NOTIFICATION", notifications);
+
+  // }, [notifications]);
 
   return (
     <Badge

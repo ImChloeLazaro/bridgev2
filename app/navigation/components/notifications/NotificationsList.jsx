@@ -66,11 +66,15 @@ const NotificationsList = ({ getNotificationId }) => {
     return displayedDate;
   };
 
+  const userNotifications = notifications.filter(
+    (notification) => notification.sub === auth.sub
+  );
+
   const unreadNotifications = showUnread
-    ? notifications.filter((notification) => {
+    ? userNotifications.filter((notification) => {
         return notification.unread === showUnread;
       })
-    : notifications;
+    : userNotifications;
 
   const filteredNotifications =
     notificationType === "all"

@@ -56,7 +56,7 @@ const SearchBar = ({
           onSelectionChange={setSelectedFilterKeys}
           startContent={<MdFilterAlt size={24} />}
           classNames={{
-            trigger: "min-h-unit-10 rounded-r-none border border-r-0 shadow-sm",
+            trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",
             mainWrapper: "w-48 max-w-48",
             value: "w-32 truncate",
           }}

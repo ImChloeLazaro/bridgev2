@@ -71,9 +71,6 @@ const CMSUser = () => {
     [selectedClientToView, tasks]
   );
 
-  console.log("selectedClientToView", selectedClientToView);
-  console.log("tasksFromSelectedClient", tasksFromSelectedClient);
-
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
     (sla, index) => {
       return {
@@ -222,16 +219,16 @@ const CMSUser = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchTask();
-      fetchClient();
-    }, 2500);
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchTask();
+  //     fetchClient();
+  //   }, 2500);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>
