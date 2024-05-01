@@ -24,7 +24,7 @@ import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import NextImage from "next/image";
-import NoShortcut from "../../../../public/no-shortcuts.webp";
+import NoShortcut from "../../../../public/no-shortcuts.png";
 
 const Shortcuts = () => {
   const auth = useAtomValue(authenticationAtom);
