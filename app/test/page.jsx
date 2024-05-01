@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
+import { Image } from "@nextui-org/react";
 const URL =
   "wss://ettpkpovgl.execute-api.ap-southeast-1.amazonaws.com/production/";
 
@@ -171,7 +172,8 @@ const Test = () => {
               backgroundColor: notification.unread ? "#6B7280" : "#E5E7EB",
             }}
           >
-            <img
+            <Image
+              alt="profile picture"
               src={notification?.notified_from?.picture}
               className=" rounded-full w-12 h-12"
             />
