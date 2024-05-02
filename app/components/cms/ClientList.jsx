@@ -18,19 +18,20 @@ const ClientList = ({
       size={25}
       data-details={showClientDetails}
       data-view={showClientTask}
-      className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-6 "
+      className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-0 lg:px-6 "
     >
       <div className="flex flex-col w-full gap-y-3">
         {!itemClients?.length ? (
-          <div className="w-full h-full flex justify-center p-4 text-lg font-medium text-black-default">
+          <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
             <div className="flex flex-col items-center justify-center">
               <Image
                 width={450}
                 height={450}
                 alt={"No Data"}
                 src={"/no-data-1.webp"}
+                className="w-[12rem]"
               />
-              <p className="text-lg font-medium text-black-default/80">
+              <p className="text-sm lg:text-lg font-medium text-black-default/80">
                 {"No clients found. Try again"}
               </p>
             </div>

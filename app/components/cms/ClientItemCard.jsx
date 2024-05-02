@@ -93,26 +93,26 @@ const ClientItemCard = ({
     <div className="flex justify-between items-center h-full">
       <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
         <CardBody className=" pr-0 py-1">
-          <div className="flex justify-around gap-12">
-            <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-10">
-              <div className="max-w-[70px] pl-4 pr-1">
+          <div className="flex justify-between lg:justify-around gap-4 lg:gap-12">
+            <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-2 lg:gap-10">
+              <div className="max-w-[70px] pl-1 lg:pl-4 pr-1">
                 <Avatar
                   showFallback
                   fallback={<Spinner />}
                   src={data.company.picture}
-                  className="w-16 h-16 text-large"
+                  className="w-10 lg:w-16 h-10 lg:h-16 text-large"
                 />
               </div>
               <Link
                 href="#"
                 underline="hover"
-                className="text-xl font-semibold text-black-default "
+                className="text-sm md:text-md lg:text-xl font-semibold text-black-default "
                 onPress={() => handleViewClientDetails(data._id)}
               >
                 {data.company?.name?.length ? data.company.name : ""}
               </Link>
             </div>
-            <div className="w-1/3 flex flex-wrap justify-center items-center gap-4 p-0">
+            <div className="hidden w-1/3 lg:flex flex-wrap justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
                   if (
@@ -132,7 +132,6 @@ const ClientItemCard = ({
                           }`}
                           color={tagColors[status]}
                           type="tag"
-                          size="md"
                           isFilled
                           withBadge={true}
                           badgeContent={statusCount[status]}
@@ -146,9 +145,15 @@ const ClientItemCard = ({
               {!clientTaskProcessorsCount?.length ? (
                 ""
               ) : (
-                <AvatarGroup size="lg" max={3}>
+                <AvatarGroup max={3}>
                   {clientTaskProcessorsCount.map((processor, index) => (
-                    <Avatar key={index} src={processor.picture} />
+                    <Avatar
+                      key={index}
+                      showFallback
+                      fallback={<Spinner />}
+                      src={processor.picture}
+                      className="w-32 h-32 text-large"
+                    />
                   ))}
                 </AvatarGroup>
               )}
@@ -158,7 +163,7 @@ const ClientItemCard = ({
       </Card>
       <IconButton
         aria-label={"Show Client Tasks Button"}
-        className="bg-transparent w-1/12 h-32"
+        className="ml-2 lg:ml-0 bg-transparent w-1/12 h-18 lg:h-32"
         onPress={() => handleSelectClient(data._id)}
       >
         <MdChevronRight size={32} />

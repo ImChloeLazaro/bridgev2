@@ -16,27 +16,37 @@ const SearchBar = ({
   const typeVariant = {
     search: (
       <Input
-        radius={"sm"}
-        aria-label="SearchBar search function"
-        isDisabled={disabledSearch}
-        value={searchItem}
-        onValueChange={setSearchItem}
-        labelPlacement="outside"
-        startContent={
-          <div className="text-lightgrey-default">
-            <LuSearch size={18} />
-          </div>
-        }
-        endContent={
-          <div className="pointer-events-none flex items-center">
-            <span className="text-darkgrey-default text-small">{"Search"}</span>
-          </div>
-        }
-        classNames={{
-          inputWrapper: ["bg-white-default border shadow-sm"],
-          mainWrapper: ["w-64 max-w-64"],
-        }}
-      />
+          radius={"sm"}
+          aria-label="SearchBar search function"
+          isDisabled={disabledSearch}
+          value={searchItem}
+          onValueChange={setSearchItem}
+          labelPlacement="outside"
+          startContent={
+            <div className="hidden md:block text-lightgrey-default">
+              <LuSearch size={18} />
+            </div>
+          }
+          endContent={
+            <>
+              <div className="block md:hidden text-lightgrey-default">
+                <LuSearch size={18} />
+              </div>
+              <div className="hidden md:flex pointer-events-none items-center">
+                <span className="text-darkgrey-default text-small">
+                  {"Search"}
+                </span>
+              </div>
+            </>
+          }
+          classNames={{
+            base: "w-20 min-[320px]:w-24 min-[425px]:w-48 md:w-64",
+            inputWrapper: [
+              "bg-white-default border shadow-sm",
+            ],
+            mainWrapper: ["w-full max-w-64"],
+          }}
+        />
     ),
     filter: (
       <>
@@ -52,13 +62,15 @@ const SearchBar = ({
           // selectionMode="multiple"
           disallowEmptySelection={true}
           selectedKeys={selectedFilterKeys}
-          className="max-w-xs"
           onSelectionChange={setSelectedFilterKeys}
           startContent={<MdFilterAlt size={24} />}
           classNames={{
+            base: "data-[disabled=true]:cursor-not-allowed w-16 min-[320px]:w-24 min-[425px]:w-32 md:w-48",
             trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",
-            mainWrapper: "w-48 max-w-48",
-            value: "w-32 truncate",
+            mainWrapper: "w-full max-w-48",
+            value:
+              "hidden min-[320px]:block min-[320px]:w-2/3 min-[320px]:truncate",
+            popoverContent: "w-48",
           }}
         >
           {(filter) => (
@@ -67,6 +79,7 @@ const SearchBar = ({
             </SelectItem>
           )}
         </Select>
+
         <Input
           radius={"sm"}
           aria-label="SearchBar search function"
@@ -75,20 +88,28 @@ const SearchBar = ({
           onValueChange={setSearchItem}
           labelPlacement="outside"
           startContent={
-            <div className="text-lightgrey-default">
+            <div className="hidden md:block text-lightgrey-default">
               <LuSearch size={18} />
             </div>
           }
           endContent={
-            <div className="pointer-events-none flex items-center">
-              <span className="text-darkgrey-hover text-small">{"Search"}</span>
-            </div>
+            <>
+              <div className="block md:hidden text-lightgrey-default">
+                <LuSearch size={18} />
+              </div>
+              <div className="hidden md:flex pointer-events-none items-center">
+                <span className="text-darkgrey-hover text-small">
+                  {"Search"}
+                </span>
+              </div>
+            </>
           }
           classNames={{
+            base: "w-24 min-[320px]:w-28 min-[425px]:w-32 md:w-64",
             inputWrapper: [
               "bg-white-default rounded-l-none border border-l-0 shadow-sm",
             ],
-            mainWrapper: ["w-64 max-w-64"],
+            mainWrapper: ["w-full max-w-64"],
           }}
         />
       </>

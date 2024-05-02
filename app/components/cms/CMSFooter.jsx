@@ -1,19 +1,16 @@
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
-import { pageRowsSelectionAtom } from "../store/CMSTLStore";
 
-const CMSTLFooter = ({
+const CMSFooter = ({
   showFooter = true,
   displayedItemCount,
   totalItemCount = 0,
+  pageRowsSelection,
   page = 1,
   setPage,
   rowsPerPage = [],
   setRowsPerPage,
   totalPages = 0,
 }) => {
-  const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
-
   const handleRowsPerPage = (select) => {
     setRowsPerPage(select);
   };
@@ -22,16 +19,16 @@ const CMSTLFooter = ({
     <div
       data-show={showFooter}
       className={
-        "hidden data-[show=true]:flex w-full items-center justify-between px-12 "
+        "hidden data-[show=true]:flex w-full items-center justify-center lg:justify-between px-0 lg:px-12 "
       }
     >
-      <div className="w-1/3">
-      <p>{`Showing ${displayedItemCount} out of ${totalItemCount} ${
+      <div className="hidden lg:block w-1/3 text-sm lg:text-md">
+        <p>{`Showing ${displayedItemCount} out of ${totalItemCount} ${
           totalItemCount === 1 ? "result" : "results"
         } `}</p>
       </div>
-      <div className="w-1/3 h-fit flex justify-center items-center py-2 gap-2">
-        <div className="h-full">{`Rows per page: `}</div>
+      <div className="hidden lg:flex w-1/3 h-fit justify-center items-center py-2 gap-2">
+        <p className="h-full text-sm lg:text-md">{`Rows per page: `}</p>
         <Select
           items={pageRowsSelection}
           aria-label="Rows per Page Filter"
@@ -52,18 +49,21 @@ const CMSTLFooter = ({
         </Select>
       </div>
       <Pagination
-        aria-label={"CMS Page Footer TL"}
+        aria-label={"CMS Page Footer User"}
         isCompact
         showControls
         total={totalPages <= 0 ? 1 : totalPages}
         initialPage={1}
         page={page}
         onChange={(page) => setPage(page)}
-        className="w-1/3 flex justify-end"
-        classNames={{ cursor: "bg-blue-default" }}
+        className="px-0 lg:p-2.5 w-full lg:w-1/3 flex justify-center lg:justify-end data-[total]"
+        classNames={{
+          wrapper: "max-w-full lg:max-w-fit flex w-full justify-between",
+          cursor: "hidden lg:flex bg-blue-default",
+        }}
       />
     </div>
   );
 };
 
-export default CMSTLFooter;
+export default CMSFooter;

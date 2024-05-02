@@ -21,6 +21,7 @@ import {
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
+  pageRowsSelectionAtom,
 } from "../store/CMSUserStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -28,7 +29,7 @@ import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import CMSUserHeader from "./CMSUserHeader";
-import CMSUserFooter from "./CMSUserFooter";
+import CMSFooter from "@/app/components/cms/CMSFooter";
 
 const CMSUser = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
@@ -43,6 +44,8 @@ const CMSUser = () => {
 
   const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
   const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
+
+  const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
 
   const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
     selectedClientFilterKeysAtom
@@ -232,8 +235,8 @@ const CMSUser = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-4 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
-        <CardHeader className="">
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 py-0 lg:py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
+        <CardHeader className={`${showClientTask ? "p-0 py-3" : "p-3 py-3"}`}>
           <CMSUserHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
@@ -250,7 +253,7 @@ const CMSUser = () => {
             }
           />
         </CardHeader>
-        <CardBody className="h-full w-full overflow-x-auto">
+        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
             showClientTask={showClientTask}
@@ -284,7 +287,7 @@ const CMSUser = () => {
           />
         </CardBody>
         <CardFooter className="">
-          <CMSUserFooter
+          <CMSFooter
             showFooter={showFooter}
             displayedItemCount={
               showClientTask ? itemTasks?.length : itemClients?.length
@@ -294,6 +297,7 @@ const CMSUser = () => {
                 ? tasksFromSelectedClient[0]?.sla?.length
                 : clientsCount
             }
+            pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}
             setPage={showClientTask ? setTaskPage : setClientPage}
             rowsPerPage={showClientTask ? taskRowsPerPage : clientRowsPerPage}

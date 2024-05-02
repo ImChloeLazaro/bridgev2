@@ -156,7 +156,8 @@ module.exports = {
           "-webkit-text-stroke-color": "black",
         },
         ".text-shadow": {
-          "text-shadow": "0px 1px 2px rgb(30 29 39 / 19%), 1px 2px 4px rgb(54 64 147 / 18%)",
+          "text-shadow":
+            "0px 1px 2px rgb(30 29 39 / 19%), 1px 2px 4px rgb(54 64 147 / 18%)",
           color: "#f9f9f9",
         },
       };

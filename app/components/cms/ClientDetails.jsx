@@ -10,7 +10,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const checkStatusBookkeeper = (
     <div className="flex items-center gap-2 text-green-default">
       <RiCheckboxCircleFill size={24} />
-      <p className="text-base font-medium text-black-default">
+      <p className="text-sm lg:text-base font-medium text-black-default">
         {"From Another Bookkeeper"}
       </p>
     </div>
@@ -19,7 +19,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const wrongStatusBookkeeper = (
     <div className="flex items-center gap-2 text-red-default">
       <RiCloseCircleFill size={24} />
-      <p className="text-base font-medium text-black-default">
+      <p className="text-sm lg:text-base font-medium text-black-default">
         {"From Another Bookkeeper"}
       </p>
     </div>
@@ -28,7 +28,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const checkStatusAccountant = (
     <div className="flex items-center gap-2 text-green-default">
       <RiCheckboxCircleFill size={24} />
-      <p className="text-base font-medium text-black-default">
+      <p className="text-sm lg:text-base font-medium text-black-default">
         {"Accountant Firm"}
       </p>
     </div>
@@ -37,7 +37,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const wrongStatusAccountant = (
     <div className="flex items-center gap-2 text-red-default">
       <RiCloseCircleFill size={24} />
-      <p className="text-base font-medium text-black-default">
+      <p className="text-sm lg:text-base font-medium text-black-default">
         {"Accountant Firm"}
       </p>
     </div>
@@ -50,7 +50,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
     >
       <div className="flex gap-16 justify-between items-center">
         <div className="w-full flex gap-5 px-1 items-center relative z-20 ">
-          <div className="flex">
+        <div className="flex -mr-6">
             <div className="relative z-20 ">
               <Avatar
                 // as={Button}
@@ -59,17 +59,16 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
                 src={clientInfo?.company.picture}
                 alt="Image Placeholder"
                 classNames={{
-                  base: "data-[hover=true]:bg-darkgrey-default w-[140px] h-[140px] text-large border-8 border-white-default ",
+                  base: "data-[hover=true]:bg-darkgrey-default w-[7rem] h-[7rem] lg:w-[8rem] lg:h-[8rem] text-large border-8 border-white-default ",
                   img: "data-[hover=true]:bg-darkgrey-default",
                 }}
               />
             </div>
 
-            {/* // CAMERA ICON FOR PROFILE */}
-            <div className="relative z-30 -ml-10 mt-[5.8rem] h-fit">
+            <div className="flex relative mt-6 lg:mt-8 right-[35%] translate-x-1/2 translate-y-1/2 z-30">
               <svg
-                width="40"
-                height="40"
+                width="30"
+                height="30"
                 viewBox="0 0 40 40"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,13 +96,13 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
           </div>
 
           <div className="flex-col">
-            <p className="ml-1 text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
+            <p className="ml-1 text-xl lg:text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
               {clientInfo?.company.name}
             </p>
-            <p className="ml-2 text-base font-medium text-darkgrey-hover leading-5">
+            <p className="ml-2 text-sm lg:text-base font-medium text-darkgrey-hover leading-5">
               {clientInfo?.company.contact_number}
             </p>
-            <p className="ml-2 text-base font-medium text-darkgrey-hover leading-5">
+            <p className="ml-2 text-sm lg:text-base font-medium text-darkgrey-hover leading-5">
               {clientInfo?.company.email}
             </p>
             <div className="flex justify-center items-center gap-4 mt-2">
@@ -121,7 +120,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-4 items-start justify-between">
+        <div className="w-full hidden lg:flex flex-col gap-4 items-start justify-between">
           {clientInfo?.documents !== undefined &&
             Object.values(clientInfo?.documents).map((document, index) => {
               return (

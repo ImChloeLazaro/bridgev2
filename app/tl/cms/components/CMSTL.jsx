@@ -21,6 +21,7 @@ import {
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
   showClientDetailsAtom,
+  pageRowsSelectionAtom,
 } from "../store/CMSTLStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -28,7 +29,7 @@ import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import CMSTLHeader from "./CMSTLHeader";
-import CMSTLFooter from "./CMSTLFooter";
+import CMSFooter from "@/app/components/cms/CMSFooter";
 
 const CMSAdmin = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
@@ -43,6 +44,8 @@ const CMSAdmin = () => {
 
   const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
   const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
+
+  const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
 
   const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
     selectedClientFilterKeysAtom
@@ -286,7 +289,7 @@ const CMSAdmin = () => {
           />
         </CardBody>
         <CardFooter className="">
-          <CMSTLFooter
+          <CMSFooter
             showFooter={showFooter}
             displayedItemCount={
               showClientTask ? itemTasks?.length : itemClients?.length
@@ -296,6 +299,7 @@ const CMSAdmin = () => {
                 ? tasksFromSelectedClient[0]?.sla?.length
                 : clientsCount
             }
+            pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}
             setPage={showClientTask ? setTaskPage : setClientPage}
             rowsPerPage={showClientTask ? taskRowsPerPage : clientRowsPerPage}
