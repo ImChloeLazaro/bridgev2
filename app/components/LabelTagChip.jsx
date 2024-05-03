@@ -8,6 +8,7 @@ const LabelTagChip = ({
   withBadge = false,
   badgeContent,
   className,
+  classNameContent,
   ...props
 }) => {
   const colorVariants = {
@@ -63,13 +64,6 @@ const LabelTagChip = ({
 
   const lightColors = ["clear", "grey", "lightgrey"];
 
-  const sizeVariants = {
-    xs: "text-xs",
-    sm: "text-sm",
-    md: "text-base",
-    lg: "text-lg",
-  };
-
   return (
     <Chip
       radius="sm"
@@ -111,7 +105,7 @@ const LabelTagChip = ({
       {...props}
     >
       <div className="flex justify-center items-center gap-4">
-        <p className="tracking-wider text-sm md:text-md lg:text-lg">{text}</p>
+        <p className={cn("tracking-wider", classNameContent)}>{text}</p>
       </div>
     </Chip>
   );

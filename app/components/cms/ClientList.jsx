@@ -29,7 +29,7 @@ const ClientList = ({
                 height={450}
                 alt={"No Data"}
                 src={"/no-data-1.webp"}
-                className="w-[12rem]"
+                className="w-[12rem] lg:w-[24rem]"
               />
               <p className="text-sm lg:text-lg font-medium text-black-default/80">
                 {"No clients found. Try again"}

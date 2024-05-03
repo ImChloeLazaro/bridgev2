@@ -110,8 +110,8 @@ const CMSUserHeader = ({
         className
       )}
     >
-      <div className="flex gap-4 lg:gap-2 justify-between min-[425px]:justify-start">
-        <div className="flex gap-1">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-2 justify-between min-[425px]:justify-start">
+        <div className="w-full flex gap-2">
           <IconButton
             data-details={showClientDetails}
             data-task={showClientTask}
@@ -171,7 +171,7 @@ const CMSUserHeader = ({
         <div
           data-details={showClientDetails}
           data-task={showClientTask}
-          className="hidden data-[task=true]:flex data-[details=true]:flex gap-2 ml-0 lg:ml-6 "
+          className="hidden data-[task=true]:flex data-[details=true]:flex w-full overscroll-x-auto no-scrollbar gap-2 ml-2 lg:ml-6 "
         >
           <CTAButtons
             isDisabled={showClientDetails}

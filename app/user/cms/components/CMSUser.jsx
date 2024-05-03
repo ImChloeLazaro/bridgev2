@@ -253,7 +253,7 @@ const CMSUser = () => {
             }
           />
         </CardHeader>
-        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
+        <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
             showClientTask={showClientTask}

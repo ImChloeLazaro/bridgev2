@@ -209,7 +209,7 @@ const TaskTableView = ({
         selectionBehavior={"toggle"}
         onRowAction={(key) => alert(`Opening item ${key}...`)}
         classNames={{
-          base: "rounded-[1rem] h-full px-0 lg:px-6 ",
+          base: "rounded-[1rem] h-full px-0 lg:px-2 xl:px-6 ",
           tbody: "h-full max-h-screen ",
           wrapper:
             "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll no-scrollbar",

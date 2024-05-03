@@ -8,7 +8,6 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
 } from "@nextui-org/react";
 import {
   differenceInDays,
@@ -20,9 +19,7 @@ import { useAtomValue } from "jotai";
 import { notificationsAtom } from "../../store/NotificationsStore";
 // @refresh reset
 
-const NotificationsHistory = () => {
-  const { isOpen, onOpen: onOpenNotification, onOpenChange } = useDisclosure();
-
+const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   const notifications = useAtomValue(notificationsAtom);
 
   const filteredTodayNotifications = notifications.filter((notification) => {
