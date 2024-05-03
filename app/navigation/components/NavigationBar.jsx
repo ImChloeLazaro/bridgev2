@@ -1,36 +1,33 @@
 import {
-  Link,
   Image,
+  Link,
   Navbar,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarMenuToggle,
+  NavbarMenuToggle
 } from "@nextui-org/react";
+import { signOut } from "aws-amplify/auth";
 import { useAtom, useAtomValue } from "jotai";
 import { useState } from "react";
-import { userOptionsAtom, userRolesAtom } from "../store/NavSideBarStore";
-import RoleBadge from "./navbar/RoleBadge";
-import UserDropdown from "./navbar/UserDropdown";
-import NotificationsDropdown from "./notifications/NotificationsDropdown";
 import { MdMenu } from "react-icons/md";
+import "../../aws-auth";
 import {
   activeAdminRouteAtom,
   activeHRRouteAtom,
   activeTLRouteAtom,
-  activeUserRouteAtom,
-  fetchRoleAtom,
-  selectedRoleAtom,
+  activeUserRouteAtom, selectedRoleAtom, userOptionsAtom, userRolesAtom
 } from "../store/NavSideBarStore";
+import RoleBadge from "./navbar/RoleBadge";
+import UserDropdown from "./navbar/UserDropdown";
+import NotificationsDropdown from "./notifications/NotificationsDropdown";
 import {
   routesAdmin,
   routesHR,
   routesTeamLead,
   routesUser,
 } from "./RoutesIconDetails";
-import { signOut } from "aws-amplify/auth";
-import "../../aws-auth";
 // @refresh reset
 
 const NavigationBar = () => {

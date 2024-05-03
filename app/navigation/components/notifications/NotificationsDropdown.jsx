@@ -1,8 +1,7 @@
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
-  cn,
   Badge,
   Button,
+  cn,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -15,6 +14,7 @@ import {
   MdNotificationsActive,
   MdNotificationsNone,
 } from "react-icons/md";
+import { toast } from "sonner";
 import "../../../aws-auth";
 import {
   notificationCountAtom,
@@ -26,10 +26,9 @@ import {
 import NotificationsFooter from "./NotificationsFooter";
 import NotificationsHeader from "./NotificationsHeader";
 import NotificationsList from "./NotificationsList";
-import { toast } from "sonner";
+// @refresh reset
 
 const NotificationsDropdown = () => {
-  const auth = useAtomValue(authenticationAtom);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useAtom(notificationsAtom);
   const [notificationSocketRef, setNotificationSocketRef] = useAtom(
@@ -78,7 +77,7 @@ const NotificationsDropdown = () => {
       console.log(data);
       console.log("NOTIFICATION RECEIVED");
       if (data.notifications) {
-        console.log("NEW NOTIFICATION MESSAGE!!!!!!!!!!");
+        console.log("data.notifications", data.notifications);
 
         setNotifications((prevNotifications) => {
           return [...prevNotifications, ...data.notifications];
@@ -91,18 +90,18 @@ const NotificationsDropdown = () => {
           //   "Notification" in window &&
           //   Notification.permission === "granted"
           // ) {
-            console.log("PUSH NOTIF");
-            var notification = new Notification(
-              "NOTIFICATION PUSH DROPDOWN NOTIFICATION",
-              {
-                body: "notification description",
-                icon: "/defaulthead.png",
-              }
-            );
-            notification.addEventListener("error", (e) => {
-              console.log("ERROR NOTIFICATION", e);
-              toast("Push Notification Failed");
-            });
+          console.log("PUSH NOTIF");
+          var notification = new Notification(
+            "NOTIFICATION PUSH DROPDOWN NOTIFICATION",
+            {
+              body: "notification description",
+              icon: "/defaulthead.png",
+            }
+          );
+          notification.addEventListener("error", (e) => {
+            console.log("ERROR NOTIFICATION", e);
+            toast("Push Notification Failed");
+          });
           // }
         } else {
           console.log("TOAST NOTIF");

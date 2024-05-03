@@ -1,3 +1,4 @@
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   Avatar,
   Image,
@@ -12,6 +13,7 @@ import {
   format,
 } from "date-fns";
 import { useAtom, useAtomValue } from "jotai";
+import { useMemo } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
@@ -21,10 +23,10 @@ import {
   showUnreadAtom,
 } from "../../store/NotificationsStore";
 import NotificationsOptions from "./NotificationsOptions";
-import { useMemo } from "react";
 
 const NotificationsList = ({ getNotificationId }) => {
   const showUnread = useAtomValue(showUnreadAtom);
+  const auth = useAtomValue(authenticationAtom);
   const notificationType = useAtomValue(notificationTypeAtom);
   const [notifications, setNotifications] = useAtom(notificationsAtom);
 

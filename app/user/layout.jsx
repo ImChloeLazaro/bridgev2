@@ -2,9 +2,13 @@
 import { useAtomValue } from "jotai";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
-import SideBar from "../navigation/components/SideBar";
+import dynamic from "next/dynamic";
 import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
+
+const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
+  ssr: false,
+});
 
 const UserLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -23,7 +27,7 @@ const UserLayout = ({ children }) => {
           </div>
           <div className="flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
             {/* <Suspense fallback={<Loading />}> */}
-              {children}
+            {children}
             {/* </Suspense> */}
           </div>
         </div>
