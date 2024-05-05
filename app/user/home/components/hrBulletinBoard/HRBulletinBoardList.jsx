@@ -92,7 +92,7 @@ const HRBulletinBoardList = () => {
                 <p className="font-medium text-sm xl:text-md leading-tight whitespace-pre-line line-clamp-2 xl:line-clamp-3">
                   {hrBulletin.description}
                 </p>
-                <div className="hidden xl:block bg-grey-hover rounded-md mt-3 w-full h-32"></div>
+                <div className="hidden lg:block bg-grey-hover rounded-md mt-3 w-full h-32"></div>
               </div>
             </div>
           </ListboxItem>

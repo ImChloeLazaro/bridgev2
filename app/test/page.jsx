@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { Image } from "@nextui-org/react";
+import { sendNotification, updateNotification } from "../utils/notify-user";
 const URL =
   "wss://ettpkpovgl.execute-api.ap-southeast-1.amazonaws.com/production/";
 
@@ -101,9 +102,15 @@ const Test = () => {
     });
 
     // Send WebSocket message
-    socketRef.current.send(
-      JSON.stringify({ action: "notification", id: data, route })
-    );
+    // socketRef.current.send(
+    //   JSON.stringify({ action: "notification", id: data, route })
+    // );
+    updateNotification({
+      socketRef: socketRef,
+      action: "notification",
+      id: data,
+      route,
+    });
 
     // Update notification count based on action
     if (action === "read") {
@@ -138,28 +145,28 @@ const Test = () => {
     }
   };
 
-  const sendnotification = () => {
-    //subs, title, type, description, route, notified_from
-    // const subs = window.prompt("Enter subs and separate with comma").split(",");
-    // const title = window.prompt("Enter title");
-    // const type = window.prompt("Enter type and separate with comma").split(",");
-    // const description = window.prompt("Enter description");
-    // console.log("TYPEOF", typeof subs, subs.split(","));
-    // console.log("TYPEOF", typeof title, title);
-    // console.log("TYPEOF", typeof type, type.split(","));
-    // console.log("TYPEOF", typeof description, description);
-    socketRef.current.send(
-      JSON.stringify({
-        action: "notification",
-        subs: ["a8dfd442-2977-499b-a917-a0e226c6c089"],
-        title: "NOTIFICATION PUSH TESTING",
-        type: ["mentioned"],
-        description: "TSEING TSEINTSETINTSEITN",
-        notified_from: user,
-        route: "set",
-      })
-    );
-  };
+  // const sendnotification = () => {
+  //subs, title, type, description, route, notified_from
+  // const subs = window.prompt("Enter subs and separate with comma").split(",");
+  // const title = window.prompt("Enter title");
+  // const type = window.prompt("Enter type and separate with comma").split(",");
+  // const description = window.prompt("Enter description");
+  // console.log("TYPEOF", typeof subs, subs.split(","));
+  // console.log("TYPEOF", typeof title, title);
+  // console.log("TYPEOF", typeof type, type.split(","));
+  // console.log("TYPEOF", typeof description, description);
+  //   socketRef.current.send(
+  //     JSON.stringify({
+  //       action: "notification",
+  //       subs: ["a8dfd442-2977-499b-a917-a0e226c6c089"],
+  //       title: "NOTIFICATION PUSH TESTING",
+  //       type: ["mentioned"],
+  //       description: "TSEING TSEINTSETINTSEITN",
+  //       notified_from: user,
+  //       route: "set",
+  //     })
+  //   );
+  // };
   return (
     <>
       <h1>Live Notification Count: {notificationCount}</h1>
@@ -217,7 +224,17 @@ const Test = () => {
         <div className="flex">
           <button
             className="m-1 p-1 bg-blue-400 rounded-md text-white"
-            onClick={sendnotification}
+            onClick={() =>
+              sendNotification({
+                action: "notification",
+                subs: ["a8dfd442-2977-499b-a917-a0e226c6c089"],
+                title: "NOTIFICATION PUSH TESTING",
+                type: ["mentioned"],
+                description: "TSEING TSEINTSETINTSEITN",
+                notified_from: user,
+                route: "set",
+              })
+            }
           >
             Send Notification
           </button>
