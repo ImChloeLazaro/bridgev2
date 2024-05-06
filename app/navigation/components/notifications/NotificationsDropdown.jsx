@@ -5,10 +5,11 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  useDisclosure,
 } from "@nextui-org/react";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useAtom, useAtomValue } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import {
   MdNotifications,
   MdNotificationsActive,
@@ -21,14 +22,21 @@ import {
   notificationsAtom,
   notificationSocketRefAtom,
   notificationSocketURLAtom,
+  notificationTypeAtom,
   notifyFromUserAtom,
+  showUnreadAtom,
 } from "../../store/NotificationsStore";
 import NotificationsFooter from "./NotificationsFooter";
 import NotificationsHeader from "./NotificationsHeader";
 import NotificationsList from "./NotificationsList";
+import NotificationsHistory from "./NotificationsHistory";
+import { showNotification } from "@/app/utils/notificationUtils";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 // @refresh reset
 
 const NotificationsDropdown = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useAtom(notificationsAtom);
   const [notificationSocketRef, setNotificationSocketRef] = useAtom(
@@ -38,6 +46,10 @@ const NotificationsDropdown = () => {
     notificationCountAtom
   );
   const notificationSocketURL = useAtomValue(notificationSocketURLAtom);
+  const notificationType = useAtomValue(notificationTypeAtom);
+  const showUnread = useAtomValue(showUnreadAtom);
+  const auth = useAtomValue(authenticationAtom);
+
   const [connected, setConnected] = useState(false);
   const [user, setUser] = useAtom(notifyFromUserAtom);
   const socketRef = useRef(null);
@@ -84,32 +96,13 @@ const NotificationsDropdown = () => {
         });
 
         console.log("pageVisible", pageVisible);
-
-        if (document.hidden) {
-          // if (
-          //   "Notification" in window &&
-          //   Notification.permission === "granted"
-          // ) {
-          console.log("PUSH NOTIF");
-          var notification = new Notification(
-            "NOTIFICATION PUSH DROPDOWN NOTIFICATION",
-            {
-              body: "notification description",
-              icon: "/defaulthead.png",
-            }
-          );
-          notification.addEventListener("error", (e) => {
-            console.log("ERROR NOTIFICATION", e);
-            toast("Push Notification Failed");
-          });
-          // }
-        } else {
-          console.log("TOAST NOTIF");
-          toast("DATA CHANGE IN NOTIFICATION", {
-            description:
-              "detected changes in data when new notification is received",
-          });
-        }
+        showNotification({
+          title: "DATA CHANGE IN NOTIFICATION",
+          description:
+            "detected changes in data when new notification is received",
+          body: "notification description",
+          icon: "/defaulthead.png",
+        });
       }
       if (data.count !== undefined) {
         if (data.count > 10) {
@@ -225,75 +218,71 @@ const NotificationsDropdown = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("DATA CHANGE IN NOTIFICATION", notifications);
-
-  // }, [notifications]);
-
   return (
-    <Badge
-      content={notificationCount}
-      shape="circle"
-      isInvisible={notificationCount === 0}
-      classNames={{
-        badge: cn(
-          "px-1 text-xs",
-          "font-medium text-white-default bg-blue-default",
-          "lg:font-bold lg:text-black-darker lg:bg-grey-default"
-        ),
-      }}
-    >
-      <Popover
-        placement="bottom-end"
-        showArrow={true}
-        isOpen={notificationsOpen}
-        onOpenChange={(open) => {
-          setNotificationsOpen(open);
+    <>
+      <Badge
+        content={notificationCount}
+        shape="circle"
+        isInvisible={notificationCount === 0}
+        classNames={{
+          badge: cn(
+            "px-1 text-xs",
+            "font-medium text-white-default bg-blue-default",
+            "lg:font-bold lg:text-black-darker lg:bg-grey-default"
+          ),
         }}
       >
-        <PopoverTrigger>
-          <Button
-            aria-label={"Notifications Button"}
-            isIconOnly
-            className="bg-transparent"
-          >
-            {notificationCount === 0 ? (
-              <MdNotificationsNone
-                size={24}
-                fill="currentColor"
-                className="text-orange-default lg:text-white-default"
-              />
-            ) : notificationsOpen ? (
-              <MdNotifications
-                size={24}
-                fill="currentColor"
-                className="text-orange-default lg:text-white-default"
-              />
-            ) : (
-              <MdNotificationsActive
-                size={24}
-                fill="currentColor"
-                className="text-orange-default lg:text-white-default"
-              />
-            )}
-          </Button>
-        </PopoverTrigger>
+        <Popover
+          placement="bottom-end"
+          showArrow={true}
+          isOpen={notificationsOpen}
+          onOpenChange={(open) => {
+            setNotificationsOpen(open);
+          }}
+        >
+          <PopoverTrigger>
+            <Button
+              aria-label={"Notifications Button"}
+              isIconOnly
+              className="bg-transparent"
+            >
+              {notificationCount === 0 ? (
+                <MdNotificationsNone
+                  size={24}
+                  fill="currentColor"
+                  className="text-orange-default lg:text-white-default"
+                />
+              ) : notificationsOpen ? (
+                <MdNotifications
+                  size={24}
+                  fill="currentColor"
+                  className="text-orange-default lg:text-white-default"
+                />
+              ) : (
+                <MdNotificationsActive
+                  size={24}
+                  fill="currentColor"
+                  className="text-orange-default lg:text-white-default"
+                />
+              )}
+            </Button>
+          </PopoverTrigger>
 
-        <PopoverContent className="p-0">
-          <div className="pb-2 px-1">
-            <NotificationsHeader />
-            <NotificationsList
-              updateNotificationState={updateNotificationState}
-              getNotificationId={getNotificationId}
-            />
-            <NotificationsFooter
-              markAllAsRead={markAllAsRead}
-              setNotificationsOpen={setNotificationsOpen}
-            />
-          </div>
-        </PopoverContent>
-      </Popover>
-    </Badge>
+          <PopoverContent className="p-0">
+            <div className="pb-2 px-1">
+              <NotificationsHeader />
+              <NotificationsList getNotificationId={getNotificationId} />
+              <NotificationsFooter
+                onOpen={onOpen}
+                markAllAsRead={markAllAsRead}
+                setNotificationsOpen={setNotificationsOpen}
+              />
+            </div>
+          </PopoverContent>
+        </Popover>
+      </Badge>
+      <NotificationsHistory isOpen={isOpen} onOpenChange={onOpenChange} />
+    </>
   );
 };
 

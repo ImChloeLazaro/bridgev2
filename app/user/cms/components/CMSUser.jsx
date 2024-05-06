@@ -28,8 +28,8 @@ import ClientList from "@/app/components/cms/ClientList";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import ClientDetails from "@/app/components/cms/ClientDetails";
-import CMSUserHeader from "./CMSUserHeader";
 import CMSFooter from "@/app/components/cms/CMSFooter";
+import CMSHeader from "@/app/components/cms/CMSHeader";
 
 const CMSUser = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
@@ -61,7 +61,7 @@ const CMSUser = () => {
   );
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
-  const setShowSearchBar = useSetAtom(showSearchBarAtom);
+  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
@@ -237,7 +237,7 @@ const CMSUser = () => {
     <>
       <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 py-0 lg:py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
         <CardHeader className={`${showClientTask ? "p-0 py-3" : "p-3 py-3"}`}>
-          <CMSUserHeader
+          <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
@@ -251,6 +251,17 @@ const CMSUser = () => {
                 ? setSelectedTaskFilterKeys
                 : setSelectedClientFilterKeys
             }
+            changeView={changeView}
+            setChangeView={setChangeView}
+            showClientTask={showClientTask}
+            setShowClientTask={setShowClientTask}
+            showFooter={showFooter}
+            setShowFooter={setShowFooter}
+            showSearchBar={showSearchBar}
+            setShowSearchBar={setShowSearchBar}
+            selectedClientToView={selectedClientToView}
+            showClientDetails={showClientDetails}
+            setShowClientDetails={setShowClientDetails}
           />
         </CardHeader>
         <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">

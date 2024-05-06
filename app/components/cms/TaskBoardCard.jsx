@@ -49,12 +49,6 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       label: "Assign to a team member",
       icon: <MdOutlineAssignment size={18} />,
     },
-    {
-      key: "assign",
-      color: "orange",
-      label: "Assign to a team member",
-      icon: <MdOutlineAssignment size={18} />,
-    },
   ];
 
   const style = {

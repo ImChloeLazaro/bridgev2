@@ -141,18 +141,24 @@ const ClientItemCard = ({
                   }
                 })}
             </div>
-            <div className="w-1/3 flex justify-end items-center gap-2">
+            <div className="w-1/3 flex justify-end items-center gap-2 px-1">
               {!clientTaskProcessorsCount?.length ? (
                 ""
               ) : (
                 <AvatarGroup max={3}>
                   {clientTaskProcessorsCount.map((processor, index) => (
                     <Avatar
+                      isBordered={true}
                       key={index}
                       showFallback
                       fallback={<Spinner />}
                       src={processor.picture}
-                      className="w-32 h-32 text-large"
+                      classNames={{
+                        base: [
+                          "bg-blue-default ring-blue-default",
+                          " w-10 h-10 lg:w-12 lg:h-12 text-large",
+                        ],
+                      }}
                     />
                   ))}
                 </AvatarGroup>

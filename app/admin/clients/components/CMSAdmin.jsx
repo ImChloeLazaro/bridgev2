@@ -10,7 +10,13 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import {
@@ -28,10 +34,24 @@ import ClientList from "@/app/components/cms/ClientList";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import ClientDetails from "@/app/components/cms/ClientDetails";
-import ClientAdminHeader from "./CMSAdminHeader";
 import CMSFooter from "@/app/components/cms/CMSFooter";
+import CMSHeader from "@/app/components/cms/CMSHeader";
+import CTAButtons from "@/app/components/CTAButtons";
+import AddClientModal from "./AddClientModal";
+import AddTaskModal from "./AddTaskModal";
 
 const CMSAdmin = () => {
+  const {
+    isOpen: isOpenTask,
+    onOpen: onOpenTask,
+    onOpenChange: onOpenChangeTask,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenClient,
+    onOpen: onOpenClient,
+    onOpenChange: onOpenChangeClient,
+  } = useDisclosure();
+
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
@@ -61,7 +81,7 @@ const CMSAdmin = () => {
   );
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
-  const setShowSearchBar = useSetAtom(showSearchBarAtom);
+  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
@@ -222,6 +242,27 @@ const CMSAdmin = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
+  const actionButtons = {
+    task: {
+      color: "blue",
+      label: "Add Task",
+    },
+    client: {
+      color: "orange",
+      label: "Add Client",
+    },
+  };
+
+  const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      clientSelectionChange(selectedClientToView);
+    }
+    onOpenTask();
+  };
+  const handleOpenClientWindow = () => {
+    onOpenClient();
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       fetchTask();
@@ -237,7 +278,7 @@ const CMSAdmin = () => {
     <>
       <Card className="flex w-full h-full my-4 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
         <CardHeader className="">
-          <ClientAdminHeader
+          <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
@@ -251,7 +292,51 @@ const CMSAdmin = () => {
                 ? setSelectedTaskFilterKeys
                 : setSelectedClientFilterKeys
             }
-          />
+            changeView={changeView}
+            setChangeView={setChangeView}
+            showClientTask={showClientTask}
+            setShowClientTask={setShowClientTask}
+            showFooter={showFooter}
+            setShowFooter={setShowFooter}
+            showSearchBar={showSearchBar}
+            setShowSearchBar={setShowSearchBar}
+            selectedClientToView={selectedClientToView}
+            showClientDetails={showClientDetails}
+            setShowClientDetails={setShowClientDetails}
+          >
+            <div
+              data-show={showClientDetails}
+              className="w-full flex data-[show=true]:hidden justify-end gap-4"
+            >
+              <CTAButtons
+                radius={"sm"}
+                key={actionButtons.task.label}
+                fullWidth={true}
+                label={actionButtons.task.label}
+                color={actionButtons.task.color}
+                className={"py-5 max-w-[16rem]"}
+                onPress={() => handleOpenTaskWindow()}
+              />
+              <AddTaskModal
+                isOpen={isOpenTask}
+                onOpenChange={onOpenChangeTask}
+              />
+              <CTAButtons
+                radius={"sm"}
+                showButton={!showClientTask}
+                key={actionButtons.client.label}
+                fullWidth={true}
+                label={actionButtons.client.label}
+                color={actionButtons.client.color}
+                className={"py-5 max-w-[16rem]"}
+                onPress={() => handleOpenClientWindow()}
+              />
+              <AddClientModal
+                isOpen={isOpenClient}
+                onOpenChange={onOpenChangeClient}
+              />
+            </div>
+          </CMSHeader>
         </CardHeader>
         <CardBody className="h-full w-full overflow-x-auto">
           <Suspense

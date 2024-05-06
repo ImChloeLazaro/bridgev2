@@ -16,37 +16,25 @@ const SearchBar = ({
   const typeVariant = {
     search: (
       <Input
-          radius={"sm"}
-          aria-label="SearchBar search function"
-          isDisabled={disabledSearch}
-          value={searchItem}
-          onValueChange={setSearchItem}
-          labelPlacement="outside"
-          startContent={
-            <div className="hidden md:block text-lightgrey-default">
+        radius={"sm"}
+        aria-label="SearchBar search function"
+        isDisabled={disabledSearch}
+        value={searchItem}
+        onValueChange={setSearchItem}
+        labelPlacement="outside"
+        endContent={
+          <>
+            <div className="text-lightgrey-default">
               <LuSearch size={18} />
             </div>
-          }
-          endContent={
-            <>
-              <div className="block md:hidden text-lightgrey-default">
-                <LuSearch size={18} />
-              </div>
-              <div className="hidden md:flex pointer-events-none items-center">
-                <span className="text-darkgrey-default text-small">
-                  {"Search"}
-                </span>
-              </div>
-            </>
-          }
-          classNames={{
-            base: "w-20 min-[320px]:w-24 min-[425px]:w-48 md:w-64",
-            inputWrapper: [
-              "bg-white-default border shadow-sm",
-            ],
-            mainWrapper: ["w-full max-w-64"],
-          }}
-        />
+          </>
+        }
+        classNames={{
+          base: "w-20 min-[320px]:w-24 min-[425px]:w-32 md:w-full",
+          inputWrapper: ["bg-white-default border shadow-sm"],
+          mainWrapper: ["w-full"],
+        }}
+      />
     ),
     filter: (
       <>

@@ -4,7 +4,7 @@ import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { Tooltip, cn } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import {
   MdOutlineChevronLeft,
@@ -14,39 +14,32 @@ import {
   MdViewList,
 } from "react-icons/md";
 import { toast } from "sonner";
-import {
-  changeViewAtom,
-  showClientTaskAtom,
-  showFooterAtom,
-  showSearchBarAtom,
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
-} from "../store/CMSUserStore";
 
-const CMSUserHeader = ({
+const CMSHeader = ({
   searchItem,
   setSearchItem,
   filterKeys,
   selectedFilterKeys,
   setSelectedFilterKeys,
+  changeView,
+  setChangeView,
+  showClientTask,
+  setShowClientTask,
+  showFooter,
+  setShowFooter,
+  showSearchBar,
+  setShowSearchBar,
+  selectedClientToView,
+  showClientDetails,
+  setShowClientDetails,
   className,
+  children,
 }) => {
   const clients = useAtomValue(clientsAtom);
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
-
-  const [changeView, setChangeView] = useAtom(changeViewAtom);
-  const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
-  const [showFooter, setShowFooter] = useAtom(showFooterAtom);
-  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
-
-  const [showClientDetails, setShowClientDetails] = useAtom(
-    showClientDetailsAtom
-  );
 
   const handleGoBackToClient = () => {
     setShowSearchBar(true);
@@ -88,17 +81,6 @@ const CMSUserHeader = ({
     setShowClientDetails(!showClientDetails);
   };
 
-  const actionButtons = {
-    task: {
-      color: "blue",
-      label: "Add Task",
-    },
-    client: {
-      color: "orange",
-      label: "Add Client",
-    },
-  };
-
   const clientNameToDisplay = clients.filter(
     (client) => client._id === selectedClientToView
   )[0]?.company.name;
@@ -110,15 +92,16 @@ const CMSUserHeader = ({
         className
       )}
     >
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-2 justify-between min-[425px]:justify-start">
+      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-between min-[425px]:justify-start">
         <div className="w-full flex gap-2">
           <IconButton
             data-details={showClientDetails}
             data-task={showClientTask}
             isIconOnly={false}
             onPress={handleGoBackToClient}
+            // min-w-0
             className="
-            px-2 sm:px-4 min-w-0
+            
             hidden transition-all 
             data-[task=true]:flex 
             data-[details=true]:flex"
@@ -167,39 +150,44 @@ const CMSUserHeader = ({
           >
             <MdRefresh size={24} />
           </IconButton>
+          <div
+            data-details={showClientDetails}
+            data-task={showClientTask}
+            className="hidden data-[task=true]:flex data-[details=true]:flex overscroll-x-auto no-scrollbar gap-2 ml-2 lg:ml-6 "
+          >
+            <CTAButtons
+              isDisabled={showClientDetails}
+              radius={"sm"}
+              variant={"bordered"}
+              color={changeView ? "blue" : "orange"}
+              size={"md"}
+              startContent={
+                changeView ? (
+                  <MdViewList size={24} />
+                ) : (
+                  <MdViewColumn size={24} />
+                )
+              }
+              label={"Switch View"}
+              className={"min-[320px]:"}
+              onPress={handleChangeView}
+            />
+            <CTAButtons
+              radius={"sm"}
+              variant={"bordered"}
+              color={showClientDetails ? "green" : "white"}
+              size={"md"}
+              startContent={<MdOutlineDescription size={24} />}
+              label={"View Client Details"}
+              className={"min-[320px]:"}
+              onPress={handleViewClientDetails}
+            />
+          </div>
         </div>
-        <div
-          data-details={showClientDetails}
-          data-task={showClientTask}
-          className="hidden data-[task=true]:flex data-[details=true]:flex w-full overscroll-x-auto no-scrollbar gap-2 ml-2 lg:ml-6 "
-        >
-          <CTAButtons
-            isDisabled={showClientDetails}
-            radius={"sm"}
-            variant={"bordered"}
-            color={changeView ? "blue" : "orange"}
-            size={"md"}
-            startContent={
-              changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
-            }
-            label={"Switch View"}
-            className={"min-[320px]:"}
-            onPress={handleChangeView}
-          />
-          <CTAButtons
-            radius={"sm"}
-            variant={"bordered"}
-            color={showClientDetails ? "green" : "white"}
-            size={"md"}
-            startContent={<MdOutlineDescription size={24} />}
-            label={"View Client Details"}
-            className={"min-[320px]:"}
-            onPress={handleViewClientDetails}
-          />
-        </div>
+        {children}
       </div>
     </div>
   );
 };
 
-export default CMSUserHeader;
+export default CMSHeader;

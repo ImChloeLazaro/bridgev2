@@ -79,7 +79,7 @@ const TaskTableView = ({
       },
       {
         key: "assign",
-        color: "orange",
+        color: "blue",
         label: "Assign to a team member",
         icon: <MdOutlineAssignment size={18} />,
       },

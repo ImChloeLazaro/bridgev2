@@ -3,7 +3,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { Image } from "@nextui-org/react";
-import { sendNotification, updateNotification } from "../utils/notify-user";
+import {
+  sendNotification,
+  updateNotification,
+} from "../utils/notificationUtils";
 const URL =
   "wss://ettpkpovgl.execute-api.ap-southeast-1.amazonaws.com/production/";
 
@@ -226,6 +229,7 @@ const Test = () => {
             className="m-1 p-1 bg-blue-400 rounded-md text-white"
             onClick={() =>
               sendNotification({
+                socketRef: socketRef,
                 action: "notification",
                 subs: ["a8dfd442-2977-499b-a917-a0e226c6c089"],
                 title: "NOTIFICATION PUSH TESTING",

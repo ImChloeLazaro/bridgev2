@@ -4,7 +4,7 @@ import SidebarHeader from "../../../../public/header.webp";
 
 const ExternalLinksHeader = () => {
   return (
-    <div className="flex justify-between items-center gap-2 py-4 pr-2">
+    <div className="flex justify-between items-center py-4 pr-2 ml-2">
       <ExternalLinks />
       <NextImage
         alt="Aretex Logo"
@@ -12,11 +12,13 @@ const ExternalLinksHeader = () => {
         placeholder={"blur"}
         priority={true}
         quality={50}
-        sizes="(min-width: 808px) 25vw, 50vw"
+        sizes="(min-width: 768px) 25vw, 50vw"
         style={{
           width: "100%",
           height: "auto",
-          objectFit: "contain", // cover, contain, none
+          paddingLeft: "0.8rem",
+          paddingRight: "0.8rem",
+          objectFit: "cover", // cover, contain, none
         }}
       />
     </div>

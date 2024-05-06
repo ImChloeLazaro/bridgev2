@@ -91,6 +91,7 @@ const SideBar = () => {
   return (
     <div className="h-full flex flex-col lg:justify-start justify-center items-center ">
       <Sidebar
+        width={"300px"}
         style={{ backgroundColor: "#f9f9f9" }}
         toggled={toggled}
         onBackdropClick={() => setToggled(false)}

@@ -10,7 +10,13 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -28,10 +34,18 @@ import ClientList from "@/app/components/cms/ClientList";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import ClientDetails from "@/app/components/cms/ClientDetails";
-import CMSTLHeader from "./CMSTLHeader";
 import CMSFooter from "@/app/components/cms/CMSFooter";
+import CMSHeader from "@/app/components/cms/CMSHeader";
+import AddTaskModal from "./AddTaskModal";
+import CTAButtons from "@/app/components/CTAButtons";
 
-const CMSAdmin = () => {
+const CMSTL = () => {
+  const {
+    isOpen: isOpenTask,
+    onOpen: onOpenTask,
+    onOpenChange: onOpenChangeTask,
+  } = useDisclosure();
+
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
@@ -61,7 +75,7 @@ const CMSAdmin = () => {
   );
   const [showClientTask, setShowClientTask] = useAtom(showClientTaskAtom);
 
-  const setShowSearchBar = useSetAtom(showSearchBarAtom);
+  const [showSearchBar, setShowSearchBar] = useAtom(showSearchBarAtom);
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
@@ -224,6 +238,24 @@ const CMSAdmin = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
+  const actionButtons = {
+    task: {
+      color: "blue",
+      label: "Add Task",
+    },
+    client: {
+      color: "orange",
+      label: "Add Client",
+    },
+  };
+
+  const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      clientSelectionChange(selectedClientToView);
+    }
+    onOpenTask();
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       fetchTask();
@@ -239,7 +271,7 @@ const CMSAdmin = () => {
     <>
       <Card className="flex w-full h-full my-4 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
         <CardHeader className="">
-          <CMSTLHeader
+          <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
               showClientTask ? setSearchTaskItem : setSearchClientItem
@@ -253,7 +285,37 @@ const CMSAdmin = () => {
                 ? setSelectedTaskFilterKeys
                 : setSelectedClientFilterKeys
             }
-          />
+            changeView={changeView}
+            setChangeView={setChangeView}
+            showClientTask={showClientTask}
+            setShowClientTask={setShowClientTask}
+            showFooter={showFooter}
+            setShowFooter={setShowFooter}
+            showSearchBar={showSearchBar}
+            setShowSearchBar={setShowSearchBar}
+            selectedClientToView={selectedClientToView}
+            showClientDetails={showClientDetails}
+            setShowClientDetails={setShowClientDetails}
+          >
+            <div
+              data-show={showClientDetails}
+              className="w-full flex data-[show=true]:hidden justify-end gap-4"
+            >
+              <CTAButtons
+                radius={"sm"}
+                key={actionButtons.task.label}
+                fullWidth={true}
+                label={actionButtons.task.label}
+                color={actionButtons.task.color}
+                className={"py-5 max-w-[16rem]"}
+                onPress={() => handleOpenTaskWindow()}
+              />
+              <AddTaskModal
+                isOpen={isOpenTask}
+                onOpenChange={onOpenChangeTask}
+              />
+            </div>
+          </CMSHeader>
         </CardHeader>
         <CardBody className="h-full w-full overflow-x-auto">
           <ClientList
@@ -314,4 +376,4 @@ const CMSAdmin = () => {
   );
 };
 
-export default CMSAdmin;
+export default CMSTL;
