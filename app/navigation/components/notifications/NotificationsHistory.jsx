@@ -22,9 +22,11 @@ import {
 } from "date-fns";
 import { useAtom, useAtomValue } from "jotai";
 import {
+  notificationFilterKeysAtom,
   notificationsAtom,
   notificationsTabsAtom,
   notificationTypeAtom,
+  selectedNotificationFilterKeysAtom,
   showUnreadAtom,
 } from "../../store/NotificationsStore";
 import { MdRefresh } from "react-icons/md";
@@ -38,17 +40,23 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 
 // @refresh reset
 
-const NotificationsHistory = ({ isOpen, onOpenChange }) => {
+const NotificationsHistory = ({
+  isOpen,
+  onOpenChange,
+}) => {
+  const [isOpenOptions, setIsOpenOptions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchItem, setSearchItem] = useState("");
-  const [isOpenOptions, setIsOpenOptions] = useState(false);
 
   const [notificationType, setNotificationType] = useAtom(notificationTypeAtom);
+  const [selectedNotificationFilterKeys, setSelectedNotificationFilterKeys] =
+    useAtom(selectedNotificationFilterKeysAtom);
 
   const notifications = useAtomValue(notificationsAtom);
   const notificationsTabs = useAtomValue(notificationsTabsAtom);
   const showUnread = useAtomValue(showUnreadAtom);
   const auth = useAtomValue(authenticationAtom);
+  const notificationFilterKeys = useAtomValue(notificationFilterKeysAtom);
 
   const handleLoadNotification = () => {
     setIsLoading(true);
@@ -97,28 +105,58 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
 
   const handleActions = (action) => {
     console.log("ACTION", action);
+    if (action === "show") {
+      console.log("");
+      setIsOpenOptions(false);
+      setSelectedNotificationFilterKeys(["hidden"]);
+    }
   };
 
   const userNotifications = notifications.filter(
     (notification) => notification.sub === auth.sub
   );
 
-  const searchedNotifications = userNotifications.filter(
-    (notification) =>
-      notification.title.toLowerCase().includes(searchItem.toLowerCase()) ||
-      notification.description.toLowerCase().includes(searchItem.toLowerCase())
-  );
+  const selectedNotificationFilterKeyString = Array.from(
+    selectedNotificationFilterKeys
+  ).join("");
 
-  const filteredNotifications =
-    notificationType === "all"
-      ? searchedNotifications.filter((notification) => {
-          return !notification.hidden;
-        })
-      : searchedNotifications.filter((notification) => {
-          return (
-            notification.type.includes(notificationType) && !notification.hidden
+  const filteredNotifications = useMemo(() => {
+    let filteredItems = userNotifications;
+
+    if (Boolean(searchItem)) {
+      filteredItems = filteredItems.filter(
+        (notification) =>
+          notification.title.toLowerCase().includes(searchItem.toLowerCase()) ||
+          notification.description
+            .toLowerCase()
+            .includes(searchItem.toLowerCase())
+      );
+    }
+    if (
+      selectedNotificationFilterKeyString !== "all" &&
+      Array.from(selectedNotificationFilterKeys).length !==
+        notificationFilterKeys.length
+    ) {
+      filteredItems = filteredItems.filter((notification) => {
+        const notificationHidden = notification.hidden ? "hidden" : "";
+        if (notification.hidden) {
+          return selectedNotificationFilterKeyString === notificationHidden;
+        } else {
+          return notification.type.includes(
+            selectedNotificationFilterKeyString
           );
-        });
+        }
+      });
+    }
+
+    return filteredItems;
+  }, [
+    notificationFilterKeys.length,
+    searchItem,
+    selectedNotificationFilterKeyString,
+    selectedNotificationFilterKeys,
+    userNotifications,
+  ]);
 
   const sortedNotifications = useMemo(
     () =>
@@ -208,87 +246,51 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1 lg:text-xl pt-4 pb-0">
+            <ModalHeader className="flex flex-col gap-1 lg:text-xl pt-4 pb-2">
               {"All Notifications"}
             </ModalHeader>
             <ModalBody className="px-4">
-              <div className="flex items-center justify-between gap-8">
-                <Tabs
-                  selectedKey={notificationType}
-                  onSelectionChange={setNotificationType}
-                  aria-label="Notifications Options"
-                  variant="underlined"
-                  classNames={{
-                    base: "pl-3 py-0 ",
-                    tabList: "gap-6 w-full relative rounded-none p-0 ",
-                    tab: "max-w-fit px-0 h-12 ",
-                    tabContent:
-                      "group-data-[selected=true]:text-orange-default text-black-default/90",
-                    cursor: "w-full bg-orange-default",
-                  }}
+              <div className="flex items-center justify-between">
+                <SearchBar
+                  searchItem={searchItem}
+                  setSearchItem={setSearchItem}
+                  type="filter"
+                  filterKeys={notificationFilterKeys}
+                  selectedFilterKeys={selectedNotificationFilterKeys}
+                  setSelectedFilterKeys={setSelectedNotificationFilterKeys}
+                />
+                <Popover
+                  placement="bottom-start"
+                  showArrow
+                  offset={6}
+                  isOpen={isOpenOptions}
+                  onOpenChange={(open) => setIsOpenOptions(open)}
                 >
-                  {notificationsTabs.map((tab) => (
-                    <Tab
-                      key={tab.key}
-                      title={
-                        <div className="flex items-center space-x-2">
-                          <span className="font-bold">{tab.title}</span>
-                          {tab.count > 0 && (
-                            <Chip
-                              radius="full"
-                              size="sm"
-                              variant="flat"
-                              className="group-data-[selected=true]:text-orange-default"
-                            >
-                              {tab.count}
-                            </Chip>
-                          )}
-                        </div>
-                      }
-                    />
-                  ))}
-                </Tabs>
-                <div className="flex">
-                  <SearchBar
-                    searchItem={searchItem}
-                    setSearchItem={setSearchItem}
-                    type="search"
-                  />
-                  <Popover
-                    placement="bottom-start"
-                    showArrow
-                    offset={6}
-                    isOpen={isOpenOptions}
-                    onOpenChange={(open) => setIsOpenOptions(open)}
-                  >
-                    <PopoverTrigger>
-                      <Button isIconOnly className="bg-transparent p-0">
-                        <BiDotsVerticalRounded size={16} />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-1 w-44">
-                      <Listbox
-                        items={options}
-                        aria-label="Actions"
-                        onAction={(key) => handleActions(key)}
-                        itemClasses={{
-                          base: [
-                            "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
-                          ],
-                          // title: ["text-base font-normal"],
-                        }}
-                      >
-                        {(item) => {
-                          return (
-                            <ListboxItem key={item.key}>
-                              {item.label}
-                            </ListboxItem>
-                          );
-                        }}
-                      </Listbox>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                  <PopoverTrigger>
+                    <Button isIconOnly className="bg-transparent p-0">
+                      <BiDotsVerticalRounded size={18} />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="p-1 w-44">
+                    <Listbox
+                      items={options}
+                      aria-label="Actions"
+                      onAction={(key) => handleActions(key)}
+                      itemClasses={{
+                        base: [
+                          "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
+                        ],
+                        // title: ["text-base font-normal"],
+                      }}
+                    >
+                      {(item) => {
+                        return (
+                          <ListboxItem key={item.key}>{item.label}</ListboxItem>
+                        );
+                      }}
+                    </Listbox>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="h-[30rem] overflow-y-auto flex flex-col items-center justify-between ">
@@ -305,10 +307,10 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
                         src={"/no-notifications.png"}
                       />
                       <p className="font-medium text-black-default/80">
-                        {"No notifications yet!"}
+                        {"No notifications found!"}
                       </p>
                       <p className="font-medium text-black-default/80">
-                        {"We'll notify you when something arrives"}
+                        {"Sorry we can't find what you're searching for"}
                       </p>
                     </div>
                   }

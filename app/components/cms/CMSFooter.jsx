@@ -56,7 +56,7 @@ const CMSFooter = ({
         initialPage={1}
         page={page}
         onChange={(page) => setPage(page)}
-        className="px-0 lg:p-2.5 w-full lg:w-1/3 flex justify-center lg:justify-end data-[total]"
+        className="px-0 lg:p-2.5 w-full lg:w-1/3 flex justify-center lg:justify-end"
         classNames={{
           wrapper: "max-w-full lg:max-w-fit flex w-full justify-between",
           cursor: "hidden lg:flex bg-blue-default",

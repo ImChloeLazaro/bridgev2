@@ -112,7 +112,7 @@ const ClientItemCard = ({
                 {data.company?.name?.length ? data.company.name : ""}
               </Link>
             </div>
-            <div className="hidden w-1/3 lg:flex flex-wrap justify-center items-center gap-4 p-0">
+            <div className=" w-1/3 flex flex-wrap justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
                   if (
@@ -122,7 +122,7 @@ const ClientItemCard = ({
                     return (
                       <Button
                         key={s_index}
-                        className="p-0 m-0 "
+                        className="p-0 m-0 h-6 lg:h-10 bg-transparent shadow-none"
                         onPress={() => handleSelectTask()}
                       >
                         <LabelTagChip
@@ -135,6 +135,8 @@ const ClientItemCard = ({
                           isFilled
                           withBadge={true}
                           badgeContent={statusCount[status]}
+                          className={"h-6 lg:h-10 py-2"}
+                          classNameContent={"text-sm lg:text-md"}
                         />
                       </Button>
                     );

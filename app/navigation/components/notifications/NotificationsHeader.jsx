@@ -17,19 +17,29 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
   notificationTypeAtom,
   notificationsTabsAtom,
+  selectedNotificationFilterKeysAtom,
   showUnreadAtom,
 } from "../../store/NotificationsStore";
 
-const NotificationsHeader = () => {
+const NotificationsHeader = ({ onOpen, setNotificationsOpen }) => {
   const [showUnread, setShowUnread] = useAtom(showUnreadAtom);
   const [notificationType, setNotificationType] = useAtom(notificationTypeAtom);
   const notificationsTabs = useAtomValue(notificationsTabsAtom);
+  const [selectedNotificationFilterKeys, setSelectedNotificationFilterKeys] =
+    useAtom(selectedNotificationFilterKeysAtom);
 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleActions = (action) => {
     console.log("ACTION", action);
     console.log("DOCUMENT", document);
+    if (action === "show") {
+      console.log("");
+      onOpen();
+      setIsOpen(false);
+      setNotificationsOpen(false);
+      setSelectedNotificationFilterKeys(["hidden"]);
+    }
   };
 
   const options = [

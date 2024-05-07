@@ -263,16 +263,16 @@ const CMSAdmin = () => {
     onOpenClient();
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchTask();
-      fetchClient();
-    }, 2500);
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchTask();
+  //     fetchClient();
+  //   }, 2500);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>
@@ -306,7 +306,7 @@ const CMSAdmin = () => {
           >
             <div
               data-show={showClientDetails}
-              className="w-full flex data-[show=true]:hidden justify-end gap-4"
+              className="w-full flex data-[show=true]:hidden justify-start gap-4"
             >
               <CTAButtons
                 radius={"sm"}

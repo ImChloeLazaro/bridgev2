@@ -7,27 +7,41 @@ export const showUnreadAtom = atom(false);
 export const notificationTypeAtom = atom("all");
 export const selectedNotificationAtom = atom();
 
-export const unreadCountAtom = atom({
-  all: 0,
-  mentioned: 0,
-  greeted: 0,
-});
+export const selectedNotificationFilterKeysAtom = atom(new Set(["all"]));
+export const notificationFilterKeysAtom = atom([
+  {
+    label: "All",
+    value: "all",
+  },
+  {
+    label: "Mentioned",
+    value: "mentioned",
+  },
+  {
+    label: "Greeted",
+    value: "greeted",
+  },
+  {
+    label: "Hidden",
+    value: "hidden",
+  },
+]);
 
 export const notificationsTabsAtom = atom((get) => [
   {
     key: "all",
     title: "All",
-    count: get(unreadCountAtom).all,
+    count: 0,
   },
   {
     key: "mentioned",
     title: "Mentioned",
-    count: get(unreadCountAtom).mentioned,
+    count: 0,
   },
   {
     key: "greeted",
     title: "Greeted",
-    count: get(unreadCountAtom).greeted,
+    count: 0,
   },
 ]);
 
@@ -48,8 +62,6 @@ export const sendNotificationAtom = atom(null, (get, set, update) => {
       route: "set",
     })
   );
-
-
 });
 
 export const notificationSocketURLAtom = atom(
@@ -59,3 +71,4 @@ export const notificationSocketURLAtom = atom(
 export const notificationCountAtom = atom(0);
 export const notificationSocketRefAtom = atom(null);
 export const notifyFromUserAtom = atom({});
+export const pageVisibleAtom = atom(true);

@@ -36,11 +36,12 @@ const SideBar = () => {
     fetchRole();
   }, [fetchRole]);
 
-  const breakpoint = "1023";
+  const breakpoint = "always";
+  const customBreakPoint = "1023";
 
   const [toggled, setToggled] = useAtom(sidebarToggleAtom);
   const [broken, setBroken] = useState(
-    window.matchMedia(`(max-width: ${breakpoint}px)`).matches
+    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
   );
 
   const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
@@ -95,8 +96,9 @@ const SideBar = () => {
         style={{ backgroundColor: "#f9f9f9" }}
         toggled={toggled}
         onBackdropClick={() => setToggled(false)}
-        customBreakPoint={`${breakpoint}px`}
-        onBreakPoint={setBroken}
+        breakPoint={breakpoint}
+        // customBreakPoint={`${customBreakPoint}px`}
+        // onBreakPoint={setBroken}
         rootStyles={{
           width: "14rem",
           height: "100%",
@@ -282,22 +284,25 @@ const SideBar = () => {
         </Menu>
       </Sidebar>
 
-      {broken && (
-        <IconButton
-          size="sm"
-          className={cn(
-            "fixed left-0 z-50 -ml-2",
-            "h-16",
-            "bg-orange-default hover:bg-orange-hover/80 text-white-default"
-          )}
-          onPress={() => {
-            console.log("TOGGLED: ", toggled);
-            setToggled(!toggled);
-            console.log("TOGGLED: ", toggled);
-          }}
-        >
-          <MdOutlineKeyboardArrowRight size={24} />
-        </IconButton>
+      {!broken && (
+        <>
+          <div className="fixed left-0 z-50 -ml-2 flex h-full justify-center items-center">
+            <IconButton
+              size="sm"
+              className={cn(
+                "h-16",
+                "bg-orange-default hover:bg-orange-hover/80 text-white-default"
+              )}
+              onPress={() => {
+                console.log("TOGGLED: ", toggled);
+                setToggled(!toggled);
+                console.log("TOGGLED: ", toggled);
+              }}
+            >
+              <MdOutlineKeyboardArrowRight size={24} />
+            </IconButton>
+          </div>
+        </>
       )}
     </div>
   );

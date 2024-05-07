@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const NotificationsOptions = ({
   getNotificationId,
@@ -24,7 +25,11 @@ const NotificationsOptions = ({
     }
     if (action == "hide") {
       getNotificationId(`${hidden ? "setshow" : "hide"}`, id);
+      toast.info(`Notification Hidden`, {
+        description: `You can view hidden notifications in the notification history`,
+      });
     }
+
     setIsOpen(false);
   };
 

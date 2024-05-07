@@ -18,6 +18,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
 import { VscBlank } from "react-icons/vsc";
 import {
+  notificationCountAtom,
   notificationTypeAtom,
   notificationsAtom,
   showUnreadAtom,
@@ -29,6 +30,9 @@ const NotificationsList = ({ getNotificationId }) => {
   const auth = useAtomValue(authenticationAtom);
   const notificationType = useAtomValue(notificationTypeAtom);
   const [notifications, setNotifications] = useAtom(notificationsAtom);
+  const [notificationCount, setNotificationCount] = useAtom(
+    notificationCountAtom
+  );
 
   const options = [
     { key: "hide", label: "Hide this notification" },
@@ -89,13 +93,11 @@ const NotificationsList = ({ getNotificationId }) => {
           );
         });
 
-  const sortedNotifications = useMemo(
-    () =>
-      filteredNotifications
-        .slice(0, 10)
-        .sort((a, b) => new Date(b.createdBy) - new Date(a.createdBy)),
-    [filteredNotifications]
-  );
+  const sortedNotifications = useMemo(() => {
+    return filteredNotifications
+      .slice(0, 10)
+      .sort((a, b) => new Date(b.createdBy) - new Date(a.createdBy));
+  }, [filteredNotifications]);
 
   return !notifications?.length ? (
     <div className="w-full h-[20rem] flex justify-center">{<Spinner />}</div>

@@ -51,7 +51,7 @@ const SearchBar = ({
           disallowEmptySelection={true}
           selectedKeys={selectedFilterKeys}
           onSelectionChange={setSelectedFilterKeys}
-          startContent={<MdFilterAlt size={24} />}
+          startContent={<MdFilterAlt size={20} />}
           classNames={{
             base: "data-[disabled=true]:cursor-not-allowed w-16 min-[320px]:w-24 min-[425px]:w-32 md:w-48",
             trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",

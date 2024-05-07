@@ -66,7 +66,6 @@ const LabelTagChip = ({
 
   return (
     <Chip
-      radius="sm"
       variant={type === "tag" && "dot"}
       size={isFilled ? "lg" : "sm"}
       classNames={{
@@ -76,8 +75,8 @@ const LabelTagChip = ({
               ? colorVariants[color].filled
               : colorVariants[color].unfilled
           }`,
-          `${isFilled ? "py-5" : "py-1 rounded"}`,
-          "capitalize px-2.5 border-0",
+          `${isFilled ? "py-5" : "py-1"}`,
+          "capitalize px-2.5 border-0 rounded",
           className
         ),
         content: "font-bold",

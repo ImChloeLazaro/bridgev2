@@ -12,20 +12,17 @@ export function Providers({ children }) {
   const router = useRouter();
 
   const promptUserNotification = useCallback(() => {
-    if (!("Notification" in window)) {
+    if ("Notification" in window) {
+      requestPermissionNotification();
+    } else {
       console.log("This browser does not support notifications.");
       toast("This browser does not support notifications.");
       return;
     }
-    if ("Notification" in window) {
-      requestPermissionNotification();
-    }
   }, []);
 
   useEffect(() => {
-    if ("Notification" in window) {
-      promptUserNotification();
-    }
+    promptUserNotification();
   }, [promptUserNotification]);
 
   return (

@@ -1,8 +1,18 @@
 import { toast } from "sonner";
+import { MdWarning } from "react-icons/md";
 
 // sends a notification thru websocket
 export function sendNotification(data) {
-  const { socketRef, action, subs, title, type, description, notified_from, route } = data;
+  const {
+    socketRef,
+    action,
+    subs,
+    title,
+    type,
+    description,
+    notified_from,
+    route,
+  } = data;
   socketRef.current.send(
     JSON.stringify({
       action: action,
@@ -16,7 +26,7 @@ export function sendNotification(data) {
   );
 }
 
-// updates selected notification/s 
+// updates selected notification/s
 // e.g. 'unread' -> 'read'
 // e.g. 'hide' -> 'show'
 export function updateNotification(data) {
@@ -31,7 +41,7 @@ export function updateNotification(data) {
 export function showNotification(data) {
   const { title, description, body, icon } = data;
   if ("Notification" in window && Notification.permission === "granted") {
-    if (document.hidden) {
+    if (document.visibilityState === "hidden") {
       console.log("PUSH NOTIF");
       var notification = new Notification(title, {
         body: body,
@@ -41,7 +51,7 @@ export function showNotification(data) {
         console.log("ERROR NOTIFICATION", e);
         toast("Push Notification Failed");
       });
-      // }
+      console.log("PUSH PUSH PUSH");
     } else {
       console.log("TOAST NOTIF");
       toast(title, {
@@ -50,9 +60,16 @@ export function showNotification(data) {
     }
   } else {
     console.log("TOAST NOTIF");
-    toast("Notifications Request Permission Denied", {
+    toast.error("Notifications Request Permission Denied", {
+      position: "top-center",
       description: "Please grant permission for notifications to be shown.",
+      classNames: {
+        title: "ml-2 text-sm font-bold",
+        description: "ml-2 text-sm font-medium",
+      },
+      icon: <MdWarning size={24} />,
     });
+    requestPermissionNotification();
   }
 }
 

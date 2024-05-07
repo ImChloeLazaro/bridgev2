@@ -56,7 +56,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     transform: CSS.Transform.toString(transform),
   };
 
-  const cardSize = "h-[10rem] min-h-[10rem]";
+  const cardSize = "min-h-[10rem]";
 
   // const toggleEditMode = () => {
   //   setEditMode((prev) => !prev);
@@ -133,19 +133,19 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       //   setMouseIsOver(false);
       // }}
     >
-      <div className="flex flex-col justify-start px-2 my-auto h-full w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+      <div className="flex flex-col gap-3 justify-start px-2 my-auto h-full w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
-        <div className="flex justify-between items-start gap-2 h-[5.5rem]">
-          <div className="my-2">
+        <div className="flex justify-between items-start gap-2">
+          <div className="mt-2">
             <Link
               href="#"
               underline="hover"
-              className="text-xl font-semibold text-black-default "
+              className="text-lg font-bold text-black-default "
               // onPress={handleViewClientDetails}
             >
               {task?.name?.length ? task.name : ""}
             </Link>
-            <p className="text-sm font-medium text-black-default min-h-[1.5rem]">
+            <p className="text-sm font-medium text-black-default line-clamp-3 min-h-[1.5rem]">
               {task?.instruction?.length ? task.instruction : ""}
             </p>
           </div>
@@ -157,7 +157,6 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           />
         </div>
 
-        <div className=""></div>
         <div className="flex gap-2 justify-start items-center">
           <MdCalendarMonth size={24} />
           <Link
@@ -184,7 +183,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
                     underline="hover"
                     className="text-sm font-medium text-black-default/80"
                   >
-                    {reviewer.name}
+                    {/* {reviewer.name} */}
                   </Link>
                 }
                 // description="Reviewer"

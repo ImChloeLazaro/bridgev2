@@ -5,10 +5,10 @@ import NotificationsHistory from "./NotificationsHistory";
 
 const NotificationsFooter = ({
   onOpen,
+  notificationCount,
   setNotificationsOpen,
   markAllAsRead,
 }) => {
-  const notificationCount = useAtomValue(notificationCountAtom);
 
   const handleOpenNotificationHistory = () => {
     setNotificationsOpen(false);

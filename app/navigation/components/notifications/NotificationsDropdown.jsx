@@ -24,6 +24,7 @@ import {
   notificationSocketURLAtom,
   notificationTypeAtom,
   notifyFromUserAtom,
+  pageVisibleAtom,
   showUnreadAtom,
 } from "../../store/NotificationsStore";
 import NotificationsFooter from "./NotificationsFooter";
@@ -42,9 +43,7 @@ const NotificationsDropdown = () => {
   const [notificationSocketRef, setNotificationSocketRef] = useAtom(
     notificationSocketRefAtom
   );
-  const [notificationCount, setNotificationCount] = useAtom(
-    notificationCountAtom
-  );
+  const [notificationCount, setNotificationCount] = useState(0);
   const notificationSocketURL = useAtomValue(notificationSocketURLAtom);
   const notificationType = useAtomValue(notificationTypeAtom);
   const showUnread = useAtomValue(showUnreadAtom);
@@ -54,12 +53,12 @@ const NotificationsDropdown = () => {
   const [user, setUser] = useAtom(notifyFromUserAtom);
   const socketRef = useRef(null);
 
-  const [pageVisible, setPageVisible] = useState(document.hidden);
+  const [pageVisible, setPageVisible] = useAtom(pageVisibleAtom);
 
-  console.log("DOCUMENT HERE", pageVisible, document.hidden);
+  console.log("DOCUMENT HERE", pageVisible, document.visibilityState);
 
   document.addEventListener("visibilitychange", () => {
-    setPageVisible(document.hidden);
+    setPageVisible(document.visibilityState === "hidden" ? true : false);
   });
 
   useEffect(() => {
@@ -94,21 +93,18 @@ const NotificationsDropdown = () => {
         setNotifications((prevNotifications) => {
           return [...prevNotifications, ...data.notifications];
         });
-
-        console.log("pageVisible", pageVisible);
-        showNotification({
-          title: "DATA CHANGE IN NOTIFICATION",
-          description:
-            "detected changes in data when new notification is received",
-          body: "notification description",
-          icon: "/defaulthead.png",
-        });
       }
       if (data.count !== undefined) {
+        console.log("pageVisible", pageVisible);
+        showNotification({
+          title: data.notifications[0].title,
+          description: data.notifications[0].description,
+          body: data.notifications[0].description,
+          icon: data.notifications[0].notified_from.picture,
+        });
+        setNotificationCount(data.count);
         if (data.count > 10) {
           setNotificationCount(10);
-        } else {
-          setNotificationCount(data.count);
         }
       }
     };
@@ -270,10 +266,14 @@ const NotificationsDropdown = () => {
 
           <PopoverContent className="p-0">
             <div className="pb-2 px-1">
-              <NotificationsHeader />
+              <NotificationsHeader
+                onOpen={onOpen}
+                setNotificationsOpen={setNotificationsOpen}
+              />
               <NotificationsList getNotificationId={getNotificationId} />
               <NotificationsFooter
                 onOpen={onOpen}
+                notificationCount={notificationCount}
                 markAllAsRead={markAllAsRead}
                 setNotificationsOpen={setNotificationsOpen}
               />

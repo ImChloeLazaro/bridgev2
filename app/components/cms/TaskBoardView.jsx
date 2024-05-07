@@ -93,7 +93,7 @@ const TaskBoardView = ({
         onDragOver={onDragOver}
       >
         {/* <div className="flex gap-4 w-screen h-full"> */}
-        <div className="flex gap-4 w-full h-full">
+        <div className="flex gap-4 w-full h-full"> 
           <SortableContext items={columnsId}>
             {columns.map((col) => (
               <ColumnContainer
