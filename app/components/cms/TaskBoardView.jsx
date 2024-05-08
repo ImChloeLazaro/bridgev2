@@ -93,7 +93,7 @@ const TaskBoardView = ({
         onDragOver={onDragOver}
       >
         {/* <div className="flex gap-4 w-screen h-full"> */}
-        <div className="flex gap-4 w-full h-full"> 
+        <div className="flex gap-4 w-full h-full">
           <SortableContext items={columnsId}>
             {columns.map((col) => (
               <ColumnContainer
@@ -238,7 +238,10 @@ const TaskBoardView = ({
     console.log("DRAG END", event);
 
     if (Object.keys(taskStatusIndex).length !== 0) {
-      updateTaskStatus({ sla: taskStatusIndex, client_id: selectedClientToView});
+      updateTaskStatus({
+        sla: taskStatusIndex,
+        client_id: selectedClientToView,
+      });
     }
 
     setActiveColumn(null);
@@ -257,13 +260,16 @@ const TaskBoardView = ({
     );
 
     if (taskDone?.length) {
-      console.log("Task Filter", taskDone[0].name);
-      console.log("Task Done", dateTaskDone);
-      console.log("Done by", user);
+      const taskActive = active.data.current.task._id;
+      const taskOver = over.data.current.task._id;
+      console.log("taskActive", taskActive);
+      console.log("taskOver", taskOver);
 
-      toast.success(`Task Completed: ${taskDone[0].name} `, {
-        description: `${format(dateTaskDone, "PPpp")}`,
-      });
+      if (taskActive !== taskOver) {
+        toast.success(`Task Completed: ${taskDone[0].name} `, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+        });
+      }
     }
 
     if (activeId === overId) return;
@@ -292,9 +298,6 @@ const TaskBoardView = ({
 
     const activeId = active.id;
     const overId = over.id;
-
-    console.log("activeId", activeId);
-    console.log("overId", overId);
 
     if (activeId === overId) return;
 

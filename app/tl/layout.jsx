@@ -5,6 +5,9 @@ import NavigationBar from "../navigation/components/NavigationBar";
 import dynamic from "next/dynamic";
 import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
+import { cn } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
+import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
 
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
@@ -13,6 +16,11 @@ const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
 const TLLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);
 
+  const pathname = usePathname();
+
+  const cmsPaths = useAtomValue(cmsPathsAtom);
+  const collapseSidebar = cmsPaths.includes(pathname);
+
   const isHasOnboardingData = useAtomValue(fetchHasOnboardingDataAtom);
   if (auth.isAuthenticated) {
     return (
@@ -20,7 +28,12 @@ const TLLayout = ({ children }) => {
         {/* <Suspense fallback={<Loading />}> */}
         <SideBar />
         {/* </Suspense> */}
-        <div className="flex flex-col w-full h-screen max-h-screen overflow-hidden">
+        <div
+          className={cn(
+            `${collapseSidebar && "lg:-ml-6"}`,
+            "flex flex-col w-full h-screen max-h-screen overflow-hidden"
+          )}
+        >
           <div className="top-0">
             {isHasOnboardingData && <OnboardingStatusAlert />}
             <NavigationBar />

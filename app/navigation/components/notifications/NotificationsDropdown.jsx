@@ -55,7 +55,7 @@ const NotificationsDropdown = () => {
 
   const [pageVisible, setPageVisible] = useAtom(pageVisibleAtom);
 
-  console.log("DOCUMENT HERE", pageVisible, document.visibilityState);
+  console.log("DOCUMENT HERE", pageVisible, document);
 
   document.addEventListener("visibilitychange", () => {
     setPageVisible(document.visibilityState === "hidden" ? true : false);
@@ -96,12 +96,22 @@ const NotificationsDropdown = () => {
       }
       if (data.count !== undefined) {
         console.log("pageVisible", pageVisible);
+        // shows the latest notification on page load to stimulate the user to look at their notifications
+        const notHiddenNotifications = data.notifications.filter(
+          (notification) => !notification.hidden
+        );
+        const sortedNotifications = notHiddenNotifications.sort(
+          (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
+        );
+        console.log("sortedNotifications", sortedNotifications);
+
         showNotification({
-          title: data.notifications[0].title,
-          description: data.notifications[0].description,
-          body: data.notifications[0].description,
-          icon: data.notifications[0].notified_from.picture,
+          title: sortedNotifications[0].title,
+          description: sortedNotifications[0].description,
+          body: sortedNotifications[0].description,
+          icon: sortedNotifications[0].notified_from.picture,
         });
+
         setNotificationCount(data.count);
         if (data.count > 10) {
           setNotificationCount(10);

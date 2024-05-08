@@ -13,6 +13,7 @@ import {
   activeHRRouteAtom,
   activeTLRouteAtom,
   activeUserRouteAtom,
+  cmsPathsAtom,
   fetchRoleAtom,
   selectedRoleAtom,
   sidebarBreakpointAtom,
@@ -27,14 +28,21 @@ import {
 import Shortcuts from "./shortcuts/Shortcuts";
 import SideBarHeader from "./sidebar/SideBarHeader";
 import IconButton from "@/app/components/IconButton";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 import ShortcutsHeader from "./shortcuts/ShortcutsHeader";
+import { usePathname } from "next/navigation";
 
 const SideBar = () => {
   const fetchRole = useSetAtom(fetchRoleAtom);
   useEffect(() => {
     fetchRole();
   }, [fetchRole]);
+
+  const pathname = usePathname();
+
+  const cmsPaths = useAtomValue(cmsPathsAtom);
+  const collapseSidebar = cmsPaths.includes(pathname);
 
   const breakpoint = "always";
   const customBreakPoint = "1023";
@@ -90,19 +98,21 @@ const SideBar = () => {
   };
 
   return (
-    <div className="h-full flex flex-col lg:justify-start justify-center items-center ">
+    <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
       <Sidebar
         width={"300px"}
         style={{ backgroundColor: "#f9f9f9" }}
+        collapsed={collapseSidebar && !toggled}
+        collapsedWidth={broken ? "300px" : "0px"}
         toggled={toggled}
         onBackdropClick={() => setToggled(false)}
-        breakPoint={breakpoint}
-        // customBreakPoint={`${customBreakPoint}px`}
-        // onBreakPoint={setBroken}
+        customBreakPoint={`${customBreakPoint}px`}
+        onBreakPoint={setBroken}
+        transitionDuration={800}
         rootStyles={{
           width: "14rem",
           height: "100%",
-          backgroundColor: "#f9f9f9",
+          backgroundColor: broken ? "#f9f9f9" : "transparent",
           display: "flex",
           flexDirection: "column",
           gap: "2rem",
@@ -284,14 +294,26 @@ const SideBar = () => {
         </Menu>
       </Sidebar>
 
-      {!broken && (
+      {(broken || collapseSidebar) && (
         <>
-          <div className="fixed left-0 z-50 -ml-2 flex h-full justify-center items-center">
+          <div
+            className={cn(
+              `${
+                !collapseSidebar
+                  ? "-ml-2"
+                  : broken
+                  ? "-ml-2"
+                  : "lg:-ml-4 lg:relative"
+              }`,
+              "fixed left-0 z-50 flex h-full justify-center items-center"
+            )}
+          >
             <IconButton
               size="sm"
               className={cn(
-                "h-16",
-                "bg-orange-default hover:bg-orange-hover/80 text-white-default"
+                `${toggled ? "" : "pl-2"}`,
+                "h-16 w-10",
+                "bg-orange-default hover:bg-orange-hover/90 text-white-default"
               )}
               onPress={() => {
                 console.log("TOGGLED: ", toggled);
@@ -299,7 +321,13 @@ const SideBar = () => {
                 console.log("TOGGLED: ", toggled);
               }}
             >
-              <MdOutlineKeyboardArrowRight size={24} />
+              <div className="">
+                {toggled ? (
+                  <MdKeyboardArrowLeft size={24} />
+                ) : (
+                  <MdKeyboardArrowRight size={24} />
+                )}
+              </div>
             </IconButton>
           </div>
         </>

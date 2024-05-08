@@ -10,6 +10,7 @@ export const fetchRoleAtom = atom(null, async (get, set) => {
 export const selectedRoleAtom = atom(["user"]);
 
 export const sidebarToggleAtom = atom(false);
+export const cmsPathsAtom = atom(["/admin/clients", "/tl/cms", "/user/cms"]);
 
 export const userRolesAtom = atom(["hr", "tl", "admin"]);
 export const userOptionsAtom = atom({
