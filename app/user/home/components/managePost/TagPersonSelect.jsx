@@ -5,12 +5,113 @@ import {
   selectedTaggedPeopleAtom,
   taggedPeopleListAtom,
 } from "../../store/ManagePostStore";
+import { restread } from "@/app/utils/amplify-rest";
+import { useState, useEffect } from "react";
 
 const TagPersonSelect = () => {
-  const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
-    selectedTaggedPeopleAtom
-  );
-  const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
+
+  
+  let taggedIndex = 0;
+  const [taggedPeopleList, setTaggedPeopleList] = useState([]);
+  const [selectedTaggedPeople, setSelectedTaggedPeople] = useState(new Set([]));
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        const response = await restread("/user/tagged");
+        // Assign IDs to tagged people and update the state
+        const updatedTaggedPeople = response.result.map(person => ({
+          ...person,
+          id: ++taggedIndex,
+          key: person._id,
+        }));
+
+        // Extract emails from fetched data
+        const emails = response.result.map(person => person.email);
+        console.log("wrappedEmails", emails); 
+        setTaggedPeopleList([
+          {
+              id: "all",
+              key: "all",
+              name: "@all",
+              email: [emails],
+              picture: null,
+          },
+          ...updatedTaggedPeople
+      ]);
+      
+      } catch (error) {
+        console.error("Error fetching tagged people:", error);
+      }
+    };
+    return () => fetchData();
+  },[])
+  // const taggedPeopleList = [
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "all",
+  //     name: "@all",
+  //     email: "tagged everyone",
+  //     picture: null,
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "team",
+  //     name: "@team",
+  //     email: "tagged your team",
+  //     picture: null,
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "tatiana philips",
+  //     name: "Tatiana Philips",
+  //     email: "tatiana.philips@aretex.com.au",
+  //     picture: "/Tatiana Philips.png",
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "aspen donin",
+  //     name: "Aspen Donin",
+  //     email: "aspen.donin@aretex.com.au",
+  //     picture: "/Aspen Donin.png",
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "kaylynn bergson",
+  //     name: "Kaylynn Bergson",
+  //     email: "kaylynn.bergson@aretex.com.au",
+  //     picture: "/Kaylynn Bergson.png",
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "madelyn septimus",
+  //     name: "Madelyn Septimus",
+  //     email: "madelyn.septimus@aretex.com.au",
+  //     picture: "/Madelyn Septimus.png",
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "skylar curtis",
+  //     name: "Skylar Curtis",
+  //     email: "skylar.curtis@aretex.com.au",
+  //     picture: "/Skylar Curtis.png",
+  //     team: "",
+  //   },
+  //   {
+  //     id: (taggedIndex += 1),
+  //     key: "wilson herwitz",
+  //     name: "Wilson Herwitz",
+  //     email: "wilson.herwitz@aretex.com.au",
+  //     picture: "/Wilson Herwitz.png",
+  //     team: "",
+  //   },
+  // ]
 
   return (
     <Select
@@ -32,7 +133,7 @@ const TagPersonSelect = () => {
         return (
           <div className="flex flex-wrap gap-2">
             {displayItems.map((displayItem) => (
-              <Chip
+              <Chip 
                 key={displayItem.key}
                 startContent={displayItem.data.picture}
                 onClose={() => {

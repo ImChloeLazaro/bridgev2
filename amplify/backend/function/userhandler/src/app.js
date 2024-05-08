@@ -68,6 +68,25 @@ app.get('/user', async function(req, res) {
   }
 });
 
+app.get('/user/*', async function (req, res) {
+  try {
+    const sub = req.query.sub; // Extract sub from query parameters
+    const proxy = req.path; // Use req.path to get the URL path
+
+    switch (proxy) {
+      case '/user/tagged':
+        const data = await userModel.find();
+        res.status(200).json({success: true, result: data});
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        break;
+    }
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
 app.post('/user', async function(req, res) {
   const {sub, name, picture, email} = req.body
   try {
