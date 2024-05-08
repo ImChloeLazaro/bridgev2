@@ -252,17 +252,17 @@ const ManagePostMainContent = ({ onClose }) => {
   const draftActionsButtons = {
     delete: {
       color: "red",
-      label: "Delete Post",
+      label: "Delete Draft",
       action: handleDeletePost,
     },
     add: {
       color: "blue",
-      label: "Add Post",
+      label: "Add Draft",
       action: handleAddPost,
     },
     publish: {
       color: "orange",
-      label: "Publish Post",
+      label: "Publish Draft",
       action: handlePublishPost,
     },
   };

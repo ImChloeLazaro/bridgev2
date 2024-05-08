@@ -66,6 +66,7 @@ const NotificationsHeader = ({ onOpen, setNotificationsOpen }) => {
                 "bg-red-default group-data-[selected=true]:bg-green-default",
               ],
               thumb: cn(
+                "bg-white-default",
                 "w-6 h-6 border-2 shadow-lg",
                 //selected
                 "group-data-[selected=true]:ml-6",

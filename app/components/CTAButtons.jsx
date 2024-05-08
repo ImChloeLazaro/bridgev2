@@ -17,7 +17,7 @@ const CTAButtons = ({
     yellow: "bg-yellow-default text-white-default",
     green: "bg-green-default text-white-default",
     blue: "bg-blue-default text-white-default",
-    black: "bg-black-default/90 text-white-default",
+    black: "bg-black-default text-white-default",
     grey: "bg-grey-default/90 text-white-default",
     white: "bg-white-default/90 text-black-default",
     clear:
