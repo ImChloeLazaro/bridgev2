@@ -100,51 +100,50 @@
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
-    --aretex-background: #D9D9D9;
-    --aretex-foreground:#393939;
+    --aretex-background: 217 217 217; /*#D9D9D9*/
+    --aretex-foreground: 57 57 57; /*#393939*/
 
-    --aretex-white:#F9F9F9;
-    --aretex-white-hover:#888888;
+    --aretex-white: 249 249 249; /*#F9F9F9*/
+    --aretex-white-hover: 136 136 136; /*#888888*/
 
-    --aretex-black:#393939;
-    --aretex-black-hover:#6D6D6D;
-    --aretex-black-darker:#202020;
+    --aretex-black: 57 57 57; /*#393939*/
+    --aretex-black-hover: 109 109 109; /*#6D6D6D*/
+    --aretex-black-darker: 32 32 32; /*#202020*/
 
-    --aretex-grey:#EFEFEF;
-    --aretex-grey-hover:#D0D0D0;
+    --aretex-grey: 239 239 239; /*#EFEFEF*/
+    --aretex-grey-hover: 208 208 208; /*#D0D0D0*/
 
-    --aretex-darkgrey:#6B6B72;
-    --aretex-darkgrey-hover:#565656;
+    --aretex-darkgrey: 107 107 114; /*#6B6B72*/
+    --aretex-darkgrey-hover: 86 86 86; /*#565656*/
 
-    --aretex-lightgrey:#A1A1AA;
-    --aretex-lightgrey-hover:#E1E2E4;
+    --aretex-lightgrey: 161 161 170; /*#A1A1AA*/
+    --aretex-lightgrey-hover: 225 226 228; /*#E1E2E4*/
 
-    --aretex-orange:#EF8B16;
-    --aretex-orange-hover:#BA5914;
+    --aretex-orange: 239 139 22; /*#EF8B16*/
+    --aretex-orange-hover: 186 89 20; /*#BA5914*/
 
-    --aretex-blue:#32449C;
-    --aretex-blue-hover:#547FDD;
+    --aretex-blue: 50 68 156; /*#32449C*/
+    --aretex-blue-hover: 84 127 221; /*#547FDD*/
 
-    --aretex-lightblue:#45C2F9;
-    --aretex-lightblue-hover:#7dd3fc;
+    --aretex-lightblue: 69 194 249; /*#45C2F9*/
+    --aretex-lightblue-hover: 125 211 252; /*#7dd3fc*/
 
-    --aretex-green:#005D38;
-    --aretex-green-hover:#006736;
+    --aretex-green: 0 93 56; /*#005D38*/
+    --aretex-green-hover: 0 103 54; /*#006736*/
 
-    --aretex-red:#E2445B;
-    --aretex-red-hover:#AF2140;
+    --aretex-red: 226 68 91; /*#E2445B*/
+    --aretex-red-hover: 175 33 64; /*#AF2140*/
 
-    --aretex-yellow:#FFCF4C;
-    --aretex-yellow-hover:#FFE388;
+    --aretex-yellow: 255 207 76; /*#FFCF4C*/
+    --aretex-yellow-hover: 255 227 136; /*#FFE388*/
 
-    --aretex-purple:#A44BFD;
-    --aretex-purple-hover:#be80ff;
+    --aretex-purple: 164 75 253; /*#A44BFD*/
+    --aretex-purple-hover: 190 128 255; /*#be80ff*/
 
-    --aretex-darkblack: #1C1B1F;
-    --aretex-heart: #FF4949;
-    --aretex-happy: #FDCA4B;
-    --aretex-inactive: #7d7d85;
-
+    --aretex-darkblack: 28 27 31; /*#1C1B1F*/
+    --aretex-heart: 255 73 73; /*#FF4949*/
+    --aretex-happy: 253 202 75; /*#FDCA4B*/
+    --aretex-inactive: 125 125 133; /*#7d7d85*/
   }
 
   .dark {
@@ -159,9 +158,5 @@
 
     --border: 216 34% 17%;
     --input: 216 34% 17%;
-
-
   }
-
 }
-

@@ -306,7 +306,7 @@ const CMSAdmin = () => {
           >
             <div
               data-show={showClientDetails}
-              className="w-full flex data-[show=true]:hidden justify-start gap-4"
+              className="w-full flex data-[show=true]:hidden justify-start lg:justify-end gap-4"
             >
               <CTAButtons
                 radius={"sm"}

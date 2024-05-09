@@ -43,7 +43,7 @@ const RightBarCard = ({
         </Button>
       </CardHeader>
       <CardBody
-        className={`p-0 py-2 px-2 md:px-4 w-full transition-[height] duration-300 overflow-y-scroll no-scrollbar 
+        className={`p-0 py-2 px-2 w-full transition-[height] duration-300 overflow-y-scroll no-scrollbar 
         ${
           isExpandable
             ? isExpanded

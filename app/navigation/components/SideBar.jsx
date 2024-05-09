@@ -98,10 +98,11 @@ const SideBar = () => {
   };
 
   return (
-    <div className='h-full relative z-50 flex lg:justify-start justify-center items-center '>
+    <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
       <Sidebar
         width={"300px"}
-        style={{ backgroundColor: "#f9f9f9" }}
+        // style={{ backgroundColor: "rgb(var(--aretex-white))" }}
+        backgroundColor="rgb(var(--aretex-white))"
         collapsed={collapseSidebar && !toggled}
         collapsedWidth={broken ? "300px" : "0px"}
         toggled={toggled}
@@ -112,7 +113,7 @@ const SideBar = () => {
         rootStyles={{
           width: "14rem",
           height: "100%",
-          backgroundColor: broken ? "#f9f9f9" : "transparent",
+          // backgroundColor: "rgb(var(--aretex-white))",
           display: "flex",
           flexDirection: "column",
           gap: "2rem",
@@ -124,21 +125,31 @@ const SideBar = () => {
           rootStyles={{
             [`.${menuClasses.button}`]: {
               borderRadius: "0.313rem",
-              color: "var(--aretex-black)",
+              color: "rgb(var(--aretex-black))",
               marginBottom: "0.75rem",
               transition: "0.3s",
               transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+              "&:hover": {
+                backgroundColor: "rgb(var(--aretex-grey-hover))",
+                paddingLeft: "0.875rem",
+              },
+              "&:focus": {
+                backgroundColor: "rgb(var(--aretex-grey-hover))",
+              },
+              "&:active": {
+                backgroundColor: "rgb(var(--aretex-grey-hover))",
+                paddingLeft: "0.875rem",
+              },
             },
             padding: "0.5rem",
             height: "100%",
-            backgroundColor: "var(--aretex-white)",
           }}
         >
           {!broken ? (
             <SideBarHeader />
           ) : (
-            <div className='flex items-center justify-between mt-6 pl-2 pb-4 bg-white-default'>
-              <p className='text-xl font-bold'>{"NAVIGATION"}</p>
+            <div className="flex items-center justify-between mt-6 pl-2 pb-4">
+              <p className="text-xl font-bold">{"NAVIGATION"}</p>
             </div>
           )}
           {routes &&
@@ -159,48 +170,37 @@ const SideBar = () => {
                         fontWeight: 700,
                       },
                       ["." + menuClasses.icon]: {
-                        backgroundColor: "var(--aretex-orange)",
+                        backgroundColor: "rgb(var(--aretex-orange))",
                         borderRadius: "0.313rem",
-                        color: "var(--aretex-white)",
+                        color: "rgb(var(--aretex-white))",
                       },
                       ["." + menuClasses.button]: {
                         // width: "100%",
                         paddingRight: "0rem",
                         paddingLeft: "0.375rem",
-                        "&:hover": {
-                          backgroundColor: "var(--aretex-grey-hover)",
-                          paddingLeft: "0.875rem",
-                        },
-                        "&:focus": {
-                          backgroundColor: "var(--aretex-grey-hover)",
-                        },
-                        "&:active": {
-                          backgroundColor: "var(--aretex-grey-hover)",
-                          paddingLeft: "0.875rem",
-                        },
                       },
                       ["." + menuClasses.subMenuContent]: {
-                        backgroundColor: "var(--aretex-white)",
+                        backgroundColor: "rgb(var(--aretex-white))",
                         ["." + menuClasses.icon]: {
                           backgroundColor: "transparent",
                           borderRadius: "0.313rem",
-                          color: "var(--aretex-black)",
+                          color: "rgb(var(--aretex-black))",
                         },
                         ["." + menuClasses.button]: {
                           // width: "100%",
-                          backgroundColor: "var(--aretex-white)",
+                          backgroundColor: "rgb(var(--aretex-white))",
                           paddingRight: "0rem",
                           paddingLeft: "1.875rem",
                           "&:hover": {
-                            color: "var(--aretex-orange)",
+                            color: "rgb(var(--aretex-orange))",
                             paddingLeft: "0.875rem",
                             ["." + menuClasses.icon]: {
-                              color: "var(--aretex-orange)",
+                              color: "rgb(var(--aretex-orange))",
                             },
-                            backgroundColor: "var(--aretex-orange)",
+                            backgroundColor: "rgb(var(--aretex-orange) / 0.13)",
                           },
                           "&:focus": {
-                            backgroundColor: "var(--aretex-orange)",
+                            backgroundColor: "rgb(var(--aretex-orange) / 0.13)",
                           },
                           "&:active": {
                             paddingLeft: "0.875rem",
@@ -208,14 +208,7 @@ const SideBar = () => {
                         },
                       },
                     }}
-                    component={
-                      <Link
-                        href={sidebarButtons.link}
-                        onPress={() => {
-                          handleSidebarButtonsActive(sidebarButtons.key);
-                        }}
-                      />
-                    }
+                    component={"div"}
                   >
                     {sidebarButtons.routes.map((subRoute) => {
                       return (
@@ -254,9 +247,9 @@ const SideBar = () => {
                     }
                     rootStyles={{
                       ["." + menuClasses.icon]: {
-                        backgroundColor: "var(--aretex-orange)",
+                        backgroundColor: "rgb(var(--aretex-orange))",
                         borderRadius: "0.313rem",
-                        color: "var(--aretex-white)",
+                        color: "rgb(var(--aretex-white))",
                       },
                       ["." + menuClasses.label]: {
                         marginLeft: "0.30rem",
@@ -266,20 +259,9 @@ const SideBar = () => {
                       },
                       ["." + menuClasses.button]: {
                         // width: "100%",
-                        backgroundColor: "var(--aretex-white)",
+                        // backgroundColor: "rgb(var(--aretex-white))",
                         paddingRight: "0rem",
                         paddingLeft: "0.375rem",
-                        "&:hover": {
-                          backgroundColor: "var(--aretex-grey-hover)",
-                          paddingLeft: "0.875rem",
-                        },
-                        "&:focus": {
-                          backgroundColor: "var(--aretex-grey-hover)",
-                        },
-                        "&:active": {
-                          backgroundColor: "var(--aretex-grey-hover)",
-                          paddingLeft: "0.875rem",
-                        },
                       },
                     }}
                   >

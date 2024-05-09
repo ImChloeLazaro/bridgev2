@@ -7,7 +7,8 @@ import { draftPostCountAtom } from "./DraftedStore";
 import { publishedPostCountAtom } from "./PublishedStore";
 import { archivedPostCountAtom } from "./ArchivedStore";
 import { restread } from "@/app/utils/amplify-rest";
-import { get } from "mongoose";
+import { userListAtom } from "@/app/store/UserStore";
+
 const iconSize = 20;
 export const postTemplateItemsAtom = atom([
   {
@@ -164,26 +165,44 @@ export const chipListAtom = atom(async (get) => {
   return (await restread("/user/tagged")).result;
 });
 let taggedIndex = 0;
-export const taggedPeopleListAtom = atom(async (get) => {
-  const chipList = await get(chipListAtom);
-  const emails = chipList.map(chip => chip.email);
+export const taggedPeopleListAtom = atom((get) => {
+  // const chipList = await get(chipListAtom);
+  // const emails = chipList.map((chip) => chip.email);
 
-  let taggedList = chipList.map((chip) => ({
-    ...chip,
+  // let taggedList = chipList.map((chip) => ({
+  //   ...chip,
+  //   id: (taggedIndex += 1),
+  //   key: chip._id,
+  // }));
+
+  // taggedList.unshift({
+  //   id: "all",
+  //   key: "all",
+  //   name: "@all",
+  //   email: emails,
+  //   picture: null,
+  // });
+
+  // return taggedList;
+  const list = get(userListAtom);
+
+  const allEmails = list.map((person) => person.email);
+
+  const all = {
     id: (taggedIndex += 1),
-    key: chip._id,
-  }));
-
-  taggedList.unshift({
-    id: "all",
     key: "all",
     name: "@all",
-    email: emails,
+    email: allEmails,
     picture: null,
-  });
+  };
 
-  return taggedList;
-  
+  const peopleList = list.map((person) => ({
+    ...person,
+    id: (taggedIndex += 1),
+    key: `user-${taggedIndex}`,
+  }));
+
+  return [all, ...peopleList];
 });
 
 export const taggedPeopleCountAtom = atom(

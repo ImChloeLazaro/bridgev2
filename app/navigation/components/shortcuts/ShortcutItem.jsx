@@ -30,7 +30,7 @@ const ShortcutItem = forwardRef(
         icon={<MdBookmark size={shortcutSize} />}
         rootStyles={{
           ["." + menuClasses.icon]: {
-            color: "var(--aretex-orange)",
+            color: "rgb(var(--aretex-orange))",
           },
           ["." + menuClasses.label]: {
             marginLeft: "0.30rem",
@@ -40,20 +40,20 @@ const ShortcutItem = forwardRef(
           },
           ["." + menuClasses.button]: {
             // width: "100%",
-            backgroundColor: "var(--aretex-white)",
+            // backgroundColor: "rgb(var(--aretex-white))",
             paddingRight: "0rem",
             paddingLeft: "0.375rem",
             cursor: "grab",
             "&:hover": {
-              backgroundColor: "var(aretex-grey-hover)",
+              backgroundColor: "rgb(var(aretex-grey-hover))",
               paddingLeft: "0.875rem",
             },
             "&:focus": {
-              backgroundColor: "var(aretex-grey-hover)",
+              backgroundColor: "rgb(var(aretex-grey-hover))",
             },
             "&:active": {
               cursor: "grabbing",
-              backgroundColor: "var(aretex-grey-hover)",
+              backgroundColor: "rgb(var(aretex-grey-hover))",
               paddingLeft: "0.875rem",
             },
           },

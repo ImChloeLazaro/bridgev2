@@ -94,7 +94,7 @@ const LabelTagChip = ({
             variant='flat'
             classNames={{
               base: cn("bg-white-default/90"),
-              content: `text-sm text-white-default font-bold`,
+              content: `text-sm text-white-default font-bold text-black-default`,
             }}
           >
             {badgeContent}

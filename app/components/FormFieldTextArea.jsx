@@ -25,8 +25,8 @@ const FormFieldTextArea = ({
       maxRows={4}
       classNames={{
         base: "w-full flex-row",
-        label: "text-base font-medium text-black-default/80 px-2 py-2",
-        input: "text-sm font-medium text-black-default px-2",
+        label: "text-sm font-medium text-black-default px-2 py-2",
+        input: "h-full text-sm font-medium text-black-default px-2",
         inputWrapper: "h-full text-clip",
       }}
     />

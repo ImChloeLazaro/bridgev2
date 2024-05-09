@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { fetchUserAttributes } from "aws-amplify/auth";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef, useState, useMemo } from "react";
 import {
   MdNotifications,
@@ -33,6 +33,7 @@ import NotificationsList from "./NotificationsList";
 import NotificationsHistory from "./NotificationsHistory";
 import { showNotification } from "@/app/utils/notificationUtils";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
 // @refresh reset
 
 const NotificationsDropdown = () => {
@@ -49,6 +50,9 @@ const NotificationsDropdown = () => {
   const showUnread = useAtomValue(showUnreadAtom);
   const auth = useAtomValue(authenticationAtom);
 
+  const list = useAtomValue(userListAtom);
+  const fetchUserList = useSetAtom(fetchUserListAtom);
+
   const [connected, setConnected] = useState(false);
   const [user, setUser] = useAtom(notifyFromUserAtom);
   const socketRef = useRef(null);
@@ -62,6 +66,7 @@ const NotificationsDropdown = () => {
   });
 
   useEffect(() => {
+    fetchUserList();
     socketRef.current = new WebSocket(notificationSocketURL);
     setNotificationSocketRef(socketRef);
 
@@ -84,6 +89,7 @@ const NotificationsDropdown = () => {
     };
 
     socketRef.current.onmessage = (event) => {
+      console.log("USER LIST: ", list);
       const data = JSON.parse(event.data);
       console.log(data);
       console.log("NOTIFICATION RECEIVED");

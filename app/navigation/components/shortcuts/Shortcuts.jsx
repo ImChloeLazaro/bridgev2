@@ -40,9 +40,6 @@ const Shortcuts = () => {
   return (
     // sticky top-0 ml-1 mr-4 px-1
     <>
-      {/* <div className="z-50 py-0 ">
-        <ShortcutsHeader />
-      </div> */}
       {shortcuts?.length ? (
         <DndContext
           collisionDetection={closestCorners}

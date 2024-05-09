@@ -92,7 +92,7 @@ const CMSHeader = ({
         className
       )}
     >
-      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-between min-[425px]:justify-start">
+      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start min-[425px]:justify-between">
         <div className="w-full flex gap-2">
           <IconButton
             data-details={showClientDetails}

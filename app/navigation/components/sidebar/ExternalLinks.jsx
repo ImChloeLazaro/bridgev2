@@ -29,13 +29,13 @@ const ExternalLinks = () => {
           <Menu
             rootStyles={{
               [`.${menuClasses.icon}`]: {
-                backgroundColor: "var(--aretex-orange)",
+                backgroundColor: "rgb(var(--aretex-orange))",
                 borderRadius: "0.313rem",
-                color: "var(--aretex-white)",
+                color: "rgb(var(--aretex-white))",
               },
               [`.${menuClasses.button}`]: {
                 borderRadius: "0.313rem",
-                color: "var(--aretex-foreground)",
+                color: "rgb(var(--aretex-foreground))",
                 marginBottom: "0.75rem",
                 transition: "0.3s",
                 transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -61,11 +61,11 @@ const ExternalLinks = () => {
                     paddingLeft: "0.375rem",
                     width: "20rem",
                     ":hover": {
-                      backgroundColor: "var(--aretex-grey-hover)",
+                      backgroundColor: "rgb(var(--aretex-grey-hover))",
                       paddingLeft: "0.875rem",
                     },
                     ":focus": {
-                      backgroundColor: "var(--aretex-grey-hover)",
+                      backgroundColor: "rgb(var(--aretex-grey-hover))",
                     },
                   };
                 }

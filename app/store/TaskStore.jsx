@@ -8,6 +8,7 @@ import {
 import { addDays, format } from "date-fns";
 import { atom } from "jotai";
 import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
+import { userListAtom } from "./UserStore";
 
 export const tasksAtom = atom([]);
 
@@ -239,56 +240,67 @@ export const clientSelectionForTaskAtom = atom((get) =>
 export const selectedClientForTaskAtom = atom(new Set([]));
 
 let processorIndex = 0;
-export const processorSelectionAtom = atom([
-  {
-    id: (processorIndex += 1),
-    sub: `processor-${processorIndex}`,
-    name: "Tatiana Philips",
-    email: "tatiana.philips@aretex.com.au",
-    picture: "/Tatiana Philips.png",
-    team: "DMS - Bea",
-  },
-  {
-    id: (processorIndex += 1),
-    sub: `processor-${processorIndex}`,
-    name: "Aspen Donin",
-    email: "aspen.donin@aretex.com.au",
-    picture: "/Aspen Donin.png",
-    team: "DMS - James",
-  },
-  {
-    id: (processorIndex += 1),
-    sub: `processor-${processorIndex}`,
-    name: "Kaylynn Bergson",
-    email: "kaylynn.bergson@aretex.com.au",
-    picture: "/Kaylynn Bergson.png",
-    team: "DMS - Dennis",
-  },
-  {
-    id: (processorIndex += 1),
-    sub: `processor-${processorIndex}`,
-    name: "Eddie Lake",
-    email: "eddie.lake@aretex.com.au",
-    picture: "/Eddie Lake.png",
-    team: "DMS - Dennis",
-  },
-  {
-    id: (processorIndex += 1),
-    sub: `processor-${processorIndex}`,
-    name: "John Dukes",
-    email: "john.dukes@aretex.com.au",
-    picture: "/John Dukes.png",
-    team: "Financials - Dom",
-  },
-  {
-    id: (processorIndex += 1),
-    sub: `processor-${processorIndex}`,
-    name: "Katie Sims",
-    email: "katie.sims@aretex.com.au",
-    picture: "/Katie Sims.png",
-    team: "SD - Charlene",
-  },
-]);
+export const processorSelectionAtom = atom(
+  (get) => {
+    const list = get(userListAtom);
+    const peopleList = list.map((person) => ({
+      ...person,
+      id: (processorIndex += 1),
+      key: `processor-${processorIndex}`,
+    }));
+    return peopleList;
+  }
+  //   [
+  //   {
+  //     id: (processorIndex += 1),
+  //     sub: `processor-${processorIndex}`,
+  //     name: "Tatiana Philips",
+  //     email: "tatiana.philips@aretex.com.au",
+  //     picture: "/Tatiana Philips.png",
+  //     team: "DMS - Bea",
+  //   },
+  //   {
+  //     id: (processorIndex += 1),
+  //     sub: `processor-${processorIndex}`,
+  //     name: "Aspen Donin",
+  //     email: "aspen.donin@aretex.com.au",
+  //     picture: "/Aspen Donin.png",
+  //     team: "DMS - James",
+  //   },
+  //   {
+  //     id: (processorIndex += 1),
+  //     sub: `processor-${processorIndex}`,
+  //     name: "Kaylynn Bergson",
+  //     email: "kaylynn.bergson@aretex.com.au",
+  //     picture: "/Kaylynn Bergson.png",
+  //     team: "DMS - Dennis",
+  //   },
+  //   {
+  //     id: (processorIndex += 1),
+  //     sub: `processor-${processorIndex}`,
+  //     name: "Eddie Lake",
+  //     email: "eddie.lake@aretex.com.au",
+  //     picture: "/Eddie Lake.png",
+  //     team: "DMS - Dennis",
+  //   },
+  //   {
+  //     id: (processorIndex += 1),
+  //     sub: `processor-${processorIndex}`,
+  //     name: "John Dukes",
+  //     email: "john.dukes@aretex.com.au",
+  //     picture: "/John Dukes.png",
+  //     team: "Financials - Dom",
+  //   },
+  //   {
+  //     id: (processorIndex += 1),
+  //     sub: `processor-${processorIndex}`,
+  //     name: "Katie Sims",
+  //     email: "katie.sims@aretex.com.au",
+  //     picture: "/Katie Sims.png",
+  //     team: "SD - Charlene",
+  //   },
+  // ]
+);
 export const selectedProcessorAtom = atom(new Set([]));
 
 let reviewerIndex = 0;

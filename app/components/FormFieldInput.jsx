@@ -45,7 +45,7 @@ const FormFieldInput = ({
         isDisabled={isDisabled}
         isRequired={isRequired}
         size={"md"}
-        label={`${label.toUpperCase()}`}
+        label={`${label}`}
         data-label={Boolean(label)}
         value={
           new Date(date) > 0 && withDate ? format(date, "LLLL d, y") : value
@@ -65,7 +65,7 @@ const FormFieldInput = ({
             "group-data-[filled=true]:text-black-default/90",
             "text-sm data-[label=false]:px-2",
           ],
-          inputWrapper: ["font-medium", "text-black-default/90", "text-sm"],
+          inputWrapper: ["bg-grey-default","font-medium", "text-black-default/90", "text-sm"],
           errorMessage: ["text-red-default"],
         }}
         endContent={
