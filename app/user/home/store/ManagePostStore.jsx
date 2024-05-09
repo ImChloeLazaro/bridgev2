@@ -6,7 +6,8 @@ import { reactionIcons } from "../components/reaction/ReactionIcons";
 import { draftPostCountAtom } from "./DraftedStore";
 import { publishedPostCountAtom } from "./PublishedStore";
 import { archivedPostCountAtom } from "./ArchivedStore";
-
+import { restread } from "@/app/utils/amplify-rest";
+import { get } from "mongoose";
 const iconSize = 20;
 export const postTemplateItemsAtom = atom([
   {
@@ -159,73 +160,31 @@ export const mediaFileListAtom = atom([]);
 
 export const postTitleAtom = atom("");
 
+export const chipListAtom = atom(async (get) => {
+  return (await restread("/user/tagged")).result;
+});
 let taggedIndex = 0;
-export const taggedPeopleListAtom = atom([
-  {
+export const taggedPeopleListAtom = atom(async (get) => {
+  const chipList = await get(chipListAtom);
+  const emails = chipList.map(chip => chip.email);
+
+  let taggedList = chipList.map((chip) => ({
+    ...chip,
     id: (taggedIndex += 1),
+    key: chip._id,
+  }));
+
+  taggedList.unshift({
+    id: "all",
     key: "all",
     name: "@all",
-    email: "tagged everyone",
+    email: emails,
     picture: null,
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "team",
-    name: "@team",
-    email: "tagged your team",
-    picture: null,
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "tatiana philips",
-    name: "Tatiana Philips",
-    email: "tatiana.philips@aretex.com.au",
-    picture: "/Tatiana Philips.png",
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "aspen donin",
-    name: "Aspen Donin",
-    email: "aspen.donin@aretex.com.au",
-    picture: "/Aspen Donin.png",
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "kaylynn bergson",
-    name: "Kaylynn Bergson",
-    email: "kaylynn.bergson@aretex.com.au",
-    picture: "/Kaylynn Bergson.png",
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "madelyn septimus",
-    name: "Madelyn Septimus",
-    email: "madelyn.septimus@aretex.com.au",
-    picture: "/Madelyn Septimus.png",
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "skylar curtis",
-    name: "Skylar Curtis",
-    email: "skylar.curtis@aretex.com.au",
-    picture: "/Skylar Curtis.png",
-    team: "",
-  },
-  {
-    id: (taggedIndex += 1),
-    key: "wilson herwitz",
-    name: "Wilson Herwitz",
-    email: "wilson.herwitz@aretex.com.au",
-    picture: "/Wilson Herwitz.png",
-    team: "",
-  },
-]);
+  });
+
+  return taggedList;
+  
+});
 
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
