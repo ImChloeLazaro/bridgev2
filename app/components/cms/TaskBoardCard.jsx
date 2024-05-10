@@ -133,7 +133,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
       //   setMouseIsOver(false);
       // }}
     >
-      <div className='flex flex-col gap-3 justify-start px-2 my-auto h-full w-full max-w-xs overflow-y-auto overflow-x-hidden whitespace-pre-wrap'>
+      <div className='flex flex-col gap-3 justify-start px-2 my-auto h-full w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap'>
         {/* {task.content} */}
         <div className='flex justify-between items-start gap-2'>
           <div className='mt-2'>

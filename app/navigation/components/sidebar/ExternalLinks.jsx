@@ -17,7 +17,7 @@ const ExternalLinks = () => {
         <Button
           aria-label={"External Links"}
           isIconOnly
-          className="p-6 text-orange-default bg-white-default hover:bg-grey-hover rounded-xl"
+          className="p-6 text-orange-default bg-transparent hover:bg-grey-hover rounded-xl"
         >
           <div>
             <IoApps size={28} />

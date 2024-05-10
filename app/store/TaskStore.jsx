@@ -143,7 +143,7 @@ export const tableColumnsAtom = atom([
   { label: "Start Date", key: "startDate", sortable: true },
   { label: "End Date", key: "endDate", sortable: true },
   { label: "Assignees", key: "assignees", sortable: false },
-  { label: "", key: "action", sortable: false },
+  { label: "Actions", key: "action", sortable: false },
 ]);
 
 export const selectedTaskAtom = atom([]);

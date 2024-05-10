@@ -5,6 +5,7 @@ import {
   fetchClientAtom,
 } from "@/app/store/ClientStore";
 import {
+  clientSelectionChangeAtom,
   fetchTaskAtom,
   selectedTaskFilterKeysAtom,
   taskFilterKeysAtom,
@@ -86,6 +87,8 @@ const CMSAdmin = () => {
     selectedClientToViewAtom
   );
   const clientsCount = useAtomValue(clientsCountAtom);
+
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom)
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(

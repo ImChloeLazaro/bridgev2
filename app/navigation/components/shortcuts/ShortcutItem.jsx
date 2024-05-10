@@ -39,8 +39,6 @@ const ShortcutItem = forwardRef(
             fontWeight: 700,
           },
           ["." + menuClasses.button]: {
-            // width: "100%",
-            // backgroundColor: "rgb(var(--aretex-white))",
             paddingRight: "0rem",
             paddingLeft: "0.375rem",
             cursor: "grab",

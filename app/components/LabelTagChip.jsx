@@ -75,8 +75,8 @@ const LabelTagChip = ({
               ? colorVariants[color].filled
               : colorVariants[color].unfilled
           }`,
-          `${isFilled ? "py-5" : "py-1"}`,
-          "capitalize px-2.5 border-0 rounded",
+          `${isFilled ? "py-5 rounded-xl" : "py-2 rounded-md"}`,
+          "capitalize px-2.5 border-0 ",
           className
         ),
         content: "font-bold",
@@ -89,9 +89,9 @@ const LabelTagChip = ({
       endContent={
         withBadge && (
           <Chip
-            radius='full'
-            size='sm'
-            variant='flat'
+            radius="full"
+            size="sm"
+            variant="flat"
             classNames={{
               base: cn("bg-white-default/90"),
               content: `text-sm text-white-default font-bold text-black-default`,
@@ -104,7 +104,9 @@ const LabelTagChip = ({
       {...props}
     >
       <div className="flex justify-center items-center gap-4">
-        <p className={cn("tracking-wider", classNameContent)}>{text}</p>
+        <p className={cn("tracking-wider", classNameContent)}>
+          {text?.length ? text : ""}
+        </p>
       </div>
     </Chip>
   );

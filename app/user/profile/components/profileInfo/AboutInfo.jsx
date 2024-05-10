@@ -47,9 +47,14 @@ const AboutInfo = () => {
                 <LabelTagChip
                   text={data?.is_active ? "Active" : "Inactive"}
                   color={data?.is_active ? "green" : "red"}
+                  className={"rounded-[0.4rem]"}
                 />
               ) : (
-                <LabelTagChip text={"Unavailable"} color={"lightgrey"} />
+                <LabelTagChip
+                  text={"Unavailable"}
+                  color={"lightgrey"}
+                  className={"rounded-[0.4rem]"}
+                />
               )}
             </div>
           </div>

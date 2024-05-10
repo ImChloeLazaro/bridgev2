@@ -101,7 +101,6 @@ const SideBar = () => {
     <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
       <Sidebar
         width={"300px"}
-        // style={{ backgroundColor: "rgb(var(--aretex-white))" }}
         backgroundColor="rgb(var(--aretex-white))"
         collapsed={collapseSidebar && !toggled}
         collapsedWidth={broken ? "300px" : "0px"}
@@ -113,7 +112,9 @@ const SideBar = () => {
         rootStyles={{
           width: "14rem",
           height: "100%",
-          // backgroundColor: "rgb(var(--aretex-white))",
+          borderRightWidth: "0px",
+          borderRightStyle: "none",
+          borderColor: "transparent",
           display: "flex",
           flexDirection: "column",
           gap: "2rem",
@@ -161,8 +162,12 @@ const SideBar = () => {
                     active={activeRoutes[sidebarButtons.key]}
                     key={sidebarButtons.key}
                     icon={sidebarButtons.icon}
+                    component={"div"}
                     rootStyles={{
                       // change sidebar Tailwind CSS here
+                      // display: !toggled ? "none" : "block",
+                      transition: "0.3s",
+                      transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
                       ["." + menuClasses.label]: {
                         marginLeft: "0.30rem",
                         fontSize: "1rem",
@@ -175,7 +180,6 @@ const SideBar = () => {
                         color: "rgb(var(--aretex-white))",
                       },
                       ["." + menuClasses.button]: {
-                        // width: "100%",
                         paddingRight: "0rem",
                         paddingLeft: "0.375rem",
                       },
@@ -187,7 +191,6 @@ const SideBar = () => {
                           color: "rgb(var(--aretex-black))",
                         },
                         ["." + menuClasses.button]: {
-                          // width: "100%",
                           backgroundColor: "rgb(var(--aretex-white))",
                           paddingRight: "0rem",
                           paddingLeft: "1.875rem",
@@ -208,7 +211,6 @@ const SideBar = () => {
                         },
                       },
                     }}
-                    component={"div"}
                   >
                     {sidebarButtons.routes.map((subRoute) => {
                       return (
@@ -258,8 +260,6 @@ const SideBar = () => {
                         fontWeight: 700,
                       },
                       ["." + menuClasses.button]: {
-                        // width: "100%",
-                        // backgroundColor: "rgb(var(--aretex-white))",
                         paddingRight: "0rem",
                         paddingLeft: "0.375rem",
                       },
