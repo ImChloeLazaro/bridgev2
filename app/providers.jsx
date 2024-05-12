@@ -8,6 +8,9 @@ import { useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { requestPermissionNotification } from "./utils/notificationUtils";
 
+//import nextauth session provider
+import { SessionProvider } from "next-auth/react";
+
 export function Providers({ children }) {
   const router = useRouter();
 
@@ -26,8 +29,10 @@ export function Providers({ children }) {
   }, [promptUserNotification]);
 
   return (
-    <NextUIProvider navigate={router.push}>
-      <Provider>{children}</Provider>
-    </NextUIProvider>
+    <SessionProvider>
+      <NextUIProvider navigate={router.push}>
+        <Provider>{children}</Provider>
+      </NextUIProvider>
+    </SessionProvider>
   );
 }
