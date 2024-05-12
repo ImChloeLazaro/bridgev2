@@ -6,6 +6,7 @@ export const showFooterAtom = atom(true);
 export const showSearchBarAtom = atom(true);
 
 export const selectedClientToViewAtom = atom("");
+export const selectedClientForTaskAtom = atom(new Set([]));
 export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
 export const showClientDetailsAtom = atom(false);
 
