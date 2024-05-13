@@ -11,6 +11,7 @@ export const authOptions  = {
                         "https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
                 },
             },
+            redirectUri: "https://main.dyk54a7v2s19.amplifyapp.com/api/auth/callback/google"
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
