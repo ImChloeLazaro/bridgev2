@@ -72,11 +72,12 @@ const CMSHeader = ({
 
   const handleChangeView = () => {
     setChangeView(!changeView);
+    setShowFooter(!showFooter);
   };
 
   const handleViewClientDetails = () => {
     setShowSearchBar(!showSearchBar);
-    setShowFooter(!showFooter);
+    setShowFooter(!changeView && !showFooter);
     setShowClientTask(!showClientTask);
     setShowClientDetails(!showClientDetails);
   };
@@ -88,12 +89,14 @@ const CMSHeader = ({
   return (
     <div
       className={cn(
-        "w-full flex items-center justify-start min-[425px]:justify-between mx-0 lg:mx-4 my-0 lg:my-2 gap-4",
+        "w-full flex items-center justify-start mx-0 lg:mx-4 my-0 lg:my-2 gap-4",
         className
       )}
     >
-      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start min-[425px]:justify-between">
-        <div className="w-full flex gap-2">
+      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start">
+        {/* <div className="w-full flex gap-2"> */}
+
+        <div className="w-full flex justify-between items-center gap-2">
           <IconButton
             data-details={showClientDetails}
             data-task={showClientTask}
@@ -129,7 +132,6 @@ const CMSHeader = ({
               </Tooltip>
             </div>
           </IconButton>
-
           <SearchBar
             disabledFilter={showClientTask && changeView}
             showSearchBar={showSearchBar}
@@ -150,40 +152,38 @@ const CMSHeader = ({
           >
             <MdRefresh size={24} />
           </IconButton>
-          <div
-            data-details={showClientDetails}
-            data-task={showClientTask}
-            className="hidden data-[task=true]:flex data-[details=true]:flex overscroll-x-auto no-scrollbar gap-2 ml-2 lg:ml-6 "
-          >
-            <CTAButtons
-              isDisabled={showClientDetails}
-              radius={"sm"}
-              variant={"bordered"}
-              color={changeView ? "blue" : "orange"}
-              size={"md"}
-              startContent={
-                changeView ? (
-                  <MdViewList size={24} />
-                ) : (
-                  <MdViewColumn size={24} />
-                )
-              }
-              label={"Switch View"}
-              className={"min-[320px]:"}
-              onPress={handleChangeView}
-            />
-            <CTAButtons
-              radius={"sm"}
-              variant={"bordered"}
-              color={showClientDetails ? "green" : "white"}
-              size={"md"}
-              startContent={<MdOutlineDescription size={24} />}
-              label={"View Client Details"}
-              className={"min-[320px]:"}
-              onPress={handleViewClientDetails}
-            />
-          </div>
         </div>
+
+        <div
+          data-details={showClientDetails}
+          data-task={showClientTask}
+          className="hidden data-[task=true]:flex data-[details=true]:flex overscroll-x-auto no-scrollbar gap-2 ml-2 lg:ml-6 "
+        >
+          <CTAButtons
+            isDisabled={showClientDetails}
+            radius={"sm"}
+            variant={"bordered"}
+            color={changeView ? "blue" : "orange"}
+            size={"md"}
+            startContent={
+              changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
+            }
+            label={"Switch View"}
+            className={"min-[320px]:"}
+            onPress={handleChangeView}
+          />
+          <CTAButtons
+            radius={"sm"}
+            variant={"bordered"}
+            color={showClientDetails ? "green" : "white"}
+            size={"md"}
+            startContent={<MdOutlineDescription size={24} />}
+            label={"View Client Details"}
+            className={"min-[320px]:"}
+            onPress={handleViewClientDetails}
+          />
+        </div>
+        {/* </div> */}
         {children}
       </div>
     </div>

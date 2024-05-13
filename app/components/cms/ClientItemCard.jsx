@@ -28,6 +28,7 @@ const ClientItemCard = ({
   setShowFooter,
   setShowSearchBar,
   setSelectedClientToView,
+  setSelectedClientForTask,
   setShowClientDetails,
 }) => {
   const tasks = useAtomValue(tasksAtom);

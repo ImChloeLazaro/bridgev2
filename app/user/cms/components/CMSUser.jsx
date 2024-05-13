@@ -231,7 +231,7 @@ const CMSUser = () => {
   //   const interval = setInterval(() => {
   //     fetchTask();
   //     fetchClient();
-  //   }, 2500);
+  //   }, 5000);
   //   return () => {
   //     clearInterval(interval);
   //   };
