@@ -1,4 +1,3 @@
-import NextAuth from "next-auth/next";
 import Providers from "next-auth/providers/google";
 
 export const authOptions  = {
@@ -11,7 +10,8 @@ export const authOptions  = {
                     scope:
                         "https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
                 },
-            }
+            },
+            redirectUri: process.env.NODE_ENV === 'production' ? "https://main.dyk54a7v2s19.amplifyapp.com/api/auth/callback/google" : "http://localhost:3000/api/auth/callback/google"
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
