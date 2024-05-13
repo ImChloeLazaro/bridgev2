@@ -27,7 +27,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
-  const deleteTask = useSetAtom(deleteTaskAtom);
+  // const deleteTask = useSetAtom(deleteTaskAtom);
 
   const showClientTask = useAtomValue(showClientTaskAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
@@ -38,7 +38,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchTask()),
+          async () => resolve(await addTask(taskData), await fetchTask()),
           2000
         )
       );

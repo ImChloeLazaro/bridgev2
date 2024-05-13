@@ -147,14 +147,14 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
   const clients = await restread("/cms/client");
 
   if (clients?.success) {
-    // console.log("CLIENT SUCCESS FETCH", clients.response);
+    console.log("CLIENT SUCCESS FETCH", clients.response);
     const convertedClients = clients.response.map((client, index) => {
       return {
         ...client,
         company: { ...client.company, picture: "https://picsum.photos/200" },
       };
     });
-    // console.log("convertedClients", convertedClients);
+    console.log("convertedClients", convertedClients);
     set(clientsAtom, convertedClients);
   } else {
     console.log("CLIENT FAILED FETCH", clients);
