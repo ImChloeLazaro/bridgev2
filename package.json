@@ -28,7 +28,7 @@
     "jotai-cache": "^0.4.0",
     "lucide-react": "^0.336.0",
     "mongoose": "^8.2.0",
-    "next": "14.1.0",
+    "next": "^14.2.3",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
     "react": "^18",
