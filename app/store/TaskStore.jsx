@@ -5,11 +5,9 @@ import {
   restread,
   restupdate,
 } from "@/app/utils/amplify-rest";
-import { addDays, format } from "date-fns";
 import { atom } from "jotai";
 import { clientsAtom } from "./ClientStore";
 import { userListAtom } from "./UserStore";
-import { selectedClientForTaskAtom } from "../admin/clients/store/CMSAdminStore";
 
 export const tasksAtom = atom([]);
 
@@ -111,33 +109,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   }
 });
 
-export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
-  const key = update;
-  console.log("SELECTION KEY", key);
-  const clientSelectionChange = get(tasksAtom).filter(
-    (task) => task.client.client_id === key
-  );
-  if (clientSelectionChange?.length) {
-    console.log("clientSelectionChange: ", clientSelectionChange);
-    const selectedClient = [clientSelectionChange[0].client.client_id];
-    const selectedProcessor = clientSelectionChange[0].processor.map(
-      (processor) => processor.sub
-    );
-    const selectedReviewer = clientSelectionChange[0].reviewer.map(
-      (reviewer) => reviewer.sub
-    );
-    const selectedManager = [clientSelectionChange[0].manager.sub];
-
-    set(selectedClientForTaskAtom, new Set(selectedClient));
-    set(selectedProcessorAtom, new Set(selectedProcessor));
-    set(selectedReviewerAtom, new Set(selectedReviewer));
-    set(selectedManagerAtom, new Set(selectedManager));
-  } else {
-    set(selectedProcessorAtom, new Set([]));
-    set(selectedReviewerAtom, new Set([]));
-    set(selectedManagerAtom, new Set([]));
-  }
-});
 
 export const tableColumnsAtom = atom([
   { label: "Task  Name", key: "task", sortable: true },
@@ -147,9 +118,6 @@ export const tableColumnsAtom = atom([
   { label: "Assignees", key: "assignees", sortable: false },
   { label: "Actions", key: "action", sortable: false },
 ]);
-
-export const selectedTaskAtom = atom([]);
-export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 
 export const tasksCountAtom = atom((get) => get(tasksAtom).length);
 
@@ -224,8 +192,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   }
 });
 
-export const taskNameAtom = atom("");
-export const taskInstructionAtom = atom("");
 
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
@@ -239,7 +205,6 @@ export const clientSelectionForTaskAtom = atom((get) =>
   })
 );
 
-// export const selectedClientForTaskAtom = atom(new Set([]));
 
 let processorIndex = 0;
 export const processorSelectionAtom = atom((get) => {
@@ -301,7 +266,7 @@ export const processorSelectionAtom = atom((get) => {
 //     team: "SD - Charlene",
 //   },
 // ]
-export const selectedProcessorAtom = atom(new Set([]));
+// export const selectedProcessorAtom = atom(new Set([]));
 
 let reviewerIndex = 0;
 export const reviewerSelectionAtom = atom((get) => {
@@ -348,7 +313,7 @@ export const reviewerSelectionAtom = atom((get) => {
 // },
 // ]
 
-export const selectedReviewerAtom = atom(new Set([]));
+// export const selectedReviewerAtom = atom(new Set([]));
 
 let managerIndex = 0;
 export const managerSelectionAtom = atom((get) => {
@@ -379,7 +344,7 @@ export const managerSelectionAtom = atom((get) => {
 //   },
 // ]
 
-export const selectedManagerAtom = atom(new Set([]));
+// export const selectedManagerAtom = atom(new Set([]));
 
 let intervalIndex = 0;
 export const recurrenceSelectionAtom = atom([
@@ -415,65 +380,65 @@ export const recurrenceSelectionAtom = atom([
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);
-export const selectedRecurrenceAtom = atom(new Set(["Daily"]));
+// export const selectedRecurrenceAtom = atom(new Set(["Daily"]));
 
-export const startDateAtom = atom("");
-export const endDateAtom = atom("");
+// export const startDateAtom = atom("");
+// export const endDateAtom = atom("");
 
-export const startTimeAtom = atom("");
-export const endTimeAtom = atom("");
+// export const startTimeAtom = atom("");
+// export const endTimeAtom = atom("");
 
-export const taskDataAtom = atom((get) => {
-  const selectedClientForTask = get(selectedClientForTaskAtom);
-  const selectedProcessor = get(selectedProcessorAtom);
-  const selectedReviewer = get(selectedReviewerAtom);
-  const selectedManager = get(selectedManagerAtom);
-  const selectedRecurrence = get(selectedRecurrenceAtom);
+// export const taskDataAtom = atom((get) => {
+//   const selectedClientForTask = get(selectedClientForTaskAtom);
+//   const selectedProcessor = get(selectedProcessorAtom);
+//   const selectedReviewer = get(selectedReviewerAtom);
+//   const selectedManager = get(selectedManagerAtom);
+//   const selectedRecurrence = get(selectedRecurrenceAtom);
 
-  const clientSelection = get(clientSelectionForTaskAtom);
-  const processorSelection = get(processorSelectionAtom);
-  const reviewerSelection = get(reviewerSelectionAtom);
-  const managerSelection = get(managerSelectionAtom);
+//   const clientSelection = get(clientSelectionForTaskAtom);
+//   const processorSelection = get(processorSelectionAtom);
+//   const reviewerSelection = get(reviewerSelectionAtom);
+//   const managerSelection = get(managerSelectionAtom);
 
-  return {
-    manager: managerSelection.filter((manager) =>
-      Array.from(selectedManager).includes(manager.sub)
-    )[0],
-    client: clientSelection.filter((client) =>
-      Array.from(selectedClientForTask).includes(client.client_id)
-    )[0],
-    processor: processorSelection.filter((processor) =>
-      Array.from(selectedProcessor).includes(processor.sub)
-    ),
-    reviewer: reviewerSelection.filter((reviewer) =>
-      Array.from(selectedReviewer).includes(reviewer.sub)
-    ),
-    // duration: Array.from(selectedRecurrence).join(""), //Daily, Weekly, Monthly, Quarterly, Yearly
-    sla: [
-      {
-        name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
-        instruction:
-          get(taskInstructionAtom) === ""
-            ? "Add Instructions"
-            : get(taskInstructionAtom),
-        status: "todo", //todo, pending, to review, done
-        progress: "Good", //Good, Overdue, Adhoc
-        duration: {
-          start: get(startDateAtom) === "" ? new Date() : get(startDateAtom),
-          end:
-            get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
-          recurrence:
-            Array.from(selectedRecurrence).join("") === ""
-              ? "Daily"
-              : Array.from(selectedRecurrence).join(""),
-        },
-        // done_by: {
-        //   sub: String,
-        //   name: String,
-        //   email: String,
-        //   picture: String,
-        // }, //sub
-      },
-    ],
-  };
-});
+//   return {
+//     manager: managerSelection.filter((manager) =>
+//       Array.from(selectedManager).includes(manager.sub)
+//     )[0],
+//     client: clientSelection.filter((client) =>
+//       Array.from(selectedClientForTask).includes(client.client_id)
+//     )[0],
+//     processor: processorSelection.filter((processor) =>
+//       Array.from(selectedProcessor).includes(processor.sub)
+//     ),
+//     reviewer: reviewerSelection.filter((reviewer) =>
+//       Array.from(selectedReviewer).includes(reviewer.sub)
+//     ),
+//     // duration: Array.from(selectedRecurrence).join(""), //Daily, Weekly, Monthly, Quarterly, Yearly
+//     sla: [
+//       {
+//         name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
+//         instruction:
+//           get(taskInstructionAtom) === ""
+//             ? "Add Instructions"
+//             : get(taskInstructionAtom),
+//         status: "todo", //todo, pending, to review, done
+//         progress: "Good", //Good, Overdue, Adhoc
+//         duration: {
+//           start: get(startDateAtom) === "" ? new Date() : get(startDateAtom),
+//           end:
+//             get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
+//           recurrence:
+//             Array.from(selectedRecurrence).join("") === ""
+//               ? "Daily"
+//               : Array.from(selectedRecurrence).join(""),
+//         },
+//         // done_by: {
+//         //   sub: String,
+//         //   name: String,
+//         //   email: String,
+//         //   picture: String,
+//         // }, //sub
+//       },
+//     ],
+//   };
+// });

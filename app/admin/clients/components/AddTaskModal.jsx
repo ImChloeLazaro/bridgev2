@@ -3,9 +3,6 @@ import {
   addTaskAtom,
   deleteTaskAtom,
   fetchTaskAtom,
-  selectedClientForTaskAtom,
-  taskDataAtom,
-  taskNameAtom,
 } from "@/app/store/TaskStore";
 import {
   Modal,
@@ -20,6 +17,8 @@ import { toast } from "sonner";
 import {
   showClientTaskAtom,
   selectedClientToViewAtom,
+  taskDataAtom,
+  taskNameAtom,
 } from "../store/CMSAdminStore";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {
@@ -38,7 +37,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchTask()),
+          async () => resolve(await addTask(taskData), await fetchTask()),
           2000
         )
       );

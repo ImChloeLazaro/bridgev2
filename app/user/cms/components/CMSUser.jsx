@@ -6,7 +6,6 @@ import {
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
-  selectedTaskFilterKeysAtom,
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
@@ -22,6 +21,8 @@ import {
   selectedClientToViewAtom,
   showClientDetailsAtom,
   pageRowsSelectionAtom,
+  selectedClientForTaskAtom,
+  selectedTaskFilterKeysAtom,
 } from "../store/CMSUserStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -65,6 +66,10 @@ const CMSUser = () => {
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
+  const [selectedClientForTask, setSelectedClientForTask] = useAtom(
+    selectedClientForTaskAtom
+  );
+
   const clientsCount = useAtomValue(clientsCountAtom);
 
   // ##########################################
@@ -274,6 +279,7 @@ const CMSUser = () => {
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}
             setSelectedClientToView={setSelectedClientToView}
+            setSelectedClientForTask={setSelectedClientForTask}
             setShowClientDetails={setShowClientDetails}
           />
           <TaskTableView

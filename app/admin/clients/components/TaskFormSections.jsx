@@ -1,29 +1,27 @@
-import React from "react";
-import { MdInfoOutline } from "react-icons/md";
-import { Select, SelectItem, Chip, Avatar } from "@nextui-org/react";
-import {
-  clientSelectionForTaskAtom,
-  endDateAtom,
-  recurrenceSelectionAtom,
-  managerSelectionAtom,
-  processorSelectionAtom,
-  reviewerSelectionAtom,
-  selectedRecurrenceAtom,
-  selectedManagerAtom,
-  selectedProcessorAtom,
-  selectedReviewerAtom,
-  startDateAtom,
-  taskNameAtom,
-  taskInstructionAtom,
-  clientSelectionChangeAtom,
-} from "@/app/store/TaskStore";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
 import {
+  clientSelectionForTaskAtom,
+  managerSelectionAtom,
+  processorSelectionAtom,
+  recurrenceSelectionAtom,
+  reviewerSelectionAtom,
+} from "@/app/store/TaskStore";
+import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { MdInfoOutline } from "react-icons/md";
+import {
+  clientSelectionChangeAtom,
+  endDateAtom,
   selectedClientForTaskAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
   showClientTaskAtom,
+  startDateAtom,
+  taskInstructionAtom,
+  taskNameAtom,
 } from "../store/CMSAdminStore";
 
 const TaskFormSections = () => {
@@ -59,7 +57,6 @@ const TaskFormSections = () => {
 
   const handleClientSelectionChange = (key) => {
     console.log("client key", key);
-    console.log("clientSelectionForTask", clientSelectionForTask);
     setSelectedClientForTask(key);
     clientSelectionChange(Array.from(key).join(""));
   };
@@ -96,7 +93,11 @@ const TaskFormSections = () => {
         <div className="flex flex-col gap-3">
           {/* Client */}
           {/* // {!showClientTask && ( )} */}
-          <div className="flex justify-between items-center gap-8">
+          <div
+            className={`${
+              showClientTask ? "cursor-not-allowed" : ""
+            } flex justify-between items-center gap-8`}
+          >
             <p className="font-medium w-24">{"Client"}</p>
             <Select
               isDisabled={showClientTask}
@@ -358,7 +359,7 @@ const TaskFormSections = () => {
               classNames={{
                 base: "w-full max-h-sm",
                 trigger: "min-h-unit-12 py-2",
-                innerWrapper: "px-2",
+                innerWrapper: "",
               }}
               renderValue={(displayItems) => {
                 return (

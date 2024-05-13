@@ -5,9 +5,7 @@ import {
   fetchClientAtom,
 } from "@/app/store/ClientStore";
 import {
-  clientSelectionChangeAtom,
   fetchTaskAtom,
-  selectedTaskFilterKeysAtom,
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
@@ -30,6 +28,8 @@ import {
   showClientDetailsAtom,
   pageRowsSelectionAtom,
   selectedClientForTaskAtom,
+  selectedTaskFilterKeysAtom,
+  clientSelectionChangeAtom,
 } from "../store/CMSAdminStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -90,9 +90,6 @@ const CMSAdmin = () => {
   const [selectedClientForTask, setSelectedClientForTask] = useAtom(
     selectedClientForTaskAtom
   );
-
-  console.log("selectedClientToView", selectedClientToView);
-  console.log("selectedClientForTask", selectedClientForTask);
 
   const clientsCount = useAtomValue(clientsCountAtom);
 

@@ -5,8 +5,10 @@ export const showClientTaskAtom = atom(false);
 export const showFooterAtom = atom(true);
 export const showSearchBarAtom = atom(true);
 
+export const selectedClientForTaskAtom = atom(new Set([]));
 export const selectedClientToViewAtom = atom("");
 export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
+export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 export const showClientDetailsAtom = atom(false);
 
 let pageRowIndex = 0;

@@ -6,7 +6,6 @@ import {
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
-  selectedTaskFilterKeysAtom,
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
@@ -28,6 +27,9 @@ import {
   selectedClientToViewAtom,
   showClientDetailsAtom,
   pageRowsSelectionAtom,
+  selectedClientForTaskAtom,
+  selectedTaskFilterKeysAtom,
+  clientSelectionChangeAtom,
 } from "../store/CMSTLStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -79,9 +81,13 @@ const CMSTL = () => {
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
+  const [selectedClientForTask, setSelectedClientForTask] = useAtom(
+    selectedClientForTaskAtom
+  );
+
   const clientsCount = useAtomValue(clientsCountAtom);
 
-  console.log("selectedClientToView", selectedClientToView);
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -327,6 +333,7 @@ const CMSTL = () => {
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}
             setSelectedClientToView={setSelectedClientToView}
+            setSelectedClientForTask={setSelectedClientForTask}
             setShowClientDetails={setShowClientDetails}
           />
           <TaskTableView

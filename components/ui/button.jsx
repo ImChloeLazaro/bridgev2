@@ -15,7 +15,7 @@ const buttonVariants = cva(
           "border border-darkgrey-default text-darkgrey-default bg-transparent ",
         secondary: "bg-orange-default text-grey-default hover:bg-orange-hover",
         ghost:
-          "border border-darkgrey-default text-darkgrey-default bg-transparent hover:bg-blue-default hover:text-grey-default",
+          "text-darkgrey-default hover:bg-blue-default hover:text-grey-default",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -21,13 +21,13 @@ const FormFieldTextArea = ({
       onValueChange={onValueChange}
       cacheMeasurements={true}
       placeholder={placeholder}
-      minRows={1}
+      minRows={2}
       maxRows={4}
       classNames={{
         base: "w-full flex-row",
         label: "text-sm font-medium text-black-default px-2 py-2",
-        input: "h-full text-sm font-medium text-black-default px-2",
-        inputWrapper: "h-full text-clip",
+        input: "h-full text-sm font-medium text-black-default px-1.5",
+        inputWrapper: "h-full text-clip px-1.5",
       }}
     />
   );

@@ -3,8 +3,6 @@ import {
   addTaskAtom,
   deleteTaskAtom,
   fetchTaskAtom,
-  taskDataAtom,
-  taskNameAtom,
 } from "@/app/store/TaskStore";
 import {
   Modal,
@@ -19,6 +17,8 @@ import { toast } from "sonner";
 import {
   showClientTaskAtom,
   selectedClientToViewAtom,
+  taskDataAtom,
+  taskNameAtom,
 } from "../store/CMSTLStore";
 
 const AddTaskModal = ({ isOpen, onOpenChange }) => {

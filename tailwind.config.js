@@ -20,14 +20,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
         background: "rgb(var(--aretex-background) / <alpha-value>)",
         foreground: "var(--aretex-foreground)",
         darkblack: "var(--aretex-darkblack)",

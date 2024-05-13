@@ -63,9 +63,13 @@ const FormFieldInput = ({
           input: [
             "font-medium",
             "group-data-[filled=true]:text-black-default/90",
-            "text-sm data-[label=false]:px-2",
+            "text-sm px-1.5 data-[label=true]:px-3",
           ],
-          inputWrapper: ["bg-grey-default","font-medium", "text-black-default/90", "text-sm"],
+          inputWrapper: [
+            "bg-grey-default",
+            "text-sm font-medium text-black-default/90",
+            "px-1.5"
+          ],
           errorMessage: ["text-red-default"],
         }}
         endContent={
