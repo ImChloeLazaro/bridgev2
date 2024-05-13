@@ -1,4 +1,6 @@
 import { atom } from "jotai";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/utils/authOption";
 let index = 0;
 
 // blue - clients/tasks
@@ -7,6 +9,7 @@ let index = 0;
 // red - meetings
 // yellow - misc events
 
+//create atom for getsession
 export const trainingsAtom = atom([
   {
     id: (index += 1),

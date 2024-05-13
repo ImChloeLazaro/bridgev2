@@ -26,7 +26,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
   const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
-  const deleteTask = useSetAtom(deleteTaskAtom);
+  // const deleteTask = useSetAtom(deleteTaskAtom);
 
   const showClientTask = useAtomValue(showClientTaskAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);

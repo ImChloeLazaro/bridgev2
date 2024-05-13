@@ -2,8 +2,7 @@ import GoogleOAuth from "./GoogleOAuth";
 const Calendar = () => {
     return (
         <div>
-        <h1>Calendar</h1>
-        <GoogleOAuth />
+            <h1>Calendar</h1>
         </div>
     )
 }

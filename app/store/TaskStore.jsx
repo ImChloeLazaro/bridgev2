@@ -6,7 +6,7 @@ import {
   restupdate,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import { clientsAtom } from "./ClientStore";
+import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
 import { userListAtom } from "./UserStore";
 
 export const tasksAtom = atom([]);
@@ -64,8 +64,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/task", {
-    // sla _id
-    _id: "6640d4e2d92dc68cce45d9ad", 
+    _id: "66149efa8cf1401df0973562", // "660fa0db6c5775f281500e3d"
   });
   if (response.success) {
     console.log("DELETED TASK", response.response);
@@ -184,7 +183,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
         sla: [...task.sla],
       };
     });
-    // console.log("convertedTasks", convertedTasks);
+    console.log("convertedTasks", convertedTasks);
 
     set(tasksAtom, convertedTasks);
   } else {
@@ -269,10 +268,32 @@ export const processorSelectionAtom = atom((get) => {
 // export const selectedProcessorAtom = atom(new Set([]));
 
 let reviewerIndex = 0;
-export const reviewerSelectionAtom = atom((get) => {
-  const list = get(userListAtom);
-  const peopleList = list.map((person) => ({
-    ...person,
+export const reviewerSelectionAtom = atom([
+  {
+    id: (reviewerIndex += 1),
+    sub: `reviewer-${reviewerIndex}`,
+    name: "Madelyn Septimus",
+    email: "madelyn.septimus@aretex.com.au",
+    picture: "/Madelyn Septimus.png",
+    team: "DMS - Dennis",
+  },
+  {
+    id: (reviewerIndex += 1),
+    sub: `reviewer-${reviewerIndex}`,
+    name: "Skylar Curtis",
+    email: "skylar.curtis@aretex.com.au",
+    picture: "/Skylar Curtis.png",
+    team: "Financials - Jess",
+  },
+  {
+    id: (reviewerIndex += 1),
+    sub: `reviewer-${reviewerIndex}`,
+    name: "Joshua Jones",
+    email: "joshua.jones@aretex.com.au",
+    picture: "/Joshua Jones.png",
+    team: "AP - Lady",
+  },
+  {
     id: (reviewerIndex += 1),
     key: `reviewer-${reviewerIndex}`,
   }));
@@ -316,10 +337,16 @@ export const reviewerSelectionAtom = atom((get) => {
 // export const selectedReviewerAtom = atom(new Set([]));
 
 let managerIndex = 0;
-export const managerSelectionAtom = atom((get) => {
-  const list = get(userListAtom);
-  const peopleList = list.map((person) => ({
-    ...person,
+export const managerSelectionAtom = atom([
+  {
+    id: (managerIndex += 1),
+    sub: `manager-${managerIndex}`,
+    name: "Wilson Herwitz",
+    email: "wilson.herwitz@aretex.com.au",
+    picture: "/Wilson Herwitz.png",
+    team: "AP - Richmond",
+  },
+  {
     id: (managerIndex += 1),
     key: `manager-${managerIndex}`,
   }));
