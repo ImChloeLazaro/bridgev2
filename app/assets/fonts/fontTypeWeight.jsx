@@ -92,4 +92,5 @@ export const helveticaNowDisplay = localFont({
       style: "italic",
     },
   ],
+  variable: "--font-helvetica-now-display",
 });
