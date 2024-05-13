@@ -11,6 +11,7 @@ const ClientList = ({
   setShowFooter,
   setShowSearchBar,
   setSelectedClientToView,
+  setSelectedClientForTask,
   setShowClientDetails,
 }) => {
   return (
@@ -54,6 +55,7 @@ const ClientList = ({
                 setShowFooter={setShowFooter}
                 setShowSearchBar={setShowSearchBar}
                 setSelectedClientToView={setSelectedClientToView}
+                setSelectedClientForTask={setSelectedClientForTask}
                 setShowClientDetails={setShowClientDetails}
               />
             </Suspense>

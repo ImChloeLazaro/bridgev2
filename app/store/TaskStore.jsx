@@ -7,8 +7,9 @@ import {
 } from "@/app/utils/amplify-rest";
 import { addDays, format } from "date-fns";
 import { atom } from "jotai";
-import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
+import { clientsAtom } from "./ClientStore";
 import { userListAtom } from "./UserStore";
+import { selectedClientForTaskAtom } from "../admin/clients/store/CMSAdminStore";
 
 export const tasksAtom = atom([]);
 
@@ -65,7 +66,8 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/task", {
-    _id: "66149efa8cf1401df0973562", // "660fa0db6c5775f281500e3d"
+    // sla _id
+    _id: "6640d4e2d92dc68cce45d9ad", 
   });
   if (response.success) {
     console.log("DELETED TASK", response.response);
@@ -214,7 +216,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
         sla: [...task.sla],
       };
     });
-    console.log("convertedTasks", convertedTasks);
+    // console.log("convertedTasks", convertedTasks);
 
     set(tasksAtom, convertedTasks);
   } else {
@@ -237,128 +239,146 @@ export const clientSelectionForTaskAtom = atom((get) =>
   })
 );
 
-export const selectedClientForTaskAtom = atom(new Set([]));
+// export const selectedClientForTaskAtom = atom(new Set([]));
 
 let processorIndex = 0;
-export const processorSelectionAtom = atom(
-  (get) => {
-    const list = get(userListAtom);
-    const peopleList = list.map((person) => ({
-      ...person,
-      id: (processorIndex += 1),
-      key: `processor-${processorIndex}`,
-    }));
-    return peopleList;
-  }
-  //   [
-  //   {
-  //     id: (processorIndex += 1),
-  //     sub: `processor-${processorIndex}`,
-  //     name: "Tatiana Philips",
-  //     email: "tatiana.philips@aretex.com.au",
-  //     picture: "/Tatiana Philips.png",
-  //     team: "DMS - Bea",
-  //   },
-  //   {
-  //     id: (processorIndex += 1),
-  //     sub: `processor-${processorIndex}`,
-  //     name: "Aspen Donin",
-  //     email: "aspen.donin@aretex.com.au",
-  //     picture: "/Aspen Donin.png",
-  //     team: "DMS - James",
-  //   },
-  //   {
-  //     id: (processorIndex += 1),
-  //     sub: `processor-${processorIndex}`,
-  //     name: "Kaylynn Bergson",
-  //     email: "kaylynn.bergson@aretex.com.au",
-  //     picture: "/Kaylynn Bergson.png",
-  //     team: "DMS - Dennis",
-  //   },
-  //   {
-  //     id: (processorIndex += 1),
-  //     sub: `processor-${processorIndex}`,
-  //     name: "Eddie Lake",
-  //     email: "eddie.lake@aretex.com.au",
-  //     picture: "/Eddie Lake.png",
-  //     team: "DMS - Dennis",
-  //   },
-  //   {
-  //     id: (processorIndex += 1),
-  //     sub: `processor-${processorIndex}`,
-  //     name: "John Dukes",
-  //     email: "john.dukes@aretex.com.au",
-  //     picture: "/John Dukes.png",
-  //     team: "Financials - Dom",
-  //   },
-  //   {
-  //     id: (processorIndex += 1),
-  //     sub: `processor-${processorIndex}`,
-  //     name: "Katie Sims",
-  //     email: "katie.sims@aretex.com.au",
-  //     picture: "/Katie Sims.png",
-  //     team: "SD - Charlene",
-  //   },
-  // ]
-);
+export const processorSelectionAtom = atom((get) => {
+  const list = get(userListAtom);
+  const peopleList = list.map((person) => ({
+    ...person,
+    id: (processorIndex += 1),
+    key: `processor-${processorIndex}`,
+  }));
+  return peopleList;
+});
+//   [
+//   {
+//     id: (processorIndex += 1),
+//     sub: `processor-${processorIndex}`,
+//     name: "Tatiana Philips",
+//     email: "tatiana.philips@aretex.com.au",
+//     picture: "/Tatiana Philips.png",
+//     team: "DMS - Bea",
+//   },
+//   {
+//     id: (processorIndex += 1),
+//     sub: `processor-${processorIndex}`,
+//     name: "Aspen Donin",
+//     email: "aspen.donin@aretex.com.au",
+//     picture: "/Aspen Donin.png",
+//     team: "DMS - James",
+//   },
+//   {
+//     id: (processorIndex += 1),
+//     sub: `processor-${processorIndex}`,
+//     name: "Kaylynn Bergson",
+//     email: "kaylynn.bergson@aretex.com.au",
+//     picture: "/Kaylynn Bergson.png",
+//     team: "DMS - Dennis",
+//   },
+//   {
+//     id: (processorIndex += 1),
+//     sub: `processor-${processorIndex}`,
+//     name: "Eddie Lake",
+//     email: "eddie.lake@aretex.com.au",
+//     picture: "/Eddie Lake.png",
+//     team: "DMS - Dennis",
+//   },
+//   {
+//     id: (processorIndex += 1),
+//     sub: `processor-${processorIndex}`,
+//     name: "John Dukes",
+//     email: "john.dukes@aretex.com.au",
+//     picture: "/John Dukes.png",
+//     team: "Financials - Dom",
+//   },
+//   {
+//     id: (processorIndex += 1),
+//     sub: `processor-${processorIndex}`,
+//     name: "Katie Sims",
+//     email: "katie.sims@aretex.com.au",
+//     picture: "/Katie Sims.png",
+//     team: "SD - Charlene",
+//   },
+// ]
 export const selectedProcessorAtom = atom(new Set([]));
 
 let reviewerIndex = 0;
-export const reviewerSelectionAtom = atom([
-  {
+export const reviewerSelectionAtom = atom((get) => {
+  const list = get(userListAtom);
+  const peopleList = list.map((person) => ({
+    ...person,
     id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Madelyn Septimus",
-    email: "madelyn.septimus@aretex.com.au",
-    picture: "/Madelyn Septimus.png",
-    team: "DMS - Dennis",
-  },
-  {
-    id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Skylar Curtis",
-    email: "skylar.curtis@aretex.com.au",
-    picture: "/Skylar Curtis.png",
-    team: "Financials - Jess",
-  },
-  {
-    id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Joshua Jones",
-    email: "joshua.jones@aretex.com.au",
-    picture: "/Joshua Jones.png",
-    team: "AP - Lady",
-  },
-  {
-    id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Patricia Sanders",
-    email: "patricia.sanders@aretex.com.au",
-    picture: "/Patricia Sanders.png",
-    team: "SD - Raquel",
-  },
-]);
+    key: `reviewer-${reviewerIndex}`,
+  }));
+  return peopleList;
+});
+// [
+// {
+//   id: (reviewerIndex += 1),
+//   sub: `reviewer-${reviewerIndex}`,
+//   name: "Madelyn Septimus",
+//   email: "madelyn.septimus@aretex.com.au",
+//   picture: "/Madelyn Septimus.png",
+//   team: "DMS - Dennis",
+// },
+// {
+//   id: (reviewerIndex += 1),
+//   sub: `reviewer-${reviewerIndex}`,
+//   name: "Skylar Curtis",
+//   email: "skylar.curtis@aretex.com.au",
+//   picture: "/Skylar Curtis.png",
+//   team: "Financials - Jess",
+// },
+// {
+//   id: (reviewerIndex += 1),
+//   sub: `reviewer-${reviewerIndex}`,
+//   name: "Joshua Jones",
+//   email: "joshua.jones@aretex.com.au",
+//   picture: "/Joshua Jones.png",
+//   team: "AP - Lady",
+// },
+// {
+//   id: (reviewerIndex += 1),
+//   sub: `reviewer-${reviewerIndex}`,
+//   name: "Patricia Sanders",
+//   email: "patricia.sanders@aretex.com.au",
+//   picture: "/Patricia Sanders.png",
+//   team: "SD - Raquel",
+// },
+// ]
+
 export const selectedReviewerAtom = atom(new Set([]));
 
 let managerIndex = 0;
-export const managerSelectionAtom = atom([
-  {
+export const managerSelectionAtom = atom((get) => {
+  const list = get(userListAtom);
+  const peopleList = list.map((person) => ({
+    ...person,
     id: (managerIndex += 1),
-    sub: `manager-${managerIndex}`,
-    name: "Wilson Herwitz",
-    email: "wilson.herwitz@aretex.com.au",
-    picture: "/Wilson Herwitz.png",
-    team: "AP - Richmond",
-  },
-  {
-    id: (managerIndex += 1),
-    sub: `manager-${managerIndex}`,
-    name: "Corina McCoy",
-    email: "corina.mccoy@aretex.com.au",
-    picture: "/Corina McCoy.png",
-    team: "AP - Richmond",
-  },
-]);
+    key: `manager-${managerIndex}`,
+  }));
+  return peopleList;
+});
+//   [
+//   {
+//     id: (managerIndex += 1),
+//     sub: `manager-${managerIndex}`,
+//     name: "Wilson Herwitz",
+//     email: "wilson.herwitz@aretex.com.au",
+//     picture: "/Wilson Herwitz.png",
+//     team: "AP - Richmond",
+//   },
+//   {
+//     id: (managerIndex += 1),
+//     sub: `manager-${managerIndex}`,
+//     name: "Corina McCoy",
+//     email: "corina.mccoy@aretex.com.au",
+//     picture: "/Corina McCoy.png",
+//     team: "AP - Richmond",
+//   },
+// ]
+
 export const selectedManagerAtom = atom(new Set([]));
 
 let intervalIndex = 0;

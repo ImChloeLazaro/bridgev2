@@ -76,7 +76,7 @@ const UserDropdown = () => {
       >
         <DropdownItem
           key={userOptions.switch.key}
-          className={"font-medium data-[hover=true]:bg-transparent p-0 "}
+          className={"font-medium data-[hover=true]:bg-transparent data-[hover=true]:text-black-default p-0 "}
           textValue={userOptions.switch.key}
         >
           <SwitchRoles />

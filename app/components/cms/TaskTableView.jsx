@@ -212,8 +212,8 @@ const TaskTableView = ({
           tbody: "h-full max-h-screen ",
           wrapper:
             "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll no-scrollbar",
-          th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4 text-left",
-          td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4 text-left group-data-[last=true]:before:w-3",
+          th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4 text-left last:pl-4 last:pr-8",
+          td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4 text-left last:w-4",
           tr: "text-lg h-18 max-h-sm",
         }}
       >

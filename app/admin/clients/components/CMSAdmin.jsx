@@ -29,6 +29,7 @@ import {
   selectedClientToViewAtom,
   showClientDetailsAtom,
   pageRowsSelectionAtom,
+  selectedClientForTaskAtom,
 } from "../store/CMSAdminStore";
 
 import ClientList from "@/app/components/cms/ClientList";
@@ -86,9 +87,16 @@ const CMSAdmin = () => {
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
+  const [selectedClientForTask, setSelectedClientForTask] = useAtom(
+    selectedClientForTaskAtom
+  );
+
+  console.log("selectedClientToView", selectedClientToView);
+  console.log("selectedClientForTask", selectedClientForTask);
+
   const clientsCount = useAtomValue(clientsCountAtom);
 
-  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom)
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -266,16 +274,16 @@ const CMSAdmin = () => {
     onOpenClient();
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchTask();
-  //     fetchClient();
-  //   }, 2500);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTask();
+      fetchClient();
+    }, 2500);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -358,6 +366,7 @@ const CMSAdmin = () => {
               setShowFooter={setShowFooter}
               setShowSearchBar={setShowSearchBar}
               setSelectedClientToView={setSelectedClientToView}
+              setSelectedClientForTask={setSelectedClientForTask}
               setShowClientDetails={setShowClientDetails}
             />
             <TaskTableView

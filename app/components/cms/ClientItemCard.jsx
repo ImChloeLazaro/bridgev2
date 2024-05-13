@@ -28,6 +28,7 @@ const ClientItemCard = ({
   setShowFooter,
   setShowSearchBar,
   setSelectedClientToView,
+  setSelectedClientForTask,
   setShowClientDetails,
 }) => {
   const tasks = useAtomValue(tasksAtom);
@@ -77,12 +78,14 @@ const ClientItemCard = ({
   const handleSelectClient = (selected) => {
     // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
+    setSelectedClientForTask(selected);
     setShowClientTask(true);
   };
 
   const handleViewClientDetails = (selected) => {
     // when user pressed on the name of the client
     setSelectedClientToView(selected);
+    setSelectedClientForTask(selected);
     setShowFooter(false);
     setShowClientTask(false);
     setShowClientDetails(true);
