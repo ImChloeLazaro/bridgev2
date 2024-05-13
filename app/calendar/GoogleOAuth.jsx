@@ -12,7 +12,7 @@ const GoogleOAuth = () => {
   }
   return (
     <>
-      <button className="bg-blue-500 p-1 m-1 text-slate-50 rounded-md" onClick={() => signIn()}>Connect to Google Services</button>
+      <button className="bg-blue-500 p-1 m-1 text-slate-50 rounded-md" onClick={() => signIn("google")}>Connect to Google Services</button>
     </>
   )
 }
