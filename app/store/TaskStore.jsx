@@ -268,32 +268,10 @@ export const processorSelectionAtom = atom((get) => {
 // export const selectedProcessorAtom = atom(new Set([]));
 
 let reviewerIndex = 0;
-export const reviewerSelectionAtom = atom([
-  {
-    id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Madelyn Septimus",
-    email: "madelyn.septimus@aretex.com.au",
-    picture: "/Madelyn Septimus.png",
-    team: "DMS - Dennis",
-  },
-  {
-    id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Skylar Curtis",
-    email: "skylar.curtis@aretex.com.au",
-    picture: "/Skylar Curtis.png",
-    team: "Financials - Jess",
-  },
-  {
-    id: (reviewerIndex += 1),
-    sub: `reviewer-${reviewerIndex}`,
-    name: "Joshua Jones",
-    email: "joshua.jones@aretex.com.au",
-    picture: "/Joshua Jones.png",
-    team: "AP - Lady",
-  },
-  {
+export const reviewerSelectionAtom = atom((get) => {
+  const list = get(userListAtom);
+  const peopleList = list.map((person) => ({
+    ...person,
     id: (reviewerIndex += 1),
     key: `reviewer-${reviewerIndex}`,
   }));
@@ -337,16 +315,10 @@ export const reviewerSelectionAtom = atom([
 // export const selectedReviewerAtom = atom(new Set([]));
 
 let managerIndex = 0;
-export const managerSelectionAtom = atom([
-  {
-    id: (managerIndex += 1),
-    sub: `manager-${managerIndex}`,
-    name: "Wilson Herwitz",
-    email: "wilson.herwitz@aretex.com.au",
-    picture: "/Wilson Herwitz.png",
-    team: "AP - Richmond",
-  },
-  {
+export const managerSelectionAtom = atom((get) => {
+  const list = get(userListAtom);
+  const peopleList = list.map((person) => ({
+    ...person,
     id: (managerIndex += 1),
     key: `manager-${managerIndex}`,
   }));
