@@ -93,7 +93,7 @@ const CMSAdmin = () => {
 
   const clientsCount = useAtomValue(clientsCountAtom);
 
-  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom)
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -284,7 +284,7 @@ const CMSAdmin = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-4 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
+      <Card className="flex w-full h-full my-4 px-0 lg:px-2 py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader className="">
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -314,7 +314,7 @@ const CMSAdmin = () => {
           >
             <div
               data-show={showClientDetails}
-              className="w-full flex data-[show=true]:hidden justify-start lg:justify-end gap-4 ml-2 lg:ml-6 "
+              className="w-full flex data-[show=true]:hidden justify-start lg:justify-end gap-4 ml-0 lg:ml-6 "
             >
               <CTAButtons
                 radius={"sm"}
@@ -322,7 +322,7 @@ const CMSAdmin = () => {
                 fullWidth={true}
                 label={actionButtons.task.label}
                 color={actionButtons.task.color}
-                className={"py-5 max-w-[16rem]"}
+                className={"min-w-40 py-5 max-w-[16rem]"}
                 onPress={() => handleOpenTaskWindow()}
               />
               <AddTaskModal
@@ -336,7 +336,7 @@ const CMSAdmin = () => {
                 fullWidth={true}
                 label={actionButtons.client.label}
                 color={actionButtons.client.color}
-                className={"py-5 max-w-[16rem]"}
+                className={"min-w-40 py-5 max-w-[16rem]"}
                 onPress={() => handleOpenClientWindow()}
               />
               <AddClientModal
@@ -346,7 +346,7 @@ const CMSAdmin = () => {
             </div>
           </CMSHeader>
         </CardHeader>
-        <CardBody className="h-full w-full overflow-x-auto">
+        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <Suspense
             fallback={
               <div className="text-lg font-medium text-black-default">

@@ -1,4 +1,5 @@
 import { Button, cn } from "@nextui-org/react";
+import { isValidElement } from "react";
 
 const CTAButtons = ({
   radius = "sm",
@@ -28,7 +29,7 @@ const CTAButtons = ({
   return (
     <Button
       data-show={showButton}
-      aria-label={label}
+      aria-label={isValidElement(label) ? "Action Button" : label}
       startContent={startContent}
       endContent={endContent}
       radius={radius}

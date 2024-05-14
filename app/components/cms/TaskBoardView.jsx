@@ -83,7 +83,7 @@ const TaskBoardView = ({
     <div
       data-view={showClientTask}
       data-change={changeView}
-      className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto overflow-y-hidden px-4 "
+      className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 "
     >
       <DndContext
         sensors={sensors}
@@ -92,8 +92,7 @@ const TaskBoardView = ({
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        {/* <div className="flex gap-4 w-screen h-full"> */}
-        <div className="flex gap-4 w-full h-full">
+        <div className="flex flex-col lg:flex-row gap-4 w-full h-full">
           <SortableContext items={columnsId}>
             {columns.map((col) => (
               <ColumnContainer

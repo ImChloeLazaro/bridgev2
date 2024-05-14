@@ -13,7 +13,7 @@ const ClientInfo = ({ selectedClient }) => {
 
   return (
     <>
-      <div className="flex justify-center gap-6">
+      <div className="flex-col md:flex-row flex justify-center gap-6">
         {/* // ### Company INFORMATION} */}
         <div className="mt-2 mb-12 py-2 w-full ">
           <div className="flex justify-start items-center gap-2 mb-8">
@@ -128,8 +128,8 @@ const ClientInfo = ({ selectedClient }) => {
           {/* // ### LIST */}
           <div className="flex flex-col items-start gap-4 ">
             {/* // ### Location */}
-            <div className=" flex justify-between items-center gap-10 w-full">
-              <div className="flex flex-col items-start justify-center w-[40%] h-16">
+            <div className=" flex justify-between items-center gap-6 md:gap-10 w-full">
+              <div className="flex flex-col items-start justify-center w-3/5 lg:w-[40%] h-16">
                 <p className="font-medium text-base">
                   {"Business Description"}
                 </p>
@@ -149,8 +149,8 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <Divider />
             {/* // ### Location */}
-            <div className=" flex justify-between items-center gap-10 w-full">
-              <div className="flex flex-col items-start justify-center w-[40%] h-16">
+            <div className=" flex justify-between items-center gap-6 md:gap-10 w-full">
+              <div className="flex flex-col items-start justify-center w-3/5 lg:w-[40%] h-16">
                 <p className="font-medium text-base">{"Business Entity"}</p>
                 <p className="font-medium text-sm text-darkgrey-default">
                   {"Type of entity does the business categorize itself as"}
@@ -166,8 +166,8 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <Divider />
             {/* // ### Location */}
-            <div className=" flex justify-between items-center gap-10 w-full">
-              <div className="flex flex-col items-start justify-center w-[40%] h-16">
+            <div className=" flex justify-between items-center gap-6 md:gap-10 w-full">
+              <div className="flex flex-col items-start justify-center w-3/5 lg:w-[40%] h-16">
                 <p className="font-medium text-base">{"Tenure"}</p>
                 <p className="font-medium text-sm text-darkgrey-default">
                   {"How long has the business been in operation"}
@@ -183,8 +183,8 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <Divider />
             {/* // ### Location */}
-            <div className=" flex justify-between items-center gap-10 w-full">
-              <div className="flex flex-col items-start justify-center w-[40%] h-16">
+            <div className=" flex justify-between items-center gap-6 md:gap-10 w-full">
+              <div className="flex flex-col items-start justify-center w-3/5 lg:w-[40%] h-16">
                 <p className="font-medium text-base">{"Trading Name"}</p>
                 <p className="font-medium text-sm text-darkgrey-default">
                   {"Trading name refers to"}
@@ -209,7 +209,7 @@ const ClientInfo = ({ selectedClient }) => {
           <MdInfoOutline />
         </div>
 
-        <div className="w-full flex items-center justify-center gap-4">
+        <div className="w-full flex-col md:flex-row flex items-center justify-center gap-4">
           {/* // ### LIST */}
           <div className="w-full flex flex-col items-start gap-4 ">
             {/* // ### Location */}

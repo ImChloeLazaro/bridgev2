@@ -92,7 +92,7 @@ const ClientItemCard = ({
   };
 
   return (
-    <div className="flex justify-between items-center h-full">
+    <div className="flex justify-between items-center h-full overflow-x-hidden">
       <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
         <CardBody className=" pr-0 py-1">
           <div className="flex justify-between lg:justify-around gap-4 lg:gap-12">
@@ -102,7 +102,7 @@ const ClientItemCard = ({
                   showFallback
                   fallback={<Spinner />}
                   src={data.company.picture}
-                  className="w-10 lg:w-16 h-10 lg:h-16 text-large"
+                  className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-large"
                 />
               </div>
               <Link
@@ -124,7 +124,7 @@ const ClientItemCard = ({
                     return (
                       <Button
                         key={s_index}
-                        className="p-0 m-0 h-6 lg:h-10 bg-transparent shadow-none"
+                        className="p-0 m-0 h-full bg-transparent shadow-none"
                         onPress={() => handleSelectTask()}
                       >
                         <LabelTagChip
@@ -137,8 +137,8 @@ const ClientItemCard = ({
                           isFilled
                           withBadge={true}
                           badgeContent={statusCount[status]}
-                          className={"h-6 lg:h-10 py-2"}
-                          classNameContent={"text-sm lg:text-md"}
+                          className={""}
+                          classNameLabel={"text-sm lg:text-lg lg:px-1"}
                         />
                       </Button>
                     );

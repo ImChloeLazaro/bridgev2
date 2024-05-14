@@ -88,28 +88,30 @@ const CMSHeader = ({
 
   return (
     <div
+      data-task={showClientTask}
       className={cn(
-        "w-full flex items-center justify-start mx-0 lg:mx-4 my-0 lg:my-2 gap-4",
+        "w-full flex items-center justify-start mx-0 lg:mx-2 my-0 lg:my-2 gap-4 data-[task=false]:max-w-lg",
         className
       )}
     >
-      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start">
-        {/* <div className="w-full flex gap-2"> */}
-
-        <div className="w-full flex justify-between items-center gap-2">
+      <div
+        data-details={showClientDetails}
+        className="data-[details=true]:flex-row w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start"
+      >
+        <div className="flex justify-between items-center gap-2">
           <IconButton
             data-details={showClientDetails}
             data-task={showClientTask}
             isIconOnly={false}
             onPress={handleGoBackToClient}
-            // min-w-0
-            className="
-            
+            className="justify-start
+            px-1 min-w-4 md:min-w-28 lg:min-w-40
             hidden transition-all 
             data-[task=true]:flex 
-            data-[details=true]:flex"
+            data-[details=true]:flex
+            "
           >
-            <div className="text-black-default gap-2 flex justify-center items-center">
+            <div className="text-black-default flex justify-center items-center">
               <MdOutlineChevronLeft size={24} />
               <Tooltip
                 content={
@@ -119,16 +121,18 @@ const CMSHeader = ({
                 }
                 delay={1000}
               >
-                <div
+                <p
+                  data-details={showClientDetails}
                   className="
-                hidden sm:block bg-white-default rounded-lg px-2 py-1
-                  w-28 truncate hover:underline hover:underline-offset-1
+                  sm:w-14 md:w-24 lg:w-32 data-[details=true]:lg:w-full
+                  hidden sm:block bg-white-default rounded-lg px-2 py-1
+                  truncate hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default"
                 >
                   {!selectedClientToView?.length
                     ? "Client List"
                     : clientNameToDisplay}
-                </div>
+                </p>
               </Tooltip>
             </div>
           </IconButton>
@@ -157,7 +161,13 @@ const CMSHeader = ({
         <div
           data-details={showClientDetails}
           data-task={showClientTask}
-          className="hidden data-[task=true]:flex data-[details=true]:flex overscroll-x-auto no-scrollbar gap-2 ml-2 lg:ml-6 "
+          className="
+          hidden gap-2 ml-0 sm:ml-1 lg:ml-6
+          data-[task=true]:flex
+          data-[details=true]:flex
+          data-[details=true]:lg:ml-2
+          overscroll-x-auto no-scrollbar
+          "
         >
           <CTAButtons
             isDisabled={showClientDetails}
@@ -168,8 +178,8 @@ const CMSHeader = ({
             startContent={
               changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
             }
-            label={"Switch View"}
-            className={"min-[320px]:"}
+            label={<p className="hidden md:flex">{"Switch View"}</p>}
+            className={"px-2 min-[320px]:px-5 w-10"}
             onPress={handleChangeView}
           />
           <CTAButtons
@@ -178,13 +188,19 @@ const CMSHeader = ({
             color={showClientDetails ? "green" : "white"}
             size={"md"}
             startContent={<MdOutlineDescription size={24} />}
-            label={"View Client Details"}
-            className={"min-[320px]:"}
+            label={
+              <p
+                data-details={showClientDetails}
+                className="hidden md:flex data-[details=true]:flex"
+              >
+                {"View Client Details"}
+              </p>
+            }
+            className={"px-2 min-[320px]:px-5 w-10"}
             onPress={handleViewClientDetails}
           />
+          {children}
         </div>
-        {/* </div> */}
-        {children}
       </div>
     </div>
   );

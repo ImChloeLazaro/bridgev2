@@ -11,6 +11,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Spinner,
 } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -97,7 +98,7 @@ const TaskTableView = ({
           <Link
             href="#"
             underline="hover"
-            className="text-xl font-semibold text-black-default "
+            className="text-sm lg:text-lg font-bold text-black-default "
           >
             {task.name?.length ? task.name : ""}
           </Link>
@@ -111,7 +112,8 @@ const TaskTableView = ({
             color={tagColors[task.status?.length ? task.status : ""]}
             type="label"
             isFilled
-            classNameContent={"text-sm lg:text-md"}
+            className={"px-2 py-2"}
+            classNameLabel={"text-sm lg:text-md"}
           />
         );
 
@@ -138,13 +140,20 @@ const TaskTableView = ({
       case "assignees":
         return (
           <div className="h-full flex justify-start">
-            <AvatarGroup size="md" max={3}>
+            <AvatarGroup max={3}>
               {processorList.map((processor) => {
                 return (
                   <Avatar
                     key={processor.sub}
-                    size="md"
+                    showFallback
+                    fallback={<Spinner />}
                     src={processor.picture}
+                    classNames={{
+                      base: [
+                        "bg-blue-default ring-blue-default",
+                        " w-10 h-10 lg:w-12 lg:h-12 text-large",
+                      ],
+                    }}
                   />
                 );
               })}
@@ -208,13 +217,23 @@ const TaskTableView = ({
         selectionBehavior={"toggle"}
         onRowAction={(key) => alert(`Opening item ${key}...`)}
         classNames={{
-          base: "rounded-[1rem] h-full px-0 lg:px-2 xl:px-6 ",
-          tbody: "h-full max-h-screen ",
-          wrapper:
-            "relative max-w-full h-full max-h-screen text-clip justify-start items-start p-0 overflow-y-scroll no-scrollbar",
-          th: "text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-8 pr-4 text-left",
-          td: "text-lg font-bold text-darkgrey-default h-18 max-h-sm pl-8 pr-4 text-left group-data-[last=true]:before:w-3",
-          tr: "text-lg h-18 max-h-sm",
+          base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2 xl:px-6 ",
+          tbody: "h-full max-h-screen",
+          wrapper: [
+            "rounded-none lg:rounded-large",
+            "relative justify-start items-start p-0",
+            "overflow-y-scroll no-scrollbar",
+            "max-w-full h-full max-h-screen",
+          ],
+          tr: "text-sm lg:text-lg h-18 max-h-sm",
+          th: "text-md lg:text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
+          td: [
+            "text-sm lg:text-lg font-bold text-black-default h-18 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left ",
+            "group-data-[last=true]:before:w-3",
+            "group-aria-[selected=false]:group-data-[hover=true]:before:opacity-100",
+            "group-aria-[selected=false]:group-data-[hover=true]:before:bg-grey-default",
+            "group-data-[hover=true]:bg-grey-default",
+          ],
         }}
       >
         <TableHeader columns={tableColumns}>
