@@ -2,7 +2,7 @@ import NextImage from "next/image";
 import ExternalLinks from "./ExternalLinks";
 import SidebarHeader from "../../../../public/header.webp";
 
-const ExternalLinksHeader = () => {
+const SideBarHeader = () => {
   return (
     <div className="flex justify-between items-center py-4 pr-2 ml-2">
       <ExternalLinks />
@@ -25,4 +25,4 @@ const ExternalLinksHeader = () => {
   );
 };
 
-export default ExternalLinksHeader;
+export default SideBarHeader;

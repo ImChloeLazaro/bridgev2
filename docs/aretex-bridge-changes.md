@@ -8,8 +8,8 @@
 
 ## v.0.2.0
 
-* Installed NextJS `^14.0.4` as its framework
-* Installed @tailwindcss latest `^3.3.0`
+* Added @next latest `^14.0.4` as its framework
+* Added @tailwindcss latest `^3.3.0`
 * Configured @tailwindcss to match Bridge's color palette
 * Configured framework and components to match prototype's style in Figma
 * Implemented Cognito Authentication for `backend` and `frontend`
@@ -24,7 +24,7 @@
 * Added custom font family `Helvetica Now Display` for Bridge
 * Added reaction svg media for displaying reactions on `Post` Component
 * Implemented Routing and Navigation for `frontend`
-* Configured backend resources for Bridge
+* Configured `backend` resources for Bridge
 * Configured redirect URLs for sign-in and sign-out
 
 ## v.0.3.0 - hotfix
@@ -112,13 +112,13 @@ link: String,
 ## v.0.4.1
 
 * Fixed a bug causing index conflicting issue with `stepper` Component and content of the form.
-* Merged backend and frontend from `devchloe` branch
+* Merged `backend` and `frontend` from `devchloe` branch
 * Created backup from `devchloe` branch
 
 ## v.0.4.2
 
 * Reverted merge
-* Separated frontend and backend for deployment
+* Separated `frontend` and `backend` for deployment
 * Added @jotai/optics latest `^0.3.1` for large and nested object manipulation
 * Added @optics-ts latest `^2.4.1` for large and nested object manipulation
 * Added `store` folder in each major component and each page for managing its various state
@@ -133,7 +133,7 @@ link: String,
 
 ## v.0.4.4
 
-* Centralized frontend and backend repo to the `bridge-official` repo
+* Centralized `frontend` and `backend` repo to the `bridge-official` repo
 * Added `store` folder for global state management
 * Added `docs` folder for documentation
 * Added `frontend-changes.md` in `docs` folder
@@ -178,7 +178,7 @@ link: String,
 * Cleaned up and refactored source code
 * Organized Project Structure
 * Updated Paths for All Components
-* Disabled for now backend functions due to build configuration error
+* Disabled for now `backend` functions due to build configuration error
 * Updated @tailwindcss to latest `^3.4.1`
 * Added Media Layout Component
 * Reverted middleware
@@ -186,7 +186,7 @@ link: String,
 ## v.0.4.9
 
 * `frontend` and `backend` separated and started from scratch due to build error in deployment
-* Still disabled for now backend functions due to build configuration error (commented backend functions)
+* Still disabled for now `backend` functions due to build configuration error (commented `backend` functions)
 * Created and Downloaded backups of repos for `bridge-official` and `bridge-frontend`
 * Added @swiper latest `^11.0.5` for image carousel/gallery
 * Updated Media Layout Component to view the rest of the images via modal window
@@ -301,12 +301,12 @@ link: String,
 
 ## v.0.5.5
 
-* Fixed a bug where fetching shortcut data from the backend failed to send a response
-* Pulled backend resources from amplify
-* Rewrite atom architecture for manipulating data coming from the backend in `ShortcutStore`
-* Added backend functionality and resources for local development testing
+* Fixed a bug where fetching shortcut data from the `backend` failed to send a response
+* Pulled `backend` resources from amplify
+* Rewrite atom architecture for manipulating data coming from the `backend` in `ShortcutStore`
+* Added `backend` functionality and resources for local development testing
 * Updated the links for `Shortcuts` to be clickable and open a new tab
-* Added `DEL` and `PUT` functions for deleting and editing shortcuts respectively (backend not yet implemented)
+* Added `DEL` and `PUT` functions for deleting and editing shortcuts respectively (`backend` not yet implemented)
 * Removed the role check on `NavigationBar` to fix the route issue
 * Fixed a bug where `Badge` and `Sidebar` state from previous state still persists when switching roles
 * Fixed a bug causing route issue when manually entering URL is does not reflect on the page
@@ -318,7 +318,7 @@ link: String,
 
 ## v.0.5.6
 
-* Added backend and frontend functionality for `Profile`
+* Added `backend` and frontend functionality for `Profile`
 * Updated the clear variant of `CTAButtons` Component to have a colored text
 * Added `LabelTag` Component as a reusable component for displaying short labels e.g. ("active")
 * Added `RightBarCard` Component as a reusable component for displaying content on the right bar of pages
@@ -382,12 +382,12 @@ link: String,
 ## v.0.5.7.1 - hotfix
 
 * Missing closing bracket in `ShortcutsOptionsModal` Component
-* Pulled backend resources from amplify
+* Pulled `backend` resources from amplify
 
 ## v.0.5.8
 
 * Moved all rest api functions in `amplify-rest.js` in `/app/utils/` to be reusable across all components
-* Added backend functions for editing and deleting shortcut
+* Added `backend` functions for editing and deleting shortcut
 * Added file upload functions for posting
 * Renamed Component `ImagePostCarousel.jsx` to `ImagePostCarouselModal.jsx`
 * Changed type `recognition` to `award` in `PostStore.jsx`
@@ -441,15 +441,15 @@ link: String,
 * Fixed a bug causing media and template buttons not correctly displaying post template details when creating new posts
 * Removed left over `console.log()` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
-* Added backend handler function for route `/account`
-* Added backend handler function for route `/benefits`
-* Added backend handler function for route `/leave`
-* Updated `post` backend handler function
-* Updated `profile` backend handler function
-* Updated `shortcut` backend handler function
-* Updated `user` backend handler function
-* Deleted `S3Trigger2a62b9a1` backend handler function
-* Deleted `S3Triggere0041d22` backend handler function
+* Added `backend` handler function for route `/account`
+* Added `backend` handler function for route `/benefits`
+* Added `backend` handler function for route `/leave`
+* Updated `post` `backend` handler function
+* Updated `profile` `backend` handler function
+* Updated `shortcut` `backend` handler function
+* Updated `user` `backend` handler function
+* Deleted `S3Trigger2a62b9a1` `backend` handler function
+* Deleted `S3Triggere0041d22` `backend` handler function
 * Added `leave` balance validation
 * Added `POST` and `PUT` backend handler function for `benefits`
 * Updated input fields for onboarding form to be required fields, for not applicable or optional fields `N/A` is needed as an input
@@ -471,14 +471,14 @@ link: String,
 
 ## v.0.5.12
 
-* Updated `benefits` backend handler function to be flexible
-* Added default value for `benefits` backend handler function
+* Updated `benefits` `backend` handler function to be flexible
+* Added default value for `benefits` `backend` handler function
 * Renamed `MediaLayout` to `MediaLayoutPost` Component for consistency of naming related components
 * Added `MediaLayoutDisplay` Component for previewing the media layout on `ManagePostSidebarContent` Component
 * Added `MediaLayoutSelect` Component
 * Added `MediaOrientationSelect` Component
 * Updated media layout and orientation selection for `ManagePost` Component
-* Added `recruitment` backend handler function
+* Added `recruitment` `backend` handler function
 * Updated employee information in `AboutInfo` Component in `Profile` Page
 * Added `recruitmentStatusAtom` in `UserStore` for fetching the recruitment status of an employee
 
@@ -505,8 +505,8 @@ link: String,
 
 ## v.0.5.14
 
-* Updated backend functions for `posting`, `shortcuts`, and `profile` components
-* Refactored backend functions in `store` of all components
+* Updated `backend` functions for `posting`, `shortcuts`, and `profile` components
+* Refactored `backend` functions in `store` of all components
 * Added `fetch`, `add`, `delete`, and `update` as utility functions for state management in the `store` of all components
 * Adjusted max width: `max-w-lg` for `RightBarCard` Component
 * Removed leftover `### TODO` tags in `OnboardingStore`
@@ -700,7 +700,7 @@ postsAtom = atom({
 * Cleaned up unused `imports` and `hooks` on `PostStore`
 * Moved `add`, `publish`, `delete` functionality of `drafts`, `publish`, and `archive` from `ManagePostMainContent` to their respective store `DraftedStore`, `PublishedStore`
 * Fixed a bug causing `reaction` count not displaying properly on `PostFooter` Component of posts in the feed
-* Removed `add`, `delete` ,`update`, `insert` backend function handler for posts in `PostStore` since the same functionality is implemented in `DraftedStore`, `PublishedStore`
+* Removed `add`, `delete` ,`update`, `insert` `backend` function handler for posts in `PostStore` since the same functionality is implemented in `DraftedStore`, `PublishedStore`
 * Added a tooltip for the date on `PostHeader` Component for the exact date the post is published
 * Fixed a bug causing `archive` key index issue when deleting `archived` posts
 
@@ -714,7 +714,7 @@ postsAtom = atom({
 * Updated handling for setting `date` value object of `onboarding` form in `Onboarding` Page
 * Merge `fetchAuthentication` atom and
 `authenticationAtom` atom in `AuthenticationStore`
-* Fixed a bug causing issue in `MediaLayoutSelect` and `MediaOrientationSelect` Component when selecting `single` as the media layout of a post, the media orientation is not passed to the backend so it values to an empty string
+* Fixed a bug causing issue in `MediaLayoutSelect` and `MediaOrientationSelect` Component when selecting `single` as the media layout of a post, the media orientation is not passed to the `backend` so it values to an empty string
 * Fixed a bug where the `post` index issue by changing the `PostCard` Component prop key to use the post's `_id` instead of post's `key`
 * Rewrite logic for when changing post's `status` from `drafts` to `published` by only using the `post._id` as the filter to select the correct post to be changed in `DraftedStore` and `PublishedStore`
 * Fixed a bug where posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
@@ -744,7 +744,7 @@ postsAtom = atom({
 * Images are now optimized to improve performance and reduce latency when loading pages
 * Configured `Nextjs` to optimize images from `Google` such as profile photos of users
 * Fixed a bug where content for `Tabs` Component are not `children` hence causing rendering issues
-* Changed image used `"@nextui-org/react"` from `next/image`
+* Changed image used `@nextui-org/react` from `next/image`
 * Cleaned database queries used for fetching content on `profile` page
 * Adjusted alignment for `UnderConstruction` Component
 * Added additional content for `UnderConstruction` Component
@@ -918,8 +918,8 @@ postsAtom = atom({
 * Removed dummy data from atoms in `TasksStore` and `ClientStore` in preparation of API integration
 * Added `popover` component to `FormFieldInput` as `endContent` Component to handle selecting date inside the component
 * Updated `FormFieldInput` Component to include `isDateModal`as prop
-* Fixed a bug where`popover` component from @shadcn/ui to stack higher than the `modal` window from @nextUI
-* Added `DatePicker` Component to wrap the `modal` window from @nextUI and `popover` component from @shadcn/ui in order to render correctly the `popover` component on top of the `modal` window
+* Fixed a bug where`popover` component from @shadcn/ui to stack higher than the `modal` window from `@nextui-org/react`
+* Added `DatePicker` Component to wrap the `modal` window from `@nextui-org/react` and `popover` component from @shadcn/ui in order to render correctly the `popover` component on top of the `modal` window
 * Added `DatePicker` component to `FormFieldInput` as `endContent` Component to handle selecting date inside the component
 * Updated `DatePicker` Component to inherit its parent's prop
 * Changed datatype of `id` attribute in tasks from `String` to `Number`
@@ -1048,9 +1048,158 @@ postsAtom = atom({
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSAdmin` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSTL` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSUSer` Component
-* @updated tailwindcss
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
-"@radix-ui/react-dialog": "^1.0.5",
-    "vaul": "^0.9.0"
+* Adjusted color opacity for `LabelTagChip` Component
+* Adjusted font color for `RightBarCard` Component
+* Refactored `NavbarItem` Component for `NavigationBar` Component
+* Removed `unoptimized` prop on `NextImage` for `BirthdayCard` Component
+* Updated Components with `Image` from `@nextui-org/react` into `NextImage` from `next/image` due to performance issues
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` for `FiveMedia` Component
+* Adjusted alignment and position for responsiveness on `FiveMedia` Component
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` for `FourMedia` Component
+* Adjusted alignment and position for responsiveness on `FourMedia` Component
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` for `OneMedia` Component
+* Adjusted alignment and position for responsiveness on `OneMedia` Component
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` for `SixPlusMedia` Component
+* Adjusted alignment and position for responsiveness on `SixPlusMedia` Component
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` for `ThreeMedia` Component
+* Adjusted alignment and position for responsiveness on `ThreeMedia` Component
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` for `TwoMedia` Component
+* Adjusted alignment and position for responsiveness on `TwoMedia` Component
+* Added `aria-label` on Button of `PostOptions` Component
+* Added `id` prop on `ListBoxItem` Component on `PostOptions` Component
+* Removed `unoptimized` prop on `NextImage` for `RexWinnerCard` Component
+* Updated image format used on `ProfileHeader` Component from `jpeg` to `webp`
+* Updated priority prop on `NextImage` for `ProfileHeader` Component
+* Added `header-profile.webp` as illustration for profile header photo on `Profile` page
+* Updated headers on middleware to `dns-prefetch` instead of `preconnect`
+* Added s3 bucket URL link in `next.config.js` file for image optimization. This is to protect the application from malicious users, configuration is required in order to use external images. This ensures that only external images from the links provided in the `config` file can be served from the Next.js Image Optimization API.
+* Removed `await` from reading value of `authenticationAtom` in `OnboardingStore` Store
+* Adjusted font color for `SearchBar` Component
+* Removed `loading` prop on `NextImage` for `ExternalLinksHeader` Component
+* Updated image format used on `TaskTableView` Component from `jpeg` to `webp`
+* Added `no-data.webp` as illustration for rendering empty state when there is no `task` available
+* Configured `postcss.config.js` to use `cssnano` to purge unused css when creating in production build
+* Removed light extend on custom theme on `tailwind.config.js`
+* Added `aria-label` on `Pagination` of `CMSAdminFooter` Component
+* Adjusted width and alignment for `ClientItemCard` Component
+* Updated `OnboardingStatusAlert`Component to use `<p>` tag instead of `<span>`
+* Added `aria-label` on `ListBox` of `NotificationsList` Component
+* Updated import path for `SidebarHeader` due to updated image format
+* Added `aria-label` on `Pagination` of `CMSTLFooter` Component
+* Added `aria-label` on `Pagination` of `CMSUserFooter` Component
+* Added `header.webp` as illustration for navigation logo photo on all pages
+* Updated @tailwindcss to latest `^3.4.3`
+* Updated @autoprefixer to latest `^10.4.19`
+* Updated @postcss to latest `^8.4.38`
+* Adjusted `darkgrey` color for `default` from `"#7d7d85"` to `"#6B6B72"`in `tailwind.config.js`
+* Adjusted `darkgrey` color for `hover` from `"#55555A"` to `"#565656"`in `tailwind.config.js`
+* Adjusted `green` color for `default` from `"#01C875"` to `"#005D38"`in `tailwind.config.js`
+* Adjusted `green` color for `hover` from `"#0A7147"` to `"#006736"`in `tailwind.config.js`
+* Added new `tailwindcss` utility function for `text-stroke` in order to improve readability of white text in front of yellow background in `tailwind.config.js`
+
+## v.0.6.7 - hotfix
+
+* Reverted configuration on `postcss.config.js`
+
+## v.0.6.8
+
+* Disabled rendering `reaction` count on drafts in `ManagePostItemCard` Component
+* Adjusted alignment, padding, borderRadius, width, and height for `ManagePostMainContent` Component
+* Adjusted alignment, margin, padding, borderRadius, width, and height for `ManagePostModal` Component
+* Adjusted alignment, margin, padding, borderRadius, width, and height for `ManagePostSidebar` Component
+* Adjusted margin for `ManagePostSidebarContent` Component
+* Added `ref` for handling file input media to remove any selected media file when `fileListAtom` is empty in `ManagePostSidebarContent` Component
+* Adjusted width for `TagPersonSelect` Component
+* Adjusted width for `MediaLayoutSelect` Component
+* Adjusted width for `MediaOrientationSelect` Component
+* Adjusted width for `ReactionSelect` Component
+
+## v.0.6.9
+
+* Added @socket.io-client latest `^4.7.5` for handling notifications in real time
+* Configured test `web-socket` on a separate page
+* Configured amplify `backend` to handle `web-socket` connections
+* Adjusted margin for `CMSAdmin` Component
+* Renamed `variable` state from isDisabled to isLoading in `ClientAdminHeader` Component
+* Renamed `variable` state from setIsDisabled to setIsLoading in `ClientAdminHeader` Component
+* Removed `tailwind` css animation on the icon of the button in favor of the built-in loading animation of `Button` from `@nextui-org/react`
+* Added new `tailwindcss` utility function for `text-shadow` in order to improve readability of white text in front of yellow background in `tailwind.config.js`
+* Added `text-shadow` to components that have yellow background in all Components due to readability issues
+* Added `text-shadow` to components that have yellow background in `ColumnContainer` Component
+* Added `text-shadow` to components that have yellow background in `LabelTagChip` Component
+* Adjusted text-truncate and width for `SearchBar` Component
+* Added handling for when the `index` of the task `status` is `undefined` in `TaskBoardView` Component
+* Removed redundant checking of task `status` before passing it as a prop to `LabelTagChip` Component in `TaskTableView` Component
+* Adjusted margin for `CMSTL` Component
+* Renamed `variable` state from isDisabled to isLoading in `CMSTLHeader` Component
+* Renamed `variable` state from setIsDisabled to setIsLoading in `CMSTLHeader` Component
+* Adjusted margin for `CMSUser` Component
+* Renamed `variable` state from isDisabled to isLoading in `CMSUserHeader` Component
+* Renamed `variable` state from setIsDisabled to setIsLoading in `CMSUserHeader` Component
+* Adjusted width for `ManagePostItemCard` Component
+* Adjusted alignment and width for `ManagePostModal` Component
+* Adjusted height for `ManagePostSidebar` Component
+* Adjusted alignment, height, and width for `ManagePostSidebarContent` Component
+* Removed `width` and `height` props for `Image` Component in `Shortcuts` Component
+* Removed `loading`, `width`, and `height` props for `NextImage` Component in `SideBarHeader` Component
+* Reverted changes on headers on middleware to `dns-prefetch` instead of `preconnect`
+* Added @cssnano latest `^6.1.2` for purging unused css
+* Configured `postcss.config.js` to use `cssnano` to purge unused css when creating in production build
+* Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` in `Shortcuts` Component
+* Added functionality to show the footer in `CMS` pages across roles when going back to the client list view
+* Added illustration when the client list is empty in `ClientList` Component
+* Updated text-label for `ColumnContainer` Component from `No data to display` to `No available tasks.`
+* Added `TaskOptionsDropdown` Component
+* Added functionality for task `options` in `TaskBoardCard` Component
+* Updated text-label for `TaskTableView` Component from `No rows to display` to `No available tasks.`
+* Added functionality for task `options` in `TaskTableView` Component
+* Added functionality for rendering empty state when team is `undefined` in a draft post in `ManagePostItemCard` Component
+* Added functionality for rendering empty state when type is `undefined` in a draft post in `ManagePostItemCard` Component
+* Adjusted padding for `ManagePostItemCard` Component
+* Added `no-data-1.webp` as illustration for rendering empty state when there is no `task` available
+* Added `no-data-2.webp` as illustration for rendering empty state when there is no `task` available
+
+## v.0.6.10
+
+* Updated functionality to show a `toast` notification when adding new client `data` is successfully saved.
+* Added functionality to assign a `task` to a team on `CMSAdminHeader` Component
+* Adjusted font color for `ColumnContainer` Component
+* Updated `ColumnContainer` Component to use `text-white-default text-shadow` as its default text color style
+* Adjusted font decoration for `TaskBoardCard` Component to change its `text-label` to have a line strike through it when the `task` is done
+* Added color, icon, and label for the `selection` list down for `task` options on `TaskBoardCard` Component
+* Updated functionality to show a `toast` notification when dragging a `task` to the done column, hence marking it done on `TaskBoardView` Component
+* Adjusted font weight and background color when hovering for `TaskOptionsDropdown` Component
+* Added `text-shadow` to `DropdownItem` Component that have yellow background for `TaskOptionsDropdown` Component
+* Added color, icon, and label for the `selection` list down for `task` options on `TaskTableView` Component
+* Added route sub-paths for `/evp`, `/culture`, and `/learning` in `NavSideBarStore` Store
+* Added route sub-paths details for `/evp`, `/culture`, and `/learning` in `RoutesIconDetails` Store
+* Refactored `SideBar` Component to accommodate the route sub-paths for `/empower`path
+* Added additional mock up user data in `TaskStore` Store
+* Added `Corina McCoy.png` as illustration for additional mock up users
+* Added `Eddie Lake.png` as illustration for additional mock up users
+* Added `John Dukes.png` as illustration for additional mock up users
+* Added `Joshua Jones.png` as illustration for additional mock up users
+* Added `Katie Sims.png` as illustration for additional mock up users
+* Added `Patricia Sanders.png` as illustration for additional mock up users
+* Removed functionality to assign a `task` to a team on `CMSAdminHeader` Component
+* Removed the filtered out inactive team in team selection in `ClientStore` Store
+* Sorted the items in team selection in `ClientStore` Store
+
+## v.0.7.0
+
+* Updated `backend` handler function to handle web-socket connections for notifications
+* Fixed import path of atoms on `AddTaskModal` Component
+* Fixed import path of atoms on `CMSAdmin` Component
+* Fixed import path of atoms on `CMSAdminHeader` Component
+* Added `selectedClientToViewAtom` in `CMSAdminStore` Store
+* Added `selectedClientFilterKeysAtom` in `CMSAdminStore` Store
+* Added `showClientDetailsAtom` in `CMSAdminStore` Store
+* Fixed import path of atoms on `ClientItemCard` Component
+* Added props to accommodate atoms being moved from `ClientItemCard` Component to its parent component
+
+## v.0.7.1
+
+* Responsiveness
+* Added dependencies for @shadcn/ui:
+  * "@radix-ui/react-dialog": "^1.0.5"
+  * "@vaul": "^0.9.0"
