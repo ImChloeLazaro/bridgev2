@@ -166,7 +166,7 @@ link: String,
 * Organized Project Structure
 * Updated `package.json` and `package-lock.json` due to merge conflicts
 * Updated old datetime functions with @date-fns functions
-* Added protection for routes via middleware
+* Added protection for routes via `middleware`
 * Added transition between navigating pages
 * Added not-found page
 * Added error page
@@ -181,7 +181,7 @@ link: String,
 * Disabled for now `backend` functions due to build configuration error
 * Updated @tailwindcss to latest `^3.4.1`
 * Added Media Layout Component
-* Reverted middleware
+* Reverted `middleware` changes
 
 ## v.0.4.9
 
@@ -226,7 +226,7 @@ link: String,
 
 ## v.0.5.0.2 - hotfix
 
-* Reverted adding `middleware`
+* Reverted adding `middleware` file
 * Reverted adding `routes` for `tl`, `admin`, and `hr`
 
 ## v.0.5.0.3 - hotfix
@@ -650,7 +650,7 @@ postsAtom = atom({
 
 ## v.0.6.2
 
-* Added middleware for route protection (stable)
+* Added `middleware` for route protection (stable)
 * Updated `node_modules` to latest
 * Updated @aws-amplify/adapter-nextjs from `^6.0.13` to `^6.0.16`
 * Updated @aws-amplify from `^1.0.13` to `^1.0.16`
@@ -667,7 +667,7 @@ postsAtom = atom({
 * Moved `TODO`s to `TODO.md` for a centralize listing of `TODO`s
 * Rewrite role selection in `SwitchRoles` Component
 * Adjusted `OnboardingFieldInput` Component for employee ID to be on top
-* Added back middleware for route protection
+* Added back `middleware` for route protection
 
 ## v.0.6.3
 
@@ -1044,10 +1044,13 @@ postsAtom = atom({
 * Organized Project Structure
 * Removed unused imports and dead code
 * Removed left-over `console.log()` from development
-* Fix a bug where incorrectly redirecting the user after sign-in and despite already authenticated
+* Fix a bug where incorrectly redirecting the user after sign-in and despite already authenticated in `middleware`
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSAdmin` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSTL` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSUSer` Component
+
+## v.0.6.8
+
 * Adjusted color opacity for `LabelTagChip` Component
 * Adjusted font color for `RightBarCard` Component
 * Refactored `NavbarItem` Component for `NavigationBar` Component
@@ -1071,7 +1074,7 @@ postsAtom = atom({
 * Updated image format used on `ProfileHeader` Component from `jpeg` to `webp`
 * Updated priority prop on `NextImage` for `ProfileHeader` Component
 * Added `header-profile.webp` as illustration for profile header photo on `Profile` page
-* Updated headers on middleware to `dns-prefetch` instead of `preconnect`
+* Updated headers in `middleware` to `dns-prefetch` instead of `preconnect`
 * Added s3 bucket URL link in `next.config.js` file for image optimization. This is to protect the application from malicious users, configuration is required in order to use external images. This ensures that only external images from the links provided in the `config` file can be served from the Next.js Image Optimization API.
 * Removed `await` from reading value of `authenticationAtom` in `OnboardingStore` Store
 * Adjusted font color for `SearchBar` Component
@@ -1097,16 +1100,16 @@ postsAtom = atom({
 * Adjusted `green` color for `hover` from `"#0A7147"` to `"#006736"`in `tailwind.config.js`
 * Added new `tailwindcss` utility function for `text-stroke` in order to improve readability of white text in front of yellow background in `tailwind.config.js`
 
-## v.0.6.7 - hotfix
+## v.0.6.8 - hotfix
 
 * Reverted configuration on `postcss.config.js`
 
-## v.0.6.8
+## v.0.6.9
 
 * Disabled rendering `reaction` count on drafts in `ManagePostItemCard` Component
-* Adjusted alignment, padding, borderRadius, width, and height for `ManagePostMainContent` Component
-* Adjusted alignment, margin, padding, borderRadius, width, and height for `ManagePostModal` Component
-* Adjusted alignment, margin, padding, borderRadius, width, and height for `ManagePostSidebar` Component
+* Adjusted alignment, padding, border radius, width, and height for `ManagePostMainContent` Component
+* Adjusted alignment, margin, padding, border radius, width, and height for `ManagePostModal` Component
+* Adjusted alignment, margin, padding, border radius, width, and height for `ManagePostSidebar` Component
 * Adjusted margin for `ManagePostSidebarContent` Component
 * Added `ref` for handling file input media to remove any selected media file when `fileListAtom` is empty in `ManagePostSidebarContent` Component
 * Adjusted width for `TagPersonSelect` Component
@@ -1114,7 +1117,7 @@ postsAtom = atom({
 * Adjusted width for `MediaOrientationSelect` Component
 * Adjusted width for `ReactionSelect` Component
 
-## v.0.6.9
+## v.0.6.10
 
 * Added @socket.io-client latest `^4.7.5` for handling notifications in real time
 * Configured test `web-socket` on a separate page
@@ -1142,7 +1145,7 @@ postsAtom = atom({
 * Adjusted alignment, height, and width for `ManagePostSidebarContent` Component
 * Removed `width` and `height` props for `Image` Component in `Shortcuts` Component
 * Removed `loading`, `width`, and `height` props for `NextImage` Component in `SideBarHeader` Component
-* Reverted changes on headers on middleware to `dns-prefetch` instead of `preconnect`
+* Reverted changes on headers in `middleware` to `dns-prefetch` instead of `preconnect`
 * Added @cssnano latest `^6.1.2` for purging unused css
 * Configured `postcss.config.js` to use `cssnano` to purge unused css when creating in production build
 * Updated `Image` from `@nextui-org/react` to `NextImage` Component from `next/image` in `Shortcuts` Component
@@ -1159,9 +1162,9 @@ postsAtom = atom({
 * Added `no-data-1.webp` as illustration for rendering empty state when there is no `task` available
 * Added `no-data-2.webp` as illustration for rendering empty state when there is no `task` available
 
-## v.0.6.10
+## v.0.6.11
 
-* Updated functionality to show a `toast` notification when adding new client `data` is successfully saved.
+* Updated functionality to show a `toast` notification when adding new client `data` is successfully saved on `CMSAdminHeader` Component
 * Added functionality to assign a `task` to a team on `CMSAdminHeader` Component
 * Adjusted font color for `ColumnContainer` Component
 * Updated `ColumnContainer` Component to use `text-white-default text-shadow` as its default text color style
@@ -1188,18 +1191,238 @@ postsAtom = atom({
 ## v.0.7.0
 
 * Updated `backend` handler function to handle web-socket connections for notifications
-* Fixed import path of atoms on `AddTaskModal` Component
+* Fixed import path of atoms on `AddTaskModal` Component in admin side
 * Fixed import path of atoms on `CMSAdmin` Component
 * Fixed import path of atoms on `CMSAdminHeader` Component
 * Added `selectedClientToViewAtom` in `CMSAdminStore` Store
 * Added `selectedClientFilterKeysAtom` in `CMSAdminStore` Store
 * Added `showClientDetailsAtom` in `CMSAdminStore` Store
 * Fixed import path of atoms on `ClientItemCard` Component
-* Added props to accommodate atoms being moved from `ClientItemCard` Component to its parent component
+* Fixed props passed into `ClientItemCard` Component
+* Fixed props passed into `ClientList` Component
+* Removed `selectionMode` prop from `Select` Component on `Searchbar` Component
+* Added refresh functionality to re-fetch task data in `TaskBoardView` Component
+* Added functionality to update the `task` list whenever there are changes in the `task` list in `TaskBoardView` Component
+* Fixed import path of atoms on `TaskBoardView` Component
+* Fixed props passed into `TaskBoardView` Component
+* Fixed import path of atoms on `TaskTableView` Component
+* Fixed props passed into `TaskTableView` Component
+* Added data-attribute for visibility to handle hiding and showing in `TaskTableView` Component
+* Adjusted visibility for `TaskTableView` Component
+* Added optional chaining when rendering the `fallback` of the user picture in `UserDropdown` Component
+* Added web-socket connection into `NotificationsDropdown` Component
+* Adjusted props for rendering data in `NotificationsDropdown` Component due to the changes from web-socket integration
+* Fixed import path of atoms on `NotificationsDropdown` Component
+* Removed marking all as read functionality from `NotificationsFooter` Component due to the changes from web-socket integration
+* Removed marking each `notification` as read functionality from `NotificationsList` Component due to the changes from web-socket integration
+* Added notification web-socket functions into `NotificationsList` Component
+* Fixed import path of atoms on `NotificationsList` Component
+* Fixed props passed into `NotificationsList` Component
+* Added `Spinner` Component when list of notification is empty or loading into `NotificationsList` Component
+* Fixed import path of atoms on `NotificationsOptions` Component
+* Fixed props passed into `NotificationsOptions` Component
+* Added notification web-socket functions into `NotificationsOptions` Component
+* Updated functionality to show a `toast` notification when adding new shortcut `data` is successfully saved on `ShortcutsHeader` Component
+* Fixed import path of atoms on `ShortcutsHeader` Component
+* Updated functionality to show a `toast` notification when editing shortcut `data` is successfully updated on `ShortcutsHeader` Component
+* Updated notifications functions to include web-socket integration in `NotificationStore` Store
+* Moved shared atoms to their respective components to prevent atoms being changed unintentionally in `ClientStore` Store
+* Updated atoms to use the passed `data` due to the moving of shared atoms to their respective components in `TaskStore` Store
+* Fixed import path of atoms on `AddTaskModal` Component in TL side
+* Fixed import path of atoms on `CMSTL` Component
+* Fixed import path of atoms on `CMSTLHeader` Component
+* Added atoms from `ClientStore` Store into `CMSTLStore` Store to prevent atoms being changed unintentionally
+* Fixed import path of atoms on `CMSUser` Component
+* Fixed import path of atoms on `CMSUserHeader` Component
+* Added atoms from `ClientStore` Store into `CMSUserStore` Store to prevent atoms being changed unintentionally
+* Fixed a bug when redirecting to the `home` page if already authenticated it causes an infinite redirecting loop due to the pathname not correctly read in `middleware`
 
 ## v.0.7.1
 
-* Responsiveness
+* Added atoms to handle notifications functions in `CMSAdminHeader` Component
+* Remove unused atoms in `NotificationsDropdown` Component
+* Updated atoms declared in `NotificationsDropdown` Component to be shared atoms so it can be globally accessible
+* Fixed import path of atoms on `NotificationsFooter` Component
+* Fixed props passed into `NotificationsFooter` Component
+* Added functionality for notification options in `NotificationsHeader` Component
+* Added `NotificationsHistory` Component to browse all notifications this includes `unread`, `read`, `hidden`, or `shown` regardless of type
+* Fixed import path of atoms on `NotificationsList` Component
+* Fixed props passed into `NotificationsList` Component
+* Revert adding notification web-socket functions into `NotificationsList` Component
+* Added sorting functionality when rendering notifications in `NotificationsList` Component
+* Fixed import path of atoms on `NotificationsOptions` Component
+* Fixed props passed into `NotificationsOptions` Component
+* Revert adding notification web-socket functions into `NotificationsOptions` Component
+* Added temporary notification function to create dummy `notification` in order to test the notification's latency
+
+## v.0.7.1 - hotfix
+
+* Adjusted z-index for `NotificationsDropdown` Component
+* Removed handler for closing `NotificationsDropdown` Component
+* Fixed a bug where opening the modal window for `NotificationsHistory` Component closes itself and `NotificationsDropdown` Component
+* Adjusted z-index for `NotificationsHistory` Component
+
+## v.0.7.2
+
+* Adjusted margin for `NavigationBar` Component
+* Added functionality to render `datetime` correctly in `NotificationsHistory` Component
+* Added functionality to filter notifications based from its `datetime`(today, yesterday, this week) in `NotificationsHistory` Component
+* Updated illustration for rendering when `notification` list is empty in `NotificationsList` Component
+* Updated text-label for rendering when `notification` list is empty in `NotificationsList` Component:
+* Updated import path for illustration for rendering when `notification` list is empty in `Shortcuts` Component
+* Adjusted font size for `Shortcuts` Component
+* Updated illustration for rendering when `HR Bulletin Board` list is empty in `HRBulletinBoardList` Component
+* Adjusted overflow-y for `HRBulletinBoardList` Component
+* Adjusted width and overflow-y for `ManagePostMainContent` Component
+* Adjusted width for `ManagePostModal` Component
+* Updated illustration for rendering when `recognition` list is empty in `RecognitionList` Component
+* Updated text-label for rendering when `recognition` list is empty in `RecognitionList` Component:
+* Adjusted alignment, margin, width, overflow-y for `RecognitionList` Component
+* Updated illustration for rendering when `training` list is empty in `TrainingList` Component
+* Updated text-label for rendering when `training` list is empty in `TrainingList` Component:
+* Adjusted alignment, padding, width, overflow-y for `TrainingList` Component
+* Temporary disabled showing `onboarding` status alert
+* Removed `No-Shortcuts.png`
+* Removed `NoNotifications.jpg`
+
+## v.0.7.3
+
+* Added `drawer` component from @shadcn/ui
+
 * Added dependencies for @shadcn/ui:
   * "@radix-ui/react-dialog": "^1.0.5"
   * "@vaul": "^0.9.0"
+
+* Responsiveness Layout Update for mobile and tablet view
+* Added breakpoints for components to become responsive when changing views (desktop, tablet, mobile)
+
+* Supported Breakpoints:
+  * Mobile S  - `min-w-[320px]`
+  * Mobile M  - `min-w-[375px]`
+  * Mobile L  - `min-w-[425px]`
+  * Tablet    - `min-w-[768px]`
+  * Laptop    - `min-w-[1024px]`
+  * Laptop L  - `min-w-[1440px]`
+  * 4K onwards- `min-w-[2560px]`
+
+* Added custom breakpoint for `SideBar` Component
+* Moved option details from `UserDropdown` Component to its own atom in `NavSideBarStore` Store
+* Adjusted padding and margin for `ShortcutsHeader` Component
+* Changed icon size in `ShortcutsOptionsModal` Component
+* Changed icon size in `ExternalLinks` Component
+* Adjusted image sizes in `SideBarHeader` Component
+* Fixed import path of atoms on `NavigationBar` Component
+* Fixed props passed into `NavigationBar` Component
+* Adjusted margin and gap for `NavigationBar` Component
+* Added functionality for navigating `routes` in mobile and tablet view
+* Refactored elements in `NavigationBar` Component due to layout change in mobile and tablet view
+* Refactored elements in `SideBar` Component due to layout change in mobile and tablet view
+* Added toggle button for toggling display of `SideBar` Component in mobile and tablet view
+* Adjusted padding for `SideBar` Component
+
+## v.0.7.4
+
+* Responsiveness Layout Update for mobile and tablet view
+* Adjusted alignment, margin, and height for `MainContent` Component
+* Adjusted custom breakpoint for `SideBar` Component
+* Adjusted font size for `CreatePostButton` Component
+* Adjusted border radius for `CreatePostCard` Component
+* Adjusted font size for `CreatePostTemplateButton` Component
+* Adjusted font size for `ManagePostMediaButton` Component
+* Adjusted padding and height for `FiveMedia` Component
+* Adjusted padding and height for `FiveMedia` Component
+* Adjusted padding and height for `FiveMedia` Component
+* Adjusted padding and height for `FiveMedia` Component
+* Adjusted padding and height for `FiveMedia` Component
+* Adjusted height for `MediaLayoutPost` Component
+* Removed tailwind css class for `**-unit-**` due to update from `@nextui-org/react`
+* Adjusted font size for `CommentButton` Component
+* Adjusted alignment, margin, padding, font size, border radius, width, and height for for `PostCard` Component
+* Removed border radius for `PostFeed` Component
+* Adjusted padding for `PostFooter` Component
+* Adjusted font size and width for `PostHeader` Component
+* Adjusted font size for `ReactionButton` Component
+
+## v.0.7.5
+
+* Responsiveness Layout Update for mobile and tablet view
+* Added `className` prop for `LabelTagChip` Component to override default custom styles
+* Adjusted margin, padding, and width for `MainContent` Component
+* Adjusted margin, padding, and width for `RightBar` Component
+* Adjusted margin, padding, border radius, font size, and height for `RightBarCard` Component
+* Adjusted margin and padding for `NavigationBar` Component
+* Added `NavigationTab` Component to render the mobile and table view
+* Adjusted border radius for `BirthdayCard` Component
+* Adjusted margin, padding, gap, height, and width border radius for `CreatePostCard` Component
+* Updated aria-label for `HRBulletinBoardList` Component
+* Adjusted alignment, visibility, line clamp, font size and width for `HRBulletinBoardList` Component
+* Adjusted height for `MediaLayout` Component
+* Adjusted padding, border radius, and font size for `PostCard` Component
+* Added `className` prop for `PostFeed` Component to handle visibility in mobile and tablet view
+* Adjusted margin, padding, font size and width for `RecognitionList` Component
+* Adjusted border radius for `RexWinnerCard` Component
+* Adjusted alignment, visibility, line clamp, font size and width for `TrainingList` Component
+* Added shortened version of its datetime in `TrainingList` Component
+* Updated layout in home page due to changes in mobile and tablet view
+
+## v.0.7.6
+
+* Responsiveness Layout Update for mobile and tablet view
+* Refactored `NavigationTab` Component to render passed props as its children
+* Adjusted padding and font size for `BenefitsContent` Component
+* Adjusted font size for `BenefitsContent` Component
+* Adjusted font size for `EmergencyContactContent` Component
+* Adjusted font size for `LeaveBalanceContent` Component
+* Adjusted border radius for `ProfileCard` Component
+* Adjusted font size for `UserOnboardingContent` Component
+* Adjusted font size for `UserOnboardingModal` Component
+* Updated layout in profile page due to changes in mobile and tablet view
+
+## v.0.7.7
+
+* Responsiveness Layout Update for mobile and tablet view
+* Adjusted padding for `RightBarCard` Component
+* Adjusted padding for `BenefitsContent` Component
+* Adjusted padding for `EmergencyContactContent` Component
+* Adjusted padding and font-size for `LeaveBalanceContent` Component
+* Fixed import path on `ProfileHeader` Component
+* Adjusted padding for `UserOnboardingContent` Component
+* Adjusted font size for `UserOnboardingModal` Component
+* Updated displayed item count on `CMSAdminFooter` Component
+* Adjusted gap and font size for `UnderConstruction` Component
+* Adjusted z-index for `NavigationTab` Component
+* Added functionality to show push `notification` when new notifications is received
+* Updated functionality when opening the modal window for all notifications to close the dropdown for `NotificationsDropdown` Component on `NotificationsFooter` Component
+* Added functionality to filter notifications based from its `datetime`(older than a week) in `NotificationsHistory` Component
+* Adjusted height for toggle button in `SideBar` Component
+* Added optional chaining when fetching client `data` in `ClientStore` Store
+* Added optional chaining when fetching task `data` in `TaskStore` Store
+* Updated displayed item count on `CMSTLFooter` Component
+* Updated displayed item count on `CMSUserFooter` Component
+* Adjusted width for `BenefitsContent` Component
+* Adjusted width for `EmergencyContactContent` Component
+* Adjusted width for `LeaveBalanceContent` Component
+* Adjusted margin, gap, and width for `AboutInfo` Component
+* Adjusted height for `ProfileCard` Component
+* Adjusted z-index, padding and background-color for `ProfileDetails` Component
+* Removed svg icon for changing profile picture in `ProfileHeader` Component
+* Adjusted alignment, margin, padding, height and width for `ProfileHeader` Component
+* Adjusted image sizes in `ProfileHeader` Component
+* Adjusted alignment, padding, gap, visibility, font size and width for `HRBulletinBoardList` Component
+* Added functionality to `request` the user for `notification` permission
+* Added @react-push-notification latest `^1.5.4` for push notifications
+
+## v.0.8.0
+
+* Push Notification Integration
+* Updated illustration for Aretex logo
+* Removed @react-push-notification latest `^1.5.4` for push notifications
+* Reverted changes from @react-push-notification
+* Temporary disabled `interval` fetching of task and client data in `CMSUser` Component
+* Added functionality to filter notifications by the user's unique `id` in `NotificationsList` Component
+* Added event `listener` for page visibility on `NotificationsDropdown` Component
+* Added functionality to show `push` notifications when the page is not visible to the user, otherwise show `toast` notifications when the page is visible
+
+## v.0.8.0 - hotfix
+
+* Fixed import path for `Shortcuts` Component
