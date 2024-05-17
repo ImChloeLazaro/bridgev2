@@ -27,7 +27,7 @@
 * Configured `backend` resources for Bridge
 * Configured redirect URLs for sign-in and sign-out
 
-## v.0.3.0 - hotfix
+## v.0.3.0.1 - hotfix
 
 * Added Notifications Component
 * Fixed a bug where shortcuts scroll when it is not overflowing
@@ -58,7 +58,7 @@
 * Implemented atom approach for a cleaner state management and to avoid prop drilling
 * Fixed a bug where keys used in sidebar Component are conflicting causing sidebar items to have the same keys
 
-## v.0.3.3 - hotfix
+## v.0.3.3.1 - hotfix
 
 * `SignInStore.jsx` commented contents due to build error
 
@@ -96,7 +96,7 @@ link: String,
 * Changed route name `team_lead` to `tl`
 * Updated Switching Roles Functionality
 
-## v.0.3.4 - hotfix
+## v.0.3.4.1 - hotfix
 
 * Fixed a bug on saving changes/edits of shortcuts due to `toUpperCase` method
 * Fixed a bug causing draggable shortcuts still being draggable when editing shortcuts  
@@ -214,26 +214,26 @@ link: String,
 * Moved fetched user attributes from `user` page to `UserStore`
 * Added `backend` functions for `shortcuts`
 
-## v.0.5.0 - hotfix
+## v.0.5.0.1 - hotfix
 
 * Added `middleware` for route protection
 * Added missing libs in `package.json`
 
-## v.0.5.0.1 - hotfix
+## v.0.5.0.2 - hotfix
 
 * Updated Import Path for `SwitchRoles` Component
 * Added `Amplify.configure` to user page
 
-## v.0.5.0.2 - hotfix
+## v.0.5.0.3 - hotfix
 
 * Reverted adding `middleware` file
 * Reverted adding `routes` for `tl`, `admin`, and `hr`
 
-## v.0.5.0.3 - hotfix
+## v.0.5.0.4 - hotfix
 
 * Reverted remaining routes other than `user`
 
-## v.0.5.0.4 - hotfix
+## v.0.5.0.5 - hotfix
 
 * Reverted back to `clean backend` commit
 
@@ -262,7 +262,7 @@ link: String,
 * Changed named export from `page` to `Onboarding` to match its filename
 * Implemented database schema for `onboarding` form
 
-## v.0.5.2 - hotfix
+## v.0.5.2.1 - hotfix
 
 * Merged Changelog from prod repo `bridgev2` to `bridge-frontend`
 * Removed `console.log()` on `PostFooter` Component
@@ -437,8 +437,8 @@ link: String,
 
 ## v.0.5.11
 
-* Fixed a minor bug all templates are deleted when deleting custom template
-* Fixed a bug causing media and template buttons not correctly displaying post template details when creating new posts
+* Fixed a minor bug all templates are deleted when deleting custom template in `ManagePost` Components
+* Fixed a bug causing media and template buttons not correctly displaying post template details when creating new posts in `ManagePost` Components
 * Removed left over `console.log()` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
 * Added `backend` handler function for route `/account`
@@ -799,7 +799,7 @@ postsAtom = atom({
 * Fixed user registration upon initial load of the page
 * Renamed `CloseButton` to `IconButton` Component to cover all icon only buttons use cases
 * Updated `IconButton` to accept any icon as its `children`
-* Updated `IconButton` to accept `className` as its prop to override its base style
+* Updated `IconButton` Component to accept `className` as its prop to override its base style
 * Updated lighter colors `["clear", "grey", "lightgrey"]` to have dark text color for readability in `LabelTagChip` Component
 * Renamed `fetchedShortcutAtom` to `fetchShortcutAtom` for consistency in naming setter atoms
 * Moved client-related atoms to its own store from `CMSStore` to be globally accessible
@@ -816,7 +816,7 @@ postsAtom = atom({
 * Rearrange the order of task `status` column in `TaskStore` sorted by the status's urgency
 * Added `id` attribute to the converted task object in `TaskStore`
 * Added `columnId` attribute to the converted task object in `TaskStore` to corrected filter the tasks to their respective columns
-* Fixed a bug where nullish values are not handler correctly in `UserOnboardingContent` Component
+* Fixed a bug where nullish values are not handled correctly in `UserOnboardingContent` Component
 * Updated `UserOnboardingModal` Component to use `browseOnboardingDataAtom` instead for fetch onboarding data
 * Added `no-data.png` as illustration when no data is available to display
 * Updated `PostSchema`'s `reacted` attribute for handling reactions on posts
@@ -1100,7 +1100,7 @@ postsAtom = atom({
 * Adjusted `green` color for `hover` from `"#0A7147"` to `"#006736"`in `tailwind.config.js`
 * Added new `tailwindcss` utility function for `text-stroke` in order to improve readability of white text in front of yellow background in `tailwind.config.js`
 
-## v.0.6.8 - hotfix
+## v.0.6.8.1 - hotfix
 
 * Reverted configuration on `postcss.config.js`
 
@@ -1123,8 +1123,8 @@ postsAtom = atom({
 * Configured test `web-socket` on a separate page
 * Configured amplify `backend` to handle `web-socket` connections
 * Adjusted margin for `CMSAdmin` Component
-* Renamed `variable` state from isDisabled to isLoading in `ClientAdminHeader` Component
-* Renamed `variable` state from setIsDisabled to setIsLoading in `ClientAdminHeader` Component
+* Renamed variable state from `isDisabled` to `isLoading` in `ClientAdminHeader` Component
+* Renamed variable state from `setIsDisabled` to `setIsLoading` in `ClientAdminHeader` Component
 * Removed `tailwind` css animation on the icon of the button in favor of the built-in loading animation of `Button` from `@nextui-org/react`
 * Added new `tailwindcss` utility function for `text-shadow` in order to improve readability of white text in front of yellow background in `tailwind.config.js`
 * Added `text-shadow` to components that have yellow background in all Components due to readability issues
@@ -1134,11 +1134,11 @@ postsAtom = atom({
 * Added handling for when the `index` of the task `status` is `undefined` in `TaskBoardView` Component
 * Removed redundant checking of task `status` before passing it as a prop to `LabelTagChip` Component in `TaskTableView` Component
 * Adjusted margin for `CMSTL` Component
-* Renamed `variable` state from isDisabled to isLoading in `CMSTLHeader` Component
-* Renamed `variable` state from setIsDisabled to setIsLoading in `CMSTLHeader` Component
+* Renamed variable state from `isDisabled` to `isLoading` in `CMSTLHeader` Component
+* Renamed variable state from `setIsDisabled` to `setIsLoading` in `CMSTLHeader` Component
 * Adjusted margin for `CMSUser` Component
-* Renamed `variable` state from isDisabled to isLoading in `CMSUserHeader` Component
-* Renamed `variable` state from setIsDisabled to setIsLoading in `CMSUserHeader` Component
+* Renamed variable state from `isDisabled` to `isLoading` in `CMSUserHeader` Component
+* Renamed variable state from `setIsDisabled` to `setIsLoading` in `CMSUserHeader` Component
 * Adjusted width for `ManagePostItemCard` Component
 * Adjusted alignment and width for `ManagePostModal` Component
 * Adjusted height for `ManagePostSidebar` Component
@@ -1218,7 +1218,7 @@ postsAtom = atom({
 * Added notification web-socket functions into `NotificationsList` Component
 * Fixed import path of atoms on `NotificationsList` Component
 * Fixed props passed into `NotificationsList` Component
-* Added `Spinner` Component when list of notification is empty or loading into `NotificationsList` Component
+* Added `Spinner` Component when `notification` list is empty or loading into `NotificationsList` Component
 * Fixed import path of atoms on `NotificationsOptions` Component
 * Fixed props passed into `NotificationsOptions` Component
 * Added notification web-socket functions into `NotificationsOptions` Component
@@ -1255,7 +1255,7 @@ postsAtom = atom({
 * Revert adding notification web-socket functions into `NotificationsOptions` Component
 * Added temporary notification function to create dummy `notification` in order to test the notification's latency
 
-## v.0.7.1 - hotfix
+## v.0.7.1.1 - hotfix
 
 * Adjusted z-index for `NotificationsDropdown` Component
 * Removed handler for closing `NotificationsDropdown` Component
@@ -1269,9 +1269,9 @@ postsAtom = atom({
 * Added functionality to filter notifications based from its `datetime`(today, yesterday, this week) in `NotificationsHistory` Component
 * Updated illustration for rendering when `notification` list is empty in `NotificationsList` Component
 * Updated text-label for rendering when `notification` list is empty in `NotificationsList` Component:
-* Updated import path for illustration for rendering when `notification` list is empty in `Shortcuts` Component
+* Updated import path for illustration for rendering when `shortcuts` list is empty in `Shortcuts` Component
 * Adjusted font size for `Shortcuts` Component
-* Updated illustration for rendering when `HR Bulletin Board` list is empty in `HRBulletinBoardList` Component
+* Updated illustration for rendering when `hr bulletin board` list is empty in `HRBulletinBoardList` Component
 * Adjusted overflow-y for `HRBulletinBoardList` Component
 * Adjusted width and overflow-y for `ManagePostMainContent` Component
 * Adjusted width for `ManagePostModal` Component
@@ -1346,7 +1346,7 @@ postsAtom = atom({
 ## v.0.7.5
 
 * Responsiveness Layout Update for mobile and tablet view
-* Added `className` prop for `LabelTagChip` Component to override default custom styles
+* Updated `LabelTagChip` Component to accept `className` as its prop to override its base style
 * Adjusted margin, padding, and width for `MainContent` Component
 * Adjusted margin, padding, and width for `RightBar` Component
 * Adjusted margin, padding, border radius, font size, and height for `RightBarCard` Component
@@ -1385,7 +1385,6 @@ postsAtom = atom({
 * Adjusted padding for `BenefitsContent` Component
 * Adjusted padding for `EmergencyContactContent` Component
 * Adjusted padding and font-size for `LeaveBalanceContent` Component
-* Fixed import path on `ProfileHeader` Component
 * Adjusted padding for `UserOnboardingContent` Component
 * Adjusted font size for `UserOnboardingModal` Component
 * Updated displayed item count on `CMSAdminFooter` Component
@@ -1423,6 +1422,156 @@ postsAtom = atom({
 * Added event `listener` for page visibility on `NotificationsDropdown` Component
 * Added functionality to show `push` notifications when the page is not visible to the user, otherwise show `toast` notifications when the page is visible
 
-## v.0.8.0 - hotfix
+## v.0.8.0.1 - hotfix
 
-* Fixed import path for `Shortcuts` Component
+* Fixed import path for illustration for rendering when `shortcuts` list is empty in `Shortcuts` Component
+
+## v.0.8.1
+
+* Updated import path for shared atoms and props for `CMSAdmin` Component
+* Removed `CMSAdminFooter` Component
+* Added `CMSFooter` Component for shared `CMS` components
+* Adjusted alignment, margin, visibility, font size, height, and width for `CLientDetails` Component
+* Adjusted margin, visibility, gap, font size, and height for `ClientItemCard` Component
+* Adjusted padding, font size, and width for `ClientList` Component
+* Adjusted padding for `TaskTableView` Component
+* Removed `sizeVariants` from base `Chip` component for `LabelTagChip` Component
+* Added responsive font size on `LabelTagChip` Component
+* Added width to base `Input` Component for `SearchBar` Component
+* Added width to base `Select` Component for `SearchBar` Component
+* Updated layout in `SearchBar` Component due to changes in mobile and tablet view
+* Updated import path for shared atoms and props for `CMSAdmin` Component
+* Removed `CMSTLFooter` Component
+* Updated import path for shared atoms and props for `CMSUser` Component
+* Adjusted margin and padding for `CMSUser` Component
+* Adjusted alignment, visibility, margin, padding, gap, and width for `CMSUserHeader` Component
+* Adjusted padding for `CMS` page
+* Updated colors for `button` Component from @shadcn/ui
+* Added supported image formats in `next.config.js` file to configure what image format will be used
+
+## v.0.8.1.1 - hotfix
+
+* Refactored import path of `SideBar` Component to disable `SSR` in `user` layout
+* Refactored import path of `SideBar` Component to disable `SSR` in `admin` layout
+* Refactored import path of `SideBar` Component to disable `SSR` in `hr` layout
+* Refactored import path of `SideBar` Component to disable `SSR` in `tl` layout
+
+## v.0.8.2
+
+* Adjusted width for `ClientList` Component
+* Updated `LabelTagChip` Component to accept `classNameContent` as its prop to override its base style
+* Adjusted padding for `TaskTableView` Component
+* Fixed a bug where opening the modal window for `NotificationsHistory` Component closes itself only when clicking outside of `NotificationsDropdown` Component
+* Adjusted padding for `CMSUser` Component
+* Adjusted alignment, gap, and width for `CMSUserHeader` Component
+* Added width, overscroll behavior, and scrollbar visibility on an element in `CMSUserHeader` Component
+* Added font size on `LabelTagChip` Component in `HRBulletinBoardList` Component
+* Adjusted visibility for `HRBulletinBoardList` Component
+
+## v.0.8.3
+
+* Added `notify-user.js` to share notification functions to other components
+* Removed `CMSAdminHeader` Component
+* Removed `CMSTLHeader` Component
+* Added `CMSHeader` Component for shared `CMS` components
+* Added functionality to onboard new `client` and add new `task` in `CMSAdmin` Component
+* Adjusted padding for `ClientItemCard` Component
+* Added border ring on `Avatar` Component in `ClientItemCard` Component
+* Removed duplicate `task` option for `TaskBoardCard` Component
+* Added `ConfirmationWindow` Component
+* Added functionality to handle task actions for `TaskOptionsDropdown` Component
+* Added confirmation before and after task actions for `TaskOptionsDropdown` Component
+* Adjusted background color for `Dropdown` Component in `TaskTableView` Component
+* Adjusted width for `SearchBar` Component
+* Added functionality to open modal window to browse all notifications this includes `unread`, `read`, `hidden`, or `shown` regardless of type in `NotificationsDropdown` Component
+* Moved `NotificationsHistory` Component to `NotificationsDropdown` Component
+* Fixed a bug where opening the modal window for `NotificationsHistory` Component uses multiple `useDisclosure()` hook which results in unintentionally closing of window of itself and `NotificationsDropdown` Component
+* Added functionality to filter notifications by type and visibility in `NotificationsHistory` Component
+* Added functionality to re-fetch notification `data` in `NotificationsHistory` Component
+* Adjusted width for `SideBar` Component
+* Adjusted padding for `SideBarHeader` Component
+* Adjusted image size for Aretex logo in `SideBarHeader` Component
+* Added functionality to add new `task` in `CMSTL` Component
+* Fixed props passed to `CMSHeader` Component from `CMSAdmin` Component
+* Fixed props passed to `CMSHeader` Component from `CMSTL` Component
+* Fixed props passed to `CMSHeader` Component from `CMSUser` Component
+* Renamed file `notify-users.js` to `notificationUtils.js`
+* Updated notification function used in `providers.jsx`
+
+## v.0.8.4
+
+* Temporary disabled `interval` fetching of task and client data in `CMSAdmin` Component
+* Fixed the overlapping styles of `LabelTagChip` Component and `Button` Component in `ClientItemCard` Component
+* Adjusted margin, gap, line clamp, font size and height for `TaskBoardCard` Component
+* Removed radius prop from base component in `LabelTagChip` Component to allow radius style to be override
+* Adjusted padding for `MainContent` Component
+* Adjusted filter icon size for `SearchBar` Component
+* Added atom `state` for the page visibility in `NotificationsStore` Store
+* Updated `notification` content to display the latest `notification` received in `NotificationsDropdown` Component
+* Removed `notificationCount` prop from `NotificationsFooter` Component
+* Added functionality to browse hidden notifications from an option in `NotificationsHeader` Component
+* Refactored filtering functionality of notifications in `NotificationsHistory` Component
+* Removed notification tabs for filtering notifications to browse in `NotificationsHistory` Component
+* Added `SearchBar` Component for sorting, filtering, and searching for notifications in `NotificationsHistory` Component
+* Added toast notification when hiding notifications in `NotificationOptions` Component
+* Adjusted alignment for `CMSTL` Component
+* Updated functionality of `showNotification` to display rejected `notification` permission message to user
+* Refactored functionality to ask for `notification` permission from the user
+
+## v.0.8.5
+
+* `SideBar` Component UI Revision
+* Adjusted layout of `admin` page due to changes from `SideBar` Component
+* Adjusted layout of `hr` page due to changes from `SideBar` Component
+* Adjusted layout of `tl` page due to changes from `SideBar` Component
+* Adjusted layout of `user` page due to changes from `SideBar` Component
+* Fixed a bug where dragging a `task` in the same column particularly in the `Done` column it still triggers the `toast` notification to show in `TaskBoardView` Component
+* Added functionality to check the route if it is a cms `route` in `SideBar` Component
+* Refactored `SideBar` Component to be toggled when the user is in a cms `route` otherwise, it stays non-toggled
+* Added functionality to be able to collapse the `SideBar` Component, same functionality in mobile and tablet view
+
+## v.0.9.0
+
+* Tailwind `color` classes migration, in favor of a centralized file to change `color` values
+* Configured tailwind to use css variables for `color` classes
+* Updated default `color` classes in all components to match the project's custom `color` classes
+* Updated hard-coded `color` values in components that do not support tailwind classes directly in the component to use css variables for tailwind `color` classes
+* Added custom `color` classes for hard-coded `color` values that do not match any available tailwind `color` classes
+* Updated functionality to fetch complete list of signed-in users in `TagPersonSelect` Component
+
+## v.0.9.1
+
+* Tailwind `color` classes migration, in favor of a centralized file to change `color` values
+* Moved functionality to fetch complete list of signed-in users from `TagPersonSelect` Component to `ManagePostStore` Store
+* Adjusted alignment for `CMSAdmin` Component
+* Adjusted alignment for `CMSHeader` Component
+* Adjusted background color for `FormFieldInput` Component
+* Adjusted background color for `FormFieldRadio` Component
+* Adjusted background color for `FormFieldTextArea` Component
+* Adjusted font color for `LabelTagChip` Component
+* Adjusted padding for `RightBarCard` Component
+* Converted color values from `hex` format to `rgba` format in `globals.css`
+* Updated `rgba` format to accept opacity value
+* Fixed unable to parsed css variables for `color` values in `OnboardingHeader` Component
+* Fixed unable to parsed css variables for `color` values in `ShortcutItem` Component
+* Fixed unable to parsed css variables for `color` values in `SideBar` Component
+* Refactored functionality to fetch complete list of signed-in users for selecting processors in adding new `task` in `TaskStore` Store
+* Added shared atom to fetch complete list of signed-in users in `UserStore` Store*
+* Added border radius to base component in `LabelTagChip` Component to allow border radius style to be override
+* Added null check for text-label in `LabelTagChip` Component
+* Adjusted width for `TaskBoardCard` Component
+* Adjusted background color for `ExternalLinks` Component
+* Removed background color for `ShortcutItem` Component
+* Added transition animation for `SubMenu` items in `Sidebar` Component
+* Fixed an issue where right border of `Sidebar` Component is still visible in mobile and tablet view
+* Fixed unable to parsed css variables for `color` values in `OnboardingHeader` Component
+* Added title for task actions atom in `TaskStore` Store
+* Added border radius on `LabelTagChip` Component in `AboutInfo` Component
+* Adjusted width for `BenefitsContent` Component
+* Added padding, border radius and font size on `LabelTagChip` Component in `BenefitsContent` Component
+* Adjusted font size for `HRBulletinBoardList` Component
+* Refactored from svg icon to `IconButton` Component for changing profile picture in `ProfileHeader` Component
+
+## v.0.9.2
+
+* Google Calendar Integration
