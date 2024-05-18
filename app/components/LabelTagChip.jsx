@@ -8,7 +8,7 @@ const LabelTagChip = ({
   withBadge = false,
   badgeContent,
   className,
-  classNameContent,
+  classNameLabel,
   ...props
 }) => {
   const colorVariants = {
@@ -75,8 +75,8 @@ const LabelTagChip = ({
               ? colorVariants[color].filled
               : colorVariants[color].unfilled
           }`,
-          `${isFilled ? "py-5 rounded-xl" : "py-2 rounded-md"}`,
-          "capitalize px-2.5 border-0 ",
+          `${isFilled ? "py-4 rounded-xl" : "py-2 rounded-md"}`,
+          "capitalize px-2.5 border-0 h-8 md:h-10 lg:h-12 py-1",
           className
         ),
         content: "font-bold",
@@ -103,11 +103,9 @@ const LabelTagChip = ({
       }
       {...props}
     >
-      <div className="flex justify-center items-center gap-4">
-        <p className={cn("tracking-wider", classNameContent)}>
-          {text?.length ? text : ""}
-        </p>
-      </div>
+      <p className={cn("tracking-wider", classNameLabel)}>
+        {text?.length ? text : ""}
+      </p>
     </Chip>
   );
 };

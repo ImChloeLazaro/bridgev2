@@ -82,7 +82,7 @@ const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
           <Button
             aria-label={"Shortcut Options"}
             isIconOnly
-            className="bg-transparent mb-4"
+            className="bg-transparent"
           >
             <div className="">{trigger}</div>
           </Button>

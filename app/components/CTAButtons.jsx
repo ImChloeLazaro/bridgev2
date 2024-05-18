@@ -1,7 +1,8 @@
 import { Button, cn } from "@nextui-org/react";
+import { isValidElement } from "react";
 
 const CTAButtons = ({
-  radius = 'sm',
+  radius = "sm",
   label,
   color,
   className,
@@ -28,13 +29,13 @@ const CTAButtons = ({
   return (
     <Button
       data-show={showButton}
-      aria-label={label}
+      aria-label={isValidElement(label) ? "Action Button" : label}
       startContent={startContent}
       endContent={endContent}
       radius={radius}
       variant="solid"
       className={cn(
-        "hidden data-[show=true]:flex ",
+        "hidden data-[show=true]:flex min-w-fit",
         "px-5 py-0.5 font-bold text-base",
         buttonColor,
         className

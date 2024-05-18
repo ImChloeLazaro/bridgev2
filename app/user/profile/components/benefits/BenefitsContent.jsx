@@ -42,7 +42,7 @@ const BenefitsContent = () => {
                   size="xs"
                   type="label"
                   className={"w-1/3 px-2 py-4 lg:px-2 rounded-[0.4rem]"}
-                  classNameContent={"text-xs lg:text-sm"}
+                  classNameLabel={"text-xs lg:text-sm"}
                 ></LabelTagChip>
               </div>
             );

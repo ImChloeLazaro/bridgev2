@@ -10,7 +10,7 @@ const Clients = () => {
   return (
     auth.isAuthenticated && (
       <>
-        <div className="flex justify-center items-center w-full h-full p-6 ">
+        <div className="flex justify-center items-center w-full h-full p-0 lg:p-6 ">
           <CMSAdmin />
         </div>
       </>
