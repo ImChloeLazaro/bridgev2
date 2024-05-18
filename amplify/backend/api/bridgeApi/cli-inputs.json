@@ -156,6 +156,19 @@
           "delete"
         ]
       }
+    },
+    "/workspace": {
+      "name": "/workspace",
+      "lambdaFunction": "workspacehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

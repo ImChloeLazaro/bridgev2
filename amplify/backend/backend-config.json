@@ -97,6 +97,14 @@
           ],
           "category": "function",
           "resourceName": "todohandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "workspacehandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -210,6 +218,11 @@
       "service": "Lambda"
     },
     "userhandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "workspacehandler": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -573,6 +586,30 @@
         {
           "category": "function",
           "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_workspacehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "workspacehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_workspacehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "workspacehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_workspacehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "workspacehandler"
         }
       ]
     }
