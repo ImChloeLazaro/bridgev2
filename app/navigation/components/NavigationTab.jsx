@@ -5,11 +5,13 @@ const NavigationTab = ({ main, right, mainIcon, rightIcon, className }) => {
   return (
     <div className={cn("w-full", className)}>
       <Tabs
+        placement="bottom"
         aria-label="Mobile Navigation"
         classNames={{
-          base: cn("relative z-20 sticky top-0 w-full", className),
-          panel: "w-full py-0 px-0",
+          base: cn("relative z-20 sticky bottom-0 w-full mb-2", className),
+          panel: "w-full py-2 px-0",
           cursor: "w-full group-data-[selected=true]:bg-blue-default/90",
+          tab: "h-10",
           tabList: "rounded-none py-1 w-full",
           tabContent: "group-data-[selected=true]:text-white-default",
         }}

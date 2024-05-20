@@ -49,7 +49,7 @@ import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
 // @refresh reset
 
-const ManagePostMainContent = ({ onClose }) => {
+const ManagePostMainContent = ({ onClose, showPostList }) => {
   const auth = useAtomValue(authenticationAtom);
   const [values, setValues] = useState([]);
 
@@ -376,16 +376,21 @@ const ManagePostMainContent = ({ onClose }) => {
     <div className="flex flex-col h-full justify-between items-stretch p-0 rounded-r-lg">
       {/* HEADER */}
       <div className="flex-col rounded-r-lg">
-        <div className="flex items-end justify-end py-1 px-2 rounded-r-lg text-lightgrey-default bg-lightgrey-hover">
-          <Button isIconOnly onPress={onClose} className={"bg-transparent"}>
-            <MdMinimize size={18} />
-          </Button>
-          <IconButton onPress={onClose}>
-            <MdClose size={18} />
-          </IconButton>
-        </div>
-        <Divider />
-        <div className="flex justify-between items-center px-7 mt-4 mb-3">
+        {!showPostList && (
+          <>
+            <div className="flex items-end justify-end py-1 px-2 rounded-r-lg text-lightgrey-default bg-lightgrey-hover">
+              <Button isIconOnly onPress={onClose} className={"bg-transparent"}>
+                <MdMinimize size={18} />
+              </Button>
+              <IconButton onPress={onClose}>
+                <MdClose size={18} />
+              </IconButton>
+            </div>
+            <Divider />
+          </>
+        )}
+
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-2 px-2 lg:px-8 mt-4 mb-3">
           <SearchBar
             searchItem={searchItem}
             setSearchItem={setSearchItem}
@@ -399,7 +404,7 @@ const ManagePostMainContent = ({ onClose }) => {
 
       {/* BODY */}
       {filteredPostList.length != 0 ? (
-        <div className="grid justify-center w-full h-full overflow-y-auto px-6 ">
+        <div className="flex lg:grid justify-center w-full h-full overflow-y-auto px-0 lg:px-6 ">
           <CheckboxGroup
             aria-label="Post Item Card Checkbox Group"
             value={selectedPosts}
@@ -408,7 +413,12 @@ const ManagePostMainContent = ({ onClose }) => {
             }}
             className="w-full"
           >
-            <div className="grid grid-cols-3 gap-x-6 gap-y-6 mt-4 mb-6 w-full ">
+            <div
+              className="
+            flex flex-col gap-6 justify-center items-center
+            lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-6 lg:mt-4 lg:mb-6 w-full
+             "
+            >
               {filteredPostList.map((post, index) => (
                 <Checkbox
                   value={post.key}

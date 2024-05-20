@@ -1,4 +1,13 @@
-import { DndContext, closestCorners } from "@dnd-kit/core";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  closestCorners,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import {
   restrictToParentElement,
   restrictToVerticalAxis,
@@ -9,22 +18,17 @@ import {
   arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Spinner } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Suspense, useEffect } from "react";
-import { Menu, Sidebar, menuClasses, sidebarClasses } from "react-pro-sidebar";
+import NextImage from "next/image";
+import { useEffect } from "react";
+import NoShortcut from "../../../../public/no-shortcuts.png";
 import {
   disableDraggableAtom,
   fetchShortcutAtom,
-  indexPositionShortcutsAtom,
   shortcutsAtom,
-  updateIndexPositionShortcutsAtom,
+  updateIndexPositionShortcutsAtom
 } from "../../store/ShortcutsStore";
-import ShortcutsHeader from "./ShortcutsHeader";
 import { SortableItem } from "./SortableItem";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import NextImage from "next/image";
-import NoShortcut from "../../../../public/no-shortcuts.png";
 
 const Shortcuts = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -32,6 +36,24 @@ const Shortcuts = () => {
   const disableDraggable = useAtomValue(disableDraggableAtom);
   const fetchShortcut = useSetAtom(fetchShortcutAtom);
   const updatedIndexShortcuts = useSetAtom(updateIndexPositionShortcutsAtom);
+
+  const mouseSensor = useSensor(MouseSensor, {
+    // Require the mouse to move by 10 pixels before activating
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const touchSensor = useSensor(TouchSensor, {
+    // Press delay of 250ms, with tolerance of 5px of movement
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
+
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
   useEffect(() => {
     fetchShortcut(auth.sub);
@@ -42,6 +64,7 @@ const Shortcuts = () => {
     <>
       {shortcuts?.length ? (
         <DndContext
+          sensors={sensors}
           collisionDetection={closestCorners}
           onDragEnd={handleDragEnd}
           modifiers={[
