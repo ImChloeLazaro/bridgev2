@@ -1047,7 +1047,7 @@ postsAtom = atom({
 * Fix a bug where incorrectly redirecting the user after sign-in and despite already authenticated in `middleware`
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSAdmin` Component
 * Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSTL` Component
-* Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSUSer` Component
+* Added automatic fetching of `task` and `client` data with an `interval` of `2.5secs` on `CMSUser` Component
 
 ## v.0.6.8
 
@@ -1556,7 +1556,7 @@ postsAtom = atom({
 * Fixed unable to parsed css variables for `color` values in `ShortcutItem` Component
 * Fixed unable to parsed css variables for `color` values in `SideBar` Component
 * Refactored functionality to fetch complete list of signed-in users for selecting processors in adding new `task` in `TaskStore` Store
-* Added shared atom to fetch complete list of signed-in users in `UserStore` Store*
+* Added shared atom to fetch complete list of signed-in users in `UserStore` Store
 * Added border radius to base component in `LabelTagChip` Component to allow border radius style to be override
 * Added null check for text-label in `LabelTagChip` Component
 * Adjusted width for `TaskBoardCard` Component
@@ -1575,3 +1575,69 @@ postsAtom = atom({
 ## v.0.9.2
 
 * Google Calendar Integration
+* Implemented Google Calendar Configuration
+* Added @axios latest `^1.6.8` to fetch data from Google API
+* Added @next-auth latest `^4.24.7` for authentication with Google as social provider
+* Added @uuid latest `^9.0.1` for creating short non-sequential url-friendly unique ids
+* Fixed a bug where selected `client` id is returned as `undefined`, as a result `tasks` are created without any client `data`
+* Reverted changes to `client` selection when creating `task` so user can have an indicator which `client` is currently selected
+* Adjusted padding for `TaskTableView` Component
+* Adjusted font color for `UserDropdown` Component
+* Refactored `reviewer` and `manager` selection atom to use shared atom to fetch complete list of signed-in users in `UserStore` Store
+* Refactored `TrainingList` Component to fetch from Google Calendar
+* Configured Google Calendar for production build in `authOptions.js`
+* Updated @next to latest `^14.2.3`
+
+## v.0.9.2.1 - hotfix
+
+* Reverted changes from configuring env variable for Google Calendar
+
+## v.0.9.3
+
+* Added @next/bundle-analyzer latest `^14.2.3` to assess bundle size for optimization purposes
+* Configured `next.config.js` for @next/bundle-analyzer
+* Moved shared atoms for creating `task` and storing its `data` from `TaskStore` to each respective store of each role
+* Refactored `TaskFormSections` to use the passed prop for storing task `data`
+* Fixed a bug when selecting a `client` in the list does not match the correct `data` type as a result the `client` id is returned as `undefined`
+* Adjusted padding, font weight, and font color for `FormFieldInput` Component
+* Adjusted padding for `FormFieldTextArea` Component
+* Updated minimum rows for typing from base `TextArea` component for `FormFieldTextArea` Component
+* Removed unused css variables from `globals.css`
+* Updated color classes for @shadcn/ui components to use custom tailwind color classes
+
+## v.0.9.3.1 - hotfix
+
+* Fixed `reviewerSelectionAtom` due to failed merging of previous `commit`
+* Adjusted alignment for `CMSTL` Component
+* Fixed a bug where tailwind dependencies are not working properly when installed as `devDependencies` and causes failed build in deployment
+
+## v.0.9.4
+
+* Updated @eslint to latest `^8.57.0`
+* Updated automatic fetching of `task` and `client` data from `2.5secs` to `5secs` on `CMSAdmin` Component
+* Updated automatic fetching of `task` and `client` data from `2.5secs` to `5secs` on `CMSTL` Component
+* Updated automatic fetching of `task` and `client` data from `2.5secs` to `5secs` on `CMSUser` Component
+* Fixed a bug where CMSFooter appears when navigating to client details or switching to task board view
+* Adjusted width for `SearchBar` Component
+
+## v.0.9.5
+
+* Adjusted margin, padding, and width for `CMSAdmin` Component
+* Adjusted padding for CMS `admin` page
+* Refactored from svg icon to `IconButton` Component for changing `client` picture in `ClientDetails` Component
+* Adjusted alignment, visibility, margin, padding, gap, font size, and width for `ClientDetails` Component
+* Adjusted alignment, gap, and width for `ClientInfo` Component
+* Adjusted padding, overflow-x, and height for `ClientItemCard` Component
+* Adjusted alignment, visibility, margin, padding, gap, and width for `ClientDetails` Component
+* Adjusted alignment for `TaskBoardView` Component
+* Adjusted margin for `TaskOptionsDropdown` Component
+* Adjusted padding, border radius, font size, font color, height, and width for `TaskTableView` Component
+* Adjusted width for `SearchBar` Component
+* Added a validation to check if the passed children is a valid element in `CTAButtons` Component
+* Renamed prop from `classNameContent` to `classNameLabel` in `LabelTagChip` Component
+* Updated affected components due to the renamed prop from `LabelTagChip` Component
+
+## v.0.9.6
+
+* Google Calendar Integration Update
+
