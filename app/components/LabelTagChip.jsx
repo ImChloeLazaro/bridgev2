@@ -76,7 +76,7 @@ const LabelTagChip = ({
               : colorVariants[color].unfilled
           }`,
           `${isFilled ? "py-4 rounded-xl" : "py-2 rounded-md"}`,
-          "capitalize px-2.5 border-0 h-8 md:h-10 lg:h-12 py-1",
+          "capitalize px-2.5 border-0 h-8 md:h-8 lg:h-10",
           className
         ),
         content: "font-bold",
