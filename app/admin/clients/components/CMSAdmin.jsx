@@ -285,7 +285,7 @@ const CMSAdmin = () => {
   return (
     <>
       <Card className="flex w-full h-full my-4 px-0 lg:px-2 py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
-        <CardHeader className="">
+        <CardHeader className={`${showClientTask ? "p-0 py-4" : "p-4 py-4"}`}>
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={

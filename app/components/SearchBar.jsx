@@ -53,7 +53,7 @@ const SearchBar = ({
           onSelectionChange={setSelectedFilterKeys}
           startContent={<MdFilterAlt size={20} />}
           classNames={{
-            base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-48 md:max-w-56",
+            base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-32 md:max-w-36 lg:max-w-40",
             trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",
             mainWrapper: "w-full",
             value:
@@ -92,7 +92,7 @@ const SearchBar = ({
             </>
           }
           classNames={{
-            base: "w-full min-w-32 ",
+            base: "w-full min-w-20 ",
             inputWrapper: [
               "bg-white-default rounded-l-none border border-l-0 shadow-sm",
             ],
