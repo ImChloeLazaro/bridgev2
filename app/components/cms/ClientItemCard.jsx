@@ -96,7 +96,7 @@ const ClientItemCard = ({
       <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
         <CardBody className=" pr-0 py-1">
           <div className="flex justify-between lg:justify-around gap-4 lg:gap-12">
-            <div className="w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-2 lg:gap-10">
+            <div className="w-2/5 lg:w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-2 lg:gap-10">
               <div className="max-w-[70px] pl-1 lg:pl-4 pr-1">
                 <Avatar
                   showFallback
@@ -114,7 +114,7 @@ const ClientItemCard = ({
                 {data.company?.name?.length ? data.company.name : ""}
               </Link>
             </div>
-            <div className=" w-1/3 flex flex-wrap justify-center items-center gap-4 p-0">
+            <div className="hidden w-2/5 lg:w-1/3 min-[380px]:flex flex-wrap justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
                   if (
@@ -145,7 +145,7 @@ const ClientItemCard = ({
                   }
                 })}
             </div>
-            <div className="w-1/3 flex justify-end items-center gap-2 px-1">
+            <div className="w-1/5 lg:w-1/3 flex justify-end items-center gap-2 px-1">
               {!clientTaskProcessorsCount?.length ? (
                 ""
               ) : (
@@ -160,7 +160,7 @@ const ClientItemCard = ({
                       classNames={{
                         base: [
                           "bg-blue-default ring-blue-default",
-                          " w-10 h-10 lg:w-12 lg:h-12 text-large",
+                          " w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
                         ],
                       }}
                     />

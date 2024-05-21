@@ -276,7 +276,7 @@ const CMSTL = () => {
   return (
     <>
       <Card className="flex w-full h-full my-4 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
-        <CardHeader className="">
+        <CardHeader className={`${showClientTask ? "p-0 py-4" : "p-4 py-4"}`}>
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={

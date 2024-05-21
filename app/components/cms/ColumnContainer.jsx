@@ -83,6 +83,7 @@ function ColumnContainer({
     flex
     flex-col
     w-full
+    touch-none
   "
     >
       {/* Column title */}

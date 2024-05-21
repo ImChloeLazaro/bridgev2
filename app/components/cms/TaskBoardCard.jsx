@@ -124,7 +124,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
         "rounded-xl border border-grey-default",
         "hover:ring-2 hover:ring-inset hover:ring-blue-default ",
         "shadow-md",
-        "cursor-grab select-none"
+        "cursor-grab select-none touch-none"
       )}
       // onMouseEnter={() => {
       //   setMouseIsOver(true);
