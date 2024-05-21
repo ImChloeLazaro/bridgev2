@@ -1,7 +1,18 @@
 "use client";
-import { Card } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  Input,
+  Checkbox,
+  DatePicker,
+  Card
+} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import GoogleOAuth from "./GoogleOAuth";
 
@@ -18,11 +29,12 @@ import {
   addHours,
   addDays,
 } from "date-fns";
-import { listEvents } from "./calendar";
+import { listEvents } from "../utils/calendar";
 import UpcomingEvent from "./components/UpcomingEvent";
 import EventTodayList from "./components/EventToday";
 import EventSort from "./components/EventSort";
 import AddEvent from "./components/AddEvent";
+import EditEvent from "./components/EditEvent";
 
 const CalendarPage = () => {
   const { data: session, status } = useSession();
@@ -105,11 +117,26 @@ const CalendarPage = () => {
 
   const localizer = momentLocalizer(moment);
   let views = Object.keys(Views).map((k) => Views[k]);
+
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onOpenChange: onOpenChangeEdit
+  } = useDisclosure();
+
+  const handleOpenEvent = (event) => {
+    setEvents(event)
+    onOpenEdit()
+  }
+
+  const onDeleteHandler = (e) => {
+    console.log('delete icon clicked!')
+  }
   return (
     <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 py-0 lg:py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
       {status === 'unauthenticated' ? (
         <div className="h-full flex justify-center items-center">
-            <GoogleOAuth />
+          <GoogleOAuth />
         </div>
       ) : (
         <div>
@@ -172,13 +199,22 @@ const CalendarPage = () => {
                     };
                   }}
                   selectable
-                  onSelectEvent={(event) => console.log(event)}
+                  onSelectEvent={(event) => handleOpenEvent(event)}
                   dayLayoutAlgorithm='no-overlap'
                   showMultiDayTimes
                   step={10}
                   date={defaultDate}
                   className="big-calendar"
                 />
+                {isOpenEdit && (
+                  <EditEvent
+                    isOpenEdit={isOpenEdit}
+                    onOpenEdit={onOpenEdit}
+                    onOpenChangeEdit={onOpenChangeEdit}
+                    event={events}
+                    onDeleteHandler={onDeleteHandler}
+                  />
+                )}
               </div>
             </div>
           </div>
