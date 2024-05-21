@@ -47,6 +47,7 @@ import {
 } from "../../store/PublishedStore";
 import ManagePostItemCard from "./ManagePostItemCard";
 import ManagePostTabs from "./ManagePostTabs";
+import { ManagePostCheckbox } from "./ManagePostCheckbox";
 // @refresh reset
 
 const ManagePostMainContent = ({ onClose, showPostList }) => {
@@ -390,7 +391,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
           </>
         )}
 
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-2 px-2 lg:px-8 mt-4 mb-3">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 px-6 lg:px-4 mt-4 mb-3">
           <SearchBar
             searchItem={searchItem}
             setSearchItem={setSearchItem}
@@ -411,27 +412,33 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
             onValueChange={(value) => {
               setSelectedPosts(value);
             }}
-            className="w-full"
+            classNames={{ base: "px-2 w-full" }}
           >
             <div
-              className="
-            flex flex-col gap-6 justify-center items-center
-            lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-6 lg:mt-4 lg:mb-6 w-full
+              className="w-full h-full
+            flex flex-col gap-6 px-6 py-4 lg:px-0 lg:py-0 justify-between items-center
+            md:grid md:grid-cols-2 lg:grid-cols-3 lg:mt-4 lg:mb-6 
              "
             >
               {filteredPostList.map((post, index) => (
+                // <ManagePostCheckbox key={index} value={post.key}>
+                //   <ManagePostItemCard data={post} />
+                // </ManagePostCheckbox>
                 <Checkbox
                   value={post.key}
                   key={index}
                   aria-label="Post Item Card Checkbox"
                   classNames={{
                     base: cn(
-                      "inline-flex w-[500px]",
-                      "items-start justify-start",
-                      "cursor-pointer rounded-lg border-2 border-transparent",
-                      "data-[selected=true]:bg-lightgrey-default"
+                      "flex p-2",
+                      "items-start justify-center",
+                      "border-2 border-transparent",
+                      "cursor-pointer rounded-lg",
+                      "data-[selected=true]:bg-blue-default/10",
+                      "data-[selected=true]:border-blue-default"
                     ),
-                    label: "w-full",
+                    label: cn("flex w-full"),
+                    wrapper: "hidden",
                   }}
                 >
                   <ManagePostItemCard data={post} />
@@ -463,7 +470,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
       {/* FOOTER */}
       <div className="flex flex-col">
         <Divider />
-        <div className="flex items-end justify-end gap-4 px-8 py-4 bottom-0 bg-lightgrey-hover rounded">
+        <div className="flex items-end justify-end gap-4 px-8 py-4 bottom-0 bg-white-default lg:bg-lightgrey-hover rounded">
           {Object.values(actionButtons).map((button) => {
             return (
               <CTAButtons

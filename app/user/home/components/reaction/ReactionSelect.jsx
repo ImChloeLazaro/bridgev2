@@ -8,6 +8,7 @@ import {
 } from "../../store/ManagePostStore";
 import { useAtomValue, useAtom } from "jotai";
 
+
 const ReactionSelect = () => {
   const [selectedReactions, setSelectedReactions] = useAtom(
     selectedReactionsAtom
@@ -29,7 +30,7 @@ const ReactionSelect = () => {
       onSelectionChange={setSelectedReactions}
       classNames={{
         base: "",
-        trigger: "min-h-unit-12 py-2",
+        trigger: "min-h-unit-12 py-2 rounded-small",
       }}
       renderValue={(displayItems) => {
         return (

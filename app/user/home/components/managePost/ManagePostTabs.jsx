@@ -35,7 +35,7 @@ const ManagePostTabs = () => {
                   radius="full"
                   size="sm"
                   variant="flat"
-                  className="group-data-[selected=true]:text-blue-default font-bold bg-white-default"
+                  className="group-data-[selected=true]:text-blue-default font-bold bg-grey-default"
                 >
                   {tabs.count}
                 </Chip>

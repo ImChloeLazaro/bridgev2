@@ -80,16 +80,7 @@ const HRBulletinBoardList = () => {
                     color={`${hrBulletin.color}`}
                     size={"xs"}
                     isFilled={false}
-                    className={"hidden xl:flex py-0"}
-                    classNameLabel={"text-sm lg:text-md"}
-                  />
-                  <LabelTagChip
-                    text={`New ${hrBulletin.type}`}
-                    color={`${hrBulletin.color}`}
-                    size={"xs"}
-                    isFilled={true}
-                    className={"hidden xl:flex py-0"}
-                    classNameLabel={"text-sm lg:text-md"}
+                    className={"hidden xl:flex h-4 lg:h-7"}
                   />
                 </div>
                 <p className="font-normal text-xs 2xl:text-sm px-1">{`${handleHRBulletinDateTime(

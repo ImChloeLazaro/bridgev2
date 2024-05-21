@@ -76,7 +76,7 @@ const LabelTagChip = ({
               : colorVariants[color].unfilled
           }`,
           `${isFilled ? "py-4 rounded-xl" : "py-2 rounded-md"}`,
-          "capitalize px-2.5 border-0 h-8 md:h-8 lg:h-10",
+          "capitalize px-2.5 border-0 h-6 lg:h-8",
           className
         ),
         content: "font-bold",
@@ -103,7 +103,7 @@ const LabelTagChip = ({
       }
       {...props}
     >
-      <p className={cn("tracking-wider", classNameLabel)}>
+      <p className={cn("tracking-wider text-xs lg:text-sm", classNameLabel)}>
         {text?.length ? text : ""}
       </p>
     </Chip>

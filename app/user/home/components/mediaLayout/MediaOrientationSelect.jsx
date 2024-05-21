@@ -30,7 +30,7 @@ const MediaOrientationSelect = () => {
       onSelectionChange={(key) => setSelectedMediaOrientation(key)}
       classNames={{
         base: "",
-        trigger: "min-h-unit-12 py-2",
+        trigger: "min-h-unit-12 py-2 rounded-small",
       }}
     >
       {(orientation) => (

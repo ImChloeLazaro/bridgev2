@@ -12,7 +12,13 @@ const TagPersonSelect = () => {
   );
   const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
 
-  console.log('taggedPeopleList', taggedPeopleList)
+  const keys = taggedPeopleList.map((tag) => {
+    if (tag.key !== "all") {
+      return tag.key;
+    }
+  });
+
+  console.log("taggedPeopleList", keys);
   return (
     <>
       <Select
@@ -23,8 +29,10 @@ const TagPersonSelect = () => {
         selectionMode="multiple"
         placeholder="Tag people"
         labelPlacement="outside"
-        defaultSelectedKeys={"all"}
         selectedKeys={selectedTaggedPeople}
+        disabledKeys={
+          Array.from(selectedTaggedPeople).join("") === "all" ? keys : null
+        }
         onSelectionChange={setSelectedTaggedPeople}
         classNames={{
           base: "",
@@ -69,18 +77,22 @@ const TagPersonSelect = () => {
               />
               <div className="flex flex-col">
                 {person.picture ? (
-                  <span className="text-small ">{person.name}</span>
+                  <p className="text-small ">{person.name}</p>
                 ) : (
-                  <span className="text-small font-bold">{person.name}</span>
+                  <p className="text-small font-bold">{person.name}</p>
                 )}
 
-                <span className="text-tiny text-default-400">{person.email}</span>
+                <p className="text-xs text-darkgrey-default">
+                  {person.key === "all"
+                    ? "aretex.family@aretex.com.au"
+                    : person.email}
+                </p>
               </div>
             </div>
           </SelectItem>
         )}
       </Select>
     </>
-  )
+  );
 };
 export default TagPersonSelect;

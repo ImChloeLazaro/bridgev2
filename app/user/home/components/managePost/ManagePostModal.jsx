@@ -64,14 +64,14 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex gap-1 p-2">
+            <ModalHeader className="flex justify-between gap-1 p-2">
               <CTAButtons
                 color={"clear"}
                 startContent={<MdKeyboardArrowLeft size={24} />}
                 label={"Cancel"}
                 disableRipple={true}
                 disableAnimation={true}
-                className={"px-0"}
+                className={"px-0 h-10"}
                 onPress={() => {
                   setShowPostList(false);
                   if (!showPostList) {
@@ -79,8 +79,15 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
                   }
                 }}
               />
+              <CTAButtons
+                isDisabled={!showNextButton}
+                color={"clear"}
+                label={"Next"}
+                className={"h-10"}
+                onPress={() => setShowPostList(true)}
+              />
             </ModalHeader>
-            <ModalBody className="overflow-y-scroll py-0 lg:py-2 px-0 lg:px-6">
+            <ModalBody className="overflow-y-auto py-0 px-0 lg:px-6">
               <div
                 data-show={showPostList}
                 className="block data-[show=true]:hidden"
@@ -89,22 +96,11 @@ const ManagePostModal = ({ isOpen, onOpenChange, isDismissable }) => {
               </div>
               <div
                 data-show={showPostList}
-                className="hidden data-[show=true]:block"
+                className="hidden data-[show=true]:block h-full"
               >
                 <ManagePostMainContent showPostList={showPostList} />
               </div>
             </ModalBody>
-            {showNextButton && (
-              <ModalFooter>
-                <CTAButtons
-                  color={"orange"}
-                  endContent={<MdKeyboardArrowRight size={24} />}
-                  label={"Next"}
-                  className={"h-10"}
-                  onPress={() => setShowPostList(true)}
-                />
-              </ModalFooter>
-            )}
           </>
         )}
       </ModalContent>

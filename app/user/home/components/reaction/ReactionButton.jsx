@@ -1,13 +1,13 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { reactionIcons } from "./ReactionIcons";
-import { updatePostReactionAtom } from "../../store/PostStore";
-import { Tooltip, Button } from "@nextui-org/react";
-import { reactionsSelectionAtom } from "../../store/ReactionStore";
-import { useState, useEffect } from "react";
-import { RxDotFilled } from "react-icons/rx";
-import { VscBlank } from "react-icons/vsc";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { userAtom } from "@/app/store/UserStore";
+import { Button, Tooltip } from "@nextui-org/react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { RxDotFilled } from "react-icons/rx";
+import { VscBlank } from "react-icons/vsc";
+import { reactionsSelectionAtom } from "../../store/ManagePostStore";
+import { updatePostReactionAtom } from "../../store/PostStore";
+import { reactionIcons } from "./ReactionIcons";
 
 const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   const updatePostReaction = useSetAtom(updatePostReactionAtom);
