@@ -188,7 +188,7 @@ const ManagePostSidebar = () => {
       : customActionButtons;
 
   return (
-    <div className="flex flex-col h-full justify-between items-stretch pt-3 rounded-l-lg">
+    <div className="flex flex-col h-full justify-between items-stretch pt-0 lg:pt-3 rounded-l-lg">
       <div className="flex flex-col py-2 px-6 rounded-l-lg">
         <p className="text-2xl font-bold">{"Community Post"}</p>
         <p className="text-xs font-normal mb-4">
@@ -196,13 +196,13 @@ const ManagePostSidebar = () => {
         </p>
         <Divider />
       </div>
-      <div className="h-full overflow-y-scroll">
-        <div className="flex flex-col justify-between h-fit py-2 px-8 gap-3">
+      <div className="h-full lg:overflow-y-scroll">
+        <div className="flex flex-col justify-between h-fit py-2 px-6 lg:px-8 gap-3">
           <ManagePostSidebarContent />
         </div>
       </div>
 
-      <div className="flex flex-col pt-0 pb-4 px-6 gap-8">
+      <div className="flex flex-col pt-0 pb-4 px-2 lg:px-6 gap-8">
         {Array.from(selectedTemplateType).join("") === "custom" && <Divider />}
         {Object.values(actionButtons).map((button) => {
           return (

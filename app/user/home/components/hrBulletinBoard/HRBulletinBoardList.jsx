@@ -80,8 +80,7 @@ const HRBulletinBoardList = () => {
                     color={`${hrBulletin.color}`}
                     size={"xs"}
                     isFilled={false}
-                    className={"hidden xl:flex"}
-                    classNameLabel={"text-sm lg:text-md"}
+                    className={"hidden xl:flex h-4 lg:h-7"}
                   />
                 </div>
                 <p className="font-normal text-xs 2xl:text-sm px-1">{`${handleHRBulletinDateTime(

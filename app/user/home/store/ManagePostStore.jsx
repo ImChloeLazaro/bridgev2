@@ -190,8 +190,11 @@ export const taggedPeopleListAtom = atom((get) => {
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
+<<<<<<< HEAD
 
 export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
+=======
+>>>>>>> 994afdb95c61545f959c60f84e79f160e8bb96bb
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
 export const postCaptionAtom = atom("");

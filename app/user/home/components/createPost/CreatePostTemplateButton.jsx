@@ -77,7 +77,7 @@ const CreatePostTemplateButton = () => {
             disableAnimation
             size="sm"
             startContent={<MdEventNote size={25} />}
-            className="bg-transparent font-medium text-sm md:text-lg text-black-default hover:text-orange-default/90"
+            className="bg-transparent font-medium text-sm lg:text-lg text-black-default hover:text-orange-default/90"
           >
             {"Templates"}
           </Button>

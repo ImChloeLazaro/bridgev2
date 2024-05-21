@@ -74,14 +74,14 @@ const RecognitionList = () => {
         return (
           <ListboxItem textValue={recognition.title} key={recognition.id}>
             <div className="my-2 flex items-start justify-between">
-              <div className="pl-1 xl:pl-2 pr-1 xl:pr-2 my-2 mr-2 xl:mr-4 flex items-center justify-center">
+              <div className="pl-2 xl:pl-4 pr-1 xl:pr-2 my-2 mr-1 xl:mr-2.5 flex items-center justify-center">
                 {recognition.icon}
               </div>
               <div className="flex flex-col px-0 md:px-6 lg:px-2 w-[12rem] sm:w-full md:w-full lg:w-[10rem] 2xl:w-[20rem]">
-                <p className="font-extrabold text-md xl:text-lg truncate w-full">
+                <p className="font-extrabold text-md xl:text-lg truncate w-full lg:w-20 xl:w-full">
                   {recognition.title}
                 </p>
-                <p className="font-medium text-sm xl:text-md truncate w-full">
+                <p className="font-medium text-sm xl:text-md truncate w-full lg:w-20 xl:w-52">
                   {recognition.description}
                 </p>
                 <p className="font-medium text-xs">{`${handleRecognitionDateTime(

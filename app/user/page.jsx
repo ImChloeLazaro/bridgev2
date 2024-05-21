@@ -43,8 +43,8 @@ const User = () => {
         <MainContent>
           <NavigationTab
             className={"block lg:hidden"}
-            mainIcon={<MdFeed size={24} />}
-            rightIcon={<MdGridView size={24} />}
+            mainIcon={<MdFeed size={28} />}
+            rightIcon={<MdGridView size={28} />}
             main={
               <>
                 <CreatePostCard data={user} />

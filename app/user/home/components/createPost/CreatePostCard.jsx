@@ -26,7 +26,7 @@ const CreatePostCard = ({ data, className }) => {
           </div>
           <div className="w-full flex flex-col px-0 lg:px-2 md:px-4 gap-3 xl:gap-5">
             <CreatePostButton />
-            <div className="flex justify-between">
+            <div className="flex justify-between mr-2 lg:mr-0">
               <ManagePostMediaButton />
               <CreatePostTemplateButton />
             </div>

@@ -8,6 +8,7 @@ import {
 } from "../../store/ManagePostStore";
 import { useAtomValue, useAtom } from "jotai";
 
+
 const ReactionSelect = () => {
   const [selectedReactions, setSelectedReactions] = useAtom(
     selectedReactionsAtom
@@ -29,25 +30,12 @@ const ReactionSelect = () => {
       onSelectionChange={setSelectedReactions}
       classNames={{
         base: "",
-        trigger: "min-h-unit-12 py-2",
+        trigger: "min-h-unit-12 py-2 rounded-small",
       }}
       renderValue={(displayItems) => {
         return (
           <div className="flex flex-wrap gap-2 items-center">
             {displayItems.map((displayItem) => (
-              // <Chip
-              //   key={displayItem.key}
-              //   startContent={displayItem.data.displayIcon}
-              //   onClose={() => {
-              //     setSelectedReactions(() =>
-              //       Array.from(selectedReactions).filter(
-              //         (item) => item !== displayItem.key
-              //       )
-              //     );
-              //   }}
-              // >
-              //   {displayItem.data.name}
-              // </Chip>
               <>
                 <div className="">{displayItem.data.displayIcon}</div>
                 <div className="text-sm text-black-default">
@@ -60,7 +48,7 @@ const ReactionSelect = () => {
       }}
     >
       {(reaction) => (
-        <SelectItem key={reaction.key} textValue={reaction.label}>
+        <SelectItem key={reaction.key} value={reaction.label}>
           <div className="flex gap-2 items-center">
             {reaction.selectIcon}
             {reaction.label}

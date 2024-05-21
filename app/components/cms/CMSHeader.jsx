@@ -98,14 +98,14 @@ const CMSHeader = ({
         data-details={showClientDetails}
         className="data-[details=true]:flex-row w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start"
       >
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-2 mr-2">
           <IconButton
             data-details={showClientDetails}
             data-task={showClientTask}
             isIconOnly={false}
             onPress={handleGoBackToClient}
-            className="justify-start
-            px-1 min-w-4 md:min-w-28 lg:min-w-40
+            className="ml-2 justify-start
+            px-1 min-w-18 md:min-w-32 lg:min-w-40
             hidden transition-all 
             data-[task=true]:flex 
             data-[details=true]:flex
@@ -124,8 +124,8 @@ const CMSHeader = ({
                 <p
                   data-details={showClientDetails}
                   className="
-                  sm:w-14 md:w-24 lg:w-32 data-[details=true]:lg:w-full
-                  hidden sm:block bg-white-default rounded-lg px-2 py-1
+                  w-14 md:w-24 lg:w-32 data-[details=true]:lg:w-full
+                  bg-white-default rounded-lg px-2 py-1
                   truncate hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default"
                 >

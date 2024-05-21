@@ -1,27 +1,33 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import {
+  Avatar,
   Divider,
   Input,
+  Chip,
   Select,
   SelectItem,
   Textarea,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useRef } from "react";
-import { MdInfoOutline } from "react-icons/md";
+import { MdGroups, MdInfoOutline } from "react-icons/md";
 import {
   fileListAtom,
   fileUrlListAtom,
   filterKeysAtom,
   mediaFileListAtom,
+  mediaLayoutSelectionAtom,
+  mediaOrientationSelectionAtom,
   postCaptionAtom,
   postTemplatesAtom,
   postTitleAtom,
+  reactionsSelectionAtom,
   selectedMediaLayoutAtom,
   selectedMediaOrientationAtom,
   selectedReactionsAtom,
   selectedTaggedPeopleAtom,
   selectedTemplateTypeAtom,
+  taggedPeopleListAtom,
   templateNameAtom,
   templateTypeSelectionAtom,
 } from "../../store/ManagePostStore";
@@ -30,6 +36,8 @@ import MediaLayoutSelect from "../mediaLayout/MediaLayoutSelect";
 import MediaOrientationSelect from "../mediaLayout/MediaOrientationSelect";
 import ReactionSelect from "../reaction/ReactionSelect";
 import TagPersonSelect from "./TagPersonSelect";
+import FormFieldSelect from "@/app/components/FormFieldSelect";
+import FormFieldInput from "@/app/components/FormFieldInput";
 
 const ManagePostSidebarContent = () => {
   const [fileList, setFileList] = useAtom(fileListAtom);
@@ -51,9 +59,26 @@ const ManagePostSidebarContent = () => {
   const [selectedMediaLayout, setSelectedMediaLayout] = useAtom(
     selectedMediaLayoutAtom
   );
+
+  const mediaLayoutSelection = useAtomValue(mediaLayoutSelectionAtom);
+  const mediaOrientationSelection = useAtomValue(mediaOrientationSelectionAtom);
+
   const [mediaFileList, setMediaFileList] = useAtom(mediaFileListAtom);
-  const setSelectedReactions = useSetAtom(selectedReactionsAtom);
-  const setSelectedTaggedPeople = useSetAtom(selectedTaggedPeopleAtom);
+  const reactionsSelection = useAtomValue(reactionsSelectionAtom);
+  const [selectedReactions, setSelectedReactions] = useAtom(
+    selectedReactionsAtom
+  );
+  const [selectedTaggedPeople, setSelectedTaggedPeople] = useAtom(
+    selectedTaggedPeopleAtom
+  );
+  const taggedPeopleList = useAtomValue(taggedPeopleListAtom);
+
+  const taggedPeopleKeys = taggedPeopleList.map((tag) => {
+    if (tag.key !== "all") {
+      return tag.key;
+    }
+  });
+
   const filterKeys = useAtomValue(filterKeysAtom);
 
   const selectedMediaOrientationString = Array.from(
@@ -132,28 +157,12 @@ const ManagePostSidebarContent = () => {
       </div>
       <div className="flex justify-between items-center gap-5">
         <p className="font-normal w-24">{"Type"}</p>
-
-        <Select
-          aria-label="Template Type Selection"
+        <FormFieldSelect
+          label="Template Type Selection"
           items={templateTypeSelection}
-          disallowEmptySelection={true}
           selectedKeys={selectedTemplateType}
-          onSelectionChange={(key) => handleSelectionChange(key)}
-          classNames={{
-            base: "",
-            trigger: "min-h-unit-12 py-2",
-          }}
-        >
-          {(template) => (
-            <SelectItem
-              key={template.value}
-              value={template.value}
-              textValue={template.label}
-            >
-              {template.label}
-            </SelectItem>
-          )}
-        </Select>
+          onSelectionChange={handleSelectionChange}
+        />
       </div>
       {(Array.from(selectedTemplateType).join("") === "custom" ||
         !templateOnlyList.includes(selectedTemplateTypeString)) && (
@@ -172,7 +181,34 @@ const ManagePostSidebarContent = () => {
 
       <div className="flex justify-between items-center gap-5">
         <p className="font-normal w-24">{"Reaction"}</p>
-        <ReactionSelect />
+        {/* <ReactionSelect /> */}
+        <FormFieldSelect
+          label={"Reaction Selection"}
+          items={reactionsSelection}
+          variant="bordered"
+          isMultiline={true}
+          selectionMode="single"
+          description="This will be the default reaction displayed on your post"
+          placeholder="Select reaction"
+          labelPlacement="outside"
+          defaultSelectedKeys={"all"}
+          selectedKeys={selectedReactions}
+          onSelectionChange={setSelectedReactions}
+          renderValue={(displayItems) => {
+            return (
+              <div className="flex flex-wrap gap-2 items-center">
+                {displayItems.map((displayItem) => (
+                  <>
+                    <div className="">{displayItem.data.displayIcon}</div>
+                    <div className="text-sm text-black-default">
+                      {displayItem.data.label}
+                    </div>
+                  </>
+                ))}
+              </div>
+            );
+          }}
+        />
       </div>
 
       {/* Media */}
@@ -186,11 +222,36 @@ const ManagePostSidebarContent = () => {
         <div className="flex-col justify-center items-center w-full">
           <div className="flex justify-start items-center gap-5 mb-5">
             <p className="font-normal w-28">{"Layout"}</p>
-            <MediaLayoutSelect />
+            {/* <MediaLayoutSelect /> */}
+            <FormFieldSelect
+              label={"Media Layout Selection"}
+              items={mediaLayoutSelection}
+              placeholder="Choose Layout"
+              selectedKeys={selectedMediaLayout}
+              onSelectionChange={(key) => {
+                console.log(key);
+                setSelectedMediaLayout(key);
+                selectedMediaLayoutString === "single"
+                  ? setSelectedMediaOrientation(new Set(["portrait"]))
+                  : setSelectedMediaOrientation(selectedMediaOrientation);
+              }}
+            />
           </div>
           <div className="flex justify-start items-center gap-5 mb-5">
             <p className="font-normal w-28">{"Orientation"}</p>
-            <MediaOrientationSelect />
+            {/* <MediaOrientationSelect /> */}
+            <FormFieldSelect
+              label={"Media Orientation Selection"}
+              items={mediaOrientationSelection}
+              placeholder="Choose Orientation"
+              selectedKeys={
+                selectedMediaLayoutString === "single"
+                  ? new Set(["portrait"])
+                  : selectedMediaOrientation
+              }
+              onSelectionChange={(key) => setSelectedMediaOrientation(key)}
+              isDisabled={selectedMediaLayoutString === "single"}
+            />
           </div>
           {!mediaFileList?.length && (
             <p className="text-sm font-medium text-red-default">
@@ -198,7 +259,7 @@ const ManagePostSidebarContent = () => {
             </p>
           )}
         </div>
-        <div className="w-80 h-40 text-center">
+        <div className="w-60 lg:w-80 h-40 text-center">
           {(selectedMediaLayoutString ? (
             <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
               <MediaLayoutPreview
@@ -270,6 +331,22 @@ const ManagePostSidebarContent = () => {
       <div className="flex justify-between items-center gap-5">
         <p className="font-normal w-24">{"Tag People"}</p>
         <TagPersonSelect />
+        {/* <FormFieldInput
+          label={"Tag People Selection"}
+          items={taggedPeopleList}
+          variant="bordered"
+          isMultiline={true}
+          selectionMode="multiple"
+          placeholder="Tag people"
+          labelPlacement="outside"
+          selectedKeys={selectedTaggedPeople}
+          onSelectionChange={setSelectedTaggedPeople}
+          disabledKeys={
+            Array.from(selectedTaggedPeople).join("") === "all"
+              ? taggedPeopleKeys
+              : null
+          }          
+        /> */}
       </div>
       <div className="flex justify-between items-center gap-5 mb-2">
         <p className="font-normal w-24">{"Caption"}</p>

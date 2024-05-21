@@ -3,36 +3,36 @@ import { restread, restupdate } from "@/app/utils/amplify-rest";
 import { reactionIcons } from "../components/reaction/ReactionIcons";
 
 let reactionIndex = 0;
-export const reactionsSelectionAtom = atom([
-  {
-    id: (reactionIndex += 1),
-    key: "love",
-    label: "Love",
-    selectIcon: reactionIcons.love.badge,
-    displayIcon: reactionIcons.love.borderBadge,
-  },
-  {
-    id: (reactionIndex += 1),
-    key: "birthday",
-    label: "Birthday",
-    selectIcon: reactionIcons.birthday.badge,
-    displayIcon: reactionIcons.birthday.borderBadge,
-  },
-  {
-    id: (reactionIndex += 1),
-    key: "star",
-    label: "Star",
-    selectIcon: reactionIcons.star.badge,
-    displayIcon: reactionIcons.star.borderBadge,
-  },
-  {
-    id: (reactionIndex += 1),
-    key: "happy",
-    label: "Happy",
-    selectIcon: reactionIcons.happy.badge,
-    displayIcon: reactionIcons.happy.borderBadge,
-  },
-]);
+// export const reactionsSelectionAtom = atom([
+//   {
+//     id: (reactionIndex += 1),
+//     key: "love",
+//     label: "Love",
+//     selectIcon: reactionIcons.love.badge,
+//     displayIcon: reactionIcons.love.borderBadge,
+//   },
+//   {
+//     id: (reactionIndex += 1),
+//     key: "birthday",
+//     label: "Birthday",
+//     selectIcon: reactionIcons.birthday.badge,
+//     displayIcon: reactionIcons.birthday.borderBadge,
+//   },
+//   {
+//     id: (reactionIndex += 1),
+//     key: "star",
+//     label: "Star",
+//     selectIcon: reactionIcons.star.badge,
+//     displayIcon: reactionIcons.star.borderBadge,
+//   },
+//   {
+//     id: (reactionIndex += 1),
+//     key: "happy",
+//     label: "Happy",
+//     selectIcon: reactionIcons.happy.badge,
+//     displayIcon: reactionIcons.happy.borderBadge,
+//   },
+// ]);
 // Displayed Reaction on Post
 export const displayedReactionAtom = atom();
 

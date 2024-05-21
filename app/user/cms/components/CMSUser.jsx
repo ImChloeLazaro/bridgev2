@@ -241,7 +241,7 @@ const CMSUser = () => {
   return (
     <>
       <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 py-0 lg:py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
-        <CardHeader className={`${showClientTask ? "p-0 py-3" : "p-3 py-3"}`}>
+        <CardHeader className={`${showClientTask ? "p-0 py-4" : "p-4 py-4"}`}>
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={

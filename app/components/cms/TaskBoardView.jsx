@@ -4,9 +4,11 @@ import {
   closestCorners,
   DndContext,
   DragOverlay,
-  PointerSensor,
   useSensor,
   useSensors,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { Image, Link } from "@nextui-org/react";
@@ -38,14 +40,24 @@ const TaskBoardView = ({
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 20,
-        tolerance: 100,
-      },
-    })
-  );
+  const mouseSensor = useSensor(MouseSensor, {
+    // Require the mouse to move by 10 pixels before activating
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const touchSensor = useSensor(TouchSensor, {
+    // Press delay of 250ms, with tolerance of 5px of movement
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
+
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
   const handleRefreshTable = () => {
     setShowClientTask(false);
   };

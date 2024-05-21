@@ -30,7 +30,7 @@ const ManagePostItemCard = ({ data }) => {
   console.log("data.reactions", data);
 
   return (
-    <Card className="max-w-[20rem] w-[20rem] h-fit scale-100 rounded-lg hover:scale-105 ml-2 hover:transition-all duration-300">
+    <Card className="max-w-[20rem] w-[20rem] h-fit rounded-lg scale-100 hover:scale-105 transition-all duration-300">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">
         <User
           name={
@@ -54,6 +54,8 @@ const ManagePostItemCard = ({ data }) => {
               color={"lightblue"}
               size={"xs"}
               isFilled={false}
+              className={"h-6 lg:h-6"}
+              classNameLabel={"lg:text-xs"}
             />
           ) : (
             <div></div>
@@ -64,6 +66,8 @@ const ManagePostItemCard = ({ data }) => {
               color={"orange"}
               size={"xs"}
               isFilled={false}
+              className={"h-6 lg:h-6"}
+              classNameLabel={"lg:text-xs"}
             />
           ) : (
             <div></div>
@@ -98,9 +102,7 @@ const ManagePostItemCard = ({ data }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* <MdPersonAdd size={22} /> */}
             <AvatarGroup
-              size="sm"
               max={4}
               total={10}
               renderCount={(count) => (

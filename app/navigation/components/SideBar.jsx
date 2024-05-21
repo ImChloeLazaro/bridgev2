@@ -16,7 +16,6 @@ import {
   cmsPathsAtom,
   fetchRoleAtom,
   selectedRoleAtom,
-  sidebarBreakpointAtom,
   sidebarToggleAtom,
 } from "../store/NavSideBarStore";
 import {
@@ -44,7 +43,6 @@ const SideBar = () => {
   const cmsPaths = useAtomValue(cmsPathsAtom);
   const collapseSidebar = cmsPaths.includes(pathname);
 
-  const breakpoint = "always";
   const customBreakPoint = "1023";
 
   const [toggled, setToggled] = useAtom(sidebarToggleAtom);
