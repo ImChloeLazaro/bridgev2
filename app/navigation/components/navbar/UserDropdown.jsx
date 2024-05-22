@@ -68,29 +68,33 @@ const UserDropdown = () => {
         aria-label="Account Options"
         // onAction={(key) => console.log(key)}
         itemClasses={{
-          base: [
-            "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",
-          ],
+          base: ["data-[hover=true]:bg-orange-default text-black-default"],
           title: ["text-base font-medium"],
         }}
       >
         <DropdownItem
           key={userOptions.switch.key}
-          className={"font-medium data-[hover=true]:bg-transparent p-0 "}
+          className={"font-medium data-[hover=true]:bg-transparent data-[hover=true]:text-lightgrey-default p-0 "}
           textValue={userOptions.switch.key}
         >
           <SwitchRoles />
         </DropdownItem>
 
-        <DropdownItem key={userOptions.settings.key}>
+        <DropdownItem
+          key={userOptions.settings.key}
+          className="data-[hover=true]:text-white-default "
+        >
           {userOptions.settings.label}
         </DropdownItem>
-        <DropdownItem key={userOptions.help.key}>
+        <DropdownItem
+          key={userOptions.help.key}
+          className="data-[hover=true]:text-white-default "
+        >
           {userOptions.help.label}
         </DropdownItem>
         <DropdownItem
           key={userOptions.logout.key}
-          className="data-[hover=true]:bg-red-default"
+          className="data-[hover=true]:bg-red-default data-[hover=true]:text-white-default "
           onPress={handleSignOut}
         >
           {userOptions.logout.label}

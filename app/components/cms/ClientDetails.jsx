@@ -50,7 +50,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
       data-show={showClientDetails}
       className="hidden data-[show=true]:block px-0 md:px-6"
     >
-      <div className="flex gap-6 lg:gap-16 justify-between items-center">
+      <div className="flex gap-2 justify-between items-center">
         <div className="w-full flex gap-6 px-1 items-center relative z-20 ">
           <div className="flex -mr-6">
             <div className="relative z-20 ">

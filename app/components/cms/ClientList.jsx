@@ -19,7 +19,7 @@ const ClientList = ({
       size={25}
       data-details={showClientDetails}
       data-view={showClientTask}
-      className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-0 lg:px-6 "
+      className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-0 lg:px-4"
     >
       <div className="flex flex-col w-full gap-y-3">
         {!itemClients?.length ? (

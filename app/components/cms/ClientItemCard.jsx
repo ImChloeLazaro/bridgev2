@@ -10,7 +10,7 @@ import {
   Link,
   Spinner,
 } from "@nextui-org/react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
 
@@ -32,7 +32,8 @@ const ClientItemCard = ({
   setShowClientDetails,
 }) => {
   const tasks = useAtomValue(tasksAtom);
-  const clientTaskProcessorsCount = tasks.filter(
+
+  const clientProcessors = tasks.filter(
     (task) => task.client.client_id === data._id
   )[0]?.processor;
 
@@ -137,7 +138,7 @@ const ClientItemCard = ({
                           isFilled
                           withBadge={true}
                           badgeContent={statusCount[status]}
-                          className={""}
+                          className={"lg:h-10"}
                           classNameLabel={"text-sm lg:text-lg lg:px-1"}
                         />
                       </Button>
@@ -146,11 +147,11 @@ const ClientItemCard = ({
                 })}
             </div>
             <div className="w-1/5 lg:w-1/3 flex justify-end items-center gap-2 px-1">
-              {!clientTaskProcessorsCount?.length ? (
+              {!clientProcessors?.length ? (
                 ""
               ) : (
                 <AvatarGroup max={3}>
-                  {clientTaskProcessorsCount.map((processor, index) => (
+                  {clientProcessors.map((processor, index) => (
                     <Avatar
                       isBordered={true}
                       key={index}

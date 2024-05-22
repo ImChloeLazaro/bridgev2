@@ -89,118 +89,132 @@ const CMSHeader = ({
   return (
     <div
       data-task={showClientTask}
+      data-details={showClientDetails}
       className={cn(
-        "w-full flex items-center justify-start mx-0 lg:mx-2 my-0 lg:my-2 gap-4 data-[task=false]:max-w-lg",
+        "w-full flex items-start lg:items-center justify-start mx-0 lg:mx-2 my-0 lg:my-2",
+        "data-[details=true]:flex-row flex-col lg:flex-row gap-4 lg:gap-2",
         className
       )}
     >
       <div
         data-details={showClientDetails}
-        className="data-[details=true]:flex-row w-full flex flex-col lg:flex-row gap-4 lg:gap-2 justify-start"
+        className="
+          mr-2 lg:mr-0
+          flex lg:w-full max-w-lg 
+          justify-between items-center gap-2
+          data-[details=false]:max-w-2xl 
+          "
       >
-        <div className="flex justify-between items-center gap-2 mr-2">
-          <IconButton
-            data-details={showClientDetails}
-            data-task={showClientTask}
-            isIconOnly={false}
-            onPress={handleGoBackToClient}
-            className="ml-2 justify-start
-            px-1 min-w-18 md:min-w-32 lg:min-w-40
-            hidden transition-all 
-            data-[task=true]:flex 
-            data-[details=true]:flex
-            "
-          >
-            <div className="text-black-default flex justify-center items-center">
-              <MdOutlineChevronLeft size={24} />
-              <Tooltip
-                content={
-                  !selectedClientToView?.length
-                    ? "Go Back"
-                    : clientNameToDisplay
-                }
-                delay={1000}
-              >
-                <p
-                  data-details={showClientDetails}
-                  className="
-                  w-14 md:w-24 lg:w-32 data-[details=true]:lg:w-full
-                  bg-white-default rounded-lg px-2 py-1
-                  truncate hover:underline hover:underline-offset-1
-                  text-base font-bold text-black-default"
-                >
-                  {!selectedClientToView?.length
-                    ? "Client List"
-                    : clientNameToDisplay}
-                </p>
-              </Tooltip>
-            </div>
-          </IconButton>
-          <SearchBar
-            disabledFilter={showClientTask && changeView}
-            showSearchBar={showSearchBar}
-            searchItem={searchItem}
-            setSearchItem={setSearchItem}
-            filterKeys={filterKeys}
-            selectedFilterKeys={selectedFilterKeys}
-            setSelectedFilterKeys={setSelectedFilterKeys}
-          />
-          <IconButton
-            radius={"sm"}
-            aria-label={"Refresh Task Client Data Button"}
-            data-show={showSearchBar}
-            onPress={handleRefreshClient}
-            variant="bordered"
-            isLoading={isLoading}
-            className={"hidden data-[show=true]:flex"}
-          >
-            <MdRefresh size={24} />
-          </IconButton>
-        </div>
-
-        <div
+        <CTAButtons
+          color={"clear"}
+          showButton={showClientDetails || showClientTask}
           data-details={showClientDetails}
           data-task={showClientTask}
+          onPress={handleGoBackToClient}
+          startContent={<MdOutlineChevronLeft size={24} />}
+          disableRipple={true}
+          disableAnimation={true}
           className="
-          hidden gap-2 ml-0 sm:ml-1 lg:ml-6
-          data-[task=true]:flex
-          data-[details=true]:flex
-          data-[details=true]:lg:ml-2
-          overscroll-x-auto no-scrollbar
-          "
+            data-[details=true]:px-0
+            data-[details=true]:ml-0
+            data-[task=true]:flex 
+            data-[details=true]:flex
+            ml-2 justify-start
+            px-1
+            hidden transition-all
+            "
+          // w-full min-w-14 min-[425px]:min-w-16 md:min-w-32 lg:min-w-40
         >
-          <CTAButtons
-            isDisabled={showClientDetails}
-            radius={"sm"}
-            variant={"bordered"}
-            color={changeView ? "blue" : "orange"}
-            size={"md"}
-            startContent={
-              changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
+          <Tooltip
+            content={
+              !selectedClientToView?.length ? "Go Back" : clientNameToDisplay
             }
-            label={<p className="hidden md:flex">{"Switch View"}</p>}
-            className={"px-2 min-[320px]:px-5 w-10"}
-            onPress={handleChangeView}
-          />
-          <CTAButtons
-            radius={"sm"}
-            variant={"bordered"}
-            color={showClientDetails ? "green" : "white"}
-            size={"md"}
-            startContent={<MdOutlineDescription size={24} />}
-            label={
-              <p
-                data-details={showClientDetails}
-                className="hidden md:flex data-[details=true]:flex"
-              >
-                {"View Client Details"}
-              </p>
-            }
-            className={"px-2 min-[320px]:px-5 w-10"}
-            onPress={handleViewClientDetails}
-          />
-          {children}
-        </div>
+            delay={1000}
+          >
+            <p
+              data-details={showClientDetails}
+              className="
+                  data-[details=true]:w-full
+                  w-16 md:w-28 lg:w-32
+                  bg-white-default rounded-lg px-2 py-1
+                  truncate hover:underline hover:underline-offset-1
+                  text-base font-bold text-black-default
+                  "
+              // w-16 min-[425px]:min-w-20 md:w-28 lg:w-32
+            >
+              {!selectedClientToView?.length
+                ? "Client List"
+                : clientNameToDisplay}
+            </p>
+          </Tooltip>
+        </CTAButtons>
+        <SearchBar
+          disabledFilter={showClientTask && changeView}
+          showSearchBar={showSearchBar}
+          searchItem={searchItem}
+          setSearchItem={setSearchItem}
+          filterKeys={filterKeys}
+          selectedFilterKeys={selectedFilterKeys}
+          setSelectedFilterKeys={setSelectedFilterKeys}
+        />
+        <IconButton
+          radius={"sm"}
+          aria-label={"Refresh Task Client Data Button"}
+          data-show={showSearchBar}
+          onPress={handleRefreshClient}
+          variant="bordered"
+          isLoading={isLoading}
+          className={"hidden data-[show=true]:flex"}
+        >
+          <MdRefresh size={24} />
+        </IconButton>
+      </div>
+
+      <div
+        data-details={showClientDetails}
+        data-task={showClientTask}
+        className="
+          gap-2 w-full ml-0
+          justify-start lg:justify-between
+          flex items-center
+          data-[task=true]:ml-4
+          data-[details=true]:hidden
+          data-[details=true]:justify-end
+          "
+      >
+        <CTAButtons
+          showButton={showClientTask}
+          isDisabled={showClientDetails}
+          radius={"sm"}
+          variant={"bordered"}
+          color={changeView ? "blue" : "orange"}
+          size={"md"}
+          startContent={
+            changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
+          }
+          label={<p className="">{"Switch View"}</p>}
+          className={"px-2 min-[320px]:px-5 w-10"}
+          onPress={handleChangeView}
+        />
+        <CTAButtons
+          showButton={showClientTask}
+          radius={"sm"}
+          variant={"bordered"}
+          color={showClientDetails ? "green" : "white"}
+          size={"md"}
+          startContent={<MdOutlineDescription size={24} />}
+          label={
+            <p
+              data-details={showClientDetails}
+              className="data-[details=true]:flex"
+            >
+              {"View Client Details"}
+            </p>
+          }
+          className={"px-2 min-[320px]:px-5 w-10"}
+          onPress={handleViewClientDetails}
+        />
+        {children ? children : <div className="lg:w-full"></div>}
       </div>
     </div>
   );

@@ -6,10 +6,7 @@ import {
 } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
-import {
-  selectedRoleAtom,
-  roleAtom
-} from "../../store/NavSideBarStore";
+import { selectedRoleAtom, roleAtom } from "../../store/NavSideBarStore";
 
 const SwitchRoles = () => {
   const roles = useAtomValue(roleAtom);
@@ -37,7 +34,10 @@ const SwitchRoles = () => {
   });
 
   return (
-    <Accordion isCompact className="text-base font-medium">
+    <Accordion
+      isCompact
+      className="text-base font-medium"
+    >
       <AccordionItem
         key="switch"
         aria-label="Switch Roles"
@@ -48,6 +48,7 @@ const SwitchRoles = () => {
           items={roleList}
           aria-label="Actions"
           onAction={setRoles}
+          className={"p-0"}
           itemClasses={{
             base: [
               "data-[hover=true]:bg-orange-default data-[hover=true]:text-white-default text-black-default",

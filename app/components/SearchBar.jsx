@@ -53,7 +53,7 @@ const SearchBar = ({
           onSelectionChange={setSelectedFilterKeys}
           startContent={<MdFilterAlt size={20} />}
           classNames={{
-            base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-32 md:max-w-36 lg:max-w-40",
+            base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-28 md:max-w-32 lg:max-w-36",
             trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",
             mainWrapper: "w-full",
             value:
@@ -69,11 +69,11 @@ const SearchBar = ({
 
         <Input
           radius={"sm"}
-          aria-label="SearchBar search function"
+          aria-label={"SearchBar search function"}
           isDisabled={disabledSearch}
           value={searchItem}
           onValueChange={setSearchItem}
-          labelPlacement="outside"
+          labelPlacement={"outside"}
           startContent={
             <div className="hidden md:block text-lightgrey-default">
               <LuSearch size={18} />
@@ -84,7 +84,11 @@ const SearchBar = ({
               <div className="block md:hidden text-lightgrey-default">
                 <LuSearch size={18} />
               </div>
-              <div className="hidden md:flex pointer-events-none items-center">
+
+              <div
+                data-show={Boolean(searchItem?.length)}
+                className="data-[show=true]:invisible hidden md:flex pointer-events-none items-center"
+              >
                 <span className="text-darkgrey-hover text-small">
                   {"Search"}
                 </span>
@@ -94,9 +98,10 @@ const SearchBar = ({
           classNames={{
             base: "w-full min-w-20 ",
             inputWrapper: [
-              "bg-white-default rounded-l-none border border-l-0 shadow-sm",
+              "px-1 lg:px-3 bg-white-default rounded-l-none border border-l-0 shadow-sm",
             ],
             mainWrapper: ["w-full"],
+            input: "mt-1",
           }}
         />
       </>

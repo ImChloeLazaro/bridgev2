@@ -275,8 +275,18 @@ const CMSTL = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-4 px-2 py-1.5 drop-shadow shadow-none bg-white-default">
-        <CardHeader className={`${showClientTask ? "p-0 py-4" : "p-4 py-4"}`}>
+      <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+        <CardHeader
+          data-task={showClientTask}
+          data-details={showClientDetails}
+          className="
+            data-[details=true]:py-2 
+            data-[task=true]:py-2 
+            data-[details=true]:px-1 
+            data-[task=true]:px-0 
+            p-4 py-4
+            "
+        >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
@@ -304,16 +314,19 @@ const CMSTL = () => {
             setShowClientDetails={setShowClientDetails}
           >
             <div
-              data-show={showClientDetails}
-              className="w-full flex data-[show=true]:hidden justify-start lg:justify-end gap-4"
+              data-task={showClientTask}
+              data-details={showClientDetails}
+              className="lg:w-full data-[details=true]:hidden flex justify-end data-[task=true]:justify-start gap-2"
             >
               <CTAButtons
                 radius={"sm"}
+                size={"md"}
+                variant={"bordered"}
                 key={actionButtons.task.label}
                 fullWidth={true}
                 label={actionButtons.task.label}
                 color={actionButtons.task.color}
-                className={"py-5 max-w-[16rem]"}
+                className={"min-w-20 lg:min-w-40 py-4 w-full lg:max-w-64"}
                 onPress={() => handleOpenTaskWindow()}
               />
               <AddTaskModal
@@ -323,7 +336,7 @@ const CMSTL = () => {
             </div>
           </CMSHeader>
         </CardHeader>
-        <CardBody className="h-full w-full overflow-x-auto">
+        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
             showClientTask={showClientTask}

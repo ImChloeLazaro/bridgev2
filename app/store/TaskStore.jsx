@@ -7,7 +7,9 @@ import {
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
-import { userListAtom } from "./UserStore";
+import { userAtom, userListAtom } from "./UserStore";
+import { useMemo } from "react";
+import { authenticationAtom } from "./AuthenticationStore";
 
 export const tasksAtom = atom([]);
 
@@ -108,7 +110,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   }
 });
 
-
 export const tableColumnsAtom = atom([
   { label: "Task  Name", key: "task", sortable: true },
   { label: "Status", key: "status", sortable: true },
@@ -191,7 +192,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   }
 });
 
-
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
     return {
@@ -203,7 +203,6 @@ export const clientSelectionForTaskAtom = atom((get) =>
     };
   })
 );
-
 
 let processorIndex = 0;
 export const processorSelectionAtom = atom((get) => {

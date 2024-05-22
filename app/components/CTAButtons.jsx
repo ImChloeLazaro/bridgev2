@@ -10,6 +10,7 @@ const CTAButtons = ({
   startContent,
   endContent,
   showButton = true,
+  children,
   ...props
 }) => {
   const colors = {
@@ -36,14 +37,14 @@ const CTAButtons = ({
       variant="solid"
       className={cn(
         "hidden data-[show=true]:flex min-w-fit",
-        "px-5 py-0.5 font-bold text-base",
+        "px-5 py-0.5 font-bold text-xs md:text-sm lg:text-base",
         buttonColor,
         className
       )}
       size={size}
       {...props}
     >
-      {label}
+      {children ? children : label}
     </Button>
   );
 };

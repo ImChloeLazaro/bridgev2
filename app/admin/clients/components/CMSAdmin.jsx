@@ -284,8 +284,18 @@ const CMSAdmin = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-4 px-0 lg:px-2 py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
-        <CardHeader className={`${showClientTask ? "p-0 py-4" : "p-4 py-4"}`}>
+      <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+        <CardHeader
+          data-task={showClientTask}
+          data-details={showClientDetails}
+          className="
+            data-[details=true]:py-2 
+            data-[task=true]:py-2 
+            data-[details=true]:px-1 
+            data-[task=true]:px-0 
+            p-4 py-4
+            "
+        >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
@@ -313,16 +323,19 @@ const CMSAdmin = () => {
             setShowClientDetails={setShowClientDetails}
           >
             <div
-              data-show={showClientDetails}
-              className="w-full flex data-[show=true]:hidden justify-start lg:justify-end gap-4 ml-0 lg:ml-6 "
+              data-task={showClientTask}
+              data-details={showClientDetails}
+              className="lg:w-full data-[details=true]:hidden flex justify-end data-[task=true]:justify-start gap-2"
             >
               <CTAButtons
                 radius={"sm"}
+                size={"md"}
+                variant={"bordered"}
                 key={actionButtons.task.label}
                 fullWidth={true}
                 label={actionButtons.task.label}
                 color={actionButtons.task.color}
-                className={"min-w-40 py-5 max-w-[16rem]"}
+                className={"min-w-40 py-4 w-10 lg:max-w-64"}
                 onPress={() => handleOpenTaskWindow()}
               />
               <AddTaskModal
@@ -331,12 +344,14 @@ const CMSAdmin = () => {
               />
               <CTAButtons
                 radius={"sm"}
+                size={"md"}
+                variant={"bordered"}
                 showButton={!showClientTask}
                 key={actionButtons.client.label}
                 fullWidth={true}
                 label={actionButtons.client.label}
                 color={actionButtons.client.color}
-                className={"min-w-40 py-5 max-w-[16rem]"}
+                className={"min-w-40 py-4 w-10 lg:max-w-64"}
                 onPress={() => handleOpenClientWindow()}
               />
               <AddClientModal
@@ -347,46 +362,38 @@ const CMSAdmin = () => {
           </CMSHeader>
         </CardHeader>
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
-          <Suspense
-            fallback={
-              <div className="text-lg font-medium text-black-default">
-                {"CLIENT DATA LOADING"}
-              </div>
-            }
-          >
-            <ClientList
-              itemClients={itemClients}
-              showClientTask={showClientTask}
-              setShowClientTask={setShowClientTask}
-              showClientDetails={showClientDetails}
-              setChangeView={setChangeView}
-              setShowFooter={setShowFooter}
-              setShowSearchBar={setShowSearchBar}
-              setSelectedClientToView={setSelectedClientToView}
-              setSelectedClientForTask={setSelectedClientForTask}
-              setShowClientDetails={setShowClientDetails}
-            />
-            <TaskTableView
-              itemTasks={filteredTaskItems}
-              showClientTask={showClientTask}
-              changeView={changeView}
-              sortDescriptor={sortDescriptor}
-              setSortDescriptor={setSortDescriptor}
-              setShowClientTask={setShowClientTask}
-              selectedClientToView={selectedClientToView}
-            />
-            <TaskBoardView
-              itemTasks={filteredTaskItems}
-              showClientTask={showClientTask && selectedClientToView !== ""}
-              changeView={changeView}
-              setShowClientTask={setShowClientTask}
-              selectedClientToView={selectedClientToView}
-            />
-            <ClientDetails
-              showClientDetails={showClientDetails}
-              selectedClient={selectedClient}
-            />
-          </Suspense>
+          <ClientList
+            itemClients={itemClients}
+            showClientTask={showClientTask}
+            setShowClientTask={setShowClientTask}
+            showClientDetails={showClientDetails}
+            setChangeView={setChangeView}
+            setShowFooter={setShowFooter}
+            setShowSearchBar={setShowSearchBar}
+            setSelectedClientToView={setSelectedClientToView}
+            setSelectedClientForTask={setSelectedClientForTask}
+            setShowClientDetails={setShowClientDetails}
+          />
+          <TaskTableView
+            itemTasks={filteredTaskItems}
+            showClientTask={showClientTask}
+            changeView={changeView}
+            sortDescriptor={sortDescriptor}
+            setSortDescriptor={setSortDescriptor}
+            setShowClientTask={setShowClientTask}
+            selectedClientToView={selectedClientToView}
+          />
+          <TaskBoardView
+            itemTasks={filteredTaskItems}
+            showClientTask={showClientTask && selectedClientToView !== ""}
+            changeView={changeView}
+            setShowClientTask={setShowClientTask}
+            selectedClientToView={selectedClientToView}
+          />
+          <ClientDetails
+            showClientDetails={showClientDetails}
+            selectedClient={selectedClient}
+          />
         </CardBody>
         <CardFooter className="">
           <CMSFooter

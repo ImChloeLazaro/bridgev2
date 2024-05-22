@@ -31,6 +31,7 @@ import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import CMSFooter from "@/app/components/cms/CMSFooter";
 import CMSHeader from "@/app/components/cms/CMSHeader";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const CMSUser = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
@@ -39,6 +40,7 @@ const CMSUser = () => {
     column: "age",
     direction: "ascending",
   });
+  const user = useAtomValue(authenticationAtom);
 
   const clients = useAtomValue(clientsAtom);
   const tasks = useAtomValue(tasksAtom);
@@ -73,10 +75,20 @@ const CMSUser = () => {
   const clientsCount = useAtomValue(clientsCountAtom);
 
   // ##########################################
+
+  const userTasks = tasks.filter((task) => {
+    const processors = task.processor.map((user) => user.sub);
+    return processors.includes(user.sub);
+  });
+  console.log("user", user);
+  console.log("userTasks", userTasks);
+
   const tasksFromSelectedClient = useMemo(
     () =>
-      tasks.filter((task) => task.client.client_id === selectedClientToView),
-    [selectedClientToView, tasks]
+      userTasks.filter(
+        (task) => task.client.client_id === selectedClientToView
+      ),
+    [selectedClientToView, userTasks]
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -156,6 +168,7 @@ const CMSUser = () => {
   // }, [itemTasks, sortDescriptor]);
 
   // ######################################################
+
   const selectedClient = clients.filter(
     (client) => client._id === selectedClientToView
   );
@@ -165,7 +178,11 @@ const CMSUser = () => {
   ).join("");
 
   const filteredClientItems = useMemo(() => {
-    let filteredClients = [...clients];
+    const clientIDFromTasks = userTasks.map((task) => task.client.client_id);
+
+    let filteredClients = [
+      ...clients.filter((client) => clientIDFromTasks.includes(client._id)),
+    ];
 
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
@@ -186,6 +203,7 @@ const CMSUser = () => {
 
     return filteredClients;
   }, [
+    userTasks,
     clients,
     searchClientItem,
     selectedClientFilterKeyString,
@@ -227,21 +245,31 @@ const CMSUser = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchTask();
-  //     fetchClient();
-  //   }, 5000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTask();
+      fetchClient();
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 py-0 lg:py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
-        <CardHeader className={`${showClientTask ? "p-0 py-4" : "p-4 py-4"}`}>
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
+        <CardHeader
+          data-task={showClientTask}
+          data-details={showClientDetails}
+          className="
+            data-[details=true]:py-2 
+            data-[task=true]:py-2 
+            data-[details=true]:px-1 
+            data-[task=true]:px-0 
+            p-4 py-4
+            "
+        >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
             setSearchItem={
