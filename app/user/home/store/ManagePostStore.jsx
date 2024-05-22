@@ -166,24 +166,6 @@ export const chipListAtom = atom(async (get) => {
 });
 let taggedIndex = 0;
 export const taggedPeopleListAtom = atom((get) => {
-  // const chipList = await get(chipListAtom);
-  // const emails = chipList.map((chip) => chip.email);
-
-  // let taggedList = chipList.map((chip) => ({
-  //   ...chip,
-  //   id: (taggedIndex += 1),
-  //   key: chip._id,
-  // }));
-
-  // taggedList.unshift({
-  //   id: "all",
-  //   key: "all",
-  //   name: "@all",
-  //   email: emails,
-  //   picture: null,
-  // });
-
-  // return taggedList;
   const list = get(userListAtom);
 
   const allEmails = list.map((person) => person.email);
@@ -208,6 +190,8 @@ export const taggedPeopleListAtom = atom((get) => {
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
+
+export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
 export const postCaptionAtom = atom("");

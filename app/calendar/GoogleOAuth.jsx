@@ -3,6 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 const GoogleOAuth = () => {
   const { data: session } = useSession()
+  console.log("session: ", session);
   if (session) {
     return (
       <>
