@@ -87,24 +87,8 @@ const CMSHeader = ({
   )[0]?.company.name;
 
   return (
-    <div
-      data-task={showClientTask}
-      data-details={showClientDetails}
-      className={cn(
-        "w-full flex items-start lg:items-center justify-start mx-0 lg:mx-2 my-0 lg:my-2",
-        "data-[details=true]:flex-row flex-col lg:flex-row gap-4 lg:gap-2",
-        className
-      )}
-    >
-      <div
-        data-details={showClientDetails}
-        className="
-          mr-2 lg:mr-0
-          flex lg:w-full max-w-lg 
-          justify-between items-center gap-2
-          data-[details=false]:max-w-2xl 
-          "
-      >
+    <div className="flex-wrap flex gap-2">
+      <div className="flex gap-2">
         <CTAButtons
           color={"clear"}
           showButton={showClientDetails || showClientTask}
@@ -169,19 +153,7 @@ const CMSHeader = ({
           <MdRefresh size={24} />
         </IconButton>
       </div>
-
-      <div
-        data-details={showClientDetails}
-        data-task={showClientTask}
-        className="
-          gap-2 w-full ml-0
-          justify-start lg:justify-between
-          flex items-center
-          data-[task=true]:ml-4
-          data-[details=true]:hidden
-          data-[details=true]:justify-end
-          "
-      >
+      <div className="flex gap-2">
         <CTAButtons
           showButton={showClientTask}
           isDisabled={showClientDetails}
@@ -192,8 +164,8 @@ const CMSHeader = ({
           startContent={
             changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
           }
-          label={<p className="">{"Switch View"}</p>}
-          className={"px-2 min-[320px]:px-5 w-10"}
+          label={"Switch View"}
+          className={"px-2 min-w-40 w-full lg:max-w-64"}
           onPress={handleChangeView}
         />
         <CTAButtons
@@ -203,19 +175,12 @@ const CMSHeader = ({
           color={showClientDetails ? "green" : "white"}
           size={"md"}
           startContent={<MdOutlineDescription size={24} />}
-          label={
-            <p
-              data-details={showClientDetails}
-              className="data-[details=true]:flex"
-            >
-              {"View Client Details"}
-            </p>
-          }
-          className={"px-2 min-[320px]:px-5 w-10"}
+          label={"View Client Details"}
+          className={"px-2 min-w-40 w-full lg:max-w-64"}
           onPress={handleViewClientDetails}
         />
-        {children ? children : <div className="lg:w-full"></div>}
       </div>
+      <div className="flex gap-2">{children ? children : null}</div>
     </div>
   );
 };

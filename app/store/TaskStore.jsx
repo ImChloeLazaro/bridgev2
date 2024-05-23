@@ -21,7 +21,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   console.log("selectedClient: ", client);
 
   const clientAlreadyHaveTask = get(tasksAtom).filter(
-    (task) => task.client.client_id === client.client_id
+    (task) => task.client?.client_id === client?.client_id
   );
 
   console.log("clientAlreadyHaveTask: ", clientAlreadyHaveTask[0]);
@@ -82,7 +82,7 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const { sla, client_id } = update;
 
   const updateTaskStatus = get(tasksAtom).filter(
-    (task) => task.client.client_id === client_id
+    (task) => task.client?.client_id === client_id
   );
 
   console.log("sla inside task store  ", sla);
@@ -95,7 +95,7 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 
   if (response.success) {
     const updatedTask = get(tasksAtom).map((task) => {
-      if (task.client.client_id === client_id) {
+      if (task.client?.client_id === client_id) {
         return { ...task, sla: sla };
       }
       return task;
@@ -179,7 +179,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
     const convertedTasks = tasks.response.map((task, index) => {
       return {
         ...task,
-        key: task.client.client_id,
+        key: task.client?.client_id,
         id: `${(index += 1)}`,
         sla: [...task.sla],
       };
@@ -378,65 +378,4 @@ export const recurrenceSelectionAtom = atom([
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);
-// export const selectedRecurrenceAtom = atom(new Set(["Daily"]));
 
-// export const startDateAtom = atom("");
-// export const endDateAtom = atom("");
-
-// export const startTimeAtom = atom("");
-// export const endTimeAtom = atom("");
-
-// export const taskDataAtom = atom((get) => {
-//   const selectedClientForTask = get(selectedClientForTaskAtom);
-//   const selectedProcessor = get(selectedProcessorAtom);
-//   const selectedReviewer = get(selectedReviewerAtom);
-//   const selectedManager = get(selectedManagerAtom);
-//   const selectedRecurrence = get(selectedRecurrenceAtom);
-
-//   const clientSelection = get(clientSelectionForTaskAtom);
-//   const processorSelection = get(processorSelectionAtom);
-//   const reviewerSelection = get(reviewerSelectionAtom);
-//   const managerSelection = get(managerSelectionAtom);
-
-//   return {
-//     manager: managerSelection.filter((manager) =>
-//       Array.from(selectedManager).includes(manager.sub)
-//     )[0],
-//     client: clientSelection.filter((client) =>
-//       Array.from(selectedClientForTask).includes(client.client_id)
-//     )[0],
-//     processor: processorSelection.filter((processor) =>
-//       Array.from(selectedProcessor).includes(processor.sub)
-//     ),
-//     reviewer: reviewerSelection.filter((reviewer) =>
-//       Array.from(selectedReviewer).includes(reviewer.sub)
-//     ),
-//     // duration: Array.from(selectedRecurrence).join(""), //Daily, Weekly, Monthly, Quarterly, Yearly
-//     sla: [
-//       {
-//         name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
-//         instruction:
-//           get(taskInstructionAtom) === ""
-//             ? "Add Instructions"
-//             : get(taskInstructionAtom),
-//         status: "todo", //todo, pending, to review, done
-//         progress: "Good", //Good, Overdue, Adhoc
-//         duration: {
-//           start: get(startDateAtom) === "" ? new Date() : get(startDateAtom),
-//           end:
-//             get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
-//           recurrence:
-//             Array.from(selectedRecurrence).join("") === ""
-//               ? "Daily"
-//               : Array.from(selectedRecurrence).join(""),
-//         },
-//         // done_by: {
-//         //   sub: String,
-//         //   name: String,
-//         //   email: String,
-//         //   picture: String,
-//         // }, //sub
-//       },
-//     ],
-//   };
-// });

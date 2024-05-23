@@ -58,7 +58,7 @@ const TaskFormSections = () => {
   const handleClientSelectionChange = (key) => {
     console.log("client key", key);
     setSelectedClientForTask(key);
-    clientSelectionChange(Array.from(key).join(""));
+    clientSelectionChange({ key: Array.from(key).join("") });
   };
 
   const handleProcessorSelectionChange = (key) => {
@@ -130,7 +130,7 @@ const TaskFormSections = () => {
               }}
             >
               {(client) => (
-                <SelectItem key={client.client_id} textValue={client.name}>
+                <SelectItem key={client?.client_id} textValue={client.name}>
                   <div className="flex gap-2 items-center">
                     <Avatar
                       alt={client.name}
@@ -296,7 +296,7 @@ const TaskFormSections = () => {
               }}
             >
               {(manager) => (
-                <SelectItem key={manager.sub} textValue={manager.name}>
+                <SelectItem key={manager?.sub} textValue={manager.name}>
                   <div className="flex gap-2 items-center">
                     <Avatar
                       alt={manager.name}
@@ -348,7 +348,7 @@ const TaskFormSections = () => {
           <div className="flex justify-between items-center gap-6">
             <p className="font-medium w-24">{"Recurrence"}</p>
             <Select
-              aria-label="Client Selection"
+              aria-label="Recurrence Selection"
               items={recurrenceSelection}
               variant="bordered"
               isMultiline={true}

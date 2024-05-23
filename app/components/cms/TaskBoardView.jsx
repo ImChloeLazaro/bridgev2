@@ -27,6 +27,7 @@ const TaskBoardView = ({
   changeView,
   setShowClientTask,
   selectedClientToView,
+  actions,
 }) => {
   const user = useAtomValue(userAtom);
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
@@ -121,6 +122,7 @@ const TaskBoardView = ({
                     ? tasks.filter((task) => task.status === undefined)
                     : tasks.filter((task) => task.status === col.id)
                 }
+                actions={actions}
               />
             ))}
           </SortableContext>
@@ -166,11 +168,13 @@ const TaskBoardView = ({
                     ? tasks.filter((task) => task.status === undefined)
                     : tasks.filter((task) => task.status === activeColumn?.id)
                 }
+                actions={actions}
               />
             )}
             {activeTask && (
               <TaskBoardCard
                 task={activeTask}
+                actions={actions}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
               />
@@ -266,17 +270,13 @@ const TaskBoardView = ({
 
     const dateTaskDone = new Date();
 
-    const taskDone = tasks.filter(
-      (t) => t.id === activeId && t.status === "done"
-    );
+    const taskActive = active.data.current?.task?._id;
+    const taskOver = over.data.current?.task?._id;
+    const taskOverStatus = over.data.current?.task?.status;
 
-    if (taskDone?.length) {
-      const taskActive = active.data.current.task._id;
-      const taskOver = over.data.current.task._id;
-      console.log("taskActive", taskActive);
-      console.log("taskOver", taskOver);
-
+    if (taskOverStatus === "done") {
       if (taskActive !== taskOver) {
+        console.log("TASK COMPLETED");
         toast.success(`Task Completed: ${taskDone[0].name} `, {
           description: `${format(dateTaskDone, "PPpp")}`,
         });

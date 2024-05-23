@@ -11,6 +11,7 @@ function ColumnContainer({
   tasks,
   deleteTask,
   updateTask,
+  actions,
 }) {
   const [editMode, setEditMode] = useState(false);
   const tasksCount = tasks?.length ? tasks.length : 0;
@@ -169,6 +170,7 @@ function ColumnContainer({
                 task={task}
                 deleteTask={deleteTask}
                 updateTask={updateTask}
+                actions={actions}
               />
             ))
           ) : (

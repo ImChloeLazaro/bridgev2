@@ -80,10 +80,10 @@ export const taskDataAtom = atom((get) => {
 
   return {
     manager: managerSelection.filter((manager) =>
-      Array.from(selectedManager).includes(manager.sub)
+      Array.from(selectedManager).includes(manager?.sub)
     )[0],
     client: clientSelection.filter((client) =>
-      Array.from(selectedClientForTask).includes(client.client_id)
+      Array.from(selectedClientForTask).includes(client?.client_id)
     )[0],
     processor: processorSelection.filter((processor) =>
       Array.from(selectedProcessor).includes(processor.sub)
@@ -127,18 +127,18 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
   const { key } = update;
   console.log("SELECTION KEY", key);
   const clientSelectionChange = get(tasksAtom).filter(
-    (task) => task.client.client_id === key
+    (task) => task.client?.client_id === key
   );
   if (clientSelectionChange?.length) {
     console.log("clientSelectionChange: ", clientSelectionChange);
-    const selectedClient = [clientSelectionChange[0].client.client_id];
+    const selectedClient = [clientSelectionChange[0].client?.client_id];
     const selectedProcessor = clientSelectionChange[0].processor.map(
       (processor) => processor.sub
     );
     const selectedReviewer = clientSelectionChange[0].reviewer.map(
       (reviewer) => reviewer.sub
     );
-    const selectedManager = [clientSelectionChange[0].manager.sub];
+    const selectedManager = [clientSelectionChange[0].manager?.sub];
 
     set(selectedClientForTaskAtom, new Set(selectedClient));
     set(selectedProcessorAtom, new Set(selectedProcessor));

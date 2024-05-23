@@ -20,9 +20,6 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
 import { MdCheck } from "react-icons/md";
-import { MdKeyboardDoubleArrowUp } from "react-icons/md";
-import { MdOutlineAssignment } from "react-icons/md";
-import { MdRemoveCircleOutline } from "react-icons/md";
 
 const tagColors = {
   todo: "blue",
@@ -41,6 +38,7 @@ const TaskTableView = ({
   setSortDescriptor,
   setShowClientTask,
   selectedClientToView,
+  actions,
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
@@ -65,31 +63,14 @@ const TaskTableView = ({
   const renderCell = useCallback((task, columnKey) => {
     const cellValue = task[columnKey];
     const processorList = task.processor?.length ? task.processor : [];
-    const actions = [
+    const actionOptions = [
       {
         key: "mark",
         color: task.status === "done" ? "yellow" : "green",
         label: task.status === "done" ? "Mark for review" : `Mark as done`,
         icon: <MdCheck size={18} />,
       },
-      {
-        key: "escalate",
-        color: "red",
-        label: "Escalate to team lead",
-        icon: <MdKeyboardDoubleArrowUp size={18} />,
-      },
-      {
-        key: "assign",
-        color: "blue",
-        label: "Assign to a team member",
-        icon: <MdOutlineAssignment size={18} />,
-      },
-      {
-        key: "remove",
-        color: "orange",
-        label: "Remove a team member",
-        icon: <MdRemoveCircleOutline size={18} />,
-      },
+      ...actions,
     ];
 
     switch (columnKey) {
@@ -166,7 +147,7 @@ const TaskTableView = ({
           <TaskOptionsDropdown
             id={task?._id}
             task={task}
-            actions={actions}
+            actions={actionOptions}
             trigger={<BiDotsVerticalRounded size={24} />}
           />
         );
@@ -174,7 +155,7 @@ const TaskTableView = ({
       default:
         return cellValue;
     }
-  }, []);
+  }, [actions]);
 
   return !selectedClientToView?.length ? (
     <div

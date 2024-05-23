@@ -10,7 +10,7 @@ import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdOutlineAssignment } from "react-icons/md";
 import { MdRemoveCircleOutline } from "react-icons/md";
 
-function TaskBoardCard({ task, deleteTask, updateTask }) {
+function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
 
@@ -30,25 +30,14 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
     // disabled: false,
   });
 
-  const actions = [
+  const actionOptions = [
     {
       key: "mark",
       color: task.status === "done" ? "yellow" : "green",
       label: task.status === "done" ? "Mark for review" : `Mark as done`,
       icon: <MdCheck size={18} />,
     },
-    {
-      key: "escalate",
-      color: "red",
-      label: "Escalate to team lead",
-      icon: <MdKeyboardDoubleArrowUp size={18} />,
-    },
-    {
-      key: "assign",
-      color: "orange",
-      label: "Assign to a team member",
-      icon: <MdOutlineAssignment size={18} />,
-    },
+    ...actions,
   ];
 
   const style = {
@@ -152,7 +141,7 @@ function TaskBoardCard({ task, deleteTask, updateTask }) {
           <TaskOptionsDropdown
             id={task?._id}
             task={task}
-            actions={actions}
+            actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
           />
         </div>

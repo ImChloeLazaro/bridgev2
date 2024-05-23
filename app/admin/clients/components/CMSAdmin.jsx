@@ -31,7 +31,6 @@ import {
   selectedTaskFilterKeysAtom,
   clientSelectionChangeAtom,
 } from "../store/CMSAdminStore";
-
 import ClientList from "@/app/components/cms/ClientList";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
@@ -41,6 +40,11 @@ import CMSHeader from "@/app/components/cms/CMSHeader";
 import CTAButtons from "@/app/components/CTAButtons";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "./AddTaskModal";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdOutlineAssignment } from "react-icons/md";
+import { MdRemoveCircleOutline } from "react-icons/md";
+
+// @refresh reset
 
 const CMSAdmin = () => {
   const {
@@ -98,7 +102,7 @@ const CMSAdmin = () => {
   // ##########################################
   const tasksFromSelectedClient = useMemo(
     () =>
-      tasks.filter((task) => task.client.client_id === selectedClientToView),
+      tasks.filter((task) => task.client?.client_id === selectedClientToView),
     [selectedClientToView, tasks]
   );
 
@@ -250,6 +254,27 @@ const CMSAdmin = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
+  const actions = [
+    {
+      key: "escalate",
+      color: "orange",
+      label: "Escalate to Management",
+      icon: <MdKeyboardDoubleArrowUp size={18} />,
+    },
+    {
+      key: "assign",
+      color: "blue",
+      label: "Assign a team to client",
+      icon: <MdOutlineAssignment size={18} />,
+    },
+    {
+      key: "remove",
+      color: "red",
+      label: "Remove a team from client",
+      icon: <MdRemoveCircleOutline size={18} />,
+    },
+  ];
+
   const actionButtons = {
     task: {
       color: "blue",
@@ -263,7 +288,7 @@ const CMSAdmin = () => {
 
   const handleOpenTaskWindow = () => {
     if (showClientTask) {
-      clientSelectionChange(selectedClientToView);
+      clientSelectionChange({ key: selectedClientToView });
     }
     onOpenTask();
   };
@@ -271,16 +296,16 @@ const CMSAdmin = () => {
     onOpenClient();
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchTask();
-      fetchClient();
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchTask();
+  //     fetchClient();
+  //   }, 5000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [tasks]);
 
   return (
     <>
@@ -322,43 +347,35 @@ const CMSAdmin = () => {
             showClientDetails={showClientDetails}
             setShowClientDetails={setShowClientDetails}
           >
-            <div
-              data-task={showClientTask}
-              data-details={showClientDetails}
-              className="lg:w-full data-[details=true]:hidden flex justify-end data-[task=true]:justify-start gap-2"
-            >
-              <CTAButtons
-                radius={"sm"}
-                size={"md"}
-                variant={"bordered"}
-                key={actionButtons.task.label}
-                fullWidth={true}
-                label={actionButtons.task.label}
-                color={actionButtons.task.color}
-                className={"min-w-40 py-4 w-10 lg:max-w-64"}
-                onPress={() => handleOpenTaskWindow()}
-              />
-              <AddTaskModal
-                isOpen={isOpenTask}
-                onOpenChange={onOpenChangeTask}
-              />
-              <CTAButtons
-                radius={"sm"}
-                size={"md"}
-                variant={"bordered"}
-                showButton={!showClientTask}
-                key={actionButtons.client.label}
-                fullWidth={true}
-                label={actionButtons.client.label}
-                color={actionButtons.client.color}
-                className={"min-w-40 py-4 w-10 lg:max-w-64"}
-                onPress={() => handleOpenClientWindow()}
-              />
-              <AddClientModal
-                isOpen={isOpenClient}
-                onOpenChange={onOpenChangeClient}
-              />
-            </div>
+            <CTAButtons
+              isDisabled={Boolean(!clients?.length)}
+              radius={"sm"}
+              size={"md"}
+              variant={"bordered"}
+              key={actionButtons.task.label}
+              fullWidth={true}
+              label={actionButtons.task.label}
+              color={actionButtons.task.color}
+              className={"min-w-40 py-4 w-10 lg:max-w-64"}
+              onPress={() => handleOpenTaskWindow()}
+            />
+            <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
+            <CTAButtons
+              radius={"sm"}
+              size={"md"}
+              variant={"bordered"}
+              showButton={!showClientTask}
+              key={actionButtons.client.label}
+              fullWidth={true}
+              label={actionButtons.client.label}
+              color={actionButtons.client.color}
+              className={"min-w-40 py-4 w-10 lg:max-w-64"}
+              onPress={() => handleOpenClientWindow()}
+            />
+            <AddClientModal
+              isOpen={isOpenClient}
+              onOpenChange={onOpenChangeClient}
+            />
           </CMSHeader>
         </CardHeader>
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
@@ -375,20 +392,22 @@ const CMSAdmin = () => {
             setShowClientDetails={setShowClientDetails}
           />
           <TaskTableView
-            itemTasks={filteredTaskItems}
+            itemTasks={itemTasks}
             showClientTask={showClientTask}
             changeView={changeView}
             sortDescriptor={sortDescriptor}
             setSortDescriptor={setSortDescriptor}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
+            actions={actions}
           />
           <TaskBoardView
-            itemTasks={filteredTaskItems}
+            itemTasks={itemTasks}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
+            actions={actions}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

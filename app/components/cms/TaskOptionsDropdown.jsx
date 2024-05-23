@@ -111,12 +111,7 @@ const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
           )}
         </DropdownMenu>
       </Dropdown>
-      <ConfirmationWindow
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-        data={windowDetails[action]}
-      />
+      
     </>
   );
 };

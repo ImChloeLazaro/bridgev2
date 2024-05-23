@@ -34,7 +34,7 @@ const ClientItemCard = ({
   const tasks = useAtomValue(tasksAtom);
 
   const clientProcessors = tasks.filter(
-    (task) => task.client.client_id === data._id
+    (task) => task.client?.client_id === data._id
   )[0]?.processor;
 
   const [statusCount, setStatusCount] = useState({
@@ -46,7 +46,7 @@ const ClientItemCard = ({
 
   useEffect(() => {
     const updatedStatusCount = tasks.filter(
-      (task) => task.client.client_id === data._id
+      (task) => task.client?.client_id === data._id
     )[0];
 
     if (typeof updatedStatusCount !== "undefined") {
@@ -96,8 +96,8 @@ const ClientItemCard = ({
     <div className="flex justify-between items-center h-full overflow-x-hidden">
       <Card className="w-11/12 h-min-fit px-0 py-0 drop-shadow shadow-none bg-transparent">
         <CardBody className=" pr-0 py-1">
-          <div className="flex justify-between lg:justify-around gap-4 lg:gap-12">
-            <div className="w-2/5 lg:w-1/3 flex justify-start items-center text-lg font-bold text-black-default gap-2 lg:gap-10">
+          <div className="flex justify-between lg:justify-around gap-2 xl:gap-12">
+            <div className="w-2/5 flex justify-start items-center text-lg font-bold text-black-default gap-2 lg:gap-10">
               <div className="max-w-[70px] pl-1 lg:pl-4 pr-1">
                 <Avatar
                   showFallback
@@ -115,7 +115,7 @@ const ClientItemCard = ({
                 {data.company?.name?.length ? data.company.name : ""}
               </Link>
             </div>
-            <div className="hidden w-2/5 lg:w-1/3 min-[380px]:flex flex-wrap justify-center items-center gap-4 p-0">
+            <div className="hidden w-3/5 min-[380px]:flex justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
                   if (
@@ -125,7 +125,7 @@ const ClientItemCard = ({
                     return (
                       <Button
                         key={s_index}
-                        className="p-0 m-0 h-full bg-transparent shadow-none"
+                        className="p-0 m-0 w-fit h-full bg-transparent shadow-none"
                         onPress={() => handleSelectTask()}
                       >
                         <LabelTagChip
@@ -146,7 +146,7 @@ const ClientItemCard = ({
                   }
                 })}
             </div>
-            <div className="w-1/5 lg:w-1/3 flex justify-end items-center gap-2 px-1">
+            <div className="w-1/5 flex justify-end items-center gap-2 px-1">
               {!clientProcessors?.length ? (
                 ""
               ) : (

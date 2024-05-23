@@ -24,7 +24,6 @@ import {
   selectedClientForTaskAtom,
   selectedTaskFilterKeysAtom,
 } from "../store/CMSUserStore";
-
 import ClientList from "@/app/components/cms/ClientList";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
@@ -32,6 +31,9 @@ import ClientDetails from "@/app/components/cms/ClientDetails";
 import CMSFooter from "@/app/components/cms/CMSFooter";
 import CMSHeader from "@/app/components/cms/CMSHeader";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdOutlineAssignment } from "react-icons/md";
+import { MdRemoveCircleOutline } from "react-icons/md";
 
 const CMSUser = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
@@ -86,7 +88,7 @@ const CMSUser = () => {
   const tasksFromSelectedClient = useMemo(
     () =>
       userTasks.filter(
-        (task) => task.client.client_id === selectedClientToView
+        (task) => task.client?.client_id === selectedClientToView
       ),
     [selectedClientToView, userTasks]
   );
@@ -178,7 +180,7 @@ const CMSUser = () => {
   ).join("");
 
   const filteredClientItems = useMemo(() => {
-    const clientIDFromTasks = userTasks.map((task) => task.client.client_id);
+    const clientIDFromTasks = userTasks.map((task) => task.client?.client_id);
 
     let filteredClients = [
       ...clients.filter((client) => clientIDFromTasks.includes(client._id)),
@@ -245,16 +247,25 @@ const CMSUser = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchTask();
-      fetchClient();
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const actions = [
+    {
+      key: "escalate",
+      color: "orange",
+      label: "Escalate to TL",
+      icon: <MdKeyboardDoubleArrowUp size={18} />,
+    },
+  ];
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchTask();
+  //     fetchClient();
+  //   }, 5000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>
@@ -318,6 +329,7 @@ const CMSUser = () => {
             setSortDescriptor={setSortDescriptor}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
+            actions={actions}
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
@@ -325,6 +337,7 @@ const CMSUser = () => {
             changeView={changeView}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
+            actions={actions}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

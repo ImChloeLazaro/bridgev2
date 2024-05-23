@@ -58,7 +58,7 @@ const TaskFormSections = () => {
   const handleClientSelectionChange = (key) => {
     console.log("client key", key);
     setSelectedClientForTask(key);
-    clientSelectionChange(Array.from(key).join(""));
+    clientSelectionChange({ key: Array.from(key).join("") });
   };
 
   const handleProcessorSelectionChange = (key) => {
@@ -84,232 +84,241 @@ const TaskFormSections = () => {
   return (
     <div className="flex flex-col gap-6">
       {/* People */}
-      <div className="mt-2 py-2 w-full">
-        <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-lg">{"People"}</p>
-          <MdInfoOutline />
+      {!showClientTask && (
+        <div className="py-2 w-full">
+          <div className="flex justify-start items-center gap-2 mb-8">
+            <p className="font-bold text-lg">{"People"}</p>
+            <MdInfoOutline />
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {/* Client */}
+            {/* {!showClientTask && ( )} */}
+            <div className="flex justify-between items-center gap-8">
+              <p className="font-medium w-24">{"Client"}</p>
+              <Select
+                isDisabled={showClientTask}
+                disallowEmptySelection={true}
+                aria-label="Client Selection"
+                items={clientSelectionForTask}
+                variant="bordered"
+                isMultiline={true}
+                selectionMode="single"
+                placeholder="Select Client"
+                selectedKeys={selectedClientForTask}
+                onSelectionChange={(key) => handleClientSelectionChange(key)}
+                classNames={{
+                  base: "w-full max-h-sm",
+                  trigger: "min-h-unit-12 py-2",
+                }}
+                renderValue={(displayItems) => {
+                  return (
+                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
+                      {displayItems.map((displayItem) => (
+                        <p
+                          key={displayItem.key}
+                          className="text-sm font-medium text-black-default"
+                        >
+                          {displayItem.data.name}
+                        </p>
+                      ))}
+                    </div>
+                  );
+                }}
+              >
+                {(client) => (
+                  <SelectItem key={client?.client_id} textValue={client.name}>
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt={client.name}
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={client.picture}
+                      />
+                      <span className="text-small">{client.name}</span>
+                    </div>
+                  </SelectItem>
+                )}
+              </Select>
+            </div>
+
+            {/* Processor */}
+            <div className="flex justify-between items-center gap-8">
+              <p className="font-medium w-24">{"Processor"}</p>
+              <Select
+                isDisabled={showClientTask}
+                aria-label="Processor Selection"
+                items={processorSelection}
+                variant="bordered"
+                isMultiline={true}
+                selectionMode="multiple"
+                placeholder="Assign Processor/s"
+                selectedKeys={selectedProcessor}
+                onSelectionChange={(key) => handleProcessorSelectionChange(key)}
+                classNames={{
+                  base: "w-full max-h-sm",
+                  trigger: "min-h-unit-12 py-2",
+                }}
+                renderValue={(displayItems) => {
+                  return (
+                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
+                      {displayItems.map((displayItem) => (
+                        <Chip
+                          key={displayItem.key}
+                          startContent={displayItem.data.picture}
+                          onClose={() => {
+                            setSelectedProcessor(() =>
+                              Array.from(selectedProcessor).filter(
+                                (item) => item !== displayItem.data.sub
+                              )
+                            );
+                          }}
+                        >
+                          {displayItem.data.picture ? (
+                            <p className="font-medium">
+                              {displayItem.data.name}
+                            </p>
+                          ) : (
+                            <p className="font-bold">{displayItem.data.name}</p>
+                          )}
+                        </Chip>
+                      ))}
+                    </div>
+                  );
+                }}
+              >
+                {(processor) => (
+                  <SelectItem key={processor.sub} textValue={processor.name}>
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt={processor.name}
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={processor.picture}
+                      />
+                      <span className="text-small">{processor.name}</span>
+                    </div>
+                  </SelectItem>
+                )}
+              </Select>
+            </div>
+
+            {/* Reviewer */}
+            <div className="flex justify-between items-center gap-8">
+              <p className="font-medium w-24">{"Reviewer"}</p>
+
+              <Select
+                isDisabled={showClientTask}
+                aria-label="Reviewer Selection"
+                items={reviewerSelection}
+                variant="bordered"
+                isMultiline={true}
+                selectionMode="multiple"
+                placeholder="Assign Reviewer/s"
+                selectedKeys={selectedReviewer}
+                onSelectionChange={(key) => handleReviewerSelectionChange(key)}
+                classNames={{
+                  base: "w-full max-h-sm",
+                  trigger: "min-h-unit-12 py-2",
+                }}
+                renderValue={(displayItems) => {
+                  return (
+                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
+                      {displayItems.map((displayItem) => (
+                        <Chip
+                          key={displayItem.key}
+                          startContent={displayItem.data.picture}
+                          onClose={() => {
+                            setSelectedReviewer(() =>
+                              Array.from(selectedReviewer).filter(
+                                (item) => item !== displayItem.data.sub
+                              )
+                            );
+                          }}
+                        >
+                          {displayItem.data.picture ? (
+                            <p className="font-medium">
+                              {displayItem.data.name}
+                            </p>
+                          ) : (
+                            <p className="font-bold">{displayItem.data.name}</p>
+                          )}
+                        </Chip>
+                      ))}
+                    </div>
+                  );
+                }}
+              >
+                {(reviewer) => (
+                  <SelectItem key={reviewer.sub} textValue={reviewer.name}>
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt={reviewer.name}
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={reviewer.picture}
+                      />
+                      <span className="text-small">{reviewer.name}</span>
+                    </div>
+                  </SelectItem>
+                )}
+              </Select>
+            </div>
+
+            {/* Manager */}
+            <div className="flex justify-between items-center gap-8">
+              <p className="font-medium w-24">{"Manager"}</p>
+
+              <Select
+                isDisabled={showClientTask}
+                disallowEmptySelection={true}
+                aria-label="Manager Selection"
+                items={managerSelection}
+                variant="bordered"
+                isMultiline={true}
+                selectionMode="single"
+                placeholder="Assign Manager/s"
+                selectedKeys={selectedManager}
+                onSelectionChange={(key) => handleManagerSelectionChange(key)}
+                classNames={{
+                  base: "w-full max-h-sm",
+                  trigger: "min-h-unit-12 py-2",
+                }}
+                renderValue={(displayItems) => {
+                  return (
+                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
+                      {displayItems.map((displayItem) => (
+                        <p
+                          key={displayItem.key}
+                          className="text-sm font-medium text-black-default"
+                        >
+                          {displayItem.data.name}
+                        </p>
+                      ))}
+                    </div>
+                  );
+                }}
+              >
+                {(manager) => (
+                  <SelectItem key={manager?.sub} textValue={manager.name}>
+                    <div className="flex gap-2 items-center">
+                      <Avatar
+                        alt={manager.name}
+                        className="flex-shrink-0"
+                        size="sm"
+                        src={manager.picture}
+                      />
+                      <span className="text-small">{manager.name}</span>
+                    </div>
+                  </SelectItem>
+                )}
+              </Select>
+            </div>
+          </div>
         </div>
-
-        <div className="flex flex-col gap-3">
-          {/* Client */}
-          {/* {!showClientTask && ( )} */}
-          <div className="flex justify-between items-center gap-8">
-            <p className="font-medium w-24">{"Client"}</p>
-            <Select
-              isDisabled={showClientTask}
-              disallowEmptySelection={true}
-              aria-label="Client Selection"
-              items={clientSelectionForTask}
-              variant="bordered"
-              isMultiline={true}
-              selectionMode="single"
-              placeholder="Select Client"
-              selectedKeys={selectedClientForTask}
-              onSelectionChange={(key) => handleClientSelectionChange(key)}
-              classNames={{
-                base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2",
-              }}
-              renderValue={(displayItems) => {
-                return (
-                  <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                    {displayItems.map((displayItem) => (
-                      <p
-                        key={displayItem.key}
-                        className="text-sm font-medium text-black-default"
-                      >
-                        {displayItem.data.name}
-                      </p>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(client) => (
-                <SelectItem key={client.client_id} textValue={client.name}>
-                  <div className="flex gap-2 items-center">
-                    <Avatar
-                      alt={client.name}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={client.picture}
-                    />
-                    <span className="text-small">{client.name}</span>
-                  </div>
-                </SelectItem>
-              )}
-            </Select>
-          </div>
-
-          {/* Processor */}
-          <div className="flex justify-between items-center gap-8">
-            <p className="font-medium w-24">{"Processor"}</p>
-            <Select
-              aria-label="Processor Selection"
-              items={processorSelection}
-              variant="bordered"
-              isMultiline={true}
-              selectionMode="multiple"
-              placeholder="Assign Processor/s"
-              selectedKeys={selectedProcessor}
-              onSelectionChange={(key) => handleProcessorSelectionChange(key)}
-              classNames={{
-                base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2",
-              }}
-              renderValue={(displayItems) => {
-                return (
-                  <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                    {displayItems.map((displayItem) => (
-                      <Chip
-                        key={displayItem.key}
-                        startContent={displayItem.data.picture}
-                        onClose={() => {
-                          setSelectedProcessor(() =>
-                            Array.from(selectedProcessor).filter(
-                              (item) => item !== displayItem.data.sub
-                            )
-                          );
-                        }}
-                      >
-                        {displayItem.data.picture ? (
-                          <p className="font-medium">{displayItem.data.name}</p>
-                        ) : (
-                          <p className="font-bold">{displayItem.data.name}</p>
-                        )}
-                      </Chip>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(processor) => (
-                <SelectItem key={processor.sub} textValue={processor.name}>
-                  <div className="flex gap-2 items-center">
-                    <Avatar
-                      alt={processor.name}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={processor.picture}
-                    />
-                    <span className="text-small">{processor.name}</span>
-                  </div>
-                </SelectItem>
-              )}
-            </Select>
-          </div>
-
-          {/* Reviewer */}
-          <div className="flex justify-between items-center gap-8">
-            <p className="font-medium w-24">{"Reviewer"}</p>
-
-            <Select
-              aria-label="Reviewer Selection"
-              items={reviewerSelection}
-              variant="bordered"
-              isMultiline={true}
-              selectionMode="multiple"
-              placeholder="Assign Reviewer/s"
-              selectedKeys={selectedReviewer}
-              onSelectionChange={(key) => handleReviewerSelectionChange(key)}
-              classNames={{
-                base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2",
-              }}
-              renderValue={(displayItems) => {
-                return (
-                  <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                    {displayItems.map((displayItem) => (
-                      <Chip
-                        key={displayItem.key}
-                        startContent={displayItem.data.picture}
-                        onClose={() => {
-                          setSelectedReviewer(() =>
-                            Array.from(selectedReviewer).filter(
-                              (item) => item !== displayItem.data.sub
-                            )
-                          );
-                        }}
-                      >
-                        {displayItem.data.picture ? (
-                          <p className="font-medium">{displayItem.data.name}</p>
-                        ) : (
-                          <p className="font-bold">{displayItem.data.name}</p>
-                        )}
-                      </Chip>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(reviewer) => (
-                <SelectItem key={reviewer.sub} textValue={reviewer.name}>
-                  <div className="flex gap-2 items-center">
-                    <Avatar
-                      alt={reviewer.name}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={reviewer.picture}
-                    />
-                    <span className="text-small">{reviewer.name}</span>
-                  </div>
-                </SelectItem>
-              )}
-            </Select>
-          </div>
-
-          {/* Manager */}
-          <div className="flex justify-between items-center gap-8">
-            <p className="font-medium w-24">{"Manager"}</p>
-
-            <Select
-              disallowEmptySelection={true}
-              aria-label="Manager Selection"
-              items={managerSelection}
-              variant="bordered"
-              isMultiline={true}
-              selectionMode="single"
-              placeholder="Assign Manager/s"
-              selectedKeys={selectedManager}
-              onSelectionChange={(key) => handleManagerSelectionChange(key)}
-              classNames={{
-                base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2",
-              }}
-              renderValue={(displayItems) => {
-                return (
-                  <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                    {displayItems.map((displayItem) => (
-                      <p
-                        key={displayItem.key}
-                        className="text-sm font-medium text-black-default"
-                      >
-                        {displayItem.data.name}
-                      </p>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(manager) => (
-                <SelectItem key={manager.sub} textValue={manager.name}>
-                  <div className="flex gap-2 items-center">
-                    <Avatar
-                      alt={manager.name}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={manager.picture}
-                    />
-                    <span className="text-small">{manager.name}</span>
-                  </div>
-                </SelectItem>
-              )}
-            </Select>
-          </div>
-        </div>
-      </div>
+      )}
       {/* Description */}
-      <div className="mt-2 py-2 w-full">
+      <div className="py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
           <p className="font-bold text-lg">{"Description"}</p>
           <MdInfoOutline />
@@ -344,7 +353,7 @@ const TaskFormSections = () => {
           <div className="flex justify-between items-center gap-6">
             <p className="font-medium w-24">{"Recurrence"}</p>
             <Select
-              aria-label="Client Selection"
+              aria-label="Recurrence Selection"
               items={recurrenceSelection}
               variant="bordered"
               isMultiline={true}
@@ -354,7 +363,7 @@ const TaskFormSections = () => {
               onSelectionChange={(key) => handleIntervalSelectionChange(key)}
               classNames={{
                 base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2",
+                trigger: "min-h-unit-12 py-2 px-1",
                 innerWrapper: "px-2",
               }}
               renderValue={(displayItems) => {

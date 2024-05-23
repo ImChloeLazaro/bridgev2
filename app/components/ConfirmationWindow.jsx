@@ -6,66 +6,42 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import CTAButtons from "./CTAButtons";
+import { MdCheck, MdInfoOutline, MdWarningAmber } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { MdQuestionMark } from "react-icons/md";
 
-const ConfirmationWindow = ({ isOpen, onOpen, onOpenChange, data }) => {
-  const {
-    title,
-    icon,
-    message,
-    description,
-    withCondition = false,
-    condition,
-    type = "OK",
-    actions,
-  } = data;
-
-  const windowType = {
-    YesNo: (
-      <>
-        <CTAButtons
-          color={"red"}
-          label={actions.deny.label}
-          onPress={actions.deny.choice}
-        />
-        <CTAButtons
-          color={"blue"}
-          label={actions.confirm.label}
-          onPress={actions.confirm.choice}
-        />
-
-        <CTAButtons
-          color={"clear"}
-          label={"Cancel"}
-          disableRipple={true}
-          onPress={() => onOpen()}
-        />
-      </>
-    ),
-    OK: (
-      <>
-        <CTAButtons
-          color={"orange"}
-          label={actions.confirm.label}
-          onPress={actions.confirm.choice}
-        />
-        <CTAButtons
-          color={"clear"}
-          label={actions.deny.label}
-          disableRipple={true}
-          onPress={actions.deny.choice}
-        />
-      </>
-    ),
+const ConfirmationWindow = ({
+  message = "",
+  description = "",
+  title = "Confirmation",
+  icon = <MdInfoOutline size={24} />,
+  accept,
+  deny,
+  third_choice,
+  showChoices = true,
+  type = "confirm",
+  className,
+  onCloseParent,
+  ...props
+}) => {
+  const icons = {
+    confirm: <MdQuestionMark size={24} />, // orange
+    info: <MdInfoOutline size={24} />, // blue
+    warning: <MdWarningAmber size={24} />, // yellow
+    error: <MdInfoOutline size={24} />, // red
   };
 
   return (
     <Modal
       size={"md"}
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      radius={"md"}
       isDismissable={false}
-      classNames={{ closeButton: "m-2", base: "" }}
+      isKeyboardDismissDisabled={false}
+      shouldBlockScroll={true}
       scrollBehavior={"inside"}
+      backdrop={"blur"}
+      classNames={{ closeButton: "invisible m-2", base: "" }}
+      {...props}
     >
       <ModalContent>
         {(onClose) => (
@@ -73,23 +49,61 @@ const ConfirmationWindow = ({ isOpen, onOpen, onOpenChange, data }) => {
             <ModalHeader className="flex flex-col gap-1 pb-2 text-xl font-extrabold text-black-default">
               {title}
             </ModalHeader>
-            <ModalBody className="">
-              <div className="w-full flex items-center gap-2">
-                <div className="p-1">{icon}</div>
-                <p className="text-base font-medium text-black-default tracking-tight text-wrap">
-                  {message}
-                </p>
-                {description?.length ? (
-                  <p className="text-base font-medium text-black-default tracking-tight text-wrap">
+            <ModalBody className="px-6">
+              {/* <div className="flex flex-col gap-2 items-start"> */}
+              <div className="w-full flex items-center gap-4">
+                <div className="p-1">
+                  {type === "custom" ? icon : icons[type]}
+                </div>
+                <div className="flex flex-col gap-2 items-start">
+                  <p className="text-base font-semibold text-black-default tracking-tight text-wrap">
+                    {message}
+                  </p>
+                  <p className="text-xs font-semibold text-black-default tracking-tight text-wrap">
                     {description}
                   </p>
-                ) : (
-                  ""
-                )}
-                {withCondition ? { condition } : ""}
+                </div>
               </div>
+              {/* </div> */}
             </ModalBody>
-            <ModalFooter>{windowType[type]}</ModalFooter>
+            <ModalFooter>
+              {showChoices ? (
+                <>
+                  {third_choice ? (
+                    <CTAButtons
+                      startContent={
+                        third_choice.icon ? third_choice.icon : null
+                      }
+                      color={"blue"}
+                      label={third_choice.label ? third_choice.label : ""}
+                      onPress={
+                        third_choice.action ? third_choice.action : onClose
+                      }
+                    />
+                  ) : null}
+                  <CTAButtons
+                    startContent={accept.icon ? accept.icon : null}
+                    color={"orange"}
+                    label={accept.label ? accept.label : ""}
+                    onPress={
+                      accept.action
+                        ? () => {
+                            accept.action();
+                            onCloseParent();
+                            onClose();
+                          }
+                        : onClose
+                    }
+                  />
+                  <CTAButtons
+                    disableRipple={true}
+                    color={"clear"}
+                    label={deny?.label?.length ? deny.label : "Cancel"}
+                    onPress={onClose}
+                  />
+                </>
+              ) : null}
+            </ModalFooter>
           </>
         )}
       </ModalContent>
