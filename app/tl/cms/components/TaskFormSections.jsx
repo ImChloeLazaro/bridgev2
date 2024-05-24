@@ -1,27 +1,27 @@
-import { MdInfoOutline } from "react-icons/md";
-import { Select, SelectItem, Chip, Avatar } from "@nextui-org/react";
-import {
-  clientSelectionForTaskAtom,
-  recurrenceSelectionAtom,
-  managerSelectionAtom,
-  processorSelectionAtom,
-  reviewerSelectionAtom,
-} from "@/app/store/TaskStore";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
 import {
-  showClientTaskAtom,
-  selectedClientForTaskAtom,
-  taskNameAtom,
-  taskInstructionAtom,
-  selectedRecurrenceAtom,
-  selectedManagerAtom,
-  selectedProcessorAtom,
-  selectedReviewerAtom,
-  startDateAtom,
+  clientSelectionForTaskAtom,
+  managerSelectionAtom,
+  processorSelectionAtom,
+  recurrenceSelectionAtom,
+  reviewerSelectionAtom,
+} from "@/app/store/TaskStore";
+import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { MdInfoOutline } from "react-icons/md";
+import {
   clientSelectionChangeAtom,
   endDateAtom,
+  selectedClientForTaskAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
+  showClientTaskAtom,
+  startDateAtom,
+  taskInstructionAtom,
+  taskNameAtom,
 } from "../store/CMSTLStore";
 
 const TaskFormSections = () => {
@@ -93,8 +93,11 @@ const TaskFormSections = () => {
 
           <div className="flex flex-col gap-3">
             {/* Client */}
-            {/* {!showClientTask && ( )} */}
-            <div className="flex justify-between items-center gap-8">
+            <div
+              className={`${
+                showClientTask ? "cursor-not-allowed" : ""
+              } flex justify-between items-center gap-8`}
+            >
               <p className="font-medium w-24">{"Client"}</p>
               <Select
                 isDisabled={showClientTask}

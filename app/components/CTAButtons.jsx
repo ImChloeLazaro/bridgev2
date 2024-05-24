@@ -31,20 +31,26 @@ const CTAButtons = ({
     <Button
       data-show={showButton}
       aria-label={isValidElement(label) ? "Action Button" : label}
-      startContent={startContent}
+      startContent={
+        startContent ? <div className="min-h-3 min-w-3">{startContent}</div> : null
+      }
       endContent={endContent}
       radius={radius}
       variant="solid"
       className={cn(
-        "hidden data-[show=true]:flex min-w-fit",
-        "px-5 py-0.5 font-bold text-xs md:text-sm lg:text-base",
+        "hidden data-[show=true]:flex items-center",
+        "px-4 py-0.5 gap-3",
         buttonColor,
         className
       )}
       size={size}
       {...props}
     >
-      {children ? children : label}
+      {children ? (
+        children
+      ) : (
+        <p className="font-bold text-sm lg:text-base">{label}</p>
+      )}
     </Button>
   );
 };

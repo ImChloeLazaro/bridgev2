@@ -256,6 +256,8 @@ const CMSUser = () => {
     },
   ];
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     fetchTask();
@@ -278,7 +280,7 @@ const CMSUser = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4
+            p-4 py-4 mt-4 mb-4
             "
         >
           <CMSHeader
@@ -295,6 +297,8 @@ const CMSUser = () => {
                 ? setSelectedTaskFilterKeys
                 : setSelectedClientFilterKeys
             }
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
             changeView={changeView}
             setChangeView={setChangeView}
             showClientTask={showClientTask}
@@ -320,6 +324,7 @@ const CMSUser = () => {
             setSelectedClientToView={setSelectedClientToView}
             setSelectedClientForTask={setSelectedClientForTask}
             setShowClientDetails={setShowClientDetails}
+            isLoading={isLoading}
           />
           <TaskTableView
             itemTasks={filteredTaskItems}
@@ -330,6 +335,7 @@ const CMSUser = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            isLoading={isLoading}
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
@@ -338,6 +344,7 @@ const CMSUser = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            isLoading={isLoading}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

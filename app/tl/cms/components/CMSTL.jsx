@@ -287,6 +287,8 @@ const CMSTL = () => {
     onOpenTask();
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     fetchTask();
@@ -309,7 +311,7 @@ const CMSTL = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4
+            p-4 py-4 mt-4 mb-4
             "
         >
           <CMSHeader
@@ -326,6 +328,8 @@ const CMSTL = () => {
                 ? setSelectedTaskFilterKeys
                 : setSelectedClientFilterKeys
             }
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
             changeView={changeView}
             setChangeView={setChangeView}
             showClientTask={showClientTask}
@@ -341,13 +345,11 @@ const CMSTL = () => {
             <CTAButtons
               isDisabled={Boolean(!clients?.length)}
               radius={"sm"}
-              size={"md"}
               variant={"bordered"}
               key={actionButtons.task.label}
-              fullWidth={true}
               label={actionButtons.task.label}
               color={actionButtons.task.color}
-              className={"min-w-40 py-4 w-10 lg:max-w-64"}
+              className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
               onPress={() => handleOpenTaskWindow()}
             />
             <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
@@ -365,6 +367,7 @@ const CMSTL = () => {
             setSelectedClientToView={setSelectedClientToView}
             setSelectedClientForTask={setSelectedClientForTask}
             setShowClientDetails={setShowClientDetails}
+            isLoading={isLoading}
           />
           <TaskTableView
             itemTasks={filteredTaskItems}
@@ -375,6 +378,7 @@ const CMSTL = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            isLoading={isLoading}
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
@@ -383,6 +387,7 @@ const CMSTL = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            isLoading={isLoading}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

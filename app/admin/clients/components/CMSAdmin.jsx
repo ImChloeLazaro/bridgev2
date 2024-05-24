@@ -258,19 +258,19 @@ const CMSAdmin = () => {
     {
       key: "escalate",
       color: "orange",
-      label: "Escalate to Management",
+      label: "Escalate to management",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
     },
     {
       key: "assign",
       color: "blue",
-      label: "Assign a team to client",
+      label: "Assign a team to the client",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
       color: "red",
-      label: "Remove a team from client",
+      label: "Remove a team from the client",
       icon: <MdRemoveCircleOutline size={18} />,
     },
   ];
@@ -296,6 +296,8 @@ const CMSAdmin = () => {
     onOpenClient();
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     fetchTask();
@@ -318,7 +320,7 @@ const CMSAdmin = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4
+            p-4 py-4 mt-4 mb-4
             "
         >
           <CMSHeader
@@ -335,6 +337,8 @@ const CMSAdmin = () => {
                 ? setSelectedTaskFilterKeys
                 : setSelectedClientFilterKeys
             }
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
             changeView={changeView}
             setChangeView={setChangeView}
             showClientTask={showClientTask}
@@ -350,26 +354,22 @@ const CMSAdmin = () => {
             <CTAButtons
               isDisabled={Boolean(!clients?.length)}
               radius={"sm"}
-              size={"md"}
               variant={"bordered"}
               key={actionButtons.task.label}
-              fullWidth={true}
               label={actionButtons.task.label}
               color={actionButtons.task.color}
-              className={"min-w-40 py-4 w-10 lg:max-w-64"}
+              className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
               onPress={() => handleOpenTaskWindow()}
             />
             <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
             <CTAButtons
               radius={"sm"}
-              size={"md"}
               variant={"bordered"}
               showButton={!showClientTask}
               key={actionButtons.client.label}
-              fullWidth={true}
               label={actionButtons.client.label}
               color={actionButtons.client.color}
-              className={"min-w-40 py-4 w-10 lg:max-w-64"}
+              className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
               onPress={() => handleOpenClientWindow()}
             />
             <AddClientModal
@@ -390,6 +390,7 @@ const CMSAdmin = () => {
             setSelectedClientToView={setSelectedClientToView}
             setSelectedClientForTask={setSelectedClientForTask}
             setShowClientDetails={setShowClientDetails}
+            isLoading={isLoading}
           />
           <TaskTableView
             itemTasks={itemTasks}
@@ -400,6 +401,7 @@ const CMSAdmin = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            isLoading={isLoading}
           />
           <TaskBoardView
             itemTasks={itemTasks}
@@ -408,6 +410,7 @@ const CMSAdmin = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            isLoading={isLoading}
           />
           <ClientDetails
             showClientDetails={showClientDetails}

@@ -53,7 +53,7 @@ const SearchBar = ({
           onSelectionChange={setSelectedFilterKeys}
           startContent={<MdFilterAlt size={20} />}
           classNames={{
-            base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-28 md:max-w-32 lg:max-w-36",
+            base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-28 md:max-w-32 lg:max-w-48",
             trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",
             mainWrapper: "w-full",
             value:
@@ -81,13 +81,13 @@ const SearchBar = ({
           }
           endContent={
             <>
-              <div className="block md:hidden text-lightgrey-default">
+              <div className="block md:hidden text-lightgrey-default mx-2">
                 <LuSearch size={18} />
               </div>
 
               <div
                 data-show={Boolean(searchItem?.length)}
-                className="data-[show=true]:invisible hidden md:flex pointer-events-none items-center"
+                className="data-[show=true]:invisible hidden md:flex pointer-events-none items-center mx-2"
               >
                 <span className="text-darkgrey-hover text-small">
                   {"Search"}
@@ -96,7 +96,7 @@ const SearchBar = ({
             </>
           }
           classNames={{
-            base: "w-full min-w-20 ",
+            base: "w-full min-w-20",
             inputWrapper: [
               "px-1 lg:px-3 bg-white-default rounded-l-none border border-l-0 shadow-sm",
             ],

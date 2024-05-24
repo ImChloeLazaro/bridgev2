@@ -21,6 +21,8 @@ const CMSHeader = ({
   filterKeys,
   selectedFilterKeys,
   setSelectedFilterKeys,
+  isLoading,
+  setIsLoading,
   changeView,
   setChangeView,
   showClientTask,
@@ -36,7 +38,6 @@ const CMSHeader = ({
   children,
 }) => {
   const clients = useAtomValue(clientsAtom);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
@@ -87,8 +88,11 @@ const CMSHeader = ({
   )[0]?.company.name;
 
   return (
-    <div className="flex-wrap flex gap-2">
-      <div className="flex gap-2">
+    <div className="w-full flex-wrap flex gap-2">
+      <div
+        data-show={showClientTask}
+        className="data-[show=true]:max-w-2xl w-full max-w-xl flex flex-row items-center gap-2 mr-2 sm:ml-0"
+      >
         <CTAButtons
           color={"clear"}
           showButton={showClientDetails || showClientTask}
@@ -104,10 +108,9 @@ const CMSHeader = ({
             data-[task=true]:flex 
             data-[details=true]:flex
             ml-2 justify-start
-            px-1
+            px-1 
             hidden transition-all
             "
-          // w-full min-w-14 min-[425px]:min-w-16 md:min-w-32 lg:min-w-40
         >
           <Tooltip
             content={
@@ -116,15 +119,12 @@ const CMSHeader = ({
             delay={1000}
           >
             <p
-              data-details={showClientDetails}
               className="
-                  data-[details=true]:w-full
-                  w-16 md:w-28 lg:w-32
+                  flex
                   bg-white-default rounded-lg px-2 py-1
                   truncate hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default
                   "
-              // w-16 min-[425px]:min-w-20 md:w-28 lg:w-32
             >
               {!selectedClientToView?.length
                 ? "Client List"
@@ -153,34 +153,39 @@ const CMSHeader = ({
           <MdRefresh size={24} />
         </IconButton>
       </div>
-      <div className="flex gap-2">
+      <div
+        data-show={showClientTask}
+        className="hidden data-[show=true]:flex flex-row items-center gap-2 ml-4"
+      >
         <CTAButtons
-          showButton={showClientTask}
           isDisabled={showClientDetails}
           radius={"sm"}
           variant={"bordered"}
           color={changeView ? "blue" : "orange"}
-          size={"md"}
           startContent={
             changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
           }
           label={"Switch View"}
-          className={"px-2 min-w-40 w-full lg:max-w-64"}
+          className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
           onPress={handleChangeView}
         />
         <CTAButtons
-          showButton={showClientTask}
           radius={"sm"}
           variant={"bordered"}
           color={showClientDetails ? "green" : "white"}
-          size={"md"}
           startContent={<MdOutlineDescription size={24} />}
           label={"View Client Details"}
-          className={"px-2 min-w-40 w-full lg:max-w-64"}
+          className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
           onPress={handleViewClientDetails}
         />
       </div>
-      <div className="flex gap-2">{children ? children : null}</div>
+      <div
+        data-show={showClientTask}
+        data-details={showClientDetails}
+        className="data-[details=true]:hidden flex flex-row items-center gap-2 data-[show=true]:ml-4 sm:data-[show=true]:ml-0 ml-0 md:ml-2"
+      >
+        {children ? children : null}
+      </div>
     </div>
   );
 };

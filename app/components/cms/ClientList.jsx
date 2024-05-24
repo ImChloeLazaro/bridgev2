@@ -13,6 +13,7 @@ const ClientList = ({
   setSelectedClientToView,
   setSelectedClientForTask,
   setShowClientDetails,
+  isLoading,
 }) => {
   return (
     <ScrollShadow
