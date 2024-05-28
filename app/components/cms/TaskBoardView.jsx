@@ -42,6 +42,8 @@ const TaskBoardView = ({
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
 
+  const [taskStatusBeforeDone, setTaskStatusBeforeDone] = useState();
+
   const mouseSensor = useSensor(MouseSensor, {
     // Require the mouse to move by 10 pixels before activating
     activationConstraint: {
@@ -239,6 +241,7 @@ const TaskBoardView = ({
 
   function onDragStart(event) {
     console.log("DRAG START:", event);
+
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
@@ -246,6 +249,12 @@ const TaskBoardView = ({
 
     if (event.active.data.current?.type === "Task") {
       setActiveTask(event.active.data.current.task);
+
+      setTaskStatusBeforeDone(event.active.data.current?.task?.status);
+      console.log("activeColumn", activeColumn);
+      console.log("activeTask", activeTask);
+
+      console.log("DRAG START ACTIVE", event.active.data.current?.task?.status);
       return;
     }
   }
@@ -260,33 +269,37 @@ const TaskBoardView = ({
       });
     }
 
+    // console.log("activeColumn", activeColumn);
+    // console.log("activeTask", activeTask);
+
     setActiveColumn(null);
     setActiveTask(null);
 
     const { active, over } = event;
     if (!over) return;
 
+    console.log("DRAG END ACTIVE", active.data.current?.task?.status);
+    console.log("DRAG END OVER", over.data.current?.task?.status);
+
     const activeId = active.id;
     const overId = over.id;
 
-    const taskDone = tasks.filter(
-      (t) => t.id === activeId && t.status === "done"
-    );
+    const taskActive = active.data.current?.task?._id;
+    const taskOver = over.data.current?.task?._id;
+    const taskOverStatus = over.data.current?.task?.status;
 
-    if (taskDone?.length) {
-      const dateTaskDone = new Date();
+    if (taskOverStatus === "done") {
+      console.log("taskStatusBeforeDone", taskStatusBeforeDone);
+      if (taskStatusBeforeDone !== taskOverStatus) {
+        const taskDone = tasks.filter(
+          (t) => t.id === activeId && t.status === "done"
+        );
 
-      const taskActive = active.data.current?.task?._id;
-      const taskOver = over.data.current?.task?._id;
-      const taskOverStatus = over.data.current?.task?.status;
-
-      if (taskOverStatus === "done") {
-        if (taskActive !== taskOver) {
-          console.log("TASK COMPLETED");
-          toast.success(`Task Completed: ${taskDone[0].name} `, {
-            description: `${format(dateTaskDone, "PPpp")}`,
-          });
-        }
+        const dateTaskDone = new Date();
+        console.log("TASK COMPLETED");
+        toast.success(`Task Completed: ${taskDone[0].name} `, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+        });
       }
     }
 
@@ -313,6 +326,9 @@ const TaskBoardView = ({
 
     const { active, over } = event;
     if (!over) return;
+
+    console.log("DRAG OVER ACTIVE", active.data.current?.task?.status);
+    console.log("DRAG OVER OVER", over.data.current?.task?.status);
 
     const activeId = active.id;
     const overId = over.id;

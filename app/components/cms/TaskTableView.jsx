@@ -134,10 +134,7 @@ const TaskTableView = ({
                       // fallback={<Spinner />}
                       src={processor.picture}
                       classNames={{
-                        base: [
-  
-                          " w-10 h-10 lg:w-12 lg:h-12 text-large",
-                        ],
+                        base: [" w-10 h-10 lg:w-12 lg:h-12 text-large"],
                       }}
                     />
                   );
@@ -212,12 +209,17 @@ const TaskTableView = ({
             "overflow-y-scroll no-scrollbar",
             "max-w-full h-full max-h-screen",
           ],
-          tr: "text-sm lg:text-lg h-18 max-h-sm ",
-          th: "text-md lg:text-lg font-extrabold text-darkgrey-hover h-16 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
+          tr: ["text-sm lg:text-lg h-18 max-h-sm ", ""],
+          th: [
+            "h-16 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
+            "text-md lg:text-lg font-extrabold text-darkgrey-hover",
+            "last:w-3 last:pl-1 last:pr-6",
+          ],
           td: [
             "text-sm lg:text-lg font-bold text-black-default h-18 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
-            "group-data-[last=true]:before:w-3",
+            "last:w-4",
             "group-data-[hover=true]:bg-grey-default",
+            "group-data-[selected=true]:bg-grey-default",
           ],
         }}
       >

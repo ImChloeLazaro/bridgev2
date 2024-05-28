@@ -21,9 +21,9 @@ export default function RootLayout({ children }) {
         <Providers>
           <main>{children}</main>
           <Toaster
-            // offset={"64px"}
+            visibleToasts={4}
             richColors
-            // position="top-right"
+            expand={true}
             pauseWhenPageIsHidden={true}
           />
         </Providers>

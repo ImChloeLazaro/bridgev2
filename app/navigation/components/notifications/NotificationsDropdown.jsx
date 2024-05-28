@@ -111,17 +111,19 @@ const NotificationsDropdown = () => {
         );
         console.log("sortedNotifications", sortedNotifications);
 
-        showNotification({
-          title: sortedNotifications[0].title,
-          description: sortedNotifications[0].description,
-          body: sortedNotifications[0].description,
-          icon: sortedNotifications[0].notified_from.picture,
-        });
+        if (sortedNotifications[0].unread) {
+          showNotification({
+            title: sortedNotifications[0].title,
+            description: sortedNotifications[0].description,
+            body: sortedNotifications[0].description,
+            icon: sortedNotifications[0].notified_from.picture,
+          });
+        }
 
         setNotificationCount(data.count);
-        if (data.count > 10) {
-          setNotificationCount(10);
-        }
+        // if (data.count > 10) {
+        //   setNotificationCount(10);
+        // }
       }
     };
 
