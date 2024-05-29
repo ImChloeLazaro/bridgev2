@@ -13,9 +13,9 @@ import {
   TableRow,
   Spinner,
 } from "@nextui-org/react";
-import { format } from "date-fns";
+import { compareAsc, format } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
@@ -39,8 +39,13 @@ const TaskTableView = ({
   setShowClientTask,
   selectedClientToView,
   actions,
+  tasksFromSelectedClient,
   isLoading,
 }) => {
+  const customBreakPoint = "1023";
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+  );
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
 
   const tableColumns = useAtomValue(tableColumnsAtom);
@@ -53,23 +58,56 @@ const TaskTableView = ({
 
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
-      const first = a[sortDescriptor.column];
-      const second = b[sortDescriptor.column];
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
+      let first = a[sortDescriptor.column];
+      let second = b[sortDescriptor.column];
+      let cmp =
+        (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
 
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+      if (sortDescriptor.column === "startDate") {
+        first = a["duration"].start;
+        second = b["duration"].start;
+        cmp = compareAsc(new Date(first), new Date(second));
+      }
+      if (sortDescriptor.column === "endDate") {
+        first = a["duration"].end;
+        second = b["duration"].end;
+        cmp = compareAsc(new Date(first), new Date(second));
+      }
+      console.log("a", a);
+      console.log("b", b);
+      console.log("sortDescriptor.column ", sortDescriptor.column);
+      console.log("first: ", first);
+      console.log("second: ", second);
+
+      console.log("cmp", cmp);
+
+      if (sortDescriptor.direction === "descending") {
+        cmp *= -1;
+      }
+
+      return cmp;
     });
   }, [itemTasks, sortDescriptor]);
 
   const renderCell = useCallback(
     (task, columnKey) => {
       const cellValue = task[columnKey];
-      const processorList = task.processor?.length ? task.processor : [];
+      const processorList = task.processor.map((processor) => (
+        <Avatar
+          key={processor.sub}
+          // showFallback
+          // fallback={<Spinner />}
+          src={processor.picture}
+          classNames={{
+            base: [" w-10 h-10 lg:w-12 lg:h-12 text-large"],
+          }}
+        />
+      ));
       const actionOptions = [
         {
-          key: "mark",
+          key: task.status === "done" ? "forReview" : "done",
           color: task.status === "done" ? "yellow" : "green",
-          label: task.status === "done" ? "Mark for review" : `Mark as done`,
+          label: task.status === "done" ? "Mark for review" : "Mark as done",
           icon: <MdCheck size={18} />,
         },
         ...actions,
@@ -81,7 +119,7 @@ const TaskTableView = ({
             <Link
               href="#"
               underline="hover"
-              className="text-sm lg:text-lg font-bold text-black-default "
+              className="text-sm lg:text-lg font-bold text-black-default"
             >
               {task.name?.length ? task.name : ""}
             </Link>
@@ -104,50 +142,34 @@ const TaskTableView = ({
 
         case "startDate":
           return (
-            <div>
+            <p>
               {format(
                 task.duration.start?.length ? task.duration.start : "",
                 "d  MMMM yyyy"
               )}
-            </div>
+            </p>
           );
 
         case "endDate":
           return (
-            <div>
+            <p>
               {format(
                 task.duration.end?.length ? task.duration.end : "",
                 "d  MMMM yyyy"
               )}
-            </div>
+            </p>
           );
 
         case "assignees":
           return (
-            <div className="h-full flex justify-start">
-              <AvatarGroup max={3}>
-                {processorList.map((processor) => {
-                  return (
-                    <Avatar
-                      key={processor.sub}
-                      // showFallback
-                      // fallback={<Spinner />}
-                      src={processor.picture}
-                      classNames={{
-                        base: [" w-10 h-10 lg:w-12 lg:h-12 text-large"],
-                      }}
-                    />
-                  );
-                })}
-              </AvatarGroup>
-            </div>
+            <AvatarGroup max={isMobile ? 2 : 3}>{processorList}</AvatarGroup>
           );
 
         case "action":
           return (
             <TaskOptionsDropdown
               id={task?._id}
-              task={task}
+              tasksFromSelectedClient={tasksFromSelectedClient}
               actions={actionOptions}
               trigger={<BiDotsVerticalRounded size={24} />}
             />
@@ -157,8 +179,28 @@ const TaskTableView = ({
           return cellValue;
       }
     },
-    [actions]
+    [actions, isMobile, tasksFromSelectedClient]
   );
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setIsMobile(
+        window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+      );
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return !selectedClientToView?.length ? (
     <div
@@ -209,15 +251,16 @@ const TaskTableView = ({
             "overflow-y-scroll no-scrollbar",
             "max-w-full h-full max-h-screen",
           ],
-          tr: ["text-sm lg:text-lg h-18 max-h-sm ", ""],
+          tr: ["text-sm lg:text-lg h-12 max-h-sm"],
           th: [
             "h-16 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
             "text-md lg:text-lg font-extrabold text-darkgrey-hover",
-            "last:w-3 last:pl-1 last:pr-6",
           ],
           td: [
-            "text-sm lg:text-lg font-bold text-black-default h-18 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
-            "last:w-4",
+            "h-18 max-h-sm min-w-fit",
+            "text-sm lg:text-lg font-bold text-black-default",
+            "pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
+            "last:pr-1 last:pl-4 lg:last:pr-2 lg:last:pl-12",
             "group-data-[hover=true]:bg-grey-default",
             "group-data-[selected=true]:bg-grey-default",
           ],

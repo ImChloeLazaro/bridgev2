@@ -151,6 +151,7 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
             <div className="flex flex-col gap-3 w-full">
               <Input
                 isClearable
+                placeholder="Shortcut Name"
                 label="Name"
                 labelPlacement="outside-left"
                 size="sm"
@@ -163,25 +164,33 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
                   mainWrapper: "grow",
                   inputWrapper:
                     "border-2 border-black-hover/80 data-[hover=true]:border-black-default/90",
-                  input: "font-medium text-base",
+                  input: "font-medium text-sm",
                 }}
               />
               <Input
                 autoFocus
                 isClearable
+                type="url"
                 label="Link"
                 labelPlacement="outside-left"
                 size="sm"
                 variant="bordered"
                 value={editShortcutURL}
                 onValueChange={setEditShortcutURL}
+                startContent={
+                  <div className="pointer-events-none flex items-center">
+                    <span className="text-darkgrey-default text-sm">
+                      {"https://"}
+                    </span>
+                  </div>
+                }
                 classNames={{
                   base: "gap-4 flex text-base text-black-default/70 data-[focus=true]:text-black-default",
                   label: "font-medium text-base text-black-default/70 w-16",
                   mainWrapper: "grow",
                   inputWrapper:
                     "border-2 border-black-hover/80 data-[hover=true]:border-black-default/90",
-                  input: "font-medium text-base",
+                  input: "font-medium text-sm",
                 }}
               />
             </div>

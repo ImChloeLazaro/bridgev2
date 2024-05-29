@@ -119,6 +119,7 @@ const ShortcutsHeader = () => {
                 <div className="flex flex-col gap-3 w-full">
                   <Input
                     isClearable
+                    placeholder="Shortcut Name"
                     label="Name"
                     labelPlacement="outside-left"
                     size="sm"
@@ -127,7 +128,7 @@ const ShortcutsHeader = () => {
                     onValueChange={setShortcutTitle}
                     classNames={{
                       base: "gap-4 flex ",
-                      label: "font-medium text-base text-black-default/70 w-16",
+                      label: "font-medium text-sm text-black-default/70 w-16",
                       mainWrapper: "grow",
                       inputWrapper:
                         "border-2 border-black-hover/80 data-[hover=true]:border-black-default/90",
@@ -136,15 +137,23 @@ const ShortcutsHeader = () => {
                   <Input
                     autoFocus
                     isClearable
+                    type="url"
                     label="Link"
                     labelPlacement="outside-left"
                     size="sm"
                     variant="bordered"
                     value={shortcutURL}
                     onValueChange={setShortcutURL}
+                    startContent={
+                      <div className="pointer-events-none flex items-center">
+                        <span className="text-darkgrey-default text-sm">
+                          {"https://"}
+                        </span>
+                      </div>
+                    }
                     classNames={{
                       base: "gap-4 flex ",
-                      label: "font-medium text-base text-black-default/70 w-16",
+                      label: "font-medium text-sm text-black-default/70 w-16",
                       mainWrapper: "grow",
                       inputWrapper:
                         "border-2 border-black-hover/80 data-[hover=true]:border-black-default/90",

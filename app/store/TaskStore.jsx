@@ -81,14 +81,14 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const { sla, client_id } = update;
 
-  const updateTaskStatus = get(tasksAtom).filter(
+  const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
   );
 
   console.log("sla inside task store  ", sla);
 
   const response = await restupdate("/cms/task", {
-    ...updateTaskStatus[0],
+    ...taskToBeUpdated[0],
     sla: [...sla],
   });
   console.log("RESPONSE FROM API", response);
@@ -111,7 +111,7 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 });
 
 export const tableColumnsAtom = atom([
-  { label: "Task  Name", key: "task", sortable: true },
+  { label: "Task  Name", key: "name", sortable: true },
   { label: "Status", key: "status", sortable: true },
   { label: "Start Date", key: "startDate", sortable: true },
   { label: "End Date", key: "endDate", sortable: true },

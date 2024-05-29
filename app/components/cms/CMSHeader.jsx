@@ -107,9 +107,9 @@ const CMSHeader = ({
             data-[details=true]:ml-0
             data-[task=true]:flex 
             data-[details=true]:flex
-            ml-2 justify-start
-            px-1 
+            px-1 ml-2 justify-start
             hidden transition-all
+            w-48 lg:w-full lg:max-w-fit
             "
         >
           <Tooltip
@@ -120,9 +120,9 @@ const CMSHeader = ({
           >
             <p
               className="
-                  flex
+                  truncate min-w-0
                   bg-white-default rounded-lg px-2 py-1
-                  truncate hover:underline hover:underline-offset-1
+                  hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default
                   "
             >
@@ -166,7 +166,7 @@ const CMSHeader = ({
             changeView ? <MdViewList size={24} /> : <MdViewColumn size={24} />
           }
           label={"Switch View"}
-          className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
+          className={"h-10 min-w-40 w-full lg:max-w-64"}
           onPress={handleChangeView}
         />
         <CTAButtons
@@ -175,14 +175,14 @@ const CMSHeader = ({
           color={showClientDetails ? "green" : "white"}
           startContent={<MdOutlineDescription size={24} />}
           label={"View Client Details"}
-          className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
+          className={"h-10 min-w-40 w-full lg:max-w-64"}
           onPress={handleViewClientDetails}
         />
       </div>
       <div
         data-show={showClientTask}
         data-details={showClientDetails}
-        className="data-[details=true]:hidden flex flex-row items-center gap-2 data-[show=true]:ml-4 sm:data-[show=true]:ml-0 ml-0 md:ml-2"
+        className="data-[details=true]:hidden flex flex-row items-center gap-2 data-[show=true]:ml-4 sm:data-[show=true]:ml-0 ml-0 min-[1336px]:data-[show=true]:ml-0 min-[1152px]:data-[show=true]:ml-4 "
       >
         {children ? children : null}
       </div>

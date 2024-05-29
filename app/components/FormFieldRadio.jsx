@@ -1,4 +1,4 @@
-import { RadioGroup, Radio } from "@nextui-org/react";
+import { RadioGroup, Radio, cn } from "@nextui-org/react";
 
 const FormFieldRadio = ({
   label,
@@ -11,6 +11,7 @@ const FormFieldRadio = ({
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
   ],
+  className,
   ...props
 }) => {
   return (
@@ -23,15 +24,16 @@ const FormFieldRadio = ({
       value={value}
       onValueChange={onValueChange}
       classNames={{
-        base: [
+        base: cn(
           `${fullWidth ? "w-full" : "max-w-full"}`,
           "relative inline-flex tap-highlight-transparent",
-          "shadow-sm px-3 py-2 bg-grey-default hover:bg-background",
+          "shadow-sm px-3 py-2 bg-grey-default hover:bg-default-200",
           "group-data-[focus=true]:bg-grey-default rounded-medium",
           "transition-background motion-reduce:transition-none !duration-150",
-        ],
+          className
+        ),
         wrapper: "px-2",
-        label: "p-2 text-sm font-medium text-black-default",
+        label: "p-2 text-sm font-semibold text-black-default/80",
       }}
       {...props}
     >
@@ -40,9 +42,10 @@ const FormFieldRadio = ({
           key={index}
           value={choice.value}
           classNames={{
-            wrapper: "bg-white-default ",
-            label: "text-sm font-normal text-black-default",
-            circle: "bg-blue-default",
+            wrapper:
+              "bg-white-default w-4 h-4 group-data-[selected=true]:border-blue-default",
+            label: "text-sm font-medium text-black-default",
+            control: "bg-blue-default",
           }}
         >
           {choice.label}

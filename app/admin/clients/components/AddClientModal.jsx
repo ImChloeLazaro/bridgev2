@@ -65,7 +65,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
               {"New Client Data"}
             </ModalHeader>
             <ModalBody>
-              <div className="flex justify-center items-center gap-1 mb-6">
+              <div className="flex justify-center items-center gap-1">
                 <div className="w-full flex flex-col justify-center items-center">
                   <Tabs
                     key="client onboarding navigation"
@@ -81,7 +81,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                       tabContent:
                         "group-data-[selected=true]:text-blue-default group-data-[selected=true]:font-extrabold font-medium text-base text-black-default/90",
                       cursor: "w-full bg-blue-default",
-                      panel: "w-full",
+                      panel: "w-full pt-3 py-0",
                     }}
                   >
                     {clientTabs.map((tab) => {
@@ -90,7 +90,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                           key={tab.key}
                           title={<p className="capitalize">{tab.title}</p>}
                         >
-                          <div className="h-80 flex gap-y-6 px-5 mb-6 overflow-y-scroll">
+                          <div className="h-80 flex px-5 overflow-y-scroll">
                             <ClientFormSections />
                           </div>
                         </Tab>
@@ -106,6 +106,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                 label={"Onboard New Client"}
                 color={"blue"}
                 onPress={() => handleAddClient(onClose)}
+                className={"px-6"}
               />
             </ModalFooter>
           </>

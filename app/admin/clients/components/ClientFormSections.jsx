@@ -191,18 +191,20 @@ const ClientFormSections = () => {
           />
         </div>
         <div className="w-full flex justify-center gap-3">
-          <div className="w-full flex flex-col justify-between items-center gap-4">
+          <div className="w-full flex flex-col justify-between items-center gap-3">
             <FormFieldInput
               label={"Australian Company Number(ACN)"}
               fullWidth={true}
               value={companyACN}
               onValueChange={setCompanyACN}
+              className={"h-16"}
             />
             <FormFieldInput
               label={"Australian Business Number(ABN)"}
               fullWidth={true}
               value={companyABN}
               onValueChange={setCompanyABN}
+              className={"h-16"}
             />
           </div>
           <FormFieldRadio
@@ -305,37 +307,44 @@ const ClientFormSections = () => {
         />
       </div>
       <div className="w-full flex justify-center gap-3">
-        <FormFieldTextArea
-          label={"How many accounts do you have?"}
-          placeholder={
-            "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"
-          }
-          fullWidth={true}
-          value={financialAccountCount}
-          onValueChange={setFinancialAccountCount}
-        />
-        <FormFieldRadio
-          label={"Do you outsource payroll?"}
-          choices={[
-            { value: "yes", label: "Yes" },
-            { value: "no", label: "No" },
-            { value: "n/a", label: "N/A" },
-          ]}
-          fullWidth={false}
-          value={financialOutsourcePayroll}
-          onValueChange={setFinancialOutsourcePayroll}
-        />
-        <FormFieldRadio
-          label={"What accounting method do you use?"}
-          choices={[
-            { value: "cash", label: "Cash" },
-            { value: "accrual", label: "Accrual" },
-            { value: "unsure", label: "Unsure" },
-          ]}
-          fullWidth={false}
-          value={financialAccountMethod}
-          onValueChange={setFinancialAccountMethod}
-        />
+        <div className="w-3/5 flex">
+          <FormFieldTextArea
+            label={"How many accounts do you have?"}
+            placeholder={
+              "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"
+            }
+            fullWidth={true}
+            value={financialAccountCount}
+            onValueChange={setFinancialAccountCount}
+          />
+        </div>
+
+        <div className="w-2/5 flex justify-between gap-3">
+          <FormFieldRadio
+            label={"Do you outsource payroll?"}
+            choices={[
+              { value: "yes", label: "Yes" },
+              { value: "no", label: "No" },
+              { value: "n/a", label: "N/A" },
+            ]}
+            fullWidth={false}
+            value={financialOutsourcePayroll}
+            onValueChange={setFinancialOutsourcePayroll}
+            className={"w-1/2"}
+          />
+          <FormFieldRadio
+            label={"What accounting method do you use?"}
+            choices={[
+              { value: "cash", label: "Cash" },
+              { value: "accrual", label: "Accrual" },
+              { value: "unsure", label: "Unsure" },
+            ]}
+            fullWidth={false}
+            value={financialAccountMethod}
+            onValueChange={setFinancialAccountMethod}
+            className={"w-1/2"}
+          />
+        </div>
       </div>
       <FormFieldTextArea
         label={
@@ -427,6 +436,7 @@ const ClientFormSections = () => {
         fullWidth={true}
         value={documentASIC}
         onValueChange={setDocumentASIC}
+        endContentType={"file"}
       />
       <FormFieldInput
         isReadOnly={true}
@@ -436,6 +446,7 @@ const ClientFormSections = () => {
         fullWidth={true}
         value={documentTaxReturn}
         onValueChange={setDocumentTaxReturn}
+        endContentType={"file"}
       />
     </>
   );

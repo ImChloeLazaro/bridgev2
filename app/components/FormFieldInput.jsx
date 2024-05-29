@@ -1,4 +1,4 @@
-import { Input, useDisclosure } from "@nextui-org/react";
+import { Input, useDisclosure, cn } from "@nextui-org/react";
 import { DatePicker } from "./DatePicker";
 import IconButton from "./IconButton";
 import { MdFileUpload } from "react-icons/md";
@@ -15,25 +15,32 @@ const FormFieldInput = ({
   isReadOnly = false,
   withFile = false,
   withDate = false,
+  endContentType,
   date,
   onDateChange,
   isDateModal = false,
   fullWidth = false,
+  className,
   ...props
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const handleEndContent = () => {
-    if (withDate) {
-      return <DatePicker date={date} onDateChange={onDateChange} />;
-    }
-    if (withFile) {
-      return (
-        <IconButton>
-          <MdFileUpload size={16} />
-        </IconButton>
-      );
-    }
+  const endContent = {
+    date: (
+      <DatePicker
+        date={date}
+        onDateChange={onDateChange}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+        isDateModal={isDateModal}
+      />
+    ),
+    file: (
+      <IconButton>
+        <MdFileUpload size={16} />
+      </IconButton>
+    ),
   };
 
   return (
@@ -55,35 +62,19 @@ const FormFieldInput = ({
         classNames={{
           base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
           label: [
-            "font-medium",
-            "text-black-default/80",
-            "text-sm",
-            "group-data-[focus=true]:tracking-tight",
+            "text-sm font-medium text-black-default/80",
+            "min-w-fit tracking-tight mb-2.5",
           ],
-          input: [
-            "font-medium",
-            "group-data-[filled=true]:text-black-default/90",
-            "text-sm px-1.5 data-[label=true]:px-3",
-          ],
-          inputWrapper: [
-            "bg-grey-default",
+          input: ["text-sm font-medium text-black-default/90"],
+          inputWrapper: cn(
             "text-sm font-medium text-black-default/90",
-            "px-1.5"
-          ],
+            "bg-grey-default",
+            "px-3",
+            className
+          ),
           errorMessage: ["text-red-default"],
         }}
-        endContent={
-          withDate && (
-            <DatePicker
-              date={date}
-              onDateChange={onDateChange}
-              isOpen={isOpen}
-              onOpen={onOpen}
-              onOpenChange={onOpenChange}
-              isDateModal={isDateModal}
-            />
-          )
-        }
+        endContent={endContent[endContentType]}
         {...props}
       />
     </>

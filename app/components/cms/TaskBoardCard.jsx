@@ -122,10 +122,10 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
       //   setMouseIsOver(false);
       // }}
     >
-      <div className='flex flex-col gap-3 justify-start px-2 my-auto h-full w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap'>
+      <div className="flex flex-col gap-3 justify-start px-2 my-auto h-full w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
         {/* {task.content} */}
-        <div className='flex justify-between items-start gap-2'>
-          <div className='mt-2'>
+        <div className="flex justify-between items-start gap-2">
+          <div className="mt-2">
             <Link
               href="#"
               underline="hover"
@@ -149,8 +149,8 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
         <div className="flex gap-2 justify-start items-center">
           <MdCalendarMonth size={24} />
           <Link
-            href='#'
-            underline='hover'
+            href="#"
+            underline="hover"
             className={cn(
               `${task.status === "done" ? "line-through" : ""}`,
               "text-sm font-medium text-black-default/80"
@@ -161,16 +161,16 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
               : ""}
           </Link>
         </div>
-        <div className='flex gap-2 justify-start items-center mb-1'>
+        <div className="flex gap-2 justify-start items-center mb-1">
           {task.reviewer.map((reviewer, index) => {
             return (
               <User
                 key={index}
                 name={
                   <Link
-                    href='#'
-                    underline='hover'
-                    className='text-sm font-medium text-black-default/80'
+                    href="#"
+                    underline="hover"
+                    className="text-sm font-medium text-black-default/80"
                   >
                     {/* {reviewer.name} */}
                   </Link>

@@ -55,9 +55,9 @@ const SearchBar = ({
           classNames={{
             base: "data-[disabled=true]:cursor-not-allowed w-full min-w-16 max-w-28 md:max-w-32 lg:max-w-48",
             trigger: "min-h-10 rounded-r-none border border-r-0 shadow-sm",
-            mainWrapper: "w-full",
             value:
               "hidden min-[320px]:block min-[320px]:w-2/3 min-[320px]:truncate",
+            popoverContent: "min-w-fit",
           }}
         >
           {(filter) => (

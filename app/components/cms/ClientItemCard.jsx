@@ -31,6 +31,11 @@ const ClientItemCard = ({
   setSelectedClientForTask,
   setShowClientDetails,
 }) => {
+  const customBreakPoint = "1023";
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+  );
+
   const tasks = useAtomValue(tasksAtom);
 
   const clientProcessors = tasks.filter(
@@ -70,6 +75,26 @@ const ClientItemCard = ({
       );
     }
   }, [data._id, tasks]);
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setIsMobile(
+        window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+      );
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSelectTask = () => {
     // when user pressed on the tags on client list
@@ -150,7 +175,7 @@ const ClientItemCard = ({
               {!clientProcessors?.length ? (
                 ""
               ) : (
-                <AvatarGroup max={3}>
+                <AvatarGroup max={isMobile ? 2 : 3}>
                   {clientProcessors.map((processor, index) => (
                     <Avatar
                       isBordered={true}

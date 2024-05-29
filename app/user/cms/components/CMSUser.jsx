@@ -1,3 +1,10 @@
+import ClientDetails from "@/app/components/cms/ClientDetails";
+import ClientList from "@/app/components/cms/ClientList";
+import CMSFooter from "@/app/components/cms/CMSFooter";
+import CMSHeader from "@/app/components/cms/CMSHeader";
+import TaskBoardView from "@/app/components/cms/TaskBoardView";
+import TaskTableView from "@/app/components/cms/TaskTableView";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
   clientsAtom,
@@ -12,34 +19,31 @@ import {
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import {
   changeViewAtom,
+  pageRowsSelectionAtom,
+  selectedClientFilterKeysAtom,
+  selectedClientForTaskAtom,
+  selectedClientToViewAtom,
+  selectedTaskFilterKeysAtom,
+  showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
-  selectedClientFilterKeysAtom,
-  selectedClientToViewAtom,
-  showClientDetailsAtom,
-  pageRowsSelectionAtom,
-  selectedClientForTaskAtom,
-  selectedTaskFilterKeysAtom,
 } from "../store/CMSUserStore";
-import ClientList from "@/app/components/cms/ClientList";
-import TaskTableView from "@/app/components/cms/TaskTableView";
-import TaskBoardView from "@/app/components/cms/TaskBoardView";
-import ClientDetails from "@/app/components/cms/ClientDetails";
-import CMSFooter from "@/app/components/cms/CMSFooter";
-import CMSHeader from "@/app/components/cms/CMSHeader";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { MdKeyboardDoubleArrowUp } from "react-icons/md";
-import { MdOutlineAssignment } from "react-icons/md";
-import { MdRemoveCircleOutline } from "react-icons/md";
+
+// @refresh reset
 
 const CMSUser = () => {
+  const customBreakPoint = "1023";
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+  );
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "age",
+    column: "endDate",
     direction: "ascending",
   });
   const user = useAtomValue(authenticationAtom);
@@ -269,6 +273,26 @@ const CMSUser = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setIsMobile(
+        window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+      );
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
@@ -335,6 +359,7 @@ const CMSUser = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
           />
           <TaskBoardView

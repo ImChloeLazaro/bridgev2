@@ -10,62 +10,112 @@ import {
 import ConfirmationWindow from "../ConfirmationWindow";
 import { MdInfoOutline, MdWarningAmber } from "react-icons/md";
 import { useState } from "react";
+import { updateTaskStatusAtom } from "@/app/store/TaskStore";
+import { useSetAtom } from "jotai";
+import { toast } from "sonner";
+import { format } from "date-fns";
 
-const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
+const TaskOptionsDropdown = ({
+  trigger,
+  actions,
+  id,
+  tasksFromSelectedClient,
+}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [action, setAction] = useState("mark");
+  const [isLoading, setIsLoading] = useState(false);
+  const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
 
   const handleSelectOption = (key) => {
-    setAction(key);
-    console.log("OPTIONS FOR TASK CARD");
-    console.log("key", key);
-    console.log("task.id", id);
-    console.log("task", task);
+    if (key === "forReview" || key === "done") {
+      const updateSelectedTask = tasksFromSelectedClient[0].sla.map((task) => {
+        if (task._id === id) {
+          return { ...task, status: key };
+        }
+        return task;
+      });
+      const selectedTask = tasksFromSelectedClient[0].sla.filter(
+        (task) => task._id === id
+      )[0];
+      const clientKey = tasksFromSelectedClient[0].client.client_id;
+
+      console.log("selectedTask", selectedTask);
+
+      const dateTaskDone = new Date();
+      console.log("TASK COMPLETED", tasksFromSelectedClient[0]);
+      // toast.success(`Task Completed: ${tasksFromSelectedClient[0].name} `, {
+      //   description: `${format(dateTaskDone, "PPpp")}`,
+      // });
+      setIsLoading(true);
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await updateTaskStatus({
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                })
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: "Updating Task Status...",
+        success: () => {
+          setIsLoading(false);
+          return `Task Completed: ${selectedTask.name}`;
+        },
+
+        error: "Error onboarding client failed",
+      });
+    }
+
     onOpen();
   };
 
-  const handleConfirmAction = () => {
-    console.log("action confirm");
-  };
-  const handleDenyAction = () => {
-    console.log("action deny");
-  };
+  // const handleConfirmAction = () => {
+  //   console.log("action confirm");
+  // };
+  // const handleDenyAction = () => {
+  //   console.log("action deny");
+  // };
 
-  const choices = {
-    confirm: { label: "Yes, I Confirm", choice: handleConfirmAction },
-    deny: { label: "Cancel", choice: handleDenyAction },
-  };
+  // const choices = {
+  //   confirm: { label: "Yes, I Confirm", choice: handleConfirmAction },
+  //   deny: { label: "Cancel", choice: handleDenyAction },
+  // };
 
-  const windowDetails = {
-    mark: {
-      title: "Confirmation",
-      icon: <MdInfoOutline size={24} />,
-      message: "Do you confirm marking this task done?",
-      description: "",
-      actions: choices,
-    },
-    escalate: {
-      title: "Confirmation",
-      icon: <MdWarningAmber size={24} />,
-      message: "Do you confirm escalating this task to a team lead?",
-      description: "",
-      actions: choices,
-    },
-    assign: {
-      title: "Confirmation",
-      icon: <MdInfoOutline size={24} />,
-      message: "Do you confirm assigning this task?",
-      description: "",
-      actions: choices,
-    },
-    remove: {
-      title: "Confirmation",
-      icon: <MdWarningAmber size={24} />,
-      message: "Do you confirm removing this team member?",
-      description: "",
-      actions: choices,
-    },
-  };
+  // const windowDetails = {
+  //   mark: {
+  //     title: "Confirmation",
+  //     icon: <MdInfoOutline size={24} />,
+  //     message: "Do you confirm marking this task done?",
+  //     description: "",
+  //     actions: choices,
+  //   },
+  //   escalate: {
+  //     title: "Confirmation",
+  //     icon: <MdWarningAmber size={24} />,
+  //     message: "Do you confirm escalating this task to a team lead?",
+  //     description: "",
+  //     actions: choices,
+  //   },
+  //   assign: {
+  //     title: "Confirmation",
+  //     icon: <MdInfoOutline size={24} />,
+  //     message: "Do you confirm assigning this task?",
+  //     description: "",
+  //     actions: choices,
+  //   },
+  //   remove: {
+  //     title: "Confirmation",
+  //     icon: <MdWarningAmber size={24} />,
+  //     message: "Do you confirm removing this team member?",
+  //     description: "",
+  //     actions: choices,
+  //   },
+  // };
 
   const taskOptionsColors = {
     green: "data-[hover=true]:bg-green-default",
@@ -111,7 +161,6 @@ const TaskOptionsDropdown = ({ trigger, actions, id, task }) => {
           )}
         </DropdownMenu>
       </Dropdown>
-      
     </>
   );
 };

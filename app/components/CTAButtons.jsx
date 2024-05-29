@@ -32,14 +32,16 @@ const CTAButtons = ({
       data-show={showButton}
       aria-label={isValidElement(label) ? "Action Button" : label}
       startContent={
-        startContent ? <div className="min-h-3 min-w-3">{startContent}</div> : null
+        startContent ? (
+          <div className="min-h-3 min-w-3">{startContent}</div>
+        ) : null
       }
       endContent={endContent}
       radius={radius}
       variant="solid"
       className={cn(
         "hidden data-[show=true]:flex items-center",
-        "px-4 py-0.5 gap-3",
+        "px-4 py-0.5 gap-4",
         buttonColor,
         className
       )}
