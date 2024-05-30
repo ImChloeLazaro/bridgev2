@@ -133,12 +133,17 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
     console.log("clientSelectionChange: ", clientSelectionChange);
     const selectedClient = [clientSelectionChange[0].client?.client_id];
     const selectedProcessor = clientSelectionChange[0].processor.map(
-      (processor) => processor.sub
+      (processor) => processor?.sub
     );
     const selectedReviewer = clientSelectionChange[0].reviewer.map(
-      (reviewer) => reviewer.sub
+      (reviewer) => reviewer?.sub
     );
-    const selectedManager = [clientSelectionChange[0].manager?.sub];
+    const selectedManager = clientSelectionChange[0].manager?.sub;
+
+    console.log(
+      "selectedManager",
+      selectedManager === undefined ? [] : [selectedManager]
+    );
 
     set(selectedClientForTaskAtom, new Set(selectedClient));
     set(selectedProcessorAtom, new Set(selectedProcessor));

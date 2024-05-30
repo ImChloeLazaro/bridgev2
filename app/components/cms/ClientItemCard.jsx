@@ -175,7 +175,7 @@ const ClientItemCard = ({
               {!clientProcessors?.length ? (
                 ""
               ) : (
-                <AvatarGroup max={isMobile ? 2 : 3}>
+                <AvatarGroup max={isMobile ? 1 : 3}>
                   {clientProcessors.map((processor, index) => (
                     <Avatar
                       isBordered={true}

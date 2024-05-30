@@ -1,6 +1,9 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { cn } from "@nextui-org/react";
 import { useMemo, useState } from "react";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import IconButton from "../IconButton";
 import TaskBoardCard from "./TaskBoardCard";
 
 function ColumnContainer({
@@ -12,7 +15,9 @@ function ColumnContainer({
   deleteTask,
   updateTask,
   actions,
+  tasksFromSelectedClient,
 }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const tasksCount = tasks?.length ? tasks.length : 0;
   const tasksIds = useMemo(() => {
@@ -45,20 +50,15 @@ function ColumnContainer({
       <div
         ref={setNodeRef}
         style={style}
-        className="
-      opacity-40
-      border-2
-      border-blue-default
-
-      bg-grey-default
-      
-      h-full
-      max-h-screen
-      rounded-lg
-      flex
-      flex-col
-      w-full
-      "
+        className={cn(
+          "h-[5rem] min-h-[5rem]",
+          "opacity-40 rounded-lg",
+          "flex flex-col w-full",
+          "lg:h-full max-h-screen",
+          "bg-grey-default",
+          "border-2 border-blue-default",
+          "transition-height duration-300 ease-in-out"
+        )}
       ></div>
     );
   }
@@ -76,16 +76,14 @@ function ColumnContainer({
     <div
       ref={setNodeRef}
       style={style}
-      className="
-    bg-grey-default
-    h-full
-    max-h-screen
-    rounded-lg
-    flex
-    flex-col
-    w-full
-    touch-none
-  "
+      className={cn(
+        `${!isExpanded ? "h-[5rem] min-h-[5rem]" : "h-[28rem] min-h-[28rem] "}`,
+        "touch-none rounded-lg",
+        "flex flex-col w-full",
+        "lg:h-full max-h-screen",
+        "bg-grey-default",
+        "transition-height duration-300 ease-in-out"
+      )}
     >
       {/* Column title */}
       <div
@@ -127,6 +125,7 @@ function ColumnContainer({
             {tasksCount}
           </div>
           <div className="text-white-default text-shadow">{column.title}</div>
+
           {/* {editMode && (
             <input
               className="bg-black focus:border-rose-500 border rounded outline-none px-2"
@@ -143,6 +142,18 @@ function ColumnContainer({
             />
           )} */}
         </div>
+        <IconButton
+          onPress={() => {
+            setIsExpanded(!isExpanded);
+          }}
+          className={"flex lg:hidden bg-white-default/80"}
+        >
+          {!isExpanded ? (
+            <MdKeyboardArrowDown size={24} />
+          ) : (
+            <MdKeyboardArrowUp size={24} />
+          )}
+        </IconButton>
         {/* <button
           onClick={() => {
             deleteColumn(column.id);
@@ -171,6 +182,7 @@ function ColumnContainer({
                 deleteTask={deleteTask}
                 updateTask={updateTask}
                 actions={actions}
+                tasksFromSelectedClient={tasksFromSelectedClient}
               />
             ))
           ) : (

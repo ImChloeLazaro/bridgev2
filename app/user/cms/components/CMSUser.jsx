@@ -86,8 +86,6 @@ const CMSUser = () => {
     const processors = task.processor.map((user) => user.sub);
     return processors.includes(user.sub);
   });
-  console.log("user", user);
-  console.log("userTasks", userTasks);
 
   const tasksFromSelectedClient = useMemo(
     () =>
@@ -274,6 +272,11 @@ const CMSUser = () => {
   // }, []);
 
   useEffect(() => {
+    fetchTask();
+    fetchClient();
+  }, []);
+
+  useEffect(() => {
     // only execute all the code below in client side
     // Handler to call on window resize
     function handleResize() {
@@ -339,6 +342,8 @@ const CMSUser = () => {
         <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
+            searchClientItem={searchClientItem}
+            selectedClientFilterKeys={selectedClientFilterKeys}
             showClientTask={showClientTask}
             setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
@@ -369,6 +374,7 @@ const CMSUser = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
           />
           <ClientDetails

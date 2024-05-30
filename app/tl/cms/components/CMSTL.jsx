@@ -44,6 +44,7 @@ import {
   showSearchBarAtom,
 } from "../store/CMSTLStore";
 import AddTaskModal from "./AddTaskModal";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 // @refresh reset
 
@@ -64,6 +65,8 @@ const CMSTL = () => {
     column: "endDate",
     direction: "ascending",
   });
+
+  const user = useAtomValue(authenticationAtom);
 
   const clients = useAtomValue(clientsAtom);
   const tasks = useAtomValue(tasksAtom);
@@ -100,10 +103,19 @@ const CMSTL = () => {
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
   // ##########################################
+  const userTasks = tasks.filter((task) => {
+    const reviewers = task.reviewer.map((user) => user.sub);
+    return reviewers.includes(user.sub);
+  });
+
+  console.log("userTasks", userTasks);
+
   const tasksFromSelectedClient = useMemo(
     () =>
-      tasks.filter((task) => task.client?.client_id === selectedClientToView),
-    [selectedClientToView, tasks]
+      userTasks.filter(
+        (task) => task.client?.client_id === selectedClientToView
+      ),
+    [selectedClientToView, userTasks]
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -192,7 +204,11 @@ const CMSTL = () => {
   ).join("");
 
   const filteredClientItems = useMemo(() => {
-    let filteredClients = [...clients];
+    const clientIDFromTasks = userTasks.map((task) => task.client?.client_id);
+
+    let filteredClients = [
+      ...clients.filter((client) => clientIDFromTasks.includes(client._id)),
+    ];
 
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
@@ -203,20 +219,21 @@ const CMSTL = () => {
     }
     if (
       selectedClientFilterKeyString !== "all" &&
-      Array.from(selectedClientFilterKeyString).length !==
-        clientFilterKeys.length
+      Array.from(selectedClientFilterKeys).length !== clientFilterKeys.length
     ) {
       filteredClients = filteredClients.filter((client) =>
-        Array.from(selectedClientFilterKeyString).includes(client.name)
+        Array.from(selectedClientFilterKeys).includes(client.name)
       );
     }
 
     return filteredClients;
   }, [
+    userTasks,
     clients,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
+    selectedClientFilterKeys,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -307,6 +324,11 @@ const CMSTL = () => {
   // }, []);
 
   useEffect(() => {
+    fetchTask();
+    fetchClient();
+  }, []);
+
+  useEffect(() => {
     // only execute all the code below in client side
     // Handler to call on window resize
     function handleResize() {
@@ -369,7 +391,7 @@ const CMSTL = () => {
             setShowClientDetails={setShowClientDetails}
           >
             <CTAButtons
-              isDisabled={Boolean(!clients?.length)}
+              isDisabled={Boolean(!itemClients?.length)}
               radius={"sm"}
               variant={"bordered"}
               key={actionButtons.task.label}
@@ -384,6 +406,8 @@ const CMSTL = () => {
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
+            searchClientItem={searchClientItem}
+            selectedClientFilterKeys={selectedClientFilterKeys}
             showClientTask={showClientTask}
             setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
@@ -396,7 +420,7 @@ const CMSTL = () => {
             isLoading={isLoading}
           />
           <TaskTableView
-            itemTasks={filteredTaskItems}
+            itemTasks={itemTasks}
             showClientTask={showClientTask}
             changeView={changeView}
             sortDescriptor={sortDescriptor}
@@ -408,12 +432,13 @@ const CMSTL = () => {
             isLoading={isLoading}
           />
           <TaskBoardView
-            itemTasks={filteredTaskItems}
+            itemTasks={itemTasks}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
           />
           <ClientDetails

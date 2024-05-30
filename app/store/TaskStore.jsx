@@ -16,7 +16,14 @@ export const tasksAtom = atom([]);
 export const draggableTasksAtom = atom([]);
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
-  const { manager, client = "", processor, reviewer, duration, sla } = update;
+  const {
+    manager = {},
+    client = {},
+    processor = [],
+    reviewer = [],
+    duration,
+    sla = [],
+  } = update;
 
   console.log("selectedClient: ", client);
 
@@ -26,42 +33,42 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 
   console.log("clientAlreadyHaveTask: ", clientAlreadyHaveTask[0]);
 
-  if (client && clientAlreadyHaveTask?.length) {
-    console.log("CLIENT HAS TASK");
+  // if (client && clientAlreadyHaveTask?.length) {
+  //   console.log("CLIENT HAS TASK");
 
-    const response = await restupdate("/cms/task", {
-      ...clientAlreadyHaveTask[0],
-      sla: [...clientAlreadyHaveTask[0].sla, ...sla],
-    });
-    console.log("RESPONSE HAS TASK FROM API", response);
+  //   const response = await restupdate("/cms/task", {
+  //     ...clientAlreadyHaveTask[0],
+  //     sla: [...clientAlreadyHaveTask[0].sla, ...sla],
+  //   });
+  //   console.log("RESPONSE HAS TASK FROM API", response);
 
-    if (response.success) {
-      console.log("ADDED TASK", response.response);
-      return { success: true };
-    } else {
-      console.log("FAILED ADDING TASK");
-      return { success: false };
-    }
-  } else {
-    console.log("CLIENT HAS NO TASK");
-    const response = await restinsert("/cms/task", {
-      manager,
-      client,
-      processor,
-      reviewer,
-      duration,
-      sla,
-    });
-    console.log("RESPONSE HAS NO TASK FROM API", response);
+  //   if (response.success) {
+  //     console.log("ADDED TASK", response.response);
+  //     return { success: true };
+  //   } else {
+  //     console.log("FAILED ADDING TASK");
+  //     return { success: false };
+  //   }
+  // } else {
+  //   console.log("CLIENT HAS NO TASK");
+  //   const response = await restinsert("/cms/task", {
+  //     manager,
+  //     client,
+  //     processor,
+  //     reviewer,
+  //     duration,
+  //     sla,
+  //   });
+  //   console.log("RESPONSE HAS NO TASK FROM API", response);
 
-    if (response.success) {
-      console.log("ADDED TASK", response.response);
-      return { success: true };
-    } else {
-      console.log("FAILED ADDING TASK");
-      return { success: false };
-    }
-  }
+  //   if (response.success) {
+  //     console.log("ADDED TASK", response.response);
+  //     return { success: true };
+  //   } else {
+  //     console.log("FAILED ADDING TASK");
+  //     return { success: false };
+  //   }
+  // }
 });
 export const updateTaskAtom = atom();
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
@@ -85,8 +92,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client?.client_id === client_id
   );
 
-  console.log("sla inside task store  ", sla);
-
   const response = await restupdate("/cms/task", {
     ...taskToBeUpdated[0],
     sla: [...sla],
@@ -101,7 +106,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
       return task;
     });
     set(tasksAtom, updatedTask);
-    console.log("UPDATED TASK", response.response);
 
     return { success: true };
   } else {
@@ -378,4 +382,3 @@ export const recurrenceSelectionAtom = atom([
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);
-

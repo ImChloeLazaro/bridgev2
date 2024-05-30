@@ -316,6 +316,11 @@ const CMSAdmin = () => {
   // }, [tasks]);
 
   useEffect(() => {
+    fetchTask();
+    fetchClient();
+  }, []);
+
+  useEffect(() => {
     // only execute all the code below in client side
     // Handler to call on window resize
     function handleResize() {
@@ -378,7 +383,7 @@ const CMSAdmin = () => {
             setShowClientDetails={setShowClientDetails}
           >
             <CTAButtons
-              isDisabled={Boolean(!clients?.length)}
+              isDisabled={Boolean(!itemClients?.length)}
               radius={"sm"}
               variant={"bordered"}
               key={actionButtons.task.label}
@@ -407,6 +412,8 @@ const CMSAdmin = () => {
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
             itemClients={itemClients}
+            searchClientItem={searchClientItem}
+            selectedClientFilterKeys={selectedClientFilterKeys}
             showClientTask={showClientTask}
             setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
@@ -437,6 +444,7 @@ const CMSAdmin = () => {
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
             actions={actions}
+            tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
           />
           <ClientDetails

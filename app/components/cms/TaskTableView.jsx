@@ -68,19 +68,13 @@ const TaskTableView = ({
         second = b["duration"].start;
         cmp = compareAsc(new Date(first), new Date(second));
       }
+
       if (sortDescriptor.column === "endDate") {
         first = a["duration"].end;
         second = b["duration"].end;
         cmp = compareAsc(new Date(first), new Date(second));
       }
-      console.log("a", a);
-      console.log("b", b);
-      console.log("sortDescriptor.column ", sortDescriptor.column);
-      console.log("first: ", first);
-      console.log("second: ", second);
-
-      console.log("cmp", cmp);
-
+      
       if (sortDescriptor.direction === "descending") {
         cmp *= -1;
       }
@@ -162,7 +156,7 @@ const TaskTableView = ({
 
         case "assignees":
           return (
-            <AvatarGroup max={isMobile ? 2 : 3}>{processorList}</AvatarGroup>
+            <AvatarGroup max={isMobile ? 1 : 3}>{processorList}</AvatarGroup>
           );
 
         case "action":

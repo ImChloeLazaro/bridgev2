@@ -10,7 +10,13 @@ import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdOutlineAssignment } from "react-icons/md";
 import { MdRemoveCircleOutline } from "react-icons/md";
 
-function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
+function TaskBoardCard({
+  task,
+  deleteTask,
+  updateTask,
+  actions,
+  tasksFromSelectedClient,
+}) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
 
@@ -32,7 +38,7 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
 
   const actionOptions = [
     {
-      key: "mark",
+      key: task.status === "done" ? "forReview" : "done",
       color: task.status === "done" ? "yellow" : "green",
       label: task.status === "done" ? "Mark for review" : `Mark as done`,
       icon: <MdCheck size={18} />,
@@ -44,8 +50,6 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
     transition,
     transform: CSS.Transform.toString(transform),
   };
-
-  const cardSize = "min-h-[10rem]";
 
   // const toggleEditMode = () => {
   //   setEditMode((prev) => !prev);
@@ -59,7 +63,7 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
         ref={setNodeRef}
         style={style}
         className={cn(
-          cardSize,
+          "min-h-[10rem]",
           "bg-white-default p-2.5",
           "items-center flex text-left relative",
           "rounded-xl border-2 border-blue-default",
@@ -107,7 +111,7 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
       style={style}
       // onClick={toggleEditMode}
       className={cn(
-        cardSize,
+        "min-h-fit",
         "bg-white-default p-2.5",
         "items-center flex text-left relative",
         "rounded-xl border border-grey-default",
@@ -123,7 +127,6 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
       // }}
     >
       <div className="flex flex-col gap-3 justify-start px-2 my-auto h-full w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-        {/* {task.content} */}
         <div className="flex justify-between items-start gap-2">
           <div className="mt-2">
             <Link
@@ -140,7 +143,7 @@ function TaskBoardCard({ task, deleteTask, updateTask, actions }) {
           </div>
           <TaskOptionsDropdown
             id={task?._id}
-            task={task}
+            tasksFromSelectedClient={tasksFromSelectedClient}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
           />

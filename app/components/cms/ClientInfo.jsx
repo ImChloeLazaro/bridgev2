@@ -449,7 +449,7 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <div className="flex w-2/5 lg:w-1/2">
               <p className="text-base font-medium text-black-default">
-                {clientInfo?.software?.accounting.length
+                {clientInfo?.software?.accounting.length < 1
                   ? clientInfo.software.accounting.join(", ")
                   : "No Data Available"}
               </p>
@@ -464,7 +464,7 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <div className="flex w-2/5 lg:w-1/2">
               <p className="text-base font-medium text-black-default">
-                {clientInfo?.software?.billing.length
+                {clientInfo?.software?.billing.length < 1
                   ? clientInfo.software.billing.join(", ")
                   : "No Data Available"}
               </p>
@@ -479,7 +479,7 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <div className="flex w-2/5 lg:w-1/2">
               <p className="text-base font-medium text-black-default">
-                {clientInfo?.software?.bookkeeping.length
+                {clientInfo?.software?.bookkeeping.length < 1
                   ? clientInfo.software.bookkeeping.join(", ")
                   : "No Data Available"}
               </p>
@@ -494,7 +494,7 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <div className="flex w-2/5 lg:w-1/2">
               <p className="text-base font-medium text-black-default">
-                {clientInfo?.software?.expense_management.length
+                {clientInfo?.software?.expense_management.length < 1
                   ? clientInfo.software.expense_management.join(", ")
                   : "No Data Available"}
               </p>
@@ -509,7 +509,7 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <div className="flex w-2/5 lg:w-1/2">
               <p className="text-base font-medium text-black-default">
-                {clientInfo?.software?.payroll.length
+                {clientInfo?.software?.payroll.length < 1
                   ? clientInfo.software.payroll.join(", ")
                   : "No Data Available"}
               </p>
@@ -524,7 +524,7 @@ const ClientInfo = ({ selectedClient }) => {
             </div>
             <div className="flex w-2/5 lg:w-1/2">
               <p className="text-base font-medium text-black-default">
-                {clientInfo?.software?.reporting.length
+                {clientInfo?.software?.reporting.length < 1
                   ? clientInfo.software.reporting.join(", ")
                   : "No Data Available"}
               </p>

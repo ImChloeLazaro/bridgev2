@@ -28,6 +28,7 @@ const TaskBoardView = ({
   setShowClientTask,
   selectedClientToView,
   actions,
+  tasksFromSelectedClient,
   isLoading,
 }) => {
   const user = useAtomValue(userAtom);
@@ -126,6 +127,7 @@ const TaskBoardView = ({
                     : tasks.filter((task) => task.status === col.id)
                 }
                 actions={actions}
+                tasksFromSelectedClient={tasksFromSelectedClient}
               />
             ))}
           </SortableContext>
@@ -172,12 +174,14 @@ const TaskBoardView = ({
                     : tasks.filter((task) => task.status === activeColumn?.id)
                 }
                 actions={actions}
+                tasksFromSelectedClient={tasksFromSelectedClient}
               />
             )}
             {activeTask && (
               <TaskBoardCard
                 task={activeTask}
                 actions={actions}
+                tasksFromSelectedClient={tasksFromSelectedClient}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
               />
@@ -251,10 +255,6 @@ const TaskBoardView = ({
       setActiveTask(event.active.data.current.task);
 
       setTaskStatusBeforeDone(event.active.data.current?.task?.status);
-      console.log("activeColumn", activeColumn);
-      console.log("activeTask", activeTask);
-
-      console.log("DRAG START ACTIVE", event.active.data.current?.task?.status);
       return;
     }
   }
@@ -269,17 +269,11 @@ const TaskBoardView = ({
       });
     }
 
-    // console.log("activeColumn", activeColumn);
-    // console.log("activeTask", activeTask);
-
     setActiveColumn(null);
     setActiveTask(null);
 
     const { active, over } = event;
     if (!over) return;
-
-    console.log("DRAG END ACTIVE", active.data.current?.task?.status);
-    console.log("DRAG END OVER", over.data.current?.task?.status);
 
     const activeId = active.id;
     const overId = over.id;
@@ -289,14 +283,12 @@ const TaskBoardView = ({
     const taskOverStatus = over.data.current?.task?.status;
 
     if (taskOverStatus === "done") {
-      console.log("taskStatusBeforeDone", taskStatusBeforeDone);
       if (taskStatusBeforeDone !== taskOverStatus) {
         const taskDone = tasks.filter(
           (t) => t.id === activeId && t.status === "done"
         );
 
         const dateTaskDone = new Date();
-        console.log("TASK COMPLETED");
         toast.success(`Task Completed: ${taskDone[0].name} `, {
           description: `${format(dateTaskDone, "PPpp")}`,
         });
@@ -326,9 +318,6 @@ const TaskBoardView = ({
 
     const { active, over } = event;
     if (!over) return;
-
-    console.log("DRAG OVER ACTIVE", active.data.current?.task?.status);
-    console.log("DRAG OVER OVER", over.data.current?.task?.status);
 
     const activeId = active.id;
     const overId = over.id;

@@ -87,7 +87,7 @@ const TaskFormSections = () => {
       {!showClientTask && (
         <div className="py-2 w-full">
           <div className="flex justify-start items-center gap-2 mb-8">
-            <p className="font-bold text-lg">{"People"}</p>
+            <p className="font-bold text-base lg:text-lg xl:text-2xl">{"People"}</p>
             <MdInfoOutline />
           </div>
 
@@ -323,7 +323,7 @@ const TaskFormSections = () => {
       {/* Description */}
       <div className="py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-lg">{"Description"}</p>
+          <p className="font-bold text-base lg:text-lg xl:text-2xl">{"Description"}</p>
           <MdInfoOutline />
         </div>
 
@@ -400,6 +400,7 @@ const TaskFormSections = () => {
               onValueChange={setStartDate}
               placeholder={"Set a date"}
               withDate={true}
+              endContentType={"date"}
               date={startDate}
               onDateChange={setStartDate}
               isDateModal={true}
@@ -416,6 +417,7 @@ const TaskFormSections = () => {
               onValueChange={setEndDate}
               placeholder={"Set a date"}
               withDate={true}
+              endContentType={"date"}
               date={endDate}
               onDateChange={setEndDate}
               isDateModal={true}

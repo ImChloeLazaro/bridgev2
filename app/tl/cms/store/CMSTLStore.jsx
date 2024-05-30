@@ -138,7 +138,12 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
     const selectedReviewer = clientSelectionChange[0].reviewer.map(
       (reviewer) => reviewer?.sub
     );
-    const selectedManager = [clientSelectionChange[0].manager?.sub];
+    const selectedManager = clientSelectionChange[0].manager?.sub;
+
+    console.log(
+      "selectedManager",
+      selectedManager === undefined ? [] : [selectedManager]
+    );
 
     set(selectedClientForTaskAtom, new Set(selectedClient));
     set(selectedProcessorAtom, new Set(selectedProcessor));
@@ -150,4 +155,3 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
     set(selectedManagerAtom, new Set([]));
   }
 });
-

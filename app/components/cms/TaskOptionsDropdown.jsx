@@ -16,10 +16,10 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 
 const TaskOptionsDropdown = ({
-  trigger,
-  actions,
   id,
   tasksFromSelectedClient,
+  actions,
+  trigger,
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
@@ -36,15 +36,10 @@ const TaskOptionsDropdown = ({
       const selectedTask = tasksFromSelectedClient[0].sla.filter(
         (task) => task._id === id
       )[0];
+
       const clientKey = tasksFromSelectedClient[0].client.client_id;
-
-      console.log("selectedTask", selectedTask);
-
       const dateTaskDone = new Date();
-      console.log("TASK COMPLETED", tasksFromSelectedClient[0]);
-      // toast.success(`Task Completed: ${tasksFromSelectedClient[0].name} `, {
-      //   description: `${format(dateTaskDone, "PPpp")}`,
-      // });
+
       setIsLoading(true);
       const promise = async () =>
         new Promise((resolve) =>
@@ -64,11 +59,17 @@ const TaskOptionsDropdown = ({
         loading: "Updating Task Status...",
         success: () => {
           setIsLoading(false);
-          return `Task Completed: ${selectedTask.name}`;
+          return `${
+            key === "done" ? "Task Completed" : "Task Marked for Review"
+          }: ${selectedTask.name}`;
         },
 
         error: "Error onboarding client failed",
       });
+    }
+
+    if (key === "escalate") {
+      console.log("glow red task");
     }
 
     onOpen();
