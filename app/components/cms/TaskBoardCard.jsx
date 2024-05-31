@@ -9,6 +9,7 @@ import { MdCheck } from "react-icons/md";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdOutlineAssignment } from "react-icons/md";
 import { MdRemoveCircleOutline } from "react-icons/md";
+import { useState } from "react";
 
 function TaskBoardCard({
   task,
@@ -19,6 +20,8 @@ function TaskBoardCard({
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
+
+  const [isEscalated, setIsEscalated] = useState(false);
 
   const {
     setNodeRef,
@@ -62,7 +65,10 @@ function TaskBoardCard({
       <div
         ref={setNodeRef}
         style={style}
+        data-escalated={isEscalated}
         className={cn(
+          "data-[escalated=true]:border-red-default",
+          "data-[escalated=true]:border-4",
           "min-h-[10rem]",
           "bg-white-default p-2.5",
           "items-center flex text-left relative",
@@ -110,12 +116,16 @@ function TaskBoardCard({
       {...listeners}
       style={style}
       // onClick={toggleEditMode}
+      data-escalated={isEscalated}
       className={cn(
+        "data-[escalated=true]:border-red-default",
+        "data-[escalated=true]:border-3",
+        "data-[escalated=true]:hover:ring-red-default",
         "min-h-fit",
         "bg-white-default p-2.5",
         "items-center flex text-left relative",
+        "hover:ring-2 hover:ring-inset hover:ring-blue-default",
         "rounded-xl border border-grey-default",
-        "hover:ring-2 hover:ring-inset hover:ring-blue-default ",
         "shadow-md",
         "cursor-grab select-none touch-none"
       )}
@@ -146,6 +156,7 @@ function TaskBoardCard({
             tasksFromSelectedClient={tasksFromSelectedClient}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
+            setIsEscalated={setIsEscalated}
           />
         </div>
 

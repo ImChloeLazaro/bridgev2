@@ -67,8 +67,6 @@ const CMSHeader = ({
       },
       error: "Error refreshing data",
     });
-
-    console.log("REFRESHED CLIENT DATA");
   };
 
   const handleChangeView = () => {
@@ -128,7 +126,9 @@ const CMSHeader = ({
             >
               {!selectedClientToView?.length
                 ? "Client List"
-                : clientNameToDisplay}
+                : clientNameToDisplay
+                ? clientNameToDisplay
+                : "Go Back"}
             </p>
           </Tooltip>
         </CTAButtons>

@@ -4,7 +4,7 @@ import { isValidElement } from "react";
 const CTAButtons = ({
   radius = "sm",
   label,
-  color,
+  color = "grey",
   className,
   size = "sm",
   startContent,
@@ -16,11 +16,11 @@ const CTAButtons = ({
   const colors = {
     red: "bg-red-default text-white-default",
     orange: "bg-orange-default text-white-default",
-    yellow: "bg-yellow-default text-white-default",
+    yellow: "bg-yellow-default text-white-default text-shadow",
     green: "bg-green-default text-white-default",
     blue: "bg-blue-default text-white-default",
     black: "bg-black-default text-white-default",
-    grey: "bg-grey-default/90 text-white-default",
+    grey: "bg-grey-default/90 text-black-default",
     white: "bg-white-default/90 text-black-default",
     clear:
       "bg-transparent text-black-default hover:underline hover:underline-offset-2",

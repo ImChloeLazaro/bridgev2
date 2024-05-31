@@ -6,7 +6,7 @@ const LabelTagChip = ({
   size = "sm",
   isFilled = true,
   withBadge = false,
-  badgeContent,
+  chipCount,
   className,
   classNameLabel,
   ...props
@@ -93,11 +93,17 @@ const LabelTagChip = ({
             size="sm"
             variant="flat"
             classNames={{
-              base: cn("bg-white-default/90"),
-              content: `text-sm text-white-default font-bold text-black-default`,
+              base: cn(
+                "bg-white-default/90",
+                `${chipCount >= 10 ? "" : "min-h-6 min-w-6"}`
+              ),
+              content: cn(
+                `${chipCount === 1 ? "pr-1.5 " : ""}`,
+                "text-xs lg:text-sm text-white-default font-bold text-black-default"
+              ),
             }}
           >
-            {badgeContent}
+            {chipCount > 999 ? "999+" : chipCount}
           </Chip>
         )
       }

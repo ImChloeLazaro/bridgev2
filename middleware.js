@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@/app/utils/amplifyServerUtils";
 
 const protectedRoutes = [
-  "/user/",
+  "/user",
   "/user/dashboard",
   "/user/profile",
   "/user/cms",

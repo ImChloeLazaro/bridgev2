@@ -41,7 +41,7 @@ export function DatePicker({
         onOpenChange={onOpenChange}
         backdrop={"transparent"}
         placement={"bottom"}
-        classNames={{ base: "text-clip", closeButton: "hidden" ,  wrapper: "",}}
+        classNames={{ base: "text-clip", closeButton: "hidden", wrapper: "" }}
       >
         <ModalContent>
           {(onClose) => (
@@ -51,8 +51,6 @@ export function DatePicker({
                   mode="single"
                   selected={date}
                   onSelect={(text) => {
-                    console.log("INPUT HERE:", typeof text, text);
-
                     onDateChange(text);
                   }}
                   initialFocus
@@ -81,8 +79,6 @@ export function DatePicker({
           mode="single"
           selected={date}
           onSelect={(text) => {
-            console.log("INPUT HERE:", typeof text, text);
-
             onDateChange(format(text, "LLLL d, y"));
           }}
           initialFocus

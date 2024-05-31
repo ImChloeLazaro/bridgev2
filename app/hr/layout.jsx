@@ -19,7 +19,7 @@ const HRLayout = ({ children }) => {
   const pathname = usePathname();
 
   const cmsPaths = useAtomValue(cmsPathsAtom);
-  const collapseSidebar = cmsPaths.includes(pathname);
+  const collapseSidebar = cmsPaths.includes(pathname ?? "/");
 
   const isHasOnboardingData = useAtomValue(fetchHasOnboardingDataAtom);
   if (auth.isAuthenticated) {

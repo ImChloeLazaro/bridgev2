@@ -20,6 +20,7 @@ const TaskOptionsDropdown = ({
   tasksFromSelectedClient,
   actions,
   trigger,
+  setIsEscalated,
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
@@ -64,12 +65,13 @@ const TaskOptionsDropdown = ({
           }: ${selectedTask.name}`;
         },
 
-        error: "Error onboarding client failed",
+        error: "Error Updating Task Status",
       });
     }
 
     if (key === "escalate") {
       console.log("glow red task");
+      // setIsEscalated(true);
     }
 
     onOpen();
@@ -162,6 +164,22 @@ const TaskOptionsDropdown = ({
           )}
         </DropdownMenu>
       </Dropdown>
+      {/* <ConfirmationWindow
+              message="
+                Make sure the details of the task is correct.
+                You cannot edit this later.
+                "
+              title="Create this Task?"
+              accept={{
+                label: "Create Task",
+                icon: <MdPostAdd size={24} />,
+                action: handleAddTask,
+              }}
+              type="info"
+              isOpen={isOpenPopup}
+              onOpenChange={onOpenChangePopup}
+              onCloseParent={onClose}
+            /> */}
     </>
   );
 };

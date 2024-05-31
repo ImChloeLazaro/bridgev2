@@ -18,7 +18,7 @@ export function Providers({ children }) {
     if ("Notification" in window) {
       requestPermissionNotification();
     } else {
-      console.log("This browser does not support notifications.");
+      console.warn("This browser does not support notifications.");
       toast("This browser does not support notifications.");
       return;
     }

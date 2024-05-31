@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { MdPostAdd } from "react-icons/md";
+import { MdAssignmentAdd } from "react-icons/md";
 import { toast } from "sonner";
 import {
   selectedClientToViewAtom,
@@ -94,12 +94,9 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
                 You cannot edit this later.
                 "
               title="Create this Task?"
-              accept={{
-                label: "Create Task",
-                icon: <MdPostAdd size={24} />,
-                action: handleAddTask,
-              }}
-              type="info"
+              choice="Create Task"
+              action={handleAddTask}
+              type="confirm"
               isOpen={isOpenPopup}
               onOpenChange={onOpenChangePopup}
               onCloseParent={onClose}

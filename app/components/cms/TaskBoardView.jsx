@@ -100,7 +100,7 @@ const TaskBoardView = ({
     <div
       data-view={showClientTask}
       data-change={changeView}
-      className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 "
+      className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 lg:px-0 "
     >
       <DndContext
         sensors={sensors}

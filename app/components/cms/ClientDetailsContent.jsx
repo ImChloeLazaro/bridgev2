@@ -8,7 +8,7 @@ import IconButton from "@/app/components/IconButton";
 import { MdContentCopy } from "react-icons/md";
 import { format } from "date-fns";
 
-const ClientInfo = ({ selectedClient }) => {
+const ClientDetailsContent = ({ selectedClient }) => {
   const clientInfo = selectedClient[0];
 
   return (
@@ -536,4 +536,4 @@ const ClientInfo = ({ selectedClient }) => {
   );
 };
 
-export default ClientInfo;
+export default ClientDetailsContent;

@@ -1643,4 +1643,5 @@ postsAtom = atom({
 
 ## v.0.9.7
 
-* 
+* Added `--turbo` flag to `npm run dev` option to enable faster local development
+ 

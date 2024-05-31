@@ -87,7 +87,7 @@ const TaskFormSections = () => {
       {!showClientTask && (
         <div className="py-2 w-full">
           <div className="flex justify-start items-center gap-2 mb-8">
-            <p className="font-bold text-base lg:text-lg xl:text-2xl">{"People"}</p>
+            <p className="font-bold text-base lg:text-lg xl:text-xl">{"People"}</p>
             <MdInfoOutline />
           </div>
 
@@ -98,7 +98,7 @@ const TaskFormSections = () => {
                 showClientTask ? "cursor-not-allowed" : ""
               } flex justify-between items-center gap-8`}
             >
-              <p className="font-medium w-24">{"Client"}</p>
+              <p className="text-sm lg:text-base font-medium w-24">{"Client"}</p>
               <Select
                 isDisabled={showClientTask}
                 disallowEmptySelection={true}
@@ -147,7 +147,7 @@ const TaskFormSections = () => {
 
             {/* Processor */}
             <div className="flex justify-between items-center gap-8">
-              <p className="font-medium w-24">{"Processor"}</p>
+              <p className="text-sm lg:text-base font-medium w-24">{"Processor"}</p>
               <Select
                 isDisabled={showClientTask}
                 aria-label="Processor Selection"
@@ -208,7 +208,7 @@ const TaskFormSections = () => {
 
             {/* Reviewer */}
             <div className="flex justify-between items-center gap-8">
-              <p className="font-medium w-24">{"Reviewer"}</p>
+              <p className="text-sm lg:text-base font-medium w-24">{"Reviewer"}</p>
 
               <Select
                 isDisabled={showClientTask}
@@ -270,7 +270,7 @@ const TaskFormSections = () => {
 
             {/* Manager */}
             <div className="flex justify-between items-center gap-8">
-              <p className="font-medium w-24">{"Manager"}</p>
+              <p className="text-sm lg:text-base font-medium w-24">{"Manager"}</p>
 
               <Select
                 isDisabled={showClientTask}
@@ -323,14 +323,14 @@ const TaskFormSections = () => {
       {/* Description */}
       <div className="py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-base lg:text-lg xl:text-2xl">{"Description"}</p>
+          <p className="font-bold text-base lg:text-lg xl:text-xl">{"Description"}</p>
           <MdInfoOutline />
         </div>
 
         <div className="flex flex-col gap-3">
           {/* Name */}
           <div className="flex justify-between items-center gap-5">
-            <p className="font-medium w-24">{"Name"}</p>
+            <p className="text-sm lg:text-base font-medium w-24">{"Name"}</p>
 
             <FormFieldInput
               value={taskName}
@@ -342,19 +342,19 @@ const TaskFormSections = () => {
 
           {/* Instruction */}
           <div className="flex justify-between items-center gap-8">
-            <p className="font-medium w-24">{"Instruction"}</p>
+            <p className="text-sm lg:text-base font-medium w-24">{"Instruction"}</p>
 
             <FormFieldTextArea
               value={taskInstruction}
               onValueChange={setTaskInstruction}
               placeholder={"Special Instructions"}
-              fullWidth={false}
+              fullWidth={true}
             />
           </div>
 
           {/* Recurrence */}
-          <div className="flex justify-between items-center gap-6">
-            <p className="font-medium w-24">{"Recurrence"}</p>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-24">{"Recurrence"}</p>
             <Select
               aria-label="Recurrence Selection"
               items={recurrenceSelection}
@@ -393,7 +393,7 @@ const TaskFormSections = () => {
 
           {/* Start Date */}
           <div className="flex justify-between items-center gap-5">
-            <p className="font-medium w-24">{"Start Date"}</p>
+            <p className="text-sm lg:text-base font-medium w-24">{"Start Date"}</p>
 
             <FormFieldInput
               value={startDate}
@@ -410,7 +410,7 @@ const TaskFormSections = () => {
 
           {/* End Date */}
           <div className="flex justify-between items-center gap-5">
-            <p className="font-medium w-24">{"End Date"}</p>
+            <p className="text-sm lg:text-base font-medium w-24">{"End Date"}</p>
 
             <FormFieldInput
               value={endDate}

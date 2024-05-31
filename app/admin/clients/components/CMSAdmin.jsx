@@ -351,7 +351,7 @@ const CMSAdmin = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4 mt-4 mb-4
+            p-4 py-4 mt-4 mb-4 lg:mb-0
             "
         >
           <CMSHeader

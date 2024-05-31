@@ -28,13 +28,6 @@ export default function Error({ error, reset }) {
         "
       >
         <CardHeader className="flex justify-left">
-          {/*       
-      responsiveness
-      min-w-fit max-w-2xl
-      sm:w-64 
-      md:w-80 
-      lg:w-96
-      max-w-2xl */}
           <div className="">
             <Image
               src="/header.png"
@@ -45,19 +38,13 @@ export default function Error({ error, reset }) {
           </div>
         </CardHeader>
         <CardBody className="w-auto gap-10">
-          {/* Automatic Signin */}
           <div className="gap-1 mb-2">
             <div className="text-black-default text-2xl font-bold">
               {"Oh no! There's something wrong! "}
             </div>
-            {/* <div className="text-black-default text-base font-medium tracking-tighter">
-              {Object.keys(error).map((err, index) => {
-                return <p key={index}>{err}</p>;
-              })}
-            </div> */}
           </div>
         </CardBody>
-        {/* Contents className="py-4"*/}
+
         <CardFooter className="flex-col py-2 gap-4 rounded-none overflow-visible w-full">
           <div className="px-16 ">
             <Image

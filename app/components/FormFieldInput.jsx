@@ -55,7 +55,9 @@ const FormFieldInput = ({
         label={`${label}`}
         data-label={Boolean(label)}
         value={
-          new Date(date) > 0 && withDate ? format(date, "LLLL d, y") : value
+          new Date(date) > 0 && withDate
+            ? format(date, "LLLL d, y")
+            : value ?? ""
         }
         onValueChange={onValueChange}
         fullWidth={fullWidth}

@@ -15,12 +15,20 @@ import {
   ModalHeader,
   Tab,
   Tabs,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import ClientFormSections from "./ClientFormSections";
 import { toast } from "sonner";
+import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
+  const {
+    isOpen: isOpenPopup,
+    onOpen: onOpenPopup,
+    onOpenChange: onOpenChangePopup,
+  } = useDisclosure();
+
   const [selectedClientTab, setSelectedClientTab] = useAtom(
     selectedClientTabAtom
   );
@@ -105,10 +113,23 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
               <CTAButtons
                 label={"Onboard New Client"}
                 color={"blue"}
-                onPress={() => handleAddClient(onClose)}
+                onPress={() => onOpenPopup()}
                 className={"px-6"}
               />
             </ModalFooter>
+            <ConfirmationWindow
+              message="
+                Make sure the details of the client is correct.
+                You cannot edit this later.
+                "
+              title="Onboard New Client?"
+              choice="Onboard Client"
+              action={handleAddClient}
+              type="confirm"
+              isOpen={isOpenPopup}
+              onOpenChange={onOpenChangePopup}
+              onCloseParent={onClose}
+            />
           </>
         )}
       </ModalContent>

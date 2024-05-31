@@ -13,6 +13,7 @@ import {
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
+import { MdPerson } from "react-icons/md";
 
 const tagColors = {
   todo: "blue",
@@ -137,10 +138,10 @@ const ClientItemCard = ({
                 className="text-sm md:text-md lg:text-xl font-semibold text-black-default "
                 onPress={() => handleViewClientDetails(data._id)}
               >
-                {data.company?.name?.length ? data.company.name : ""}
+                {data.company?.name?.length ? data.company.name : "Client Name"}
               </Link>
             </div>
-            <div className="hidden w-3/5 min-[380px]:flex justify-center items-center gap-4 p-0">
+            <div className="hidden w-3/5 min-[425px]:flex justify-center items-center gap-4 p-0">
               {typeof statusCount !== "undefined" &&
                 Object.keys(statusCount).map((status, s_index) => {
                   if (
@@ -162,7 +163,7 @@ const ClientItemCard = ({
                           type="tag"
                           isFilled
                           withBadge={true}
-                          badgeContent={statusCount[status]}
+                          chipCount={statusCount[status]}
                           className={"lg:h-10"}
                           classNameLabel={"text-sm lg:text-lg lg:px-1"}
                         />
@@ -173,7 +174,26 @@ const ClientItemCard = ({
             </div>
             <div className="w-1/5 flex justify-end items-center gap-2 px-1">
               {!clientProcessors?.length ? (
-                ""
+                <AvatarGroup>
+                  <Avatar
+                    isBordered={true}
+                    showFallback
+                    fallback={
+                      <MdPerson
+                        size={18}
+                        className="text-white-default"
+                        fill="currentColor"
+                      />
+                    }
+                    src={null}
+                    classNames={{
+                      base: [
+                        "bg-blue-default ring-blue-default",
+                        " w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                      ],
+                    }}
+                  />
+                </AvatarGroup>
               ) : (
                 <AvatarGroup max={isMobile ? 1 : 3}>
                   {clientProcessors.map((processor, index) => (
