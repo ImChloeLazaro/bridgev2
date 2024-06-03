@@ -1,16 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
   useDisclosure,
-  Input,
-  Checkbox,
-  DatePicker,
   Card
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
@@ -19,16 +10,7 @@ import GoogleOAuth from "./GoogleOAuth";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import moment from 'moment'
-import {
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  addMonths,
-  endOfDay,
-  addHours,
-  addDays,
-} from "date-fns";
+import {addDays,} from "date-fns";
 import { listEvents } from "../utils/calendar";
 import UpcomingEvent from "./components/UpcomingEvent";
 import EventTodayList from "./components/EventToday";
@@ -130,7 +112,7 @@ const CalendarPage = () => {
   }
 
   const onDeleteHandler = (e) => {
-    console.log('delete icon clicked!')
+    console.log('delete icon clicddked!')
   }
   return (
     <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 py-0 lg:py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">

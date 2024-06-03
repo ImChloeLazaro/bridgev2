@@ -13,9 +13,9 @@ import {
 } from "@nextui-org/react";
 import { MdDeleteOutline } from "react-icons/md";
 import { now, getLocalTimeZone } from "@internationalized/date";
-import Invitees from "./Invitees";
+import Invitees from "../v2/ui/Invitees";
 import TypeCheckbox from "./TypeCheckbox";
-import Recurrence from "./Recurrence";
+import Recurrence from "../v2/ui/Recurrence";
 
 import { useSession } from "next-auth/react";
 import { createEvent } from "@/app/utils/calendar";

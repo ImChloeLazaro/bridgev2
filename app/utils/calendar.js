@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { v4 } from 'uuid';
 import { addHours, format } from 'date-fns';
-
 // export const refreshToken = async (refreshToken) => {
 
 // }
@@ -88,13 +87,12 @@ export const listEvents = async (accessToken) => {
 export const createEvent = async (accessToken, event) => {
   const { title, description, start, end, invitees, recurrence, withAMeet, withGMeet, eventTypes } = event;
 
-  console.log("event: ", event);
   let descriptionText = `${description || ""}`;
   let flags = [];
   if (withAMeet) {
     descriptionText += `${description || ""}\nJoin with Aretex Meet: https://meet.vps-aretex.space/${v4()}`;
   }
-  if(eventTypes.length > 0) {
+  if (eventTypes.length > 0) {
     flags = eventTypes.map((type) => {
       return `#${type}`;
     });
@@ -104,11 +102,11 @@ export const createEvent = async (accessToken, event) => {
   let formattedDate = new Date(new Date().getTime() + (10 * 60 * 60 * 1000)).toISOString().split('.')[0] + '+10:00';
 
   let recurrenceArray = []
-  if(recurrence !== undefined && recurrence !== "NOREPEAT") {
+  if (recurrence !== undefined && recurrence !== "NOREPEAT") {
     recurrenceArray = [`RRULE:FREQ=${recurrence};`]
   }
 
-  let inviteArr= invitees > 0 ? [...invitees.map((email) => ({ email }))] : [];
+  let inviteArr = invitees > 0 ? [...invitees.map((email) => ({ email }))] : [];
 
   const response = await axios.post(
     `https://www.googleapis.com/calendar/v3/calendars/primary/events`,
@@ -161,6 +159,77 @@ export const createEvent = async (accessToken, event) => {
   };
   return defaultResponse;
 }
+
+export const putEvent = async (accessToken, event) => {
+  try {
+    const { id, title, desc, start, end } = event;
+
+    const dateString = `${start.year}-${start.month}-${start.day}T${start.hour}:${start.minute}:${start.second}`
+    const finalDateString = `${dateString}`;
+
+    console.log(finalDateString);
+
+
+
+    console.log("event: ", event.start);
+
+    // let descriptionText = `${desc || ""}`;
+    // let flags = [];
+    // if (withAMeet) {
+    //   descriptionText += `${desc || ""}\nJoin with Aretex Meet: https://meet.vps-aretex.space/${v4()}`;
+    // }
+    // if(eventTypes.length > 0) {
+    //   flags = eventTypes.map((type) => {
+    //     return `#${type}`;
+    //   });
+    //   descriptionText += `${description || ""}\nFlags: ${flags.join(" ")}`;
+    // }
+
+
+    // let formattedDate = new Date().toISOString().split('.')[0] + '+10:00'; // Default to current time +10 hours if start/end is not provided
+
+    // console.log("Event ID: ", id);
+    // console.log('Event Data from put:', event);
+
+    // const response = await axios.put(
+    //   `https://www.googleapis.com/calendar/v3/calendars/primary/events/${id}`,
+    //   {
+    //     summary: title,
+    //     description: desc,
+    //     start: {
+    //       dateTime: start || formattedDate,
+    //       timeZone: "Australia/Sydney",
+    //     },
+    //     end: {
+    //       dateTime: end || formattedDate,
+    //       timeZone: "Australia/Sydney",
+    //     },
+    //     conferenceData: {
+    //       createRequest: {
+    //         conferenceSolutionKey: { type: "hangoutsMeet" },
+    //       },
+    //     },
+    //     reminders: {
+    //       useDefault: true,
+    //     },
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //       "Content-Type": "application/json",
+    //     },
+    //     params: {
+    //       sendUpdates: "all",
+    //       conferenceDataVersion: 1,
+    //     },
+    //   }
+    // );
+
+    // console.log("Event Updated successfully:", response.data);
+  } catch (error) {
+    console.log("Error updating Google Calendar event: ", error);
+  }
+};
 
 export async function deleteEvent(accessToken, id, recurring, recurringId) {
   try {

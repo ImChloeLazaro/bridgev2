@@ -11,6 +11,7 @@ export const authOptions = {
                     prompt: "consent",
                     access_type: "offline",
                     scope: "https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
+                    expire_in: 43200 // 12 hours
                 },
             }
         }),
@@ -21,13 +22,13 @@ export const authOptions = {
             if (user) {
                 token = { ...user, ...account, ...profile };
             }
+            console.log("token: ", token);
             return token;
         },
         async session(session, token) {
             if (token) {
                 session.user = token;
             }
-
             return session;
         },
     },
