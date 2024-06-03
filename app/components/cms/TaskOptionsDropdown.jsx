@@ -11,114 +11,130 @@ import ConfirmationWindow from "../ConfirmationWindow";
 import { MdInfoOutline, MdWarningAmber } from "react-icons/md";
 import { useState } from "react";
 import { updateTaskStatusAtom } from "@/app/store/TaskStore";
-import { useSetAtom } from "jotai";
+import { useSetAtom, useAtomValue } from "jotai";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { userAtom } from "@/app/store/UserStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 const TaskOptionsDropdown = ({
   id,
   tasksFromSelectedClient,
   actions,
   trigger,
+  isEscalated,
   setIsEscalated,
 }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenPopup,
+    onOpen: onOpenPopup,
+    onOpenChange: onOpenChangePopup,
+  } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTaskAction, setSelectedTaskAction] = useState({
+    key: "",
+    status_id: "",
+  });
+
   const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
+  const user = useAtomValue(userAtom);
+  const auth = useAtomValue(authenticationAtom);
 
-  const handleSelectOption = (key) => {
-    if (key === "forReview" || key === "done") {
-      const updateSelectedTask = tasksFromSelectedClient[0].sla.map((task) => {
-        if (task._id === id) {
-          return { ...task, status: key };
-        }
-        return task;
-      });
-      const selectedTask = tasksFromSelectedClient[0].sla.filter(
-        (task) => task._id === id
-      )[0];
+  const handleSelectOption = (taskAction) => {
+    const { key, status_id } = taskAction;
 
-      const clientKey = tasksFromSelectedClient[0].client.client_id;
-      const dateTaskDone = new Date();
-
-      setIsLoading(true);
-      const promise = async () =>
-        new Promise((resolve) =>
-          setTimeout(
-            async () =>
-              resolve(
-                await updateTaskStatus({
-                  sla: updateSelectedTask,
-                  client_id: clientKey,
-                })
-              ),
-            2000
-          )
+    if (key === "mark") {
+      if (status_id === "forReview" || status_id === "done") {
+        const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
+          (task) => {
+            if (task._id === id) {
+              if (status_id === "done") {
+                console.log("TASK DONE");
+              }
+              return { ...task, status: status_id };
+            }
+            return task;
+          }
         );
-      toast.promise(promise, {
-        description: `${format(dateTaskDone, "PPpp")}`,
-        loading: "Updating Task Status...",
-        success: () => {
-          setIsLoading(false);
-          return `${
-            key === "done" ? "Task Completed" : "Task Marked for Review"
-          }: ${selectedTask.name}`;
-        },
+        const selectedTask = tasksFromSelectedClient[0].sla.filter(
+          (task) => task._id === id
+        )[0];
 
-        error: "Error Updating Task Status",
-      });
+        const clientKey = tasksFromSelectedClient[0].client.client_id;
+        const dateTaskDone = new Date();
+
+        setIsLoading(true);
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: updateSelectedTask,
+                    client_id: clientKey,
+                  })
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            setIsLoading(false);
+            return `${
+              status_id === "done" ? "Task Completed" : "Task Marked for Review"
+            }: ${selectedTask.name}`;
+          },
+
+          error: "Error Updating Task Status",
+        });
+      }
     }
 
     if (key === "escalate") {
-      console.log("glow red task");
-      // setIsEscalated(true);
-    }
+      const dateTaskDone = new Date();
 
-    onOpen();
+      console.log("glow red task: ", status_id);
+      setIsEscalated(true);
+      const promise = async () =>
+        new Promise((resolve) => setTimeout(async () => resolve(), 2000));
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Escalating Task to ${
+          status_id[0].toUpperCase() + status_id.slice(1)
+        }`,
+        success: () => {
+          return "Please wait for further instructions";
+        },
+
+        error: "Error Escalating Task",
+      });
+    }
   };
 
-  // const handleConfirmAction = () => {
-  //   console.log("action confirm");
-  // };
-  // const handleDenyAction = () => {
-  //   console.log("action deny");
-  // };
-
-  // const choices = {
-  //   confirm: { label: "Yes, I Confirm", choice: handleConfirmAction },
-  //   deny: { label: "Cancel", choice: handleDenyAction },
-  // };
-
-  // const windowDetails = {
-  //   mark: {
-  //     title: "Confirmation",
-  //     icon: <MdInfoOutline size={24} />,
-  //     message: "Do you confirm marking this task done?",
-  //     description: "",
-  //     actions: choices,
-  //   },
-  //   escalate: {
-  //     title: "Confirmation",
-  //     icon: <MdWarningAmber size={24} />,
-  //     message: "Do you confirm escalating this task to a team lead?",
-  //     description: "",
-  //     actions: choices,
-  //   },
-  //   assign: {
-  //     title: "Confirmation",
-  //     icon: <MdInfoOutline size={24} />,
-  //     message: "Do you confirm assigning this task?",
-  //     description: "",
-  //     actions: choices,
-  //   },
-  //   remove: {
-  //     title: "Confirmation",
-  //     icon: <MdWarningAmber size={24} />,
-  //     message: "Do you confirm removing this team member?",
-  //     description: "",
-  //     actions: choices,
-  //   },
-  // };
+  const taskActionWindowDetails = {
+    mark: {
+      title: "Confirmation",
+      message: "Do you confirm marking this task done?",
+      description: "",
+    },
+    escalate: {
+      title: "Confirmation",
+      message: "Do you confirm escalating this task to a team lead?",
+      description: "",
+    },
+    assign: {
+      title: "Confirmation",
+      message: "Do you confirm assigning this task?",
+      description: "",
+    },
+    remove: {
+      title: "Confirmation",
+      message: "Do you confirm removing this team member?",
+      description: "",
+    },
+  };
 
   const taskOptionsColors = {
     green: "data-[hover=true]:bg-green-default",
@@ -142,12 +158,12 @@ const TaskOptionsDropdown = ({
         </DropdownTrigger>
         <DropdownMenu
           aria-label="Action event example"
-          onAction={(key) => handleSelectOption(key)}
           items={actions}
           itemClasses={{
             base: ["data-[disabled=true]:opacity-100 text-black-default"],
             title: "text-base font-medium ",
           }}
+          disabledKeys={isEscalated && ["mark", "escalate"]}
         >
           {(item) => (
             <DropdownItem
@@ -156,30 +172,39 @@ const TaskOptionsDropdown = ({
               className={cn(
                 taskOptionsColors[item.color],
                 "data-[hover=true]:text-white-default",
-                item.color === "yellow" && "data-[hover=true]:text-shadow"
+                item.color === "yellow" && "data-[hover=true]:text-shadow",
+                `${
+                  (item.key === "mark" || item.key === "escalate") &&
+                  isEscalated
+                    ? "text-black-default/60 cursor-not-allowed"
+                    : ""
+                }`
               )}
+              onPress={() => {
+                setSelectedTaskAction({
+                  key: item.key,
+                  status_id: item.status_id,
+                });
+                onOpenPopup();
+              }}
             >
               {item.label}
             </DropdownItem>
           )}
         </DropdownMenu>
       </Dropdown>
-      {/* <ConfirmationWindow
-              message="
-                Make sure the details of the task is correct.
-                You cannot edit this later.
-                "
-              title="Create this Task?"
-              accept={{
-                label: "Create Task",
-                icon: <MdPostAdd size={24} />,
-                action: handleAddTask,
-              }}
-              type="info"
-              isOpen={isOpenPopup}
-              onOpenChange={onOpenChangePopup}
-              onCloseParent={onClose}
-            /> */}
+      <ConfirmationWindow
+        message={taskActionWindowDetails[selectedTaskAction.key]?.message}
+        description={
+          taskActionWindowDetails[selectedTaskAction.key]?.description
+        }
+        title={taskActionWindowDetails[selectedTaskAction.key]?.title}
+        type="info"
+        action={handleSelectOption}
+        action_params={selectedTaskAction}
+        isOpen={isOpenPopup}
+        onOpenChange={onOpenChangePopup}
+      />
     </>
   );
 };

@@ -274,18 +274,21 @@ const CMSTL = () => {
   const actions = [
     {
       key: "escalate",
+      status_id: "admin",
       color: "orange",
       label: "Escalate to admin",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
     },
     {
       key: "assign",
+      status_id: "",
       color: "blue",
       label: "Assign to a team member",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
+      status_id: "",
       color: "red",
       label: "Remove a team member",
       icon: <MdRemoveCircleOutline size={18} />,
@@ -359,7 +362,7 @@ const CMSTL = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4 mt-4 mb-4
+            p-4 py-4 mt-4 mb-4 lg:mb-2
             "
         >
           <CMSHeader
@@ -411,6 +414,7 @@ const CMSTL = () => {
             showClientTask={showClientTask}
             setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
+            changeView={changeView}
             setChangeView={setChangeView}
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}

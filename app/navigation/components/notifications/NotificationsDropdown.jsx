@@ -60,6 +60,7 @@ const NotificationsDropdown = () => {
   const [pageVisible, setPageVisible] = useAtom(pageVisibleAtom);
 
   console.log("DOCUMENT HERE", pageVisible, document);
+  console.log("USER LIST: ", list);
 
   document.addEventListener("visibilitychange", () => {
     setPageVisible(document.visibilityState === "hidden" ? true : false);
@@ -89,7 +90,6 @@ const NotificationsDropdown = () => {
     };
 
     socketRef.current.onmessage = (event) => {
-      console.log("USER LIST: ", list);
       const data = JSON.parse(event.data);
       console.log(data);
       console.log("NOTIFICATION RECEIVED");

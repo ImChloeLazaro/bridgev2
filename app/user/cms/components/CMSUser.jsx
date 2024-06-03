@@ -252,6 +252,7 @@ const CMSUser = () => {
   const actions = [
     {
       key: "escalate",
+      status_id: "tl",
       color: "orange",
       label: "Escalate to TL",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
@@ -307,7 +308,7 @@ const CMSUser = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4 mt-4 mb-4
+            p-4 py-4 mt-4 mb-4 lg:mb-2
             "
         >
           <CMSHeader
@@ -347,6 +348,7 @@ const CMSUser = () => {
             showClientTask={showClientTask}
             setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
+            changeView={changeView}
             setChangeView={setChangeView}
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}

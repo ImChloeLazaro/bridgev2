@@ -71,7 +71,7 @@ const CMSHeader = ({
 
   const handleChangeView = () => {
     setChangeView(!changeView);
-    setShowFooter(!showFooter);
+    setShowFooter(changeView && !showFooter);
   };
 
   const handleViewClientDetails = () => {

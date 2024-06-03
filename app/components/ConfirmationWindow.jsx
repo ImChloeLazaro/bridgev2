@@ -15,16 +15,17 @@ import { BsQuestionOctagonFill } from "react-icons/bs";
 import { BsQuestionCircleFill } from "react-icons/bs";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 const ConfirmationWindow = ({
-  message = "", // main message
-  description = "", // description or additional message
+  message = "message", // main message
+  description = "description", // description or additional message
   title, // title on top of confirmation window
   icon, // icon on left of confirmation window
   color, // color of button
   type = "confirm", // type of confirmation window
   cancel, // label for cancel button
   action, // function to call when choice is selected
+  action_params, // params to pass to action function
   choice, // accept choice for confirmation window
-  third_choice, // { label: "", color: "blue", action: () => {} }
+  third_choice, // { label: "", color: "blue", action: () => {} , action_params: [] }
   showChoices = true, // display choices
   onCloseParent, // function to close parent component when choice is selected
   ...props
@@ -54,7 +55,7 @@ const ConfirmationWindow = ({
         />
       ),
       color: "blue",
-      choice: "Ok",
+      choice: "OK",
       cancel: "Close",
       action: () => {},
     },
@@ -115,10 +116,10 @@ const ConfirmationWindow = ({
                 </div>
                 <div className="flex flex-col gap-2 items-start">
                   <p className="text-base font-semibold text-black-default tracking-tight text-wrap">
-                    {message}
+                    {message ? message : ""}
                   </p>
                   <p className="text-xs font-semibold text-black-default tracking-tight text-wrap">
-                    {description}
+                    {description ? description : ""}
                   </p>
                 </div>
               </div>
@@ -161,13 +162,13 @@ const ConfirmationWindow = ({
                         onPress={
                           action
                             ? () => {
-                                action();
-                                onCloseParent();
+                                action(action_params);
+                                onCloseParent && onCloseParent();
                                 onClose();
                               }
                             : () => {
                                 windowType[type]?.action();
-                                onCloseParent();
+                                onCloseParent && onCloseParent();
                                 onClose();
                               }
                         }

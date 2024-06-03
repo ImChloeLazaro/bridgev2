@@ -9,6 +9,7 @@ const ClientList = ({
   showClientTask,
   setShowClientTask,
   showClientDetails,
+  changeView,
   setChangeView,
   setShowFooter,
   setShowSearchBar,
@@ -68,28 +69,36 @@ const ClientList = ({
               </div>
             )
           ) : (
-            clients.map((client, index) => (
-              <Suspense
-                key={index}
-                fallback={
-                  <div className="w-full flex justify-center items-center">
-                    {"LOADING"}
-                  </div>
-                }
-              >
-                <ClientItemCard
+            clients.map((client, index) => {
+              console.log("CLIENT ITEM CARD", client.company);
+              let o = Object.fromEntries(
+                Object.entries(client.company).filter(([_, v]) => v != null)
+              );
+              console.log("CLIENT ITEM OBJECT", o);
+              return (
+                <Suspense
                   key={index}
-                  data={client}
-                  setShowClientTask={setShowClientTask}
-                  setChangeView={setChangeView}
-                  setShowFooter={setShowFooter}
-                  setShowSearchBar={setShowSearchBar}
-                  setSelectedClientToView={setSelectedClientToView}
-                  setSelectedClientForTask={setSelectedClientForTask}
-                  setShowClientDetails={setShowClientDetails}
-                />
-              </Suspense>
-            ))
+                  fallback={
+                    <div className="w-full flex justify-center items-center">
+                      {"LOADING"}
+                    </div>
+                  }
+                >
+                  <ClientItemCard
+                    key={index}
+                    data={client}
+                    setShowClientTask={setShowClientTask}
+                    changeView={changeView}
+                    setChangeView={setChangeView}
+                    setShowFooter={setShowFooter}
+                    setShowSearchBar={setShowSearchBar}
+                    setSelectedClientToView={setSelectedClientToView}
+                    setSelectedClientForTask={setSelectedClientForTask}
+                    setShowClientDetails={setShowClientDetails}
+                  />
+                </Suspense>
+              );
+            })
           )}
         </div>
       )}

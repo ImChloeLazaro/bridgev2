@@ -11,7 +11,6 @@ const FormFieldRadio = ({
     { value: "yes", label: "Yes" },
     { value: "no", label: "No" },
   ],
-  className,
   ...props
 }) => {
   return (
@@ -30,7 +29,6 @@ const FormFieldRadio = ({
           "shadow-sm px-3 py-2 bg-grey-default hover:bg-default-200",
           "group-data-[focus=true]:bg-grey-default rounded-medium",
           "transition-background motion-reduce:transition-none !duration-150",
-          className
         ),
         wrapper: "px-2",
         label: "p-2 text-sm font-semibold text-black-default/80",

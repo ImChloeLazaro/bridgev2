@@ -17,9 +17,11 @@ import { compareAsc, format } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { MdRefresh } from "react-icons/md";
+import { MdPerson, MdRefresh } from "react-icons/md";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
 import { MdCheck } from "react-icons/md";
+
+// @refresh reset
 
 const tagColors = {
   todo: "blue",
@@ -47,6 +49,9 @@ const TaskTableView = ({
     window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
   );
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  // const [isEscalated, setIsEscalated] = useState(false);
+
+  const setIsEscalated = () => {};
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
@@ -74,7 +79,7 @@ const TaskTableView = ({
         second = b["duration"].end;
         cmp = compareAsc(new Date(first), new Date(second));
       }
-      
+
       if (sortDescriptor.direction === "descending") {
         cmp *= -1;
       }
@@ -89,8 +94,6 @@ const TaskTableView = ({
       const processorList = task.processor.map((processor) => (
         <Avatar
           key={processor.sub}
-          // showFallback
-          // fallback={<Spinner />}
           src={processor.picture}
           classNames={{
             base: [" w-10 h-10 lg:w-12 lg:h-12 text-large"],
@@ -99,7 +102,8 @@ const TaskTableView = ({
       ));
       const actionOptions = [
         {
-          key: task.status === "done" ? "forReview" : "done",
+          key: "mark",
+          status_id: task.status === "done" ? "forReview" : "done",
           color: task.status === "done" ? "yellow" : "green",
           label: task.status === "done" ? "Mark for review" : "Mark as done",
           icon: <MdCheck size={18} />,
@@ -130,7 +134,7 @@ const TaskTableView = ({
               type="label"
               isFilled
               className={"px-2 py-2"}
-              classNameLabel={"text-sm lg:text-md"}
+              classNameLabel={"text-sm lg:text-md capitalize"}
             />
           );
 
@@ -155,8 +159,37 @@ const TaskTableView = ({
           );
 
         case "assignees":
-          return (
-            <AvatarGroup max={isMobile ? 1 : 3}>{processorList}</AvatarGroup>
+          return processorList?.length ? (
+            <AvatarGroup
+              max={isMobile ? 1 : 3}
+              classNames={{
+                base: "flex justify-start gap-1",
+                count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
+              }}
+            >
+              {processorList}
+            </AvatarGroup>
+          ) : (
+            <AvatarGroup>
+              <Avatar
+                isBordered={true}
+                showFallback
+                fallback={
+                  <MdPerson
+                    size={18}
+                    className="text-white-default"
+                    fill="currentColor"
+                  />
+                }
+                src={null}
+                classNames={{
+                  base: [
+                    "bg-blue-default ring-blue-default",
+                    "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                  ],
+                }}
+              />
+            </AvatarGroup>
           );
 
         case "action":
@@ -166,6 +199,8 @@ const TaskTableView = ({
               tasksFromSelectedClient={tasksFromSelectedClient}
               actions={actionOptions}
               trigger={<BiDotsVerticalRounded size={24} />}
+              isEscalated={false}
+              setIsEscalated={setIsEscalated}
             />
           );
 
@@ -195,6 +230,8 @@ const TaskTableView = ({
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  console.log("selectedKeys", selectedKeys);
 
   return !selectedClientToView?.length ? (
     <div
@@ -247,11 +284,13 @@ const TaskTableView = ({
           ],
           tr: ["text-sm lg:text-lg h-12 max-h-sm"],
           th: [
-            "h-16 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
+            "h-16 max-h-sm pl-2 pr-3 lg:pl-8 lg:pr-4 text-left last:pr-8",
             "text-md lg:text-lg font-extrabold text-darkgrey-hover",
           ],
           td: [
-            "h-18 max-h-sm min-w-fit",
+            "[&:nth-child(7)]:w-28",
+            "[&:nth-child(6)]:w-32",
+            "h-18 max-h-sm",
             "text-sm lg:text-lg font-bold text-black-default",
             "pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
             "last:pr-1 last:pl-4 lg:last:pr-2 lg:last:pl-12",

@@ -25,6 +25,7 @@ const tagColors = {
 const ClientItemCard = ({
   data,
   setShowClientTask,
+  changeView,
   setChangeView,
   setShowFooter,
   setShowSearchBar,
@@ -101,12 +102,14 @@ const ClientItemCard = ({
     // when user pressed on the tags on client list
     handleSelectClient(data._id);
     setChangeView(true);
+    setShowFooter(false);
   };
   const handleSelectClient = (selected) => {
     // when user pressed on the arrow on the right most side on client list
     setSelectedClientToView(selected);
     setSelectedClientForTask(new Set([selected]));
     setShowClientTask(true);
+    setShowFooter(true && !changeView);
   };
 
   const handleViewClientDetails = (selected) => {
@@ -128,7 +131,8 @@ const ClientItemCard = ({
                 <Avatar
                   showFallback
                   fallback={<Spinner />}
-                  src={data.company.picture}
+                  // src={data.company.picture}
+                  src={"https://picsum.photos/200"}
                   className="w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 text-large"
                 />
               </div>
@@ -151,7 +155,7 @@ const ClientItemCard = ({
                     return (
                       <Button
                         key={s_index}
-                        className="p-0 m-0 w-fit h-full bg-transparent shadow-none"
+                        className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
                         onPress={() => handleSelectTask()}
                       >
                         <LabelTagChip
@@ -165,7 +169,9 @@ const ClientItemCard = ({
                           withBadge={true}
                           chipCount={statusCount[status]}
                           className={"lg:h-10"}
-                          classNameLabel={"text-sm lg:text-lg lg:px-1"}
+                          classNameLabel={
+                            "text-sm lg:text-lg lg:px-1 capitalize"
+                          }
                         />
                       </Button>
                     );
@@ -189,13 +195,19 @@ const ClientItemCard = ({
                     classNames={{
                       base: [
                         "bg-blue-default ring-blue-default",
-                        " w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                        "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
                       ],
                     }}
                   />
                 </AvatarGroup>
               ) : (
-                <AvatarGroup max={isMobile ? 1 : 3}>
+                <AvatarGroup
+                  max={isMobile ? 1 : 3}
+                  classNames={{
+                    base: "gap-1",
+                    count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
+                  }}
+                >
                   {clientProcessors.map((processor, index) => (
                     <Avatar
                       isBordered={true}
@@ -206,7 +218,7 @@ const ClientItemCard = ({
                       classNames={{
                         base: [
                           "bg-blue-default ring-blue-default",
-                          " w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                          "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
                         ],
                       }}
                     />
