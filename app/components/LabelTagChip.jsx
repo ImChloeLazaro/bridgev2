@@ -7,14 +7,13 @@ const LabelTagChip = ({
   isFilled = true,
   withBadge = false,
   chipCount,
-  className,
   classNameLabel,
   ...props
 }) => {
   const colorVariants = {
     red: {
       filled: "bg-red-default text-white-default",
-      unfilled: "text-red-default bg-red-default/20",
+      unfilled: "text-red-default bg-red-default/30",
     },
     orange: {
       filled: "bg-orange-default text-white-default",
@@ -76,8 +75,7 @@ const LabelTagChip = ({
               : colorVariants[color].unfilled
           }`,
           `${isFilled ? "py-4 rounded-lg" : "py-2 rounded-md"}`,
-          "capitalize px-2.5 border-0 h-6 lg:h-8",
-          className
+          "px-2.5 border-0 h-6 lg:h-8"
         ),
         content: "font-bold",
         dot: `${
@@ -109,7 +107,7 @@ const LabelTagChip = ({
       }
       {...props}
     >
-      <p className={cn("tracking-wider text-xs lg:text-sm", classNameLabel)}>
+      <p className={cn(classNameLabel, "tracking-wider text-xs lg:text-sm")}>
         {text?.length ? text : ""}
       </p>
     </Chip>

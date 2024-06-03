@@ -16,6 +16,7 @@ function ColumnContainer({
   updateTask,
   actions,
   tasksFromSelectedClient,
+  isMobile,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -37,7 +38,7 @@ function ColumnContainer({
       type: "Column",
       column,
     },
-    // disabled: editMode,
+    disabled: true,
   });
 
   const style = {
@@ -92,11 +93,12 @@ function ColumnContainer({
         // onClick={() => {
         //   setEditMode(true);
         // }}
+        // cursor-grab
         className={`
-        ${columnColors[column.id]}
+        ${columnColors[column.id]} 
       text-md
       h-[60px]
-      cursor-grab
+      cursor-default
       rounded-lg
       rounded-b-none
       p-3

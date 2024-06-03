@@ -36,6 +36,8 @@ export const userDataAtom = atom(async () => {
 
 // User
 export const userAtom = atom(async (get) => {
+  const list = await restread("/user/tagged");
+  console.log("FILTER LIST: ", list);
   const user = await get(userDataAtom);
   const userID = get(employeeIDAtom);
   if (user != null) {

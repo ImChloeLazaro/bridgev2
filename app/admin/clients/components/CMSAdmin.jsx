@@ -263,18 +263,21 @@ const CMSAdmin = () => {
   const actions = [
     {
       key: "escalate",
+      status_id: "management",
       color: "orange",
       label: "Escalate to management",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
     },
     {
       key: "assign",
+      status_id: "",
       color: "blue",
       label: "Assign a team to the client",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
+      status_id: "",
       color: "red",
       label: "Remove a team from the client",
       icon: <MdRemoveCircleOutline size={18} />,
@@ -351,7 +354,7 @@ const CMSAdmin = () => {
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
-            p-4 py-4 mt-4 mb-4 lg:mb-0
+            p-4 py-4 mt-4 mb-4 lg:mb-2
             "
         >
           <CMSHeader
@@ -417,6 +420,7 @@ const CMSAdmin = () => {
             showClientTask={showClientTask}
             setShowClientTask={setShowClientTask}
             showClientDetails={showClientDetails}
+            changeView={changeView}
             setChangeView={setChangeView}
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}

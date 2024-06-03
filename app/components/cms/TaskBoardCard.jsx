@@ -1,15 +1,23 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Link, User, cn } from "@nextui-org/react";
+import {
+  Avatar,
+  AvatarGroup,
+  Link,
+  Spinner,
+  User,
+  cn,
+} from "@nextui-org/react";
 import { format } from "date-fns";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { MdCalendarMonth } from "react-icons/md";
+import { MdCalendarMonth, MdPerson } from "react-icons/md";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
 import { MdCheck } from "react-icons/md";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { MdOutlineAssignment } from "react-icons/md";
 import { MdRemoveCircleOutline } from "react-icons/md";
 import { useState } from "react";
+import LabelTagChip from "../LabelTagChip";
 
 function TaskBoardCard({
   task,
@@ -17,6 +25,7 @@ function TaskBoardCard({
   updateTask,
   actions,
   tasksFromSelectedClient,
+  isMobile,
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
@@ -36,12 +45,13 @@ function TaskBoardCard({
       type: "Task",
       task,
     },
-    // disabled: false,
+    disabled: isEscalated,
   });
 
   const actionOptions = [
     {
-      key: task.status === "done" ? "forReview" : "done",
+      key: "mark",
+      status_id: task.status === "done" ? "forReview" : "done",
       color: task.status === "done" ? "yellow" : "green",
       label: task.status === "done" ? "Mark for review" : `Mark as done`,
       icon: <MdCheck size={18} />,
@@ -120,12 +130,13 @@ function TaskBoardCard({
       className={cn(
         "data-[escalated=true]:border-red-default",
         "data-[escalated=true]:border-3",
-        "data-[escalated=true]:hover:ring-red-default",
-        "min-h-fit",
+        "data-[escalated=true]:ring-0",
+        "data-[escalated=true]:cursor-not-allowed",
+        "min-h-fit min-w-64",
         "bg-white-default p-2.5",
         "items-center flex text-left relative",
         "hover:ring-2 hover:ring-inset hover:ring-blue-default",
-        "rounded-xl border border-grey-default",
+        "rounded-lg border border-grey-default",
         "shadow-md",
         "cursor-grab select-none touch-none"
       )}
@@ -156,14 +167,24 @@ function TaskBoardCard({
             tasksFromSelectedClient={tasksFromSelectedClient}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
+            isEscalated={isEscalated}
             setIsEscalated={setIsEscalated}
           />
         </div>
-
+        {isEscalated && (
+          <LabelTagChip
+            text="Escalation"
+            color="red"
+            isFilled={false}
+            className={"py-0.5 px-1.5 lg:h-6"}
+            classNameLabel={"lg:text-xs"}
+          />
+        )}
         <div className="flex gap-2 justify-start items-center">
-          <MdCalendarMonth size={24} />
+          <MdCalendarMonth size={20} />
           <Link
             href="#"
+            isDisabled={task.status === "done"}
             underline="hover"
             className={cn(
               `${task.status === "done" ? "line-through" : ""}`,
@@ -175,34 +196,126 @@ function TaskBoardCard({
               : ""}
           </Link>
         </div>
-        <div className="flex gap-2 justify-start items-center mb-1">
-          {task.reviewer.map((reviewer, index) => {
-            return (
-              <User
-                key={index}
-                name={
-                  <Link
-                    href="#"
-                    underline="hover"
-                    className="text-sm font-medium text-black-default/80"
-                  >
-                    {/* {reviewer.name} */}
-                  </Link>
-                }
-                // description="Reviewer"
-                avatarProps={{
-                  src: `${reviewer.picture}`,
-                  size: "sm",
-                  classNames: { base: "w-[24px] h-[24px]" },
-                }}
-                classNames={{
-                  name: "text-sm font-medium",
-                  description: "text-xs font-medium",
-                }}
-              />
-            );
-          })}
-        </div>
+        {task.status === "forReview" && (
+          <div className="flex gap-2 justify-start items-center mb-1">
+            {task.reviewer?.length < 1 && (
+              <p className="text-sm font-medium text-black-default">
+                {"No reviewer is assigned yet."}
+              </p>
+            )}
+            {task.reviewer.length === 1 && (
+              <div className="flex gap-2 items-center justify-center">
+                <p className="text-sm font-medium text-black-default">
+                  {"Reviewed by: "}
+                </p>
+                <User
+                  name={
+                    <Link
+                      href="#"
+                      underline="hover"
+                      className="text-sm font-medium text-black-default/80"
+                    >
+                      {task.reviewer[0].name}
+                    </Link>
+                  }
+                  // description="Reviewer"
+                  avatarProps={{
+                    src: `${task.reviewer[0].picture}`,
+                    size: "sm",
+                    classNames: { base: "w-[24px] h-[24px]" },
+                  }}
+                  classNames={{
+                    name: "text-sm font-medium",
+                    description: "text-xs font-medium",
+                  }}
+                />
+              </div>
+            )}
+            {task.reviewer.length > 1 && (
+              <AvatarGroup max={isMobile ? 1 : 3}>
+                {task.reviewer.map((reviewer, index) => (
+                  <Avatar
+                    isBordered={true}
+                    key={index}
+                    showFallback
+                    fallback={<Spinner />}
+                    src={reviewer.picture}
+                    classNames={{
+                      base: [
+                        "bg-blue-default ring-blue-default",
+                        "w-[24px] h-[24px] text-large",
+                      ],
+                    }}
+                  />
+                ))}
+              </AvatarGroup>
+            )}
+          </div>
+        )}
+        {task.status === "done" && (
+          <div className="flex gap-2 justify-start items-center mb-1">
+            {task.processor?.length < 1 && (
+              <p className="text-sm font-medium text-black-default">
+                {"No processor is assigned yet."}
+              </p>
+            )}
+            {task.processor.length === 1 && (
+              <div className="flex gap-2 items-center justify-center">
+                <p className="text-sm font-medium text-black-default">
+                  {"Completed by: "}
+                </p>
+                <User
+                  name={
+                    <Link
+                      href="#"
+                      underline="hover"
+                      className="text-sm font-medium text-black-default/80"
+                    >
+                      {task.processor[0].name}
+                    </Link>
+                  }
+                  // description="Reviewer"
+                  avatarProps={{
+                    src: `${task.processor[0].picture}`,
+                    size: "sm",
+                    classNames: { base: "w-[24px] h-[24px]" },
+                  }}
+                  classNames={{
+                    name: "text-sm font-medium",
+                    description: "text-xs font-medium",
+                  }}
+                />
+              </div>
+            )}
+            {task.processor.length > 1 && (
+              <>
+                <p className="text-sm font-medium text-black-default">
+                  {"Completed by: "}
+                </p>
+                <AvatarGroup
+                  max={isMobile ? 1 : 3}
+                  classNames={{ base: "gap-1", count: "w-[32px] h-[32px]" }}
+                >
+                  {task.processor.map((processor, index) => (
+                    <Avatar
+                      isBordered={true}
+                      key={index}
+                      showFallback
+                      fallback={<Spinner />}
+                      src={processor.picture}
+                      classNames={{
+                        base: [
+                          "bg-blue-default ring-blue-default",
+                          "w-[24px] h-[24px] text-large",
+                        ],
+                      }}
+                    />
+                  ))}
+                </AvatarGroup>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       {/* {mouseIsOver && (

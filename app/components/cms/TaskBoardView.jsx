@@ -31,7 +31,10 @@ const TaskBoardView = ({
   tasksFromSelectedClient,
   isLoading,
 }) => {
-  const user = useAtomValue(userAtom);
+  const customBreakPoint = "1023";
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+  );
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -73,11 +76,31 @@ const TaskBoardView = ({
     }
   }, [itemTasks]);
 
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setIsMobile(
+        window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
+      );
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return !selectedClientToView?.length ? (
     <div
       data-change={changeView}
       data-view={showClientTask}
-      className="hidden data-[view=true]:flex data-[change=true]:hidden  w-full h-full justify-center items-center text-clip"
+      className="hidden data-[view=true]:flex data-[change=true]:hidden w-full h-full justify-center items-center text-clip"
     >
       <div className="flex flex-col items-center justify-center">
         <Image width={450} height={450} alt={"No Data"} src={"/no-data.webp"} />
@@ -128,6 +151,7 @@ const TaskBoardView = ({
                 }
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                isMobile={isMobile}
               />
             ))}
           </SortableContext>
@@ -175,6 +199,7 @@ const TaskBoardView = ({
                 }
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                isMobile={isMobile}
               />
             )}
             {activeTask && (
@@ -182,6 +207,7 @@ const TaskBoardView = ({
                 task={activeTask}
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                isMobile={isMobile}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
               />

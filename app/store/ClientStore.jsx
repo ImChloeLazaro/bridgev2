@@ -151,7 +151,7 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
     const convertedClients = clients.response.map((client, index) => {
       return {
         ...client,
-        company: { ...client.company, picture: "https://picsum.photos/200" }, // default picture
+        // company: { ...client.company, picture: "https://picsum.photos/200" }, // default picture
       };
     });
     console.log("convertedClients", convertedClients);

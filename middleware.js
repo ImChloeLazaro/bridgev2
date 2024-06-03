@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "@/app/utils/amplifyServerUtils";
 
 const protectedRoutes = [
-  "/user",
+  "/user/",
   "/user/dashboard",
   "/user/profile",
   "/user/cms",
@@ -69,7 +69,7 @@ async function middleware(request) {
 
   // ### Redirect already authenticated user to home page
   if (isAuthenticated && request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/user", request.nextUrl));
+    return NextResponse.redirect(new URL("/user/", request.nextUrl));
   }
 
   // ### Redirect unauthorized access to sign in page

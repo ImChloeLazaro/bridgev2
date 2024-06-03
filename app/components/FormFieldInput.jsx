@@ -59,7 +59,10 @@ const FormFieldInput = ({
             ? format(date, "LLLL d, y")
             : value ?? ""
         }
-        onValueChange={onValueChange}
+        onValueChange={(value) => {
+          console.log("VALUE:", value);
+          onValueChange(value);
+        }}
         fullWidth={fullWidth}
         classNames={{
           base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
@@ -72,7 +75,6 @@ const FormFieldInput = ({
             "text-sm font-medium text-black-default/90",
             "bg-grey-default",
             "px-3",
-            className
           ),
           errorMessage: ["text-red-default"],
         }}
