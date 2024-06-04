@@ -1,0 +1,91 @@
+{
+  "data": {
+    "kind": "calendar#event",
+    "etag": "\"3434935863092000\"",
+    "id": "0gj4uuruvljc72nchapvatc340_20240605T040900Z",
+    "status": "confirmed",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MGdqNHV1cnV2bGpjNzJuY2hhcHZhdGMzNDBfMjAyNDA2MDVUMDQwOTAwWiBjaGxvZS5sYXphcm9AYXJldGV4LmNvbS5hdQ",
+    "created": "2024-06-04T02:24:04.000Z",
+    "updated": "2024-06-04T02:25:31.546Z",
+    "summary": "recurring test",
+    "description": "testtest\nJoin with Aretex Meet: https://meet.vps-aretex.space/7ce57069-e474-42f8-8b14-d30ef5654ea8test\nFlags: #Training #Conference",
+    "creator": {
+      "email": "chloe.lazaro@aretex.com.au",
+      "self": true
+    },
+    "organizer": {
+      "email": "chloe.lazaro@aretex.com.au",
+      "self": true
+    },
+    "start": {
+      "dateTime": "2024-06-05T14:09:00+10:00",
+      "timeZone": "Australia/Sydney"
+    },
+    "end": {
+      "dateTime": "2024-06-05T14:09:00+10:00",
+      "timeZone": "Australia/Sydney"
+    },
+    "recurringEventId": "0gj4uuruvljc72nchapvatc340",
+    "originalStartTime": {
+      "dateTime": "2024-06-05T14:09:00+10:00",
+      "timeZone": "Australia/Sydney"
+    },
+    "iCalUID": "0gj4uuruvljc72nchapvatc340@google.com",
+    "sequence": 3,
+    "hangoutLink": "https://meet.google.com/ajp-owjd-wwa",
+    "conferenceData": {
+      "createRequest": {
+        "requestId": "9437a807-a39d-4cd8-9811-557d897af447",
+        "conferenceSolutionKey": {
+          "type": "hangoutsMeet"
+        },
+        "status": {
+          "statusCode": "success"
+        }
+      },
+      "entryPoints": [
+        {
+          "entryPointType": "video",
+          "uri": "https://meet.google.com/ajp-owjd-wwa",
+          "label": "meet.google.com/ajp-owjd-wwa"
+        },
+        {
+          "entryPointType": "more",
+          "uri": "https://tel.meet/ajp-owjd-wwa?pin=6403241156378",
+          "pin": "6403241156378"
+        },
+        {
+          "regionCode": "US",
+          "entryPointType": "phone",
+          "uri": "tel:+1-424-371-6903",
+          "label": "+1 424-371-6903",
+          "pin": "819674738"
+        }
+      ],
+      "conferenceSolution": {
+        "key": {
+          "type": "hangoutsMeet"
+        },
+        "name": "Google Meet",
+        "iconUri": "https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png"
+      },
+      "conferenceId": "ajp-owjd-wwa"
+    },
+    "reminders": {
+      "useDefault": true
+    },
+    "eventType": "default"
+  },
+  "id": "0gj4uuruvljc72nchapvatc340_20240605T040900Z",
+  "title": "recurring test",
+  "start": "2024-06-05T04:09:00.000Z",
+  "end": "2024-06-05T04:09:00.000Z",
+  "desc": "testtest\nJoin with Aretex Meet: https://meet.vps-aretex.space/7ce57069-e474-42f8-8b14-d30ef5654ea8test",
+  "eventTypes": [
+    "Training",
+    "Conference"
+  ],
+  "creator": true,
+  "newstart": "2024-06-05T04:09:00.000Z",
+  "newend": "2024-06-05T04:09:00.000Z"
+}

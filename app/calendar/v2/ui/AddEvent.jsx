@@ -13,16 +13,17 @@ import {
     DatePicker
 } from "@nextui-org/react";
 import { now, getLocalTimeZone } from "@internationalized/date";
-import Invitees from "../v2/ui/Invitees";
+import Invitees from "./Invitees";
 import TypeCheckbox from "./TypeCheckbox";
-import Recurrence from "../v2/ui/Recurrence";
-
-import EditEvent from "./EditEvent";
+import Recurrence from "./Recurrence";
 
 import { useSession } from "next-auth/react";
 import { createEvent } from "@/app/utils/calendar";
+import GoogleOAuth from "./GoogleOAuth";
 const AddEvent = () => {
     const { data: session, status } = useSession();
+
+    console.log('session', session)
     const [loaders, setLoaders] = useState({
         isLoading: false,
         loadingMessage: "",
@@ -81,18 +82,19 @@ const AddEvent = () => {
         e.preventDefault();
         setLoaders({ isLoading: true, loadingMessage: "Creating Event..." });
         try {
-            await createEvent(session.token.access_token,event);
+            await createEvent(session.token.access_token, event);
         } catch (error) {
             throw error;
-        }finally{
+        } finally {
             setLoaders({ isLoading: false, loadingMessage: "Done" });
         }
     }
     return (
         <div className="flex">
             <div>
-                <Button className="bg-green-700 rounded-md p-1 m-1 text-slate-50" onPress={onOpen}>
-                    Create Event
+                <GoogleOAuth/>
+                <Button className="my-2 w-fit text-white-default" color="success" size="sm"  onPress={onOpen}>
+                    Add Event
                 </Button>
                 <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                     <ModalContent>
@@ -138,9 +140,9 @@ const AddEvent = () => {
                                         name="invites"
                                         handleInvitees={handleInvitees}
                                     />
-                                    <Recurrence 
+                                    <Recurrence
                                         handleRecurrence={handleRecurrence}
-                                        />
+                                    />
                                     <Checkbox
                                         isSelected={withAMeet}
                                         onValueChange={e => handleAMeet(e)}

@@ -11,14 +11,7 @@ import {
     Checkbox,
     DatePicker
 } from "@nextui-org/react";
-import { MdDeleteOutline } from "react-icons/md";
-import { now, getLocalTimeZone } from "@internationalized/date";
-import Invitees from "./Invitees";
-import TypeCheckbox from "./TypeCheckbox";
-import Recurrence from "./Recurrence";
-
-import { useSession } from "next-auth/react";
-import { createEvent } from "@/app/utils/calendar";
+import { now, getLocalTimeZone } from "@internationalized/date"
 
 const EditEvent = ({
     event,
