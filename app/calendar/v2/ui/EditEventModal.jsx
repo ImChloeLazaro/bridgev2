@@ -1,68 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, DatePicker, Checkbox } from "@nextui-org/react";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { now, getLocalTimeZone, parseDate, parseAbsoluteToLocal } from "@internationalized/date";
+import { parseAbsoluteToLocal } from "@internationalized/date";
 import TypeCheckbox from "../components/TypeCheckbox";
 import { putEvent } from "@/app/utils/calendar";
 import { useSession } from "next-auth/react";
+import DeleteEvent from "./DeleteEvent";
 
-const EditEventModal = ({ event, isOpenModal, onOpenModal, action }) => {
-    const { data: session, status } = useSession();
+const EditEventModal = ({ event, isOpenModal, onOpenModal }) => {
     const [newEvent, setNewEvent] = useState({})
     const [eventData, setEventData] = useState({
         ...event,
         eventTypes: [],
+        creator: event.data.creator.self,
+        desc: event.desc,
+        newstart: new Date(event.start).toISOString(),
+        newend: new Date(event.end).toISOString()
     });
-    const [selectedDate, setSelectedDate] = useState(now(getLocalTimeZone()));
-    const arr = event.desc.match(/#\w+/g).map(tag => tag.slice(1)) || [];
+
+    const { data: session, status } = useSession();
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
     useEffect(() => {
-
-        console.log('Event:', event)
-        const descregex = desc => desc.replace(/Flags:\s*(#\w+\s*)+/g, '').trim();
-        const newDesc = descregex(event.desc)
-        setEventData({ ...eventData, desc: newDesc })
-
-        if (eventData.eventTypes.length == 0) {
-            setEventData((prevData) => ({
+        if (event.desc) {
+            const tags = event.desc.match(/#\w+/g)?.map(tag => tag.slice(1)) || [];
+            const newDesc = event.desc.replace(/Flags:\s*(#\w+\s*)+/g, '').trim();
+            setEventData(prevData => ({
                 ...prevData,
-                eventTypes: arr,
+                desc: newDesc,
+                eventTypes: tags.length > 0 ? tags : prevData.eventTypes
             }));
+            console.log("Extracted tags:", tags);
+            console.log("Updated description:", newDesc);
         }
-    }, [])
+    }, [event]);
 
-    const updateEvent = async (e) => {
-        e.preventDefault();
-
-        const newDesc = `${eventData.desc} Flags: #${eventData.eventTypes.join(' #')}`
-        console.log('newDesc:', newDesc)
-        setEventData({ ...eventData, desc: newDesc })
-        // console.log('Event Data:', eventData)
-        // try {
-        //     await putEvent(session.token.access_token, eventData);
-        // } catch (error) {
-        //     console.error("Error updating event:", error);
-        // }
-    };
     const formatDate = (date) => {
         const { year, month, day, hour, minute, second } = date;
         return `${year}-${month}-${day}T${hour}:${minute}:${second}+10:00`;
     }
-    const handleStartDate = (datetime) => {
-        setSelectedDate(formatDate(datetime));  
-        setEventData({ ...event, start: formatDate(datetime) });    
-    }
-    const handleEndDate = (datetime) => {
-        
-    }
-    const handleEventTypeChange = (selectedTypes) => {
-        console.log('Event Type:', selectedTypes);
-        setEventData((prevData) => ({
-            ...prevData,
-            eventTypes: selectedTypes,
-        }));
-    };
 
+    const updateEvent = async (e) => {
+        e.preventDefault();
+        try {
+            await putEvent(session.token.access_token, eventData);
+        } catch (error) {
+            console.error("Error updating event:", error);
+        }
+    };
+   
     return (
         <Modal isOpen={isOpenModal} onOpenChange={onOpenModal}>
             <ModalContent>
@@ -70,9 +56,18 @@ const EditEventModal = ({ event, isOpenModal, onOpenModal, action }) => {
                     <form onSubmit={updateEvent}>
                         <ModalHeader className="flex gap-1 justify-between m-2 items-center">
                             <div>{event.title}</div>
-                            <button type="button" onClick={action}>
-                                <RiDeleteBin5Line />
-                            </button>
+                            {
+                                eventData.creator ? (
+                                    <>
+                                        <button type="button" onClick={() => setIsOpenDeleteModal(true)}>
+                                            <RiDeleteBin5Line />
+                                        </button>
+                                        <DeleteEvent event={eventData} isOpen={isOpenDeleteModal} onClose={() => setIsOpenDeleteModal(false)} />
+                                    </>
+                                ) : (
+                                    <small className=" font-normal text-secondary-900">You cannot modify this event.</small>
+                                )
+                            }
                         </ModalHeader>
                         <ModalBody>
                             <Input
@@ -98,7 +93,7 @@ const EditEventModal = ({ event, isOpenModal, onOpenModal, action }) => {
                                 hideTimeZone
                                 showMonthAndYearPickers
                                 defaultValue={parseAbsoluteToLocal(new Date(eventData.start).toISOString())}
-                                onChange={(date) => handleStartDate(date)}
+                                onChange={(date) => setEventData({ ...eventData, newstart: formatDate(date) })}
                             />
                             <DatePicker
                                 name="end"
@@ -107,19 +102,24 @@ const EditEventModal = ({ event, isOpenModal, onOpenModal, action }) => {
                                 hideTimeZone
                                 showMonthAndYearPickers
                                 defaultValue={parseAbsoluteToLocal(new Date(eventData.end).toISOString())}
-
+                                onChange={(date) => setEventData({ ...eventData, newend: formatDate(date) })}
                             />
                             <TypeCheckbox
-                                onChange={handleEventTypeChange}
-                                defaultSelected={arr}
+                                onChange={(selectedTypes) => setEventData({ ...eventData, eventTypes: selectedTypes })}
+                                defaultSelected={event.desc ? event.desc.match(/#\w+/g)?.map(tag => tag.slice(1)) || [] : []}
                             />
                         </ModalBody>
                         <ModalFooter>
                             <Button color="danger" variant="light" onPress={onClose}>
                                 Close
                             </Button>
-                            <Button color="primary" type="submit">
-                                Done
+                            <Button
+                                className={`${eventData.creator ? '' : 'disabled disabled:opacity-50 disabled:cursor-not-allowed'}`}
+                                color="primary"
+                                type="submit"
+                                disabled={eventData.creator !== undefined ? false : true}
+                            >
+                                Update
                             </Button>
                         </ModalFooter>
                     </form>

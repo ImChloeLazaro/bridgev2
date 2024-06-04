@@ -38,7 +38,7 @@ const CalendarUI = () => {
     onOpen: onOpenModal,
     onOpenChange: onChangeModal,
   } = useDisclosure();
-
+ 
   const today = new Date();
 
   useEffect(() => {
@@ -47,6 +47,7 @@ const CalendarUI = () => {
         const events = await listEvents(session.token.access_token);
         // Create an array to accumulate the event
         const formattedEvents = events.map(event => ({
+          data: event.data,
           id: event.id,
           title: event.title,
           start: new Date(
@@ -106,7 +107,6 @@ const CalendarUI = () => {
   }, [status]);
 
   const onSelectEvent = useCallback((calEvent) => {
-    console.log(calEvent.id);
     setSelectedEvent(calEvent); // Set the selected event
     onOpenModal();
   }, [onOpenModal]);
@@ -151,7 +151,6 @@ const CalendarUI = () => {
                 isOpenModal={isOpenModal}
                 onOpenModal={onChangeModal}
                 onChangeModal={onChangeModal}
-                action={async () => console.log('done')}
               />
             )}
           </Card>

@@ -162,76 +162,62 @@ export const createEvent = async (accessToken, event) => {
 
 export const putEvent = async (accessToken, event) => {
   try {
-    const { id, title, desc, start, end } = event;
+    const { id, title, desc, newstart, newend, eventTypes } = event;
 
-    const dateString = `${start.year}-${start.month}-${start.day}T${start.hour}:${start.minute}:${start.second}`
-    const finalDateString = `${dateString}`;
+    let descriptionText = `${desc || ""}`;
+    let flags = []
+    if(eventTypes.length > 0) {
+      flags = eventTypes.map((type) => {
+        return `#${type}`;
+      });
+      descriptionText += `\nFlags: ${flags.join(" ")}`;
+    }
 
-    console.log(finalDateString);
+    const response = await axios.put(
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events/${id}`,
+      {
+        summary: title,
+        description: desc,
+        start: {
+          dateTime: newstart,
+          timeZone: "Australia/Sydney",
+        },
+        end: {
+          dateTime: newend,
+          timeZone: "Australia/Sydney",
+        },
+        conferenceData: {
+          createRequest: {
+            conferenceSolutionKey: { type: "hangoutsMeet" },
+          },
+        },
+        reminders: {
+          useDefault: true,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        params: {
+          sendUpdates: "all",
+          conferenceDataVersion: 1,
+        },
+      }
+    );
 
-
-
-    console.log("event: ", event.start);
-
-    // let descriptionText = `${desc || ""}`;
-    // let flags = [];
-    // if (withAMeet) {
-    //   descriptionText += `${desc || ""}\nJoin with Aretex Meet: https://meet.vps-aretex.space/${v4()}`;
-    // }
-    // if(eventTypes.length > 0) {
-    //   flags = eventTypes.map((type) => {
-    //     return `#${type}`;
-    //   });
-    //   descriptionText += `${description || ""}\nFlags: ${flags.join(" ")}`;
-    // }
-
-
-    // let formattedDate = new Date().toISOString().split('.')[0] + '+10:00'; // Default to current time +10 hours if start/end is not provided
-
-    // console.log("Event ID: ", id);
-    // console.log('Event Data from put:', event);
-
-    // const response = await axios.put(
-    //   `https://www.googleapis.com/calendar/v3/calendars/primary/events/${id}`,
-    //   {
-    //     summary: title,
-    //     description: desc,
-    //     start: {
-    //       dateTime: start || formattedDate,
-    //       timeZone: "Australia/Sydney",
-    //     },
-    //     end: {
-    //       dateTime: end || formattedDate,
-    //       timeZone: "Australia/Sydney",
-    //     },
-    //     conferenceData: {
-    //       createRequest: {
-    //         conferenceSolutionKey: { type: "hangoutsMeet" },
-    //       },
-    //     },
-    //     reminders: {
-    //       useDefault: true,
-    //     },
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //     params: {
-    //       sendUpdates: "all",
-    //       conferenceDataVersion: 1,
-    //     },
-    //   }
-    // );
-
-    // console.log("Event Updated successfully:", response.data);
+    console.log("Event Updated successfully:", response.data);
   } catch (error) {
     console.log("Error updating Google Calendar event: ", error);
   }
 };
 
 export async function deleteEvent(accessToken, id, recurring, recurringId) {
+  console.log("Deleting event with ID: ", id);
+  console.log("Recurring event ID: ", recurringId);
+  console.log("Recurring: ", recurring);
+  console.log("Access Token: ", accessToken);
   try {
     let url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${id}`;
     const eventParams = {
