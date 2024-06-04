@@ -80,7 +80,7 @@ function ColumnContainer({
       className={cn(
         `${!isExpanded ? "h-[5rem] min-h-[5rem]" : "h-[28rem] min-h-[28rem] "}`,
         "touch-none rounded-lg",
-        "flex flex-col w-full",
+        "flex flex-col min-w-64 w-full",
         "lg:h-full max-h-screen",
         "bg-grey-default",
         "transition-height duration-300 ease-in-out"

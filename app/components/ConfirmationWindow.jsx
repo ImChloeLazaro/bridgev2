@@ -26,6 +26,7 @@ const ConfirmationWindow = ({
   action_params, // params to pass to action function
   choice, // accept choice for confirmation window
   third_choice, // { label: "", color: "blue", action: () => {} , action_params: [] }
+  withNotification = false, // display notification after the action is performed
   showChoices = true, // display choices
   onCloseParent, // function to close parent component when choice is selected
   ...props
@@ -89,6 +90,20 @@ const ConfirmationWindow = ({
       third: { label: "Show Details", color: "white", action: () => {} },
     },
   };
+
+  // // Notify others || user that task has been updated
+
+  // console.log("NOTIF REF", get(notificationSocketRefAtom))
+  // // sendNotification({
+
+  // //   action: "notification",
+  // //   subs: ["a8dfd442-2977-499b-a917-a0e226c6c089"],
+  // //   title: "NOTIFICATION PUSH TESTING",
+  // //   type: ["mentioned"],
+  // //   description: "TSEING TSEINTSETINTSEITN",
+  // //   notified_from: user,
+  // //   route: "set",
+  // // })
 
   return (
     <Modal

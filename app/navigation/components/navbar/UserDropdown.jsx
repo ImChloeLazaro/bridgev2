@@ -40,12 +40,12 @@ const UserDropdown = () => {
       <DropdownTrigger>
         <User
           as="button"
-          description={isVisibleJobTitle && user.position}
+          // description={isVisibleJobTitle && user?.position}
           name={user.name}
           avatarProps={{
             showFallback: true,
             fallback: (
-              <div className="text-lg font-medium ">{user?.name[0]}</div>
+              <div className="text-lg font-medium ">{user.name[0]}</div>
             ),
             src: user.picture,
             isBordered: true,

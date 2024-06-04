@@ -11,7 +11,7 @@ import IconButton from "@/app/components/IconButton";
 
 const ProfileHeader = () => {
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
-  const userInfo = useAtomValue(userAtom);
+  const user = useAtomValue(userAtom);
 
   return (
     <>
@@ -54,7 +54,7 @@ const ProfileHeader = () => {
                 // as={Button}
                 // onPress={()=>{console.log("AVATAR CHANGE PROFILE PICTURE")}}
                 // radius="full"
-                src={userInfo?.picture}
+                src={user?.picture}
                 classNames={{
                   base: "data-[hover=true]:bg-darkgrey-default w-[6rem] h-[6rem] lg:w-[8rem] lg:h-[8rem] text-large border-8 border-white-default ",
                   img: "data-[hover=true]:bg-darkgrey-default",
@@ -74,7 +74,7 @@ const ProfileHeader = () => {
 
           <div className="px-2 lg:px-0 flex-col">
             <p className="text-xl lg:text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
-              {userInfo.name}
+              {user.name}
             </p>
             {isVisibleJobTitle && (
               <p className="text-sm lg:text-base font-medium text-darkgrey-hover leading-4">
@@ -82,7 +82,7 @@ const ProfileHeader = () => {
               </p>
             )}
             <p className="text-base font-medium text-darkgrey-hover leading-5">
-              {userInfo.email}
+              {user.email}
             </p>
           </div>
         </div>

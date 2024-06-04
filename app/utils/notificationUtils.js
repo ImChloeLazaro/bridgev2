@@ -15,13 +15,13 @@ export function sendNotification(data) {
   } = data;
   socketRef.current.send(
     JSON.stringify({
-      action: action,
-      subs: subs,
-      title: title,
-      type: type,
-      description: description,
-      notified_from: notified_from,
-      route: route,
+      action: action, // 'notification' String
+      subs: subs, // [String]
+      title: title, // String
+      type: type, // 'mentioned' || 'greeted' [String]
+      description: description, // String
+      notified_from: notified_from, // {user}
+      route: route, // 'set' String
     })
   );
 }

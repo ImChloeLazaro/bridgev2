@@ -30,7 +30,8 @@ function TaskBoardCard({
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
 
-  const [isEscalated, setIsEscalated] = useState(false);
+  // const isEscalated = task.escalate;
+  // console.log("isEscalated:", isEscalated);
 
   const {
     setNodeRef,
@@ -45,7 +46,7 @@ function TaskBoardCard({
       type: "Task",
       task,
     },
-    disabled: isEscalated,
+    disabled: task.escalate,
   });
 
   const actionOptions = [
@@ -75,7 +76,7 @@ function TaskBoardCard({
       <div
         ref={setNodeRef}
         style={style}
-        data-escalated={isEscalated}
+        data-escalated={task.escalate}
         className={cn(
           "data-[escalated=true]:border-red-default",
           "data-[escalated=true]:border-4",
@@ -126,13 +127,13 @@ function TaskBoardCard({
       {...listeners}
       style={style}
       // onClick={toggleEditMode}
-      data-escalated={isEscalated}
+      data-escalated={task.escalate}
       className={cn(
         "data-[escalated=true]:border-red-default",
         "data-[escalated=true]:border-3",
         "data-[escalated=true]:ring-0",
         "data-[escalated=true]:cursor-not-allowed",
-        "min-h-fit min-w-64",
+        "min-h-fit",
         "bg-white-default p-2.5",
         "items-center flex text-left relative",
         "hover:ring-2 hover:ring-inset hover:ring-blue-default",
@@ -167,11 +168,9 @@ function TaskBoardCard({
             tasksFromSelectedClient={tasksFromSelectedClient}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
-            isEscalated={isEscalated}
-            setIsEscalated={setIsEscalated}
           />
         </div>
-        {isEscalated && (
+        {task.escalate && (
           <LabelTagChip
             text="Escalation"
             color="red"
@@ -232,7 +231,7 @@ function TaskBoardCard({
               </div>
             )}
             {task.reviewer.length > 1 && (
-              <AvatarGroup max={isMobile ? 1 : 3}>
+              <AvatarGroup max={isMobile ? 2 : 3}>
                 {task.reviewer.map((reviewer, index) => (
                   <Avatar
                     isBordered={true}
@@ -252,70 +251,46 @@ function TaskBoardCard({
             )}
           </div>
         )}
-        {task.status === "done" && (
+        {task.status === "done" && task.done_by ? (
           <div className="flex gap-2 justify-start items-center mb-1">
-            {task.processor?.length < 1 && (
+            <div className="flex gap-2 items-center justify-center">
               <p className="text-sm font-medium text-black-default">
-                {"No processor is assigned yet."}
+                {"Completed by: "}
               </p>
-            )}
-            {task.processor.length === 1 && (
-              <div className="flex gap-2 items-center justify-center">
-                <p className="text-sm font-medium text-black-default">
-                  {"Completed by: "}
-                </p>
-                <User
-                  name={
-                    <Link
-                      href="#"
-                      underline="hover"
-                      className="text-sm font-medium text-black-default/80"
-                    >
-                      {task.processor[0].name}
-                    </Link>
-                  }
-                  // description="Reviewer"
-                  avatarProps={{
-                    src: `${task.processor[0].picture}`,
-                    size: "sm",
-                    classNames: { base: "w-[24px] h-[24px]" },
-                  }}
-                  classNames={{
-                    name: "text-sm font-medium",
-                    description: "text-xs font-medium",
-                  }}
-                />
-              </div>
-            )}
-            {task.processor.length > 1 && (
-              <>
-                <p className="text-sm font-medium text-black-default">
-                  {"Completed by: "}
-                </p>
-                <AvatarGroup
-                  max={isMobile ? 1 : 3}
-                  classNames={{ base: "gap-1", count: "w-[32px] h-[32px]" }}
-                >
-                  {task.processor.map((processor, index) => (
-                    <Avatar
-                      isBordered={true}
-                      key={index}
-                      showFallback
-                      fallback={<Spinner />}
-                      src={processor.picture}
-                      classNames={{
-                        base: [
-                          "bg-blue-default ring-blue-default",
-                          "w-[24px] h-[24px] text-large",
-                        ],
-                      }}
-                    />
-                  ))}
-                </AvatarGroup>
-              </>
-            )}
+              <User
+                name={
+                  <Link
+                    href="#"
+                    underline="hover"
+                    className="text-sm font-medium text-black-default/80"
+                  >
+                    {task?.done_by?.name}
+                  </Link>
+                }
+                // description="Reviewer"
+                avatarProps={{
+                  src: `${task?.done_by?.picture}`,
+                  size: "sm",
+                  classNames: { base: "w-[24px] h-[24px]" },
+                }}
+                classNames={{
+                  name: "text-sm font-medium",
+                  description: "text-xs font-medium",
+                }}
+              />
+            </div>
           </div>
-        )}
+        ) : null}
+        {task.status === "todo" ||
+          (task.status === "pending" && (
+            <div className="flex gap-2 justify-start items-center mb-1">
+              {task.processor?.length < 1 && (
+                <p className="text-sm font-medium text-black-default">
+                  {"No processor is assigned yet."}
+                </p>
+              )}
+            </div>
+          ))}
       </div>
 
       {/* {mouseIsOver && (

@@ -30,11 +30,10 @@ const TaskBoardView = ({
   actions,
   tasksFromSelectedClient,
   isLoading,
+  isMobile,
 }) => {
-  const customBreakPoint = "1023";
-  const [isMobile, setIsMobile] = useState(
-    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
-  );
+  const user = useAtomValue(userAtom);
+
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
@@ -75,26 +74,6 @@ const TaskBoardView = ({
       setTasks(itemTasks);
     }
   }, [itemTasks]);
-
-  useEffect(() => {
-    // only execute all the code below in client side
-    // Handler to call on window resize
-    function handleResize() {
-      // Set window width/height to state
-      setIsMobile(
-        window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
-      );
-    }
-
-    // Add event listener
-    window.addEventListener("resize", handleResize);
-
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return !selectedClientToView?.length ? (
     <div
@@ -304,22 +283,73 @@ const TaskBoardView = ({
     const activeId = active.id;
     const overId = over.id;
 
-    const taskActive = active.data.current?.task?._id;
+    const taskActive = active.data.current?.task;
     const taskOver = over.data.current?.task?._id;
-    const taskOverStatus = over.data.current?.task?.status;
+    const taskActiveStatus = active.data.current?.task?.status;
 
-    if (taskOverStatus === "done") {
-      if (taskStatusBeforeDone !== taskOverStatus) {
+    if (taskActiveStatus === "done") {
+      if (taskStatusBeforeDone !== taskActiveStatus) {
+        console.log("taskActive", taskActive);
+
         const taskDone = tasks.filter(
           (t) => t.id === activeId && t.status === "done"
         );
 
         const dateTaskDone = new Date();
-        toast.success(`Task Completed: ${taskDone[0].name} `, {
+
+        const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
+          (task) => {
+            if (task._id === taskActive._id) {
+              console.log("TASK", task);
+
+              if (taskActiveStatus === "done") {
+                return {
+                  ...task,
+                  status: taskActiveStatus,
+                  done_by: {
+                    sub: user?.sub,
+                    name: user?.name,
+                    email: user?.email,
+                    picture: user?.picture,
+                  },
+                };
+              } else {
+                return {
+                  ...task,
+                  status: taskActiveStatus,
+                };
+              }
+            }
+            return task;
+          }
+        );
+
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: updateSelectedTask,
+                    client_id: taskActive.clientKey,
+                  })
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
           description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            return `Task Completed: ${taskActive.name} `;
+          },
+
+          error: "Error Updating Task Status",
         });
       }
     }
+
+    
 
     if (activeId === overId) return;
 

@@ -10,6 +10,7 @@ import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
 import { useMemo } from "react";
 import { authenticationAtom } from "./AuthenticationStore";
+import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
 
 export const tasksAtom = atom([]);
 

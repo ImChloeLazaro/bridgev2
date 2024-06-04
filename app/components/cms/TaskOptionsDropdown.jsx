@@ -22,8 +22,6 @@ const TaskOptionsDropdown = ({
   tasksFromSelectedClient,
   actions,
   trigger,
-  isEscalated,
-  setIsEscalated,
 }) => {
   const {
     isOpen: isOpenPopup,
@@ -38,30 +36,44 @@ const TaskOptionsDropdown = ({
 
   const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
   const user = useAtomValue(userAtom);
-  const auth = useAtomValue(authenticationAtom);
 
   const handleSelectOption = (taskAction) => {
     const { key, status_id } = taskAction;
+    let taskName;
+    const clientKey = tasksFromSelectedClient[0].client.client_id;
+    const dateTaskDone = new Date();
 
     if (key === "mark") {
       if (status_id === "forReview" || status_id === "done") {
         const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
           (task) => {
             if (task._id === id) {
+              console.log("TASK", task);
+              taskName = task?.name;
+
+              console.log("taskName: ", taskName);
+
               if (status_id === "done") {
-                console.log("TASK DONE");
+                return {
+                  ...task,
+                  status: status_id,
+                  done_by: {
+                    sub: user?.sub,
+                    name: user?.name,
+                    email: user?.email,
+                    picture: user?.picture,
+                  },
+                };
+              } else {
+                return {
+                  ...task,
+                  status: status_id,
+                };
               }
-              return { ...task, status: status_id };
             }
             return task;
           }
         );
-        const selectedTask = tasksFromSelectedClient[0].sla.filter(
-          (task) => task._id === id
-        )[0];
-
-        const clientKey = tasksFromSelectedClient[0].client.client_id;
-        const dateTaskDone = new Date();
 
         setIsLoading(true);
         const promise = async () =>
@@ -84,7 +96,7 @@ const TaskOptionsDropdown = ({
             setIsLoading(false);
             return `${
               status_id === "done" ? "Task Completed" : "Task Marked for Review"
-            }: ${selectedTask.name}`;
+            }: ${taskName}`;
           },
 
           error: "Error Updating Task Status",
@@ -93,12 +105,26 @@ const TaskOptionsDropdown = ({
     }
 
     if (key === "escalate") {
-      const dateTaskDone = new Date();
+      const updateSelectedTask = tasksFromSelectedClient[0].sla.map((task) => {
+        if (task._id === id) {
+          return { ...task, escalate: true };
+        }
+        return task;
+      });
 
-      console.log("glow red task: ", status_id);
-      setIsEscalated(true);
       const promise = async () =>
-        new Promise((resolve) => setTimeout(async () => resolve(), 2000));
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await updateTaskStatus({
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                })
+              ),
+            2000
+          )
+        );
       toast.promise(promise, {
         description: `${format(dateTaskDone, "PPpp")}`,
         loading: `Escalating Task to ${
@@ -163,7 +189,9 @@ const TaskOptionsDropdown = ({
             base: ["data-[disabled=true]:opacity-100 text-black-default"],
             title: "text-base font-medium ",
           }}
-          disabledKeys={isEscalated && ["mark", "escalate"]}
+          // disabledKeys={
+          //   tasksFromSelectedClient[0].escalate && ["mark", "escalate"]
+          // }
         >
           {(item) => (
             <DropdownItem
@@ -172,13 +200,13 @@ const TaskOptionsDropdown = ({
               className={cn(
                 taskOptionsColors[item.color],
                 "data-[hover=true]:text-white-default",
-                item.color === "yellow" && "data-[hover=true]:text-shadow",
-                `${
-                  (item.key === "mark" || item.key === "escalate") &&
-                  isEscalated
-                    ? "text-black-default/60 cursor-not-allowed"
-                    : ""
-                }`
+                item.color === "yellow" && "data-[hover=true]:text-shadow"
+                // `${
+                //   (item.key === "mark" || item.key === "escalate") &&
+                //   tasksFromSelectedClient[0].escalate
+                //     ? "text-black-default/60 cursor-not-allowed"
+                //     : ""
+                // }`
               )}
               onPress={() => {
                 setSelectedTaskAction({

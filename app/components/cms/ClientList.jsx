@@ -70,11 +70,11 @@ const ClientList = ({
             )
           ) : (
             clients.map((client, index) => {
-              console.log("CLIENT ITEM CARD", client.company);
-              let o = Object.fromEntries(
-                Object.entries(client.company).filter(([_, v]) => v != null)
-              );
-              console.log("CLIENT ITEM OBJECT", o);
+              // console.log("CLIENT ITEM CARD", client.company);
+              // let o = Object.fromEntries(
+              //   Object.entries(client.company).filter(([_, v]) => v != null)
+              // );
+              // console.log("CLIENT ITEM OBJECT", o);
               return (
                 <Suspense
                   key={index}

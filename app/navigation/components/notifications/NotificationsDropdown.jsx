@@ -54,13 +54,10 @@ const NotificationsDropdown = () => {
   const fetchUserList = useSetAtom(fetchUserListAtom);
 
   const [connected, setConnected] = useState(false);
-  const [user, setUser] = useAtom(notifyFromUserAtom);
+  const [user, setUser] = useState({});
   const socketRef = useRef(null);
 
   const [pageVisible, setPageVisible] = useAtom(pageVisibleAtom);
-
-  console.log("DOCUMENT HERE", pageVisible, document);
-  console.log("USER LIST: ", list);
 
   document.addEventListener("visibilitychange", () => {
     setPageVisible(document.visibilityState === "hidden" ? true : false);
@@ -91,17 +88,12 @@ const NotificationsDropdown = () => {
 
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
-      console.log("NOTIFICATION RECEIVED");
       if (data.notifications) {
-        console.log("data.notifications", data.notifications);
-
         setNotifications((prevNotifications) => {
           return [...prevNotifications, ...data.notifications];
         });
       }
       if (data.count !== undefined) {
-        console.log("pageVisible", pageVisible);
         // shows the latest notification on page load to stimulate the user to look at their notifications
         const notHiddenNotifications = data.notifications.filter(
           (notification) => !notification.hidden
@@ -109,7 +101,6 @@ const NotificationsDropdown = () => {
         const sortedNotifications = notHiddenNotifications.sort(
           (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
         );
-        console.log("sortedNotifications", sortedNotifications);
 
         if (sortedNotifications[0].unread) {
           showNotification({

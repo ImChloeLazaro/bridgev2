@@ -61,12 +61,6 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
     </div>
   );
 
-  console.log(
-    "clientInfo?.documents",
-    Boolean(clientInfo?.documents),
-    clientInfo?.documents
-  );
-
   return (
     <div
       data-show={showClientDetails}
@@ -80,7 +74,8 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
                 // Add functionality to view the avatar refer to PostCard component
                 // as={Button}
                 // onPress={()=>{console.log("AVATAR CHANGE PROFILE PICTURE")}}
-                src={clientInfo?.company.picture}
+                // src={clientInfo?.company.picture}
+                src={"https://picsum.photos/200"}
                 classNames={{
                   base: "data-[hover=true]:bg-darkgrey-default w-[6rem] h-[6rem] lg:w-[8rem] lg:h-[8rem] text-large border-8 border-white-default ",
                   img: "data-[hover=true]:bg-darkgrey-default",

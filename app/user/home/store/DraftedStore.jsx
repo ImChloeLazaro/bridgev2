@@ -87,7 +87,7 @@ export const addDraftPostAtom = atom(null, async (get, set, update) => {
       sub: sub,
       status: "drafts",
       taggedPeople: [...selectedTaggedPeople], // key of users
-      team: user.team,
+      team: "", // user.team,
       title: postTitle,
       type: templateName.toLowerCase(),
     };

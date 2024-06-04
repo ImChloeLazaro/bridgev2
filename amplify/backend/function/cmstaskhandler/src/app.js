@@ -53,6 +53,7 @@ const taskSchema = mongoose.Schema({
     instruction: String,
     status: String, //todo, pending, to review, done
     progress: String, //Good, Overdue, Adhoc
+    escalate: Boolean, // marked as escalated to TL/ Admin
     duration: {
       start: Date,
       end: Date,

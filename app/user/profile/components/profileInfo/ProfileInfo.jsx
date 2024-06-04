@@ -38,7 +38,7 @@ const ProfileInfo = () => {
     setIsVisible(!isVisible);
   };
 
-  const userInfo = useAtomValue(userAtom);
+  const user = useAtomValue(userAtom);
 
   return (
     <>
@@ -68,7 +68,7 @@ const ProfileInfo = () => {
               <Avatar
                 radius="full"
                 size="md"
-                src={userInfo.picture}
+                src={user.picture}
                 alt="Profile picture"
               />
               <div className="hidden flex-col md:flex md:flex-row md:gap-6">

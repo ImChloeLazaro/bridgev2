@@ -43,15 +43,9 @@ const TaskTableView = ({
   actions,
   tasksFromSelectedClient,
   isLoading,
+  isMobile,
 }) => {
-  const customBreakPoint = "1023";
-  const [isMobile, setIsMobile] = useState(
-    window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
-  );
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  // const [isEscalated, setIsEscalated] = useState(false);
-
-  const setIsEscalated = () => {};
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
@@ -96,7 +90,7 @@ const TaskTableView = ({
           key={processor.sub}
           src={processor.picture}
           classNames={{
-            base: [" w-10 h-10 lg:w-12 lg:h-12 text-large"],
+            base: ["w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large"],
           }}
         />
       ));
@@ -124,7 +118,17 @@ const TaskTableView = ({
           );
 
         case "status":
-          return (
+          return task.escalate ? (
+            <LabelTagChip
+              size="md"
+              text={"Escalation"}
+              color={"red"}
+              type="label"
+              isFilled
+              className={"px-2 py-2"}
+              classNameLabel={"text-sm lg:text-md capitalize"}
+            />
+          ) : (
             <LabelTagChip
               size="md"
               text={`${
@@ -161,7 +165,7 @@ const TaskTableView = ({
         case "assignees":
           return processorList?.length ? (
             <AvatarGroup
-              max={isMobile ? 1 : 3}
+              max={isMobile ? 2 : 3}
               classNames={{
                 base: "flex justify-start gap-1",
                 count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
@@ -185,7 +189,7 @@ const TaskTableView = ({
                 classNames={{
                   base: [
                     "bg-blue-default ring-blue-default",
-                    "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                    "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-large",
                   ],
                 }}
               />
@@ -199,8 +203,6 @@ const TaskTableView = ({
               tasksFromSelectedClient={tasksFromSelectedClient}
               actions={actionOptions}
               trigger={<BiDotsVerticalRounded size={24} />}
-              isEscalated={false}
-              setIsEscalated={setIsEscalated}
             />
           );
 
@@ -210,26 +212,6 @@ const TaskTableView = ({
     },
     [actions, isMobile, tasksFromSelectedClient]
   );
-
-  useEffect(() => {
-    // only execute all the code below in client side
-    // Handler to call on window resize
-    function handleResize() {
-      // Set window width/height to state
-      setIsMobile(
-        window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
-      );
-    }
-
-    // Add event listener
-    window.addEventListener("resize", handleResize);
-
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   console.log("selectedKeys", selectedKeys);
 
@@ -288,6 +270,7 @@ const TaskTableView = ({
             "text-md lg:text-lg font-extrabold text-darkgrey-hover",
           ],
           td: [
+            // `${}`,
             "[&:nth-child(7)]:w-28",
             "[&:nth-child(6)]:w-32",
             "h-18 max-h-sm",

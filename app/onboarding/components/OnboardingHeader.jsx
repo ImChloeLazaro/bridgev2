@@ -15,8 +15,11 @@ const OnboardingHeader = () => {
             label: step.toLocaleUpperCase(),
             style: {
               borderWidth: "3px",
-              borderColor: "rgb(var(--aretex-blue))",
+              // borderColor: "var(--aretex-blue)",
               borderStyle: "solid",
+            },
+            onClick: () => {
+              console.log("CLICKED");
             },
           };
         }
@@ -24,7 +27,10 @@ const OnboardingHeader = () => {
           label: step.toLocaleUpperCase(),
           style: {
             borderWidth: "3px",
-            borderColor: "rgb(var(--aretex-blue))",
+            // borderColor: "var(--aretex-blue)",
+          },
+          onClick: () => {
+            console.log("CLICKED");
           },
         };
       }),
@@ -40,21 +46,22 @@ const OnboardingHeader = () => {
           connectorStateColors
           connectorStyleConfig={{
             size: 2,
-            activeColor: "#32449C",
-            completedColor: "#32449C",
+            // activeColor: "var(--aretex-blue)",
+            // completedColor: "var(--aretex-blue)",
           }}
           styleConfig={{
             size: 24,
-            activeBgColor: "rgb(var(--aretex-white))",
-            activeTextColor: "rgb(var(--aretex-black))",
-            completedBgColor: "rgb(var(--aretex-blue))",
-            completedTextColor: "rgb(var(--aretex-white))",
+            // activeBgColor: "var(--aretex-white)",
+            // activeTextColor: "var(--aretex-black)",
+            // completedBgColor: "var(--aretex-blue)",
+            // completedTextColor: "var(--aretex-white)",
             circleFontSize: "0.70rem",
             labelFontSize: "0.70rem",
             fontWeight: "700",
           }}
           activeStep={activeStep}
-        ></Stepper>
+          stepClassName={"bg-blue-default"}
+        />
       </div>
     </div>
   );

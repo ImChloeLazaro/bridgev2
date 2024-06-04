@@ -117,6 +117,7 @@ const CMSAdmin = () => {
       return {
         ...sla,
         id: (index += 1),
+        // escalate: false,
         clientKey: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
@@ -440,6 +441,8 @@ const CMSAdmin = () => {
             actions={actions}
             tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
+            isMobile={isMobile}
+
           />
           <TaskBoardView
             itemTasks={itemTasks}
@@ -450,6 +453,8 @@ const CMSAdmin = () => {
             actions={actions}
             tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
+            isMobile={isMobile}
+
           />
           <ClientDetails
             showClientDetails={showClientDetails}

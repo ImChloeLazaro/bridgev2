@@ -195,14 +195,14 @@ const ClientItemCard = ({
                     classNames={{
                       base: [
                         "bg-blue-default ring-blue-default",
-                        "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                        "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-large",
                       ],
                     }}
                   />
                 </AvatarGroup>
               ) : (
                 <AvatarGroup
-                  max={isMobile ? 1 : 3}
+                  max={isMobile ? 2 : 3}
                   classNames={{
                     base: "gap-1",
                     count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
@@ -218,7 +218,7 @@ const ClientItemCard = ({
                       classNames={{
                         base: [
                           "bg-blue-default ring-blue-default",
-                          "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                          "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-large",
                         ],
                       }}
                     />
