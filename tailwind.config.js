@@ -128,6 +128,7 @@ module.exports = {
         aretex: {
           // extend: "light",
           colors: {
+            danger: "#E2445B",
             // background: "#D9D9D9",
             // foreground: "#393939",
             // white: {

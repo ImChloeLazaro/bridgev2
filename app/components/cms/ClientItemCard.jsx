@@ -11,7 +11,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
 
@@ -20,10 +20,12 @@ const tagColors = {
   done: "green",
   forReview: "yellow",
   pending: "darkgrey",
+  escalation: "red",
 };
 
 const ClientItemCard = ({
-  data,
+  clientName,
+  clientKey,
   setShowClientTask,
   changeView,
   setChangeView,
@@ -40,43 +42,41 @@ const ClientItemCard = ({
 
   const tasks = useAtomValue(tasksAtom);
 
-  const clientProcessors = tasks.filter(
-    (task) => task.client?.client_id === data._id
-  )[0]?.processor;
-
-  const [statusCount, setStatusCount] = useState({
-    pending: 0,
-    todo: 0,
-    done: 0,
-    forReview: 0,
-  });
-
-  useEffect(() => {
-    const updatedStatusCount = tasks.filter(
-      (task) => task.client?.client_id === data._id
-    )[0];
-
-    if (typeof updatedStatusCount !== "undefined") {
-      const convertedStatusCount = updatedStatusCount.sla
-        .map((sla) => sla.status)
-        .reduce(
-          (acc, curr) => {
-            return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
-          },
-          {
-            pending: 0,
-            todo: 0,
-            done: 0,
-            forReview: 0,
-          }
-        );
-      setStatusCount(
-        Object.fromEntries(
-          Object.entries(convertedStatusCount).sort(([, a], [, b]) => b - a)
-        )
+  const labelCount = useMemo(() => {
+    let escalateCount = tasks
+      .filter((task) => task.client?.client_id === clientKey)[0]
+      ?.sla.filter((sla) => sla?.escalate).length;
+    let statusCount = tasks
+      .filter((task) => task.client?.client_id === clientKey)[0]
+      ?.sla.map((sla) => sla?.status)
+      .reduce(
+        (acc, curr) => {
+          return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
+        },
+        {
+          pending: 0,
+          todo: 0,
+          done: 0,
+          forReview: 0,
+        }
       );
+
+    if (Boolean(statusCount) || Boolean(escalateCount)) {
+      return { ...statusCount, escalation: escalateCount };
+    } else {
+      return {
+        pending: 0,
+        todo: 0,
+        done: 0,
+        forReview: 0,
+        escalation: 0,
+      };
     }
-  }, [data._id, tasks]);
+  }, [clientKey, tasks]);
+
+  const clientProcessors = tasks.filter(
+    (task) => task.client?.client_id === clientKey
+  )[0]?.processor;
 
   useEffect(() => {
     // only execute all the code below in client side
@@ -100,7 +100,7 @@ const ClientItemCard = ({
 
   const handleSelectTask = () => {
     // when user pressed on the tags on client list
-    handleSelectClient(data._id);
+    handleSelectClient(clientKey);
     setChangeView(true);
     setShowFooter(false);
   };
@@ -140,43 +140,41 @@ const ClientItemCard = ({
                 href="#"
                 underline="hover"
                 className="text-sm md:text-md lg:text-xl font-semibold text-black-default "
-                onPress={() => handleViewClientDetails(data._id)}
+                onPress={() => handleViewClientDetails(clientKey)}
               >
-                {data.company?.name?.length ? data.company.name : "Client Name"}
+                {clientName?.length ? clientName : "Client Name"}
               </Link>
             </div>
             <div className="hidden w-3/5 min-[425px]:flex justify-center items-center gap-4 p-0">
-              {typeof statusCount !== "undefined" &&
-                Object.keys(statusCount).map((status, s_index) => {
-                  if (
-                    statusCount[status] > 0 &&
-                    Object.keys(tagColors).includes(status)
-                  ) {
-                    return (
-                      <Button
-                        key={s_index}
-                        className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
-                        onPress={() => handleSelectTask()}
-                      >
-                        <LabelTagChip
+              {Boolean(labelCount)
+                ? Object.keys(labelCount).map((status, s_index) => {
+                    if (labelCount[status] > 0) {
+                      return (
+                        <Button
                           key={s_index}
-                          text={`${
-                            status === "forReview" ? "For Review" : status
-                          }`}
-                          color={tagColors[status]}
-                          type="tag"
-                          isFilled
-                          withBadge={true}
-                          chipCount={statusCount[status]}
-                          className={"lg:h-10"}
-                          classNameLabel={
-                            "text-sm lg:text-lg lg:px-1 capitalize"
-                          }
-                        />
-                      </Button>
-                    );
-                  }
-                })}
+                          className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
+                          onPress={() => handleSelectTask()}
+                        >
+                          <LabelTagChip
+                            key={s_index}
+                            text={`${
+                              status === "forReview" ? "For Review" : status
+                            }`}
+                            color={tagColors[status]}
+                            type="tag"
+                            isFilled
+                            withBadge={true}
+                            chipCount={labelCount[status]}
+                            className={"lg:h-10"}
+                            classNameLabel={
+                              "text-sm lg:text-lg lg:px-1 capitalize"
+                            }
+                          />
+                        </Button>
+                      );
+                    }
+                  })
+                : null}
             </div>
             <div className="w-1/5 flex justify-end items-center gap-2 px-1">
               {!clientProcessors?.length ? (
@@ -232,7 +230,7 @@ const ClientItemCard = ({
       <IconButton
         aria-label={"Show Client Tasks Button"}
         className="ml-2 lg:ml-0 bg-transparent w-1/12 h-18 lg:h-32"
-        onPress={() => handleSelectClient(data._id)}
+        onPress={() => handleSelectClient(clientKey)}
       >
         <MdChevronRight size={32} />
       </IconButton>

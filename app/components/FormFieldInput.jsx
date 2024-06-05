@@ -4,12 +4,15 @@ import IconButton from "./IconButton";
 import { MdFileUpload } from "react-icons/md";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { useMemo } from "react";
 
 const FormFieldInput = ({
   placeholder = "",
   label = "",
   value,
+  type = "text",
   onValueChange,
+  errorMessage = `${label ? label : "Input"} is invalid or missing`,
   isRequired = false,
   isDisabled = false,
   isReadOnly = false,
@@ -43,6 +46,30 @@ const FormFieldInput = ({
     ),
   };
 
+  const errorMessages = {
+    // `${label ? label : "Input"} is invalid or missing`
+    email: "Please enter a valid email address",
+    text: "No special characters allowed",
+    number: "No characters or spaces allowed",
+    date: "Please enter a valid date",
+  };
+
+  const inputType = {
+    email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
+    text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
+    number: /^[0-9+-]+$/i,
+    date: /^[A-Z0-9\s,-\\]+$/i,
+  };
+
+  const inputValidation = (input) => input?.match(inputType[type]);
+
+  const isInvalid = useMemo(() => {
+    if (value === "") return false;
+
+    return inputValidation(value) ? false : true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   return (
     <>
       <Input
@@ -51,8 +78,14 @@ const FormFieldInput = ({
         isReadOnly={isReadOnly}
         isDisabled={isDisabled}
         isRequired={isRequired}
+        isInvalid={isInvalid}
         size={"md"}
         label={`${label}`}
+        fullWidth={fullWidth}
+        endContent={endContent[endContentType]}
+        errorMessage={
+          isInvalid ? (errorMessage ? errorMessage : errorMessages[type]) : ""
+        }
         data-label={Boolean(label)}
         value={
           new Date(date) > 0 && withDate
@@ -60,25 +93,32 @@ const FormFieldInput = ({
             : value ?? ""
         }
         onValueChange={(value) => {
-          console.log("VALUE:", value);
+          console.log("VALUE:", isInvalid, value);
           onValueChange(value);
         }}
-        fullWidth={fullWidth}
         classNames={{
           base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
           label: [
-            "text-sm font-medium text-black-default/80",
+            `${isInvalid ? "!text-red-default" : "text-black-default/80"}`,
+            "after:content-['*'] after:!text-red-default after:ml-0.5",
+            "text-sm font-medium",
             "min-w-fit tracking-tight mb-2.5",
           ],
-          input: ["text-sm font-medium text-black-default/90"],
+          input: [
+            `${isInvalid ? "!text-red-default" : "text-black-default/90"}`,
+            "text-sm font-medium",
+          ],
           inputWrapper: cn(
+            `${
+              isInvalid
+                ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
+                : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
+            }`,
             "text-sm font-medium text-black-default/90",
-            "bg-grey-default",
-            "px-3",
+            "px-3 py-2"
           ),
-          errorMessage: ["text-red-default"],
+          errorMessage: ["font-medium text-red-default"],
         }}
-        endContent={endContent[endContentType]}
         {...props}
       />
     </>

@@ -13,22 +13,33 @@ const FormFieldRadio = ({
   ],
   ...props
 }) => {
+  const validChoices = choices.map((choice) => choice.value);
+
+  const isInvalid = !validChoices.includes(value);
+
+  console.log("RADIO VALUE", isInvalid, value);
+
   return (
     <RadioGroup
       aria-label={label}
       isDisabled={isDisabled}
       isRequired={isRequired}
+      isInvalid={isInvalid}
+      errorMessage={isInvalid ? "Please select a valid choice" : ""}
       size={"lg"}
       label={label}
       value={value}
-      onValueChange={onValueChange}
+      onValueChange={(value) => {
+        console.log("VALUE:", isInvalid, value);
+        onValueChange(value);
+      }}
       classNames={{
         base: cn(
           `${fullWidth ? "w-full" : "max-w-full"}`,
           "relative inline-flex tap-highlight-transparent",
-          "shadow-sm px-3 py-2 bg-grey-default hover:bg-default-200",
+          "shadow-sm px-1.5 py-2 bg-grey-default hover:bg-default-200",
           "group-data-[focus=true]:bg-grey-default rounded-medium",
-          "transition-background motion-reduce:transition-none !duration-150",
+          "transition-background motion-reduce:transition-none !duration-150 justify-between"
         ),
         wrapper: "px-2",
         label: "p-2 text-sm font-semibold text-black-default/80",

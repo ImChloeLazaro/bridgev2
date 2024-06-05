@@ -8,7 +8,7 @@ import {
   User,
   cn,
 } from "@nextui-org/react";
-import { format } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth, MdPerson } from "react-icons/md";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
@@ -120,6 +120,12 @@ function TaskBoardCard({
   //   );
   // }
 
+  const handleCheckDueDate = (due_date, status) => {
+    const difference = differenceInDays(new Date(due_date), new Date());
+    console.log("handleCheckDueDate", difference, status);
+
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -128,6 +134,7 @@ function TaskBoardCard({
       style={style}
       // onClick={toggleEditMode}
       data-escalated={task.escalate}
+      data-due={handleCheckDueDate(task.duration.end, task.status)}
       className={cn(
         "data-[escalated=true]:border-red-default",
         "data-[escalated=true]:border-3",
@@ -165,20 +172,23 @@ function TaskBoardCard({
           </div>
           <TaskOptionsDropdown
             id={task?._id}
-            tasksFromSelectedClient={tasksFromSelectedClient}
+            tasks={tasksFromSelectedClient[0]}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
+            isEscalated={task.escalate}
           />
         </div>
-        {task.escalate && (
-          <LabelTagChip
-            text="Escalation"
-            color="red"
-            isFilled={false}
-            className={"py-0.5 px-1.5 lg:h-6"}
-            classNameLabel={"lg:text-xs"}
-          />
-        )}
+        <div className="flex items-center justify-start">
+          {task.escalate && (
+            <LabelTagChip
+              text="Escalation"
+              color="red"
+              isFilled={false}
+              className={"py-0.5 px-1.5 lg:h-6"}
+              classNameLabel={"lg:text-xs"}
+            />
+          )}
+        </div>
         <div className="flex gap-2 justify-start items-center">
           <MdCalendarMonth size={20} />
           <Link

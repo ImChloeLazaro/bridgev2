@@ -135,6 +135,8 @@ const ClientFormSections = () => {
     <div className="flex flex-col w-full gap-8">
       <div className="w-full flex flex-col gap-3 justify-center items-center">
         <FormFieldInput
+          isRequired={true}
+          type={"text"}
           label={"Full Client Name"}
           fullWidth={true}
           value={contactName}
@@ -142,12 +144,16 @@ const ClientFormSections = () => {
         />
         <div className="w-full flex justify-center gap-3">
           <FormFieldInput
+            isRequired={true}
+            type={"number"}
             label={"Primary Contact Number"}
             fullWidth={true}
             value={contactNumber}
             onValueChange={setContactNumber}
           />
           <FormFieldInput
+            isRequired={true}
+            type={"email"}
             label={"Email Address"}
             fullWidth={true}
             value={contactEmail}
@@ -155,7 +161,12 @@ const ClientFormSections = () => {
           />
         </div>
         <FormFieldInput
-          label={"Address"}
+          isRequired={true}
+          label={"Complete Address"}
+          type={"text"}
+          description={
+            "Please include street name, building number, and ZIP code; if any"
+          }
           fullWidth={true}
           value={contactAddress}
           onValueChange={setContactAddress}
@@ -164,6 +175,8 @@ const ClientFormSections = () => {
       <div className="w-full flex flex-col gap-3">
         <div className="w-full flex flex-col gap-3 justify-center items-center">
           <FormFieldInput
+            isRequired={true}
+            type={"text"}
             label={"Company Name"}
             fullWidth={true}
             value={companyName}
@@ -171,12 +184,16 @@ const ClientFormSections = () => {
           />
           <div className="w-full flex justify-center gap-3">
             <FormFieldInput
+              isRequired={true}
+              type={"number"}
               label={"Primary Contact Number"}
               fullWidth={true}
               value={companyNumber}
               onValueChange={setCompanyNumber}
             />
             <FormFieldInput
+              isRequired={true}
+              type={"email"}
               label={"Email Address"}
               fullWidth={true}
               value={companyEmail}
@@ -184,7 +201,12 @@ const ClientFormSections = () => {
             />
           </div>
           <FormFieldInput
-            label={"Address"}
+            isRequired={true}
+            type={"text"}
+            description={
+              "Please include street name, building number, and ZIP code; if any"
+            }
+            label={"Complete Address"}
             fullWidth={true}
             value={companyAddress}
             onValueChange={setCompanyAddress}
@@ -193,6 +215,8 @@ const ClientFormSections = () => {
         <div className="w-full flex justify-center gap-3">
           <div className="w-full flex flex-col justify-between items-center gap-3">
             <FormFieldInput
+              isRequired={true}
+              type={"number"}
               label={"Australian Company Number(ACN)"}
               fullWidth={true}
               value={companyACN}
@@ -200,6 +224,8 @@ const ClientFormSections = () => {
               className={"h-16"}
             />
             <FormFieldInput
+              isRequired={true}
+              type={"number"}
               label={"Australian Business Number(ABN)"}
               fullWidth={true}
               value={companyABN}
@@ -208,6 +234,7 @@ const ClientFormSections = () => {
             />
           </div>
           <FormFieldRadio
+            isRequired={true}
             label={"Are there any other owners or directors?"}
             choices={[
               { value: "yes", label: "Yes" },
@@ -222,6 +249,7 @@ const ClientFormSections = () => {
       </div>
       <div className="w-full flex flex-col gap-3">
         <FormFieldTextArea
+          isRequired={true}
           label={"In a few sentences, please describe your business."}
           placeholder={
             "What do you do? What industry does your business fall under? What products/services do you offer?"
@@ -231,18 +259,21 @@ const ClientFormSections = () => {
           onValueChange={setBusinessDescription}
         />
         <FormFieldTextArea
+          isRequired={true}
           label={"What type of entity does your business categorize itself as?"}
           fullWidth={true}
           value={businessEntity}
           onValueChange={setBusinessEntity}
         />
         <FormFieldTextArea
+          isRequired={true}
           label={"For how long has your business been in operation?"}
           fullWidth={true}
           value={businessTenure}
           onValueChange={setBusinessTenure}
         />
         <FormFieldTextArea
+          isRequired={true}
           label={"Do you have any 'trading as' names?"}
           fullWidth={true}
           value={businessTradingName}
@@ -251,12 +282,14 @@ const ClientFormSections = () => {
       </div>
       <div className="w-full flex justify-center gap-3">
         <FormFieldRadio
+          isRequired={true}
           label={"Are you coming to us from another bookkeeping company?"}
           fullWidth={true}
           value={generalAnotherBookKeeper}
           onValueChange={setGeneralAnotherBookKeeper}
         />
         <FormFieldRadio
+          isRequired={true}
           label={"Do you currently work with an accounting firm?"}
           fullWidth={true}
           value={generalWithAccountant}
@@ -268,6 +301,8 @@ const ClientFormSections = () => {
   const financial = (
     <>
       <FormFieldInput
+        isRequired={true}
+        type={"number"}
         label={"On average, what is your Gross Monthly Revenue?"}
         fullWidth={true}
         value={financialMonthlyRevenue}
@@ -275,12 +310,16 @@ const ClientFormSections = () => {
       />
       <div className="w-full flex justify-center gap-3">
         <FormFieldInput
+          isRequired={true}
+          type={"number"}
           label={"How many employees does your business have?"}
           fullWidth={true}
           value={financialEmployeeCount}
           onValueChange={setFinancialEmployeeCount}
         />
         <FormFieldInput
+          isRequired={true}
+          type={"number"}
           label={"How many contractors does your business work with?"}
           fullWidth={true}
           value={financialContractorCount}
@@ -290,12 +329,16 @@ const ClientFormSections = () => {
 
       <div className="w-full flex justify-center gap-3">
         <FormFieldInput
+          isRequired={true}
+          type={"number"}
           label={"How many transactions are made on a monthly basis?"}
           fullWidth={true}
           value={financialMonthlyTransactionsCount}
           onValueChange={setFinancialMonthlyTransactionsCount}
         />
         <FormFieldInput
+          isRequired={true}
+          type={"date"}
           label={"When was the last time you filed taxes?"}
           fullWidth={true}
           withDate={true}
@@ -309,6 +352,7 @@ const ClientFormSections = () => {
       <div className="w-full flex justify-center gap-3">
         <div className="w-3/5 flex">
           <FormFieldTextArea
+            isRequired={true}
             label={"How many accounts do you have?"}
             placeholder={
               "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"
@@ -321,6 +365,7 @@ const ClientFormSections = () => {
 
         <div className="w-2/5 flex justify-between gap-3">
           <FormFieldRadio
+            isRequired={true}
             label={"Do you outsource payroll?"}
             choices={[
               { value: "yes", label: "Yes" },
@@ -333,6 +378,7 @@ const ClientFormSections = () => {
             className={"w-1/2"}
           />
           <FormFieldRadio
+            isRequired={true}
             label={"What accounting method do you use?"}
             choices={[
               { value: "cash", label: "Cash" },
@@ -347,6 +393,7 @@ const ClientFormSections = () => {
         </div>
       </div>
       <FormFieldTextArea
+        isRequired={true}
         label={
           "How do you normally prepare your invoices? Is this a service you'd like done for you?"
         }
@@ -355,6 +402,7 @@ const ClientFormSections = () => {
         onValueChange={setFinancialInvoicePreparationMethod}
       />
       <FormFieldTextArea
+        isRequired={true}
         label={
           "How do you normally pay your bills? Is this a service you'd like done for you?"
         }
@@ -365,12 +413,14 @@ const ClientFormSections = () => {
 
       <div className="w-full flex justify-center gap-3">
         <FormFieldRadio
+          isRequired={true}
           label={"Are you GST registered?"}
           fullWidth={true}
           value={financialGSTRegistered}
           onValueChange={setFinancialGSTRegistered}
         />
         <FormFieldRadio
+          isRequired={true}
           label={"Do you have inventory?"}
           fullWidth={true}
           value={financialInventory}
@@ -382,6 +432,7 @@ const ClientFormSections = () => {
   const software = (
     <>
       <FormFieldTextArea
+        isRequired={true}
         label={
           "What general ledger / accounting software do you currently use?"
         }
@@ -390,30 +441,35 @@ const ClientFormSections = () => {
         onValueChange={setSoftwareAccounting}
       />
       <FormFieldTextArea
+        isRequired={true}
         label={"What payroll software do you currently use?"}
         fullWidth={true}
         value={softwarePayroll}
         onValueChange={setSoftwarePayroll}
       />
       <FormFieldTextArea
+        isRequired={true}
         label={"What bill pay software do you currently use?"}
         fullWidth={true}
         value={softwareBilling}
         onValueChange={setSoftwareBilling}
       />
       <FormFieldTextArea
+        isRequired={true}
         label={"What expense management software do you currently use?"}
         fullWidth={true}
         value={softwareExpenseManagement}
         onValueChange={setSoftwareExpenseManagement}
       />
       <FormFieldTextArea
+        isRequired={true}
         label={"What reporting software do you currently use?"}
         fullWidth={true}
         value={softwareReporting}
         onValueChange={setSoftwareReporting}
       />
       <FormFieldTextArea
+        isRequired={true}
         label={
           "Do you make use of any apps that integrate with your current bookkeeping software?"
         }
@@ -427,6 +483,7 @@ const ClientFormSections = () => {
   const documents = (
     <>
       <FormFieldInput
+        isRequired={true}
         isReadOnly={true}
         label={"Company Registration Certificate or Trust Deed"}
         placeholder={
@@ -439,6 +496,7 @@ const ClientFormSections = () => {
         endContentType={"file"}
       />
       <FormFieldInput
+        isRequired={true}
         isReadOnly={true}
         label={"Recent tax returns"}
         placeholder={"Upload your tax returns for the previous financial year"}

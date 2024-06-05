@@ -19,7 +19,7 @@ import {
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
-import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdFactCheck, MdKeyboardDoubleArrowUp } from "react-icons/md";
 import {
   changeViewAtom,
   pageRowsSelectionAtom,
@@ -44,7 +44,7 @@ const CMSUser = () => {
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "endDate",
-    direction: "ascending",
+    direction: "descending",
   });
   const user = useAtomValue(authenticationAtom);
 
@@ -162,16 +162,6 @@ const CMSUser = () => {
     return filteredTaskItems.slice(start, end);
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
-  // const sortedItemTasks = useMemo(() => {
-  //   return [...itemTasks].sort((a, b) => {
-  //     const first = a[sortDescriptor.column];
-  //     const second = b[sortDescriptor.column];
-  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
-  //   });
-  // }, [itemTasks, sortDescriptor]);
-
   // ######################################################
 
   const selectedClient = clients.filter(
@@ -235,18 +225,6 @@ const CMSUser = () => {
     return filteredClientItems.slice(start, end);
   }, [clientPage, clientRowsPerPageNumber, filteredClientItems]);
 
-  // sorted clients
-
-  // const sortedItemTasks = useMemo(() => {
-  //   return [...itemClients].sort((a, b) => {
-  //     const first = a[sortDescriptor.column];
-  //     const second = b[sortDescriptor.column];
-  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
-  //   });
-  // }, [itemClients]);
-
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
@@ -257,6 +235,13 @@ const CMSUser = () => {
       color: "orange",
       label: "Escalate to TL",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
+    },
+    {
+      key: "resolve",
+      status_id: "user",
+      color: "green",
+      label: "Resolve Escalation",
+      icon: <MdFactCheck size={18} />,
     },
   ];
 
@@ -370,7 +355,6 @@ const CMSUser = () => {
             tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
             isMobile={isMobile}
-
           />
           <TaskBoardView
             itemTasks={filteredTaskItems}
@@ -382,7 +366,6 @@ const CMSUser = () => {
             tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
             isMobile={isMobile}
-
           />
           <ClientDetails
             showClientDetails={showClientDetails}

@@ -12,6 +12,7 @@ import {
   MdRefresh,
   MdViewColumn,
   MdViewList,
+  MdSettings,
 } from "react-icons/md";
 import { toast } from "sonner";
 
@@ -152,6 +153,20 @@ const CMSHeader = ({
         >
           <MdRefresh size={24} />
         </IconButton>
+        {/* ENABLE SETTINGS FOR CMS COMPONENTS SUCH AS 
+        CHANGING DEFAULT TABLE SORTING OR 
+        CHANGING DEFAULT ALLOWED DRAGGING COLUMNS? */}
+        {/* <IconButton
+          radius={"sm"}
+          aria-label={"Refresh Task Client Data Button"}
+          data-show={showSearchBar}
+          // onPress={handleRefreshClient}
+          variant="bordered"
+          isLoading={isLoading}
+          className={"hidden data-[show=true]:flex"}
+        >
+          <MdSettings size={24} />
+        </IconButton> */}
       </div>
       <div
         data-show={showClientTask}

@@ -48,7 +48,7 @@ export const tableColumnsAtom = atom([
   { label: "Assignees", key: "assignees", sortable: true },
 ]);
 export const clientsCountAtom = atom((get) => get(clientsAtom).length);
- export const clientFilterKeysAtom = atom([
+export const clientFilterKeysAtom = atom([
   {
     label: "All",
     value: "all",
@@ -192,7 +192,7 @@ export const companyNumberAtom = atom("");
 export const companyEmailAtom = atom("");
 export const companyABNAtom = atom("");
 export const companyACNAtom = atom("");
-export const companyOtherOwnerAtom = atom(false);
+export const companyOtherOwnerAtom = atom("n/a");
 
 export const businessDescriptionAtom = atom("");
 export const businessEntityAtom = atom("");
@@ -200,11 +200,11 @@ export const businessTenureAtom = atom("");
 export const businessTradingNameAtom = atom("");
 
 export const financialMonthlyRevenueAtom = atom("");
-export const financialEmployeeCountAtom = atom(null);
-export const financialContractorCountAtom = atom(null);
+export const financialEmployeeCountAtom = atom("");
+export const financialContractorCountAtom = atom("");
 export const financialOutsourcePayrollAtom = atom(false);
 export const financialAccountCountAtom = atom(null);
-export const financialMonthlyTransactionsCountAtom = atom(null);
+export const financialMonthlyTransactionsCountAtom = atom("");
 export const financialLastFiledTaxAtom = atom("");
 export const financialAccountMethodAtom = atom("");
 export const financialInvoicePreparationMethodAtom = atom("");

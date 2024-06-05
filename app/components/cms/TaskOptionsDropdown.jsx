@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import ConfirmationWindow from "../ConfirmationWindow";
-import { MdInfoOutline, MdWarningAmber } from "react-icons/md";
+import { MdFactCheck, MdInfoOutline, MdWarningAmber } from "react-icons/md";
 import { useState } from "react";
 import { updateTaskStatusAtom } from "@/app/store/TaskStore";
 import { useSetAtom, useAtomValue } from "jotai";
@@ -17,12 +17,7 @@ import { format } from "date-fns";
 import { userAtom } from "@/app/store/UserStore";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
-const TaskOptionsDropdown = ({
-  id,
-  tasksFromSelectedClient,
-  actions,
-  trigger,
-}) => {
+const TaskOptionsDropdown = ({ id, tasks, actions, trigger, isEscalated }) => {
   const {
     isOpen: isOpenPopup,
     onOpen: onOpenPopup,
@@ -40,40 +35,38 @@ const TaskOptionsDropdown = ({
   const handleSelectOption = (taskAction) => {
     const { key, status_id } = taskAction;
     let taskName;
-    const clientKey = tasksFromSelectedClient[0].client.client_id;
+    const clientKey = tasks.client.client_id;
     const dateTaskDone = new Date();
 
     if (key === "mark") {
       if (status_id === "forReview" || status_id === "done") {
-        const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
-          (task) => {
-            if (task._id === id) {
-              console.log("TASK", task);
-              taskName = task?.name;
+        const updateSelectedTask = tasks.sla.map((task) => {
+          if (task._id === id) {
+            console.log("TASK", task);
+            taskName = task?.name;
 
-              console.log("taskName: ", taskName);
+            console.log("taskName: ", taskName);
 
-              if (status_id === "done") {
-                return {
-                  ...task,
-                  status: status_id,
-                  done_by: {
-                    sub: user?.sub,
-                    name: user?.name,
-                    email: user?.email,
-                    picture: user?.picture,
-                  },
-                };
-              } else {
-                return {
-                  ...task,
-                  status: status_id,
-                };
-              }
+            if (status_id === "done") {
+              return {
+                ...task,
+                status: status_id,
+                done_by: {
+                  sub: user?.sub,
+                  name: user?.name,
+                  email: user?.email,
+                  picture: user?.picture,
+                },
+              };
+            } else {
+              return {
+                ...task,
+                status: status_id,
+              };
             }
-            return task;
           }
-        );
+          return task;
+        });
 
         setIsLoading(true);
         const promise = async () =>
@@ -104,13 +97,21 @@ const TaskOptionsDropdown = ({
       }
     }
 
-    if (key === "escalate") {
-      const updateSelectedTask = tasksFromSelectedClient[0].sla.map((task) => {
+    if (key === "escalate" || key === "resolve") {
+      const updateSelectedTask = tasks.sla.map((task) => {
         if (task._id === id) {
-          return { ...task, escalate: true };
+          if (!Boolean(task.escalate)) {
+            // if task is not escalated, set true
+            return { ...task, escalate: true };
+          } else {
+            // resolve task escalation, set to false
+            return { ...task, escalate: false };
+          }
         }
         return task;
       });
+
+      console.log("updateSelectedTask", updateSelectedTask);
 
       const promise = async () =>
         new Promise((resolve) =>
@@ -189,36 +190,59 @@ const TaskOptionsDropdown = ({
             base: ["data-[disabled=true]:opacity-100 text-black-default"],
             title: "text-base font-medium ",
           }}
-          // disabledKeys={
-          //   tasksFromSelectedClient[0].escalate && ["mark", "escalate"]
-          // }
+          disabledKeys={isEscalated && ["mark", "escalate"]}
         >
-          {(item) => (
-            <DropdownItem
-              startContent={item.icon}
-              key={item.key}
-              className={cn(
-                taskOptionsColors[item.color],
-                "data-[hover=true]:text-white-default",
-                item.color === "yellow" && "data-[hover=true]:text-shadow"
-                // `${
-                //   (item.key === "mark" || item.key === "escalate") &&
-                //   tasksFromSelectedClient[0].escalate
-                //     ? "text-black-default/60 cursor-not-allowed"
-                //     : ""
-                // }`
-              )}
-              onPress={() => {
-                setSelectedTaskAction({
-                  key: item.key,
-                  status_id: item.status_id,
-                });
-                onOpenPopup();
-              }}
-            >
-              {item.label}
-            </DropdownItem>
-          )}
+          {(item) => {
+            if (item.key === "resolve") {
+              return (
+                isEscalated && (
+                  <DropdownItem
+                    startContent={item.icon}
+                    className={cn(
+                      taskOptionsColors[item.color],
+                      "data-[hover=true]:text-white-default"
+                    )}
+                    onPress={() => {
+                      setSelectedTaskAction({
+                        key: item.key,
+                        status_id: item.status_id,
+                      });
+                      onOpenPopup();
+                    }}
+                  >
+                    {"Resolve Escalation"}
+                  </DropdownItem>
+                )
+              );
+            } else {
+              return (
+                <DropdownItem
+                  startContent={item.icon}
+                  key={item.key}
+                  className={cn(
+                    taskOptionsColors[item.color],
+                    "data-[hover=true]:text-white-default",
+                    item.color === "yellow" && "data-[hover=true]:text-shadow",
+                    `${
+                      (item.key === "mark" || item.key === "escalate") &&
+                      isEscalated
+                        ? "text-black-default/60 cursor-not-allowed"
+                        : ""
+                    }`
+                  )}
+                  onPress={() => {
+                    setSelectedTaskAction({
+                      key: item.key,
+                      status_id: item.status_id,
+                    });
+                    onOpenPopup();
+                  }}
+                >
+                  {item.label}
+                </DropdownItem>
+              );
+            }
+          }}
         </DropdownMenu>
       </Dropdown>
       <ConfirmationWindow

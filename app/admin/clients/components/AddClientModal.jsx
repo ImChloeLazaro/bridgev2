@@ -114,7 +114,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                 label={"Onboard New Client"}
                 color={"blue"}
                 onPress={() => onOpenPopup()}
-                className={"px-6"}
+                className={"px-6 py-1.5"}
               />
             </ModalFooter>
             <ConfirmationWindow

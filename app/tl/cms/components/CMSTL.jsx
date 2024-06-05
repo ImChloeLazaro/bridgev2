@@ -26,6 +26,7 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
+  MdFactCheck,
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
   MdRemoveCircleOutline,
@@ -63,7 +64,7 @@ const CMSTL = () => {
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "endDate",
-    direction: "ascending",
+    direction: "descending",
   });
 
   const user = useAtomValue(authenticationAtom);
@@ -185,16 +186,6 @@ const CMSTL = () => {
     return filteredTaskItems.slice(start, end);
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
-  // const sortedItemTasks = useMemo(() => {
-  //   return [...itemTasks].sort((a, b) => {
-  //     const first = a[sortDescriptor.column];
-  //     const second = b[sortDescriptor.column];
-  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
-  //   });
-  // }, [itemTasks, sortDescriptor]);
-
   // ######################################################
   const selectedClient = clients.filter(
     (client) => client._id === selectedClientToView
@@ -257,18 +248,6 @@ const CMSTL = () => {
     return filteredClientItems.slice(start, end);
   }, [clientPage, clientRowsPerPageNumber, filteredClientItems]);
 
-  // sorted clients
-
-  // const sortedItemTasks = useMemo(() => {
-  //   return [...itemClients].sort((a, b) => {
-  //     const first = a[sortDescriptor.column];
-  //     const second = b[sortDescriptor.column];
-  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
-  //   });
-  // }, [itemClients]);
-
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
@@ -279,6 +258,13 @@ const CMSTL = () => {
       color: "orange",
       label: "Escalate to admin",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
+    },
+    {
+      key: "resolve",
+      status_id: "tl",
+      color: "green",
+      label: "Resolve Escalation",
+      icon: <MdFactCheck size={18} />,
     },
     {
       key: "assign",
@@ -447,7 +433,6 @@ const CMSTL = () => {
             tasksFromSelectedClient={tasksFromSelectedClient}
             isLoading={isLoading}
             isMobile={isMobile}
-
           />
           <ClientDetails
             showClientDetails={showClientDetails}

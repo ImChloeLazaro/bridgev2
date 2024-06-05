@@ -62,6 +62,12 @@ const TaskTableView = ({
       let cmp =
         (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
 
+      if (sortDescriptor.column === "status") {
+        first = Boolean(a["escalate"]);
+        second = Boolean(b["escalate"]);
+        cmp = first - second;
+      }
+
       if (sortDescriptor.column === "startDate") {
         first = a["duration"].start;
         second = b["duration"].start;
@@ -94,6 +100,7 @@ const TaskTableView = ({
           }}
         />
       ));
+
       const actionOptions = [
         {
           key: "mark",
@@ -108,13 +115,16 @@ const TaskTableView = ({
       switch (columnKey) {
         case "task":
           return (
-            <Link
-              href="#"
-              underline="hover"
-              className="text-sm lg:text-lg font-bold text-black-default"
-            >
+            <p className="text-sm lg:text-lg font-bold text-black-default line-clamp-2">
               {task.name?.length ? task.name : ""}
-            </Link>
+            </p>
+          );
+
+        case "description":
+          return (
+            <p className="text-sm lg:text-lg font-bold text-black-default line-clamp-2">
+              {task.instruction?.length ? task.instruction : ""}
+            </p>
           );
 
         case "status":
@@ -144,7 +154,7 @@ const TaskTableView = ({
 
         case "startDate":
           return (
-            <p>
+            <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
               {format(
                 task.duration.start?.length ? task.duration.start : "",
                 "d  MMMM yyyy"
@@ -154,7 +164,7 @@ const TaskTableView = ({
 
         case "endDate":
           return (
-            <p>
+            <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
               {format(
                 task.duration.end?.length ? task.duration.end : "",
                 "d  MMMM yyyy"
@@ -200,9 +210,10 @@ const TaskTableView = ({
           return (
             <TaskOptionsDropdown
               id={task?._id}
-              tasksFromSelectedClient={tasksFromSelectedClient}
+              tasks={tasksFromSelectedClient[0]}
               actions={actionOptions}
               trigger={<BiDotsVerticalRounded size={24} />}
+              isEscalated={task.escalate}
             />
           );
 
@@ -213,7 +224,7 @@ const TaskTableView = ({
     [actions, isMobile, tasksFromSelectedClient]
   );
 
-  console.log("selectedKeys", selectedKeys);
+  // console.log("selectedKeys", selectedKeys);
 
   return !selectedClientToView?.length ? (
     <div
@@ -256,7 +267,7 @@ const TaskTableView = ({
         selectionBehavior={"toggle"}
         // onRowAction={(key) => alert(`Opening item ${key}...`)}
         classNames={{
-          base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2 xl:px-6",
+          base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2",
           tbody: "h-full max-h-screen",
           wrapper: [
             "rounded-none lg:rounded-large",
@@ -270,10 +281,15 @@ const TaskTableView = ({
             "text-md lg:text-lg font-extrabold text-darkgrey-hover",
           ],
           td: [
-            // `${}`,
-            "[&:nth-child(7)]:w-28",
-            "[&:nth-child(6)]:w-32",
-            "h-18 max-h-sm",
+            "[&:nth-child(8)]:w-1/12", // actions
+            "[&:nth-child(7)]:w-1/12", // assignees
+            "[&:nth-child(6)]:w-2/12", // end date
+            "[&:nth-child(5)]:w-1/12", // start date
+            "[&:nth-child(4)]:w-2/12", // status
+            "[&:nth-child(3)]:w-4/12", // description
+            "[&:nth-child(2)]:w-2/12", // task name
+            "[&:nth-child(1)]:w-1/12", // checkbox
+            "h-18 max-h-sm truncate",
             "text-sm lg:text-lg font-bold text-black-default",
             "pl-2 pr-3 lg:pl-8 lg:pr-4 text-left",
             "last:pr-1 last:pl-4 lg:last:pr-2 lg:last:pl-12",
