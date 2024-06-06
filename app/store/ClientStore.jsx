@@ -30,6 +30,50 @@ export const addClientAtom = atom(null, async (get, set, update) => {
   console.log("RESPONSE FROM API", response);
 
   if (response.success) {
+    set(contactNameAtom, "");
+    set(contactAddressAtom, "");
+    set(contactNumberAtom, "");
+    set(contactEmailAtom, "");
+    
+    set(companyNameAtom, "");
+    set(companyAddressAtom, "");
+    set(companyNumberAtom, "");
+    set(companyEmailAtom, "");
+    set(companyABNAtom, "");
+    set(companyACNAtom, "");
+    set(companyOtherOwnerAtom, false);
+
+    set(businessDescriptionAtom, "");
+    set(businessEntityAtom, "");
+    set(businessTenureAtom, "");
+    set(businessTradingNameAtom, "");
+
+    set(financialMonthlyRevenueAtom, "");
+    set(financialEmployeeCountAtom, "");
+    set(financialContractorCountAtom, "");
+    set(financialOutsourcePayrollAtom, false);
+    set(financialAccountCountAtom, "");
+    set(financialMonthlyTransactionsCountAtom, "");
+    set(financialLastFiledTaxAtom, "");
+    set(financialAccountMethodAtom, false);
+    set(financialInvoicePreparationMethodAtom, "");
+    set(financialBillsPayingMethodAtom, "");
+    set(financialGSTRegisteredAtom, false);
+    set(financialInventoryAtom, false);
+
+    set(softwareAccountingAtom, "");
+    set(softwarePayrollAtom, "");
+    set(softwareBillingAtom, "");
+    set(softwareExpenseManagementAtom, "");
+    set(softwareReportingAtom, "");
+    set(softwareBookkeepingAtom, "");
+
+    set(documentASICAtom, "");
+    set(documentTaxReturnAtom, "");
+
+    set(generalAnotherBookKeeperAtom, false);
+    set(generalWithAccountantAtom, false);
+
     console.log("ADDED CLIENT", response.response);
     console.log("ADDED CLIENT", get(clientsAtom));
     return { success: true };

@@ -4,7 +4,7 @@ import IconButton from "./IconButton";
 import { MdFileUpload } from "react-icons/md";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
 const FormFieldInput = ({
   placeholder = "",
@@ -28,6 +28,21 @@ const FormFieldInput = ({
   ...props
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const inputFile = useRef(null);
+
+  const handleUploadDocuments = useCallback(
+    (e) => {
+      const fileList = e.target.files;
+      console.log("LIST", fileList[0].name);
+
+      if (!fileList) {
+        return;
+      }
+
+      onValueChange(fileList[0].name);
+    },
+    [onValueChange]
+  );
 
   const endContent = {
     date: (
@@ -41,9 +56,20 @@ const FormFieldInput = ({
       />
     ),
     file: (
-      <IconButton>
-        <MdFileUpload size={16} />
-      </IconButton>
+      // Update design custom file input element for handling file upload
+      // <IconButton>
+      //   <MdFileUpload size={16} />
+      // </IconButton>
+      <input
+        ref={inputFile}
+        type="file"
+        id="uploadDocument"
+        name="uploadDocument"
+        accept=".pdf"
+        placeholder="Upload file"
+        className="border-none"
+        onChange={(e) => handleUploadDocuments(e)}
+      />
     ),
   };
 
@@ -53,18 +79,22 @@ const FormFieldInput = ({
     text: "No special characters allowed",
     number: "No characters or spaces allowed",
     date: "Please enter a valid date",
+    file: "PDF file is only accepted",
   };
 
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
-    number: /^[0-9+-]+$/i,
+    number: /^[0-9\s+()-]+$/i,
     date: /^[A-Z0-9\s,-\\]+$/i,
+    file: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
   };
 
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
+    if (type === "date") return false;
+    if (type === "file") return false;
     if (value === "") return false;
 
     return inputValidation(value) ? false : true;
@@ -77,7 +107,7 @@ const FormFieldInput = ({
         type={inputType}
         placeholder={placeholder}
         aria-label={label}
-        isReadOnly={isReadOnly}
+        // isReadOnly={isReadOnly}
         isDisabled={isDisabled}
         isRequired={isRequired}
         isInvalid={isInvalid}
@@ -92,7 +122,7 @@ const FormFieldInput = ({
         value={
           new Date(date) > 0 && withDate
             ? format(date, "LLLL d, y")
-            : value ?? ""
+            : (type === "file" ? placeholder : value) ?? ""
         }
         onValueChange={(value) => {
           console.log("VALUE:", isInvalid, value);
@@ -101,8 +131,8 @@ const FormFieldInput = ({
         classNames={{
           base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
           label: [
-            `${isInvalid ? "!text-red-default" : "text-black-default/80"}`,
-            "after:content-['*'] after:!text-red-default after:ml-0.5",
+            `${isInvalid ? "!text-red-default" : "!text-black-default/80"}`,
+            "after:!text-red-default",
             "text-sm font-medium",
             "min-w-fit tracking-tight mb-2.5",
           ],

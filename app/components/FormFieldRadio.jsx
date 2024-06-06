@@ -42,7 +42,7 @@ const FormFieldRadio = ({
           "transition-background motion-reduce:transition-none !duration-150 justify-between"
         ),
         wrapper: "px-2",
-        label: "p-2 text-sm font-semibold text-black-default/80",
+        label: ["p-2", "text-sm font-medium", "text-black-default/80"],
       }}
       {...props}
     >

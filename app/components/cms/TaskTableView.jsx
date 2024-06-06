@@ -128,28 +128,31 @@ const TaskTableView = ({
           );
 
         case "status":
-          return task.escalate ? (
-            <LabelTagChip
-              size="md"
-              text={"Escalation"}
-              color={"red"}
-              type="label"
-              isFilled
-              className={"px-2 py-2"}
-              classNameLabel={"text-sm lg:text-md capitalize"}
-            />
-          ) : (
-            <LabelTagChip
-              size="md"
-              text={`${
-                task.status === "forReview" ? "For Review" : task.status
-              }`}
-              color={tagColors[task.status?.length ? task.status : ""]}
-              type="label"
-              isFilled
-              className={"px-2 py-2"}
-              classNameLabel={"text-sm lg:text-md capitalize"}
-            />
+          return (
+            <div className="flex items-center justify-start gap-2">
+              <LabelTagChip
+                size="md"
+                text={`${
+                  task.status === "forReview" ? "For Review" : task.status
+                }`}
+                color={tagColors[task.status?.length ? task.status : ""]}
+                type="label"
+                isFilled
+                className={"px-2 py-2"}
+                classNameLabel={"text-sm lg:text-md capitalize"}
+              />
+              {task.escalate && (
+                <LabelTagChip
+                  size="md"
+                  text={"Escalation"}
+                  color={"red"}
+                  type="label"
+                  isFilled
+                  className={"px-2 py-2"}
+                  classNameLabel={"text-sm lg:text-md capitalize"}
+                />
+              )}
+            </div>
           );
 
         case "startDate":

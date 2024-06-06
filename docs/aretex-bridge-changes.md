@@ -1648,3 +1648,4 @@ postsAtom = atom({
 * Added @zod latest `^3.23.8` for form validation of all components
 * Added @hookform/resolvers latest `^3.6.0` for form validation of all components
 * Added @react-hook-form latest `^7.51.5` for form validation of all components
+* Fixed parity issues with both views for tasks

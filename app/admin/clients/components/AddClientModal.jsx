@@ -21,6 +21,7 @@ import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import ClientFormSections from "./ClientFormSections";
 import { toast } from "sonner";
 import ConfirmationWindow from "@/app/components/ConfirmationWindow";
+import { useMemo, useState } from "react";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
   const {
@@ -32,11 +33,41 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   const [selectedClientTab, setSelectedClientTab] = useAtom(
     selectedClientTabAtom
   );
+
+  const [submitClientData, setSubmitClientData] = useState(false);
+
   const clientData = useAtomValue(clientDataAtom);
   const clientTabs = useAtomValue(clientTabsAtom);
   const clientName = useAtomValue(companyNameAtom);
   const addClient = useSetAtom(addClientAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
+
+  const countInputFields = Object.keys(clientData).map((key) => {
+    if (typeof clientData[key] === "object") {
+      return Object.keys(clientData[key]).map(
+        (data) => clientData[key][data] // raw client data
+        // Boolean(clientData[key][data]) // boolean client data
+      );
+    } else {
+      return Boolean(clientData[key]);
+    }
+  });
+
+  const checkInputFields = useMemo(
+    () =>
+      Object.keys(clientData)
+        .map((key) => {
+          if (typeof clientData[key] === "object") {
+            return Object.keys(clientData[key])
+              .map((data) => Boolean(clientData[key][data]))
+              .every((element) => Boolean(element));
+          } else {
+            return Boolean(clientData[key]);
+          }
+        })
+        .every((element) => Boolean(element)),
+    [clientData]
+  );
 
   const handleAddClient = async () => {
     // await addClient(clientData),
@@ -55,6 +86,16 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     });
   };
 
+  const handleFormAction = (e) => {
+    console.log("eeeeeeeee", e);
+    // e.preventDefault();
+    console.log("clientData", clientData);
+
+    console.log("raw clientData", countInputFields);
+    console.log("check clientData", checkInputFields);
+    return false;
+  };
+
   return (
     <Modal
       size={"4xl"}
@@ -64,9 +105,9 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     >
       <ModalContent>
         {(onClose) => (
-          <form>
-            <ModalHeader className="flex flex-col gap-1 text-xl font-bold text-black-default m-2">
-              {"New Client Data"}
+          <form action={handleFormAction}>
+            <ModalHeader className="flex flex-col py-3 gap-1 text-xl font-bold text-black-default m-2">
+              {"Onboard New Client"}
             </ModalHeader>
             <ModalBody>
               <div className="flex justify-center items-center gap-1">
@@ -93,14 +134,13 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                         <Tab
                           key={tab.key}
                           title={<p className="capitalize">{tab.title}</p>}
-                        >
-                          <div className="h-80 flex px-5 overflow-y-scroll">
-                            <ClientFormSections />
-                          </div>
-                        </Tab>
+                        />
                       );
                     })}
                   </Tabs>
+                  <div className="h-80 flex px-5 overflow-y-scroll">
+                    <ClientFormSections />
+                  </div>
                 </div>
               </div>
             </ModalBody>
@@ -110,7 +150,11 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                 type={"submit"}
                 label={"Onboard New Client"}
                 color={"blue"}
-                onPress={() => onOpenPopup()}
+                onPress={() => {
+                  if (submitClientData) {
+                    onOpenPopup();
+                  }
+                }}
                 className={"px-6 py-1.5"}
               />
             </ModalFooter>

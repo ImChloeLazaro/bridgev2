@@ -43,6 +43,10 @@ import {
 } from "@/app/store/ClientStore";
 import { useAtom, useAtomValue } from "jotai";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 const ClientFormSections = () => {
   const selectedClientTab = useAtomValue(selectedClientTabAtom);
 
@@ -146,6 +150,7 @@ const ClientFormSections = () => {
           <FormFieldInput
             isRequired={true}
             type={"number"}
+            inputType={"tel"}
             label={"Primary Contact Number"}
             fullWidth={true}
             value={contactNumber}
@@ -186,6 +191,7 @@ const ClientFormSections = () => {
             <FormFieldInput
               isRequired={true}
               type={"number"}
+              inputType={"tel"}
               label={"Primary Contact Number"}
               fullWidth={true}
               value={companyNumber}
@@ -217,6 +223,7 @@ const ClientFormSections = () => {
             <FormFieldInput
               isRequired={true}
               type={"number"}
+              inputType={"number"}
               label={"Australian Company Number(ACN)"}
               fullWidth={true}
               value={companyACN}
@@ -226,6 +233,7 @@ const ClientFormSections = () => {
             <FormFieldInput
               isRequired={true}
               type={"number"}
+              inputType={"number"}
               label={"Australian Business Number(ABN)"}
               fullWidth={true}
               value={companyABN}
@@ -312,6 +320,7 @@ const ClientFormSections = () => {
         <FormFieldInput
           isRequired={true}
           type={"number"}
+          inputType={"number"}
           label={"How many employees does your business have?"}
           fullWidth={true}
           value={financialEmployeeCount}
@@ -320,6 +329,7 @@ const ClientFormSections = () => {
         <FormFieldInput
           isRequired={true}
           type={"number"}
+          inputType={"number"}
           label={"How many contractors does your business work with?"}
           fullWidth={true}
           value={financialContractorCount}
@@ -331,6 +341,7 @@ const ClientFormSections = () => {
         <FormFieldInput
           isRequired={true}
           type={"number"}
+          inputType={"number"}
           label={"How many transactions are made on a monthly basis?"}
           fullWidth={true}
           value={financialMonthlyTransactionsCount}
@@ -353,7 +364,6 @@ const ClientFormSections = () => {
         <div className="w-3/5 flex">
           <FormFieldTextArea
             isRequired={true}
-            errorMessage="The description should be at least 255 characters long."
             label={"How many accounts do you have?"}
             placeholder={
               "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"
@@ -486,6 +496,7 @@ const ClientFormSections = () => {
       <FormFieldInput
         isRequired={true}
         isReadOnly={true}
+        type={"file"}
         label={"Company Registration Certificate or Trust Deed"}
         placeholder={
           "Please upload your ASIC company registration certificate or trust deed."
@@ -499,6 +510,7 @@ const ClientFormSections = () => {
       <FormFieldInput
         isRequired={true}
         isReadOnly={true}
+        type={"file"}
         label={"Recent tax returns"}
         placeholder={"Upload your tax returns for the previous financial year"}
         withFile={true}

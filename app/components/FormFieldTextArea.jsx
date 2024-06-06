@@ -45,8 +45,12 @@ const FormFieldTextArea = ({
       maxRows={4}
       classNames={{
         base: [`${fullWidth ? "w-full" : "w-[370px]"}`, "h-full flex-col"],
-        label: "text-sm font-semibold text-black-default/80 px-2 py-2",
-        input: "!h-full text-sm font-medium text-black-default px-1.5",
+        label: [
+          `${isInvalid ? "!text-red-default" : "!text-black-default/80"}`,
+          "text-sm font-medium",
+          "px-2 py-2",
+        ],
+        input: "!h-full text-sm font-medium px-1.5",
         inputWrapper: cn(
           `${
             isInvalid
