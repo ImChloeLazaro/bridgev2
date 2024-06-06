@@ -192,7 +192,7 @@ export const companyNumberAtom = atom("");
 export const companyEmailAtom = atom("");
 export const companyABNAtom = atom("");
 export const companyACNAtom = atom("");
-export const companyOtherOwnerAtom = atom("n/a");
+export const companyOtherOwnerAtom = atom(false);
 
 export const businessDescriptionAtom = atom("");
 export const businessEntityAtom = atom("");
@@ -203,27 +203,27 @@ export const financialMonthlyRevenueAtom = atom("");
 export const financialEmployeeCountAtom = atom("");
 export const financialContractorCountAtom = atom("");
 export const financialOutsourcePayrollAtom = atom(false);
-export const financialAccountCountAtom = atom(null);
+export const financialAccountCountAtom = atom("");
 export const financialMonthlyTransactionsCountAtom = atom("");
 export const financialLastFiledTaxAtom = atom("");
-export const financialAccountMethodAtom = atom("");
+export const financialAccountMethodAtom = atom(false);
 export const financialInvoicePreparationMethodAtom = atom("");
 export const financialBillsPayingMethodAtom = atom("");
 export const financialGSTRegisteredAtom = atom(false);
 export const financialInventoryAtom = atom(false);
 
-export const softwareAccountingAtom = atom([]);
-export const softwarePayrollAtom = atom([]);
-export const softwareBillingAtom = atom([]);
-export const softwareExpenseManagementAtom = atom([]);
-export const softwareReportingAtom = atom([]);
-export const softwareBookkeepingAtom = atom([]);
+export const softwareAccountingAtom = atom("");
+export const softwarePayrollAtom = atom("");
+export const softwareBillingAtom = atom("");
+export const softwareExpenseManagementAtom = atom("");
+export const softwareReportingAtom = atom("");
+export const softwareBookkeepingAtom = atom("");
 
 export const documentASICAtom = atom("");
 export const documentTaxReturnAtom = atom("");
 
-export const generalAnotherBookKeeperAtom = atom(null);
-export const generalWithAccountantAtom = atom(null);
+export const generalAnotherBookKeeperAtom = atom(false);
+export const generalWithAccountantAtom = atom(false);
 
 export const clientDataAtom = atom((get) => {
   return {

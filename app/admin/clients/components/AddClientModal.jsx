@@ -38,13 +38,11 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   const addClient = useSetAtom(addClientAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
-  const handleAddClient = async (onClose) => {
+  const handleAddClient = async () => {
+    // await addClient(clientData),
     const promise = async () =>
       new Promise((resolve) =>
-        setTimeout(
-          async () => resolve(await addClient(clientData), await fetchClient()),
-          2000
-        )
+        setTimeout(async () => resolve(await fetchClient()), 2000)
       );
     toast.promise(promise, {
       loading: "Onboarding New Client...",
@@ -55,8 +53,6 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
       },
       error: "Error onboarding client failed",
     });
-
-    onClose();
   };
 
   return (
@@ -68,7 +64,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     >
       <ModalContent>
         {(onClose) => (
-          <>
+          <form>
             <ModalHeader className="flex flex-col gap-1 text-xl font-bold text-black-default m-2">
               {"New Client Data"}
             </ModalHeader>
@@ -111,6 +107,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
+                type={"submit"}
                 label={"Onboard New Client"}
                 color={"blue"}
                 onPress={() => onOpenPopup()}
@@ -130,7 +127,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
               onOpenChange={onOpenChangePopup}
               onCloseParent={onClose}
             />
-          </>
+          </form>
         )}
       </ModalContent>
     </Modal>

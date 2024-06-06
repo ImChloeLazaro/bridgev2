@@ -353,6 +353,7 @@ const ClientFormSections = () => {
         <div className="w-3/5 flex">
           <FormFieldTextArea
             isRequired={true}
+            errorMessage="The description should be at least 255 characters long."
             label={"How many accounts do you have?"}
             placeholder={
               "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"

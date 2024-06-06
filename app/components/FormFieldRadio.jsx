@@ -15,7 +15,7 @@ const FormFieldRadio = ({
 }) => {
   const validChoices = choices.map((choice) => choice.value);
 
-  const isInvalid = !validChoices.includes(value);
+  const isInvalid = ![...validChoices, false].includes(value);
 
   console.log("RADIO VALUE", isInvalid, value);
 

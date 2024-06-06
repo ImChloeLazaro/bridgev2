@@ -1644,4 +1644,7 @@ postsAtom = atom({
 ## v.0.9.7
 
 * Added `--turbo` flag to `npm run dev` option to enable faster local development
- 
+
+* Added @zod latest `^3.23.8` for form validation of all components
+* Added @hookform/resolvers latest `^3.6.0` for form validation of all components
+* Added @react-hook-form latest `^7.51.5` for form validation of all components

@@ -11,8 +11,9 @@ const FormFieldInput = ({
   label = "",
   value,
   type = "text",
+  inputType,
   onValueChange,
-  errorMessage = `${label ? label : "Input"} is invalid or missing`,
+  errorMessage,
   isRequired = false,
   isDisabled = false,
   isReadOnly = false,
@@ -54,14 +55,14 @@ const FormFieldInput = ({
     date: "Please enter a valid date",
   };
 
-  const inputType = {
+  const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
     number: /^[0-9+-]+$/i,
     date: /^[A-Z0-9\s,-\\]+$/i,
   };
 
-  const inputValidation = (input) => input?.match(inputType[type]);
+  const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
     if (value === "") return false;
@@ -73,6 +74,7 @@ const FormFieldInput = ({
   return (
     <>
       <Input
+        type={inputType}
         placeholder={placeholder}
         aria-label={label}
         isReadOnly={isReadOnly}
@@ -105,7 +107,7 @@ const FormFieldInput = ({
             "min-w-fit tracking-tight mb-2.5",
           ],
           input: [
-            `${isInvalid ? "!text-red-default" : "text-black-default/90"}`,
+            `${isInvalid ? "!text-red-default" : "!text-black-default/90"}`,
             "text-sm font-medium",
           ],
           inputWrapper: cn(
