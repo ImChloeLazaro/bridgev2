@@ -43,10 +43,6 @@ import {
 } from "@/app/store/ClientStore";
 import { useAtom, useAtomValue } from "jotai";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 const ClientFormSections = () => {
   const selectedClientTab = useAtomValue(selectedClientTabAtom);
 
