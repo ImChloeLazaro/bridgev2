@@ -17,8 +17,6 @@ const FormFieldRadio = ({
 
   const isInvalid = ![...validChoices, false].includes(value);
 
-  console.log("RADIO VALUE", isInvalid, value);
-
   return (
     <RadioGroup
       aria-label={label}

@@ -453,8 +453,8 @@ const CMSAdmin = () => {
             }
             totalItemCount={
               showClientTask
-                ? tasksFromSelectedClient[0]?.sla?.length
-                : clientsCount
+                ? itemTasks?.length
+                : itemClients?.length
             }
             pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}

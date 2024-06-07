@@ -34,7 +34,7 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     set(contactAddressAtom, "");
     set(contactNumberAtom, "");
     set(contactEmailAtom, "");
-    
+
     set(companyNameAtom, "");
     set(companyAddressAtom, "");
     set(companyNumberAtom, "");
@@ -210,18 +210,22 @@ export const clientTabsAtom = atom([
   {
     key: "general",
     title: "General Information",
+    filled: false,
   },
   {
     key: "financial",
     title: "Financial Information",
+    filled: false,
   },
   {
     key: "software",
     title: "Software Systems",
+    filled: false,
   },
   {
     key: "documents",
     title: "Documentation",
+    filled: false,
   },
 ]);
 

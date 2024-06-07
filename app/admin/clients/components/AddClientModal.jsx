@@ -8,6 +8,7 @@ import {
   selectedClientTabAtom,
 } from "@/app/store/ClientStore";
 import {
+  Chip,
   Modal,
   ModalBody,
   ModalContent,
@@ -22,6 +23,8 @@ import ClientFormSections from "./ClientFormSections";
 import { toast } from "sonner";
 import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import { useMemo, useState } from "react";
+import { MdOutlineError } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
   const {
@@ -30,42 +33,109 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     onOpenChange: onOpenChangePopup,
   } = useDisclosure();
 
+  const [clientTabs, setClientTabs] = useAtom(clientTabsAtom);
   const [selectedClientTab, setSelectedClientTab] = useAtom(
     selectedClientTabAtom
   );
 
-  const [submitClientData, setSubmitClientData] = useState(false);
-
   const clientData = useAtomValue(clientDataAtom);
-  const clientTabs = useAtomValue(clientTabsAtom);
   const clientName = useAtomValue(companyNameAtom);
   const addClient = useSetAtom(addClientAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
-  const countInputFields = Object.keys(clientData).map((key) => {
-    if (typeof clientData[key] === "object") {
-      return Object.keys(clientData[key]).map(
-        (data) => clientData[key][data] // raw client data
-        // Boolean(clientData[key][data]) // boolean client data
-      );
-    } else {
-      return Boolean(clientData[key]);
-    }
-  });
-
-  const checkInputFields = useMemo(
+  const unfilledInputFields = useMemo(
     () =>
-      Object.keys(clientData)
-        .map((key) => {
-          if (typeof clientData[key] === "object") {
-            return Object.keys(clientData[key])
-              .map((data) => Boolean(clientData[key][data]))
-              .every((element) => Boolean(element));
-          } else {
-            return Boolean(clientData[key]);
+      Object.keys(clientData).reduce(
+        (acc, curr) => {
+          if (
+            [
+              "business",
+              "company",
+              "contact",
+              "another_bookkeeper",
+              "with_accountant",
+            ].includes(curr)
+          ) {
+            let count;
+
+            if (typeof clientData[curr] === "object") {
+              count = Object.keys(clientData[curr])
+                .map((data) => Boolean(clientData[curr][data]))
+                .filter((data) => !data).length;
+            } else {
+              count = Boolean(!clientData[curr]) ? 1 : 0;
+            }
+
+            if (count === 0) {
+              return (acc["general"] = false), acc;
+            } else {
+              return (acc["general"] = true), acc;
+            }
           }
-        })
-        .every((element) => Boolean(element)),
+
+          if (["financial"].includes(curr)) {
+            let count;
+
+            if (typeof clientData[curr] === "object") {
+              count = Object.keys(clientData[curr])
+                .map((data) => Boolean(clientData[curr][data]))
+                .filter((data) => !data).length;
+            } else {
+              count = Boolean(clientData[curr]) ? 1 : 0;
+            }
+
+            if (count === 0) {
+              return (acc["financial"] = false), acc;
+            } else {
+              return (acc["financial"] = true), acc;
+            }
+          }
+
+          if (["software"].includes(curr)) {
+            let count;
+
+            if (typeof clientData[curr] === "object") {
+              count = Object.keys(clientData[curr])
+                .map((data) => Boolean(clientData[curr][data]))
+                .filter((data) => !data).length;
+            } else {
+              count = Boolean(clientData[curr]) ? 1 : 0;
+            }
+
+            if (count === 0) {
+              return (acc["software"] = false), acc;
+            } else {
+              return (acc["software"] = true), acc;
+            }
+          }
+
+          if (["documents"].includes(curr)) {
+            let count;
+
+            if (typeof clientData[curr] === "object") {
+              count = Object.keys(clientData[curr])
+                .map((data) => Boolean(clientData[curr][data]))
+                .filter((data) => !data).length;
+            } else {
+              count = Boolean(clientData[curr]) ? 1 : 0;
+            }
+
+            if (count === 0) {
+              return (acc["documents"] = false), acc;
+            } else {
+              return (acc["documents"] = true), acc;
+            }
+          }
+
+          return acc;
+        },
+        {
+          general: false,
+          financial: false,
+          software: false,
+          documents: false,
+        }
+      ),
     [clientData]
   );
 
@@ -76,7 +146,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
         setTimeout(async () => resolve(await fetchClient()), 2000)
       );
     toast.promise(promise, {
-      loading: "Onboarding New Client...",
+      loading: "Creating Client Profile...",
       success: () => {
         return `${
           !clientName?.length ? "Client" : clientName
@@ -87,12 +157,22 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   };
 
   const handleFormAction = (e) => {
-    console.log("eeeeeeeee", e);
-    // e.preventDefault();
-    console.log("clientData", clientData);
+    console.log("unfilledInputFields", unfilledInputFields);
+    let submitClientData = Object.values(unfilledInputFields).every(
+      (value) => value === false
+    );
 
-    console.log("raw clientData", countInputFields);
-    console.log("check clientData", checkInputFields);
+    setClientTabs((prev) =>
+      prev.map((tab) => {
+        return { ...tab, filled: unfilledInputFields[tab.key] };
+      })
+    );
+
+    if (submitClientData) {
+      console.log("submitClientData", submitClientData);
+      onOpenPopup();
+    }
+
     return false;
   };
 
@@ -133,28 +213,38 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
                       return (
                         <Tab
                           key={tab.key}
-                          title={<p className="capitalize">{tab.title}</p>}
-                        />
+                          title={
+                            <div className="flex items justify-center gap-2 ">
+                              <p className="capitalize">{tab.title}</p>
+                              {tab.filled && (
+                                <div className="flex items-center gap-2 text-green-default">
+                                  <MdOutlineError
+                                    size={18}
+                                    className="text-red-default"
+                                    fill="currentColor"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          }
+                        >
+                          <div className="h-80 flex px-5 overflow-y-scroll">
+                            <ClientFormSections />
+                          </div>
+                        </Tab>
                       );
                     })}
                   </Tabs>
-                  <div className="h-80 flex px-5 overflow-y-scroll">
-                    <ClientFormSections />
-                  </div>
                 </div>
               </div>
             </ModalBody>
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
+
               <CTAButtons
                 type={"submit"}
                 label={"Onboard New Client"}
                 color={"blue"}
-                onPress={() => {
-                  if (submitClientData) {
-                    onOpenPopup();
-                  }
-                }}
                 className={"px-6 py-1.5"}
               />
             </ModalFooter>

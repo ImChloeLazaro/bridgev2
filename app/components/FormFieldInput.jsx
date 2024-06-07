@@ -1,10 +1,11 @@
 import { Input, useDisclosure, cn } from "@nextui-org/react";
 import { DatePicker } from "./DatePicker";
 import IconButton from "./IconButton";
-import { MdFileUpload } from "react-icons/md";
+import { MdClose, MdFileUpload } from "react-icons/md";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useCallback, useMemo, useRef } from "react";
+import CTAButtons from "./CTAButtons";
 
 const FormFieldInput = ({
   placeholder = "",
@@ -12,6 +13,8 @@ const FormFieldInput = ({
   value,
   type = "text",
   inputType,
+  inputFileRef,
+  inputID,
   onValueChange,
   errorMessage,
   isRequired = false,
@@ -28,7 +31,6 @@ const FormFieldInput = ({
   ...props
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const inputFile = useRef(null);
 
   const handleUploadDocuments = useCallback(
     (e) => {
@@ -56,20 +58,44 @@ const FormFieldInput = ({
       />
     ),
     file: (
-      // Update design custom file input element for handling file upload
-      // <IconButton>
-      //   <MdFileUpload size={16} />
-      // </IconButton>
-      <input
-        ref={inputFile}
-        type="file"
-        id="uploadDocument"
-        name="uploadDocument"
-        accept=".pdf"
-        placeholder="Upload file"
-        className="border-none"
-        onChange={(e) => handleUploadDocuments(e)}
-      />
+      <>
+        {/* Separate input file EndContent Component to its own component so it can be shared */}
+        {!value ? (
+          <CTAButtons
+            color="clear"
+            for={inputID}
+            startContent={<MdFileUpload size={18} />}
+          >
+            <label for={inputID} className="font-medium text-sm lg:text-base">
+              {"Upload File"}
+            </label>
+          </CTAButtons>
+        ) : (
+          <CTAButtons
+            color="clear"
+            for={inputID}
+            startContent={<MdClose size={18} />}
+            label={"Remove File"}
+            onPress={() => {
+              if (inputFileRef.current) {
+                inputFileRef.current.value = "";
+                inputFileRef.current.type = "text";
+                inputFileRef.current.type = "file";
+              }
+              onValueChange("");
+            }}
+          />
+        )}
+        <input
+          ref={inputFileRef}
+          type="file"
+          id={inputID}
+          accept=".pdf"
+          placeholder="Upload File"
+          className="border-none hidden"
+          onChange={(e) => handleUploadDocuments(e)}
+        />
+      </>
     ),
   };
 
@@ -87,14 +113,13 @@ const FormFieldInput = ({
     text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
     number: /^[0-9\s+()-]+$/i,
     date: /^[A-Z0-9\s,-\\]+$/i,
-    file: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
+    file: /.*\.pdf$/,
   };
 
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
     if (type === "date") return false;
-    if (type === "file") return false;
     if (value === "") return false;
 
     return inputValidation(value) ? false : true;
@@ -112,7 +137,7 @@ const FormFieldInput = ({
         isRequired={isRequired}
         isInvalid={isInvalid}
         size={"md"}
-        label={`${label}`}
+        label={label}
         fullWidth={fullWidth}
         endContent={endContent[endContentType]}
         errorMessage={
@@ -120,9 +145,7 @@ const FormFieldInput = ({
         }
         data-label={Boolean(label)}
         value={
-          new Date(date) > 0 && withDate
-            ? format(date, "LLLL d, y")
-            : (type === "file" ? placeholder : value) ?? ""
+          new Date(date) > 0 && withDate ? format(date, "LLLL d, y") : value
         }
         onValueChange={(value) => {
           console.log("VALUE:", isInvalid, value);

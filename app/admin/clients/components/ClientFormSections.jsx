@@ -42,6 +42,7 @@ import {
   softwareReportingAtom,
 } from "@/app/store/ClientStore";
 import { useAtom, useAtomValue } from "jotai";
+import { useRef } from "react";
 
 const ClientFormSections = () => {
   const selectedClientTab = useAtomValue(selectedClientTabAtom);
@@ -130,6 +131,9 @@ const ClientFormSections = () => {
   const [generalWithAccountant, setGeneralWithAccountant] = useAtom(
     generalWithAccountantAtom
   );
+
+  const documentASICRef = useRef(null);
+  const documentTaxReturnRef = useRef(null);
 
   const general = (
     <div className="flex flex-col w-full gap-8">
@@ -491,8 +495,11 @@ const ClientFormSections = () => {
     <>
       <FormFieldInput
         isRequired={true}
-        isReadOnly={true}
+        // isReadOnly={true}
         type={"file"}
+        inputFileRef={documentASICRef}
+        inputID={"uploadDocumentASIC"}
+        description={"File size maximum: 5MB"}
         label={"Company Registration Certificate or Trust Deed"}
         placeholder={
           "Please upload your ASIC company registration certificate or trust deed."
@@ -505,8 +512,11 @@ const ClientFormSections = () => {
       />
       <FormFieldInput
         isRequired={true}
-        isReadOnly={true}
+        // isReadOnly={true}
         type={"file"}
+        inputFileRef={documentTaxReturnRef}
+        inputID={"uploadDocumentTaxReturn"}
+        description={"File size maximum: 5MB"}
         label={"Recent tax returns"}
         placeholder={"Upload your tax returns for the previous financial year"}
         withFile={true}

@@ -446,9 +446,7 @@ const CMSTL = () => {
               showClientTask ? itemTasks?.length : itemClients?.length
             }
             totalItemCount={
-              showClientTask
-                ? tasksFromSelectedClient[0]?.sla?.length
-                : clientsCount
+              showClientTask ? itemTasks?.length : itemClients?.length
             }
             pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}

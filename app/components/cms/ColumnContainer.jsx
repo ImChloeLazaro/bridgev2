@@ -38,7 +38,7 @@ function ColumnContainer({
       type: "Column",
       column,
     },
-    disabled: true,
+    // disabled: true,
   });
 
   const style = {
@@ -53,7 +53,7 @@ function ColumnContainer({
         style={style}
         className={cn(
           "h-[5rem] min-h-[5rem]",
-          "opacity-40 rounded-lg",
+          "opacity-40 rounded-lg cursor-grabbing",
           "flex flex-col w-full",
           "lg:h-full max-h-screen",
           "bg-grey-default",
@@ -93,12 +93,11 @@ function ColumnContainer({
         // onClick={() => {
         //   setEditMode(true);
         // }}
-        // cursor-grab
         className={`
         ${columnColors[column.id]} 
+        ${isDragging ? "cursor-grabbing" : "cursor-grab"}
       text-md
       h-[60px]
-      cursor-default
       rounded-lg
       rounded-b-none
       p-3

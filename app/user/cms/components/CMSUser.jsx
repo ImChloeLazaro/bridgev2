@@ -236,13 +236,13 @@ const CMSUser = () => {
       label: "Escalate to TL",
       icon: <MdKeyboardDoubleArrowUp size={18} />,
     },
-    {
-      key: "resolve",
-      status_id: "user",
-      color: "green",
-      label: "Resolve Escalation",
-      icon: <MdFactCheck size={18} />,
-    },
+    // {
+    //   key: "resolve",
+    //   status_id: "user",
+    //   color: "green",
+    //   label: "Resolve Escalation",
+    //   icon: <MdFactCheck size={18} />,
+    // },
   ];
 
   const [isLoading, setIsLoading] = useState(false);
@@ -380,8 +380,8 @@ const CMSUser = () => {
             }
             totalItemCount={
               showClientTask
-                ? tasksFromSelectedClient[0]?.sla?.length
-                : clientsCount
+                ? itemTasks?.length
+                : itemClients?.length
             }
             pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}

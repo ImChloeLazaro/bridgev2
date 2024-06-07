@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 const FormFieldTextArea = ({
   placeholder = "",
-  label,
+  label = "",
   value,
   onValueChange,
   errorMessage,
@@ -35,7 +35,13 @@ const FormFieldTextArea = ({
       aria-label={label}
       isDisabled={isDisabled}
       isRequired={isRequired}
-      // errorMessage={isInvalid ? (errorMessage ? errorMessage : "") : ""}
+      errorMessage={
+        isInvalid
+          ? errorMessage
+            ? errorMessage
+            : "No special characters allowed"
+          : ""
+      }
       label={label}
       value={value ?? ""}
       onValueChange={onValueChange}
