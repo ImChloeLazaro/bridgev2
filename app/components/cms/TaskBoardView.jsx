@@ -20,6 +20,10 @@ import { MdRefresh } from "react-icons/md";
 import { toast } from "sonner";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
+import {
+  restrictToHorizontalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 
 const TaskBoardView = ({
   itemTasks,
@@ -29,6 +33,10 @@ const TaskBoardView = ({
   selectedClientToView,
   actions,
   tasksFromSelectedClient,
+  selectedProcessorTaskAction,
+  setSelectedProcessorTaskAction,
+  selectedReviewerTaskAction,
+  setSelectedReviewerTaskAction,
   isLoading,
   isMobile,
 }) => {
@@ -105,6 +113,7 @@ const TaskBoardView = ({
       className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 lg:px-0 "
     >
       <DndContext
+        modifiers={[restrictToHorizontalAxis]}
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={onDragStart}
@@ -130,6 +139,11 @@ const TaskBoardView = ({
                 }
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                selectedClientToView={selectedClientToView}
+                selectedProcessorTaskAction={selectedProcessorTaskAction}
+                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+                selectedReviewerTaskAction={selectedReviewerTaskAction}
+                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
                 isMobile={isMobile}
               />
             ))}
@@ -178,6 +192,7 @@ const TaskBoardView = ({
                 }
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                selectedClientToView={selectedClientToView}
                 isMobile={isMobile}
               />
             )}
@@ -186,6 +201,10 @@ const TaskBoardView = ({
                 task={activeTask}
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                selectedProcessorTaskAction={selectedProcessorTaskAction}
+                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+                selectedReviewerTaskAction={selectedReviewerTaskAction}
+                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
                 isMobile={isMobile}
                 // deleteTask={deleteTask}
                 // updateTask={updateTask}
@@ -348,8 +367,6 @@ const TaskBoardView = ({
         });
       }
     }
-
-    
 
     if (activeId === overId) return;
 

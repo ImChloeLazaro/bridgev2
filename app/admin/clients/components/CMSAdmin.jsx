@@ -38,6 +38,8 @@ import {
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
+  selectedProcessorTaskActionAtom,
+  selectedReviewerTaskActionAtom,
   selectedTaskFilterKeysAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
@@ -102,9 +104,14 @@ const CMSAdmin = () => {
     selectedClientForTaskAtom
   );
 
-  const clientsCount = useAtomValue(clientsCountAtom);
-
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+
+  const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
+    selectedProcessorTaskActionAtom
+  );
+  const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
+    selectedReviewerTaskActionAtom
+  );
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(
@@ -426,6 +433,10 @@ const CMSAdmin = () => {
             selectedClientToView={selectedClientToView}
             actions={actions}
             tasksFromSelectedClient={tasksFromSelectedClient}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+              selectedReviewerTaskAction={selectedReviewerTaskAction}
+              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
             isLoading={isLoading}
             isMobile={isMobile}
           />
@@ -437,6 +448,10 @@ const CMSAdmin = () => {
             selectedClientToView={selectedClientToView}
             actions={actions}
             tasksFromSelectedClient={tasksFromSelectedClient}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+              selectedReviewerTaskAction={selectedReviewerTaskAction}
+              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
             isLoading={isLoading}
             isMobile={isMobile}
           />
@@ -452,9 +467,7 @@ const CMSAdmin = () => {
               showClientTask ? itemTasks?.length : itemClients?.length
             }
             totalItemCount={
-              showClientTask
-                ? itemTasks?.length
-                : itemClients?.length
+              showClientTask ? itemTasks?.length : itemClients?.length
             }
             pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}

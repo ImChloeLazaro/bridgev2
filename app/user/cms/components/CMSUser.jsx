@@ -78,12 +78,17 @@ const CMSUser = () => {
     selectedClientForTaskAtom
   );
 
-  const clientsCount = useAtomValue(clientsCountAtom);
-
   // ##########################################
 
   const userTasks = tasks.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
+    const pro = task.processor.map((user) => user.sub);
+    const rev = task.reviewer.map((user) => user.sub);
+
+    console.log("processors: ", pro);
+    console.log("processors: ", rev);
+    console.log("merge", [...pro, ...rev]);
+
     return processors.includes(user.sub);
   });
 
@@ -379,9 +384,7 @@ const CMSUser = () => {
               showClientTask ? itemTasks?.length : itemClients?.length
             }
             totalItemCount={
-              showClientTask
-                ? itemTasks?.length
-                : itemClients?.length
+              showClientTask ? itemTasks?.length : itemClients?.length
             }
             pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}

@@ -51,6 +51,9 @@ export const selectedPage = atom(1);
 
 // TASK ESSENTIALS
 
+export const selectedProcessorTaskActionAtom = atom(new Set([]));
+export const selectedReviewerTaskActionAtom = atom(new Set([]));
+
 export const selectedClientForTaskAtom = atom(new Set([]));
 export const selectedProcessorAtom = atom(new Set([]));
 export const selectedReviewerAtom = atom(new Set([]));

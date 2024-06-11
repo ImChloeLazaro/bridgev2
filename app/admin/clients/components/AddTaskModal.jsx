@@ -86,6 +86,7 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
                 label={"Assign Task"}
                 color={"blue"}
                 onPress={() => onOpenPopup()}
+                className={"px-6"}
               />
             </ModalFooter>
             <ConfirmationWindow

@@ -7,17 +7,14 @@ import {
   Spinner,
   User,
   cn,
+  useDisclosure,
 } from "@nextui-org/react";
 import { differenceInDays, format } from "date-fns";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { MdCalendarMonth, MdPerson } from "react-icons/md";
-import TaskOptionsDropdown from "./TaskOptionsDropdown";
-import { MdCheck } from "react-icons/md";
-import { MdKeyboardDoubleArrowUp } from "react-icons/md";
-import { MdOutlineAssignment } from "react-icons/md";
-import { MdRemoveCircleOutline } from "react-icons/md";
-import { useState } from "react";
+import { MdCalendarMonth, MdCheck } from "react-icons/md";
 import LabelTagChip from "../LabelTagChip";
+import TaskActionModal from "./TaskActionModal";
+import TaskOptionsDropdown from "./TaskOptionsDropdown";
 
 function TaskBoardCard({
   task,
@@ -25,6 +22,11 @@ function TaskBoardCard({
   updateTask,
   actions,
   tasksFromSelectedClient,
+  selectedClientToView,
+  selectedProcessorTaskAction,
+  setSelectedProcessorTaskAction,
+  selectedReviewerTaskAction,
+  setSelectedReviewerTaskAction,
   isMobile,
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
@@ -32,6 +34,20 @@ function TaskBoardCard({
 
   // const isEscalated = task.escalate;
   // console.log("isEscalated:", isEscalated);
+
+  const {
+    // confirmation window
+    isOpen: isOpenPopup,
+    onOpen: onOpenPopup,
+    onOpenChange: onOpenChangePopup,
+  } = useDisclosure();
+
+  const {
+    // modal window for selecting processor and reviewer
+    isOpen: isOpenTaskAction,
+    onOpen: onOpenTaskAction,
+    onOpenChange: onOpenChangeTaskAction,
+  } = useDisclosure();
 
   const {
     setNodeRef,
@@ -122,8 +138,7 @@ function TaskBoardCard({
 
   const handleCheckDueDate = (due_date, status) => {
     const difference = differenceInDays(new Date(due_date), new Date());
-    console.log("handleCheckDueDate", difference, status);
-
+    // console.log("handleCheckDueDate", difference, status);
   };
 
   return (
@@ -176,7 +191,30 @@ function TaskBoardCard({
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
             isEscalated={task.escalate}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+            selectedReviewerTaskAction={selectedReviewerTaskAction}
+            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+            selectedClientToView={selectedClientToView}
+            isOpenPopup={isOpenPopup}
+            onOpenPopup={onOpenPopup}
+            onOpenChangePopup={onOpenChangePopup}
+            isOpenTaskAction={isOpenTaskAction}
+            onOpenTaskAction={onOpenTaskAction}
+            onOpenChangeTaskAction={onOpenChangeTaskAction}
+            onOpenModal={onOpenTaskAction}
           />
+          {/* <TaskActionModal
+            isOpen={isOpenTaskAction}
+            onOpenChange={onOpenChangeTaskAction}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+              selectedReviewerTaskAction={selectedReviewerTaskAction}
+              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+            onOpenAnotherModal={onOpenPopup}
+            isDismissable={false}
+            isKeyboardDismissDisabled={true}
+          /> */}
         </div>
         <div className="flex items-center justify-start">
           {task.escalate && (

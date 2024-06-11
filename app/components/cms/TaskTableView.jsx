@@ -5,22 +5,22 @@ import {
   AvatarGroup,
   Image,
   Link,
+  Spinner,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
-  Spinner,
+  useDisclosure,
 } from "@nextui-org/react";
 import { compareAsc, format } from "date-fns";
-import { useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useAtomValue } from "jotai";
+import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { MdPerson, MdRefresh } from "react-icons/md";
+import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
+import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
-import { MdCheck } from "react-icons/md";
-
 // @refresh reset
 
 const tagColors = {
@@ -42,6 +42,10 @@ const TaskTableView = ({
   selectedClientToView,
   actions,
   tasksFromSelectedClient,
+  selectedProcessorTaskAction,
+  setSelectedProcessorTaskAction,
+  selectedReviewerTaskAction,
+  setSelectedReviewerTaskAction,
   isLoading,
   isMobile,
 }) => {
@@ -49,9 +53,28 @@ const TaskTableView = ({
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
+  console.log(
+    "TASK ID",
+    itemTasks.filter((task) => task.clientKey === selectedClientToView)
+  );
+
   const handleRefreshTable = () => {
     setShowClientTask(false);
   };
+
+  const {
+    // confirmation window
+    isOpen: isOpenPopup,
+    onOpen: onOpenPopup,
+    onOpenChange: onOpenChangePopup,
+  } = useDisclosure();
+
+  const {
+    // modal window for selecting processor and reviewer
+    isOpen: isOpenTaskAction,
+    onOpen: onOpenTaskAction,
+    onOpenChange: onOpenChangeTaskAction,
+  } = useDisclosure();
 
   const taskAlert = () => {};
 
@@ -217,6 +240,18 @@ const TaskTableView = ({
               actions={actionOptions}
               trigger={<BiDotsVerticalRounded size={24} />}
               isEscalated={task.escalate}
+              selectedProcessorTaskAction={selectedProcessorTaskAction}
+              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+              selectedReviewerTaskAction={selectedReviewerTaskAction}
+              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+              selectedClientToView={selectedClientToView}
+              isOpenPopup={isOpenPopup}
+              onOpenPopup={onOpenPopup}
+              onOpenChangePopup={onOpenChangePopup}
+              isOpenTaskAction={isOpenTaskAction}
+              onOpenTaskAction={onOpenTaskAction}
+              onOpenChangeTaskAction={onOpenChangeTaskAction}
+              onOpenModal={onOpenTaskAction}
             />
           );
 
@@ -224,7 +259,21 @@ const TaskTableView = ({
           return cellValue;
       }
     },
-    [actions, isMobile, tasksFromSelectedClient]
+    [
+      actions,
+      isMobile,
+      isOpenPopup,
+      isOpenTaskAction,
+      onOpenChangePopup,
+      onOpenChangeTaskAction,
+      onOpenPopup,
+      onOpenTaskAction,
+      selectedProcessorTaskAction,
+      selectedReviewerTaskAction,
+      setSelectedProcessorTaskAction,
+      setSelectedReviewerTaskAction,
+      tasksFromSelectedClient,
+    ]
   );
 
   // console.log("selectedKeys", selectedKeys);
@@ -327,6 +376,17 @@ const TaskTableView = ({
           )}
         </TableBody>
       </Table>
+      {/* <TaskActionModal
+        isOpen={isOpenTaskAction}
+        onOpenChange={onOpenChangeTaskAction}
+        selectedProcessorTaskAction={selectedProcessorTaskAction}
+              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+              selectedReviewerTaskAction={selectedReviewerTaskAction}
+              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+        onOpenAnotherModal={onOpenPopup}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+      /> */}
     </div>
   );
 };

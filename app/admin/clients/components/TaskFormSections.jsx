@@ -333,7 +333,7 @@ const TaskFormSections = () => {
       {/* Description */}
       <div className="py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-base lg:text-lg xl:text-xl">
+          <p className="text-black-default font-bold text-base lg:text-lg xl:text-xl">
             {"Description"}
           </p>
           <MdInfoOutline />

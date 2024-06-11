@@ -71,7 +71,72 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     }
   }
 });
-export const updateTaskAtom = atom();
+export const updateTaskAtom = atom(null, async (get, set, update) => {
+  const { action, type, _id, reviewer, processor } = update;
+  console.log("UDPATED HERE DATA", update);
+  console.log(get(tasksAtom));
+  // if (type === "processor") {
+  //   if (action === "remove") {
+  //     const response = await restinsert("/cms/task/remove-processor", {
+  //       _id,
+  //       reviewer,
+  //       processor,
+  //     });
+  //     if (response.success) {
+  //       console.log("REMOVE PROCESSOR", response.response);
+  //       return { success: true };
+  //     } else {
+  //       console.log("FAILED REMOVING PROCESSOR");
+  //       return { success: false };
+  //     }
+  //   }
+  //   if (action === "assign") {
+  //     const response = await restinsert("/cms/task/update-processor", {
+  //       _id,
+  //       reviewer,
+  //       processor,
+  //     });
+  //     if (response.success) {
+  //       console.log("UPDATE PROCESSOR", response.response);
+  //       return { success: true };
+  //     } else {
+  //       console.log("FAILED UPDATING PROCESSOR");
+  //       return { success: false };
+  //     }
+  //   } // assign
+  // }
+
+  // if (type === "reviewer") {
+  //   if (action === "remove") {
+  //     const response = await restinsert("/cms/task/remove-reviewer", {
+  //       _id,
+  //       reviewer,
+  //       processor,
+  //     });
+  //     if (response.success) {
+  //       console.log("REMOVE REVIEWER", response.response);
+  //       return { success: true };
+  //     } else {
+  //       console.log("FAILED REMOVING REVIEWER");
+  //       return { success: false };
+  //     }
+  //   }
+  //   if (action === "assign") {
+  //     const response = await restinsert("/cms/task/update-reviewer", {
+  //       _id,
+  //       reviewer,
+  //       processor,
+  //     });
+  //     if (response.success) {
+  //       console.log("UPDATE REVIEWER", response.response);
+  //       return { success: true };
+  //     } else {
+  //       console.log("FAILED UPDATING REVIEWER");
+  //       return { success: false };
+  //     }
+  //   } // assign
+  // }
+});
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/task", {
     _id: "66149efa8cf1401df0973562", // "660fa0db6c5775f281500e3d"

@@ -125,10 +125,10 @@ export const clientFilterKeysAtom = atom([
     label: "DMS - Bea",
     value: "dmsBea",
   },
-  {
-    label: "DMS - Dennis",
-    value: "dmsDennis",
-  },
+  // {
+  //   label: "DMS - Dennis",
+  //   value: "dmsDennis",
+  // },
   {
     label: "DMS - James",
     value: "dmsJames",

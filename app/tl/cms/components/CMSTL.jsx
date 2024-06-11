@@ -38,6 +38,8 @@ import {
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
+  selectedProcessorTaskActionAtom,
+  selectedReviewerTaskActionAtom,
   selectedTaskFilterKeysAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
@@ -99,9 +101,14 @@ const CMSTL = () => {
     selectedClientForTaskAtom
   );
 
-  const clientsCount = useAtomValue(clientsCountAtom);
-
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+
+  const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
+    selectedProcessorTaskActionAtom
+  );
+  const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
+    selectedReviewerTaskActionAtom
+  );
 
   // ##########################################
   const userTasks = tasks.filter((task) => {
