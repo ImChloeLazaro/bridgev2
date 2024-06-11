@@ -245,13 +245,7 @@ const TaskTableView = ({
               selectedReviewerTaskAction={selectedReviewerTaskAction}
               setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
               selectedClientToView={selectedClientToView}
-              isOpenPopup={isOpenPopup}
-              onOpenPopup={onOpenPopup}
-              onOpenChangePopup={onOpenChangePopup}
-              isOpenTaskAction={isOpenTaskAction}
-              onOpenTaskAction={onOpenTaskAction}
-              onOpenChangeTaskAction={onOpenChangeTaskAction}
-              onOpenModal={onOpenTaskAction}
+  
             />
           );
 

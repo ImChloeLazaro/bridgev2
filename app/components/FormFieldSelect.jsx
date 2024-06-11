@@ -34,7 +34,7 @@ const FormFieldSelect = ({
       placeholder={placeholder}
       selectionMode={selectionMode}
       selectedKeys={selectedKeys}
-      onSelectionChange={(key) => onSelectionChange(key)}
+      onSelectionChange={onSelectionChange}
       classNames={{
         base: "h-full",
         trigger: "min-h-unit-12 h-full py-2 rounded-small",

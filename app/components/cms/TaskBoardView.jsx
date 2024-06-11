@@ -113,7 +113,7 @@ const TaskBoardView = ({
       className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 lg:px-0 "
     >
       <DndContext
-        modifiers={[restrictToHorizontalAxis]}
+        // modifiers={[restrictToHorizontalAxis]}
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={onDragStart}
@@ -193,6 +193,10 @@ const TaskBoardView = ({
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
                 selectedClientToView={selectedClientToView}
+                selectedProcessorTaskAction={selectedProcessorTaskAction}
+                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+                selectedReviewerTaskAction={selectedReviewerTaskAction}
+                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
                 isMobile={isMobile}
               />
             )}
@@ -201,6 +205,7 @@ const TaskBoardView = ({
                 task={activeTask}
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
+                selectedClientToView={selectedClientToView}
                 selectedProcessorTaskAction={selectedProcessorTaskAction}
                 setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
                 selectedReviewerTaskAction={selectedReviewerTaskAction}

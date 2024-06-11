@@ -131,7 +131,7 @@ const TaskActionModal = ({
                       items={reviewers}
                       renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
-                      onSelectionChange={setSelectedReviewerTaskAction}
+                      onSelecti}
                     />
                   </div>
                 </>
@@ -142,8 +142,8 @@ const TaskActionModal = ({
                 label={"Cancel"}
                 color={"clear"}
                 onPress={() => {
-                  setSelectedProcessorTaskAction(new Set([]));
-                  setSelectedReviewerTaskAction(new Set([]));
+                  // setSelectedProcessorTaskAction(new Set([]));
+                  // setSelectedReviewerTaskAction(new Set([]));
                   onClose();
                 }}
               />

@@ -18,6 +18,7 @@ import { useState } from "react";
 import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 const TaskOptionsDropdown = ({
   id,
@@ -30,13 +31,7 @@ const TaskOptionsDropdown = ({
   selectedReviewerTaskAction,
   setSelectedReviewerTaskAction,
   selectedClientToView,
-  // isOpenPopup,
-  // onOpenPopup,
-  // onOpenChangePopup,
-  // isOpenTaskAction,
-  // onOpenTaskAction,
-  // onOpenChangeTaskAction,
-  onOpenModal,
+  
 }) => {
   const {
     // confirmation window
@@ -103,32 +98,32 @@ const TaskOptionsDropdown = ({
           return task;
         });
 
-        // setIsLoading(true);
-        // const promise = async () =>
-        //   new Promise((resolve) =>
-        //     setTimeout(
-        //       async () =>
-        //         resolve(
-        //           await updateTaskStatus({
-        //             sla: updateSelectedTask,
-        //             client_id: clientKey,
-        //           })
-        //         ),
-        //       2000
-        //     )
-        //   );
-        // toast.promise(promise, {
-        //   description: `${format(dateTaskDone, "PPpp")}`,
-        //   loading: "Updating Task Status...",
-        //   success: () => {
-        //     setIsLoading(false);
-        //     return `${
-        //       status_id === "done" ? "Task Completed" : "Task Marked for Review"
-        //     }: ${taskName}`;
-        //   },
+        setIsLoading(true);
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: updateSelectedTask,
+                    client_id: clientKey,
+                  })
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            setIsLoading(false);
+            return `${
+              status_id === "done" ? "Task Completed" : "Task Marked for Review"
+            }: ${taskName}`;
+          },
 
-        //   error: "Error Updating Task Status",
-        // });
+          error: "Error Updating Task Status",
+        });
       }
     }
 
@@ -148,30 +143,30 @@ const TaskOptionsDropdown = ({
 
       console.log("updateSelectedTask", updateSelectedTask);
 
-      // const promise = async () =>
-      //   new Promise((resolve) =>
-      //     setTimeout(
-      //       async () =>
-      //         resolve(
-      //           await updateTaskStatus({
-      //             sla: updateSelectedTask,
-      //             client_id: clientKey,
-      //           })
-      //         ),
-      //       2000
-      //     )
-      //   );
-      // toast.promise(promise, {
-      //   description: `${format(dateTaskDone, "PPpp")}`,
-      //   loading: `Escalating Task to ${
-      //     status_id[0].toUpperCase() + status_id.slice(1)
-      //   }`,
-      //   success: () => {
-      //     return "Please wait for further instructions";
-      //   },
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await updateTaskStatus({
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                })
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Escalating Task to ${
+          status_id[0].toUpperCase() + status_id.slice(1)
+        }`,
+        success: () => {
+          return "Please wait for further instructions";
+        },
 
-      //   error: "Error Escalating Task",
-      // });
+        error: "Error Escalating Task",
+      });
     }
 
     if (key === "assign") {

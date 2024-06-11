@@ -112,8 +112,9 @@ const CMSTL = () => {
 
   // ##########################################
   const userTasks = tasks.filter((task) => {
+    const processors = task.processor.map((user) => user.sub);
     const reviewers = task.reviewer.map((user) => user.sub);
-    return reviewers.includes(user.sub);
+    return [...processors, ...reviewers, task.manager].includes(user.sub); // assignees
   });
 
   console.log("userTasks", userTasks);
@@ -427,6 +428,10 @@ const CMSTL = () => {
             selectedClientToView={selectedClientToView}
             actions={actions}
             tasksFromSelectedClient={tasksFromSelectedClient}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+            selectedReviewerTaskAction={selectedReviewerTaskAction}
+            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
             isLoading={isLoading}
             isMobile={isMobile}
           />
