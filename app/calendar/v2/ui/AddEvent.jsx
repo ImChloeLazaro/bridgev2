@@ -22,8 +22,6 @@ import { createEvent } from "@/app/utils/calendar";
 import GoogleOAuth from "./GoogleOAuth";
 const AddEvent = () => {
     const { data: session, status } = useSession();
-
-    console.log('session', session)
     const [loaders, setLoaders] = useState({
         isLoading: false,
         loadingMessage: "",

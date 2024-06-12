@@ -29,12 +29,16 @@ const TaskActionModal = ({
     return { ...user, key: user.sub, value: user.sub };
   });
 
-  const processors = new Set([...tasks?.processor]) ?? new Set([]); // new Set([...tasks?.processor]) ??
-  const reviewers = new Set([...tasks?.reviewer]) ?? new Set([]); // new Set([...tasks?.review]) ??
+  const filterUniqueByKey = (array, key) => {
+    const seen = new Map();
+    array.forEach(item => seen.set(item[key], item));
+    return Array.from(seen.values());
+  }
 
-  //   console.log("selectedTaskAction", selectedTaskAction);
-  //   console.log("processors", processors);
-  //   console.log("reviewers", reviewers);
+  const filteredProcessors = filterUniqueByKey(tasks?.processor, 'sub');
+  const filteredReviewers = filterUniqueByKey(tasks?.reviewer, 'sub');
+  const processors = new Set([...filteredProcessors]) ?? new Set([]); // new Set([...tasks?.processor]) ??
+  const reviewers = new Set([...filteredReviewers]) ?? new Set([]); // new Set([...tasks?.review]) ??
 
   const windowDetails = {
     assign: {
