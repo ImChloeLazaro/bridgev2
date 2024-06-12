@@ -173,18 +173,26 @@ const TaskOptionsDropdown = ({
       console.log("newProcessorAssignees", newProcessorAssignees);
       console.log("newReviewerAssignees", newReviewerAssignees);
 
+     const removedDuplicateProcessors = [...tasks.processor, ...newProcessorAssignees].filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    )
+
+    const removedDuplicateReviewers = [...tasks.reviewer, ...newProcessorAssignees].filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    )
+
       const promise = async () =>
         new Promise((resolve) =>
           setTimeout(
             async () =>
               resolve(
-                // await updateTask({
-                //   action: key,
-                //   type: "processor",
-                //   _id: tasks._id,
-                //   processor: [...tasks.processor, ...newProcessorAssignees],
-                //   reviewer: [...tasks.reviewer, ...newReviewerAssignees],
-                // }),
+                await updateTask({
+                  action: key,
+                  type: "processor",
+                  _id: tasks._id,
+                  processor: removedDuplicateProcessors,
+                  reviewer: removedDuplicateReviewers,
+                }),
                 await fetchTask()
               ),
             2000
@@ -221,13 +229,13 @@ const TaskOptionsDropdown = ({
           setTimeout(
             async () =>
               resolve(
-                // await updateTask({
-                //   action: key,
-                //   type: "processor",
-                //   _id: tasks._id,
-                //   processor: [...tasks.processor, ...newProcessorAssignees],
-                //   reviewer: [...tasks.reviewer, ...newReviewerAssignees],
-                // }),
+                await updateTask({
+                  action: key,
+                  type: "processor",
+                  _id: tasks._id,
+                  processor: [...tasks.processor, ...newProcessorAssignees],
+                  reviewer: [...tasks.reviewer, ...newReviewerAssignees],
+                }),
                 await fetchTask()
               ),
             2000
