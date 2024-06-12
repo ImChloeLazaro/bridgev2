@@ -11,7 +11,8 @@ export const listEvents = async (accessToken) => {
 
     const response = await axios.get(`https://www.googleapis.com/calendar/v3/calendars/primary/events`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
       },
       params: {
         timeMin: new Date().toISOString(),

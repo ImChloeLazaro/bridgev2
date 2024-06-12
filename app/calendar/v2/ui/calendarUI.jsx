@@ -27,7 +27,7 @@ const CalendarUI = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [bySort, setBySort] = useState(["AU", "PH", "DEFAULT"]);
   const [selectedEvent, setSelectedEvent] = useState(null); // Store the selected event
-
+  const [sessionName, setSessionName] = useState(null); // Store the session name
   const onView = useCallback((view) => setView(view), []);
   const onNavigate = useCallback((date) => setDefaultDate(date), []);
 
@@ -100,7 +100,7 @@ const CalendarUI = () => {
         setEvents(formattedEvents);
         setEventToday(eventsToday);
         setUpcomingEvents(sortedEvents);
-        console.log(' EVENTS TODAY', eventToday);
+        setSessionName(session.user?.name);
       }
     };
     fetchEvents();
@@ -123,7 +123,7 @@ const CalendarUI = () => {
                 sortFilteredEvents={events}
                 handleSetFilteredEvents={setEvents}
                 events={events}
-                session={'chloe'}
+                session={sessionName}
                 setBySort={setBySort}
                 bySort={bySort}
               />
