@@ -30,6 +30,7 @@ import {
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
   MdRemoveCircleOutline,
+  MdChangeCircle,
 } from "react-icons/md";
 import {
   changeViewAtom,
@@ -125,7 +126,7 @@ const CMSAdmin = () => {
       return {
         ...sla,
         id: (index += 1),
-        // escalate: false,
+        taskKey: tasksFromSelectedClient[0]._id,
         clientKey: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
@@ -263,15 +264,22 @@ const CMSAdmin = () => {
       icon: <MdFactCheck size={18} />,
     },
     {
+      key: "reassign",
+      status_id: "admin",
+      color: "green",
+      label: "Re-assign Task",
+      icon: <MdChangeCircle size={18} />,
+    },
+    {
       key: "assign",
-      status_id: "",
+      status_id: "admin",
       color: "blue",
       label: "Assign a team to the client",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
-      status_id: "",
+      status_id: "admin",
       color: "red",
       label: "Remove a team from the client",
       icon: <MdRemoveCircleOutline size={18} />,

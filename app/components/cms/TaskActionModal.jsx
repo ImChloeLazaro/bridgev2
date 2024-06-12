@@ -15,35 +15,30 @@ const TaskActionModal = ({
   tasks,
   isOpen,
   onOpenChange,
-  selectedClientToView,
+  onOpenAfterClose,
   selectedTaskAction,
   selectedProcessorTaskAction,
   setSelectedProcessorTaskAction,
   selectedReviewerTaskAction,
   setSelectedReviewerTaskAction,
-  onOpenAnotherModal,
   ...props
 }) => {
   const userList = useAtomValue(userListAtom);
+
+  const processors = tasks?.processor ?? [];
+  const reviewers = tasks?.reviewer ?? [];
   const userSelection = userList.map((user) => {
     return { ...user, key: user.sub, value: user.sub };
   });
 
-  const processors = new Set([...tasks?.processor]) ?? new Set([]); // new Set([...tasks?.processor]) ??
-  const reviewers = new Set([...tasks?.reviewer]) ?? new Set([]); // new Set([...tasks?.review]) ??
-
-  //   console.log("selectedTaskAction", selectedTaskAction);
-  //   console.log("processors", processors);
-  //   console.log("reviewers", reviewers);
-
   const windowDetails = {
     assign: {
-      title: "Assign a new team member",
+      title: "Assign new team member",
       label: "Assign Member",
       color: "blue",
     },
     remove: {
-      title: "Remove a new team member",
+      title: "Remove team member",
       label: "Remove Member",
       color: "red",
     },
@@ -78,9 +73,9 @@ const TaskActionModal = ({
                       {"Processor"}
                     </p>
                     <FormFieldSelect
+                      label="Assigned to"
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
-                      label={"Select processor/s"}
                       items={userSelection}
                       renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
@@ -92,9 +87,9 @@ const TaskActionModal = ({
                       {"Reviewer"}
                     </p>
                     <FormFieldSelect
+                      label="Assigned to"
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
-                      label={"Select reviewer/s"}
                       items={userSelection}
                       renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
@@ -111,9 +106,9 @@ const TaskActionModal = ({
                       {"Processor"}
                     </p>
                     <FormFieldSelect
+                      label="Remove from"
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
-                      label={"Select processor/s"}
                       items={processors}
                       renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
@@ -125,13 +120,13 @@ const TaskActionModal = ({
                       {"Reviewer"}
                     </p>
                     <FormFieldSelect
+                      label="Remove from"
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
-                      label={"Select reviewer/s"}
                       items={reviewers}
                       renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
-                      onSelecti}
+                      onSelectionChange={setSelectedReviewerTaskAction}
                     />
                   </div>
                 </>
@@ -142,8 +137,8 @@ const TaskActionModal = ({
                 label={"Cancel"}
                 color={"clear"}
                 onPress={() => {
-                  // setSelectedProcessorTaskAction(new Set([]));
-                  // setSelectedReviewerTaskAction(new Set([]));
+                  setSelectedProcessorTaskAction(new Set([]));
+                  setSelectedReviewerTaskAction(new Set([]));
                   onClose();
                 }}
               />
@@ -152,8 +147,8 @@ const TaskActionModal = ({
                 label={windowDetails[selectedTaskAction.key]?.label}
                 color={windowDetails[selectedTaskAction.key]?.color}
                 onPress={() => {
-                  onOpenAnotherModal();
-                  console.log("Modal");
+                  onOpenAfterClose();
+                  onClose();
                 }}
                 className={"px-6"}
               />

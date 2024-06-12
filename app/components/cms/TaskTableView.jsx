@@ -14,7 +14,7 @@ import {
   TableRow,
   useDisclosure,
 } from "@nextui-org/react";
-import { compareAsc, format } from "date-fns";
+import { compareAsc, differenceInDays, format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
@@ -53,11 +53,6 @@ const TaskTableView = ({
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
-  console.log(
-    "TASK ID",
-    itemTasks.filter((task) => task.clientKey === selectedClientToView)
-  );
-
   const handleRefreshTable = () => {
     setShowClientTask(false);
   };
@@ -75,8 +70,6 @@ const TaskTableView = ({
     onOpen: onOpenTaskAction,
     onOpenChange: onOpenChangeTaskAction,
   } = useDisclosure();
-
-  const taskAlert = () => {};
 
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
@@ -113,6 +106,11 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
+      const difference = Boolean(
+        differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
+          task.status === "todo"
+      );
+
       const cellValue = task[columnKey];
       const processorList = task.processor.map((processor) => (
         <Avatar
@@ -166,10 +164,21 @@ const TaskTableView = ({
               />
               {task.escalate && (
                 <LabelTagChip
-                  size="md"
+                  size={"md"}
                   text={"Escalation"}
                   color={"red"}
-                  type="label"
+                  type={"label"}
+                  isFilled
+                  className={"px-2 py-2"}
+                  classNameLabel={"text-sm lg:text-md capitalize"}
+                />
+              )}
+              {difference && (
+                <LabelTagChip
+                  size={"md"}
+                  text={"Overdue"}
+                  color={"orange"}
+                  type={"label"}
                   isFilled
                   className={"px-2 py-2"}
                   classNameLabel={"text-sm lg:text-md capitalize"}
@@ -240,12 +249,11 @@ const TaskTableView = ({
               actions={actionOptions}
               trigger={<BiDotsVerticalRounded size={24} />}
               isEscalated={task.escalate}
+              isOverdue={difference}
               selectedProcessorTaskAction={selectedProcessorTaskAction}
               setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
               selectedReviewerTaskAction={selectedReviewerTaskAction}
               setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-              selectedClientToView={selectedClientToView}
-  
             />
           );
 
@@ -256,12 +264,6 @@ const TaskTableView = ({
     [
       actions,
       isMobile,
-      isOpenPopup,
-      isOpenTaskAction,
-      onOpenChangePopup,
-      onOpenChangeTaskAction,
-      onOpenPopup,
-      onOpenTaskAction,
       selectedProcessorTaskAction,
       selectedReviewerTaskAction,
       setSelectedProcessorTaskAction,

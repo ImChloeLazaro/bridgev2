@@ -26,23 +26,28 @@ const FormFieldSelect = ({
     chip: "",
     dropdown: "",
   };
+  let selection = new Set([...items]) ?? new Set([]);
   return (
     <Select
+      label={label}
       aria-label={label}
-      items={items}
+      items={selection}
+      isDisabled={selection.size === 0}
       disallowEmptySelection={true}
       placeholder={placeholder}
       selectionMode={selectionMode}
-      selectedKeys={selectedKeys}
+      selectedKeys={new Set([...selectedKeys])}
       onSelectionChange={onSelectionChange}
       classNames={{
-        base: "h-full",
-        trigger: "min-h-unit-12 h-full py-2 rounded-small",
+        base: `h-full ${selection.size === 0 ? "cursor-not-allowed pointer-events-auto" : ""}`,
+        label: "mt-2",
+        trigger: "justify-start min-h-unit-12 py-2 h-full rounded-small",
+        selectorIcon: "justify-center mt-4",
       }}
       {...props}
       renderValue={(displayItems) => {
         return (
-          <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto">
+          <div className="flex flex-wrap gap-2 py-2 max-h-32 overflow-y-auto">
             {displayItems.map((displayItem) => (
               <Chip
                 key={displayItem.key}

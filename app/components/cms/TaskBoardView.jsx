@@ -139,7 +139,6 @@ const TaskBoardView = ({
                 }
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
-                selectedClientToView={selectedClientToView}
                 selectedProcessorTaskAction={selectedProcessorTaskAction}
                 setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
                 selectedReviewerTaskAction={selectedReviewerTaskAction}
@@ -192,7 +191,6 @@ const TaskBoardView = ({
                 }
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
-                selectedClientToView={selectedClientToView}
                 selectedProcessorTaskAction={selectedProcessorTaskAction}
                 setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
                 selectedReviewerTaskAction={selectedReviewerTaskAction}
@@ -205,7 +203,6 @@ const TaskBoardView = ({
                 task={activeTask}
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
-                selectedClientToView={selectedClientToView}
                 selectedProcessorTaskAction={selectedProcessorTaskAction}
                 setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
                 selectedReviewerTaskAction={selectedReviewerTaskAction}
