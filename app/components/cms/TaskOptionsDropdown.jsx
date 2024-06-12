@@ -3,7 +3,7 @@ import {
   updateTaskAtom,
   updateTaskStatusAtom,
 } from "@/app/store/TaskStore";
-import { userAtom } from "@/app/store/UserStore";
+import { userAtom, userListAtom } from "@/app/store/UserStore";
 import {
   Button,
   Dropdown,
@@ -18,6 +18,7 @@ import { useState } from "react";
 import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
 import { toast } from "sonner";
+import { differenceInDays, format } from "date-fns";
 
 const TaskOptionsDropdown = ({
   id,
@@ -25,35 +26,17 @@ const TaskOptionsDropdown = ({
   actions,
   trigger,
   isEscalated,
+  isOverdue,
   selectedProcessorTaskAction,
   setSelectedProcessorTaskAction,
   selectedReviewerTaskAction,
   setSelectedReviewerTaskAction,
-  selectedClientToView,
-  // isOpenPopup,
-  // onOpenPopup,
-  // onOpenChangePopup,
-  // isOpenTaskAction,
-  // onOpenTaskAction,
-  // onOpenChangeTaskAction,
-  onOpenModal,
 }) => {
-  const {
-    // confirmation window
-    isOpen: isOpenPopup,
-    onOpen: onOpenPopup,
-    onOpenChange: onOpenChangePopup,
-  } = useDisclosure();
-
-  const {
-    // modal window for selecting processor and reviewer
-    isOpen: isOpenTaskAction,
-    onOpen: onOpenTaskAction,
-    onOpenChange: onOpenChangeTaskAction,
-  } = useDisclosure();
+  const confirmationWindow = useDisclosure(); // confirmation window
+  const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
 
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [selectedTaskAction, setSelectedTaskAction] = useState({
     key: "",
     status_id: "",
@@ -63,15 +46,16 @@ const TaskOptionsDropdown = ({
   const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
   const updateTask = useSetAtom(updateTaskAtom);
   const user = useAtomValue(userAtom);
-  // console.log("tasks", tasks);
-  // console.log("selectedProcessorTaskAction", selectedProcessorTaskAction);
-  // console.log("selectedReviewerTaskAction", selectedReviewerTaskAction);
+  const userList = useAtomValue(userListAtom);
 
   const handleSelectOption = (taskAction) => {
     const { key, status_id } = taskAction;
     let taskName;
     const clientKey = tasks.client.client_id;
     const dateTaskDone = new Date();
+
+    console.log("processor assignees", tasks.processor);
+    console.log("reviewer assignees", tasks.reviewer);
 
     if (key === "mark") {
       if (status_id === "forReview" || status_id === "done") {
@@ -103,32 +87,30 @@ const TaskOptionsDropdown = ({
           return task;
         });
 
-        // setIsLoading(true);
-        // const promise = async () =>
-        //   new Promise((resolve) =>
-        //     setTimeout(
-        //       async () =>
-        //         resolve(
-        //           await updateTaskStatus({
-        //             sla: updateSelectedTask,
-        //             client_id: clientKey,
-        //           })
-        //         ),
-        //       2000
-        //     )
-        //   );
-        // toast.promise(promise, {
-        //   description: `${format(dateTaskDone, "PPpp")}`,
-        //   loading: "Updating Task Status...",
-        //   success: () => {
-        //     setIsLoading(false);
-        //     return `${
-        //       status_id === "done" ? "Task Completed" : "Task Marked for Review"
-        //     }: ${taskName}`;
-        //   },
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: updateSelectedTask,
+                    client_id: clientKey,
+                  })
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            return `${
+              status_id === "done" ? "Task Completed" : "Task Marked for Review"
+            }: ${taskName}`;
+          },
 
-        //   error: "Error Updating Task Status",
-        // });
+          error: "Error Updating Task Status",
+        });
       }
     }
 
@@ -148,46 +130,61 @@ const TaskOptionsDropdown = ({
 
       console.log("updateSelectedTask", updateSelectedTask);
 
-      // const promise = async () =>
-      //   new Promise((resolve) =>
-      //     setTimeout(
-      //       async () =>
-      //         resolve(
-      //           await updateTaskStatus({
-      //             sla: updateSelectedTask,
-      //             client_id: clientKey,
-      //           })
-      //         ),
-      //       2000
-      //     )
-      //   );
-      // toast.promise(promise, {
-      //   description: `${format(dateTaskDone, "PPpp")}`,
-      //   loading: `Escalating Task to ${
-      //     status_id[0].toUpperCase() + status_id.slice(1)
-      //   }`,
-      //   success: () => {
-      //     return "Please wait for further instructions";
-      //   },
-
-      //   error: "Error Escalating Task",
-      // });
-    }
-
-    if (key === "assign") {
-      console.log("Assign", key, id);
       const promise = async () =>
         new Promise((resolve) =>
           setTimeout(
             async () =>
               resolve(
-                await updateTask({
-                  action: key,
-                  type: "processor",
-                  _id: selectedClientToView,
-                  processor: selectedProcessorTaskAction,
-                  reviewer: selectedProcessorTaskAction,
-                }),
+                await updateTaskStatus({
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                })
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Escalating Task to ${
+          status_id[0].toUpperCase() + status_id.slice(1)
+        }`,
+        success: () => {
+          return "Please wait for further instructions";
+        },
+
+        error: "Error Escalating Task",
+      });
+    }
+
+    if (key === "assign") {
+      console.log("Assign", key, id);
+
+      const newProcessorAssignees = userList.filter(
+        (user) =>
+          Array.from(selectedProcessorTaskAction).includes(user.sub) &&
+          !tasks.processor.map((processor) => processor.sub).includes(user.sub)
+      );
+      const newReviewerAssignees = userList.filter(
+        (user) =>
+          Array.from(selectedReviewerTaskAction).includes(user.sub) &&
+          !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
+      );
+
+      console.log("newProcessorAssignees", newProcessorAssignees);
+      console.log("newReviewerAssignees", newReviewerAssignees);
+
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                // await updateTask({
+                //   action: key,
+                //   type: "processor",
+                //   _id: tasks._id,
+                //   processor: [...tasks.processor, ...newProcessorAssignees],
+                //   reviewer: [...tasks.reviewer, ...newReviewerAssignees],
+                // }),
                 await fetchTask()
               ),
             2000
@@ -204,25 +201,40 @@ const TaskOptionsDropdown = ({
 
     if (key === "remove") {
       console.log("Remove", key, id);
+
+      const newProcessorAssignees = tasks.processor
+        .map((processor) => processor.sub)
+        .filter(
+          (user) => !Array.from(selectedProcessorTaskAction).includes(user.sub)
+        );
+      const newReviewerAssignees = tasks.reviewer
+        .map((reviewer) => reviewer.sub)
+        .filter(
+          (user) => !Array.from(selectedReviewerTaskAction).includes(user.sub)
+        );
+
+      console.log("newProcessorAssignees", newProcessorAssignees);
+      console.log("newReviewerAssignees", newReviewerAssignees);
+
       const promise = async () =>
         new Promise((resolve) =>
           setTimeout(
             async () =>
               resolve(
-                await updateTask({
-                  action: key,
-                  type: "processor",
-                  _id: selectedClientToView,
-                  processor: selectedReviewerTaskAction,
-                  reviewer: selectedReviewerTaskAction,
-                }),
+                // await updateTask({
+                //   action: key,
+                //   type: "processor",
+                //   _id: tasks._id,
+                //   processor: [...tasks.processor, ...newProcessorAssignees],
+                //   reviewer: [...tasks.reviewer, ...newReviewerAssignees],
+                // }),
                 await fetchTask()
               ),
             2000
           )
         );
       toast.promise(promise, {
-        loading: "Removing New Member...",
+        loading: "Removing Member...",
         success: () => {
           return `Member Removed successfully`;
         },
@@ -233,25 +245,68 @@ const TaskOptionsDropdown = ({
 
   const taskActionWindowDetails = {
     mark: {
-      title: "Confirmation",
-      message: "Do you confirm marking this task done?",
-      description: "",
+      done: {
+        title: "Complete Task",
+        message: "You are about to mark this task as done",
+        description: "",
+        type: "confirm",
+      },
+      forReview: {
+        title: "Review Task",
+        message: "You are about to mark this task for review",
+        description: "",
+        type: "confirm",
+      },
+      title: `${
+        selectedTaskAction.status_id === "done" ? "Complete Task" : ""
+      } ${selectedTaskAction.status_id === "forReview" ? "Review Task" : ""}`,
+      message: `${
+        selectedTaskAction.status_id === "done"
+          ? "You are about to mark this task as done."
+          : ""
+      } ${
+        selectedTaskAction.status_id === "forReview"
+          ? "You are about to mark this task for review."
+          : ""
+      }`,
+      description: `${
+        selectedTaskAction.status_id === "done"
+          ? "Make sure to double check if this task is completed properly."
+          : ""
+      } ${
+        selectedTaskAction.status_id === "forReview"
+          ? "This will notify your reviewer/s to review the task."
+          : ""
+      }`,
       type: "confirm",
     },
     escalate: {
-      title: "Confirmation",
+      title: "Escalate Task",
       message: "Do you confirm escalating this task to a team lead?",
+      description:
+        "This action is irreversible. Make sure to contact your team leader",
+      type: "warning",
+    },
+    resolve: {
+      title: "Resolve Escalation",
+      message: "Do you confirm resolving this escalation?",
+      description: "",
+      type: "warning",
+    },
+    reassign: {
+      title: "Re-assign Task",
+      message: "Do you confirm re-assigning this task?",
       description: "",
       type: "warning",
     },
     assign: {
-      title: "Confirmation",
+      title: "Assign team member",
       message: "Do you confirm assigning this task?",
       description: "",
       type: "info",
     },
     remove: {
-      title: "Confirmation",
+      title: "Remove team member",
       message: "Do you confirm removing this team member?",
       description: "",
       type: "warning",
@@ -285,7 +340,10 @@ const TaskOptionsDropdown = ({
             base: ["data-[disabled=true]:opacity-100 text-black-default"],
             title: "text-base font-medium ",
           }}
-          disabledKeys={isEscalated && ["mark", "escalate"]}
+          disabledKeys={
+            (isEscalated && ["mark", "escalate"]) ||
+            (isOverdue && ["mark", "escalate"])
+          }
         >
           {(item) => {
             if (item.key === "resolve") {
@@ -302,13 +360,34 @@ const TaskOptionsDropdown = ({
                         key: item.key,
                         status_id: item.status_id,
                       });
-                      onOpenPopup();
+                      confirmationWindow.onOpen();
                     }}
                   >
-                    {"Resolve Escalation"}
+                    {item.label}
                   </DropdownItem>
                 )
               );
+            }
+            if (item.key === "reassign") {
+              return null;
+              // isOverdue && (
+              //   <DropdownItem
+              //     startContent={item.icon}
+              //     className={cn(
+              //       taskOptionsColors[item.color],
+              //       "data-[hover=true]:text-white-default"
+              //     )}
+              //     onPress={() => {
+              //       setSelectedTaskAction({
+              //         key: item.key,
+              //         status_id: item.status_id,
+              //       });
+              //       confirmationWindow.onOpen();
+              //     }}
+              //   >
+              //     {item.label}
+              //   </DropdownItem>
+              // )
             } else {
               return (
                 <DropdownItem
@@ -318,6 +397,11 @@ const TaskOptionsDropdown = ({
                     taskOptionsColors[item.color],
                     "data-[hover=true]:text-white-default",
                     item.color === "yellow" && "data-[hover=true]:text-shadow",
+                    `${
+                      isOverdue &&
+                      !["reassign", "assign", "remove"].includes(item.key) &&
+                      "text-black-default/60 cursor-not-allowed"
+                    }`,
                     `${
                       (item.key === "mark" || item.key === "escalate") &&
                       isEscalated
@@ -332,13 +416,13 @@ const TaskOptionsDropdown = ({
                         status_id: item.status_id,
                       });
                       setDropdownIsOpen(false);
-                      onOpenTaskAction();
+                      taskActionWindow.onOpen();
                     } else {
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
                       });
-                      onOpenPopup();
+                      confirmationWindow.onOpen();
                     }
                   }}
                 >
@@ -358,22 +442,19 @@ const TaskOptionsDropdown = ({
         type={taskActionWindowDetails[selectedTaskAction.key]?.type}
         action={handleSelectOption}
         action_params={selectedTaskAction}
-        isOpen={isOpenPopup}
-        onOpenChange={onOpenChangePopup}
+        isOpen={confirmationWindow.isOpen}
+        onOpenChange={confirmationWindow.onOpenChange}
       />
       <TaskActionModal
         tasks={tasks}
-        isOpen={isOpenTaskAction}
-        onOpenChange={onOpenChangeTaskAction}
-        selectedClientToView={selectedClientToView}
+        isOpen={taskActionWindow.isOpen}
+        onOpenChange={taskActionWindow.onOpenChange}
+        onOpenAfterClose={confirmationWindow.onOpen}
         selectedTaskAction={selectedTaskAction}
         selectedProcessorTaskAction={selectedProcessorTaskAction}
         setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
         selectedReviewerTaskAction={selectedReviewerTaskAction}
         setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-        onOpenAnotherModal={onOpenPopup}
-        isDismissable={false}
-        isKeyboardDismissDisabled={true}
       />
     </>
   );

@@ -22,7 +22,6 @@ function TaskBoardCard({
   updateTask,
   actions,
   tasksFromSelectedClient,
-  selectedClientToView,
   selectedProcessorTaskAction,
   setSelectedProcessorTaskAction,
   selectedReviewerTaskAction,
@@ -49,6 +48,13 @@ function TaskBoardCard({
     onOpenChange: onOpenChangeTaskAction,
   } = useDisclosure();
 
+  const difference = Boolean(
+    differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
+      task.status === "todo"
+  );
+
+  console.log("difference", difference, task.name, task.status);
+
   const {
     setNodeRef,
     attributes,
@@ -62,7 +68,7 @@ function TaskBoardCard({
       type: "Task",
       task,
     },
-    disabled: task.escalate,
+    disabled: task.escalate || difference,
   });
 
   const actionOptions = [
@@ -136,11 +142,6 @@ function TaskBoardCard({
   //   );
   // }
 
-  const handleCheckDueDate = (due_date, status) => {
-    const difference = differenceInDays(new Date(due_date), new Date());
-    // console.log("handleCheckDueDate", difference, status);
-  };
-
   return (
     <div
       ref={setNodeRef}
@@ -149,12 +150,16 @@ function TaskBoardCard({
       style={style}
       // onClick={toggleEditMode}
       data-escalated={task.escalate}
-      data-due={handleCheckDueDate(task.duration.end, task.status)}
+      data-due={difference}
       className={cn(
-        "data-[escalated=true]:border-red-default",
+        "data-[escalated=true]:!border-red-default",
         "data-[escalated=true]:border-3",
         "data-[escalated=true]:ring-0",
         "data-[escalated=true]:cursor-not-allowed",
+        "data-[due=true]:border-orange-default",
+        "data-[due=true]:border-3",
+        "data-[due=true]:ring-0",
+        "data-[due=true]:cursor-not-allowed",
         "min-h-fit",
         "bg-white-default p-2.5",
         "items-center flex text-left relative",
@@ -191,32 +196,14 @@ function TaskBoardCard({
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
             isEscalated={task.escalate}
+            isOverdue={difference}
             selectedProcessorTaskAction={selectedProcessorTaskAction}
             setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
             selectedReviewerTaskAction={selectedReviewerTaskAction}
             setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-            selectedClientToView={selectedClientToView}
-            isOpenPopup={isOpenPopup}
-            onOpenPopup={onOpenPopup}
-            onOpenChangePopup={onOpenChangePopup}
-            isOpenTaskAction={isOpenTaskAction}
-            onOpenTaskAction={onOpenTaskAction}
-            onOpenChangeTaskAction={onOpenChangeTaskAction}
-            onOpenModal={onOpenTaskAction}
           />
-          {/* <TaskActionModal
-            isOpen={isOpenTaskAction}
-            onOpenChange={onOpenChangeTaskAction}
-            selectedProcessorTaskAction={selectedProcessorTaskAction}
-              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-              selectedReviewerTaskAction={selectedReviewerTaskAction}
-              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-            onOpenAnotherModal={onOpenPopup}
-            isDismissable={false}
-            isKeyboardDismissDisabled={true}
-          /> */}
         </div>
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start gap-2">
           {task.escalate && (
             <LabelTagChip
               text="Escalation"
@@ -226,26 +213,39 @@ function TaskBoardCard({
               classNameLabel={"lg:text-xs"}
             />
           )}
+          {difference && (
+            <LabelTagChip
+              text="Overdue"
+              color="orange"
+              isFilled={false}
+              className={"py-0.5 px-1.5 lg:h-6"}
+              classNameLabel={"lg:text-xs"}
+            />
+          )}
         </div>
-        <div className="flex gap-2 justify-start items-center">
-          <MdCalendarMonth size={20} />
-          <Link
-            href="#"
-            isDisabled={task.status === "done"}
-            underline="hover"
-            className={cn(
-              `${task.status === "done" ? "line-through" : ""}`,
-              "text-sm font-medium text-black-default/80"
-            )}
-          >
-            {task?.duration?.end?.length
-              ? format(task.duration.end, "d MMM yyyy")
-              : ""}
-          </Link>
-        </div>
+        {
+          <div className="flex gap-2 justify-start items-center">
+            <MdCalendarMonth size={20} />
+            <Link
+              href="#"
+              isDisabled={task.status === "done" || difference}
+              underline="hover"
+              className={cn(
+                `${task.status === "done" || difference ? "line-through" : ""}`,
+                "text-sm font-medium text-black-default/80"
+              )}
+            >
+              {task.status === "pending"
+                ? "Due Date: Pending"
+                : task?.duration?.end?.length
+                ? format(task.duration.end, "d MMM yyyy")
+                : ""}
+            </Link>
+          </div>
+        }
         {task.status === "forReview" && (
           <div className="flex gap-2 justify-start items-center mb-1">
-            {task.reviewer?.length < 1 && (
+            {task.reviewer?.length === 0 && (
               <p className="text-sm font-medium text-black-default">
                 {"No reviewer is assigned yet."}
               </p>

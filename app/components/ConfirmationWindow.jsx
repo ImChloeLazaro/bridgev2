@@ -16,7 +16,7 @@ import { BsQuestionCircleFill } from "react-icons/bs";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 const ConfirmationWindow = ({
   message = "message", // main message
-  description = "description", // description or additional message
+  description = "", // description or additional message
   title, // title on top of confirmation window
   icon, // icon on left of confirmation window
   color, // color of button
@@ -133,8 +133,11 @@ const ConfirmationWindow = ({
                   <p className="text-base font-semibold text-black-default tracking-tight text-wrap">
                     {message ? message : ""}
                   </p>
-                  <p className="text-xs font-semibold text-black-default tracking-tight text-wrap">
+                  <p className="text-sm font-semibold text-black-default tracking-tight text-wrap">
                     {description ? description : ""}
+
+                    {/* Render multiline text string with '\n' */}
+                    {/* text.split('\n').map(str => <p>{str}</p>) */}
                   </p>
                 </div>
               </div>

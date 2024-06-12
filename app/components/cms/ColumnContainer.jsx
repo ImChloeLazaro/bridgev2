@@ -16,7 +16,6 @@ function ColumnContainer({
   updateTask,
   actions,
   tasksFromSelectedClient,
-  selectedClientToView,
   selectedProcessorTaskAction,
   setSelectedProcessorTaskAction,
   selectedReviewerTaskAction,
@@ -195,7 +194,6 @@ function ColumnContainer({
                 updateTask={updateTask}
                 actions={actions}
                 tasksFromSelectedClient={tasksFromSelectedClient}
-                selectedClientToView={selectedClientToView}
                 selectedProcessorTaskAction={selectedProcessorTaskAction}
                 setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
                 selectedReviewerTaskAction={selectedReviewerTaskAction}

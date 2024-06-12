@@ -15,20 +15,14 @@ const TaskActionModal = ({
   tasks,
   isOpen,
   onOpenChange,
-  selectedClientToView,
+  onOpenAfterClose,
   selectedTaskAction,
   selectedProcessorTaskAction,
   setSelectedProcessorTaskAction,
   selectedReviewerTaskAction,
   setSelectedReviewerTaskAction,
-  onOpenAnotherModal,
   ...props
 }) => {
-  const userList = useAtomValue(userListAtom);
-  const userSelection = userList.map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  });
-
   const filterUniqueByKey = (array, key) => {
     const seen = new Map();
     array.forEach(item => seen.set(item[key], item));
@@ -42,12 +36,12 @@ const TaskActionModal = ({
 
   const windowDetails = {
     assign: {
-      title: "Assign a new team member",
+      title: "Assign new team member",
       label: "Assign Member",
       color: "blue",
     },
     remove: {
-      title: "Remove a new team member",
+      title: "Remove team member",
       label: "Remove Member",
       color: "red",
     },
@@ -82,9 +76,9 @@ const TaskActionModal = ({
                       {"Processor"}
                     </p>
                     <FormFieldSelect
+                      label="Assigned to"
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
-                      label={"Select processor/s"}
                       items={userSelection}
                       renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
@@ -96,9 +90,9 @@ const TaskActionModal = ({
                       {"Reviewer"}
                     </p>
                     <FormFieldSelect
+                      label="Assigned to"
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
-                      label={"Select reviewer/s"}
                       items={userSelection}
                       renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
@@ -115,9 +109,9 @@ const TaskActionModal = ({
                       {"Processor"}
                     </p>
                     <FormFieldSelect
+                      label="Remove from"
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
-                      label={"Select processor/s"}
                       items={processors}
                       renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
@@ -129,9 +123,9 @@ const TaskActionModal = ({
                       {"Reviewer"}
                     </p>
                     <FormFieldSelect
+                      label="Remove from"
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
-                      label={"Select reviewer/s"}
                       items={reviewers}
                       renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
@@ -156,8 +150,8 @@ const TaskActionModal = ({
                 label={windowDetails[selectedTaskAction.key]?.label}
                 color={windowDetails[selectedTaskAction.key]?.color}
                 onPress={() => {
-                  onOpenAnotherModal();
-                  console.log("Modal");
+                  onOpenAfterClose();
+                  onClose();
                 }}
                 className={"px-6"}
               />

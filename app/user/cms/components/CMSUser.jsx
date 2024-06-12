@@ -82,14 +82,8 @@ const CMSUser = () => {
 
   const userTasks = tasks.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
-    const pro = task.processor.map((user) => user.sub);
-    const rev = task.reviewer.map((user) => user.sub);
-
-    console.log("processors: ", pro);
-    console.log("processors: ", rev);
-    console.log("merge", [...pro, ...rev]);
-
-    return processors.includes(user.sub);
+    const reviewers = task.reviewer.map((user) => user.sub);
+    return [...processors, ...reviewers].includes(user.sub); // assignees
   });
 
   const tasksFromSelectedClient = useMemo(
