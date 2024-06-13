@@ -259,6 +259,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
 
   if (tasks?.success) {
     console.log("TASKS SUCCESS FETCH", tasks.response);
+    console.log("TASKS SUCCESS FOR PROCESSOR", tasks);
     const convertedTasks = tasks.response.map((task, index) => {
       return {
         ...task,
