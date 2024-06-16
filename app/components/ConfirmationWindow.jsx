@@ -23,9 +23,9 @@ const ConfirmationWindow = ({
   type = "confirm", // type of confirmation window
   cancel, // label for cancel button
   action, // function to call when choice is selected
-  action_params, // params to pass to action function
+  action_params, // params to pass to action function {}
   choice, // accept choice for confirmation window
-  third_choice, // { label: "", color: "blue", action: () => {} , action_params: [] }
+  third_choice, // { label: "", color: "blue", action: () => {} , action_params: {} }
   withNotification = false, // display notification after the action is performed
   showChoices = true, // display choices
   onCloseParent, // function to close parent component when choice is selected

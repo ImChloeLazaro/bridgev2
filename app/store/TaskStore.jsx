@@ -1,20 +1,20 @@
 import {
   destroywithparams,
-  restdestroy,
   restinsert,
   restread,
-  restupdate,
+  restupdate
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import { clientsAtom, selectedClientToViewAtom } from "./ClientStore";
-import { userAtom, userListAtom } from "./UserStore";
-import { useMemo } from "react";
-import { authenticationAtom } from "./AuthenticationStore";
-import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
+import { toast } from "sonner";
+import { clientsAtom } from "./ClientStore";
+import { userListAtom } from "./UserStore";
 
 export const tasksAtom = atom([]);
 
-export const draggableTasksAtom = atom([]);
+export const selectedTaskActionAtom = atom({
+  key: "",
+  status_id: "",
+});
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const {
@@ -72,77 +72,39 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   }
 });
 export const updateTaskAtom = atom(null, async (get, set, update) => {
-  const { action, type, _id, reviewer, processor } = update;
-  console.log("UPDATED HERE DATA");
-  console.log(get(tasksAtom));
-  if (type === "processor") {
-    if (action === "remove") {
-      const response = await restupdate("/cms/task/remove-processor", {
-        _id,
-        reviewer,
-        processor,
-      });
-      console.log("processor-remove", response);
-      // if (response.success) {
-      //   console.log("REMOVE PROCESSOR", response.response);
-      //   return { success: true };
-      // } else {
-      //   console.log("FAILED REMOVING PROCESSOR");
-      //   return { success: false };
-      // }
-    }
-    if (action === "assign") {
-      const response = await restupdate("/cms/task/update-processor", {
-        _id,
-        reviewer,
-        processor,
-      });
-      console.log("processor-assign", response);
-      // if (response.success) {
-      //   console.log("UPDATE PROCESSOR", response.response);
-      //   return { success: true };
-      // } else {
-      //   console.log("FAILED UPDATING PROCESSOR");
-      //   return { success: false };
-      // }
-    } // assign
-  }
+  const { action, tasks, _id, reviewer, processor } = update;
+  console.log("UPDATED HERE DATA processor", processor);
+  console.log("UPDATED HERE DATA reviewer", reviewer);
+  console.log("UPDATED HERE DATA _id", _id);
+  console.log("UPDATED HERE DATA tasks", tasks.sla);
 
-  if (type === "reviewer") {
-    if (action === "remove") {
-      const response = await restupdate("/cms/task/remove-reviewer", {
-        _id,
-        reviewer,
-        processor,
-      });
-      console.log("reviewer-remove", response);
-      // if (response.success) {
-      //   console.log("REMOVE REVIEWER", response.response);
-      //   return { success: true };
-      // } else {
-      //   console.log("FAILED REMOVING REVIEWER");
-      //   return { success: false };
-      // }
-    }
-    if (action === "assign") {
-      const response = await restupdate("/cms/task/update-reviewer", {
-        _id,
-        reviewer,
-        processor,
-      });
-      console.log("reviewer-assign", response);
-      // if (response.success) {
-      //   console.log("UPDATE REVIEWER", response.response);
-      //   return { success: true };
-      // } else {
-      //   console.log("FAILED UPDATING REVIEWER");
-      //   return { success: false };
-      // }
-    } // assign
+  const updatedAssignees = {
+    _id,
+    reviewer,
+    processor,
+  };
+
+  if (action === "remove") {
+    const response = await Promise.all([
+      await restupdate("/cms/task/remove-processor", updatedAssignees),
+      await restupdate("/cms/task/remove-reviewer", updatedAssignees),
+    ]);
+
+    console.log("RESPONSE REMOVE PROCESSOR + REVIEWER", response);
+  }
+  if (action === "assign") {
+    const response = await Promise.all([
+      await restupdate("/cms/task/update-processor", updatedAssignees),
+      await restupdate("/cms/task/update-reviewer", updatedAssignees),
+    ]);
+
+    console.log("RESPONSE ASSIGN PROCESSOR + REVIEWER", response);
   }
 });
+
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/task", {
+    // id of sla
     _id: "66149efa8cf1401df0973562", // "660fa0db6c5775f281500e3d"
   });
   if (response.success) {
@@ -157,14 +119,6 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const { sla, client_id } = update;
-
-  const removeDoneBy = sla.map((task) => {
-    if (task.status !== "done") {
-      return { ...task, done_by: {} };
-    }
-    return task;
-  });
-  console.log("HERE SLA REMOVE DONE BY WHEN NOT DONE STATUS", removeDoneBy);
 
   const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
@@ -190,6 +144,350 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     console.log("FAILED UPDATING TASK");
     return { success: false };
   }
+});
+
+export const taskActionsAtom = atom(null, (get, set, update) => {
+  const {
+    tasks,
+    task_id,
+    selectedProcessorTaskAction,
+    selectedReviewerTaskAction,
+    setSelectedProcessorTaskAction,
+    setSelectedReviewerTaskAction,
+  } = update;
+
+  const { key, status_id } = get(selectedTaskActionAtom);
+
+  const clientKey = tasks.client.client_id;
+  const dateTaskDone = new Date();
+
+  console.log("processor assignees", tasks.processor);
+  console.log("reviewer assignees", tasks.reviewer);
+
+  if (key === "mark") {
+    let taskName;
+    if (status_id === "forReview" || status_id === "done") {
+      const updateSelectedTask = tasks.sla.map((task) => {
+        if (task._id === task_id) {
+          console.log("TASK", task);
+          taskName = task?.name;
+
+          console.log("taskName: ", taskName);
+
+          if (status_id === "done") {
+            return {
+              ...task,
+              status: status_id,
+              done_by: {
+                sub: user?.sub,
+                name: user?.name,
+                email: user?.email,
+                picture: user?.picture,
+              },
+            };
+          } else {
+            return {
+              ...task,
+              status: status_id,
+            };
+          }
+        }
+        return task;
+      });
+
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await set(updateTaskStatusAtom, {
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                }),
+                await set(fetchTaskAtom, {})
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: "Updating Task Status...",
+        success: () => {
+          return `${
+            status_id === "done" ? "Task Completed" : "Task Marked for Review"
+          }: ${taskName}`;
+        },
+
+        error: "Error Updating Task Status",
+      });
+    }
+  }
+
+  if (key === "escalate" || key === "resolve") {
+    const updateSelectedTask = tasks.sla.map((task) => {
+      if (task._id === task_id) {
+        if (!Boolean(task.escalate)) {
+          // if task is not escalated, set true
+          return { ...task, escalate: true };
+        } else {
+          // resolve task escalation, set to false
+          return { ...task, escalate: false };
+        }
+      }
+      return task;
+    });
+
+    console.log("updateSelectedTask", updateSelectedTask);
+
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              await set(updateTaskStatusAtom, {
+                sla: updateSelectedTask,
+                client_id: clientKey,
+              }),
+              await set(fetchTaskAtom, {})
+            ),
+          2000
+        )
+      );
+    toast.promise(promise, {
+      description: `${format(dateTaskDone, "PPpp")}`,
+      loading: `Escalating Task to ${
+        status_id[0].toUpperCase() + status_id.slice(1)
+      }`,
+      success: () => {
+        return "Please wait for further instructions";
+      },
+
+      error: "Error Escalating Task",
+    });
+  }
+
+  if (key === "assign") {
+    console.log("Assign", key, task_id);
+
+    const newProcessorAssignees = get(userListAtom).filter(
+      (user) =>
+        Array.from(selectedProcessorTaskAction).includes(user.sub) &&
+        !tasks.processor.map((processor) => processor.sub).includes(user.sub)
+    );
+    const newReviewerAssignees = get(userListAtom).filter(
+      (user) =>
+        Array.from(selectedReviewerTaskAction).includes(user.sub) &&
+        !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
+    );
+
+    const removedDuplicateProcessors = [
+      ...tasks.processor,
+      ...newProcessorAssignees,
+    ].filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+
+    const removedDuplicateReviewers = [
+      ...tasks.reviewer,
+      ...newReviewerAssignees,
+    ].filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+
+    console.log("removedDuplicateProcessors", removedDuplicateProcessors);
+    console.log("removedDuplicateReviewers", removedDuplicateReviewers);
+
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              await set(updateTaskAtom, {
+                action: key,
+                tasks: tasks,
+                _id: tasks._id,
+                processor: removedDuplicateProcessors,
+                reviewer: removedDuplicateReviewers,
+              }),
+              await set(fetchTaskAtom, {})
+            ),
+          2000
+        )
+      );
+    toast.promise(promise, {
+      loading: "Assigning New Member...",
+      success: () => {
+        return `New Member Assigned successfully`;
+      },
+      error: "Error assigning new member",
+    });
+    setSelectedProcessorTaskAction(new Set([]));
+    setSelectedReviewerTaskAction(new Set([]));
+  }
+
+  if (key === "remove") {
+    console.log("Remove", key, task_id);
+
+    const newProcessorAssignees = tasks.processor
+      .map((processor) => processor.sub)
+      .filter(
+        (user) => !Array.from(selectedProcessorTaskAction).includes(user.sub)
+      );
+    const newReviewerAssignees = tasks.reviewer
+      .map((reviewer) => reviewer.sub)
+      .filter(
+        (user) => !Array.from(selectedReviewerTaskAction).includes(user.sub)
+      );
+
+    const removedDuplicateProcessors = [
+      ...tasks.processor,
+      ...newProcessorAssignees,
+    ].filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+
+    const removedDuplicateReviewers = [
+      ...tasks.reviewer,
+      ...newReviewerAssignees,
+    ].filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+
+    console.log("removedDuplicateProcessors", removedDuplicateProcessors);
+    console.log("removedDuplicateReviewers", removedDuplicateReviewers);
+
+    /// ### For removing any task done by when removing processor/s and reviewer/s?
+    /// ### Checks whether the soon to be removed processor/s and reviewer/s has any task done by and removes it
+
+    // const processorSubs = tasks.processor.map((processor) => processor.sub);
+
+    // const removeDoneBy = tasks.sla.map((task) => {
+    //   console.log("task.done_by.sub", task.done_by.sub);
+    //   console.log(
+    //     "processorSubs.includes(task.done_by.sub)",
+    //     processorSubs.includes(task.done_by.sub)
+    //   );
+
+    //   if (
+    //     task.status !== "done" &&
+    //     processorSubs.includes(task.done_by.sub)
+    //   ) {
+    //     return { ...task, done_by: {} };
+    //   }
+    //   return task;
+    // });
+
+    const promise = async () =>
+      new Promise((resolve) =>
+        setTimeout(
+          async () =>
+            resolve(
+              // ### Removes any task done by first before removing processor/s and reviewer/s
+
+              // await set(updateTaskStatusAtom, {
+              //   sla: removeDoneBy,
+              //   client_id: clientKey,
+              // }),
+
+              await set(updateTaskAtom, {
+                action: key,
+                tasks: tasks,
+                _id: tasks._id,
+                processor: removedDuplicateProcessors,
+                reviewer: removedDuplicateReviewers,
+              }),
+
+              await set(fetchTaskAtom, {})
+            ),
+          2000
+        )
+      );
+    toast.promise(promise, {
+      loading: "Removing Member...",
+      success: () => {
+        return `Member Removed successfully`;
+      },
+      error: "Error removing member",
+    });
+    setSelectedProcessorTaskAction(new Set([]));
+    setSelectedReviewerTaskAction(new Set([]));
+  }
+});
+
+export const taskActionWindowDetailsAtom = atom((get) => {
+  return {
+    mark: {
+      done: {
+        title: "Complete Task",
+        message: "You are about to mark this task as done",
+        description: "",
+        type: "confirm",
+      },
+      forReview: {
+        title: "Review Task",
+        message: "You are about to mark this task for review",
+        description: "",
+        type: "confirm",
+      },
+      title: `${
+        get(selectedTaskActionAtom).status_id === "done" ? "Complete Task" : ""
+      } ${
+        get(selectedTaskActionAtom).status_id === "forReview"
+          ? "Review Task"
+          : ""
+      }`,
+      message: `${
+        get(selectedTaskActionAtom).status_id === "done"
+          ? "You are about to mark this task as done."
+          : ""
+      } ${
+        get(selectedTaskActionAtom).status_id === "forReview"
+          ? "You are about to mark this task for review."
+          : ""
+      }`,
+      description: `${
+        get(selectedTaskActionAtom).status_id === "done"
+          ? "Make sure to double check if this task is completed properly."
+          : ""
+      } ${
+        get(selectedTaskActionAtom).status_id === "forReview"
+          ? "This will notify your reviewer/s to review the task."
+          : ""
+      }`,
+      type: "confirm",
+    },
+    escalate: {
+      title: "Escalate Task",
+      message: "Do you confirm escalating this task to a team lead?",
+      description:
+        "This action is irreversible. Make sure to contact your team leader",
+      type: "warning",
+    },
+    resolve: {
+      title: "Resolve Escalation",
+      message: "Do you confirm resolving this escalation?",
+      description: "",
+      type: "warning",
+    },
+    reassign: {
+      title: "Re-assign Task",
+      message: "Do you confirm re-assigning this task?",
+      description: "",
+      type: "warning",
+    },
+    assign: {
+      title: "Assign team member",
+      message: "Do you confirm assigning this task?",
+      description: "",
+      type: "info",
+    },
+    remove: {
+      title: "Remove team member",
+      message: "Do you confirm removing this team member?",
+      description: "",
+      type: "warning",
+    },
+  };
 });
 
 export const tableColumnsAtom = atom([
@@ -297,57 +595,6 @@ export const processorSelectionAtom = atom((get) => {
   }));
   return peopleList;
 });
-//   [
-//   {
-//     id: (processorIndex += 1),
-//     sub: `processor-${processorIndex}`,
-//     name: "Tatiana Philips",
-//     email: "tatiana.philips@aretex.com.au",
-//     picture: "/Tatiana Philips.png",
-//     team: "DMS - Bea",
-//   },
-//   {
-//     id: (processorIndex += 1),
-//     sub: `processor-${processorIndex}`,
-//     name: "Aspen Donin",
-//     email: "aspen.donin@aretex.com.au",
-//     picture: "/Aspen Donin.png",
-//     team: "DMS - James",
-//   },
-//   {
-//     id: (processorIndex += 1),
-//     sub: `processor-${processorIndex}`,
-//     name: "Kaylynn Bergson",
-//     email: "kaylynn.bergson@aretex.com.au",
-//     picture: "/Kaylynn Bergson.png",
-//     team: "DMS - Dennis",
-//   },
-//   {
-//     id: (processorIndex += 1),
-//     sub: `processor-${processorIndex}`,
-//     name: "Eddie Lake",
-//     email: "eddie.lake@aretex.com.au",
-//     picture: "/Eddie Lake.png",
-//     team: "DMS - Dennis",
-//   },
-//   {
-//     id: (processorIndex += 1),
-//     sub: `processor-${processorIndex}`,
-//     name: "John Dukes",
-//     email: "john.dukes@aretex.com.au",
-//     picture: "/John Dukes.png",
-//     team: "Financials - Dom",
-//   },
-//   {
-//     id: (processorIndex += 1),
-//     sub: `processor-${processorIndex}`,
-//     name: "Katie Sims",
-//     email: "katie.sims@aretex.com.au",
-//     picture: "/Katie Sims.png",
-//     team: "SD - Charlene",
-//   },
-// ]
-// export const selectedProcessorAtom = atom(new Set([]));
 
 let reviewerIndex = 0;
 export const reviewerSelectionAtom = atom((get) => {
@@ -359,42 +606,6 @@ export const reviewerSelectionAtom = atom((get) => {
   }));
   return peopleList;
 });
-// [
-// {
-//   id: (reviewerIndex += 1),
-//   sub: `reviewer-${reviewerIndex}`,
-//   name: "Madelyn Septimus",
-//   email: "madelyn.septimus@aretex.com.au",
-//   picture: "/Madelyn Septimus.png",
-//   team: "DMS - Dennis",
-// },
-// {
-//   id: (reviewerIndex += 1),
-//   sub: `reviewer-${reviewerIndex}`,
-//   name: "Skylar Curtis",
-//   email: "skylar.curtis@aretex.com.au",
-//   picture: "/Skylar Curtis.png",
-//   team: "Financials - Jess",
-// },
-// {
-//   id: (reviewerIndex += 1),
-//   sub: `reviewer-${reviewerIndex}`,
-//   name: "Joshua Jones",
-//   email: "joshua.jones@aretex.com.au",
-//   picture: "/Joshua Jones.png",
-//   team: "AP - Lady",
-// },
-// {
-//   id: (reviewerIndex += 1),
-//   sub: `reviewer-${reviewerIndex}`,
-//   name: "Patricia Sanders",
-//   email: "patricia.sanders@aretex.com.au",
-//   picture: "/Patricia Sanders.png",
-//   team: "SD - Raquel",
-// },
-// ]
-
-// export const selectedReviewerAtom = atom(new Set([]));
 
 let managerIndex = 0;
 export const managerSelectionAtom = atom((get) => {
@@ -406,26 +617,6 @@ export const managerSelectionAtom = atom((get) => {
   }));
   return peopleList;
 });
-//   [
-//   {
-//     id: (managerIndex += 1),
-//     sub: `manager-${managerIndex}`,
-//     name: "Wilson Herwitz",
-//     email: "wilson.herwitz@aretex.com.au",
-//     picture: "/Wilson Herwitz.png",
-//     team: "AP - Richmond",
-//   },
-//   {
-//     id: (managerIndex += 1),
-//     sub: `manager-${managerIndex}`,
-//     name: "Corina McCoy",
-//     email: "corina.mccoy@aretex.com.au",
-//     picture: "/Corina McCoy.png",
-//     team: "AP - Richmond",
-//   },
-// ]
-
-// export const selectedManagerAtom = atom(new Set([]));
 
 let intervalIndex = 0;
 export const recurrenceSelectionAtom = atom([

@@ -918,7 +918,7 @@ postsAtom = atom({
 * Removed dummy data from atoms in `TasksStore` and `ClientStore` in preparation of API integration
 * Added `popover` component to `FormFieldInput` as `endContent` Component to handle selecting date inside the component
 * Updated `FormFieldInput` Component to include `isDateModal`as prop
-* Fixed a bug where`popover` component from @shadcn/ui to stack higher than the `modal` window from `@nextui-org/react`
+* Fixed a bug where `popover` component from @shadcn/ui to stack higher than the `modal` window from `@nextui-org/react`
 * Added `DatePicker` Component to wrap the `modal` window from `@nextui-org/react` and `popover` component from @shadcn/ui in order to render correctly the `popover` component on top of the `modal` window
 * Added `DatePicker` component to `FormFieldInput` as `endContent` Component to handle selecting date inside the component
 * Updated `DatePicker` Component to inherit its parent's prop
@@ -1014,7 +1014,7 @@ postsAtom = atom({
 * Added sorting functionality when rendering `LabelTagChip` Component in `ClientItemCard` Component
 * Updated `sonner/toaster` Component to render more vibrant colors
 * Added `promise` toaster when adding `task` and waits for the `task` to be successful and displays the corresponding `message`
-* Bug when filtering/ searching in `searchBar` dragging `task` cards deletes all `task` that does not satisfy the `condition`
+* Fixed a bug when filtering/ searching in `searchBar` dragging `task` cards deletes all `task` that does not satisfy the `condition`
 * Removed data-attribute for showing and hiding `IconButton` Component due to redundancy
 * Added dropdown selection for each task in `TaskTableView` Component
 * Fixed a bug where updating `task` status does not `render` properly its outline where to drop off when dragging in `TaskBoardView` Component
@@ -1351,7 +1351,7 @@ postsAtom = atom({
 * Adjusted margin, padding, and width for `RightBar` Component
 * Adjusted margin, padding, border radius, font size, and height for `RightBarCard` Component
 * Adjusted margin and padding for `NavigationBar` Component
-* Added `NavigationTab` Component to render the mobile and table view
+* Added `NavigationTab` Component to render components in mobile and table view
 * Adjusted border radius for `BirthdayCard` Component
 * Adjusted margin, padding, gap, height, and width border radius for `CreatePostCard` Component
 * Updated aria-label for `HRBulletinBoardList` Component
@@ -1440,7 +1440,6 @@ postsAtom = atom({
 * Added width to base `Input` Component for `SearchBar` Component
 * Added width to base `Select` Component for `SearchBar` Component
 * Updated layout in `SearchBar` Component due to changes in mobile and tablet view
-* Updated import path for shared atoms and props for `CMSAdmin` Component
 * Removed `CMSTLFooter` Component
 * Updated import path for shared atoms and props for `CMSUser` Component
 * Adjusted margin and padding for `CMSUser` Component

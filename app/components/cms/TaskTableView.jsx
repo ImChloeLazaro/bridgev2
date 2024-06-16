@@ -1,5 +1,10 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
-import { tableColumnsAtom } from "@/app/store/TaskStore";
+import {
+  selectedTaskActionAtom,
+  tableColumnsAtom,
+  taskActionsAtom,
+  taskActionWindowDetailsAtom,
+} from "@/app/store/TaskStore";
 import {
   Avatar,
   AvatarGroup,
@@ -15,12 +20,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { compareAsc, differenceInDays, format } from "date-fns";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
+import ConfirmationWindow from "../ConfirmationWindow";
 // @refresh reset
 
 const tagColors = {
@@ -50,6 +56,7 @@ const TaskTableView = ({
   isMobile,
 }) => {
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const [taskId, setTaskId] = useState("");
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
@@ -57,19 +64,84 @@ const TaskTableView = ({
     setShowClientTask(false);
   };
 
-  const {
-    // confirmation window
-    isOpen: isOpenPopup,
-    onOpen: onOpenPopup,
-    onOpenChange: onOpenChangePopup,
-  } = useDisclosure();
+  const confirmationWindow = useDisclosure(); // confirmation window
+  const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
+  const [selectedTaskAction, setSelectedTaskAction] = useAtom(
+    selectedTaskActionAtom
+  );
 
-  const {
-    // modal window for selecting processor and reviewer
-    isOpen: isOpenTaskAction,
-    onOpen: onOpenTaskAction,
-    onOpenChange: onOpenChangeTaskAction,
-  } = useDisclosure();
+  const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
+  const taskActions = useSetAtom(taskActionsAtom);
+
+  // const taskActionWindowDetails = {
+  //   mark: {
+  //     done: {
+  //       title: "Complete Task",
+  //       message: "You are about to mark this task as done",
+  //       description: "",
+  //       type: "confirm",
+  //     },
+  //     forReview: {
+  //       title: "Review Task",
+  //       message: "You are about to mark this task for review",
+  //       description: "",
+  //       type: "confirm",
+  //     },
+  //     title: `${
+  //       selectedTaskAction.status_id === "done" ? "Complete Task" : ""
+  //     } ${selectedTaskAction.status_id === "forReview" ? "Review Task" : ""}`,
+  //     message: `${
+  //       selectedTaskAction.status_id === "done"
+  //         ? "You are about to mark this task as done."
+  //         : ""
+  //     } ${
+  //       selectedTaskAction.status_id === "forReview"
+  //         ? "You are about to mark this task for review."
+  //         : ""
+  //     }`,
+  //     description: `${
+  //       selectedTaskAction.status_id === "done"
+  //         ? "Make sure to double check if this task is completed properly."
+  //         : ""
+  //     } ${
+  //       selectedTaskAction.status_id === "forReview"
+  //         ? "This will notify your reviewer/s to review the task."
+  //         : ""
+  //     }`,
+  //     type: "confirm",
+  //   },
+  //   escalate: {
+  //     title: "Escalate Task",
+  //     message: "Do you confirm escalating this task to a team lead?",
+  //     description:
+  //       "This action is irreversible. Make sure to contact your team leader",
+  //     type: "warning",
+  //   },
+  //   resolve: {
+  //     title: "Resolve Escalation",
+  //     message: "Do you confirm resolving this escalation?",
+  //     description: "",
+  //     type: "warning",
+  //   },
+  //   reassign: {
+  //     title: "Re-assign Task",
+  //     message: "Do you confirm re-assigning this task?",
+  //     description: "",
+  //     type: "warning",
+  //   },
+  //   assign: {
+  //     title: "Assign team member",
+  //     message: "Do you confirm assigning this task?",
+  //     description: "",
+  //     type: "info",
+  //   },
+  //   remove: {
+  //     title: "Remove team member",
+  //     message: "Do you confirm removing this team member?",
+  //     description: "",
+  //     type: "warning",
+  //   },
+  // };
 
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
@@ -106,6 +178,7 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
+      setTaskId(task?._id);
       const difference = Boolean(
         differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
           task.status === "todo"
@@ -243,18 +316,22 @@ const TaskTableView = ({
 
         case "action":
           return (
-            <TaskOptionsDropdown
-              id={task?._id}
-              tasks={tasksFromSelectedClient[0]}
-              actions={actionOptions}
-              trigger={<BiDotsVerticalRounded size={24} />}
-              isEscalated={task.escalate}
-              isOverdue={difference}
-              selectedProcessorTaskAction={selectedProcessorTaskAction}
-              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-              selectedReviewerTaskAction={selectedReviewerTaskAction}
-              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-            />
+            <>
+              <TaskOptionsDropdown
+                task_id={task?._id}
+                tasks={tasksFromSelectedClient[0]}
+                actions={actionOptions}
+                trigger={<BiDotsVerticalRounded size={24} />}
+                isEscalated={task.escalate}
+                isOverdue={difference}
+                confirmationWindow={confirmationWindow}
+                taskActionWindow={taskActionWindow}
+                selectedProcessorTaskAction={selectedProcessorTaskAction}
+                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+                selectedReviewerTaskAction={selectedReviewerTaskAction}
+                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+              />
+            </>
           );
 
         default:
@@ -263,11 +340,16 @@ const TaskTableView = ({
     },
     [
       actions,
+      confirmationWindow,
       isMobile,
       selectedProcessorTaskAction,
       selectedReviewerTaskAction,
+      selectedTaskAction.key,
       setSelectedProcessorTaskAction,
       setSelectedReviewerTaskAction,
+      taskActionWindow,
+      taskActionWindowDetails,
+      taskActions,
       tasksFromSelectedClient,
     ]
   );
@@ -372,17 +454,36 @@ const TaskTableView = ({
           )}
         </TableBody>
       </Table>
-      {/* <TaskActionModal
-        isOpen={isOpenTaskAction}
-        onOpenChange={onOpenChangeTaskAction}
+      <ConfirmationWindow
+        message={taskActionWindowDetails[selectedTaskAction.key]?.message}
+        description={
+          taskActionWindowDetails[selectedTaskAction.key]?.description
+        }
+        title={taskActionWindowDetails[selectedTaskAction.key]?.title}
+        type={taskActionWindowDetails[selectedTaskAction.key]?.type}
+        action={taskActions}
+        action_params={{
+          tasks: tasksFromSelectedClient[0],
+          task_id: taskId,
+          selectedProcessorTaskAction: selectedProcessorTaskAction,
+          selectedReviewerTaskAction: selectedReviewerTaskAction,
+          setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,
+          setSelectedReviewerTaskAction: setSelectedReviewerTaskAction,
+        }}
+        isOpen={confirmationWindow.isOpen}
+        onOpenChange={confirmationWindow.onOpenChange}
+      />
+      <TaskActionModal
+        tasks={tasksFromSelectedClient[0]}
+        isOpen={taskActionWindow.isOpen}
+        onOpenChange={taskActionWindow.onOpenChange}
+        onOpenAfterClose={confirmationWindow.onOpen}
+        selectedTaskAction={selectedTaskAction}
         selectedProcessorTaskAction={selectedProcessorTaskAction}
-              setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-              selectedReviewerTaskAction={selectedReviewerTaskAction}
-              setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-        onOpenAnotherModal={onOpenPopup}
-        isDismissable={false}
-        isKeyboardDismissDisabled={true}
-      /> */}
+        setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+        selectedReviewerTaskAction={selectedReviewerTaskAction}
+        setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+      />
     </div>
   );
 };

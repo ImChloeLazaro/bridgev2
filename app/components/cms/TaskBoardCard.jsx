@@ -15,6 +15,13 @@ import { MdCalendarMonth, MdCheck } from "react-icons/md";
 import LabelTagChip from "../LabelTagChip";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
+import {
+  selectedTaskActionAtom,
+  taskActionsAtom,
+  taskActionWindowDetailsAtom,
+} from "@/app/store/TaskStore";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import ConfirmationWindow from "../ConfirmationWindow";
 
 function TaskBoardCard({
   task,
@@ -34,26 +41,91 @@ function TaskBoardCard({
   // const isEscalated = task.escalate;
   // console.log("isEscalated:", isEscalated);
 
-  const {
-    // confirmation window
-    isOpen: isOpenPopup,
-    onOpen: onOpenPopup,
-    onOpenChange: onOpenChangePopup,
-  } = useDisclosure();
+  const confirmationWindow = useDisclosure(); // confirmation window
+  const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
+  const [selectedTaskAction, setSelectedTaskAction] = useAtom(
+    selectedTaskActionAtom
+  );
 
-  const {
-    // modal window for selecting processor and reviewer
-    isOpen: isOpenTaskAction,
-    onOpen: onOpenTaskAction,
-    onOpenChange: onOpenChangeTaskAction,
-  } = useDisclosure();
+  const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
+  const taskActions = useSetAtom(taskActionsAtom);
+
+  // const taskActionWindowDetails = {
+  //   mark: {
+  //     done: {
+  //       title: "Complete Task",
+  //       message: "You are about to mark this task as done",
+  //       description: "",
+  //       type: "confirm",
+  //     },
+  //     forReview: {
+  //       title: "Review Task",
+  //       message: "You are about to mark this task for review",
+  //       description: "",
+  //       type: "confirm",
+  //     },
+  //     title: `${
+  //       selectedTaskAction.status_id === "done" ? "Complete Task" : ""
+  //     } ${selectedTaskAction.status_id === "forReview" ? "Review Task" : ""}`,
+  //     message: `${
+  //       selectedTaskAction.status_id === "done"
+  //         ? "You are about to mark this task as done."
+  //         : ""
+  //     } ${
+  //       selectedTaskAction.status_id === "forReview"
+  //         ? "You are about to mark this task for review."
+  //         : ""
+  //     }`,
+  //     description: `${
+  //       selectedTaskAction.status_id === "done"
+  //         ? "Make sure to double check if this task is completed properly."
+  //         : ""
+  //     } ${
+  //       selectedTaskAction.status_id === "forReview"
+  //         ? "This will notify your reviewer/s to review the task."
+  //         : ""
+  //     }`,
+  //     type: "confirm",
+  //   },
+  //   escalate: {
+  //     title: "Escalate Task",
+  //     message: "Do you confirm escalating this task to a team lead?",
+  //     description:
+  //       "This action is irreversible. Make sure to contact your team leader",
+  //     type: "warning",
+  //   },
+  //   resolve: {
+  //     title: "Resolve Escalation",
+  //     message: "Do you confirm resolving this escalation?",
+  //     description: "",
+  //     type: "warning",
+  //   },
+  //   reassign: {
+  //     title: "Re-assign Task",
+  //     message: "Do you confirm re-assigning this task?",
+  //     description: "",
+  //     type: "warning",
+  //   },
+  //   assign: {
+  //     title: "Assign team member",
+  //     message: "Do you confirm assigning this task?",
+  //     description: "",
+  //     type: "info",
+  //   },
+  //   remove: {
+  //     title: "Remove team member",
+  //     message: "Do you confirm removing this team member?",
+  //     description: "",
+  //     type: "warning",
+  //   },
+  // };
 
   const difference = Boolean(
     differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
       task.status === "todo"
   );
 
-  console.log("difference", difference, task.name, task.status);
+  // console.log("difference", difference, task.name, task.status);
 
   const {
     setNodeRef,
@@ -191,12 +263,44 @@ function TaskBoardCard({
             </p>
           </div>
           <TaskOptionsDropdown
-            id={task?._id}
+            task_id={task?._id}
             tasks={tasksFromSelectedClient[0]}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
             isEscalated={task.escalate}
             isOverdue={difference}
+            confirmationWindow={confirmationWindow}
+            taskActionWindow={taskActionWindow}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+            selectedReviewerTaskAction={selectedReviewerTaskAction}
+            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+          />
+          <ConfirmationWindow
+            message={taskActionWindowDetails[selectedTaskAction.key]?.message}
+            description={
+              taskActionWindowDetails[selectedTaskAction.key]?.description
+            }
+            title={taskActionWindowDetails[selectedTaskAction.key]?.title}
+            type={taskActionWindowDetails[selectedTaskAction.key]?.type}
+            action={taskActions}
+            action_params={{
+              tasks: tasksFromSelectedClient[0],
+              task_id: task?._id,
+              selectedProcessorTaskAction: selectedProcessorTaskAction,
+              selectedReviewerTaskAction: selectedReviewerTaskAction,
+              setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,
+              setSelectedReviewerTaskAction: setSelectedReviewerTaskAction,
+            }}
+            isOpen={confirmationWindow.isOpen}
+            onOpenChange={confirmationWindow.onOpenChange}
+          />
+          <TaskActionModal
+            tasks={tasksFromSelectedClient[0]}
+            isOpen={taskActionWindow.isOpen}
+            onOpenChange={taskActionWindow.onOpenChange}
+            onOpenAfterClose={confirmationWindow.onOpen}
+            selectedTaskAction={selectedTaskAction}
             selectedProcessorTaskAction={selectedProcessorTaskAction}
             setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
             selectedReviewerTaskAction={selectedReviewerTaskAction}
@@ -279,23 +383,28 @@ function TaskBoardCard({
               </div>
             )}
             {task.reviewer.length > 1 && (
-              <AvatarGroup max={isMobile ? 2 : 3}>
-                {task.reviewer.map((reviewer, index) => (
-                  <Avatar
-                    isBordered={true}
-                    key={index}
-                    showFallback
-                    fallback={<Spinner />}
-                    src={reviewer.picture}
-                    classNames={{
-                      base: [
-                        "bg-blue-default ring-blue-default",
-                        "w-[24px] h-[24px] text-large",
-                      ],
-                    }}
-                  />
-                ))}
-              </AvatarGroup>
+              <div className="flex gap-2 items-center justify-center">
+                <p className="text-sm font-medium text-black-default">
+                  {"Reviewed by: "}
+                </p>
+                <AvatarGroup max={isMobile ? 2 : 3}>
+                  {task.reviewer.map((reviewer, index) => (
+                    <Avatar
+                      isBordered={true}
+                      key={index}
+                      showFallback
+                      fallback={<Spinner />}
+                      src={reviewer.picture}
+                      classNames={{
+                        base: [
+                          "bg-blue-default ring-blue-default",
+                          "w-[24px] h-[24px] text-large",
+                        ],
+                      }}
+                    />
+                  ))}
+                </AvatarGroup>
+              </div>
             )}
           </div>
         )}

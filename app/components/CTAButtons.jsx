@@ -5,12 +5,12 @@ const CTAButtons = ({
   radius = "sm",
   label,
   color = "grey",
-  className,
   size = "sm",
   startContent,
   endContent,
   showButton = true,
   children,
+  className,
   ...props
 }) => {
   const colors = {

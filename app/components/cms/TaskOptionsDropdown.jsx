@@ -1,5 +1,7 @@
 import {
   fetchTaskAtom,
+  selectedTaskActionAtom,
+  taskActionsAtom,
   updateTaskAtom,
   updateTaskStatusAtom,
 } from "@/app/store/TaskStore";
@@ -13,7 +15,7 @@ import {
   cn,
   useDisclosure,
 } from "@nextui-org/react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
@@ -21,30 +23,31 @@ import { toast } from "sonner";
 import { differenceInDays, format } from "date-fns";
 
 const TaskOptionsDropdown = ({
-  id,
+  task_id,
   tasks,
   actions,
   trigger,
   isEscalated,
   isOverdue,
+  confirmationWindow,
+  taskActionWindow,
   selectedProcessorTaskAction,
   setSelectedProcessorTaskAction,
   selectedReviewerTaskAction,
   setSelectedReviewerTaskAction,
 }) => {
-  const confirmationWindow = useDisclosure(); // confirmation window
-  const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
+  // const confirmationWindow = useDisclosure(); // confirmation window
+  // const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
 
-  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
-
-  const [selectedTaskAction, setSelectedTaskAction] = useState({
-    key: "",
-    status_id: "",
-  });
+  const [selectedTaskAction, setSelectedTaskAction] = useAtom(
+    selectedTaskActionAtom
+  );
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const updateTaskStatus = useSetAtom(updateTaskStatusAtom);
-  const updateTask = useSetAtom(updateTaskAtom);
+  const updateTaskAssignees = useSetAtom(updateTaskAtom);
+
+
   const user = useAtomValue(userAtom);
   const userList = useAtomValue(userListAtom);
 
@@ -60,7 +63,7 @@ const TaskOptionsDropdown = ({
     if (key === "mark") {
       if (status_id === "forReview" || status_id === "done") {
         const updateSelectedTask = tasks.sla.map((task) => {
-          if (task._id === id) {
+          if (task._id === task_id) {
             console.log("TASK", task);
             taskName = task?.name;
 
@@ -95,7 +98,8 @@ const TaskOptionsDropdown = ({
                   await updateTaskStatus({
                     sla: updateSelectedTask,
                     client_id: clientKey,
-                  })
+                  }),
+                  await fetchTask()
                 ),
               2000
             )
@@ -116,7 +120,7 @@ const TaskOptionsDropdown = ({
 
     if (key === "escalate" || key === "resolve") {
       const updateSelectedTask = tasks.sla.map((task) => {
-        if (task._id === id) {
+        if (task._id === task_id) {
           if (!Boolean(task.escalate)) {
             // if task is not escalated, set true
             return { ...task, escalate: true };
@@ -138,7 +142,8 @@ const TaskOptionsDropdown = ({
                 await updateTaskStatus({
                   sla: updateSelectedTask,
                   client_id: clientKey,
-                })
+                }),
+                await fetchTask()
               ),
             2000
           )
@@ -157,7 +162,7 @@ const TaskOptionsDropdown = ({
     }
 
     if (key === "assign") {
-      console.log("Assign", key, id);
+      console.log("Assign", key, task_id);
 
       const newProcessorAssignees = userList.filter(
         (user) =>
@@ -170,25 +175,31 @@ const TaskOptionsDropdown = ({
           !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
       );
 
-      console.log("newProcessorAssignees", newProcessorAssignees);
-      console.log("newReviewerAssignees", newReviewerAssignees);
+      const removedDuplicateProcessors = [
+        ...tasks.processor,
+        ...newProcessorAssignees,
+      ].filter(
+        (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+      );
 
-     const removedDuplicateProcessors = [...tasks.processor, ...newProcessorAssignees].filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
-    )
+      const removedDuplicateReviewers = [
+        ...tasks.reviewer,
+        ...newReviewerAssignees,
+      ].filter(
+        (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+      );
 
-    const removedDuplicateReviewers = [...tasks.reviewer, ...newProcessorAssignees].filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
-    )
+      console.log("removedDuplicateProcessors", removedDuplicateProcessors);
+      console.log("removedDuplicateReviewers", removedDuplicateReviewers);
 
       const promise = async () =>
         new Promise((resolve) =>
           setTimeout(
             async () =>
               resolve(
-                await updateTask({
+                await updateTaskAssignees({
                   action: key,
-                  type: "processor",
+                  tasks: tasks,
                   _id: tasks._id,
                   processor: removedDuplicateProcessors,
                   reviewer: removedDuplicateReviewers,
@@ -205,10 +216,12 @@ const TaskOptionsDropdown = ({
         },
         error: "Error assigning new member",
       });
+      setSelectedProcessorTaskAction(new Set([]));
+      setSelectedReviewerTaskAction(new Set([]));
     }
 
     if (key === "remove") {
-      console.log("Remove", key, id);
+      console.log("Remove", key, task_id);
 
       const newProcessorAssignees = tasks.processor
         .map((processor) => processor.sub)
@@ -221,21 +234,63 @@ const TaskOptionsDropdown = ({
           (user) => !Array.from(selectedReviewerTaskAction).includes(user.sub)
         );
 
-      console.log("newProcessorAssignees", newProcessorAssignees);
-      console.log("newReviewerAssignees", newReviewerAssignees);
+      const removedDuplicateProcessors = [
+        ...tasks.processor,
+        ...newProcessorAssignees,
+      ].filter(
+        (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+      );
+
+      const removedDuplicateReviewers = [
+        ...tasks.reviewer,
+        ...newReviewerAssignees,
+      ].filter(
+        (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+      );
+
+      console.log("removedDuplicateProcessors", removedDuplicateProcessors);
+      console.log("removedDuplicateReviewers", removedDuplicateReviewers);
+
+      /// ### For removing any task done by when removing processor/s and reviewer/s?
+      /// ### Checks whether the soon to be removed processor/s and reviewer/s has any task done by and removes it
+
+      // const processorSubs = tasks.processor.map((processor) => processor.sub);
+
+      // const removeDoneBy = tasks.sla.map((task) => {
+      //   console.log("task.done_by.sub", task.done_by.sub);
+      //   console.log(
+      //     "processorSubs.includes(task.done_by.sub)",
+      //     processorSubs.includes(task.done_by.sub)
+      //   );
+
+      //   if (
+      //     task.status !== "done" &&
+      //     processorSubs.includes(task.done_by.sub)
+      //   ) {
+      //     return { ...task, done_by: {} };
+      //   }
+      //   return task;
+      // });
 
       const promise = async () =>
         new Promise((resolve) =>
           setTimeout(
             async () =>
               resolve(
-                await updateTask({
+                // ### Removes any task done by first before removing processor/s and reviewer/s
+
+                // await updateTaskStatus({
+                // sla: removeDoneBy,
+                // client_id: clientKey,
+                // })
+                await updateTaskAssignees({
                   action: key,
-                  type: "processor",
+                  tasks: tasks,
                   _id: tasks._id,
-                  processor: [...tasks.processor, ...newProcessorAssignees],
-                  reviewer: [...tasks.reviewer, ...newReviewerAssignees],
+                  processor: removedDuplicateProcessors,
+                  reviewer: removedDuplicateReviewers,
                 }),
+
                 await fetchTask()
               ),
             2000
@@ -248,6 +303,8 @@ const TaskOptionsDropdown = ({
         },
         error: "Error removing member",
       });
+      setSelectedProcessorTaskAction(new Set([]));
+      setSelectedReviewerTaskAction(new Set([]));
     }
   };
 
@@ -331,7 +388,7 @@ const TaskOptionsDropdown = ({
 
   return (
     <>
-      <Dropdown onOpenChange={setDropdownIsOpen}>
+      <Dropdown>
         <DropdownTrigger>
           <Button
             aria-label={"Shortcut Options"}
@@ -423,7 +480,6 @@ const TaskOptionsDropdown = ({
                         key: item.key,
                         status_id: item.status_id,
                       });
-                      setDropdownIsOpen(false);
                       taskActionWindow.onOpen();
                     } else {
                       setSelectedTaskAction({
@@ -441,7 +497,7 @@ const TaskOptionsDropdown = ({
           }}
         </DropdownMenu>
       </Dropdown>
-      <ConfirmationWindow
+      {/* <ConfirmationWindow
         message={taskActionWindowDetails[selectedTaskAction.key]?.message}
         description={
           taskActionWindowDetails[selectedTaskAction.key]?.description
@@ -449,21 +505,10 @@ const TaskOptionsDropdown = ({
         title={taskActionWindowDetails[selectedTaskAction.key]?.title}
         type={taskActionWindowDetails[selectedTaskAction.key]?.type}
         action={handleSelectOption}
-        action_params={selectedTaskAction}
+        action_params={[selectedTaskAction]}
         isOpen={confirmationWindow.isOpen}
         onOpenChange={confirmationWindow.onOpenChange}
-      />
-      <TaskActionModal
-        tasks={tasks}
-        isOpen={taskActionWindow.isOpen}
-        onOpenChange={taskActionWindow.onOpenChange}
-        onOpenAfterClose={confirmationWindow.onOpen}
-        selectedTaskAction={selectedTaskAction}
-        selectedProcessorTaskAction={selectedProcessorTaskAction}
-        setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-        selectedReviewerTaskAction={selectedReviewerTaskAction}
-        setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
-      />
+      /> */}
     </>
   );
 };

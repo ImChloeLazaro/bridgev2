@@ -25,12 +25,20 @@ const TaskActionModal = ({
 }) => {
   const filterUniqueByKey = (array, key) => {
     const seen = new Map();
-    array.forEach(item => seen.set(item[key], item));
+    array?.forEach((item) => seen.set(item[key], item));
     return Array.from(seen.values());
-  }
+  };
+  const userList = useAtomValue(userListAtom);
+  const userSelection = userList.map((user) => {
+    return { ...user, key: user.sub, value: user.sub };
+  });
 
-  const filteredProcessors = filterUniqueByKey(tasks?.processor, 'sub');
-  const filteredReviewers = filterUniqueByKey(tasks?.reviewer, 'sub');
+  const filteredProcessors = filterUniqueByKey(tasks?.processor, "sub");
+  const filteredReviewers = filterUniqueByKey(tasks?.reviewer, "sub");
+
+  // console.log("filteredProcessors", filteredProcessors);
+  // console.log("filteredReviewers", filteredReviewers);
+
   const processors = new Set([...filteredProcessors]) ?? new Set([]); // new Set([...tasks?.processor]) ??
   const reviewers = new Set([...filteredReviewers]) ?? new Set([]); // new Set([...tasks?.review]) ??
 

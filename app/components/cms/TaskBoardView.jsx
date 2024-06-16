@@ -312,10 +312,6 @@ const TaskBoardView = ({
       if (taskStatusBeforeDone !== taskActiveStatus) {
         console.log("taskActive", taskActive);
 
-        const taskDone = tasks.filter(
-          (t) => t.id === activeId && t.status === "done"
-        );
-
         const dateTaskDone = new Date();
 
         const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
