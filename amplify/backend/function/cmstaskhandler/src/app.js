@@ -72,12 +72,32 @@ const taskModel = mongoose.model('Task', taskSchema)
 
 app.get('/cms/task', async function (req, res) {
   try {
-    const read = await taskModel.find()
-    res.status(200).json({ success: true, response: read })
+    const read = await taskModel.find();
+
+    // Helper function to remove duplicates based on 'sub'
+    const removeDuplicates = (arr, key) => {
+      const seen = new Set();
+      return arr.filter(item => {
+        const k = item[key];
+        return seen.has(k) ? false : seen.add(k);
+      });
+    };
+
+    // Assuming read is an array, you might need to map through it
+    const data = read.map(task => {
+      return {
+        ...task._doc,  // _doc is used to access the actual data object in Mongoose documents
+        processor: removeDuplicates(task.processor, 'sub'),
+        reviewer: removeDuplicates(task.reviewer, 'sub')
+      };
+    });
+
+    res.status(200).json({ success: true, response: data });
   } catch (error) {
-    res.json({ error: error })
+    res.status(500).json({ error: error.message });
   }
 });
+
 
 app.get('/cms/task/*', async function (req, res) {
   try {
