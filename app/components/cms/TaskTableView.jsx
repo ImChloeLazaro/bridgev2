@@ -151,9 +151,17 @@ const TaskTableView = ({
         (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
 
       if (sortDescriptor.column === "status") {
-        first = Boolean(a["escalate"]);
-        second = Boolean(b["escalate"]);
-        cmp = first - second;
+        if (
+          typeof a["escalate"] !== undefined ||
+          typeof b["escalate"] !== undefined
+        ) {
+          first = Boolean(a["escalate"]);
+          second = Boolean(b["escalate"]);
+
+          console.log("first", a, a["escalate"], typeof a["escalate"]);
+          console.log("second", b, b["escalate"], typeof b["escalate"]);
+          cmp = first - second;
+        }
       }
 
       if (sortDescriptor.column === "startDate") {
@@ -178,7 +186,7 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
-      setTaskId(task?._id);
+      setTaskId(task._id ? task._id : "");
       const difference = Boolean(
         differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
           task.status === "todo"
@@ -318,7 +326,7 @@ const TaskTableView = ({
           return (
             <>
               <TaskOptionsDropdown
-                task_id={task?._id}
+                task_id={task._id}
                 tasks={tasksFromSelectedClient[0]}
                 actions={actionOptions}
                 trigger={<BiDotsVerticalRounded size={24} />}
@@ -344,12 +352,9 @@ const TaskTableView = ({
       isMobile,
       selectedProcessorTaskAction,
       selectedReviewerTaskAction,
-      selectedTaskAction.key,
       setSelectedProcessorTaskAction,
       setSelectedReviewerTaskAction,
       taskActionWindow,
-      taskActionWindowDetails,
-      taskActions,
       tasksFromSelectedClient,
     ]
   );

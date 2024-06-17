@@ -123,6 +123,7 @@ const CMSHeader = ({
                   bg-white-default rounded-lg px-2 py-1
                   hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default
+                  
                   "
             >
               {!selectedClientToView?.length
@@ -134,6 +135,7 @@ const CMSHeader = ({
           </Tooltip>
         </CTAButtons>
         <SearchBar
+          type={showClientTask && changeView ? "search" : "filter"}
           disabledFilter={showClientTask && changeView}
           showSearchBar={showSearchBar}
           searchItem={searchItem}

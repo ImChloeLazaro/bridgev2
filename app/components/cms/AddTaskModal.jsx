@@ -12,15 +12,25 @@ import {
 import { useAtomValue, useSetAtom } from "jotai";
 import { MdAssignmentAdd } from "react-icons/md";
 import { toast } from "sonner";
-import {
-  selectedClientToViewAtom,
-  showClientTaskAtom,
-  taskDataAtom,
-  taskNameAtom,
-} from "../store/CMSTLStore";
 import TaskFormSections from "./TaskFormSections";
 
-const AddTaskModal = ({ isOpen, onOpenChange }) => {
+const AddTaskModal = ({
+  isOpen,
+  onOpenChange,
+  selectedClientToViewAtom,
+  showClientTaskAtom,
+  clientSelectionChangeAtom,
+  taskDataAtom,
+  taskNameAtom,
+  taskInstructionAtom,
+  selectedClientForTaskAtom,
+  selectedProcessorAtom,
+  selectedReviewerAtom,
+  selectedManagerAtom,
+  selectedRecurrenceAtom,
+  startDateAtom,
+  endDateAtom,
+}) => {
   const {
     isOpen: isOpenPopup,
     onOpen: onOpenPopup,
@@ -77,7 +87,19 @@ const AddTaskModal = ({ isOpen, onOpenChange }) => {
               </div>
             </ModalHeader>
             <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
-              <TaskFormSections />
+              <TaskFormSections
+                showClientTaskAtom={showClientTaskAtom}
+                clientSelectionChangeAtom={clientSelectionChangeAtom}
+                taskNameAtom={taskNameAtom}
+                taskInstructionAtom={taskInstructionAtom}
+                selectedClientForTaskAtom={selectedClientForTaskAtom}
+                selectedProcessorAtom={selectedProcessorAtom}
+                selectedReviewerAtom={selectedReviewerAtom}
+                selectedManagerAtom={selectedManagerAtom}
+                selectedRecurrenceAtom={selectedRecurrenceAtom}
+                startDateAtom={startDateAtom}
+                endDateAtom={endDateAtom}
+              />
             </ModalBody>
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />

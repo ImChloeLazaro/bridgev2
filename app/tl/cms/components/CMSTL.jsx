@@ -45,6 +45,15 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
+  taskDataAtom,
+  taskNameAtom,
+  endDateAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
+  startDateAtom,
+  taskInstructionAtom,
 } from "../store/CMSTLStore";
 import AddTaskModal from "./AddTaskModal";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
@@ -68,8 +77,6 @@ const CMSTL = () => {
     column: "endDate",
     direction: "descending",
   });
-
-  const user = useAtomValue(authenticationAtom);
 
   const clients = useAtomValue(clientsAtom);
   const tasks = useAtomValue(tasksAtom);
@@ -132,8 +139,6 @@ const CMSTL = () => {
       return {
         ...sla,
         id: (index += 1),
-        // escalate: false,
-        clientKey: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
@@ -276,14 +281,14 @@ const CMSTL = () => {
     },
     {
       key: "assign",
-      status_id: "",
+      status_id: "tl",
       color: "blue",
       label: "Assign to a team member",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
-      status_id: "",
+      status_id: "tl",
       color: "red",
       label: "Remove a team member",
       icon: <MdRemoveCircleOutline size={18} />,
@@ -398,7 +403,23 @@ const CMSTL = () => {
               className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
               onPress={() => handleOpenTaskWindow()}
             />
-            <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
+            <AddTaskModal
+              isOpen={isOpenTask}
+              onOpenChange={onOpenChangeTask}
+              selectedClientToViewAtom={selectedClientToViewAtom}
+              showClientTaskAtom={showClientTaskAtom}
+              clientSelectionChangeAtom={clientSelectionChangeAtom}
+              taskDataAtom={taskDataAtom}
+              taskNameAtom={taskNameAtom}
+              taskInstructionAtom={taskInstructionAtom}
+              selectedClientForTaskAtom={selectedClientForTaskAtom}
+              selectedProcessorAtom={selectedProcessorAtom}
+              selectedReviewerAtom={selectedReviewerAtom}
+              selectedManagerAtom={selectedManagerAtom}
+              selectedRecurrenceAtom={selectedRecurrenceAtom}
+              startDateAtom={startDateAtom}
+              endDateAtom={endDateAtom}
+            />
           </CMSHeader>
         </CardHeader>
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
@@ -443,6 +464,10 @@ const CMSTL = () => {
             selectedClientToView={selectedClientToView}
             actions={actions}
             tasksFromSelectedClient={tasksFromSelectedClient}
+            selectedProcessorTaskAction={selectedProcessorTaskAction}
+            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
+            selectedReviewerTaskAction={selectedReviewerTaskAction}
+            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
             isLoading={isLoading}
             isMobile={isMobile}
           />

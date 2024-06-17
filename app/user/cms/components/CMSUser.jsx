@@ -99,8 +99,6 @@ const CMSUser = () => {
       return {
         ...sla,
         id: (index += 1),
-        // escalate: false,
-        clientKey: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };

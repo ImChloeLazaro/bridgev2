@@ -46,9 +46,18 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
+  taskDataAtom,
+  taskNameAtom,
+  endDateAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
+  startDateAtom,
+  taskInstructionAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
-import AddTaskModal from "./AddTaskModal";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
 // @refresh reset
 
@@ -127,8 +136,6 @@ const CMSAdmin = () => {
       return {
         ...sla,
         id: (index += 1),
-        taskKey: tasksFromSelectedClient[0]._id,
-        clientKey: tasksFromSelectedClient[0].key,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
@@ -319,7 +326,7 @@ const CMSAdmin = () => {
   //     clearInterval(interval);
   //   };
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [tasks]);
+  // }, []);
 
   useEffect(() => {
     fetchTask();
@@ -398,7 +405,23 @@ const CMSAdmin = () => {
               className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
               onPress={() => handleOpenTaskWindow()}
             />
-            <AddTaskModal isOpen={isOpenTask} onOpenChange={onOpenChangeTask} />
+            <AddTaskModal
+              isOpen={isOpenTask}
+              onOpenChange={onOpenChangeTask}
+              selectedClientToViewAtom={selectedClientToViewAtom}
+              showClientTaskAtom={showClientTaskAtom}
+              clientSelectionChangeAtom={clientSelectionChangeAtom}
+              taskDataAtom={taskDataAtom}
+              taskNameAtom={taskNameAtom}
+              taskInstructionAtom={taskInstructionAtom}
+              selectedClientForTaskAtom={selectedClientForTaskAtom}
+              selectedProcessorAtom={selectedProcessorAtom}
+              selectedReviewerAtom={selectedReviewerAtom}
+              selectedManagerAtom={selectedManagerAtom}
+              selectedRecurrenceAtom={selectedRecurrenceAtom}
+              startDateAtom={startDateAtom}
+              endDateAtom={endDateAtom}
+            />
             <CTAButtons
               radius={"sm"}
               variant={"bordered"}

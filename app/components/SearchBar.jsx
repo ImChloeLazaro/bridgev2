@@ -22,17 +22,30 @@ const SearchBar = ({
         value={searchItem}
         onValueChange={setSearchItem}
         labelPlacement="outside"
+        startContent={
+          <div className="hidden md:block text-lightgrey-default">
+            <LuSearch size={18} />
+          </div>
+        }
         endContent={
           <>
-            <div className="text-lightgrey-default">
+            <div className="block md:hidden text-lightgrey-default mx-2">
               <LuSearch size={18} />
+            </div>
+
+            <div
+              data-show={Boolean(searchItem?.length)}
+              className="data-[show=true]:invisible hidden md:flex pointer-events-none items-center mx-2"
+            >
+              <span className="text-darkgrey-hover text-small">{"Search"}</span>
             </div>
           </>
         }
         classNames={{
-          base: "w-20 min-[320px]:w-24 min-[425px]:w-32 md:w-full",
-          inputWrapper: ["bg-white-default border shadow-sm"],
+          base: "w-full min-w-20",
+          inputWrapper: ["px-3 bg-white-default border shadow-sm"],
           mainWrapper: ["w-full"],
+          input: "mt-1",
         }}
       />
     ),
@@ -98,7 +111,7 @@ const SearchBar = ({
           classNames={{
             base: "w-full min-w-20",
             inputWrapper: [
-              "px-1 lg:px-3 bg-white-default rounded-l-none border border-l-0 shadow-sm",
+              "px-3 bg-white-default rounded-l-none border border-l-0 shadow-sm",
             ],
             mainWrapper: ["w-full"],
             input: "mt-1",
