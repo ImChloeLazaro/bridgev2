@@ -55,8 +55,8 @@ import {
   startDateAtom,
   taskInstructionAtom,
 } from "../store/CMSTLStore";
-import AddTaskModal from "./AddTaskModal";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
 // @refresh reset
 
