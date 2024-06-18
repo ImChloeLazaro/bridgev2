@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
-
+const leaveModel = require('/opt/schema/leaveSchema.js')
 // Declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -16,15 +16,6 @@ app.use(function(req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true })
-
-const leaveSchema = mongoose.Schema({ 
-  sub: String,
-  VL_BALANCE: { type: Number, default: 20 },
-  SL_BALANCE: { type: Number, default: 5 },
-  reset_date: Date
-})
-
-const leaveModel = mongoose.model('leave', leaveSchema)
 
 app.get('/leave/*', async function(req, res) {
   try {

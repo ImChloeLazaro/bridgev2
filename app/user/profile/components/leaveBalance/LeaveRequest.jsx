@@ -12,23 +12,37 @@ import {
     Select,
     SelectItem,
     DatePicker,
-    Textarea
+    Textarea,
+    Checkbox
 } from "@nextui-org/react";
 
-import {DateValue, parseDate, getLocalTimeZone} from "@internationalized/date";
+import { parseDate } from "@internationalized/date";
 
 import { FaHistory } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
 import LeaveHistory from "./LeaveHistory";
 
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { leaveStatusAtom } from "../../store/ProfileStore";
+import { useAtomValue } from "jotai";
+
 import { restinsert, restread } from "@/app/utils/amplify-rest";
 
 const LeaveRequest = () => {
+    const response = useAtomValue(leaveStatusAtom);
+    const { VL_BALANCE, SL_BALANCE } = useAtomValue(leaveStatusAtom).response;
+    console.log('VL balance', response);
+    console.log('SL balance', SL_BALANCE);
+
+    const { sub } = useAtomValue(authenticationAtom);
+    const [leaveConfirmation, setLeaveConfirmation] = useState(false);
     const [formdata, setFormdata] = useState({
+        sub: sub,
         leaveType: "vl",
         numberOfHours: 8,
         leaveDate: new Date().toISOString(),
-        reason: ""
+        reason: "",
+        borrowedLeave: false
     });
 
     const {
@@ -66,10 +80,23 @@ const LeaveRequest = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // Call API to save the leave request leaverequest
-        const response = await restinsert("/leaverequest", formdata);
-        console.log(response);
+        let isBorrowedLeave = false;
+        if ((formdata.leaveType === 'vl' && VL_BALANCE === 0) || (formdata.leaveType === 'sl' && SL_BALANCE === 0)) {
+            console.log('Borrowed Leave');
+            isBorrowedLeave = true;
+        }
+        const updatedFormdata = {
+            ...formdata,
+            borrowedLeave: isBorrowedLeave
+        };
 
+        setFormdata(updatedFormdata);
+        try {
+            const response = await restinsert("/leaverequest", updatedFormdata);
+            console.log(response);
+        } catch (error) {
+            console.error('Error saving leave request:', error);
+        }
     }
     return (
         <>
@@ -93,7 +120,7 @@ const LeaveRequest = () => {
                                     defaultSelectedKeys={["vl"]}
                                     className="w-full"
                                     onChange={e => setFormdata({ ...formdata, leaveType: e.target.value })}
-                                    >
+                                >
                                     {leaveType.map((leave) => (
                                         <SelectItem key={leave.key}>
                                             {leave.label}
@@ -106,18 +133,18 @@ const LeaveRequest = () => {
                                     defaultSelectedKeys={["full"]}
                                     className="w-full"
                                     onChange={e => setFormdata({ ...formdata, numberOfHours: e.target.value })}
-                                    >
+                                >
                                     {numberOfHours.map((hour) => (
                                         <SelectItem key={hour.key}>
                                             {hour.label}
                                         </SelectItem>
                                     ))}
                                 </Select>
-                                <DatePicker 
-                                    className="w-full" 
-                                    label="Leave Date" 
-                                    value={parseDate(new Date().toISOString().split('T')[0])} 
-                                    onChange={e => setFormdata({ ...formdata, leaveDate: new Date(e).toISOString() })} 
+                                <DatePicker
+                                    className="w-full"
+                                    label="Leave Date"
+                                    value={parseDate(new Date().toISOString().split('T')[0])}
+                                    onChange={e => setFormdata({ ...formdata, leaveDate: new Date(e).toISOString() })}
                                 />
                                 <Textarea
                                     label="Reason"
@@ -152,10 +179,21 @@ const LeaveRequest = () => {
                             <ModalBody>
                                 <p>Leave Date {new Date(formdata.leaveDate).toISOString().split('T')[0]}</p>
                                 <p>{getLeaveLabel(formdata.leaveType)} - {formdata.numberOfHours == 8 ? 'Full Day' : 'Half Day'}</p>
-                                <p>Do you confirm your Leave?</p>
+                                {
+                                    (formdata.leaveType === 'sl' && SL_BALANCE === 0 || formdata.leaveType === 'vl' && VL_BALANCE === 0) && (
+                                        <small className="text-red-600 text-justify">
+                                            Your {getLeaveLabel(formdata.leaveType)} balance is currently 0. If you proceed and your leave is approved by an admin or team leader, it will be considered as borrowed leave and will automatically be deducted from your future leave balance when the leave is reset.
+                                        </small>
+                                    )
+                                }
+                                <div className="flex flex-col gap-2">
+                                    <Checkbox isSelected={leaveConfirmation} onValueChange={setLeaveConfirmation}>
+                                        Do you confirm your Leave?
+                                    </Checkbox>
+                                </div>
                             </ModalBody>
                             <ModalFooter className="flex gap-1">
-                                <Button className="text-white-default font-semibold" color="warning" onClick={handleFormSubmit}>
+                                <Button isDisabled={!leaveConfirmation} className="text-white-default font-semibold" color="warning" onClick={handleFormSubmit}>
                                     Yes, I Confirm
                                 </Button>
                                 <Button variant="secondary" onPress={onClose}>
