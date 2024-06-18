@@ -67,7 +67,7 @@ const AddTaskModal = ({
 
   const handleFormAction = (e) => {
     console.log("taskData", taskData);
-    // onOpenPopup()
+    onOpenPopup();
     return false;
   };
 

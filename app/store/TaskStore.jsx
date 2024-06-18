@@ -30,7 +30,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   console.log("selectedClient: ", client);
 
   const clientAlreadyHaveTask = get(tasksAtom).filter(
-    (task) => task.client?.client_id === client?.client_id
+    (task) => task.client?.client_id === client?.key
   );
 
   console.log("clientAlreadyHaveTask: ", clientAlreadyHaveTask[0]);

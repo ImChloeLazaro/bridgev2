@@ -86,7 +86,7 @@ export const taskDataAtom = atom((get) => {
       Array.from(selectedManager).includes(manager?.sub)
     )[0],
     client: clientSelection.filter((client) =>
-      Array.from(selectedClientForTask).includes(client?.client_id)
+      Array.from(selectedClientForTask).includes(client?.key)
     )[0],
     processor: processorSelection.filter((processor) =>
       Array.from(selectedProcessor).includes(processor.sub)

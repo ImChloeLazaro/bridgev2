@@ -91,12 +91,6 @@ const FormFieldSelect = ({
     return selectedKeys.size === 0;
   }, [selectedKeys.size]);
 
-  console.log(
-    "selectedKeys: ",
-    typeof selectedKeys.size === "undefined",
-    selectedKeys.size
-  );
-
   return (
     <Select
       label={label}
