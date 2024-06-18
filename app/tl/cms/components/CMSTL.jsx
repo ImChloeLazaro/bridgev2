@@ -298,11 +298,7 @@ const CMSTL = () => {
   const actionButtons = {
     task: {
       color: "blue",
-      label: "Add Task",
-    },
-    client: {
-      color: "orange",
-      label: "Add Client",
+      label: "Create Task",
     },
   };
 

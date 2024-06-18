@@ -58,7 +58,7 @@ export const selectedClientForTaskAtom = atom(new Set([]));
 export const selectedProcessorAtom = atom(new Set([]));
 export const selectedReviewerAtom = atom(new Set([]));
 export const selectedManagerAtom = atom(new Set([]));
-export const selectedRecurrenceAtom = atom(new Set(["Daily"]));
+export const selectedRecurrenceAtom = atom(new Set(["daily"]));
 
 export const startDateAtom = atom("");
 export const endDateAtom = atom("");
@@ -86,7 +86,7 @@ export const taskDataAtom = atom((get) => {
       Array.from(selectedManager).includes(manager?.sub)
     )[0],
     client: clientSelection.filter((client) =>
-      Array.from(selectedClientForTask).includes(client?.client_id)
+      Array.from(selectedClientForTask).includes(client?.key)
     )[0],
     processor: processorSelection.filter((processor) =>
       Array.from(selectedProcessor).includes(processor.sub)
