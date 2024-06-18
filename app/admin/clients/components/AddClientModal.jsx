@@ -140,10 +140,12 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   );
 
   const handleAddClient = async () => {
-    // await addClient(clientData),
     const promise = async () =>
       new Promise((resolve) =>
-        setTimeout(async () => resolve(await fetchClient()), 2000)
+        setTimeout(
+          async () => resolve(await addClient(clientData), await fetchClient()),
+          2000
+        )
       );
     toast.promise(promise, {
       loading: "Creating Client Profile...",
