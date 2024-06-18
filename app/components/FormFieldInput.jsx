@@ -160,16 +160,22 @@ const FormFieldInput = ({
             "min-w-fit tracking-tight mb-2.5",
           ],
           input: [
-            `${isInvalid ? "!text-red-default" : "!text-black-default/90"}`,
+            `${
+              isInvalid
+                ? "!placeholder:text-red-default placeholder:text-red-default"
+                : "!placeholder:text-black-default/90 placeholder:text-black-default/90"
+            }`,
+            // "placeholder:aria-invalid:text-red-default",
+            "aria-invalid:!text-red-default",
             "text-sm font-medium",
           ],
           inputWrapper: cn(
-            `${
-              isInvalid
-                ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
-                : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
-            }`,
-            "text-sm font-medium text-black-default/90",
+            // `${
+            //   isInvalid
+            //     ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
+            //     : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
+            // }`,
+            "text-sm font-medium",
             "px-3 py-2"
           ),
           errorMessage: ["font-medium text-red-default"],

@@ -65,17 +65,23 @@ const AddTaskModal = ({
     });
   };
 
+  const handleFormAction = (e) => {
+    console.log("taskData", taskData);
+    // onOpenPopup()
+    return false;
+  };
+
   return (
     <Modal
       size={"lg"}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      classNames={{ closeButton: "m-2", base: "h-[600px]" }}
-      scrollBehavior={"inside"}
+      classNames={{ closeButton: "m-2" }}
+      // scrollBehavior={"inside"}
     >
       <ModalContent>
         {(onClose) => (
-          <>
+          <form action={handleFormAction}>
             <ModalHeader className="flex flex-col gap-1 my-2 py-0 pt-2">
               <div className="flex flex-col">
                 <p className="font-bold text-base lg:text-lg xl:text-2xl text-black-default ">
@@ -87,27 +93,29 @@ const AddTaskModal = ({
               </div>
             </ModalHeader>
             <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
-              <TaskFormSections
-                showClientTaskAtom={showClientTaskAtom}
-                clientSelectionChangeAtom={clientSelectionChangeAtom}
-                taskNameAtom={taskNameAtom}
-                taskInstructionAtom={taskInstructionAtom}
-                selectedClientForTaskAtom={selectedClientForTaskAtom}
-                selectedProcessorAtom={selectedProcessorAtom}
-                selectedReviewerAtom={selectedReviewerAtom}
-                selectedManagerAtom={selectedManagerAtom}
-                selectedRecurrenceAtom={selectedRecurrenceAtom}
-                startDateAtom={startDateAtom}
-                endDateAtom={endDateAtom}
-              />
+              <div className="h-80">
+                <TaskFormSections
+                  showClientTaskAtom={showClientTaskAtom}
+                  clientSelectionChangeAtom={clientSelectionChangeAtom}
+                  taskNameAtom={taskNameAtom}
+                  taskInstructionAtom={taskInstructionAtom}
+                  selectedClientForTaskAtom={selectedClientForTaskAtom}
+                  selectedProcessorAtom={selectedProcessorAtom}
+                  selectedReviewerAtom={selectedReviewerAtom}
+                  selectedManagerAtom={selectedManagerAtom}
+                  selectedRecurrenceAtom={selectedRecurrenceAtom}
+                  startDateAtom={startDateAtom}
+                  endDateAtom={endDateAtom}
+                />
+              </div>
             </ModalBody>
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
+                type={"submit"}
                 isDisabled={!selectedClientToView?.length && showClientTask}
                 label={"Assign Task"}
                 color={"blue"}
-                onPress={() => onOpenPopup()}
                 className={"px-6"}
               />
             </ModalFooter>
@@ -124,7 +132,7 @@ const AddTaskModal = ({
               onOpenChange={onOpenChangePopup}
               onCloseParent={onClose}
             />
-          </>
+          </form>
         )}
       </ModalContent>
     </Modal>

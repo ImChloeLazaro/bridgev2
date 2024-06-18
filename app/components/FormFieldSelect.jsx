@@ -1,4 +1,5 @@
 import {
+  cn,
   Divider,
   Input,
   Chip,
@@ -8,6 +9,7 @@ import {
 } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
+import { useMemo, useState } from "react";
 import { MdGroups, MdPerson } from "react-icons/md";
 const FormFieldSelect = ({
   label,
@@ -19,6 +21,7 @@ const FormFieldSelect = ({
   // selectionContent,
   isRequired,
   isDisabled,
+  errorMessage,
   renderItemPicture = false,
   renderType = "dropdown",
   className,
@@ -41,9 +44,17 @@ const FormFieldSelect = ({
               }}
             >
               {displayItem.data.picture ? (
-                <p className="font-sm">{displayItem.data.name}</p>
+                <p className="font-sm">
+                  {displayItem.data.label
+                    ? displayItem.data.label
+                    : displayItem.data.name}
+                </p>
               ) : (
-                <p className="font-bold">{displayItem.data.name}</p>
+                <p className="font-bold">
+                  {displayItem.data.label
+                    ? displayItem.data.label
+                    : displayItem.data.name}
+                </p>
               )}
             </Chip>
           ))}
@@ -58,7 +69,9 @@ const FormFieldSelect = ({
               key={displayItem.key}
               className="text-sm font-medium text-black-default"
             >
-              {displayItem.data.name}
+              {displayItem.data.label
+                ? displayItem.data.label
+                : displayItem.data.name}
             </p>
           ))}
         </div>
@@ -66,6 +79,24 @@ const FormFieldSelect = ({
     },
   };
   let selection = new Set([...items]) ?? new Set([]);
+  const [touched, setTouched] = useState(false);
+
+  const errorMessages = {
+    selection: "Please select an item.",
+  };
+
+  const isInvalid = useMemo(() => {
+    // if (typeof selectedKeys.size === "undefined") return false;
+
+    return selectedKeys.size === 0;
+  }, [selectedKeys.size]);
+
+  console.log(
+    "selectedKeys: ",
+    typeof selectedKeys.size === "undefined",
+    selectedKeys.size
+  );
+
   return (
     <Select
       label={label}
@@ -73,11 +104,21 @@ const FormFieldSelect = ({
       items={selection}
       isRequired={isRequired}
       isDisabled={isDisabled ? isDisabled : selection.size === 0}
+      // isInvalid={isInvalid || !touched}
       disallowEmptySelection={true}
       placeholder={placeholder}
       selectionMode={selectionMode}
       selectedKeys={new Set([...selectedKeys])}
       onSelectionChange={onSelectionChange}
+      renderValue={renderItemType[renderType]}
+      onClose={() => setTouched(true)}
+      errorMessage={
+        isInvalid  || !touched
+          ? errorMessage
+            ? errorMessage
+            : errorMessages["selection"]
+          : ""
+      }
       className={className}
       classNames={{
         base: `h-full ${
@@ -85,19 +126,25 @@ const FormFieldSelect = ({
         }`,
         label: "mt-2",
         trigger: [
-          `${renderType === "dropdown" ? "py-0" : "py-2"}`,
+          `${renderType === "dropdown" ? "" : "py-2"}`,
           "justify-start min-h-unit-12 h-full rounded-small",
+          ,
         ],
-        selectorIcon: "justify-center data[has-label=true]:mt-4",
+        selectorIcon: ["group-data-[has-label=true]:mt-3"],
+        value: [
+          // `${
+          //   isInvalid 
+          //     ? "!text-red-default !placeholder:text-red-default "
+          //     : "!text-black-default/90 !placeholder:text-black-default/90"
+          // }`,
+        ],
       }}
       {...props}
-      renderValue={renderItemType[renderType]}
     >
       {(item) => {
         return (
           <SelectItem
             key={item.key ? item.key : item.sub ? item.sub : item._id}
-            value={item.value}
             textValue={item.label}
           >
             <div className="flex gap-2 items-center">

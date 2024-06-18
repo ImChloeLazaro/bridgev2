@@ -58,7 +58,7 @@ export const selectedClientForTaskAtom = atom(new Set([]));
 export const selectedProcessorAtom = atom(new Set([]));
 export const selectedReviewerAtom = atom(new Set([]));
 export const selectedManagerAtom = atom(new Set([]));
-export const selectedRecurrenceAtom = atom(new Set(["Daily"]));
+export const selectedRecurrenceAtom = atom(new Set(["daily"]));
 
 export const startDateAtom = atom("");
 export const endDateAtom = atom("");
