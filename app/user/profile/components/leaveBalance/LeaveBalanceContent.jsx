@@ -1,8 +1,7 @@
-import { Button } from "@nextui-org/react";
+import { Button,  Tooltip, Link } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { leaveStatusAtom } from "../../store/ProfileStore";
-import { Tooltip, Link } from "@nextui-org/react";
-
+import LeaveRequest from "./LeaveRequest";
 const LeaveBalanceContent = () => {
   const leave = useAtomValue(leaveStatusAtom);
   return (
@@ -59,13 +58,7 @@ const LeaveBalanceContent = () => {
           </p>
         </div>
       </div>
-      <Button
-        disableRipple={true}
-        disableAnimation={true}
-        className="bg-transparent text-sm sm:text-md lg:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
-      >
-        {"File a Leave"}
-      </Button>
+      <LeaveRequest />
     </div>
   );
 };
