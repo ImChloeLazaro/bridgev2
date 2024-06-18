@@ -113,12 +113,6 @@ export const taskDataAtom = atom((get) => {
               ? "Daily"
               : Array.from(selectedRecurrence).join(""),
         },
-        // done_by: {
-        //   sub: String,
-        //   name: String,
-        //   email: String,
-        //   picture: String,
-        // }, //sub
       },
     ],
   };

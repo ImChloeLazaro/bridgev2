@@ -29,27 +29,53 @@ const TaskActionModal = ({
     return Array.from(seen.values());
   };
   const userList = useAtomValue(userListAtom);
-  const userSelection = userList.map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  });
 
   const filteredProcessors = filterUniqueByKey(tasks?.processor, "sub");
   const filteredReviewers = filterUniqueByKey(tasks?.reviewer, "sub");
 
-  // console.log("filteredProcessors", filteredProcessors);
-  // console.log("filteredReviewers", filteredReviewers);
+  const processorsAssignees = [...filteredProcessors].map(
+    (assignee) => assignee.sub
+  );
 
-  const processors = new Set([...filteredProcessors]) ?? new Set([]); // new Set([...tasks?.processor]) ??
-  const reviewers = new Set([...filteredReviewers]) ?? new Set([]); // new Set([...tasks?.review]) ??
+  const reviewersAssignees = [...filteredReviewers].map(
+    (assignee) => assignee.sub
+  );
+
+  const processorsSelection = userList.map((user) => {
+    if (!processorsAssignees.includes(user.sub)) {
+      return { ...user, key: user.sub, value: user.sub };
+    }
+  });
+  const reviewersSelection = userList.map((user) => {
+    if (!reviewersAssignees.includes(user.sub)) {
+      return { ...user, key: user.sub, value: user.sub };
+    }
+  });
+
+  console.log(
+    "selectedProcessorTaskAction",
+    Boolean(selectedProcessorTaskAction.size)
+  );
+  console.log(
+    "selectedReviewerTaskAction",
+    Boolean(selectedReviewerTaskAction.size)
+  );
+
+  let isDisabled =
+    Boolean(selectedProcessorTaskAction.size) ||
+    Boolean(selectedReviewerTaskAction.size);
+
+  const processors = new Set([...tasks?.processor]) ?? new Set([]); // new Set([...tasks?.processor]) ??
+  const reviewers = new Set([...tasks?.reviewer]) ?? new Set([]); // new Set([...tasks?.review]) ??
 
   const windowDetails = {
     assign: {
-      title: "Assign new team member",
+      title: "New Task Assignees",
       label: "Assign Member",
       color: "blue",
     },
     remove: {
-      title: "Remove team member",
+      title: "Remove Task Assignees",
       label: "Remove Member",
       color: "red",
     },
@@ -79,7 +105,7 @@ const TaskActionModal = ({
             <ModalBody>
               {selectedTaskAction.key === "assign" && (
                 <>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col items-start justify-between gap-2 ">
                     <p className="w-1/3 text-base font-medium text-black-default">
                       {"Processor"}
                     </p>
@@ -87,13 +113,13 @@ const TaskActionModal = ({
                       label="Assigned to"
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
-                      items={userSelection}
+                      items={processorsSelection}
                       renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
                       onSelectionChange={setSelectedProcessorTaskAction}
                     />
                   </div>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col items-start justify-between gap-2 ">
                     <p className="w-1/3 text-base font-medium text-black-default">
                       {"Reviewer"}
                     </p>
@@ -101,7 +127,7 @@ const TaskActionModal = ({
                       label="Assigned to"
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
-                      items={userSelection}
+                      items={reviewersSelection}
                       renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
                       onSelectionChange={setSelectedReviewerTaskAction}
@@ -112,7 +138,7 @@ const TaskActionModal = ({
 
               {selectedTaskAction.key === "remove" && (
                 <>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col items-start justify-between gap-4">
                     <p className="w-1/3 text-base font-medium text-black-default">
                       {"Processor"}
                     </p>
@@ -126,7 +152,7 @@ const TaskActionModal = ({
                       onSelectionChange={setSelectedProcessorTaskAction}
                     />
                   </div>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col items-start justify-between gap-4">
                     <p className="w-1/3 text-base font-medium text-black-default">
                       {"Reviewer"}
                     </p>
@@ -155,6 +181,7 @@ const TaskActionModal = ({
               />
               <CTAButtons
                 type={"submit"}
+                isDisabled={!isDisabled}
                 label={windowDetails[selectedTaskAction.key]?.label}
                 color={windowDetails[selectedTaskAction.key]?.color}
                 onPress={() => {

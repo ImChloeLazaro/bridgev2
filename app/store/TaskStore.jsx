@@ -2,12 +2,13 @@ import {
   destroywithparams,
   restinsert,
   restread,
-  restupdate
+  restupdate,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 import { toast } from "sonner";
 import { clientsAtom } from "./ClientStore";
-import { userListAtom } from "./UserStore";
+import { userAtom, userListAtom } from "./UserStore";
+import { format } from "date-fns";
 
 export const tasksAtom = atom([]);
 
@@ -39,6 +40,9 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 
     const response = await restupdate("/cms/task", {
       ...clientAlreadyHaveTask[0],
+      escalate: false,
+      processor: [...clientAlreadyHaveTask[0].processor, ...processor],
+      reviewer: [...clientAlreadyHaveTask[0].reviewer, ...reviewer],
       sla: [...clientAlreadyHaveTask[0].sla, ...sla],
     });
     console.log("RESPONSE HAS TASK FROM API", response);
@@ -130,7 +134,11 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   });
   console.log("RESPONSE FROM API", response);
 
-  if (response.success) {
+  if (response === undefined) {
+    return { success: false };
+  }
+
+  if (response?.success) {
     const updatedTask = get(tasksAtom).map((task) => {
       if (task.client?.client_id === client_id) {
         return { ...task, sla: sla };
@@ -157,6 +165,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   } = update;
 
   const { key, status_id } = get(selectedTaskActionAtom);
+  const user = get(userAtom);
 
   const clientKey = tasks.client.client_id;
   const dateTaskDone = new Date();
@@ -269,33 +278,16 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   if (key === "assign") {
     console.log("Assign", key, task_id);
 
-    const newProcessorAssignees = get(userListAtom).filter(
+    const assignProcessorAssignees = get(userListAtom).filter(
       (user) =>
         Array.from(selectedProcessorTaskAction).includes(user.sub) &&
         !tasks.processor.map((processor) => processor.sub).includes(user.sub)
     );
-    const newReviewerAssignees = get(userListAtom).filter(
+    const assignReviewerAssignees = get(userListAtom).filter(
       (user) =>
         Array.from(selectedReviewerTaskAction).includes(user.sub) &&
         !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
     );
-
-    const removedDuplicateProcessors = [
-      ...tasks.processor,
-      ...newProcessorAssignees,
-    ].filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
-    );
-
-    const removedDuplicateReviewers = [
-      ...tasks.reviewer,
-      ...newReviewerAssignees,
-    ].filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
-    );
-
-    console.log("removedDuplicateProcessors", removedDuplicateProcessors);
-    console.log("removedDuplicateReviewers", removedDuplicateReviewers);
 
     const promise = async () =>
       new Promise((resolve) =>
@@ -306,8 +298,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 action: key,
                 tasks: tasks,
                 _id: tasks._id,
-                processor: removedDuplicateProcessors,
-                reviewer: removedDuplicateReviewers,
+                processor: assignProcessorAssignees,
+                reviewer: assignReviewerAssignees,
               }),
               await set(fetchTaskAtom, {})
             ),
@@ -328,33 +320,17 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   if (key === "remove") {
     console.log("Remove", key, task_id);
 
-    const newProcessorAssignees = tasks.processor
-      .map((processor) => processor.sub)
-      .filter(
-        (user) => !Array.from(selectedProcessorTaskAction).includes(user.sub)
-      );
-    const newReviewerAssignees = tasks.reviewer
-      .map((reviewer) => reviewer.sub)
-      .filter(
-        (user) => !Array.from(selectedReviewerTaskAction).includes(user.sub)
-      );
-
-    const removedDuplicateProcessors = [
-      ...tasks.processor,
-      ...newProcessorAssignees,
-    ].filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    const removeProcessorAssignees = tasks.processor.filter((user) =>
+      Array.from(selectedProcessorTaskAction).includes(user.sub)
+    );
+    const removeReviewerAssignees = tasks.reviewer.filter((user) =>
+      Array.from(selectedReviewerTaskAction).includes(user.sub)
     );
 
-    const removedDuplicateReviewers = [
-      ...tasks.reviewer,
-      ...newReviewerAssignees,
-    ].filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
-    );
-
-    console.log("removedDuplicateProcessors", removedDuplicateProcessors);
-    console.log("removedDuplicateReviewers", removedDuplicateReviewers);
+    console.log("selectedProcessorTaskAction", selectedProcessorTaskAction);
+    console.log("selectedReviewerTaskAction", selectedReviewerTaskAction);
+    console.log("newProcessorAssignees", removeProcessorAssignees);
+    console.log("newReviewerAssignees", removeReviewerAssignees);
 
     /// ### For removing any task done by when removing processor/s and reviewer/s?
     /// ### Checks whether the soon to be removed processor/s and reviewer/s has any task done by and removes it
@@ -393,8 +369,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 action: key,
                 tasks: tasks,
                 _id: tasks._id,
-                processor: removedDuplicateProcessors,
-                reviewer: removedDuplicateReviewers,
+                processor: removeProcessorAssignees,
+                reviewer: removeReviewerAssignees,
               }),
 
               await set(fetchTaskAtom, {})
@@ -577,7 +553,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
     return {
-      client_id: client._id,
+      key: client._id,
       name: client.company.name,
       email: client.company.email,
       picture: client.company.picture,
@@ -592,7 +568,6 @@ export const processorSelectionAtom = atom((get) => {
   const peopleList = list.map((person) => ({
     ...person,
     id: (processorIndex += 1),
-    key: `processor-${processorIndex}`,
   }));
   return peopleList;
 });
@@ -603,7 +578,6 @@ export const reviewerSelectionAtom = atom((get) => {
   const peopleList = list.map((person) => ({
     ...person,
     id: (reviewerIndex += 1),
-    key: `reviewer-${reviewerIndex}`,
   }));
   return peopleList;
 });
@@ -614,7 +588,6 @@ export const managerSelectionAtom = atom((get) => {
   const peopleList = list.map((person) => ({
     ...person,
     id: (managerIndex += 1),
-    key: `manager-${managerIndex}`,
   }));
   return peopleList;
 });
@@ -623,32 +596,32 @@ let intervalIndex = 0;
 export const recurrenceSelectionAtom = atom([
   {
     id: (intervalIndex += 1),
-    key: `interval-${intervalIndex}`,
+    key: `daily`,
     label: "Daily",
   },
   {
     id: (intervalIndex += 1),
-    key: `interval-${intervalIndex}`,
+    key: `weekly`,
     label: "Weekly",
   },
   {
     id: (intervalIndex += 1),
-    key: `interval-${intervalIndex}`,
+    key: `monthly`,
     label: "Monthly",
   },
   {
     id: (intervalIndex += 1),
-    key: `interval-${intervalIndex}`,
+    key: `quarterly`,
     label: "Quarterly",
   },
   {
     id: (intervalIndex += 1),
-    key: `interval-${intervalIndex}`,
+    key: `yearly`,
     label: "Yearly",
   },
   {
     id: (intervalIndex += 1),
-    key: `interval-${intervalIndex}`,
+    key: `none`,
     label: "No Recurrence",
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly

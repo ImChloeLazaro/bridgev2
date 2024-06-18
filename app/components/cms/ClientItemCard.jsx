@@ -128,6 +128,7 @@ const ClientItemCard = ({
     setSelectedClientToView(selected);
     setSelectedClientForTask(new Set([selected]));
     setShowClientTask(true);
+    setChangeView(false);
     setShowFooter(true && !changeView);
   };
 
@@ -251,7 +252,9 @@ const ClientItemCard = ({
         className="ml-2 lg:ml-0 bg-transparent w-1/12 h-18 lg:h-32"
         onPress={() => handleSelectClient(clientKey)}
       >
-        <MdChevronRight size={32} />
+        <div className="ml-0 hover:ml-6 transition-all duration-200 ease-in-out">
+          <MdChevronRight size={32} />
+        </div>
       </IconButton>
     </div>
   );

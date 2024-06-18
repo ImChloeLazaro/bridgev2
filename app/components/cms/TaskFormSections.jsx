@@ -10,7 +10,9 @@ import {
 import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
-import {
+import FormFieldSelect from "../FormFieldSelect";
+
+const TaskFormSections = ({
   clientSelectionChangeAtom,
   endDateAtom,
   selectedClientForTaskAtom,
@@ -22,9 +24,7 @@ import {
   startDateAtom,
   taskInstructionAtom,
   taskNameAtom,
-} from "../store/CMSAdminStore";
-
-const TaskFormSections = () => {
+}) => {
   const showClientTask = useAtomValue(showClientTaskAtom);
   const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
 
@@ -103,50 +103,17 @@ const TaskFormSections = () => {
               <p className="text-sm lg:text-base font-medium w-24">
                 {"Client"}
               </p>
-              <Select
-                isDisabled={showClientTask}
-                disallowEmptySelection={true}
+              <FormFieldSelect
+                isRequired={true}
                 aria-label="Client Selection"
                 items={clientSelectionForTask}
-                variant="bordered"
-                isMultiline={true}
-                selectionMode="single"
                 placeholder="Select Client"
+                selectionMode="single"
                 selectedKeys={selectedClientForTask}
                 onSelectionChange={(key) => handleClientSelectionChange(key)}
-                classNames={{
-                  base: "w-full max-h-sm",
-                  trigger: "min-h-unit-12 py-2",
-                }}
-                renderValue={(displayItems) => {
-                  return (
-                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                      {displayItems.map((displayItem) => (
-                        <p
-                          key={displayItem.key}
-                          className="text-sm font-medium text-black-default"
-                        >
-                          {displayItem.data.name}
-                        </p>
-                      ))}
-                    </div>
-                  );
-                }}
-              >
-                {(client) => (
-                  <SelectItem key={client?.client_id} textValue={client.name}>
-                    <div className="flex gap-2 items-center">
-                      <Avatar
-                        alt={client.name}
-                        className="flex-shrink-0"
-                        size="sm"
-                        src={client.picture}
-                      />
-                      <span className="text-small">{client.name}</span>
-                    </div>
-                  </SelectItem>
-                )}
-              </Select>
+                isMultiline={true}
+                renderItemPicture={true}
+              />
             </div>
 
             {/* Processor */}
@@ -154,62 +121,19 @@ const TaskFormSections = () => {
               <p className="text-sm lg:text-base font-medium w-24">
                 {"Processor"}
               </p>
-              <Select
+              <FormFieldSelect
+                isRequired={true}
                 isDisabled={showClientTask}
                 aria-label="Processor Selection"
                 items={processorSelection}
-                variant="bordered"
-                isMultiline={true}
-                selectionMode="multiple"
                 placeholder="Assign Processor/s"
+                selectionMode="multiple"
                 selectedKeys={selectedProcessor}
                 onSelectionChange={(key) => handleProcessorSelectionChange(key)}
-                classNames={{
-                  base: "w-full max-h-sm",
-                  trigger: "min-h-unit-12 py-2",
-                }}
-                renderValue={(displayItems) => {
-                  return (
-                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                      {displayItems.map((displayItem) => (
-                        <Chip
-                          key={displayItem.key}
-                          startContent={displayItem.data.picture}
-                          onClose={() => {
-                            setSelectedProcessor(() =>
-                              Array.from(selectedProcessor).filter(
-                                (item) => item !== displayItem.data.sub
-                              )
-                            );
-                          }}
-                        >
-                          {displayItem.data.picture ? (
-                            <p className="font-medium">
-                              {displayItem.data.name}
-                            </p>
-                          ) : (
-                            <p className="font-bold">{displayItem.data.name}</p>
-                          )}
-                        </Chip>
-                      ))}
-                    </div>
-                  );
-                }}
-              >
-                {(processor) => (
-                  <SelectItem key={processor.sub} textValue={processor.name}>
-                    <div className="flex gap-2 items-center">
-                      <Avatar
-                        alt={processor.name}
-                        className="flex-shrink-0"
-                        size="sm"
-                        src={processor.picture}
-                      />
-                      <span className="text-small">{processor.name}</span>
-                    </div>
-                  </SelectItem>
-                )}
-              </Select>
+                isMultiline={true}
+                renderType={"chip"}
+                renderItemPicture={true}
+              />
             </div>
 
             {/* Reviewer */}
@@ -217,63 +141,19 @@ const TaskFormSections = () => {
               <p className="text-sm lg:text-base font-medium w-24">
                 {"Reviewer"}
               </p>
-
-              <Select
+              <FormFieldSelect
+                isRequired={true}
                 isDisabled={showClientTask}
                 aria-label="Reviewer Selection"
                 items={reviewerSelection}
-                variant="bordered"
-                isMultiline={true}
-                selectionMode="multiple"
                 placeholder="Assign Reviewer/s"
+                selectionMode="multiple"
                 selectedKeys={selectedReviewer}
                 onSelectionChange={(key) => handleReviewerSelectionChange(key)}
-                classNames={{
-                  base: "w-full max-h-sm",
-                  trigger: "min-h-unit-12 py-2",
-                }}
-                renderValue={(displayItems) => {
-                  return (
-                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                      {displayItems.map((displayItem) => (
-                        <Chip
-                          key={displayItem.key}
-                          startContent={displayItem.data.picture}
-                          onClose={() => {
-                            setSelectedReviewer(() =>
-                              Array.from(selectedReviewer).filter(
-                                (item) => item !== displayItem.data.sub
-                              )
-                            );
-                          }}
-                        >
-                          {displayItem.data.picture ? (
-                            <p className="font-medium">
-                              {displayItem.data.name}
-                            </p>
-                          ) : (
-                            <p className="font-bold">{displayItem.data.name}</p>
-                          )}
-                        </Chip>
-                      ))}
-                    </div>
-                  );
-                }}
-              >
-                {(reviewer) => (
-                  <SelectItem key={reviewer.sub} textValue={reviewer.name}>
-                    <div className="flex gap-2 items-center">
-                      <Avatar
-                        alt={reviewer.name}
-                        className="flex-shrink-0"
-                        size="sm"
-                        src={reviewer.picture}
-                      />
-                      <span className="text-small">{reviewer.name}</span>
-                    </div>
-                  </SelectItem>
-                )}
-              </Select>
+                isMultiline={true}
+                renderType={"chip"}
+                renderItemPicture={true}
+              />
             </div>
 
             {/* Manager */}
@@ -281,51 +161,18 @@ const TaskFormSections = () => {
               <p className="text-sm lg:text-base font-medium w-24">
                 {"Manager"}
               </p>
-
-              <Select
+              <FormFieldSelect
+                isRequired={true}
                 isDisabled={showClientTask}
-                disallowEmptySelection={true}
                 aria-label="Manager Selection"
                 items={managerSelection}
-                variant="bordered"
-                isMultiline={true}
-                selectionMode="single"
                 placeholder="Assign Manager/s"
+                selectionMode="single"
                 selectedKeys={selectedManager}
                 onSelectionChange={(key) => handleManagerSelectionChange(key)}
-                classNames={{
-                  base: "w-full max-h-sm",
-                  trigger: "min-h-unit-12 py-2",
-                }}
-                renderValue={(displayItems) => {
-                  return (
-                    <div className="flex flex-wrap gap-2 max-h-[100px] overflow-auto">
-                      {displayItems.map((displayItem) => (
-                        <p
-                          key={displayItem.key}
-                          className="text-sm font-medium text-black-default"
-                        >
-                          {displayItem.data.name}
-                        </p>
-                      ))}
-                    </div>
-                  );
-                }}
-              >
-                {(manager) => (
-                  <SelectItem key={manager?.sub} textValue={manager.name}>
-                    <div className="flex gap-2 items-center">
-                      <Avatar
-                        alt={manager.name}
-                        className="flex-shrink-0"
-                        size="sm"
-                        src={manager.picture}
-                      />
-                      <span className="text-small">{manager.name}</span>
-                    </div>
-                  </SelectItem>
-                )}
-              </Select>
+                isMultiline={true}
+                renderItemPicture={true}
+              />
             </div>
           </div>
         </div>
@@ -343,7 +190,6 @@ const TaskFormSections = () => {
           {/* Name */}
           <div className="flex justify-between items-center gap-5">
             <p className="text-sm lg:text-base font-medium w-24">{"Name"}</p>
-
             <FormFieldInput
               isRequired={true}
               type={"text"}
@@ -359,7 +205,6 @@ const TaskFormSections = () => {
             <p className="text-sm lg:text-base font-medium w-24">
               {"Instruction"}
             </p>
-
             <FormFieldTextArea
               isRequired={true}
               value={taskInstruction}
@@ -374,40 +219,17 @@ const TaskFormSections = () => {
             <p className="text-sm lg:text-base font-medium w-24">
               {"Recurrence"}
             </p>
-            <Select
+            <FormFieldSelect
+              isRequired={true}
+              isDisabled={showClientTask}
               aria-label="Recurrence Selection"
               items={recurrenceSelection}
-              variant="bordered"
-              isMultiline={true}
-              selectionMode="single"
               placeholder="Choose Recurrence"
+              selectionMode="single"
               selectedKeys={selectedRecurrence}
               onSelectionChange={(key) => handleIntervalSelectionChange(key)}
-              classNames={{
-                base: "w-full max-h-sm",
-                trigger: "min-h-unit-12 py-2 px-1",
-                innerWrapper: "px-2",
-              }}
-              renderValue={(displayItems) => {
-                return (
-                  <div className="flex flex-wrap gap-2">
-                    {displayItems.map((displayItem) => (
-                      <p key={displayItem.data.key} className="font-medium">
-                        {displayItem.data.label}
-                      </p>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(client) => (
-                <SelectItem key={client.label} textValue={client.label}>
-                  <div className="flex gap-2 items-center">
-                    <span className="text-small">{client.label}</span>
-                  </div>
-                </SelectItem>
-              )}
-            </Select>
+              isMultiline={true}
+            />
           </div>
 
           {/* Start Date */}
