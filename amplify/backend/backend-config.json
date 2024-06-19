@@ -186,7 +186,15 @@
     },
     "leavehandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },

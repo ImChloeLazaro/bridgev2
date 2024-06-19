@@ -15,8 +15,6 @@ import {
 } from "@nextui-org/react";
 import { CalendarDate, parseDate } from "@internationalized/date";
 
-import { FcOk, FcCancel } from "react-icons/fc";
-
 const LeaveSummary = ({ data, ...props }) => {
     return (
         <Modal
