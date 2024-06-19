@@ -13,9 +13,9 @@ const FormFieldRadio = ({
   ],
   ...props
 }) => {
-  const validChoices = choices.map((choice) => choice.value);
+  const validChoices = [...choices.map((choice) => choice.value), true, false];
 
-  const isInvalid = ![...validChoices, false].includes(value);
+  const isInvalid = !validChoices.includes(value);
 
   return (
     <RadioGroup
@@ -28,7 +28,6 @@ const FormFieldRadio = ({
       label={label}
       value={value}
       onValueChange={(value) => {
-        console.log("VALUE:", isInvalid, value);
         onValueChange(value);
       }}
       classNames={{

@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
-// declare a new express app
+const leaveModel = require('/opt/schema/leaveSchema.js')
+// Declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
@@ -14,16 +15,7 @@ app.use(function(req, res, next) {
   next()
 });
 
-mongoose.connect(process.env.DATABASE)
-
-const leaveSchema = mongoose.Schema({ 
-  sub: String,
-  VL_BALANCE: {type: Number, default: 20},
-  SL_BALANCE: {type: Number, default: 5},
-  reset_date: Date
-})
-
-const leaveModel = mongoose.model('leave', leaveSchema)
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.get('/leave/*', async function(req, res) {
   try {
@@ -32,24 +24,24 @@ app.get('/leave/*', async function(req, res) {
 
     switch (key) {
       case '/leave/balance':
-          const balance = await leaveModel.findOne({sub})
-          res.json({success: true, response: balance})
+        const balance = await leaveModel.findOne({ sub })
+        res.json({ success: true, response: balance })
         break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
         break;
     }
   } catch (error) {
-    res.json({error: error})
+    res.json({ error: error })
   }
 });
 
 app.get('/leave', async function(req, res) {
   try {
     const read = await leaveModel.find()
-    res.json({success: true, response: read}) 
+    res.json({ success: true, response: read }) 
   } catch (error) {
-    res.json({error: error})
+    res.json({ error: error })
   }
 });
 
@@ -57,34 +49,35 @@ app.post('/leave', async function(req, res) {
   try {
     const { sub } = req.body
     const insert = await leaveModel.create({ sub })
-    res.json({success: true, response: insert})
-  }catch(err){
-    res.json({error: err})
+    res.json({ success: true, response: insert })
+  } catch (err) {
+    res.json({ error: err })
   }
 });
 
 app.put('/leave', async function(req, res) {
   try {
     const { sub, VL_BALANCE, SL_BALANCE, reset_date } = req.body
-    const update = await leaveModel.UpdateOne({ sub, VL_BALANCE, SL_BALANCE, reset_date })
-    res.json({success: true, response: update}) 
+    const update = await leaveModel.updateOne({ sub }, { VL_BALANCE, SL_BALANCE, reset_date })
+    res.json({ success: true, response: update }) 
   } catch (error) {
-    res.json({error: error})
+    res.json({ error: error })
   }
 });
 
-app.delete('/leave', function(req, res) {
+app.delete('/leave', async function(req, res) {
   try {
     const { sub } = req.body
-    const destroy = leaveModel.deleteOne({ sub })
-    res.json({success: true, body: destroy})
+    const destroy = await leaveModel.deleteOne({ sub })
+    res.json({ success: true, body: destroy })
   } catch (error) {
-    res.json({error: error})
+    res.json({ error: error })
   }
 });
 
 app.listen(3000, function() {
-    console.log("App started")
+  console.log("App started")
 });
 
 module.exports = app
+module.exports.leaveModel = leaveModel

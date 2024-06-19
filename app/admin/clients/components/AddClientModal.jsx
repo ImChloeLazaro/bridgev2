@@ -140,10 +140,12 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   );
 
   const handleAddClient = async () => {
-    // await addClient(clientData),
     const promise = async () =>
       new Promise((resolve) =>
-        setTimeout(async () => resolve(await fetchClient()), 2000)
+        setTimeout(
+          async () => resolve(await addClient(clientData), await fetchClient()),
+          2000
+        )
       );
     toast.promise(promise, {
       loading: "Creating Client Profile...",
@@ -157,7 +159,6 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   };
 
   const handleFormAction = (e) => {
-    console.log("unfilledInputFields", unfilledInputFields);
     let submitClientData = Object.values(unfilledInputFields).every(
       (value) => value === false
     );

@@ -169,6 +169,19 @@
           "delete"
         ]
       }
+    },
+    "/leaverequest": {
+      "name": "/leaverequest",
+      "lambdaFunction": "leaverequesthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

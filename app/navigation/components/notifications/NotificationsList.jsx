@@ -40,8 +40,6 @@ const NotificationsList = ({ getNotificationId }) => {
   ];
 
   const handleReadNotification = (id, unread) => {
-    console.log("id", id);
-    console.log("unread", unread);
     if (unread) {
       getNotificationId(`read`, id);
     }

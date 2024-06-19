@@ -56,8 +56,8 @@ const TaskActionModal = ({
     Boolean(selectedProcessorTaskAction?.size) ||
     Boolean(selectedReviewerTaskAction?.size);
 
-  const processors = new Set([...tasks?.processor]) ?? new Set([]); // new Set([...tasks?.processor]) ??
-  const reviewers = new Set([...tasks?.reviewer]) ?? new Set([]); // new Set([...tasks?.review]) ??
+  const processors = new Set([...filteredProcessors]) ?? new Set([]); // new Set([...tasks?.processor]) ??
+  const reviewers = new Set([...filteredReviewers]) ?? new Set([]); // new Set([...tasks?.review]) ??
 
   const windowDetails = {
     assign: {
@@ -105,9 +105,10 @@ const TaskActionModal = ({
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
                       items={processorsSelection}
-                      renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
                       onSelectionChange={setSelectedProcessorTaskAction}
+                      renderType={"chip"}
+                      renderItemPicture={true}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-between gap-2 ">
@@ -119,9 +120,10 @@ const TaskActionModal = ({
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
                       items={reviewersSelection}
-                      renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
                       onSelectionChange={setSelectedReviewerTaskAction}
+                      renderType={"chip"}
+                      renderItemPicture={true}
                     />
                   </div>
                 </>
@@ -138,9 +140,10 @@ const TaskActionModal = ({
                       placeholder="Select processor/s"
                       selectionMode={"multiple"}
                       items={processors}
-                      renderItemPicture={true}
                       selectedKeys={selectedProcessorTaskAction}
                       onSelectionChange={setSelectedProcessorTaskAction}
+                      renderType={"chip"}
+                      renderItemPicture={true}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-between gap-4">
@@ -152,9 +155,10 @@ const TaskActionModal = ({
                       placeholder="Select reviewer/s"
                       selectionMode={"multiple"}
                       items={reviewers}
-                      renderItemPicture={true}
                       selectedKeys={selectedReviewerTaskAction}
                       onSelectionChange={setSelectedReviewerTaskAction}
+                      renderType={"chip"}
+                      renderItemPicture={true}
                     />
                   </div>
                 </>

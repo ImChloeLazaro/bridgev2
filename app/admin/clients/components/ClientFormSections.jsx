@@ -245,9 +245,8 @@ const ClientFormSections = () => {
             isRequired={true}
             label={"Are there any other owners or directors?"}
             choices={[
-              { value: "yes", label: "Yes" },
-              { value: "no", label: "No" },
-              { value: "n/a", label: "N/A" },
+              { value: true, label: "Yes" },
+              { value: false, label: "No" },
             ]}
             fullWidth={true}
             value={companyOtherOwner}
@@ -351,13 +350,15 @@ const ClientFormSections = () => {
           isRequired={true}
           type={"date"}
           label={"When was the last time you filed taxes?"}
-          fullWidth={true}
+          value={financialLastFiledTax}
+          onValueChange={setFinancialLastFiledTax}
+          placeholder={"Set a date"}
           withDate={true}
+          endContentType={"date"}
           date={financialLastFiledTax}
           onDateChange={setFinancialLastFiledTax}
           isDateModal={true}
-          value={financialLastFiledTax}
-          onValueChange={setFinancialLastFiledTax}
+          fullWidth={true}
         />
       </div>
       <div className="w-full flex justify-center gap-3">
@@ -379,9 +380,8 @@ const ClientFormSections = () => {
             isRequired={true}
             label={"Do you outsource payroll?"}
             choices={[
-              { value: "yes", label: "Yes" },
-              { value: "no", label: "No" },
-              { value: "n/a", label: "N/A" },
+              { value: true, label: "Yes" },
+              { value: false, label: "No" },
             ]}
             fullWidth={false}
             value={financialOutsourcePayroll}

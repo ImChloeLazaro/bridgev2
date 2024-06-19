@@ -58,11 +58,11 @@ const FormFieldTextArea = ({
         ],
         input: "!h-full text-sm font-medium px-1.5",
         inputWrapper: cn(
-          `${
-            isInvalid
-              ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
-              : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
-          }`,
+          // `${
+          //   isInvalid
+          //     ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
+          //     : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
+          // }`,
           "text-sm font-medium text-black-default/90",
           "px-3 py-2",
           "!h-full px-1.5"

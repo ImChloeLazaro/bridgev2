@@ -41,6 +41,9 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "bridgev2layer": {
+      "Arn": "string"
+    },
     "clienthandler": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
@@ -56,6 +59,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Region": "string"
     },
     "leavehandler": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "leaverequesthandler": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

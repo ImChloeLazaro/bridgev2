@@ -105,6 +105,14 @@
           ],
           "category": "function",
           "resourceName": "workspacehandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "leaverequesthandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -159,6 +167,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "bridgev2layer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
     "clienthandler": {
       "build": true,
       "dependsOn": [],
@@ -173,7 +186,29 @@
     },
     "leavehandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "leaverequesthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -301,6 +336,22 @@
         }
       ]
     },
+    "AMPLIFY_function_bridgev2layer_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgev2layer_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ]
+    },
     "AMPLIFY_function_clienthandler_database": {
       "usedBy": [
         {
@@ -378,6 +429,30 @@
         {
           "category": "function",
           "resourceName": "leavehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leaverequesthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leaverequesthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leaverequesthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leaverequesthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leaverequesthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leaverequesthandler"
         }
       ]
     },

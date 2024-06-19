@@ -112,15 +112,22 @@ const FormFieldInput = ({
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
     number: /^[0-9\s+()-]+$/i,
-    date: /^[A-Z0-9\s,-\\]+$/i,
+    date: /^(January|February|March|April|May|June|July|August|September|October|November|December)\s*([1-9]|[12][0-9]|3[01]),\s+(19|20)\d{2}$/g,
     file: /.*\.pdf$/,
   };
 
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
-    if (type === "date") return false;
     if (value === "") return false;
+
+    if (type === "date") {
+      try {
+        return inputValidation(format(date, "LLLL d, y")) ? false : true;
+      } catch (err) {
+        return true;
+      }
+    }
 
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,16 +167,22 @@ const FormFieldInput = ({
             "min-w-fit tracking-tight mb-2.5",
           ],
           input: [
-            `${isInvalid ? "!text-red-default" : "!text-black-default/90"}`,
+            `${
+              isInvalid
+                ? "!placeholder:text-red-default placeholder:text-red-default"
+                : "!placeholder:text-black-default/90 placeholder:text-black-default/90"
+            }`,
+            // "placeholder:aria-invalid:text-red-default",
+            "aria-invalid:!text-red-default",
             "text-sm font-medium",
           ],
           inputWrapper: cn(
-            `${
-              isInvalid
-                ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
-                : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
-            }`,
-            "text-sm font-medium text-black-default/90",
+            // `${
+            //   isInvalid
+            //     ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
+            //     : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
+            // }`,
+            "text-sm font-medium",
             "px-3 py-2"
           ),
           errorMessage: ["font-medium text-red-default"],

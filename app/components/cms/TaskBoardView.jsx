@@ -1,4 +1,8 @@
-import { taskBoardColsAtom, updateTaskStatusAtom } from "@/app/store/TaskStore";
+import {
+  fetchTaskAtom,
+  taskBoardColsAtom,
+  updateTaskStatusAtom,
+} from "@/app/store/TaskStore";
 import { userAtom } from "@/app/store/UserStore";
 import {
   closestCorners,
@@ -41,6 +45,7 @@ const TaskBoardView = ({
   isMobile,
 }) => {
   const user = useAtomValue(userAtom);
+  const fetchTask = useSetAtom(fetchTaskAtom);
 
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
@@ -306,10 +311,9 @@ const TaskBoardView = ({
 
     const taskActive = active.data.current?.task;
     const taskOver = over.data.current?.task?._id;
-    const taskActiveStatus = active.data.current?.task?.status;
 
-    if (taskActiveStatus === "done") {
-      if (taskStatusBeforeDone !== taskActiveStatus) {
+    if (taskActive.status === "done") {
+      if (taskStatusBeforeDone !== taskActive.status) {
         console.log("taskActive", taskActive);
 
         const dateTaskDone = new Date();
@@ -318,11 +322,13 @@ const TaskBoardView = ({
           (task) => {
             if (task._id === taskActive._id) {
               console.log("TASK", task);
+              console.log("taskActive.status", taskActive.status);
 
-              if (taskActiveStatus === "done") {
+              if (taskActive.status === "done") {
+                console.log("INSIDE DONE TO BE ADDED DONE BY", user);
                 return {
                   ...task,
-                  status: taskActiveStatus,
+                  status: taskActive.status,
                   done_by: {
                     sub: user?.sub,
                     name: user?.name,
@@ -333,13 +339,15 @@ const TaskBoardView = ({
               } else {
                 return {
                   ...task,
-                  status: taskActiveStatus,
+                  status: taskActive.status,
                 };
               }
             }
             return task;
           }
         );
+
+        console.log("updateSelectedTask", updateSelectedTask);
 
         const promise = async () =>
           new Promise((resolve) =>
@@ -348,8 +356,9 @@ const TaskBoardView = ({
                 resolve(
                   await updateTaskStatus({
                     sla: updateSelectedTask,
-                    client_id: taskActive.clientKey,
-                  })
+                    client_id: taskActive.client_id,
+                  }),
+                  await fetchTask()
                 ),
               2000
             )

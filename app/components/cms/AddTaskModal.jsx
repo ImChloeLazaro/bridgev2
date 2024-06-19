@@ -1,6 +1,10 @@
 import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
-import { addTaskAtom, fetchTaskAtom } from "@/app/store/TaskStore";
+import {
+  addTaskAtom,
+  deleteTaskAtom,
+  fetchTaskAtom,
+} from "@/app/store/TaskStore";
 import {
   Modal,
   ModalBody,
@@ -17,13 +21,14 @@ import TaskFormSections from "./TaskFormSections";
 const AddTaskModal = ({
   isOpen,
   onOpenChange,
+  selectedClientForTask,
+  setSelectedClientForTask,
   selectedClientToViewAtom,
   showClientTaskAtom,
-  clientSelectionChangeAtom,
+  clientSelectionChange,
   taskDataAtom,
   taskNameAtom,
   taskInstructionAtom,
-  selectedClientForTaskAtom,
   selectedProcessorAtom,
   selectedReviewerAtom,
   selectedManagerAtom,
@@ -41,7 +46,7 @@ const AddTaskModal = ({
   const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
-  // const deleteTask = useSetAtom(deleteTaskAtom);
+  const deleteTask = useSetAtom(deleteTaskAtom);
 
   const showClientTask = useAtomValue(showClientTaskAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
@@ -50,11 +55,14 @@ const AddTaskModal = ({
     console.log("taskData", taskData);
 
     const promise = async () =>
-      new Promise((resolve) =>
-        setTimeout(
-          async () => resolve(await addTask(taskData), await fetchTask()),
-          2000
-        )
+      new Promise(
+        (
+          resolve //await addTask(taskData)
+        ) =>
+          setTimeout(
+            async () => resolve(await addTask(taskData), await fetchTask()),
+            2000
+          )
       );
     toast.promise(promise, {
       loading: "Creating New Task...",
@@ -65,17 +73,22 @@ const AddTaskModal = ({
     });
   };
 
+  const handleFormAction = (e) => {
+    onOpenPopup();
+    return false;
+  };
+
   return (
     <Modal
       size={"lg"}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      classNames={{ closeButton: "m-2", base: "h-[600px]" }}
-      scrollBehavior={"inside"}
+      classNames={{ closeButton: "m-2" }}
+      // scrollBehavior={"inside"}
     >
       <ModalContent>
         {(onClose) => (
-          <>
+          <form action={handleFormAction}>
             <ModalHeader className="flex flex-col gap-1 my-2 py-0 pt-2">
               <div className="flex flex-col">
                 <p className="font-bold text-base lg:text-lg xl:text-2xl text-black-default ">
@@ -87,27 +100,30 @@ const AddTaskModal = ({
               </div>
             </ModalHeader>
             <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
-              <TaskFormSections
-                showClientTaskAtom={showClientTaskAtom}
-                clientSelectionChangeAtom={clientSelectionChangeAtom}
-                taskNameAtom={taskNameAtom}
-                taskInstructionAtom={taskInstructionAtom}
-                selectedClientForTaskAtom={selectedClientForTaskAtom}
-                selectedProcessorAtom={selectedProcessorAtom}
-                selectedReviewerAtom={selectedReviewerAtom}
-                selectedManagerAtom={selectedManagerAtom}
-                selectedRecurrenceAtom={selectedRecurrenceAtom}
-                startDateAtom={startDateAtom}
-                endDateAtom={endDateAtom}
-              />
+              <div className="h-80">
+                <TaskFormSections
+                  selectedClientForTask={selectedClientForTask}
+                  setSelectedClientForTask={setSelectedClientForTask}
+                  showClientTaskAtom={showClientTaskAtom}
+                  clientSelectionChange={clientSelectionChange}
+                  taskNameAtom={taskNameAtom}
+                  taskInstructionAtom={taskInstructionAtom}
+                  selectedProcessorAtom={selectedProcessorAtom}
+                  selectedReviewerAtom={selectedReviewerAtom}
+                  selectedManagerAtom={selectedManagerAtom}
+                  selectedRecurrenceAtom={selectedRecurrenceAtom}
+                  startDateAtom={startDateAtom}
+                  endDateAtom={endDateAtom}
+                />
+              </div>
             </ModalBody>
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
+                type={"submit"}
                 isDisabled={!selectedClientToView?.length && showClientTask}
                 label={"Assign Task"}
                 color={"blue"}
-                onPress={() => onOpenPopup()}
                 className={"px-6"}
               />
             </ModalFooter>
@@ -124,7 +140,7 @@ const AddTaskModal = ({
               onOpenChange={onOpenChangePopup}
               onCloseParent={onClose}
             />
-          </>
+          </form>
         )}
       </ModalContent>
     </Modal>

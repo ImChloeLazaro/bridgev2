@@ -70,7 +70,6 @@ const ClientList = ({
             )
           ) : (
             clients.map((client, index) => {
-              // console.log("CLIENT LIST", client.company.name, client);
               return (
                 <Suspense
                   key={index}
