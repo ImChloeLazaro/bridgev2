@@ -112,15 +112,22 @@ const FormFieldInput = ({
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
     number: /^[0-9\s+()-]+$/i,
-    date: /^[A-Z0-9\s,-\\]+$/i,
+    date: /^(January|February|March|April|May|June|July|August|September|October|November|December)\s*([1-9]|[12][0-9]|3[01]),\s+(19|20)\d{2}$/g,
     file: /.*\.pdf$/,
   };
 
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
-    if (type === "date") return false;
     if (value === "") return false;
+
+    if (type === "date") {
+      try {
+        return inputValidation(format(date, "LLLL d, y")) ? false : true;
+      } catch (err) {
+        return true;
+      }
+    }
 
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps

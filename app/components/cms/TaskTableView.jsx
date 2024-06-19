@@ -158,8 +158,9 @@ const TaskTableView = ({
           first = Boolean(a["escalate"]);
           second = Boolean(b["escalate"]);
 
-          console.log("first", a, a["escalate"], typeof a["escalate"]);
-          console.log("second", b, b["escalate"], typeof b["escalate"]);
+          // Fix sorting functionality for escalation and overdue
+          // console.log("first", a, a["escalate"], typeof a["escalate"]);
+          // console.log("second", b, b["escalate"], typeof b["escalate"]);
           cmp = first - second;
         }
       }
@@ -358,8 +359,6 @@ const TaskTableView = ({
       tasksFromSelectedClient,
     ]
   );
-
-  // console.log("selectedKeys", selectedKeys);
 
   return !selectedClientToView?.length ? (
     <div

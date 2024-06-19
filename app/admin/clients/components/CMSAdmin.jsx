@@ -125,17 +125,19 @@ const CMSAdmin = () => {
   );
 
   // ##########################################
-  const tasksFromSelectedClient = useMemo(
-    () =>
-      tasks.filter((task) => task.client?.client_id === selectedClientToView),
-    [selectedClientToView, tasks]
-  );
+  const tasksFromSelectedClient = useMemo(() => {
+    let client_id = Array.from(selectedClientForTask).join("");
+
+    return tasks.filter((task) => task.client?.client_id === client_id);
+  }, [selectedClientForTask, tasks]);
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
-    (sla, index) => {
+    (task, index) => {
+      let client_id = Array.from(selectedClientForTask).join("");
       return {
-        ...sla,
+        ...task,
         id: (index += 1),
+        client_id: client_id,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
@@ -408,13 +410,14 @@ const CMSAdmin = () => {
             <AddTaskModal
               isOpen={isOpenTask}
               onOpenChange={onOpenChangeTask}
+              selectedClientForTask={selectedClientForTask}
+              setSelectedClientForTask={setSelectedClientForTask}
               selectedClientToViewAtom={selectedClientToViewAtom}
               showClientTaskAtom={showClientTaskAtom}
-              clientSelectionChangeAtom={clientSelectionChangeAtom}
+              clientSelectionChange={clientSelectionChange}
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
-              selectedClientForTaskAtom={selectedClientForTaskAtom}
               selectedProcessorAtom={selectedProcessorAtom}
               selectedReviewerAtom={selectedReviewerAtom}
               selectedManagerAtom={selectedManagerAtom}

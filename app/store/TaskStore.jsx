@@ -39,8 +39,9 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     console.log("CLIENT HAS TASK");
 
     const response = await restupdate("/cms/task", {
-      ...clientAlreadyHaveTask[0],
-      escalate: false,
+      // ...clientAlreadyHaveTask[0],
+      manager: manager,
+      client: client,
       processor: [...clientAlreadyHaveTask[0].processor, ...processor],
       reviewer: [...clientAlreadyHaveTask[0].reviewer, ...reviewer],
       sla: [...clientAlreadyHaveTask[0].sla, ...sla],
@@ -109,7 +110,7 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/task", {
     // id of sla
-    _id: "66149efa8cf1401df0973562", // "660fa0db6c5775f281500e3d"
+    _id: "66725d0b7e9950031daeacb8", // "660fa0db6c5775f281500e3d"
   });
   if (response.success) {
     console.log("DELETED TASK", response.response);
@@ -128,15 +129,18 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client?.client_id === client_id
   );
 
+  console.log("CHECK SLA FOR DONE BY: ", {
+    ...taskToBeUpdated[0],
+    sla: [...sla],
+  });
+
   const response = await restupdate("/cms/task", {
     ...taskToBeUpdated[0],
     sla: [...sla],
   });
   console.log("RESPONSE FROM API", response);
 
-  if (response === undefined) {
-    return { success: false };
-  }
+  if (response === undefined) return { success: false };
 
   if (response?.success) {
     const updatedTask = get(tasksAtom).map((task) => {
@@ -537,9 +541,9 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
     const convertedTasks = tasks.response.map((task, index) => {
       return {
         ...task,
-        // key: task.client?.client_id,
+        key: task.client?.client_id,
         // id: `${(index += 1)}`, // !important
-        sla: [...task.sla],
+        // sla: [...task.sla],
       };
     });
     console.log("convertedTasks", convertedTasks);
@@ -553,6 +557,7 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
     return {
+      client_id: client._id, // #[CHANGE KEY]: client_id => key / id
       key: client._id,
       name: client.company.name,
       email: client.company.email,

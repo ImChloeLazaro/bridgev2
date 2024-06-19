@@ -125,6 +125,7 @@ const ClientItemCard = ({
   };
   const handleSelectClient = (selected) => {
     // when user pressed on the arrow on the right most side on client list
+    console.log("selected", selected);
     setSelectedClientToView(selected);
     setSelectedClientForTask(new Set([selected]));
     setShowClientTask(true);

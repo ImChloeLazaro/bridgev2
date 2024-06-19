@@ -75,7 +75,6 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     set(generalWithAccountantAtom, false);
 
     console.log("ADDED CLIENT", response.response);
-    console.log("ADDED CLIENT", get(clientsAtom));
     return { success: true };
   } else {
     console.log("FAILED ADDING CLIENT");

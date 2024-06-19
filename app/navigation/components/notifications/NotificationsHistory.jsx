@@ -40,10 +40,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 
 // @refresh reset
 
-const NotificationsHistory = ({
-  isOpen,
-  onOpenChange,
-}) => {
+const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchItem, setSearchItem] = useState("");
@@ -58,25 +55,20 @@ const NotificationsHistory = ({
   const auth = useAtomValue(authenticationAtom);
   const notificationFilterKeys = useAtomValue(notificationFilterKeysAtom);
 
-  const handleLoadNotification = () => {
-    setIsLoading(true);
-    const promise = async () =>
-      new Promise((resolve) =>
-        setTimeout(
-          async () => resolve(console.log("Loading Notifications")),
-          2000
-        )
-      );
+  // const handleLoadNotification = () => {
+  //   setIsLoading(true);
+  //   const promise = async () =>
+  //     new Promise((resolve) => setTimeout(async () => resolve(), 2000));
 
-    toast.promise(promise, {
-      loading: "Loading...",
-      success: () => {
-        setIsLoading(false);
-        return "Notifications Up to Date";
-      },
-      error: "Error refreshing data",
-    });
-  };
+  //   toast.promise(promise, {
+  //     loading: "Loading...",
+  //     success: () => {
+  //       setIsLoading(false);
+  //       return "Notifications Up to Date";
+  //     },
+  //     error: "Error refreshing data",
+  //   });
+  // };
 
   const handleNotificationDatetime = (datetime) => {
     const notificationDateTime =
@@ -104,9 +96,7 @@ const NotificationsHistory = ({
   };
 
   const handleActions = (action) => {
-    console.log("ACTION", action);
     if (action === "show") {
-      console.log("");
       setIsOpenOptions(false);
       setSelectedNotificationFilterKeys(["hidden"]);
     }
