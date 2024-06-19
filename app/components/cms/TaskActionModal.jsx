@@ -52,18 +52,9 @@ const TaskActionModal = ({
     }
   });
 
-  console.log(
-    "selectedProcessorTaskAction",
-    Boolean(selectedProcessorTaskAction.size)
-  );
-  console.log(
-    "selectedReviewerTaskAction",
-    Boolean(selectedReviewerTaskAction.size)
-  );
-
   let isDisabled =
-    Boolean(selectedProcessorTaskAction.size) ||
-    Boolean(selectedReviewerTaskAction.size);
+    Boolean(selectedProcessorTaskAction?.size) ||
+    Boolean(selectedReviewerTaskAction?.size);
 
   const processors = new Set([...tasks?.processor]) ?? new Set([]); // new Set([...tasks?.processor]) ??
   const reviewers = new Set([...tasks?.reviewer]) ?? new Set([]); // new Set([...tasks?.review]) ??

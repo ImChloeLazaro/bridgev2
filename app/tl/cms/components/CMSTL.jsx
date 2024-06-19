@@ -55,8 +55,8 @@ import {
   startDateAtom,
   taskInstructionAtom,
 } from "../store/CMSTLStore";
-import AddTaskModal from "./AddTaskModal";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
 // @refresh reset
 
@@ -77,6 +77,8 @@ const CMSTL = () => {
     column: "endDate",
     direction: "descending",
   });
+
+  const user = useAtomValue(authenticationAtom);
 
   const clients = useAtomValue(clientsAtom);
   const tasks = useAtomValue(tasksAtom);
@@ -121,7 +123,7 @@ const CMSTL = () => {
   const userTasks = tasks.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
     const reviewers = task.reviewer.map((user) => user.sub);
-    return [...processors, ...reviewers, task.manager].includes(user.sub); // assignees
+    return [...processors, ...reviewers, task.manager?.sub].includes(user.sub); // assignees
   });
 
   console.log("userTasks", userTasks);
