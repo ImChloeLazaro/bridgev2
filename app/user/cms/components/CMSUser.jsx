@@ -249,9 +249,10 @@ const CMSUser = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
-      // fetchClient();
+      fetchClient();
     }, 10000);
     return () => {
       clearInterval(interval);
@@ -259,10 +260,10 @@ const CMSUser = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    fetchTask();
-    fetchClient();
-  }, []);
+  // useEffect(() => {
+  //   fetchTask();
+  //   fetchClient();
+  // }, []);
 
   useEffect(() => {
     // only execute all the code below in client side

@@ -35,6 +35,8 @@ const FormFieldTextArea = ({
       aria-label={label}
       isDisabled={isDisabled}
       isRequired={isRequired}
+      isInvalid={isInvalid}
+      validationBehavior={"native"}
       errorMessage={
         isInvalid
           ? errorMessage

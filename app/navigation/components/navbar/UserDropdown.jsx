@@ -56,11 +56,11 @@ const UserDropdown = () => {
             base: ["gap-3 "],
             name: [
               "md:text-white-default",
-              "max-md:hidden",
+              "hidden lg:block",
               "pl-1",
               "text-lg font-bold",
             ],
-            description: ["max-md:hidden", "pl-0.5"],
+            description: ["hidden lg:block", "pl-0.5"],
           }}
         />
       </DropdownTrigger>
@@ -74,7 +74,9 @@ const UserDropdown = () => {
       >
         <DropdownItem
           key={userOptions.switch.key}
-          className={"font-medium data-[hover=true]:bg-transparent data-[hover=true]:text-lightgrey-default p-0 "}
+          className={
+            "font-medium data-[hover=true]:bg-transparent data-[hover=true]:text-lightgrey-default p-0 "
+          }
           textValue={userOptions.switch.key}
         >
           <SwitchRoles />

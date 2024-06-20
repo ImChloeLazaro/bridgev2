@@ -10,6 +10,7 @@
 
 * Added @next latest `^14.0.4` as its framework
 * Added @tailwindcss latest `^3.3.0`
+* Added @nextui-org/react latest `^2.2.9` for core components
 * Configured @tailwindcss to match Bridge's color palette
 * Configured framework and components to match prototype's style in Figma
 * Implemented Cognito Authentication for `backend` and `frontend`
@@ -1648,3 +1649,19 @@ postsAtom = atom({
 * Added @hookform/resolvers latest `^3.6.0` for form validation of all components
 * Added @react-hook-form latest `^7.51.5` for form validation of all components
 * Fixed parity issues with both views for tasks
+
+## v.0.9.8
+
+* Imported changes tracked here and future changes are tracked now in GitHub Issues
+
+## v.0.9.9
+
+* CMS Revision
+
+## v.0.10.0
+
+* Cleaned up and refactored source code
+* Organized Project Structure
+* Removed dead code and unused code
+* Removed majority of `console.log()` left from development
+* Updated @nextui-org/react to latest `^2.4.2`

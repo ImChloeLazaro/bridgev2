@@ -15,6 +15,7 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     another_bookkeeper,
     with_accountant,
   } = update;
+
   const response = await restinsert("/cms/client", {
     contact,
     company,

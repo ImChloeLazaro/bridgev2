@@ -52,7 +52,7 @@ const AddTaskModal = ({
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async () => {
-    // console.log("taskData", taskData);
+    // console.log("taskData", taskData);addTask(taskData);deleteTask()
 
     const promise = async () =>
       new Promise((resolve) =>

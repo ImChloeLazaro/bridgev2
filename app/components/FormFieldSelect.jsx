@@ -78,20 +78,24 @@ const FormFieldSelect = ({
       );
     },
   };
-  let selection = new Set([...items]) ?? new Set([]);
   const [touched, setTouched] = useState(false);
 
-  const itemSelection = selectedKeys ? new Set([...selectedKeys]) : new Set([]);
+  let selection = new Set([...items]) ?? new Set([]);
+  let selected = useMemo(() => {
+    return new Set([...selectedKeys]) ?? new Set([]);
+  }, [selectedKeys]);
 
   const errorMessages = {
     selection: "Please select an item.",
   };
 
   const isInvalid = useMemo(() => {
-    // if (typeof selectedKeys.size === "undefined") return false;
+    let validSelections = new Set(
+      [...items].map((item) => (item?.sub ? item?.sub : item?.key))
+    );
 
-    return selectedKeys?.size === 0;
-  }, [selectedKeys?.size]);
+    return validSelections.intersection(selected)?.size === 0;
+  }, [items, selected]);
 
   return (
     <Select
@@ -100,11 +104,12 @@ const FormFieldSelect = ({
       items={selection}
       isRequired={isRequired}
       isDisabled={isDisabled ? isDisabled : selection.size === 0}
-      // isInvalid={isInvalid || !touched}
+      isInvalid={!isInvalid || !touched ? false : true}
+      validationBehavior={"native"}
       disallowEmptySelection={true}
       placeholder={placeholder}
       selectionMode={selectionMode}
-      selectedKeys={itemSelection}
+      selectedKeys={selected}
       onSelectionChange={onSelectionChange}
       renderValue={renderItemType[renderType]}
       onClose={() => setTouched(true)}

@@ -307,14 +307,28 @@ const ClientFormSections = () => {
   );
   const financial = (
     <>
-      <FormFieldInput
-        isRequired={true}
-        type={"number"}
-        label={"On average, what is your Gross Monthly Revenue?"}
-        fullWidth={true}
-        value={financialMonthlyRevenue}
-        onValueChange={setFinancialMonthlyRevenue}
-      />
+      <div className="w-full flex justify-center gap-3">
+        <FormFieldInput
+          isRequired={true}
+          type={"number"}
+          label={"On average, what is your Gross Monthly Revenue?"}
+          fullWidth={true}
+          value={financialMonthlyRevenue}
+          onValueChange={setFinancialMonthlyRevenue}
+        />
+        <FormFieldInput
+          isRequired={true}
+          type={"number"}
+          inputType={"number"}
+          label={"How many accounts do you have?"}
+          description={
+            "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"
+          }
+          fullWidth={true}
+          value={financialAccountCount}
+          onValueChange={setFinancialAccountCount}
+        />
+      </div>
       <div className="w-full flex justify-center gap-3">
         <FormFieldInput
           isRequired={true}
@@ -362,46 +376,31 @@ const ClientFormSections = () => {
         />
       </div>
       <div className="w-full flex justify-center gap-3">
-        <div className="w-3/5 flex">
-          <FormFieldTextArea
-            isRequired={true}
-            label={"How many accounts do you have?"}
-            placeholder={
-              "This should include:\n- Bank accounts - checking and savings\n- Credit card accounts\n- PayPal\n- Bank loans\n- Equipment leases"
-            }
-            fullWidth={true}
-            value={financialAccountCount}
-            onValueChange={setFinancialAccountCount}
-          />
-        </div>
-
-        <div className="w-2/5 flex justify-between gap-3">
-          <FormFieldRadio
-            isRequired={true}
-            label={"Do you outsource payroll?"}
-            choices={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
-            fullWidth={false}
-            value={financialOutsourcePayroll}
-            onValueChange={setFinancialOutsourcePayroll}
-            className={"w-1/2"}
-          />
-          <FormFieldRadio
-            isRequired={true}
-            label={"What accounting method do you use?"}
-            choices={[
-              { value: "cash", label: "Cash" },
-              { value: "accrual", label: "Accrual" },
-              { value: "unsure", label: "Unsure" },
-            ]}
-            fullWidth={false}
-            value={financialAccountMethod}
-            onValueChange={setFinancialAccountMethod}
-            className={"w-1/2"}
-          />
-        </div>
+        <FormFieldRadio
+          isRequired={true}
+          label={"Do you outsource payroll?"}
+          choices={[
+            { value: true, label: "Yes" },
+            { value: false, label: "No" },
+          ]}
+          fullWidth={false}
+          value={financialOutsourcePayroll}
+          onValueChange={setFinancialOutsourcePayroll}
+          className={"w-1/2"}
+        />
+        <FormFieldRadio
+          isRequired={true}
+          label={"What accounting method do you use?"}
+          choices={[
+            { value: "cash", label: "Cash" },
+            { value: "accrual", label: "Accrual" },
+            { value: "unsure", label: "Unsure" },
+          ]}
+          fullWidth={false}
+          value={financialAccountMethod}
+          onValueChange={setFinancialAccountMethod}
+          className={"w-1/2"}
+        />
       </div>
       <FormFieldTextArea
         isRequired={true}

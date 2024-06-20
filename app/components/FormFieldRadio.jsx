@@ -23,6 +23,7 @@ const FormFieldRadio = ({
       isDisabled={isDisabled}
       isRequired={isRequired}
       isInvalid={isInvalid}
+      validationBehavior={"native"}
       errorMessage={isInvalid ? "Please select a valid choice" : ""}
       size={"lg"}
       label={label}
@@ -36,7 +37,7 @@ const FormFieldRadio = ({
           "relative inline-flex tap-highlight-transparent",
           "shadow-sm px-1.5 py-2 bg-grey-default hover:bg-default-200",
           "group-data-[focus=true]:bg-grey-default rounded-medium",
-          "transition-background motion-reduce:transition-none !duration-150 justify-between"
+          "transition-background motion-reduce:transition-none !duration-150"
         ),
         wrapper: "px-2",
         label: ["p-2", "text-sm font-medium", "text-black-default/80"],

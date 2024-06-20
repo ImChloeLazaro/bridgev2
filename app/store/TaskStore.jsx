@@ -87,9 +87,10 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
-  const response = await destroywithparams("/cms/task", {
-    // id of sla
-    _id: "66725d0b7e9950031daeacb8", // "660fa0db6c5775f281500e3d"
+  const response = await destroywithparams("/cms/client", {
+    // _id of sla #/cms/task
+    // _id of client obj #/cms/client
+    _id: "665922e6167b35aedc883977", // "665922e6167b35aedc883977"
   });
   if (response.success) {
     return { success: true };
