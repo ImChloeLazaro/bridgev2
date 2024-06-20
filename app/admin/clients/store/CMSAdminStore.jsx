@@ -111,7 +111,7 @@ export const taskDataAtom = atom((get) => {
           recurrence:
             //Daily, Weekly, Monthly, Quarterly, Yearly
             Array.from(selectedRecurrence).join("") === ""
-              ? "Daily"
+              ? "daily"
               : Array.from(selectedRecurrence).join(""),
         },
       },

@@ -2,8 +2,6 @@ import { Link, Tooltip } from "@nextui-org/react";
 import { reactionIcons } from "./ReactionIcons";
 
 const ReactionCount = ({ data, selectedReaction }) => {
-  // console.log("INSIDE REACTION COUNT:", data, selectedReaction);
-
   const handleReactionCount = (object) => {
     return Object.values(object).reduce((accumulator, value) => {
       return accumulator + value;

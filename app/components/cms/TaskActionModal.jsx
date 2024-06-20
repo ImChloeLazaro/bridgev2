@@ -73,7 +73,7 @@ const TaskActionModal = ({
   };
 
   const handleFormAction = (e) => {
-    console.log("handleFormAction", e);
+    return false;
   };
 
   return (

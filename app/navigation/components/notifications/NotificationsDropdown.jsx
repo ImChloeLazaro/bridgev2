@@ -70,7 +70,6 @@ const NotificationsDropdown = () => {
 
     socketRef.current.onopen = () => {
       console.log("connected");
-      console.log(socketRef.current);
       setConnected(true);
       fetchUserAttributes().then((attr) => {
         setUser(attr);
@@ -133,7 +132,6 @@ const NotificationsDropdown = () => {
 
   const markAllAsRead = () => {
     notifications.forEach((notification) => {
-      console.log(notification._id);
       socketRef.current.send(
         JSON.stringify({
           action: "notification",

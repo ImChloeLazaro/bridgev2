@@ -314,18 +314,12 @@ const TaskBoardView = ({
 
     if (taskActive.status === "done") {
       if (taskStatusBeforeDone !== taskActive.status) {
-        console.log("taskActive", taskActive);
-
         const dateTaskDone = new Date();
 
         const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
           (task) => {
             if (task._id === taskActive._id) {
-              console.log("TASK", task);
-              console.log("taskActive.status", taskActive.status);
-
               if (taskActive.status === "done") {
-                console.log("INSIDE DONE TO BE ADDED DONE BY", user);
                 return {
                   ...task,
                   status: taskActive.status,
@@ -346,8 +340,6 @@ const TaskBoardView = ({
             return task;
           }
         );
-
-        console.log("updateSelectedTask", updateSelectedTask);
 
         const promise = async () =>
           new Promise((resolve) =>

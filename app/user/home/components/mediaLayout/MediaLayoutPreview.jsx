@@ -169,10 +169,6 @@ const MediaLayoutPreview = ({
           ? mediaLayout[mediaListSize >= 6 ? 5 : mediaListSize]?.portrait
           : mediaLayout[mediaListSize >= 6 ? 5 : mediaListSize]?.landscape;
 
-      // console.log("mediaListSize", mediaListSize);
-      // console.log("mediaDisplay", mediaDisplay);
-      // console.log("orientationAlignment: ", orientationAlignment);
-
       return (
         <div className={`${orientationAlignment}`}>
           {mediaDisplay.map((media, index) => {

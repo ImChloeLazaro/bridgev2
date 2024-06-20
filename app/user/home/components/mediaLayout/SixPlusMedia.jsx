@@ -18,7 +18,6 @@ const SixPlusMedia = ({ data, orientation, layout }) => {
   };
 
   const handleOnOpen = (index) => {
-    console.log("POST 6 IMAGE INDEX", index);
     setSelectedImage(index);
   };
 

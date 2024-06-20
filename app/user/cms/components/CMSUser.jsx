@@ -79,11 +79,13 @@ const CMSUser = () => {
   );
 
   // ##########################################
-
   const userTasks = tasks.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
     const reviewers = task.reviewer.map((user) => user.sub);
-    return [...processors, ...reviewers].includes(user.sub); // assignees
+    return (
+      [...processors, ...reviewers, task.manager?.sub].includes(user.sub) &&
+      task.client?.client_id
+    ); // assignees
   });
 
   const tasksFromSelectedClient = useMemo(
@@ -95,10 +97,12 @@ const CMSUser = () => {
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
-    (sla, index) => {
+    (task, index) => {
+      let client_id = Array.from(selectedClientForTask).join("");
       return {
-        ...sla,
+        ...task,
         id: (index += 1),
+        client_id: client_id,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
@@ -244,16 +248,16 @@ const CMSUser = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchTask();
-  //     fetchClient();
-  //   }, 5000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTask();
+      // fetchClient();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchTask();

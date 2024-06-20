@@ -52,8 +52,6 @@ function TaskBoardCard({
       task.status === "todo"
   );
 
-  // console.log("TASK BOARD CARD: CHECK DONE BY", task);
-
   const {
     setNodeRef,
     attributes,

@@ -36,9 +36,6 @@ const TaskOptionsDropdown = ({
   selectedReviewerTaskAction,
   setSelectedReviewerTaskAction,
 }) => {
-  // const confirmationWindow = useDisclosure(); // confirmation window
-  // const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
-
   const [selectedTaskAction, setSelectedTaskAction] = useAtom(
     selectedTaskActionAtom
   );
@@ -162,18 +159,6 @@ const TaskOptionsDropdown = ({
           }}
         </DropdownMenu>
       </Dropdown>
-      {/* <ConfirmationWindow
-        message={taskActionWindowDetails[selectedTaskAction.key]?.message}
-        description={
-          taskActionWindowDetails[selectedTaskAction.key]?.description
-        }
-        title={taskActionWindowDetails[selectedTaskAction.key]?.title}
-        type={taskActionWindowDetails[selectedTaskAction.key]?.type}
-        action={handleSelectOption}
-        action_params={[selectedTaskAction]}
-        isOpen={confirmationWindow.isOpen}
-        onOpenChange={confirmationWindow.onOpenChange}
-      /> */}
     </>
   );
 };

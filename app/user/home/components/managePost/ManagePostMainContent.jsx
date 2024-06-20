@@ -139,10 +139,10 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         });
 
         if (response.success) {
-          console.log("CONFIRM WINDOW ADDED POST", response.success);
+          return { success: true };
         }
       } else {
-        console.log("NO EMPTY TEMPLATE ALLOWED");
+        return { success: false };
       }
     }
     fetchDraftPost(auth.sub);
@@ -160,9 +160,9 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
       });
 
       if (response.success) {
-        console.log("CONFIRM WINDOW DELETED POST", response.success);
+        return { success: true };
       } else {
-        console.log("NO DRAFT POST DELETED");
+        return { success: false };
       }
       fetchDraftPost(auth.sub);
     }
@@ -178,9 +178,9 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
       });
 
       if (response.success) {
-        console.log("CONFIRM WINDOW DELETED POST", response.success);
+        return { success: true };
       } else {
-        console.log("NO PUBLISH POST DELETED");
+        return { success: false };
       }
       fetchPublishPost(auth.sub);
       fetchPost();
@@ -197,9 +197,9 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
       });
 
       if (response.success) {
-        console.log("CONFIRM WINDOW DELETED POST", response.success);
+        return { success: true };
       } else {
-        console.log("NO ARCHIVE POST DELETED");
+        return { success: false };
       }
     }
     fetchArchivePost(auth.sub);
@@ -207,19 +207,17 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
 
   const handlePublishPost = async () => {
     if (selectedPostStatusString === "drafts") {
-      console.log("POSTS DATA: post", post);
       const selectedDrafts = draftsPostList.filter((draft) =>
         selectedDraftPost.includes(draft.key)
       );
-      console.log("DRAFT: selectedDrafts", selectedDrafts);
       const response = await addPublishPost({
         selectedToBePublished: selectedDrafts,
         sub: auth.sub,
       });
       if (response.success) {
-        console.log("CONFIRM WINDOW PUBLISHED POST", response.success);
+        return { success: true };
       } else {
-        console.log("NO POST PUBLISHED");
+        return { success: false };
       }
 
       fetchDraftPost(auth.sub);
@@ -239,9 +237,9 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         sub: auth.sub,
       });
       if (response.success) {
-        console.log("CONFIRM WINDOW ARCHIVED POST", response.success);
+        return { success: true };
       } else {
-        console.log("NO POST ARCHIVED");
+        return { success: false };
       }
 
       fetchPublishPost(auth.sub);

@@ -36,31 +36,25 @@ export const addDraftPostAtom = atom(null, async (get, set, update) => {
   const selectedReactions = selectedDraft.reactionList;
   const selectedTaggedPeople = selectedDraft.taggedPeople;
 
-  console.log("mediaFileList type", typeof mediaFileList);
 
   // uploading then fetching filename from backend to be able to display it on frontend
   const mediaToBeUploaded = await Promise.all(
     Object.values(mediaFileList).map(async (media) => {
-      console.log("file media", media);
       const fileUploaded = await uploadfile(media);
-      console.log("fileUploaded", fileUploaded);
       return fileUploaded;
     })
   );
 
   const fileNameList = mediaToBeUploaded;
-  console.log("DRAFT: fileNameList", fileNameList);
 
   if (handleAllAreTrue(mediaToBeUploaded.map((file) => file.success))) {
     const previewMediaList = fileNameList.map((media) => {
       if (media.success) {
         return getfile(media.filename);
       } else {
-        console.log("MEDIA GET FILENAME FAILED");
         return ""; // default image placeholder
       }
     });
-    console.log("previewMediaList", previewMediaList);
     // Add Validation
 
     const newDraft = {
@@ -118,11 +112,11 @@ export const removeDraftPostAtom = atom(null, async (get, set, update) => {
     })
   );
   if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
-    console.log(
-      `${toBeDeleted.length} ${
-        toBeDeleted.length > 1 ? "posts are" : "post is"
-      } successfully deleted`
-    );
+    // console.log(
+    //   `${toBeDeleted.length} ${
+    //     toBeDeleted.length > 1 ? "posts are" : "post is"
+    //   } successfully deleted`
+    // );
     // Removes drafted post from post modal
     const updateDrafts = get(postAtom).filter(
       (draft) => draft.sub === sub && draft.status === "drafts"

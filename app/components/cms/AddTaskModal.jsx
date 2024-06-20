@@ -52,17 +52,14 @@ const AddTaskModal = ({
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async () => {
-    console.log("taskData", taskData);
+    // console.log("taskData", taskData);
 
     const promise = async () =>
-      new Promise(
-        (
-          resolve //await addTask(taskData)
-        ) =>
-          setTimeout(
-            async () => resolve(await addTask(taskData), await fetchTask()),
-            2000
-          )
+      new Promise((resolve) =>
+        setTimeout(
+          async () => resolve(await addTask(taskData), await fetchTask()),
+          2000
+        )
       );
     toast.promise(promise, {
       loading: "Creating New Task...",
@@ -84,7 +81,6 @@ const AddTaskModal = ({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       classNames={{ closeButton: "m-2" }}
-      // scrollBehavior={"inside"}
     >
       <ModalContent>
         {(onClose) => (

@@ -73,76 +73,6 @@ const TaskTableView = ({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  // const taskActionWindowDetails = {
-  //   mark: {
-  //     done: {
-  //       title: "Complete Task",
-  //       message: "You are about to mark this task as done",
-  //       description: "",
-  //       type: "confirm",
-  //     },
-  //     forReview: {
-  //       title: "Review Task",
-  //       message: "You are about to mark this task for review",
-  //       description: "",
-  //       type: "confirm",
-  //     },
-  //     title: `${
-  //       selectedTaskAction.status_id === "done" ? "Complete Task" : ""
-  //     } ${selectedTaskAction.status_id === "forReview" ? "Review Task" : ""}`,
-  //     message: `${
-  //       selectedTaskAction.status_id === "done"
-  //         ? "You are about to mark this task as done."
-  //         : ""
-  //     } ${
-  //       selectedTaskAction.status_id === "forReview"
-  //         ? "You are about to mark this task for review."
-  //         : ""
-  //     }`,
-  //     description: `${
-  //       selectedTaskAction.status_id === "done"
-  //         ? "Make sure to double check if this task is completed properly."
-  //         : ""
-  //     } ${
-  //       selectedTaskAction.status_id === "forReview"
-  //         ? "This will notify your reviewer/s to review the task."
-  //         : ""
-  //     }`,
-  //     type: "confirm",
-  //   },
-  //   escalate: {
-  //     title: "Escalate Task",
-  //     message: "Do you confirm escalating this task to a team lead?",
-  //     description:
-  //       "This action is irreversible. Make sure to contact your team leader",
-  //     type: "warning",
-  //   },
-  //   resolve: {
-  //     title: "Resolve Escalation",
-  //     message: "Do you confirm resolving this escalation?",
-  //     description: "",
-  //     type: "warning",
-  //   },
-  //   reassign: {
-  //     title: "Re-assign Task",
-  //     message: "Do you confirm re-assigning this task?",
-  //     description: "",
-  //     type: "warning",
-  //   },
-  //   assign: {
-  //     title: "Assign team member",
-  //     message: "Do you confirm assigning this task?",
-  //     description: "",
-  //     type: "info",
-  //   },
-  //   remove: {
-  //     title: "Remove team member",
-  //     message: "Do you confirm removing this team member?",
-  //     description: "",
-  //     type: "warning",
-  //   },
-  // };
-
   const sortedItemTasks = useMemo(() => {
     return [...itemTasks].sort((a, b) => {
       let first = a[sortDescriptor.column];
@@ -151,18 +81,20 @@ const TaskTableView = ({
         (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
 
       if (sortDescriptor.column === "status") {
-        if (
-          typeof a["escalate"] !== undefined ||
-          typeof b["escalate"] !== undefined
-        ) {
-          first = Boolean(a["escalate"]);
-          second = Boolean(b["escalate"]);
+        console.log("first", a, a["escalate"], typeof a["escalate"]);
+        console.log("second", b, b["escalate"], typeof b["escalate"]);
+        // if (
+        //   typeof a["escalate"] !== "undefined" ||
+        //   typeof b["escalate"] !== "undefined"
+        // ) {
+        //   first = Boolean(a["escalate"]);
+        //   second = Boolean(b["escalate"]);
 
-          // Fix sorting functionality for escalation and overdue
-          // console.log("first", a, a["escalate"], typeof a["escalate"]);
-          // console.log("second", b, b["escalate"], typeof b["escalate"]);
-          cmp = first - second;
-        }
+        //   // Fix sorting functionality for escalation and overdue
+        //   console.log("first", a, a["escalate"], typeof a["escalate"]);
+        //   console.log("second", b, b["escalate"], typeof b["escalate"]);
+        //   cmp = first - second;
+        // }
       }
 
       if (sortDescriptor.column === "startDate") {
@@ -290,7 +222,7 @@ const TaskTableView = ({
           );
 
         case "assignees":
-          return processorList?.length ? (
+          return (
             <AvatarGroup
               max={isMobile ? 2 : 3}
               classNames={{
@@ -298,28 +230,38 @@ const TaskTableView = ({
                 count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
               }}
             >
-              {processorList}
-            </AvatarGroup>
-          ) : (
-            <AvatarGroup>
-              <Avatar
-                isBordered={true}
-                showFallback
-                fallback={
-                  <MdPerson
-                    size={18}
-                    className="text-white-default"
-                    fill="currentColor"
+              {task.processor?.length ? (
+                task.processor.map((processor) => (
+                  <Avatar
+                    key={processor.sub}
+                    src={processor.picture}
+                    classNames={{
+                      base: [
+                        "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
+                      ],
+                    }}
                   />
-                }
-                src={null}
-                classNames={{
-                  base: [
-                    "bg-blue-default ring-blue-default",
-                    "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-large",
-                  ],
-                }}
-              />
+                ))
+              ) : (
+                <Avatar
+                  isBordered={true}
+                  showFallback
+                  fallback={
+                    <MdPerson
+                      size={18}
+                      className="text-white-default"
+                      fill="currentColor"
+                    />
+                  }
+                  src={null}
+                  classNames={{
+                    base: [
+                      "bg-blue-default ring-blue-default",
+                      "w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-large",
+                    ],
+                  }}
+                />
+              )}
             </AvatarGroup>
           );
 
@@ -450,7 +392,7 @@ const TaskTableView = ({
           }
         >
           {(item) => (
-            <TableRow key={item._id}>
+            <TableRow key={item.id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

@@ -4,8 +4,6 @@ import { atom } from "jotai";
 export const roleAtom = atom([]);
 export const fetchRoleAtom = atom(null, async (get, set) => {
   const user = await get(userAtom);
-  console.log("USER", user);
-  console.log("ROLE", user.role[0]?.name);
   set(roleAtom, [user.role[0]?.name.toLowerCase()]);
 });
 

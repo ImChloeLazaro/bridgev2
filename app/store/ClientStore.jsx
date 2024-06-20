@@ -15,7 +15,6 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     another_bookkeeper,
     with_accountant,
   } = update;
-  console.log("CLIENT DATA TO BE ADDED:", update);
   const response = await restinsert("/cms/client", {
     contact,
     company,
@@ -26,8 +25,6 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     another_bookkeeper,
     with_accountant,
   });
-
-  console.log("RESPONSE FROM API", response);
 
   if (response.success) {
     set(contactNameAtom, "");
@@ -74,10 +71,8 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     set(generalAnotherBookKeeperAtom, false);
     set(generalWithAccountantAtom, false);
 
-    console.log("ADDED CLIENT", response.response);
     return { success: true };
   } else {
-    console.log("FAILED ADDING CLIENT");
     return { success: false };
   }
 });
@@ -190,17 +185,14 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
   const clients = await restread("/cms/client");
 
   if (clients?.success) {
-    console.log("CLIENT SUCCESS FETCH", clients.response);
     const convertedClients = clients.response.map((client, index) => {
       return {
         ...client,
         // company: { ...client.company, picture: "https://picsum.photos/200" }, // default picture
       };
     });
-    console.log("convertedClients", convertedClients);
     set(clientsAtom, convertedClients);
   } else {
-    console.log("CLIENT FAILED FETCH", clients);
   }
 });
 

@@ -35,7 +35,6 @@ const FormFieldInput = ({
   const handleUploadDocuments = useCallback(
     (e) => {
       const fileList = e.target.files;
-      console.log("LIST", fileList[0].name);
 
       if (!fileList) {
         return;
@@ -155,7 +154,6 @@ const FormFieldInput = ({
           new Date(date) > 0 && withDate ? format(date, "LLLL d, y") : value
         }
         onValueChange={(value) => {
-          console.log("VALUE:", isInvalid, value);
           onValueChange(value);
         }}
         classNames={{

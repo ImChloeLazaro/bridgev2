@@ -107,8 +107,6 @@ const ManagePostSidebarContent = () => {
   const handleUploadFile = useCallback(
     (e) => {
       const list = e.target.files;
-      console.log("LIST", list);
-
       if (!list) {
         return;
       }
@@ -229,7 +227,6 @@ const ManagePostSidebarContent = () => {
               placeholder="Choose Layout"
               selectedKeys={selectedMediaLayout}
               onSelectionChange={(key) => {
-                console.log(key);
                 setSelectedMediaLayout(key);
                 selectedMediaLayoutString === "single"
                   ? setSelectedMediaOrientation(new Set(["portrait"]))

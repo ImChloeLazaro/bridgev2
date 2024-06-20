@@ -98,6 +98,7 @@ const TaskFormSections = ({
             <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
+                isDisabled={showClientTask}
                 aria-label="Client Selection"
                 items={clientSelectionForTask}
                 placeholder="Select Client"
@@ -118,7 +119,7 @@ const TaskFormSections = ({
             <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
-                isDisabled={showClientTask}
+                // isDisabled={showClientTask}
                 aria-label="Processor Selection"
                 items={processorSelection}
                 placeholder="Assign Processor/s"
@@ -140,7 +141,7 @@ const TaskFormSections = ({
             <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
-                isDisabled={showClientTask}
+                // isDisabled={showClientTask}
                 aria-label="Reviewer Selection"
                 items={reviewerSelection}
                 placeholder="Assign Reviewer/s"
@@ -162,7 +163,7 @@ const TaskFormSections = ({
             <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
-                isDisabled={showClientTask}
+                // isDisabled={showClientTask}
                 aria-label="Manager Selection"
                 items={managerSelection}
                 placeholder="Assign Manager/s"
@@ -281,7 +282,7 @@ const TaskFormSections = ({
           </div>
         </div>
       </div>
-      <div className="p-1 m-1 w-full"></div> {/* SPACER FOR LAST ROW*/}
+      {/*<div className="p-1 m-1 w-full"></div>  SPACER FOR LAST ROW*/}
     </div>
   );
 };

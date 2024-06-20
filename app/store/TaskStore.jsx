@@ -27,36 +27,26 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     sla = [],
   } = update;
 
-  console.log("selectedClient: ", client);
-
   const clientAlreadyHaveTask = get(tasksAtom).filter(
-    (task) => task.client?.client_id === client?.key
+    (task) => task.client?.client_id === client?.client_id
   );
 
-  console.log("clientAlreadyHaveTask: ", clientAlreadyHaveTask[0]);
-
   if (client && clientAlreadyHaveTask?.length) {
-    console.log("CLIENT HAS TASK");
-
     const response = await restupdate("/cms/task", {
-      // ...clientAlreadyHaveTask[0],
+      ...clientAlreadyHaveTask[0],
       manager: manager,
       client: client,
       processor: [...clientAlreadyHaveTask[0].processor, ...processor],
       reviewer: [...clientAlreadyHaveTask[0].reviewer, ...reviewer],
       sla: [...clientAlreadyHaveTask[0].sla, ...sla],
     });
-    console.log("RESPONSE HAS TASK FROM API", response);
 
     if (response.success) {
-      console.log("ADDED TASK", response.response);
       return { success: true };
     } else {
-      console.log("FAILED ADDING TASK");
       return { success: false };
     }
   } else {
-    console.log("CLIENT HAS NO TASK");
     const response = await restinsert("/cms/task", {
       manager,
       client,
@@ -65,23 +55,16 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       duration,
       sla,
     });
-    console.log("RESPONSE HAS NO TASK FROM API", response);
 
     if (response.success) {
-      console.log("ADDED TASK", response.response);
       return { success: true };
     } else {
-      console.log("FAILED ADDING TASK");
       return { success: false };
     }
   }
 });
 export const updateTaskAtom = atom(null, async (get, set, update) => {
   const { action, tasks, _id, reviewer, processor } = update;
-  console.log("UPDATED HERE DATA processor", processor);
-  console.log("UPDATED HERE DATA reviewer", reviewer);
-  console.log("UPDATED HERE DATA _id", _id);
-  console.log("UPDATED HERE DATA tasks", tasks.sla);
 
   const updatedAssignees = {
     _id,
@@ -94,16 +77,12 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
       await restupdate("/cms/task/remove-processor", updatedAssignees),
       await restupdate("/cms/task/remove-reviewer", updatedAssignees),
     ]);
-
-    console.log("RESPONSE REMOVE PROCESSOR + REVIEWER", response);
   }
   if (action === "assign") {
     const response = await Promise.all([
       await restupdate("/cms/task/update-processor", updatedAssignees),
       await restupdate("/cms/task/update-reviewer", updatedAssignees),
     ]);
-
-    console.log("RESPONSE ASSIGN PROCESSOR + REVIEWER", response);
   }
 });
 
@@ -113,11 +92,8 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
     _id: "66725d0b7e9950031daeacb8", // "660fa0db6c5775f281500e3d"
   });
   if (response.success) {
-    console.log("DELETED TASK", response.response);
-
     return { success: true };
   } else {
-    console.log("FAILED DELETED TASK");
     return { success: false };
   }
 });
@@ -129,16 +105,10 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client?.client_id === client_id
   );
 
-  console.log("CHECK SLA FOR DONE BY: ", {
-    ...taskToBeUpdated[0],
-    sla: [...sla],
-  });
-
   const response = await restupdate("/cms/task", {
     ...taskToBeUpdated[0],
     sla: [...sla],
   });
-  console.log("RESPONSE FROM API", response);
 
   if (response === undefined) return { success: false };
 
@@ -153,7 +123,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 
     return { success: true };
   } else {
-    console.log("FAILED UPDATING TASK");
     return { success: false };
   }
 });
@@ -174,18 +143,12 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   const clientKey = tasks.client.client_id;
   const dateTaskDone = new Date();
 
-  console.log("processor assignees", tasks.processor);
-  console.log("reviewer assignees", tasks.reviewer);
-
   if (key === "mark") {
     let taskName;
     if (status_id === "forReview" || status_id === "done") {
       const updateSelectedTask = tasks.sla.map((task) => {
         if (task._id === task_id) {
-          console.log("TASK", task);
           taskName = task?.name;
-
-          console.log("taskName: ", taskName);
 
           if (status_id === "done") {
             return {
@@ -250,8 +213,6 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
       return task;
     });
 
-    console.log("updateSelectedTask", updateSelectedTask);
-
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
@@ -280,8 +241,6 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   }
 
   if (key === "assign") {
-    console.log("Assign", key, task_id);
-
     const assignProcessorAssignees = get(userListAtom).filter(
       (user) =>
         Array.from(selectedProcessorTaskAction).includes(user.sub) &&
@@ -322,19 +281,12 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   }
 
   if (key === "remove") {
-    console.log("Remove", key, task_id);
-
     const removeProcessorAssignees = tasks.processor.filter((user) =>
       Array.from(selectedProcessorTaskAction).includes(user.sub)
     );
     const removeReviewerAssignees = tasks.reviewer.filter((user) =>
       Array.from(selectedReviewerTaskAction).includes(user.sub)
     );
-
-    console.log("selectedProcessorTaskAction", selectedProcessorTaskAction);
-    console.log("selectedReviewerTaskAction", selectedReviewerTaskAction);
-    console.log("newProcessorAssignees", removeProcessorAssignees);
-    console.log("newReviewerAssignees", removeReviewerAssignees);
 
     /// ### For removing any task done by when removing processor/s and reviewer/s?
     /// ### Checks whether the soon to be removed processor/s and reviewer/s has any task done by and removes it
@@ -536,8 +488,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
   if (tasks?.success) {
-    console.log("TASKS SUCCESS FETCH", tasks.response);
-    console.log("TASKS SUCCESS FOR PROCESSOR", tasks);
     const convertedTasks = tasks.response.map((task, index) => {
       return {
         ...task,
@@ -546,11 +496,9 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
         // sla: [...task.sla],
       };
     });
-    console.log("convertedTasks", convertedTasks);
 
     set(tasksAtom, convertedTasks);
   } else {
-    console.log("TASKS FAILED FETCH", tasks);
   }
 });
 

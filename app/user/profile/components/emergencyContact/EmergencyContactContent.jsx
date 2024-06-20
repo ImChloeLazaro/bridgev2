@@ -3,7 +3,6 @@ import { emergencyContactAtom } from "../../store/ProfileStore";
 
 const EmergencyContactContent = () => {
   const data = useAtomValue(emergencyContactAtom);
-  console.log("INSIDE EMERGENCY CONTACT", data);
   return (
     <div className="flex justify-between p-1 lg:p-2">
       <div className="flex flex-col w-full gap-2">

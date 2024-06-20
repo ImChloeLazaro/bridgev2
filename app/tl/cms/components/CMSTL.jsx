@@ -123,10 +123,11 @@ const CMSTL = () => {
   const userTasks = tasks.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
     const reviewers = task.reviewer.map((user) => user.sub);
-    return [...processors, ...reviewers, task.manager?.sub].includes(user.sub); // assignees
+    return (
+      [...processors, ...reviewers, task.manager?.sub].includes(user.sub) &&
+      task.client?.client_id
+    ); // assignees
   });
-
-  console.log("userTasks", userTasks);
 
   const tasksFromSelectedClient = useMemo(
     () =>
@@ -137,10 +138,12 @@ const CMSTL = () => {
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
-    (sla, index) => {
+    (task, index) => {
+      let client_id = Array.from(selectedClientForTask).join("");
       return {
-        ...sla,
+        ...task,
         id: (index += 1),
+        client_id: client_id,
         processor: tasksFromSelectedClient[0].processor,
         reviewer: tasksFromSelectedClient[0].reviewer,
       };
@@ -313,16 +316,16 @@ const CMSTL = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchTask();
-  //     fetchClient();
-  //   }, 5000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTask();
+      // fetchClient();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchTask();
@@ -404,13 +407,14 @@ const CMSTL = () => {
             <AddTaskModal
               isOpen={isOpenTask}
               onOpenChange={onOpenChangeTask}
+              selectedClientForTask={selectedClientForTask}
+              setSelectedClientForTask={setSelectedClientForTask}
               selectedClientToViewAtom={selectedClientToViewAtom}
               showClientTaskAtom={showClientTaskAtom}
-              clientSelectionChangeAtom={clientSelectionChangeAtom}
+              clientSelectionChange={clientSelectionChange}
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
-              selectedClientForTaskAtom={selectedClientForTaskAtom}
               selectedProcessorAtom={selectedProcessorAtom}
               selectedReviewerAtom={selectedReviewerAtom}
               selectedManagerAtom={selectedManagerAtom}

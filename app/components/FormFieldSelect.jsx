@@ -81,6 +81,8 @@ const FormFieldSelect = ({
   let selection = new Set([...items]) ?? new Set([]);
   const [touched, setTouched] = useState(false);
 
+  const itemSelection = selectedKeys ? new Set([...selectedKeys]) : new Set([]);
+
   const errorMessages = {
     selection: "Please select an item.",
   };
@@ -88,8 +90,8 @@ const FormFieldSelect = ({
   const isInvalid = useMemo(() => {
     // if (typeof selectedKeys.size === "undefined") return false;
 
-    return selectedKeys.size === 0;
-  }, [selectedKeys.size]);
+    return selectedKeys?.size === 0;
+  }, [selectedKeys?.size]);
 
   return (
     <Select
@@ -102,12 +104,12 @@ const FormFieldSelect = ({
       disallowEmptySelection={true}
       placeholder={placeholder}
       selectionMode={selectionMode}
-      selectedKeys={new Set([...selectedKeys])}
+      selectedKeys={itemSelection}
       onSelectionChange={onSelectionChange}
       renderValue={renderItemType[renderType]}
       onClose={() => setTouched(true)}
       errorMessage={
-        isInvalid  || !touched
+        isInvalid || !touched
           ? errorMessage
             ? errorMessage
             : errorMessages["selection"]
@@ -127,7 +129,7 @@ const FormFieldSelect = ({
         selectorIcon: ["group-data-[has-label=true]:mt-3"],
         value: [
           // `${
-          //   isInvalid 
+          //   isInvalid
           //     ? "!text-red-default !placeholder:text-red-default "
           //     : "!text-black-default/90 !placeholder:text-black-default/90"
           // }`,

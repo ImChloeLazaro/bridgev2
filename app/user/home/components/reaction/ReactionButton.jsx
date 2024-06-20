@@ -137,9 +137,9 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
     });
 
     if (response.success) {
-      console.log("CONFIRM WINDOW UPDATED POST REACTION", response.success);
+      return { success: true };
     } else {
-      console.log("NO POST REACTION UPDATED");
+      return { success: false };
     }
   };
 

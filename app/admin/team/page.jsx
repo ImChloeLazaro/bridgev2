@@ -3,7 +3,7 @@ import React from "react";
 import PlaceholderContent from "../../components/PlaceholderContent";
 
 const TeamManagement = () => {
-  return <PlaceholderContent/>;
+  return <PlaceholderContent />;
 };
 
 export default TeamManagement;

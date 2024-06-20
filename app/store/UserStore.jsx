@@ -8,7 +8,6 @@ export const userAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const list = await restread("/user/tagged");
   if (list.success) {
-    console.log("FILTER LIST: ", list.result);
     const user = list.result.filter((user) => user.sub === auth.sub)[0];
     return user;
   } else {
@@ -20,7 +19,6 @@ export const userAtom = atom(async (get) => {
 export const userListAtom = atom([]);
 export const fetchUserListAtom = atom(null, async (get, set, sub) => {
   const list = await restread("/user/tagged");
-  console.log("LIST: ", list);
   if (list.success) {
     set(userListAtom, list.result);
   }

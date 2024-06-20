@@ -319,16 +319,16 @@ const CMSAdmin = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchTask();
-  //     fetchClient();
-  //   }, 5000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTask();
+      // fetchClient();
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchTask();

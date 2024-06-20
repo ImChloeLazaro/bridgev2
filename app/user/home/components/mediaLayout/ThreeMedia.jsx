@@ -18,7 +18,6 @@ const ThreeMedia = ({ data, orientation, layout }) => {
   };
 
   const handleOnOpen = (index) => {
-    console.log("POST 3 IMAGE INDEX", index);
     setSelectedImage(index);
   };
 

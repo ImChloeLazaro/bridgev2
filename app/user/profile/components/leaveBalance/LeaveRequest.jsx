@@ -31,8 +31,6 @@ import { restinsert, restread } from "@/app/utils/amplify-rest";
 const LeaveRequest = () => {
     const response = useAtomValue(leaveStatusAtom);
     const { VL_BALANCE, SL_BALANCE } = useAtomValue(leaveStatusAtom).response;
-    console.log('VL balance', response);
-    console.log('SL balance', SL_BALANCE);
 
     const { sub } = useAtomValue(authenticationAtom);
     const [leaveConfirmation, setLeaveConfirmation] = useState(false);
