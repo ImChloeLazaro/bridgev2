@@ -67,11 +67,11 @@ const LeaveSummary = ({ data, ...props }) => {
                                     />
                                     <div className="flex justify-between">
                                         <p>TL Approval: </p>
-                                        <Chip color={`${data.isTLApproved ? 'success' : 'danger'}`}>{`${data.isTLApproved ? 'Approved' : 'Rejected'}`}</Chip>
+                                        <Chip color={`${data.tlApproval == 'pending' ? 'warning' : data.tlApproval == 'approved' ? 'success' : 'danger'}`}>{`${data.tlApproval}`}</Chip>
                                     </div>
                                     <div className="flex justify-between">
                                         <p>Admin Approval: </p>
-                                        <Chip color={`${data.isAdminApproved ? 'success' : 'danger'}`}>{`${data.isAdminApproved ? 'Approved' : 'Rejected'}`}</Chip>
+                                        <Chip color={`${data.adminApproval == 'pending' ? 'warning' : data.adminApproval == 'approved' ? 'success' : 'danger'}`}>{`${data.adminApproval}`}</Chip>
                                     </div>
                                 </>
                             )
