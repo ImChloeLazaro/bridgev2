@@ -18,7 +18,6 @@ const FourMedia = ({ data, orientation, layout }) => {
   };
 
   const handleOnOpen = (index) => {
-    console.log("POST 4 IMAGE INDEX", index);
     setSelectedImage(index);
   };
 

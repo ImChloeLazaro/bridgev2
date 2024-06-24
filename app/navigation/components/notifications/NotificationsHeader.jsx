@@ -31,10 +31,7 @@ const NotificationsHeader = ({ onOpen, setNotificationsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleActions = (action) => {
-    console.log("ACTION", action);
-    console.log("DOCUMENT", document);
     if (action === "show") {
-      console.log("");
       onOpen();
       setIsOpen(false);
       setNotificationsOpen(false);

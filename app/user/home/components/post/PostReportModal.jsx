@@ -19,8 +19,6 @@ const PostReportModal = ({ isOpen, onOpenChange, isDismissable }) => {
 
   const handleSelectedViolations = (violation) => {
     setSelected(violation);
-    console.log("VIOLATIONS:");
-    console.log(selected);
   };
 
   return (

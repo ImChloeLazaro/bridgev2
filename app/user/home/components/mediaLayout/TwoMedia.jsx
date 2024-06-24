@@ -18,7 +18,6 @@ const TwoMedia = ({ data, orientation, layout }) => {
   };
 
   const handleOnOpen = (index) => {
-    console.log("POST 2 IMAGE INDEX", index);
     setSelectedImage(index);
   };
 

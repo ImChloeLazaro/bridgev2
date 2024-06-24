@@ -14,10 +14,8 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import GoogleOAuth from "@/app/calendar/GoogleOAuth";
 
-
 // @refresh reset
 const TrainingList = () => {
-
   const { data: session } = useSession();
 
   const _trainings = useAtomValue(trainingsAtom);
@@ -42,7 +40,7 @@ const TrainingList = () => {
           timeMin: new Date().toISOString(),
           maxResults: 10,
           singleEvents: true,
-          orderBy: 'startTime'
+          orderBy: "startTime",
         },
       })
       .then((response) => {
@@ -67,7 +65,6 @@ const TrainingList = () => {
           .filter(Boolean);
 
         setTrainings(fetchedTrainings);
-        console.log('TRAINING FROM CALENDAR', fetchedTrainings);
       })
       .catch((error) => {
         console.error(error);
@@ -85,10 +82,10 @@ const TrainingList = () => {
       ) : (
         <Listbox
           items={trainings || []}
-          aria-label='Training List'
+          aria-label="Training List"
           onAction={(key) => console.log(key)}
           emptyContent={
-            <div className='w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center'>
+            <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">
               <Image
                 width={180}
                 height={180}
@@ -99,7 +96,7 @@ const TrainingList = () => {
               <p className="text-sm xl:text-base font-medium text-black-default/80">
                 {"Feeling extra today?"}
               </p>
-              <p className='text-sm xl:text-base font-medium text-black-default/80'>
+              <p className="text-sm xl:text-base font-medium text-black-default/80">
                 {"Start your training now!"}
               </p>
             </div>
@@ -117,9 +114,13 @@ const TrainingList = () => {
           }}
         >
           {(training) => {
-            const smallStartTime = format(new Date(training.datetimeStart), "h b", {
-              locale: enAU,
-            }); // h:mm aa
+            const smallStartTime = format(
+              new Date(training.datetimeStart),
+              "h b",
+              {
+                locale: enAU,
+              }
+            ); // h:mm aa
             const smallEndTime = format(new Date(training.datetimeEnd), "h b", {
               locale: enAU,
             }); // h:mm aa

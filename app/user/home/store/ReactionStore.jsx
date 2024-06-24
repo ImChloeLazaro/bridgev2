@@ -78,10 +78,8 @@ export const updateSelectedReactionAtom = atom(
     const isReactionUpdated = posts.response.acknowledged;
 
     if (isReactionUpdated) {
-      console.log("REACTED ON POST SUCCESS");
       return { success: true };
     } else {
-      console.log("REACTED ON POST FAILED");
       return { success: false };
     }
   }

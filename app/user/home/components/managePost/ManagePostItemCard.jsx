@@ -27,8 +27,6 @@ const ManagePostItemCard = ({ data }) => {
     }, 0);
   };
 
-  console.log("data.reactions", data);
-
   return (
     <Card className="max-w-[20rem] w-[20rem] h-fit rounded-lg scale-100 hover:scale-105 transition-all duration-300">
       <CardHeader className="flex-col gap-1 justify-start items-start pb-2">

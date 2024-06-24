@@ -159,7 +159,6 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
   };
 
   const handleFormAction = (e) => {
-    console.log("unfilledInputFields", unfilledInputFields);
     let submitClientData = Object.values(unfilledInputFields).every(
       (value) => value === false
     );

@@ -18,7 +18,6 @@ const OneMedia = ({ data, orientation, layout }) => {
   };
 
   const handleOnOpen = (index) => {
-    console.log("POST 1 IMAGE INDEX", index);
     setSelectedImage(index);
   };
 
@@ -44,26 +43,24 @@ const OneMedia = ({ data, orientation, layout }) => {
               onOpen();
             }}
           >
-              <NextImage
-                priority={true}
-                fill={true}
-                // placeholder={"blur"}
-                key={index}
-                // width={700}
-                // height={900}
-                sizes={
-                  "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                }
-                radius={"none"}
-                // loading={"lazy"}
-                alt={`Media Layout ${index}`}
-                src={media}
-                style={{
-                  // width: "100%",
-                  // height: "auto",
-                  objectFit: "contain", // cover, contain, none
-                }}
-              />
+            <NextImage
+              priority={true}
+              fill={true}
+              // placeholder={"blur"}
+              key={index}
+              // width={700}
+              // height={900}
+              sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
+              radius={"none"}
+              // loading={"lazy"}
+              alt={`Media Layout ${index}`}
+              src={media}
+              style={{
+                // width: "100%",
+                // height: "auto",
+                objectFit: "contain", // cover, contain, none
+              }}
+            />
           </Button>
         );
       })}

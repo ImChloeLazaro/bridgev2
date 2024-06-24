@@ -77,7 +77,6 @@ export const emergencyContactAtom = atom(async (get) => {
   const profile = await readwithparams("/profile/information", {
     sub: auth.sub,
   });
-  console.log("CONTACT ATOM", profile.emergency);
   return profile.emergency;
 });
 

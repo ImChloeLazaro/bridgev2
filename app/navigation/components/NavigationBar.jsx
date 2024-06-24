@@ -6,7 +6,7 @@ import {
   NavbarItem,
   NavbarMenu,
   NavbarMenuItem,
-  NavbarMenuToggle
+  NavbarMenuToggle,
 } from "@nextui-org/react";
 import { signOut } from "aws-amplify/auth";
 import { useAtom, useAtomValue } from "jotai";
@@ -17,7 +17,10 @@ import {
   activeAdminRouteAtom,
   activeHRRouteAtom,
   activeTLRouteAtom,
-  activeUserRouteAtom, selectedRoleAtom, userOptionsAtom, userRolesAtom
+  activeUserRouteAtom,
+  selectedRoleAtom,
+  userOptionsAtom,
+  userRolesAtom,
 } from "../store/NavSideBarStore";
 import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
@@ -27,6 +30,7 @@ import {
   routesHR,
   routesTeamLead,
   routesUser,
+  externalLinks,
 } from "./RoutesIconDetails";
 // @refresh reset
 
@@ -39,6 +43,7 @@ const NavigationBar = () => {
   const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
+  console.log("externalLinks", externalLinks);
 
   const role = useAtomValue(selectedRoleAtom);
 
@@ -85,6 +90,7 @@ const NavigationBar = () => {
         wrapper:
           "mr-2 pr-4 my-[0.3rem] md:mr-6 md:pr-6 lg:mr-8 lg:pr-8 xl:mr-16 xl:pr-16",
         // toggleIcon: "text-white-default",
+        menu: "hover:text-white-default text-black-default",
       }}
     >
       <NavbarContent justify="start">
@@ -113,8 +119,8 @@ const NavigationBar = () => {
           />
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
+      <NavbarContent justify="end" className="gap-2 lg:gap-4">
+        <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <UserDropdown />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
@@ -125,7 +131,23 @@ const NavigationBar = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {Object.values(userOptions).map((option) => {
+        {Object.values(externalLinks).map((externalLink) => {
+          return (
+            <NavbarMenuItem
+              key={externalLink.key}
+              className="hover:bg-orange-default rounded p-2"
+            >
+              <Link
+                href={externalLink.link}
+                size="md"
+                className="px-2 text-base font-medium"
+              >
+                {externalLink.label}
+              </Link>
+            </NavbarMenuItem>
+          );
+        })}
+        {/* {Object.values(userOptions).map((option) => {
           if (option.key === "logout") {
             return (
               <NavbarMenuItem
@@ -158,7 +180,7 @@ const NavigationBar = () => {
               </NavbarMenuItem>
             );
           }
-        })}
+        })} */}
       </NavbarMenu>
     </Navbar>
   );

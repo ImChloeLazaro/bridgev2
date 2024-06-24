@@ -53,8 +53,8 @@ const TaskActionModal = ({
   });
 
   let isDisabled =
-    Boolean(selectedProcessorTaskAction.size) ||
-    Boolean(selectedReviewerTaskAction.size);
+    Boolean(selectedProcessorTaskAction?.size) ||
+    Boolean(selectedReviewerTaskAction?.size);
 
   const processors = new Set([...filteredProcessors]) ?? new Set([]); // new Set([...tasks?.processor]) ??
   const reviewers = new Set([...filteredReviewers]) ?? new Set([]); // new Set([...tasks?.review]) ??
@@ -73,7 +73,7 @@ const TaskActionModal = ({
   };
 
   const handleFormAction = (e) => {
-    console.log("handleFormAction", e);
+    return false;
   };
 
   return (

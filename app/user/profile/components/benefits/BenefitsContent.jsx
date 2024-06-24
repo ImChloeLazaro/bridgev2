@@ -5,7 +5,6 @@ import { Tooltip, Link } from "@nextui-org/react";
 
 const BenefitsContent = () => {
   const benefitsList = useAtomValue(benefitsStatusAtom);
-  console.log("INSIDE BENEFIT", benefitsList);
   return (
     <div className="flex flex-col w-full gap-1">
       {benefitsList !== null ? (

@@ -47,9 +47,6 @@ const CreatePostTemplateButton = () => {
     const selectedTemplate = postTemplates.filter(
       (template) => template.type === Array.from(key).join("")
     )[0];
-    console.log("INSIDE TEMPLATE BUTTON HERE", key);
-
-    console.log("TEMPLATE BUTTON selectedTemplate", selectedTemplate);
 
     if (selectedTemplate) {
       setSelectedReactions([...selectedTemplate.reactionList]);

@@ -8,7 +8,6 @@ export const postCountAtom = atom((get) => get(postAtom).length);
 export const updatePostReactionAtom = atom(null, async (get, set, update) => {
   const { id, selectedReaction, reacted, reactions, isReacted } = update;
   const selectedPost = get(postAtom).filter((post) => post._id === update.id);
-  console.log("selectedPost", selectedPost);
 
   const oldReactor = selectedPost[0].reacted;
   const isNew = oldReactor
@@ -16,7 +15,6 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
     .find((react) => react.sub === reacted.sub);
   const userOldReaction = isNew?.reaction;
 
-  console.log("userOldReaction", userOldReaction);
 
   const index = selectedPost[0].reacted.findIndex(
     (react) => react.sub === reacted.sub
@@ -66,7 +64,6 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
             : reactions[selectedReaction] - 1,
       };
 
-  console.log("reactions: HERE", updatedReactions);
 
   const updatedPostReaction = {
     reactionList: [selectedReaction],
@@ -74,7 +71,6 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
     reacted: updatedReacted,
   };
 
-  console.log("BEFORE: ", updatedPostReaction);
 
   const updateSelectedReaction = get(postAtom).map((post) => {
     if (id === post._id) {
@@ -88,10 +84,8 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
   const isReactionUpdated = posts.response.acknowledged;
 
   if (isReactionUpdated) {
-    console.log("REACTED ON POST SUCCESS");
     return { success: true };
   } else {
-    console.log("REACTED ON POST FAILED");
     return { success: false };
   }
 });
@@ -105,7 +99,6 @@ export const fetchPostAtom = atom(null, async (get, set, sub) => {
     set(postAtom, filteredPosts);
     return { success: true };
   } else {
-    console.log("POSTS DATA FAILED");
     return { success: false };
   }
 });

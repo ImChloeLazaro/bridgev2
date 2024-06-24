@@ -1,6 +1,10 @@
 import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
-import { addTaskAtom, fetchTaskAtom } from "@/app/store/TaskStore";
+import {
+  addTaskAtom,
+  deleteTaskAtom,
+  fetchTaskAtom,
+} from "@/app/store/TaskStore";
 import {
   Modal,
   ModalBody,
@@ -17,13 +21,14 @@ import TaskFormSections from "./TaskFormSections";
 const AddTaskModal = ({
   isOpen,
   onOpenChange,
+  selectedClientForTask,
+  setSelectedClientForTask,
   selectedClientToViewAtom,
   showClientTaskAtom,
-  clientSelectionChangeAtom,
+  clientSelectionChange,
   taskDataAtom,
   taskNameAtom,
   taskInstructionAtom,
-  selectedClientForTaskAtom,
   selectedProcessorAtom,
   selectedReviewerAtom,
   selectedManagerAtom,
@@ -41,13 +46,13 @@ const AddTaskModal = ({
   const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
-  // const deleteTask = useSetAtom(deleteTaskAtom);
+  const deleteTask = useSetAtom(deleteTaskAtom);
 
   const showClientTask = useAtomValue(showClientTaskAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async () => {
-    console.log("taskData", taskData);
+    // console.log("taskData", taskData);addTask(taskData);deleteTask()
 
     const promise = async () =>
       new Promise((resolve) =>
@@ -66,7 +71,6 @@ const AddTaskModal = ({
   };
 
   const handleFormAction = (e) => {
-    console.log("taskData", taskData);
     onOpenPopup();
     return false;
   };
@@ -77,7 +81,6 @@ const AddTaskModal = ({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       classNames={{ closeButton: "m-2" }}
-      // scrollBehavior={"inside"}
     >
       <ModalContent>
         {(onClose) => (
@@ -95,11 +98,12 @@ const AddTaskModal = ({
             <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
               <div className="h-80">
                 <TaskFormSections
+                  selectedClientForTask={selectedClientForTask}
+                  setSelectedClientForTask={setSelectedClientForTask}
                   showClientTaskAtom={showClientTaskAtom}
-                  clientSelectionChangeAtom={clientSelectionChangeAtom}
+                  clientSelectionChange={clientSelectionChange}
                   taskNameAtom={taskNameAtom}
                   taskInstructionAtom={taskInstructionAtom}
-                  selectedClientForTaskAtom={selectedClientForTaskAtom}
                   selectedProcessorAtom={selectedProcessorAtom}
                   selectedReviewerAtom={selectedReviewerAtom}
                   selectedManagerAtom={selectedManagerAtom}

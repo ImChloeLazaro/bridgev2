@@ -295,9 +295,7 @@ const SideBar = () => {
                 "bg-orange-default hover:bg-orange-hover/90 text-white-default"
               )}
               onPress={() => {
-                console.log("TOGGLED: ", toggled);
                 setToggled(!toggled);
-                console.log("TOGGLED: ", toggled);
               }}
             >
               <div className="">

@@ -12,8 +12,6 @@ const SwitchRoles = () => {
   const roles = useAtomValue(roleAtom);
   const setRoles = useSetAtom(selectedRoleAtom);
 
-  console.log("ROLES:", roles);
-
   const labelRoles = (role) => {
     if (role === "user") {
       return "User";
@@ -34,10 +32,7 @@ const SwitchRoles = () => {
   });
 
   return (
-    <Accordion
-      isCompact
-      className="text-base font-medium"
-    >
+    <Accordion isCompact className="text-base font-medium">
       <AccordionItem
         key="switch"
         aria-label="Switch Roles"

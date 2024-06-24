@@ -38,9 +38,6 @@ function TaskBoardCard({
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
 
-  // const isEscalated = task.escalate;
-  // console.log("isEscalated:", isEscalated);
-
   const confirmationWindow = useDisclosure(); // confirmation window
   const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
   const [selectedTaskAction, setSelectedTaskAction] = useAtom(
@@ -50,82 +47,10 @@ function TaskBoardCard({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  // const taskActionWindowDetails = {
-  //   mark: {
-  //     done: {
-  //       title: "Complete Task",
-  //       message: "You are about to mark this task as done",
-  //       description: "",
-  //       type: "confirm",
-  //     },
-  //     forReview: {
-  //       title: "Review Task",
-  //       message: "You are about to mark this task for review",
-  //       description: "",
-  //       type: "confirm",
-  //     },
-  //     title: `${
-  //       selectedTaskAction.status_id === "done" ? "Complete Task" : ""
-  //     } ${selectedTaskAction.status_id === "forReview" ? "Review Task" : ""}`,
-  //     message: `${
-  //       selectedTaskAction.status_id === "done"
-  //         ? "You are about to mark this task as done."
-  //         : ""
-  //     } ${
-  //       selectedTaskAction.status_id === "forReview"
-  //         ? "You are about to mark this task for review."
-  //         : ""
-  //     }`,
-  //     description: `${
-  //       selectedTaskAction.status_id === "done"
-  //         ? "Make sure to double check if this task is completed properly."
-  //         : ""
-  //     } ${
-  //       selectedTaskAction.status_id === "forReview"
-  //         ? "This will notify your reviewer/s to review the task."
-  //         : ""
-  //     }`,
-  //     type: "confirm",
-  //   },
-  //   escalate: {
-  //     title: "Escalate Task",
-  //     message: "Do you confirm escalating this task to a team lead?",
-  //     description:
-  //       "This action is irreversible. Make sure to contact your team leader",
-  //     type: "warning",
-  //   },
-  //   resolve: {
-  //     title: "Resolve Escalation",
-  //     message: "Do you confirm resolving this escalation?",
-  //     description: "",
-  //     type: "warning",
-  //   },
-  //   reassign: {
-  //     title: "Re-assign Task",
-  //     message: "Do you confirm re-assigning this task?",
-  //     description: "",
-  //     type: "warning",
-  //   },
-  //   assign: {
-  //     title: "Assign team member",
-  //     message: "Do you confirm assigning this task?",
-  //     description: "",
-  //     type: "info",
-  //   },
-  //   remove: {
-  //     title: "Remove team member",
-  //     message: "Do you confirm removing this team member?",
-  //     description: "",
-  //     type: "warning",
-  //   },
-  // };
-
   const difference = Boolean(
     differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
       task.status === "todo"
   );
-
-  // console.log("difference", difference, task.name, task.status);
 
   const {
     setNodeRef,

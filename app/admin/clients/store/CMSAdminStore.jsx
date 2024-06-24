@@ -82,9 +82,6 @@ export const taskDataAtom = atom((get) => {
   const managerSelection = get(managerSelectionAtom);
 
   return {
-    manager: managerSelection.filter((manager) =>
-      Array.from(selectedManager).includes(manager?.sub)
-    )[0],
     client: clientSelection.filter((client) =>
       Array.from(selectedClientForTask).includes(client?.key)
     )[0],
@@ -94,7 +91,9 @@ export const taskDataAtom = atom((get) => {
     reviewer: reviewerSelection.filter((reviewer) =>
       Array.from(selectedReviewer).includes(reviewer.sub)
     ),
-    // duration: Array.from(selectedRecurrence).join(""), //Daily, Weekly, Monthly, Quarterly, Yearly
+    manager: managerSelection.filter((manager) =>
+      Array.from(selectedManager).includes(manager?.sub)
+    )[0],
     sla: [
       {
         name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
@@ -110,8 +109,9 @@ export const taskDataAtom = atom((get) => {
           end:
             get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
           recurrence:
+            //Daily, Weekly, Monthly, Quarterly, Yearly
             Array.from(selectedRecurrence).join("") === ""
-              ? "Daily"
+              ? "daily"
               : Array.from(selectedRecurrence).join(""),
         },
       },
@@ -127,14 +127,7 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
     (task) => task.client?.client_id === key
   );
 
-  console.log(
-    "clientSelectionChange",
-    clientSelectionChange[0]?.client?.client_id
-  );
-
   const manager = clientSelectionChange[0]?.manager?.sub;
-
-  console.log("manager", manager, manager !== "string");
 
   if (typeof clientSelectionChange[0]?.client?.client_id === "string") {
     const selectedClient = [clientSelectionChange[0].client?.client_id] ?? [];
@@ -150,7 +143,6 @@ export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
     set(selectedReviewerAtom, new Set(selectedReviewer));
     set(selectedManagerAtom, new Set(selectedManager));
   } else {
-    set(selectedClientForTaskAtom, new Set([]));
     set(selectedProcessorAtom, new Set([]));
     set(selectedReviewerAtom, new Set([]));
     set(selectedManagerAtom, new Set([]));

@@ -32,9 +32,6 @@ export const addShortcutAtom = atom(null, async (get, set, update) => {
   };
   const shortcutsResponse = await restinsert("/shortcut", newShortcut);
 
-  console.log("ADDED SHORTCUT", get(shortcutsAtom));
-  console.log("shortcutsResponse", shortcutsResponse);
-
   if (shortcutsResponse.message === "POST SUCCESS") {
     set(
       shortcutsAtom,

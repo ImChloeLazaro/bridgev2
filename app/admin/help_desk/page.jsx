@@ -3,7 +3,7 @@ import React from "react";
 import PlaceholderContent from "../../components/PlaceholderContent";
 
 const ITHelpDesk = () => {
-  return <PlaceholderContent/>;
+  return <PlaceholderContent />;
 };
 
 export default ITHelpDesk;

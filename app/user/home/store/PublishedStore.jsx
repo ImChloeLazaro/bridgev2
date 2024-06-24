@@ -23,11 +23,9 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
   let publishIndex = get(publishedPostCountAtom);
   let postIndex = get(postCountAtom);
 
-  console.log("PUBLISH: selectedToBePublished: ", selectedToBePublished);
 
   const toBePosted = await Promise.all(
     selectedToBePublished.map(async (post) => {
-      console.log("EACH POST", post);
       const newPost = {
         ...post,
         // caption: post.caption,
@@ -58,10 +56,7 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
         // type: post.type,
       };
       // return newPost;
-      console.log("PUBLISH: newPost", newPost);
       const postedResponse = await restupdate("/post", newPost);
-      console.log("DRAFT: postedResponse", postedResponse);
-      console.log("DRAFT: post", post._id);
       const isPosted = await postedResponse.success;
       if (isPosted) {
         return { success: true };
@@ -72,11 +67,11 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
   );
 
   if (handleAllAreTrue(toBePosted.map((post) => post.success))) {
-    console.log(
-      `${toBePosted.length} ${
-        toBePosted.length > 1 ? "posts are" : "post is"
-      } successfully posted`
-    );
+    // console.log(
+    //   `${toBePosted.length} ${
+    //     toBePosted.length > 1 ? "posts are" : "post is"
+    //   } successfully posted`
+    // );
     // Moves drafted post to published post
     set(
       draftPostListAtom,
@@ -114,11 +109,11 @@ export const removePublishPostAtom = atom(null, async (get, set, update) => {
     })
   );
   if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
-    console.log(
-      `${toBeDeleted.length} ${
-        toBeDeleted.length > 1 ? "posts are" : "post is"
-      } successfully deleted`
-    );
+    // console.log(
+    //   `${toBeDeleted.length} ${
+    //     toBeDeleted.length > 1 ? "posts are" : "post is"
+    //   } successfully deleted`
+    // );
     // Moves drafted post to published post
     set(
       publishedPostListAtom,

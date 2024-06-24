@@ -18,7 +18,6 @@ const TagPersonSelect = () => {
     }
   });
 
-  console.log("taggedPeopleList", keys);
   return (
     <>
       <Select

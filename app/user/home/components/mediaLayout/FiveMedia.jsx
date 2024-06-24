@@ -18,7 +18,6 @@ const FiveMedia = ({ data, orientation, layout }) => {
   };
 
   const handleOnOpen = (index) => {
-    console.log("POST 5 IMAGE INDEX", index);
     setSelectedImage(index);
   };
 

@@ -25,7 +25,6 @@ const MediaLayoutSelect = () => {
       placeholder="Choose Layout"
       selectedKeys={selectedMediaLayout}
       onSelectionChange={(key) => {
-        console.log(key);
         setSelectedMediaLayout(key);
         selectedMediaLayoutString === "single"
           ? setSelectedMediaOrientation(new Set(["portrait"]))

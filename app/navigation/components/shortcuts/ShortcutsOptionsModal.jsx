@@ -121,8 +121,6 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
       onOpenChange={(open) => {
         setIsOpen(open);
         setDisableDraggable(open);
-        console.log("unique_key: " + unique_key);
-        console.log(shortcutsList);
       }}
     >
       <PopoverTrigger>

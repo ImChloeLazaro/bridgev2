@@ -181,7 +181,7 @@ function ColumnContainer({
         data-show={isExpanded}
         className={cn(
           "hidden data-[show=true]:flex lg:flex h-full mb-3 flex-col gap-4 p-3",
-          "overflow-x-hidden overflow-y-hidden lg:overflow-y-auto"
+          "overflow-x-hidden overflow-y-auto"
         )}
       >
         <SortableContext items={tasksIds}>

@@ -53,7 +53,6 @@ const ManagePostSidebar = () => {
   const selectedTemplateTypeString = Array.from(selectedTemplateType).join("");
 
   const handleUpdateTemplate = () => {
-    console.log("UPDATED TEMPLATE");
     setTemplateTypeSelection(() =>
       templateTypeSelection.map((template) => {
         if (template.value === selectedTemplateTypeString) {
@@ -88,7 +87,6 @@ const ManagePostSidebar = () => {
   };
 
   const handleDeleteTemplate = () => {
-    console.log("DELETED TEMPLATE");
     setSelectedTemplateType(new Set(["custom"]));
 
     setTemplateTypeSelection(() => {
@@ -112,18 +110,12 @@ const ManagePostSidebar = () => {
   };
 
   const handleSaveTemplate = () => {
-    console.log("SAVED TEMPLATE");
-
     // ADD DRAFT TO PUBLISH LIST
     const filteredTemplateName = templateTypeSelection.map((template) => {
       return template.value;
     });
 
-    console.log("templateTypeSelection", templateTypeSelection);
-    console.log("postTitle", postTitle);
-
     if (filteredTemplateName.includes(templateName.toLowerCase())) {
-      console.log("ALREADY ON SELECTION CHANGE NAME");
     } else {
       setTemplateTypeSelection((prev) => [
         ...prev,
@@ -149,8 +141,6 @@ const ManagePostSidebar = () => {
         },
       ]);
     }
-
-    console.log("postTemplates", postTemplates);
   };
 
   const templateOnlyList = filterKeys
