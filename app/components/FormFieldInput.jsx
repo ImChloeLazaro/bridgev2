@@ -1,11 +1,20 @@
-import { Input, useDisclosure, cn } from "@nextui-org/react";
+import { Input, useDisclosure, cn, RangeCalendar } from "@nextui-org/react";
 import { DatePicker } from "./DatePicker";
+import { MdCalendarMonth } from "react-icons/md";
 import IconButton from "./IconButton";
 import { MdClose, MdFileUpload } from "react-icons/md";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useState } from "react";
 import CTAButtons from "./CTAButtons";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Button,
+} from "@nextui-org/react";
+import { parseDateTime, parseZonedDateTime } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
 
 const FormFieldInput = ({
   placeholder = "",
@@ -23,9 +32,6 @@ const FormFieldInput = ({
   withFile = false,
   withDate = false,
   endContentType,
-  date,
-  onDateChange,
-  isDateModal = false,
   fullWidth = false,
   className,
   ...props
@@ -45,16 +51,55 @@ const FormFieldInput = ({
     [onValueChange]
   );
 
+  let [dateValue, setDateValue] = useState({
+    start: today(getLocalTimeZone()),
+    end: today(getLocalTimeZone()),
+  });
+  let [focusedValue, setFocusedValue] = useState(today(getLocalTimeZone()));
+  let formatter = useDateFormatter({ dateStyle: "long" });
+
   const endContent = {
     date: (
-      <DatePicker
-        date={date}
-        onDateChange={onDateChange}
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-        isDateModal={isDateModal}
-      />
+      <Popover placement="bottom" showArrow={true}>
+        <PopoverTrigger>
+          <Button isIconOnly variant="solid" className="bg-transparent">
+            <MdCalendarMonth size={20} />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0">
+          <RangeCalendar
+            aria-label={label}
+            isRequired={true}
+            variant={"flat"}
+            minValue={today(getLocalTimeZone())}
+            visibleMonths={2}
+            pageBehavior={"single"}
+            value={dateValue}
+            onChange={(value) => {
+              setDateValue(value);
+              onValueChange(value);
+            }}
+            focusedValue={focusedValue}
+            onFocusChange={setFocusedValue}
+            classNames={{
+              base: "w-[512px]",
+              content: "w-[512px]",
+              gridWrapper: "bg-white-default/80",
+              cellButton: [
+                "data-[disabled=true]:text-lightgrey-default",
+                "data-[unavailable=true]:text-lightgrey-default/70",
+                "data-[selected=true]:data-[range-selection=true]:data-[outside-month=true]:text-black-default/80",
+                "data-[selected=true]:data-[range-selection=true]:text-blue-default",
+                "data-[selected=true]:data-[range-selection=true]:before:bg-blue-default/20",
+                "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:bg-blue-default/90 ",
+                "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:bg-blue-default/90 ",
+                "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:text-white-default",
+                "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:text-white-default",
+              ],
+            }}
+          />
+        </PopoverContent>
+      </Popover>
     ),
     file: (
       <>
@@ -118,11 +163,13 @@ const FormFieldInput = ({
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
+    if (typeof value === "object") return false;
     if (value === "") return false;
 
     if (type === "date") {
       try {
-        return inputValidation(format(date, "LLLL d, y")) ? false : true;
+        return false;
+        // return inputValidation(format(date, "LLLL d, y")) ? false : true;
       } catch (err) {
         return true;
       }
@@ -152,8 +199,14 @@ const FormFieldInput = ({
         }
         data-label={Boolean(label)}
         value={
-          new Date(date) > 0 && withDate ? format(date, "LLLL d, y") : value
+          dateValue && withDate
+            ? formatter.formatRange(
+                dateValue.start.toDate(getLocalTimeZone()),
+                dateValue.end.toDate(getLocalTimeZone())
+              )
+            : value
         }
+        // value={value}
         onValueChange={(value) => {
           onValueChange(value);
         }}

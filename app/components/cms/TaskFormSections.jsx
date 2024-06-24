@@ -11,18 +11,20 @@ import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
+import { DateRangePicker } from "@nextui-org/react";
+import { parseDateTime, parseZonedDateTime } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 
 const TaskFormSections = ({
   selectedClientForTask,
   setSelectedClientForTask,
   clientSelectionChange,
-  endDateAtom,
   selectedManagerAtom,
   selectedProcessorAtom,
   selectedRecurrenceAtom,
   selectedReviewerAtom,
   showClientTaskAtom,
-  startDateAtom,
+  taskDurationAtom,
   taskInstructionAtom,
   taskNameAtom,
 }) => {
@@ -49,8 +51,7 @@ const TaskFormSections = ({
     selectedRecurrenceAtom
   );
 
-  const [startDate, setStartDate] = useAtom(startDateAtom);
-  const [endDate, setEndDate] = useAtom(endDateAtom);
+  const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
 
   const handleClientSelectionChange = (key) => {
     setSelectedClientForTask(key);
@@ -237,52 +238,59 @@ const TaskFormSections = ({
             </div>
           </div>
 
-          {/* Start Date */}
+          {/* Task Duration"*/}
           <div className="flex justify-between items-center gap-8">
             <p className="text-sm lg:text-base font-medium w-[20%]">
-              {"Start Date"}
+              {"Task Duration"}
             </p>
             <div className="w-[80%]">
               <FormFieldInput
                 isRequired={true}
                 type={"date"}
-                value={startDate}
-                onValueChange={setStartDate}
+                value={taskDuration}
+                onValueChange={setTaskDuration}
                 placeholder={"Set a date"}
                 withDate={true}
                 endContentType={"date"}
-                date={startDate}
-                onDateChange={setStartDate}
-                isDateModal={true}
                 fullWidth={true}
               />
-            </div>
-          </div>
-
-          {/* End Date */}
-          <div className="flex justify-between items-center gap-8">
-            <p className="text-sm lg:text-base font-medium w-[20%]">
-              {"End Date"}
-            </p>
-            <div className="w-[80%]">
-              <FormFieldInput
-                isRequired={true}
-                type={"date"}
-                value={endDate}
-                onValueChange={setEndDate}
-                placeholder={"Set a date"}
-                withDate={true}
-                endContentType={"date"}
-                date={endDate}
-                onDateChange={setEndDate}
-                isDateModal={true}
-                fullWidth={true}
-              />
+              {/* <div className="flex w-full">
+                <DateRangePicker
+                  isRequired={true}
+                  aria-label={"Task Duration"}
+                  size={"md"}
+                  radius={"sm"}
+                  variant={"flat"}
+                  minValue={today(getLocalTimeZone())}
+                  startName={"Start Date"}
+                  endName={"Due Date"}
+                  visibleMonths={2}
+                  pageBehavior={"single"}
+                  value={taskDuration}
+                  onValueChange={setTaskDuration}
+                  popoverProps={{ placement: "top" }}
+                  calendarProps={{
+                    radius: "sm",
+                    className: "",
+                    classNames: {
+                      base: "",
+                      grid: "text-clip ", 
+                      cell: "text-red-default",
+                    },
+                  }}
+                  classNames={{
+                    calendar: "w-[512px]",
+                    calendarContent: "w-[512px]",
+                    // inputWrapper: "text-black-default",
+                    // innerWrapper: "text-black-default font-medium",
+                    startInput: "text-black-default font-medium",
+                  }}
+                />
+              </div> */}
             </div>
           </div>
         </div>
       </div>
-      {/*<div className="p-1 m-1 w-full"></div>  SPACER FOR LAST ROW*/}
     </div>
   );
 };

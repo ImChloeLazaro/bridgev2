@@ -33,8 +33,7 @@ const AddTaskModal = ({
   selectedReviewerAtom,
   selectedManagerAtom,
   selectedRecurrenceAtom,
-  startDateAtom,
-  endDateAtom,
+  taskDurationAtom,
 }) => {
   const {
     isOpen: isOpenPopup,
@@ -77,7 +76,7 @@ const AddTaskModal = ({
 
   return (
     <Modal
-      size={"lg"}
+      size={"xl"}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       classNames={{ closeButton: "m-2" }}
@@ -108,8 +107,7 @@ const AddTaskModal = ({
                   selectedReviewerAtom={selectedReviewerAtom}
                   selectedManagerAtom={selectedManagerAtom}
                   selectedRecurrenceAtom={selectedRecurrenceAtom}
-                  startDateAtom={startDateAtom}
-                  endDateAtom={endDateAtom}
+                  taskDurationAtom={taskDurationAtom}
                 />
               </div>
             </ModalBody>

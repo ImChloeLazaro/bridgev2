@@ -7,6 +7,7 @@ import {
 } from "@/app/store/TaskStore";
 import { atom } from "jotai";
 import { addDays } from "date-fns";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 export const changeViewAtom = atom(false);
 export const showClientTaskAtom = atom(false);
@@ -60,6 +61,12 @@ export const selectedReviewerAtom = atom(new Set([]));
 export const selectedManagerAtom = atom(new Set([]));
 export const selectedRecurrenceAtom = atom(new Set(["daily"]));
 
+export const taskDurationAtom = atom("");
+// {
+//   start: today(getLocalTimeZone()),
+//   end: today(getLocalTimeZone()).add({ days: 1 }),
+// }
+
 export const startDateAtom = atom("");
 export const endDateAtom = atom("");
 
@@ -105,9 +112,9 @@ export const taskDataAtom = atom((get) => {
         status: "todo", //todo, pending, to review, done
         progress: "Good", //Good, Overdue, Adhoc
         duration: {
-          start: get(startDateAtom) === "" ? new Date() : get(startDateAtom),
-          end:
-            get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
+          // start: get(startDateAtom) === "" ? new Date() : get(startDateAtom),
+          // end:
+          //   get(endDateAtom) === "" ? addDays(new Date(), 1) : get(endDateAtom),
           recurrence:
             //Daily, Weekly, Monthly, Quarterly, Yearly
             Array.from(selectedRecurrence).join("") === ""

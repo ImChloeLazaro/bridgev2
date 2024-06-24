@@ -43,7 +43,7 @@ const NavigationBar = () => {
   const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
-  console.log("externalLinks", externalLinks);
+  // console.log("externalLinks", externalLinks);
 
   const role = useAtomValue(selectedRoleAtom);
 

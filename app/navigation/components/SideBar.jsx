@@ -288,6 +288,7 @@ const SideBar = () => {
             )}
           >
             <IconButton
+              aria-label={"SideBarToggleButton"}
               size="sm"
               className={cn(
                 `${toggled ? "" : "pl-2"}`,
