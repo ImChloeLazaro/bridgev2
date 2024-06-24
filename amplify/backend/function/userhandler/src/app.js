@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE,{
 })
 
 const roleSchema = mongoose.Schema({
-  name : String,
+  name : [String],
   permissions : [String]
 })
 
@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
     type : [roleSchema],
     default : [
       {
-      name: 'USER', 
+      name: ['USER'], 
       permissions: ['processor']
     }
   ]
@@ -106,7 +106,6 @@ app.post('/user', async function(req, res) {
   }
 });
 
-
 app.put('/user', async function(req, res) {
   const {sub} = req.query
   try {
@@ -125,7 +124,6 @@ app.delete('/user', function(req, res) {
   // Add your code here
   res.json({success: 'delete call succeed!', url: req.url});
 });
-
 
 app.listen(3000, function() {
     console.log("App started")

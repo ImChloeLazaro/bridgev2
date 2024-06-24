@@ -24,9 +24,22 @@ app.get('/leaverequest', async function (req, res) {
   res.json({ success: 'get call succeed!', message: read });
 });
 
-app.get('/leaverequest/*', function (req, res) {
-  // Add your code here
-  res.json({ success: 'get call succeed!', url: req.url });
+app.get('/leaverequest/*', async function (req, res) {
+  try {
+    const proxy = req.path;
+    const { sub } = req.query;
+    switch (proxy) {
+      case '/leaverequest/myLeaveRequest':
+        const request = await leaveRequestModel.find({ sub })
+        res.status(200).json({ success: true, response: request });
+        break;
+      default:
+        res.status(200).json({ success: true, response: "NO ROUTES INCLUDE" });
+        break;
+    }
+  } catch (error) {
+    res.json(error)
+  }
 });
 
 app.post('/leaverequest', async function (req, res) {
@@ -34,25 +47,21 @@ app.post('/leaverequest', async function (req, res) {
     sub,
     leaveDate,
     leaveType,
-    isTLApproved,
-    isAdminApproved,
-    numOfHours,
+    numberOfHours,
     reason,
     borrowedLeave
   } = req.body
-  
-  const insert = await leaveRequestModel.create({ 
-    sub, 
-    leaveDate, 
-    leaveType, 
-    isTLApproved, 
-    isAdminApproved, 
-    numOfHours, 
-    reason, 
-    borrowedLeave 
+
+  const insert = await leaveRequestModel.create({
+    sub,
+    leaveDate,
+    leaveType,
+    numberOfHours,
+    reason,
+    borrowedLeave
   })
 
-  res.json({ success: 'INSERT UPDATE!', body: insert });
+  res.json({ success: true, body: insert });
 });
 
 app.post('/leaverequest/*', function (req, res) {

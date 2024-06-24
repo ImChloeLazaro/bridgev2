@@ -1,42 +1,67 @@
-'use state'
-import React, { useState } from "react";
+'use client'
+import React, { useEffect, useState } from "react";
 import { Modal, ModalHeader, ModalContent, ModalBody, useDisclosure, Listbox, ListboxSection, ListboxItem } from "@nextui-org/react";
-import { FcOk, FcCancel } from "react-icons/fc";
+import { FcOk, FcCancel, FcDisclaimer, FcMinus } from "react-icons/fc";
 import LeaveSummary from "./components/Leave";
 
+import { readwithparams } from "@/app/utils/amplify-rest";
+import { useAtomValue } from "jotai";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+
 const LeaveHistory = ({ ...props }) => {
-    const leave = [
-        {
-            'id': 1,
-            'leaveDate': '2024-06-14T06:52:35.510Z', //iso format
-            'leaveType': 'VL',
-            'isTLApproved': true,
-            'isAdminApproved': true,
-            'numOfHours': 8,
-            'reason': 'UNPLANNED LEAVE',
-            'borrowedLeave': false
-        },
-        {
-            'id': 2,
-            'leaveDate': '2023-06-14T06:52:35.510Z',
-            'leaveType': 'SL',
-            'isTLApproved': false,
-            'isAdminApproved': false,
-            'numOfHours': 8,
-            'reason': 'Broken Hearted due to break up',
-            'borrowedLeave': true
-        },
-        {
-            'id': 3,
-            'leaveDate': '2023-06-14T06:52:35.510Z',
-            'leaveType': 'SL',
-            'isTLApproved': true,
-            'isAdminApproved': false,
-            'numOfHours': 8,
-            'reason': 'Broken Hearted due to break up part 2',
-            'borrowedLeave': true
-        }
-    ];
+    const { sub } = useAtomValue(authenticationAtom);
+    // const leave = [
+    //     {
+    //         'id': 1,
+    //         'leaveDate': '2024-06-14T06:52:35.510Z', //iso format
+    //         'leaveType': 'VL',
+    //         'tlApproval': 'pending',
+    //         'adminApproval': 'pending',
+    //         'numOfHours': 8,
+    //         'reason': 'UNPLANNED LEAVE',
+    //         'borrowedLeave': false
+    //     },
+    //     {
+    //         'id': 2,
+    //         'leaveDate': '2023-06-14T06:52:35.510Z',
+    //         'leaveType': 'SL',
+    //         'tlApproval': 'approved',
+    //         'adminApproval': 'pending',
+    //         'numOfHours': 8,
+    //         'reason': 'Broken Hearted due to break up',
+    //         'borrowedLeave': true
+    //     },
+    //     {
+    //         'id': 3,
+    //         'leaveDate': '2023-06-14T06:52:35.510Z',
+    //         'leaveType': 'SL',
+    //         'tlApproval': 'pending',
+    //         'adminApproval': 'rejected',
+    //         'numOfHours': 8,
+    //         'reason': 'Broken Hearted due to break up part 2',
+    //         'borrowedLeave': true
+    //     },
+    //     {
+    //         'id': 4,
+    //         'leaveDate': '2023-06-14T06:52:35.510Z',
+    //         'leaveType': 'SL',
+    //         'tlApproval': 'rejected',
+    //         'adminApproval': 'approved',
+    //         'numOfHours': 8,
+    //         'reason': 'Broken Hearted due to break up part 3',
+    //         'borrowedLeave': true
+    //     },
+    //     {
+    //         'id': 5,
+    //         'leaveDate': '2023-06-14T06:52:35.510Z',
+    //         'leaveType': 'SL',
+    //         'tlApproval': 'pending',
+    //         'adminApproval': 'approved',
+    //         'numOfHours': 8,
+    //         'reason': 'Broken Hearted due to break up part 4',
+    //         'borrowedLeave': true
+    //     }
+    // ];
 
     const {
         isOpen: leaveSummaryIsOpen,
@@ -46,6 +71,16 @@ const LeaveHistory = ({ ...props }) => {
 
     // State to track the selected leave item
     const [selectedLeave, setSelectedLeave] = useState(null);
+    const [leave, setLeaveHistory] = useState([]);
+
+    useEffect(() => {
+        const getLeaveHistory = async () => {
+            const leave = await readwithparams("/leaverequest/myLeaveRequest", { sub: sub });
+            console.log('Leave history: =>', leave.response);
+            setLeaveHistory(leave.response);
+        }
+        getLeaveHistory();
+    }, [])
 
     // Sort leave items by date in descending order
     const sortedLeave = leave.sort((a, b) => new Date(b.leaveDate) - new Date(a.leaveDate));
@@ -86,8 +121,15 @@ const LeaveHistory = ({ ...props }) => {
                                                         groupedLeaves[year][type].map(item => (
                                                             <ListboxItem
                                                                 key={item.id}
-                                                                description={`${new Date(item.leaveDate).toLocaleDateString()} | ${item.numOfHours} Hours`}
-                                                                startContent={item.isAdminApproved && item.isTLApproved ? <FcOk /> : <FcCancel />}
+                                                                description={`${new Date(item.leaveDate).toLocaleDateString()} | ${item.numberOfHours} Hours`}
+                                                                startContent={item.adminApproval === 'pending' && item.tlApproval === 'pending'
+                                                                    ? <FcMinus />
+                                                                    : item.adminApproval === 'approved' && item.tlApproval === 'approved'
+                                                                        ? <FcOk />
+                                                                        : item.adminApproval === 'rejected' || item.tlApproval === 'rejected'
+                                                                            ? <FcDisclaimer />
+                                                                            : <FcMinus />
+                                                                }
                                                                 onPress={() => {
                                                                     setSelectedLeave(item);
                                                                     leaveSummaryOnOpen();
@@ -107,10 +149,10 @@ const LeaveHistory = ({ ...props }) => {
                     </>
                 </ModalContent>
             </Modal>
-            <LeaveSummary 
+            <LeaveSummary
                 data={selectedLeave} // Pass the selected leave data
-                leaveSummaryIsOpen={leaveSummaryIsOpen} 
-                leaveSummaryOnOpenChange={leaveSummaryOnOpenChange} 
+                leaveSummaryIsOpen={leaveSummaryIsOpen}
+                leaveSummaryOnOpenChange={leaveSummaryOnOpenChange}
             />
         </>
     );

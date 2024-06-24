@@ -53,6 +53,10 @@ export const leaveStatusAtom = atom(async (get) => {
   return await readwithparams("/leave/balance", { sub: auth.sub });
 });
 
+export const leaveHistoryAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  return await readwithparams("/leave/history", { sub: auth.sub });
+})
 //Leave Request
 export const leaveRequestAtom = atom();
 

@@ -16,6 +16,7 @@ import {
     Checkbox
 } from "@nextui-org/react";
 
+import { toast } from "sonner";
 import { parseDate } from "@internationalized/date";
 
 import { FaHistory } from "react-icons/fa";
@@ -31,8 +32,6 @@ import { restinsert, restread } from "@/app/utils/amplify-rest";
 const LeaveRequest = () => {
     const response = useAtomValue(leaveStatusAtom);
     const { VL_BALANCE, SL_BALANCE } = useAtomValue(leaveStatusAtom).response;
-    console.log('VL balance', response);
-    console.log('SL balance', SL_BALANCE);
 
     const { sub } = useAtomValue(authenticationAtom);
     const [leaveConfirmation, setLeaveConfirmation] = useState(false);
@@ -82,7 +81,6 @@ const LeaveRequest = () => {
         e.preventDefault();
         let isBorrowedLeave = false;
         if ((formdata.leaveType === 'vl' && VL_BALANCE === 0) || (formdata.leaveType === 'sl' && SL_BALANCE === 0)) {
-            console.log('Borrowed Leave');
             isBorrowedLeave = true;
         }
         const updatedFormdata = {
@@ -93,7 +91,11 @@ const LeaveRequest = () => {
         setFormdata(updatedFormdata);
         try {
             const response = await restinsert("/leaverequest", updatedFormdata);
-            console.log(response);
+            if(response.success) {
+                toast.success("Leave request submitted successfully");
+                confirmationOnOpenChange();
+                leaveRequestOnOpenChange();
+            }
         } catch (error) {
             console.error('Error saving leave request:', error);
         }
@@ -180,7 +182,7 @@ const LeaveRequest = () => {
                                 <p>Leave Date {new Date(formdata.leaveDate).toISOString().split('T')[0]}</p>
                                 <p>{getLeaveLabel(formdata.leaveType)} - {formdata.numberOfHours == 8 ? 'Full Day' : 'Half Day'}</p>
                                 {
-                                    (formdata.leaveType === 'sl' && SL_BALANCE === 0 || formdata.leaveType === 'vl' && VL_BALANCE === 0) && (
+                                    (formdata.leaveType === 'sl' && SL_BALANCE <= 0 || formdata.leaveType === 'vl' && VL_BALANCE <= 0) && (
                                         <small className="text-red-600 text-justify">
                                             Your {getLeaveLabel(formdata.leaveType)} balance is currently 0. If you proceed and your leave is approved by an admin or team leader, it will be considered as borrowed leave and will automatically be deducted from your future leave balance when the leave is reset.
                                         </small>
