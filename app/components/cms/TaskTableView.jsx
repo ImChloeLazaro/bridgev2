@@ -206,7 +206,7 @@ const TaskTableView = ({
             <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
               {format(
                 task.duration.start?.length ? task.duration.start : "",
-                "d  MMMM yyyy"
+                "d  MMMM yyyy hh:mm aa"
               )}
             </p>
           );
@@ -216,7 +216,7 @@ const TaskTableView = ({
             <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
               {format(
                 task.duration.end?.length ? task.duration.end : "",
-                "d  MMMM yyyy"
+                "d  MMMM yyyy hh:mm aa"
               )}
             </p>
           );

@@ -47,12 +47,14 @@ import {
   showSearchBarAtom,
   taskDataAtom,
   taskNameAtom,
-  endDateAtom,
+  dateRangeAtom,
+  startTimeAtom,
+  endTimeAtom,
   selectedManagerAtom,
   selectedProcessorAtom,
   selectedRecurrenceAtom,
   selectedReviewerAtom,
-  startDateAtom,
+  taskDurationAtom,
   taskInstructionAtom,
 } from "../store/CMSTLStore";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
@@ -115,6 +117,7 @@ const CMSTL = () => {
   const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
     selectedProcessorTaskActionAtom
   );
+
   const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
     selectedReviewerTaskActionAtom
   );
@@ -420,8 +423,10 @@ const CMSTL = () => {
               selectedReviewerAtom={selectedReviewerAtom}
               selectedManagerAtom={selectedManagerAtom}
               selectedRecurrenceAtom={selectedRecurrenceAtom}
-              startDateAtom={startDateAtom}
-              endDateAtom={endDateAtom}
+              taskDurationAtom={taskDurationAtom}
+              dateRangeAtom={dateRangeAtom}
+              startTimeAtom={startTimeAtom}
+              endTimeAtom={endTimeAtom}
             />
           </CMSHeader>
         </CardHeader>

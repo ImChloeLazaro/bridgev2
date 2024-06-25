@@ -22,6 +22,7 @@ import {
 } from "@/app/store/TaskStore";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import ConfirmationWindow from "../ConfirmationWindow";
+import { MdTimer } from "react-icons/md";
 
 function TaskBoardCard({
   task,
@@ -253,26 +254,50 @@ function TaskBoardCard({
           )}
         </div>
         {
-          <div className="flex gap-2 justify-start items-center">
-            <MdCalendarMonth size={20} />
-            <Link
-              href="#"
-              isDisabled={task.status === "done" || difference}
-              underline="hover"
-              className={cn(
-                `${task.status === "done" || difference ? "line-through" : ""}`,
-                "text-sm font-medium text-black-default/80"
-              )}
-            >
-              {task.status === "pending"
-                ? "Due Date: Pending"
-                : task?.duration?.end?.length
-                ? format(task.duration.end, "d MMM yyyy")
-                : ""}
-            </Link>
+          <div className="flex justify-between">
+            <div className="flex gap-2 justify-start items-center">
+              <MdCalendarMonth size={20} />
+              <Link
+                href="#"
+                isDisabled={task.status === "done" || difference}
+                underline="hover"
+                className={cn(
+                  `${
+                    task.status === "done" || difference ? "line-through" : ""
+                  }`,
+                  "text-sm font-medium text-black-default/80"
+                )}
+              >
+                {task.status === "pending"
+                  ? "Pending"
+                  : task?.duration?.end?.length
+                  ? format(task.duration.end, "d MMM yyyy")
+                  : ""}
+              </Link>
+            </div>
+            <div className="flex gap-2 justify-start items-center">
+              <MdTimer size={20} />
+              <Link
+                href="#"
+                isDisabled={task.status === "done" || difference}
+                underline="hover"
+                className={cn(
+                  `${
+                    task.status === "done" || difference ? "line-through" : ""
+                  }`,
+                  "text-sm font-medium text-black-default/80"
+                )}
+              >
+                {task.status === "pending"
+                  ? "Pending"
+                  : task?.duration?.end?.length
+                  ? format(task.duration.end, "hh:mm aa")
+                  : ""}
+              </Link>
+            </div>
           </div>
         }
-        {task.status === "forReview" && (
+        {task.status === "forReview" ? (
           <div className="flex gap-2 justify-start items-center mb-1">
             {task.reviewer?.length === 0 && (
               <p className="text-sm font-medium text-black-default">
@@ -332,7 +357,7 @@ function TaskBoardCard({
               </div>
             )}
           </div>
-        )}
+        ) : null}
         {task.status === "done" && task.done_by ? (
           <div className="flex gap-2 justify-start items-center mb-1">
             <div className="flex gap-2 items-center justify-center">
@@ -363,16 +388,16 @@ function TaskBoardCard({
             </div>
           </div>
         ) : null}
-        {task.status === "todo" ||
-          (task.status === "pending" && (
-            <div className="flex gap-2 justify-start items-center mb-1">
-              {task.processor?.length < 1 && (
-                <p className="text-sm font-medium text-black-default">
-                  {"No processor is assigned yet."}
-                </p>
-              )}
-            </div>
-          ))}
+        {(task.status === "todo" || task.status === "pending") &&
+        task.processor?.length < 1 ? (
+          <div className="flex gap-2 justify-start items-center mb-1">
+            {
+              <p className="text-sm font-medium text-black-default">
+                {"No processor is assigned yet."}
+              </p>
+            }
+          </div>
+        ) : null}
       </div>
 
       {/* {mouseIsOver && (

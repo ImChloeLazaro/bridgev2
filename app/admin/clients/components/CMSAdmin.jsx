@@ -48,13 +48,14 @@ import {
   showSearchBarAtom,
   taskDataAtom,
   taskNameAtom,
-
+  dateRangeAtom,
+  startTimeAtom,
+  endTimeAtom,
   selectedManagerAtom,
   selectedProcessorAtom,
   selectedRecurrenceAtom,
   selectedReviewerAtom,
   taskDurationAtom,
-
   taskInstructionAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
@@ -120,7 +121,7 @@ const CMSAdmin = () => {
   const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
     selectedProcessorTaskActionAtom
   );
-
+  
   const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
     selectedReviewerTaskActionAtom
   );
@@ -425,6 +426,9 @@ const CMSAdmin = () => {
               selectedManagerAtom={selectedManagerAtom}
               selectedRecurrenceAtom={selectedRecurrenceAtom}
               taskDurationAtom={taskDurationAtom}
+              dateRangeAtom={dateRangeAtom}
+              startTimeAtom={startTimeAtom}
+              endTimeAtom={endTimeAtom}
             />
             <CTAButtons
               radius={"sm"}

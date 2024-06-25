@@ -1,29 +1,34 @@
-import { Input, useDisclosure, cn, RangeCalendar } from "@nextui-org/react";
-import { DatePicker } from "./DatePicker";
-import { MdCalendarMonth } from "react-icons/md";
-import IconButton from "./IconButton";
-import { MdClose, MdFileUpload } from "react-icons/md";
+import {
+  getLocalTimeZone,
+  toCalendarDateTime,
+  Time,
+  today,
+} from "@internationalized/date";
+import {
+  Button,
+  cn,
+  Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  RangeCalendar,
+  TimeInput,
+} from "@nextui-org/react";
 import { format } from "date-fns";
 import { useCallback, useMemo, useState } from "react";
-import CTAButtons from "./CTAButtons";
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
-} from "@nextui-org/react";
-import { parseDateTime, parseZonedDateTime } from "@internationalized/date";
-import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
-import { useDateFormatter } from "@react-aria/i18n";
+  MdAccessTime,
+  MdCalendarMonth,
+  MdClose,
+  MdFileUpload,
+} from "react-icons/md";
+import CTAButtons from "./CTAButtons";
 
 const FormFieldInput = ({
   placeholder = "",
   label = "",
-  value,
   type = "text",
-  inputType,
-  inputFileRef,
-  inputID,
+  value,
   onValueChange,
   errorMessage,
   isRequired = false,
@@ -31,13 +36,20 @@ const FormFieldInput = ({
   isReadOnly = false,
   withFile = false,
   withDate = false,
-  endContentType,
+  isDateRange = false,
   fullWidth = false,
+  inputType,
+  inputFileRef,
+  inputID,
+  dateRangeValue,
+  onDateRangeValueChange,
+  timeStartValue,
+  onTimeStartValueChange,
+  timeEndValue,
+  onTimeEndValueChange,
   className,
   ...props
 }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const handleUploadDocuments = useCallback(
     (e) => {
       const fileList = e.target.files;
@@ -51,16 +63,14 @@ const FormFieldInput = ({
     [onValueChange]
   );
 
-  let [dateValue, setDateValue] = useState({
-    start: today(getLocalTimeZone()),
-    end: today(getLocalTimeZone()),
-  });
-  let [focusedValue, setFocusedValue] = useState(today(getLocalTimeZone()));
-  let formatter = useDateFormatter({ dateStyle: "long" });
-
   const endContent = {
+    // [isDateRange] - Add this prop to specify if picking with date range or not
     date: (
-      <Popover placement="bottom" showArrow={true}>
+      <Popover
+        placement="bottom"
+        showArrow={true}
+        classNames={{ base: "bg-white-default/80" }}
+      >
         <PopoverTrigger>
           <Button isIconOnly variant="solid" className="bg-transparent">
             <MdCalendarMonth size={20} />
@@ -74,18 +84,36 @@ const FormFieldInput = ({
             minValue={today(getLocalTimeZone())}
             visibleMonths={2}
             pageBehavior={"single"}
-            value={dateValue}
-            onChange={(value) => {
-              setDateValue(value);
-              onValueChange(value);
+            value={dateRangeValue}
+            onChange={(dateRange) => {
+              onDateRangeValueChange(dateRange);
+              onValueChange(
+                format(
+                  toCalendarDateTime(
+                    dateRange.start,
+                    timeStartValue
+                  ).toString(),
+                  "PPpp"
+                ) +
+                  " - " +
+                  format(
+                    toCalendarDateTime(dateRange.end, timeEndValue).toString(),
+                    "PPpp"
+                  )
+              );
             }}
-            focusedValue={focusedValue}
-            onFocusChange={setFocusedValue}
             classNames={{
-              base: "w-[512px]",
-              content: "w-[512px]",
-              gridWrapper: "bg-white-default/80",
+              base: "w-[512px] bg-white-default/80",
+              content: "w-[512px] bg-white-default/80",
+              title: "font-bold text-black-default",
+              headerWrapper: "bg-white-default",
+              gridHeader: "bg-white-default",
+              gridHeaderRow: "font-normal text-black-default",
+              gridBody: "bg-grey-default",
+              gridWrapper: "bg-white-default/80 pb-0",
               cellButton: [
+                "data-[hover=true]:bg-orange-default/60",
+                "data-[hover=true]:text-white-default",
                 "data-[disabled=true]:text-lightgrey-default",
                 "data-[unavailable=true]:text-lightgrey-default/70",
                 "data-[selected=true]:data-[range-selection=true]:data-[outside-month=true]:text-black-default/80",
@@ -97,6 +125,72 @@ const FormFieldInput = ({
                 "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:text-white-default",
               ],
             }}
+            bottomContent={
+              <div className="flex bg-white-default">
+                <TimeInput
+                  label="Start Time"
+                  minValue={new Time()}
+                  value={timeStartValue}
+                  onChange={(timeStart) => {
+                    onTimeStartValueChange(timeStart);
+                    onValueChange(
+                      format(
+                        toCalendarDateTime(
+                          dateRangeValue.start,
+                          timeStart
+                        ).toString(),
+                        "PPpp"
+                      ) +
+                        " - " +
+                        format(
+                          toCalendarDateTime(
+                            dateRangeValue.end,
+                            timeEndValue
+                          ).toString(),
+                          "PPpp"
+                        )
+                    );
+                  }}
+                  startContent={<MdAccessTime size={16} />}
+                  classNames={{
+                    label: "text-xs font-medium text-black-default",
+                    inputWrapper:
+                      "pl-6 shadow-none rounded-none bg-white-default",
+                  }}
+                />
+                <TimeInput
+                  label="Due Time"
+                  minValue={new Time()}
+                  value={timeEndValue}
+                  onChange={(timeEnd) => {
+                    onTimeEndValueChange(timeEnd);
+                    onValueChange(
+                      format(
+                        toCalendarDateTime(
+                          dateRangeValue.start,
+                          timeStartValue
+                        ).toString(),
+                        "PPpp"
+                      ) +
+                        " - " +
+                        format(
+                          toCalendarDateTime(
+                            dateRangeValue.end,
+                            timeEnd
+                          ).toString(),
+                          "PPpp"
+                        )
+                    );
+                  }}
+                  startContent={<MdAccessTime size={16} />}
+                  classNames={{
+                    label: "text-xs font-medium text-black-default",
+                    inputWrapper:
+                      "pl-6 shadow-none rounded-none bg-white-default",
+                  }}
+                />
+              </div>
+            }
           />
         </PopoverContent>
       </Popover>
@@ -163,17 +257,11 @@ const FormFieldInput = ({
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
-    if (typeof value === "object") return false;
+    console.log("VALUE MATCH", value, typeof value);
     if (value === "") return false;
+    if (type === "date") return false;
 
-    if (type === "date") {
-      try {
-        return false;
-        // return inputValidation(format(date, "LLLL d, y")) ? false : true;
-      } catch (err) {
-        return true;
-      }
-    }
+    console.log("value not object or empty");
 
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,7 +273,7 @@ const FormFieldInput = ({
         type={inputType}
         placeholder={placeholder}
         aria-label={label}
-        // isReadOnly={isReadOnly}
+        isReadOnly={withDate}
         isDisabled={isDisabled}
         isRequired={isRequired}
         isInvalid={isInvalid}
@@ -193,23 +281,13 @@ const FormFieldInput = ({
         size={"md"}
         label={label}
         fullWidth={fullWidth}
-        endContent={endContent[endContentType]}
+        endContent={endContent[type]}
         errorMessage={
           isInvalid ? (errorMessage ? errorMessage : errorMessages[type]) : ""
         }
         data-label={Boolean(label)}
-        value={
-          dateValue && withDate
-            ? formatter.formatRange(
-                dateValue.start.toDate(getLocalTimeZone()),
-                dateValue.end.toDate(getLocalTimeZone())
-              )
-            : value
-        }
-        // value={value}
-        onValueChange={(value) => {
-          onValueChange(value);
-        }}
+        value={value}
+        onValueChange={onValueChange}
         classNames={{
           base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
           label: [

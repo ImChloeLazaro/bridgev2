@@ -368,7 +368,6 @@ const ClientFormSections = () => {
           onValueChange={setFinancialLastFiledTax}
           placeholder={"Set a date"}
           withDate={true}
-          endContentType={"date"}
           date={financialLastFiledTax}
           onDateChange={setFinancialLastFiledTax}
           isDateModal={true}
@@ -507,7 +506,6 @@ const ClientFormSections = () => {
         fullWidth={true}
         value={documentASIC}
         onValueChange={setDocumentASIC}
-        endContentType={"file"}
       />
       <FormFieldInput
         isRequired={true}
@@ -522,7 +520,6 @@ const ClientFormSections = () => {
         fullWidth={true}
         value={documentTaxReturn}
         onValueChange={setDocumentTaxReturn}
-        endContentType={"file"}
       />
     </>
   );

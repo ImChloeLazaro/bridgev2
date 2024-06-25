@@ -27,6 +27,9 @@ const TaskFormSections = ({
   taskDurationAtom,
   taskInstructionAtom,
   taskNameAtom,
+  dateRangeAtom,
+  startTimeAtom,
+  endTimeAtom,
 }) => {
   const showClientTask = useAtomValue(showClientTaskAtom);
 
@@ -40,6 +43,12 @@ const TaskFormSections = ({
     selectedProcessorAtom
   );
 
+  const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
+
+  const [dateRange, setDateRange] = useAtom(dateRangeAtom);
+  const [startTime, setStartTime] = useAtom(startTimeAtom);
+  const [endTime, setEndTime] = useAtom(endTimeAtom);
+
   const reviewerSelection = useAtomValue(reviewerSelectionAtom);
   const [selectedReviewer, setSelectedReviewer] = useAtom(selectedReviewerAtom);
 
@@ -50,8 +59,6 @@ const TaskFormSections = ({
   const [selectedRecurrence, setSelectedRecurrence] = useAtom(
     selectedRecurrenceAtom
   );
-
-  const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
 
   const handleClientSelectionChange = (key) => {
     setSelectedClientForTask(key);
@@ -73,6 +80,8 @@ const TaskFormSections = ({
   const handleIntervalSelectionChange = (key) => {
     setSelectedRecurrence(key);
   };
+
+  console.log("taskDuration", taskDuration)
 
   return (
     <div className="flex flex-col gap-6">
@@ -247,46 +256,18 @@ const TaskFormSections = ({
               <FormFieldInput
                 isRequired={true}
                 type={"date"}
+                fullWidth={true}
                 value={taskDuration}
                 onValueChange={setTaskDuration}
                 placeholder={"Set a date"}
                 withDate={true}
-                endContentType={"date"}
-                fullWidth={true}
+                dateRangeValue={dateRange}
+                onDateRangeValueChange={setDateRange}
+                timeStartValue={startTime}
+                onTimeStartValueChange={setStartTime}
+                timeEndValue={endTime}
+                onTimeEndValueChange={setEndTime}
               />
-              {/* <div className="flex w-full">
-                <DateRangePicker
-                  isRequired={true}
-                  aria-label={"Task Duration"}
-                  size={"md"}
-                  radius={"sm"}
-                  variant={"flat"}
-                  minValue={today(getLocalTimeZone())}
-                  startName={"Start Date"}
-                  endName={"Due Date"}
-                  visibleMonths={2}
-                  pageBehavior={"single"}
-                  value={taskDuration}
-                  onValueChange={setTaskDuration}
-                  popoverProps={{ placement: "top" }}
-                  calendarProps={{
-                    radius: "sm",
-                    className: "",
-                    classNames: {
-                      base: "",
-                      grid: "text-clip ", 
-                      cell: "text-red-default",
-                    },
-                  }}
-                  classNames={{
-                    calendar: "w-[512px]",
-                    calendarContent: "w-[512px]",
-                    // inputWrapper: "text-black-default",
-                    // innerWrapper: "text-black-default font-medium",
-                    startInput: "text-black-default font-medium",
-                  }}
-                />
-              </div> */}
             </div>
           </div>
         </div>

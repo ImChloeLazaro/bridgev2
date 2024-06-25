@@ -18,9 +18,9 @@ const CreatePostCard = ({ data, className }) => {
             <Avatar
               showFallback
               fallback={
-                <div className="text-2xl font-medium ">{data.name[0]}</div>
+                <div className="text-2xl font-medium ">{data?.name[0]}</div>
               }
-              src={data.picture}
+              src={data?.picture}
               className="xl:w-[85px] xl:h-[85px] lg:w-[70px] lg:h-[70px] md:w-[65px] md:h-[65px] w-[50px] h-[50px] text-large"
             />
           </div>

@@ -34,6 +34,9 @@ const AddTaskModal = ({
   selectedManagerAtom,
   selectedRecurrenceAtom,
   taskDurationAtom,
+  dateRangeAtom,
+  startTimeAtom,
+  endTimeAtom,
 }) => {
   const {
     isOpen: isOpenPopup,
@@ -108,6 +111,9 @@ const AddTaskModal = ({
                   selectedManagerAtom={selectedManagerAtom}
                   selectedRecurrenceAtom={selectedRecurrenceAtom}
                   taskDurationAtom={taskDurationAtom}
+                  dateRangeAtom={dateRangeAtom}
+                  startTimeAtom={startTimeAtom}
+                  endTimeAtom={endTimeAtom}
                 />
               </div>
             </ModalBody>

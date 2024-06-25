@@ -312,7 +312,7 @@ const TaskBoardView = ({
     const taskActive = active.data.current?.task;
     const taskOver = over.data.current?.task?._id;
 
-    if (taskActive.status === "done") {
+    if (taskActive?.status === "done") {
       if (taskStatusBeforeDone !== taskActive.status) {
         const dateTaskDone = new Date();
 
