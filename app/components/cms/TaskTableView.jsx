@@ -19,7 +19,7 @@ import {
   TableRow,
   useDisclosure,
 } from "@nextui-org/react";
-import { compareAsc, differenceInDays, format } from "date-fns";
+import { compareAsc, differenceInDays, format, parseJSON } from "date-fns";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
@@ -27,6 +27,13 @@ import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
 import ConfirmationWindow from "../ConfirmationWindow";
+import {
+  parseAbsoluteToLocal,
+  parseAbsolute,
+  toCalendarDate,
+  toTime,
+} from "@internationalized/date";
+import { enAU } from "date-fns/locale/en-AU";
 // @refresh reset
 
 const tagColors = {
@@ -203,22 +210,50 @@ const TaskTableView = ({
 
         case "startDate":
           return (
-            <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
-              {format(
-                task.duration.start?.length ? task.duration.start : "",
-                "d  MMMM yyyy hh:mm aa"
-              )}
-            </p>
+            <>
+              <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
+                {format(
+                  task.duration.start?.length
+                    ? task.duration.start.slice(0, -1)
+                    : "",
+                  "PP",
+                  { locale: enAU }
+                )}
+              </p>
+              <p className="min-w-fit text-sm lg:text-base font-bold text-black-default">
+                {format(
+                  task.duration.start?.length
+                    ? task.duration.start.slice(0, -1)
+                    : "",
+                  "p",
+                  { locale: enAU }
+                )}
+              </p>
+            </>
           );
 
         case "endDate":
           return (
-            <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
-              {format(
-                task.duration.end?.length ? task.duration.end : "",
-                "d  MMMM yyyy hh:mm aa"
-              )}
-            </p>
+            <>
+              <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
+                {format(
+                  task.duration.end?.length
+                    ? task.duration.end.slice(0, -1)
+                    : "",
+                  "PP",
+                  { locale: enAU }
+                )}
+              </p>
+              <p className="min-w-fit text-sm lg:text-base font-bold text-black-default">
+                {format(
+                  task.duration.end?.length
+                    ? task.duration.end.slice(0, -1)
+                    : "",
+                  "p",
+                  { locale: enAU }
+                )}
+              </p>
+            </>
           );
 
         case "assignees":

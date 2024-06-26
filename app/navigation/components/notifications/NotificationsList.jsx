@@ -11,6 +11,7 @@ import {
   differenceInHours,
   differenceInMinutes,
   format,
+  compareAsc,
 } from "date-fns";
 import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
@@ -55,7 +56,7 @@ const NotificationsList = ({ getNotificationId }) => {
 
     const minsAgo = differenceInMinutes(new Date(), notificationDateTime);
 
-    const dateAgo = format(notificationDateTime, "d MMM yyyy");
+    const dateAgo = format(notificationDateTime, "PP | pp");
 
     const displayedDate =
       daysAgo > 7
@@ -94,7 +95,7 @@ const NotificationsList = ({ getNotificationId }) => {
   const sortedNotifications = useMemo(() => {
     return filteredNotifications
       .slice(0, 10)
-      .sort((a, b) => new Date(b.createdBy) - new Date(a.createdBy));
+      .sort((a, b) => compareAsc(new Date(b.createdBy), new Date(a.createdBy)));
   }, [filteredNotifications]);
 
   return !notifications?.length ? (
@@ -158,7 +159,9 @@ const NotificationsList = ({ getNotificationId }) => {
               <p className="font-bold text-xs leading-tight">{item.title}</p>
               <p className="font-medium text-xs truncate">{item.description}</p>
               <p className="font-normal text-xs">
-                {handleNotificationDatetime(item.createdBy ?? new Date())}
+                {handleNotificationDatetime(
+                  item.createdBy.slice(0, -1) ?? new Date()
+                )}
               </p>
             </div>
           </div>

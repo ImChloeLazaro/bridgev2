@@ -4,9 +4,11 @@ import {
   differenceInHours,
   differenceInMinutes,
   format,
+  parseISO,
 } from "date-fns";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import PostOptions from "./PostOptions";
+import { enAU } from "date-fns/locale";
 
 const handlePostDatetime = (datetime) => {
   const postDateTime = datetime instanceof Date ? datetime : new Date(datetime);
@@ -17,7 +19,7 @@ const handlePostDatetime = (datetime) => {
 
   const minsAgo = differenceInMinutes(new Date(), postDateTime);
 
-  const dateAgo = format(postDateTime, "d MMM yyyy");
+  const dateAgo = format(parseISO(postDateTime), "PPpp");
 
   const displayedDate =
     daysAgo > 7
@@ -38,7 +40,7 @@ const PostHeader = ({ data }) => {
   const datetime = data.datetimePublished;
   const postDateTime = datetime instanceof Date ? datetime : new Date(datetime);
 
-  const tooltipDate = format(postDateTime, "PPpp");
+  const tooltipDate = format(parseISO(postDateTime), "PPpp");
 
   return (
     <>

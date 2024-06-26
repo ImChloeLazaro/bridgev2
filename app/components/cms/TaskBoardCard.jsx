@@ -265,13 +265,13 @@ function TaskBoardCard({
                   `${
                     task.status === "done" || difference ? "line-through" : ""
                   }`,
-                  "text-sm font-medium text-black-default/80"
+                  "text-sm font-bold text-black-default/80"
                 )}
               >
                 {task.status === "pending"
                   ? "Pending"
                   : task?.duration?.end?.length
-                  ? format(task.duration.end, "d MMM yyyy")
+                  ? format(task.duration.end.slice(0, -1), "d MMM yyyy")
                   : ""}
               </Link>
             </div>
@@ -285,13 +285,13 @@ function TaskBoardCard({
                   `${
                     task.status === "done" || difference ? "line-through" : ""
                   }`,
-                  "text-sm font-medium text-black-default/80"
+                  "text-sm font-bold text-black-default/80"
                 )}
               >
                 {task.status === "pending"
                   ? "Pending"
                   : task?.duration?.end?.length
-                  ? format(task.duration.end, "hh:mm aa")
+                  ? format(task.duration.end.slice(0, -1), "hh:mm aa")
                   : ""}
               </Link>
             </div>

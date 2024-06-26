@@ -116,29 +116,14 @@ const TrainingList = () => {
           {(training) => {
             const smallStartTime = format(
               new Date(training.datetimeStart),
-              "h b",
-              {
-                locale: enAU,
-              }
+              "h b"
             ); // h:mm aa
-            const smallEndTime = format(new Date(training.datetimeEnd), "h b", {
-              locale: enAU,
-            }); // h:mm aa
-            const startTime = format(new Date(training.datetimeStart), "p", {
-              locale: enAU,
-            }); // h:mm aa
-            const endTime = format(new Date(training.datetimeEnd), "p", {
-              locale: enAU,
-            }); // h:mm aa
-            const postDay = format(new Date(training.datetimeEnd), "d", {
-              locale: enAU,
-            }); // h:mm aa
-            const postDate = format(new Date(training.datetimeEnd), "EEE", {
-              locale: enAU,
-            }); // h:mm aa
-            const postMonth = format(new Date(training.datetimeEnd), "MMM", {
-              locale: enAU,
-            }); // h:mm aa
+            const smallEndTime = format(new Date(training.datetimeEnd), "h b"); // h:mm aa
+            const startTime = format(new Date(training.datetimeStart), "p"); // h:mm aa
+            const endTime = format(new Date(training.datetimeEnd), "p"); // h:mm aa
+            const postDay = format(new Date(training.datetimeEnd), "d"); // h:mm aa
+            const postDate = format(new Date(training.datetimeEnd), "EEE"); // h:mm aa
+            const postMonth = format(new Date(training.datetimeEnd), "MMM"); // h:mm aa
             return (
               <ListboxItem textValue={training.title} key={training.id}>
                 <div className="flex items-center justify-between">

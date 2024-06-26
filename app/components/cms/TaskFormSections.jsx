@@ -81,9 +81,7 @@ const TaskFormSections = ({
     setSelectedRecurrence(key);
   };
 
-  console.log("taskDuration", taskDuration)
-
-  return (
+   return (
     <div className="flex flex-col gap-6">
       {/* People */}
       {/* {!showClientTask && ()} */}

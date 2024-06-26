@@ -102,6 +102,8 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const { sla, client_id } = update;
 
+  console.log("sla", sla);
+
   const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
   );
@@ -128,7 +130,7 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   }
 });
 
-export const taskActionsAtom = atom(null, (get, set, update) => {
+export const taskActionsAtom = atom(null, async (get, set, update) => {
   const {
     tasks,
     task_id,
@@ -139,7 +141,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   } = update;
 
   const { key, status_id } = get(selectedTaskActionAtom);
-  const user = get(userAtom);
+  const user = await get(userAtom);
+  console.log("user: ", user);
 
   const clientKey = tasks.client.client_id;
   const dateTaskDone = new Date();

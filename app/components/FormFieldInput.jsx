@@ -1,7 +1,7 @@
 import {
   getLocalTimeZone,
-  toCalendarDateTime,
   Time,
+  toCalendarDateTime,
   today,
 } from "@internationalized/date";
 import {
@@ -14,8 +14,8 @@ import {
   RangeCalendar,
   TimeInput,
 } from "@nextui-org/react";
-import { format } from "date-fns";
-import { useCallback, useMemo, useState } from "react";
+import { format, isValid } from "date-fns";
+import { useCallback, useMemo } from "react";
 import {
   MdAccessTime,
   MdCalendarMonth,
@@ -93,12 +93,12 @@ const FormFieldInput = ({
                     dateRange.start,
                     timeStartValue
                   ).toString(),
-                  "PPpp"
+                  "PPp"
                 ) +
                   " - " +
                   format(
                     toCalendarDateTime(dateRange.end, timeEndValue).toString(),
-                    "PPpp"
+                    "PPp"
                   )
               );
             }}
@@ -139,7 +139,7 @@ const FormFieldInput = ({
                           dateRangeValue.start,
                           timeStart
                         ).toString(),
-                        "PPpp"
+                        "PPp"
                       ) +
                         " - " +
                         format(
@@ -147,7 +147,7 @@ const FormFieldInput = ({
                             dateRangeValue.end,
                             timeEndValue
                           ).toString(),
-                          "PPpp"
+                          "PPp"
                         )
                     );
                   }}
@@ -170,7 +170,7 @@ const FormFieldInput = ({
                           dateRangeValue.start,
                           timeStartValue
                         ).toString(),
-                        "PPpp"
+                        "PPp"
                       ) +
                         " - " +
                         format(
@@ -178,7 +178,7 @@ const FormFieldInput = ({
                             dateRangeValue.end,
                             timeEnd
                           ).toString(),
-                          "PPpp"
+                          "PPp"
                         )
                     );
                   }}
@@ -245,12 +245,11 @@ const FormFieldInput = ({
     date: "Please enter a valid date",
     file: "PDF file is only accepted",
   };
-
+  // fix validation for datetime
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
     number: /^[0-9\s+.,()-]+$/i,
-    date: /^(January|February|March|April|May|June|July|August|September|October|November|December)\s*([1-9]|[12][0-9]|3[01]),\s+(19|20)\d{2}$/g,
     file: /.*\.pdf$/,
   };
 
@@ -258,11 +257,20 @@ const FormFieldInput = ({
 
   const isInvalid = useMemo(() => {
     console.log("VALUE MATCH", value, typeof value);
+
     if (value === "") return false;
-    if (type === "date") return false;
-
     console.log("value not object or empty");
-
+    if (type === "date") {
+      return !(
+        isValid(
+          toCalendarDateTime(dateRangeValue.start, timeStartValue).toDate()
+        ) &&
+        isValid(
+          toCalendarDateTime(dateRangeValue.end, timeEndValue).toDate()
+        ) &&
+        timeStartValue.compare(timeEndValue) < 0
+      );
+    }
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -273,7 +281,7 @@ const FormFieldInput = ({
         type={inputType}
         placeholder={placeholder}
         aria-label={label}
-        isReadOnly={withDate}
+        // isReadOnly={withDate}
         isDisabled={isDisabled}
         isRequired={isRequired}
         isInvalid={isInvalid}
