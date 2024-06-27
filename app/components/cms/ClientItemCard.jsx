@@ -15,6 +15,7 @@ import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const tagColors = {
   todo: "blue",
@@ -64,10 +65,10 @@ const ClientItemCard = ({
           return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
         },
         {
-          pending: 0,
           todo: 0,
-          done: 0,
           forReview: 0,
+          pending: 0,
+          done: 0,
         }
       );
 
@@ -77,18 +78,18 @@ const ClientItemCard = ({
       Boolean(overdueCount)
     ) {
       return {
-        ...statusCount,
         escalation: escalateCount,
         overdue: overdueCount,
+        ...statusCount,
       };
     } else {
       return {
-        pending: 0,
-        todo: 0,
-        done: 0,
-        forReview: 0,
         escalation: 0,
         overdue: 0,
+        todo: 0,
+        forReview: 0,
+        pending: 0,
+        done: 0,
       };
     }
   }, [clientKey, tasks]);
@@ -169,29 +170,85 @@ const ClientItemCard = ({
               {Boolean(labelCount)
                 ? Object.keys(labelCount).map((status, s_index) => {
                     if (labelCount[status] > 0) {
-                      return (
-                        <Button
-                          key={s_index}
-                          className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
-                          onPress={() => handleSelectTask()}
-                        >
-                          <LabelTagChip
+                      if (isMobile) {
+                        if (s_index <= 1) {
+                          return (
+                            <Button
+                              key={s_index}
+                              className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
+                              onPress={() => handleSelectTask()}
+                            >
+                              <LabelTagChip
+                                key={s_index}
+                                text={`${
+                                  status === "forReview" ? "For Review" : status
+                                }`}
+                                color={tagColors[status]}
+                                type="tag"
+                                isFilled={true}
+                                withBadge={true}
+                                chipCount={labelCount[status]}
+                                className={"lg:h-10"}
+                                classNameLabel={
+                                  "text-sm lg:text-lg lg:px-1 capitalize"
+                                }
+                              />
+                            </Button>
+                          );
+                        }
+                        if (s_index == 2) {
+                          return (
+                            <Button
+                              key={s_index}
+                              className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
+                              onPress={() => handleSelectTask()}
+                            >
+                              <LabelTagChip
+                                key={s_index}
+                                text={"Others"}
+                                color={"darkgrey"}
+                                isFilled={true}
+                                withBadge={true}
+                                chipCount={
+                                  labelCount["todo"] +
+                                  labelCount["forReview"] +
+                                  labelCount["pending"] +
+                                  labelCount["done"]
+                                }
+                                startContent={<MdAdd />}
+                                className={"lg:h-10"}
+                                classNameLabel={
+                                  "text-sm lg:text-lg lg:px-1 capitalize"
+                                }
+                              />
+                            </Button>
+                          );
+                        }
+                      } else {
+                        return (
+                          <Button
                             key={s_index}
-                            text={`${
-                              status === "forReview" ? "For Review" : status
-                            }`}
-                            color={tagColors[status]}
-                            type="tag"
-                            isFilled
-                            withBadge={true}
-                            chipCount={labelCount[status]}
-                            className={"lg:h-10"}
-                            classNameLabel={
-                              "text-sm lg:text-lg lg:px-1 capitalize"
-                            }
-                          />
-                        </Button>
-                      );
+                            className="p-0 m-0 min-w-fit h-full bg-transparent shadow-none"
+                            onPress={() => handleSelectTask()}
+                          >
+                            <LabelTagChip
+                              key={s_index}
+                              text={`${
+                                status === "forReview" ? "For Review" : status
+                              }`}
+                              color={tagColors[status]}
+                              type="tag"
+                              isFilled
+                              withBadge={true}
+                              chipCount={labelCount[status]}
+                              className={"lg:h-10"}
+                              classNameLabel={
+                                "text-sm lg:text-lg lg:px-1 capitalize"
+                              }
+                            />
+                          </Button>
+                        );
+                      }
                     }
                   })
                 : null}

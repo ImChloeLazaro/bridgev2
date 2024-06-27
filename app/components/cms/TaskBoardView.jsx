@@ -28,6 +28,9 @@ import {
   restrictToHorizontalAxis,
   restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
+import { notificationSocketRefAtom } from "@/app/navigation/store/NotificationsStore";
+import { sendNotification } from "@/app/utils/notificationUtils";
+import useSound from "use-sound";
 
 const TaskBoardView = ({
   itemTasks,
@@ -44,7 +47,9 @@ const TaskBoardView = ({
   isLoading,
   isMobile,
 }) => {
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
   const user = useAtomValue(userAtom);
+  const socketRef = useAtomValue(notificationSocketRefAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
 
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
@@ -312,6 +317,10 @@ const TaskBoardView = ({
     const taskActive = active.data.current?.task;
     const taskOver = over.data.current?.task?._id;
 
+    const taskName = taskActive?.name;
+    const clientName = taskActive?.client?.name;
+    const dateTaskDone = new Date();
+
     if (taskActive?.status === "done") {
       if (taskStatusBeforeDone !== taskActive.status) {
         const dateTaskDone = new Date();
@@ -359,12 +368,37 @@ const TaskBoardView = ({
           description: `${format(dateTaskDone, "PPpp")}`,
           loading: "Updating Task Status...",
           success: () => {
+            play();
             return `Task Completed: ${taskActive.name} `;
           },
 
           error: "Error Updating Task Status",
         });
+
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: tasks.processor?.map((user) => user.sub),
+          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
+          notified_from: user,
+          route: "set",
+        });
       }
+    }
+
+    if (taskActive?.status === "forReview") {
+      sendNotification({
+        socketRef: socketRef,
+        action: "notification",
+        subs: tasks.reviewer?.map((user) => user.sub),
+        title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+        type: ["mentioned"],
+        description: `Task Marked for Review: ${format(dateTaskDone, "PPpp")}`,
+        notified_from: user,
+        route: "set",
+      });
     }
 
     if (activeId === overId) return;

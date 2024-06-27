@@ -1,15 +1,14 @@
+import { userListAtom } from "@/app/store/UserStore";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
+  ModalHeader
 } from "@nextui-org/react";
-import FormFieldSelect from "../FormFieldSelect";
-import { userListAtom } from "@/app/store/UserStore";
 import { useAtomValue } from "jotai";
 import CTAButtons from "../CTAButtons";
+import FormFieldSelect from "../FormFieldSelect";
 
 const TaskActionModal = ({
   tasks,

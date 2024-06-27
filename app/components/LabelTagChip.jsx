@@ -49,11 +49,11 @@ const LabelTagChip = ({
     },
     lightgrey: {
       filled: "bg-lightgrey-default text-white-default",
-      unfilled: "text-lightgrey-default bg-lightgrey-default/20",
+      unfilled: "text-black-default bg-lightgrey-default/20",
     },
     darkgrey: {
-      filled: "bg-darkgrey-default text-white-default",
-      unfilled: "text-darkgrey-default bg-darkgrey-default/20",
+      filled: "bg-darkgrey-default/60 text-white-default",
+      unfilled: "text-white-default bg-darkgrey-default/40",
     },
     clear: {
       filled: "bg-transparent text-black-default",
@@ -93,11 +93,11 @@ const LabelTagChip = ({
             classNames={{
               base: cn(
                 "bg-white-default/90",
-                `${chipCount >= 10 ? "" : "min-h-6 min-w-6"}`
+                `${chipCount >= 10 ? "" : "min-h-2 min-w-2 lg:min-h-6 lg:min-w-6"}`
               ),
               content: cn(
                 `${chipCount === 1 ? "pr-1.5 " : ""}`,
-                "text-xs lg:text-sm text-white-default font-bold text-black-default"
+                "mt-0.5 text-xxs lg:text-sm text-white-default font-bold text-black-default"
               ),
             }}
           >
@@ -107,7 +107,7 @@ const LabelTagChip = ({
       }
       {...props}
     >
-      <p className={cn(classNameLabel, "tracking-wider text-xs lg:text-sm")}>
+      <p className={cn(classNameLabel, "mt-0.5 tracking-wider text-xs lg:text-sm")}>
         {text?.length ? text : ""}
       </p>
     </Chip>

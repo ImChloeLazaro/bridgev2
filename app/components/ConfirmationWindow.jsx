@@ -91,20 +91,6 @@ const ConfirmationWindow = ({
     },
   };
 
-  // // Notify others || user that task has been updated
-
-  // console.log("NOTIF REF", get(notificationSocketRefAtom))
-  // // sendNotification({
-
-  // //   action: "notification",
-  // //   subs: ["a8dfd442-2977-499b-a917-a0e226c6c089"],
-  // //   title: "NOTIFICATION PUSH TESTING",
-  // //   type: ["mentioned"],
-  // //   description: "TSEING TSEINTSETINTSEITN",
-  // //   notified_from: user,
-  // //   route: "set",
-  // // })
-
   return (
     <Modal
       size={"md"}

@@ -19,21 +19,17 @@ import {
   TableRow,
   useDisclosure,
 } from "@nextui-org/react";
-import { compareAsc, differenceInDays, format, parseJSON } from "date-fns";
+import { compareAsc, differenceInDays, format } from "date-fns";
+import { enAU } from "date-fns/locale/en-AU";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
+import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
-import ConfirmationWindow from "../ConfirmationWindow";
-import {
-  parseAbsoluteToLocal,
-  parseAbsolute,
-  toCalendarDate,
-  toTime,
-} from "@internationalized/date";
-import { enAU } from "date-fns/locale/en-AU";
+import useSound from "use-sound";
+
 // @refresh reset
 
 const tagColors = {
@@ -62,6 +58,7 @@ const TaskTableView = ({
   isLoading,
   isMobile,
 }) => {
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [taskId, setTaskId] = useState("");
 
@@ -88,20 +85,20 @@ const TaskTableView = ({
         (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
 
       if (sortDescriptor.column === "status") {
-        console.log("first", a, a["escalate"], typeof a["escalate"]);
-        console.log("second", b, b["escalate"], typeof b["escalate"]);
-        // if (
-        //   typeof a["escalate"] !== "undefined" ||
-        //   typeof b["escalate"] !== "undefined"
-        // ) {
-        //   first = Boolean(a["escalate"]);
-        //   second = Boolean(b["escalate"]);
-
-        //   // Fix sorting functionality for escalation and overdue
-        //   console.log("first", a, a["escalate"], typeof a["escalate"]);
-        //   console.log("second", b, b["escalate"], typeof b["escalate"]);
-        //   cmp = first - second;
-        // }
+        if (
+          typeof a["escalate"] === "boolean" ||
+          typeof b["escalate"] === "boolean"
+        ) {
+          first = a["escalate"];
+          second = b["escalate"];
+          const escalation = Number(first) - Number(second);
+          cmp = isNaN(escalation) ? -1 : escalation;
+        } else {
+          first = a["status"];
+          second = b["status"];
+          cmp =
+            (parseInt(first) || first) < (parseInt(second) || second) ? -1 : 1;
+        }
       }
 
       if (sortDescriptor.column === "startDate") {
@@ -444,6 +441,7 @@ const TaskTableView = ({
         type={taskActionWindowDetails[selectedTaskAction.key]?.type}
         action={taskActions}
         action_params={{
+          sound: play,
           tasks: tasksFromSelectedClient[0],
           task_id: taskId,
           selectedProcessorTaskAction: selectedProcessorTaskAction,

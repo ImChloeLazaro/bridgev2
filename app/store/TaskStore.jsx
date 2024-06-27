@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
 import { format } from "date-fns";
+import { sendNotification } from "../utils/notificationUtils";
+import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
 
 export const tasksAtom = atom([]);
 
@@ -102,8 +104,6 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const { sla, client_id } = update;
 
-  console.log("sla", sla);
-
   const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
   );
@@ -132,6 +132,7 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 
 export const taskActionsAtom = atom(null, async (get, set, update) => {
   const {
+    sound,
     tasks,
     task_id,
     selectedProcessorTaskAction,
@@ -142,9 +143,9 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
 
   const { key, status_id } = get(selectedTaskActionAtom);
   const user = await get(userAtom);
-  console.log("user: ", user);
 
   const clientKey = tasks.client.client_id;
+  const clientName = tasks.client.name;
   const dateTaskDone = new Date();
 
   if (key === "mark") {
@@ -175,6 +176,51 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         return task;
       });
 
+      console.log("SEND NOTIFICATION TO: ", [
+        tasks.processor.map((user) => user.sub),
+        tasks.reviewer.map((user) => user.sub),
+      ]);
+      const socketRef = get(notificationSocketRefAtom);
+
+      if (status_id === "done") {
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: tasks.processor?.map((user) => user.sub),
+          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
+          notified_from: user,
+          route: "set",
+        });
+      }
+
+      if (status_id === "forReview") {
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: tasks.reviewer?.map((user) => user.sub),
+          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Marked for Review: ${format(
+            dateTaskDone,
+            "PPpp"
+          )}`,
+          notified_from: user,
+          route: "set",
+        });
+      }
+
+      console.log(
+        `${user?.name} has completed [${taskName}] for ${clientName}.`
+      );
+      console.log(
+        `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`
+      );
+      console.log(
+        `${user?.name} has escalated [${taskName}] for ${clientName}.`
+      );
+
       const promise = async () =>
         new Promise((resolve) =>
           setTimeout(
@@ -193,6 +239,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         description: `${format(dateTaskDone, "PPpp")}`,
         loading: "Updating Task Status...",
         success: () => {
+          sound();
           return `${
             status_id === "done" ? "Task Completed" : "Task Marked for Review"
           }: ${taskName}`;

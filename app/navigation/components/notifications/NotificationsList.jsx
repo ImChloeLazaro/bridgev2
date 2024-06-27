@@ -160,7 +160,7 @@ const NotificationsList = ({ getNotificationId }) => {
               <p className="font-medium text-xs truncate">{item.description}</p>
               <p className="font-normal text-xs">
                 {handleNotificationDatetime(
-                  item.createdBy.slice(0, -1) ?? new Date()
+                  item.createdBy ?? new Date()
                 )}
               </p>
             </div>

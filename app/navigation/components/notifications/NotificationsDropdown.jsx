@@ -34,9 +34,12 @@ import NotificationsHistory from "./NotificationsHistory";
 import { showNotification } from "@/app/utils/notificationUtils";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
+import useSound from "use-sound";
+
 // @refresh reset
 
 const NotificationsDropdown = () => {
+  const [play] = useSound("/notification_chime_2.mp3", { volume: 1.5 });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -103,6 +106,7 @@ const NotificationsDropdown = () => {
 
         if (sortedNotifications[0].unread) {
           showNotification({
+            sound: play,
             title: sortedNotifications[0].title,
             description: sortedNotifications[0].description,
             body: sortedNotifications[0].description,
@@ -240,6 +244,7 @@ const NotificationsDropdown = () => {
           showArrow={true}
           isOpen={notificationsOpen}
           onOpenChange={(open) => {
+            play();
             setNotificationsOpen(open);
           }}
         >

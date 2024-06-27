@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { MdWarning } from "react-icons/md";
+import { Avatar } from "@nextui-org/react";
 
 // sends a notification thru websocket
 export function sendNotification(data) {
@@ -31,7 +32,9 @@ export function sendNotification(data) {
 // e.g. 'hide' -> 'show'
 export function updateNotification(data) {
   const { socketRef, action, id, route } = data;
-  socketRef.current.send(JSON.stringify({ action: action, id: id, route }));
+  socketRef.current.send(
+    JSON.stringify({ action: action, id: id, route: route })
+  );
 }
 
 // checks first if notification permission is granted
@@ -39,7 +42,7 @@ export function updateNotification(data) {
 // if in focus -> shows toast notification
 // else -> shows push notification
 export function showNotification(data) {
-  const { title, description, body, icon } = data;
+  const { sound, title, description, body, icon } = data;
   if ("Notification" in window && Notification.permission === "granted") {
     if (document.visibilityState === "hidden") {
       console.log("PUSH NOTIF");
@@ -56,7 +59,12 @@ export function showNotification(data) {
       console.log("TOAST NOTIF");
       toast(title, {
         description: description,
+        icon: <Avatar src={icon} size="md" />,
+        duration: 6000, // 6 seconds * 1000 = 6000 milliseconds
+        classNames: { toast: "flex justify-between gap-8", icon: "mr-2" },
       });
+      sound();
+      console.log("SOUND DONE");
     }
   } else {
     console.log("TOAST NOTIF");

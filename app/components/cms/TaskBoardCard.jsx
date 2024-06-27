@@ -23,6 +23,7 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import ConfirmationWindow from "../ConfirmationWindow";
 import { MdTimer } from "react-icons/md";
+import useSound from "use-sound";
 
 function TaskBoardCard({
   task,
@@ -38,6 +39,7 @@ function TaskBoardCard({
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
 
   const confirmationWindow = useDisclosure(); // confirmation window
   const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
@@ -211,6 +213,7 @@ function TaskBoardCard({
             type={taskActionWindowDetails[selectedTaskAction.key]?.type}
             action={taskActions}
             action_params={{
+              sound: play,
               tasks: tasksFromSelectedClient[0],
               task_id: task?._id,
               selectedProcessorTaskAction: selectedProcessorTaskAction,

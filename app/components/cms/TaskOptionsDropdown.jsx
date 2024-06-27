@@ -1,11 +1,4 @@
-import {
-  fetchTaskAtom,
-  selectedTaskActionAtom,
-  taskActionsAtom,
-  updateTaskAtom,
-  updateTaskStatusAtom,
-} from "@/app/store/TaskStore";
-import { userAtom, userListAtom } from "@/app/store/UserStore";
+import { selectedTaskActionAtom } from "@/app/store/TaskStore";
 import {
   Button,
   Dropdown,
@@ -13,32 +6,18 @@ import {
   DropdownMenu,
   DropdownTrigger,
   cn,
-  useDisclosure,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
-import ConfirmationWindow from "../ConfirmationWindow";
-import TaskActionModal from "./TaskActionModal";
-import { toast } from "sonner";
-import { differenceInDays, format } from "date-fns";
+import { useSetAtom } from "jotai";
 
 const TaskOptionsDropdown = ({
-  task_id,
-  tasks,
   actions,
   trigger,
   isEscalated,
   isOverdue,
   confirmationWindow,
   taskActionWindow,
-  selectedProcessorTaskAction,
-  setSelectedProcessorTaskAction,
-  selectedReviewerTaskAction,
-  setSelectedReviewerTaskAction,
 }) => {
-  const [selectedTaskAction, setSelectedTaskAction] = useAtom(
-    selectedTaskActionAtom
-  );
+  const setSelectedTaskAction = useSetAtom(selectedTaskActionAtom);
 
   const taskOptionsColors = {
     green: "data-[hover=true]:bg-green-default",

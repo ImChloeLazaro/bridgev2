@@ -16,13 +16,13 @@ const handlePostDatetime = (datetime) => {
       ? datetime.slice(0, -1)
       : new Date(datetime.slice(0, -1));
 
-  console.log(
-    "months weeks days hours minutes ago",
-    intervalToDuration({
-      start: postDateTime,
-      end: new Date(),
-    })
-  );
+  // console.log(
+  //   "months weeks days hours minutes ago",
+  //   intervalToDuration({
+  //     start: postDateTime,
+  //     end: new Date(),
+  //   })
+  // );
 
   const daysAgo = differenceInDays(new Date(), postDateTime);
 
