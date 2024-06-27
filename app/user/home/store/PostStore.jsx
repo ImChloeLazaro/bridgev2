@@ -92,7 +92,7 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
 
 export const fetchPostAtom = atom(null, async (get, set, sub) => {
   const posts = await restread("/post");
-  if (posts.success) {
+  if (posts?.success) {
     const filteredPosts = posts.response.filter(
       (post) => post.status === "published"
     );

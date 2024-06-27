@@ -52,7 +52,7 @@ export const updateShortcutAtom = atom(null, async (get, set, update) => {
     title: title,
     url: url,
   });
-  if (response.success) {
+  if (response?.success) {
     console.log("UPDATED SUCCESSFULLY", response);
     return { success: true };
   } else {
@@ -65,7 +65,7 @@ export const deleteShortcutAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/shortcut", {
     _id: _id,
   });
-  if (response.success) {
+  if (response?.success) {
     console.log("DELETED SUCCESSFULLY", response);
     return { success: true };
   } else {
@@ -84,7 +84,7 @@ export const updateIndexPositionShortcutsAtom = atom(
     //   title: title,
     //   url: url,
     // });
-    // if (response.success) {
+    // if (response?.success) {
     //   console.log("UPDATED INDEX SUCCESSFULLY", response);
     //   set(indexPositionShortcutsAtom, updatedIndex);
     //   return { success: true };

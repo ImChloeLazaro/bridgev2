@@ -27,7 +27,7 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     with_accountant,
   });
 
-  if (response.success) {
+  if (response?.success) {
     set(contactNameAtom, "");
     set(contactAddressAtom, "");
     set(contactNumberAtom, "");

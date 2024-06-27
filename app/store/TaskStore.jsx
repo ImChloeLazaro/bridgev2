@@ -43,7 +43,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       sla: [...clientAlreadyHaveTask[0].sla, ...sla],
     });
 
-    if (response.success) {
+    if (response?.success) {
       return { success: true };
     } else {
       return { success: false };
@@ -58,7 +58,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       sla,
     });
 
-    if (response.success) {
+    if (response?.success) {
       return { success: true };
     } else {
       return { success: false };
@@ -94,7 +94,7 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
     // _id of client obj #/cms/client
     _id: "665922e6167b35aedc883977", // "665922e6167b35aedc883977"
   });
-  if (response.success) {
+  if (response?.success) {
     return { success: true };
   } else {
     return { success: false };

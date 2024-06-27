@@ -47,9 +47,9 @@ export const addDraftPostAtom = atom(null, async (get, set, update) => {
 
   const fileNameList = mediaToBeUploaded;
 
-  if (handleAllAreTrue(mediaToBeUploaded.map((file) => file.success))) {
+  if (handleAllAreTrue(mediaToBeUploaded.map((file) => file?.success))) {
     const previewMediaList = fileNameList.map((media) => {
-      if (media.success) {
+      if (media?.success) {
         return getfile(media.filename);
       } else {
         return ""; // default image placeholder
@@ -88,7 +88,7 @@ export const addDraftPostAtom = atom(null, async (get, set, update) => {
 
     const response = await restinsert("/post", { ...newDraft });
 
-    if (response.success) {
+    if (response?.success) {
       set(selectedDraftPostAtom, []); // clears the selection when deleting
       set(draftPostListAtom, [...get(draftPostListAtom), response.response]);
       return { success: true };
@@ -108,10 +108,10 @@ export const removeDraftPostAtom = atom(null, async (get, set, update) => {
     selectedDraft.map(async (draft) => {
       const response = await destroywithparams("/post", { _id: draft._id });
 
-      return { success: response.success ?? false };
+      return { success: response?.success ?? false };
     })
   );
-  if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
+  if (handleAllAreTrue(toBeDeleted.map((post) => post?.success))) {
     // console.log(
     //   `${toBeDeleted.length} ${
     //     toBeDeleted.length > 1 ? "posts are" : "post is"

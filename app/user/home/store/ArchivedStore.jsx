@@ -57,7 +57,7 @@ export const addArchivePostAtom = atom(null, async (get, set, update) => {
       // return newPost;
 
       const archivedResponse = await restupdate("/post", newArchive);
-      const isPosted = await archivedResponse.success;
+      const isPosted = await archivedResponse?.success;
       if (isPosted) {
         return { success: true };
       } else {
@@ -66,7 +66,7 @@ export const addArchivePostAtom = atom(null, async (get, set, update) => {
     })
   );
 
-  if (handleAllAreTrue(toBeArchived.map((post) => post.success))) {
+  if (handleAllAreTrue(toBeArchived.map((post) => post?.success))) {
     // console.log(
     //   `${toBeArchived.length} ${
     //     toBeArchived.length > 1 ? "posts are" : "post is"
@@ -105,10 +105,10 @@ export const removeArchivePostAtom = atom(null, async (get, set, update) => {
     selectedArchive.map(async (archive) => {
       const response = await destroywithparams("/post", { _id: archive._id });
 
-      return { success: response.success ?? false };
+      return { success: response?.success ?? false };
     })
   );
-  if (handleAllAreTrue(toBeArchived.map((post) => post.success))) {
+  if (handleAllAreTrue(toBeArchived.map((post) => post?.success))) {
     // console.log(
     //   `${toBeArchived.length} ${
     //     toBeArchived.length > 1 ? "posts are" : "post is"
