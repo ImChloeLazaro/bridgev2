@@ -1,9 +1,12 @@
 "use client";
 import React from "react";
-import PlaceholderContent from "../../components/PlaceholderContent";
-
+import RolesAdmin from "./components/RolesAdmin";
 const UserRoles = () => {
-  return <PlaceholderContent />;
+  return (
+      <div className="flex justify-center items-center w-full h-full p-0 lg:p-6 ">
+        <RolesAdmin />
+      </div>
+    );
 };
 
 export default UserRoles;

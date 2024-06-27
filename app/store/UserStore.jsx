@@ -20,6 +20,7 @@ export const userListAtom = atom([]);
 export const fetchUserListAtom = atom(null, async (get, set, sub) => {
   const list = await restread("/user/tagged");
   if (list.success) {
+    console.log("USER LIST", list.result);
     set(userListAtom, list.result);
   }
 }); // list of all employees

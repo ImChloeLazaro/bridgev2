@@ -13,6 +13,7 @@ import { userAtom } from "../../../store/UserStore";
 import { isVisibleJobTitleAtom } from "../../../user/profile/store/ProfileStore";
 import SwitchRoles from "./SwitchRoles";
 import { userOptionsAtom } from "../../store/NavSideBarStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 
 async function handleSignOut() {
   try {
@@ -25,9 +26,10 @@ async function handleSignOut() {
 const UserDropdown = () => {
   const userOptions = useAtomValue(userOptionsAtom);
 
-  const user = useAtomValue(userAtom);
+  // const user = useAtomValue(userAtom);
+  const user = useAtomValue(authenticationAtom).auth;
   const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
-
+console.log('AUTHENTICATION ATOM:',user)
   return (
     <Dropdown
       placement="bottom-end"

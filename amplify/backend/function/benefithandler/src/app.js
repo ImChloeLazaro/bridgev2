@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
+const benefitModel = require('/opt/schema/benefitSchema.js');
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -15,50 +16,6 @@ app.use(function(req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE)
-
-const default_benefits = [
-  {
-    name: "HMO",
-    number: "###-###-####",
-    status: "unavailable",
-    availability: "pending"
-  },
-  {
-    name: "PAGIBIG",
-    number: "###-###-####",
-    status: "unavailable",
-    availability: "pending"
-  },
-  {
-    name: "SSS",
-    number: "###-###-####",
-    status: "unavailable",
-    availability: "pending"
-  },
-  {
-    name: "PhilHealth",
-    number: "###-###-####",
-    status: "unavailable",
-    availability: "pending"
-  }
-]
-
-const benefit = mongoose.Schema({
-  name: String,
-  number: String,
-  status: String,
-  availability: String,
-})
-
-const benefitSchema = mongoose.Schema({
-  sub: String,
-  benefits: {
-    type: [benefit],
-    default: default_benefits
-  }
-})
-
-const benefitModel = mongoose.model('benefit', benefitSchema)
 
 app.get('/benefits', async function(req, res) {
   // Add your code here

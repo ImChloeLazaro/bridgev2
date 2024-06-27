@@ -8,6 +8,7 @@ export const authenticationAtom = atom(async () => {
     return {
       isAuthenticated: true,
       sub: auth.sub,
+      auth,
     };
   } catch (error) {
     return {

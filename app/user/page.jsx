@@ -21,13 +21,14 @@ import NavigationTab from "../navigation/components/NavigationTab";
 import { MdFeed, MdGridView } from "react-icons/md";
 
 const User = () => {
-  const user = useAtomValue(userAtom);
-  const auth = useAtomValue(authenticationAtom);
+  // const user = useAtomValue(userAtom);
+  const user = useAtomValue(authenticationAtom).auth;
 
+  console.log("first time user", user);
   useEffect(() => {
     const insertProfile = async () => {
       await restinsert("/user", {
-        sub: auth.sub,
+        sub: user.sub,
         name: user.name,
         picture: user.picture,
         email: user.email,
@@ -38,83 +39,81 @@ const User = () => {
   }, []);
 
   return (
-    auth.isAuthenticated && (
-      <>
-        <MainContent>
-          <NavigationTab
-            className={"block lg:hidden"}
-            mainIcon={<MdFeed size={28} />}
-            rightIcon={<MdGridView size={28} />}
-            main={
-              <>
-                <CreatePostCard data={user} />
-                <PostFeed />
-              </>
-            }
-            right={
-              <div className="w-full flex flex-col justify-center items-center gap-2">
-                <RexWinnerCard />
-                <BirthdayCard />
+    <>
+      <MainContent>
+        <NavigationTab
+          className={"block lg:hidden"}
+          mainIcon={<MdFeed size={28} />}
+          rightIcon={<MdGridView size={28} />}
+          main={
+            <>
+              <CreatePostCard data={user} />
+              <PostFeed />
+            </>
+          }
+          right={
+            <div className="w-full flex flex-col justify-center items-center gap-2">
+              <RexWinnerCard />
+              <BirthdayCard />
 
-                <RightBarCard
-                  title={"What's New"}
-                  description={"Shows the latest announcements from HR"}
-                  isExpandable={true}
-                >
-                  <HRBulletinBoardList />
-                </RightBarCard>
+              <RightBarCard
+                title={"What's New"}
+                description={"Shows the latest announcements from HR"}
+                isExpandable={true}
+              >
+                <HRBulletinBoardList />
+              </RightBarCard>
 
-                <RightBarCard
-                  title={"Recognition"}
-                  description={"Displays all your feedbacks and recognitions"}
-                  isExpandable={true}
-                >
-                  <RecognitionList />
-                </RightBarCard>
+              <RightBarCard
+                title={"Recognition"}
+                description={"Displays all your feedbacks and recognitions"}
+                isExpandable={true}
+              >
+                <RecognitionList />
+              </RightBarCard>
 
-                <RightBarCard
-                  title={"Trainings"}
-                  description={"Displays all your latest trainings this year"}
-                  isExpandable={true}
-                >
-                  <TrainingList />
-                </RightBarCard>
-              </div>
-            }
-          />
-          <CreatePostCard data={user} className={"hidden lg:block"} />
-          <PostFeed className={"hidden lg:block"} />
-        </MainContent>
-        <RightBar>
-          <RexWinnerCard />
-          <BirthdayCard />
-          {/* HR BULLETIN */}
-          <RightBarCard
-            title={"What's New"}
-            description={"Shows the latest announcements from HR"}
-            isExpandable={true}
-          >
-            <HRBulletinBoardList />
-          </RightBarCard>
-          {/* RECOGNITION */}
-          <RightBarCard
-            title={"Recognition"}
-            description={"Displays all your feedbacks and recognitions"}
-            isExpandable={true}
-          >
-            <RecognitionList />
-          </RightBarCard>
-          {/* TRAINING */}
-          <RightBarCard
-            title={"Trainings"}
-            description={"Displays all your latest trainings this year"}
-            isExpandable={true}
-          >
-            <TrainingList />
-          </RightBarCard>
-        </RightBar>
-      </>
-    )
+              <RightBarCard
+                title={"Trainings"}
+                description={"Displays all your latest trainings this year"}
+                isExpandable={true}
+              >
+                <TrainingList />
+              </RightBarCard>
+            </div>
+          }
+        />
+        <CreatePostCard data={user} className={"hidden lg:block"} />
+        <PostFeed className={"hidden lg:block"} />
+      </MainContent>
+      <RightBar>
+        <RexWinnerCard />
+        <BirthdayCard />
+        {/* HR BULLETIN */}
+        <RightBarCard
+          title={"What's New"}
+          description={"Shows the latest announcements from HR"}
+          isExpandable={true}
+        >
+          <HRBulletinBoardList />
+        </RightBarCard>
+        {/* RECOGNITION */}
+        <RightBarCard
+          title={"Recognition"}
+          description={"Displays all your feedbacks and recognitions"}
+          isExpandable={true}
+        >
+          <RecognitionList />
+        </RightBarCard>
+        {/* TRAINING */}
+        <RightBarCard
+          title={"Trainings"}
+          description={"Displays all your latest trainings this year"}
+          isExpandable={true}
+        >
+          <TrainingList />
+        </RightBarCard>
+      </RightBar>
+    </>
   );
 };
 
