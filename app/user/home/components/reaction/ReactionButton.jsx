@@ -136,7 +136,7 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
       isReacted: status === "" ? !isReacted : !status,
     });
 
-    if (response.success) {
+    if (response?.success) {
       return { success: true };
     } else {
       return { success: false };

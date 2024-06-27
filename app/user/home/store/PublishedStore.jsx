@@ -57,7 +57,7 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
       };
       // return newPost;
       const postedResponse = await restupdate("/post", newPost);
-      const isPosted = await postedResponse.success;
+      const isPosted = await postedResponse?.success;
       if (isPosted) {
         return { success: true };
       } else {
@@ -66,7 +66,7 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
     })
   );
 
-  if (handleAllAreTrue(toBePosted.map((post) => post.success))) {
+  if (handleAllAreTrue(toBePosted.map((post) => post?.success))) {
     // console.log(
     //   `${toBePosted.length} ${
     //     toBePosted.length > 1 ? "posts are" : "post is"
@@ -105,10 +105,10 @@ export const removePublishPostAtom = atom(null, async (get, set, update) => {
     selectedPublish.map(async (publish) => {
       const response = await destroywithparams("/post", { _id: publish._id });
 
-      return { success: response.success ?? false };
+      return { success: response?.success ?? false };
     })
   );
-  if (handleAllAreTrue(toBeDeleted.map((post) => post.success))) {
+  if (handleAllAreTrue(toBeDeleted.map((post) => post?.success))) {
     // console.log(
     //   `${toBeDeleted.length} ${
     //     toBeDeleted.length > 1 ? "posts are" : "post is"

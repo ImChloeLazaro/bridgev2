@@ -40,7 +40,7 @@ export const teamStatusAtom = atom(async (get) => {
     sub: auth.sub,
   });
 
-  if (teams.success) {
+  if (teams?.success) {
     return teams.response;
   } else {
     return null;
@@ -64,7 +64,7 @@ export const leaveRequestAtom = atom();
 export const benefitsStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const benefits = await readwithparams("/benefits/profile", { sub: auth.sub });
-  if (benefits.success) {
+  if (benefits?.success) {
     return benefits.response;
   } else {
     return {};

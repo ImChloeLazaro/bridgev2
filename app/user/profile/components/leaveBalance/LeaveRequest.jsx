@@ -91,8 +91,8 @@ const LeaveRequest = () => {
         setFormdata(updatedFormdata);
         try {
             const response = await restinsert("/leaverequest", updatedFormdata);
-            if(response.success) {
-                toast.success("Leave request submitted successfully");
+            if(response?.success) {
+                toast?.success("Leave request submitted successfully");
                 confirmationOnOpenChange();
                 leaveRequestOnOpenChange();
             }

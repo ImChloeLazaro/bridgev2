@@ -7,7 +7,7 @@ import { authenticationAtom } from "./AuthenticationStore";
 export const userAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   const list = await restread("/user/tagged");
-  if (list.success) {
+  if (list?.success) {
     const user = list.result.filter((user) => user.sub === auth.sub)[0];
     return user;
   } else {

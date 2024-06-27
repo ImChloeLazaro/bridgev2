@@ -138,7 +138,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
           sub: auth.sub,
         });
 
-        if (response.success) {
+        if (response?.success) {
           return { success: true };
         }
       } else {
@@ -159,7 +159,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         sub: auth.sub,
       });
 
-      if (response.success) {
+      if (response?.success) {
         return { success: true };
       } else {
         return { success: false };
@@ -177,7 +177,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         sub: auth.sub,
       });
 
-      if (response.success) {
+      if (response?.success) {
         return { success: true };
       } else {
         return { success: false };
@@ -196,7 +196,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         sub: auth.sub,
       });
 
-      if (response.success) {
+      if (response?.success) {
         return { success: true };
       } else {
         return { success: false };
@@ -214,7 +214,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         selectedToBePublished: selectedDrafts,
         sub: auth.sub,
       });
-      if (response.success) {
+      if (response?.success) {
         return { success: true };
       } else {
         return { success: false };
@@ -236,7 +236,7 @@ const ManagePostMainContent = ({ onClose, showPostList }) => {
         selectedToBeArchived: selectedPublish,
         sub: auth.sub,
       });
-      if (response.success) {
+      if (response?.success) {
         return { success: true };
       } else {
         return { success: false };
