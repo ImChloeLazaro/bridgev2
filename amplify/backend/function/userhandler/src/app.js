@@ -9,7 +9,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
   next()
@@ -18,27 +18,27 @@ app.use(function (req, res, next) {
 mongoose.connect(process.env.DATABASE)
 
 const roleSchema = mongoose.Schema({
-  name: String,
-  permissions: [String]
+  name : String,
+  permissions : [String]
 })
 
 const userSchema = mongoose.Schema({
-  sub: String,
-  email: String,
-  name: String,
+  sub : String,
+  email : String,
+  name : String,
   picture: String,
-  hasOnboardingData: {
-    type: Boolean,
-    default: false
+  hasOnboardingData : {
+    type : Boolean,
+    default : false
   },
-  role: {
-    type: [roleSchema],
-    default: [
+  role : {
+    type : [roleSchema],
+    default : [
       {
-        name: 'USER',
-        permissions: ['processor']
-      }
-    ]
+      name: 'USER', 
+      permissions: ['processor']
+    }
+  ]
   },
   createdBy: {
     type: Date,
@@ -47,7 +47,7 @@ const userSchema = mongoose.Schema({
 })
 
 const userModel = mongoose.model('User', userSchema)
-app.get('/user', async function (req, res) {
+app.get('/user', async function(req, res) {
   try {
     const { sub } = req.query;
     if (!sub) {
@@ -72,7 +72,7 @@ app.get('/user/*', async function (req, res) {
     switch (proxy) {
       case '/user/tagged':
         const data = await userModel.find();
-        res.status(200).json({ success: true, result: data });
+        res.status(200).json({success: true, result: data});
         break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
@@ -83,69 +83,52 @@ app.get('/user/*', async function (req, res) {
   }
 });
 
-app.post('/user', async function (req, res) {
-  const { sub, name, picture, email } = req.body
+app.post('/user', async function(req, res) {
+  const {sub, name, picture, email} = req.body
   try {
-    const getuserbysub = await userModel.findOne({ sub })
-    if (!getuserbysub) {
+    const getuserbysub = await userModel.findOne({sub})
+    if(!getuserbysub){
       const insert = await userModel.create({
-        sub,
-        name,
-        picture,
-        email
-      })
-      res.status(200).json({ success: 'NEW USER DETECTED! INITIAL DATA INSERT SUCCESS', result: insert })
+      sub,
+      name,
+      picture,
+      email
+    }) 
+    res.status(200).json({success: 'NEW USER DETECTED! INITIAL DATA INSERT SUCCESS', result : insert})
     }
-    res.status(200).json({ success: 'DATA FETCHED', result: getuserbysub })
+    res.status(200).json({success: 'DATA FETCHED', result : getuserbysub})
   } catch (error) {
-    res.status(500).json({ success: 'NEW USER DETECTED! INITIAL DATA INSERT FAILED', error: error })
+    res.status(500).json({success: 'NEW USER DETECTED! INITIAL DATA INSERT FAILED', error: error})
   }
 });
 
 
-app.put('/user', async function (req, res) {
-  const { sub } = req.query
+app.put('/user', async function(req, res) {
+  const {sub} = req.query
   try {
     const updateonboarding = await userModel.updateOne({
       sub: sub
     }, {
       hasOnboardingData: true
     })
-    res.status(200).json({ success: 'UPDATE SUCCESS!', result: updateonboarding })
+    res.status(200).json({success: 'UPDATE SUCCESS!', result : updateonboarding})
   } catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({error: error})
   }
 });
 app.put('/user/*', async function (req, res) {
   try {
-    const { sub, role: newRoles } = req.body; // Extract sub from query parameters
+    const {sub, role} = req.body; // Extract sub from query parameters
     const proxy = req.path; // Use req.path to get the URL path
+    
     switch (proxy) {
       case '/user/update-role':
-        // const data = await userModel.findOneAndUpdate({ sub }, { role })
-
-        const user = await userModel.findOne({ sub });
-        if (!user) {
-          return res.status(404).json({ error: 'User not found' });
-        }
-
-        // Create a map of new roles for easy lookup
-        const newRolesMap = new Map(newRoles.map(r => [r.name, r]));
-
-        // Filter roles to remove any that are not in the new roles map
-        user.role = user.role.filter(existingRole => newRolesMap.has(existingRole.name));
-
-        // Add new roles, preserving existing permissions
-        newRoles.forEach(newRole => {
-          if (!user.role.some(existingRole => existingRole.name === newRole.name)) {
-            // If the new role does not exist in the existing roles, assign default permissions
-            newRole.permissions = [];
-            user.role.push(newRole);
-          }
-        });
-        await user.save();
-
-        res.status(200).json({ success: 'User roles updated successfully', result: user });
+        // const user = await userModel.findOne({sub})
+        // const existingRole = user.role.map((role) => {
+        //   return role.name === 'USER' && role.permissions.includes('reviewer')
+        // })
+        const data = await userModel.findOneAndUpdate({ sub }, { role })
+        res.status(200).json({success: true, response: data});
         break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
@@ -155,14 +138,14 @@ app.put('/user/*', async function (req, res) {
     res.status(500).json({ error: error });
   }
 });
-app.delete('/user', function (req, res) {
+app.delete('/user', function(req, res) {
   // Add your code here
-  res.json({ success: 'delete call succeed!', url: req.url });
+  res.json({success: 'delete call succeed!', url: req.url});
 });
 
 
-app.listen(3000, function () {
-  console.log("App started")
+app.listen(3000, function() {
+    console.log("App started")
 });
 
 module.exports = app
