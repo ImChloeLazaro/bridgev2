@@ -3,10 +3,12 @@ import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtomValue } from "jotai";
 import CMSAdmin from "./components/CMSAdmin";
-
+import { useRoles } from "@/app/utils/roles";
+import { userAtom } from "@/app/store/UserStore";
 const Clients = () => {
   const auth = useAtomValue(authenticationAtom);
-
+  const users = useAtomValue(userAtom).role; 
+  const roles = useRoles(users);
   return (
     auth.isAuthenticated && (
       <>

@@ -2,7 +2,12 @@
 import { useState, useCallback } from "react";
 import ReactBigCalendar from "@/app/components/ReactBigCalendar";
 import { Views } from "react-big-calendar";
+import { useRoles } from "@/app/utils/roles";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/app/store/UserStore";
 const Leaves = () => {
+  const users = useAtomValue(userAtom).role; 
+  const roles = useRoles(users);
   const [view, setView] = useState(Views.MONTH);
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [events] = useState([
