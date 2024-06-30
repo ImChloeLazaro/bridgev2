@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
-// const userModel = require('/opt/schema/UserSchema.js');
+const userModel = require('/opt/schema/UserSchema.js');
+const teamModel = require('/opt/schema/teamSchema.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -17,36 +18,36 @@ app.use(function(req, res, next) {
 
 mongoose.connect(process.env.DATABASE)
 
-const roleSchema = mongoose.Schema({
-  name : String,
-  permissions : [String]
-})
+// const roleSchema = mongoose.Schema({
+//   name : String,
+//   permissions : [String]
+// })
 
-const userSchema = mongoose.Schema({
-  sub : String,
-  email : String,
-  name : String,
-  picture: String,
-  hasOnboardingData : {
-    type : Boolean,
-    default : false
-  },
-  role : {
-    type : [roleSchema],
-    default : [
-      {
-      name: 'USER', 
-      permissions: ['processor']
-    }
-  ]
-  },
-  createdBy: {
-    type: Date,
-    default: Date.now
-  }
-})
+// const userSchema = mongoose.Schema({
+//   sub : String,
+//   email : String,
+//   name : String,
+//   picture: String,
+//   hasOnboardingData : {
+//     type : Boolean,
+//     default : false
+//   },
+//   role : {
+//     type : [roleSchema],
+//     default : [
+//       {
+//       name: 'USER', 
+//       permissions: ['processor']
+//     }
+//   ]
+//   },
+//   createdBy: {
+//     type: Date,
+//     default: Date.now
+//   }
+// })
 
-const userModel = mongoose.model('User', userSchema)
+// const userModel = mongoose.model('User', userSchema)
 app.get('/user', async function(req, res) {
   try {
     const { sub } = req.query;
@@ -123,10 +124,6 @@ app.put('/user/*', async function (req, res) {
     
     switch (proxy) {
       case '/user/update-role':
-        // const user = await userModel.findOne({sub})
-        // const existingRole = user.role.map((role) => {
-        //   return role.name === 'USER' && role.permissions.includes('reviewer')
-        // })
         const data = await userModel.findOneAndUpdate({ sub }, { role })
         res.status(200).json({success: true, response: data});
         break;

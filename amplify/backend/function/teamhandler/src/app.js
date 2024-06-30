@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require("mongoose")
-
+const teamModel = require('/opt/schema/teamSchema.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -16,19 +16,6 @@ app.use(function(req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE)
-
-const teamSchema = mongoose.Schema({
-  sub : String,
-  department: String,
-  immediate_head: {
-    sub: String,
-    name: String,
-    picture: String,
-  },
-  client: String
-})
-
-const teamModel = mongoose.model("employee_team", teamSchema)
 
 app.get('/teams', async function(req, res) {
   try {
