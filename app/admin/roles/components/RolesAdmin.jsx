@@ -1,6 +1,6 @@
 'use client'
 import { useState, useMemo } from "react";
-import { Tabs, Tab, Card, CardBody, CardHeader, Chip, Popover, PopoverTrigger, PopoverContent, Button, Listbox, ListboxItem } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody, CardHeader, Chip, Popover, PopoverTrigger, PopoverContent, Button, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { userListAtom } from "@/app/store/UserStore";
 import { restupdate } from "@/app/utils/amplify-rest";
@@ -9,8 +9,13 @@ const RolesAdmin = () => {
     const [selectedKeys, setSelectedKeys] = useState(new Set(['text']));
     const selectedValue = useMemo(() => Array.from(selectedKeys).join(', '), [selectedKeys]);
     const [currentUser, setCurrentUser] = useState(null);
-
+    const [localUsers, setLocalUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
     const users = useAtomValue(userListAtom);
+
+    useMemo(() => {
+        setLocalUsers(users);
+    }, [users]);
 
     const categorizeUsersByRole = (users) => {
         const roles = {
@@ -23,7 +28,6 @@ const RolesAdmin = () => {
 
         users.forEach(user => {
             roles["All"].add(user);
-            console.log('User roles:', user.role);
             user.role.forEach(role => {
                 if (role.name === "ADMIN") roles["Admin"].add(user);
                 if (role.name === "TL") roles["TL"].add(user);
@@ -40,7 +44,7 @@ const RolesAdmin = () => {
         return roles;
     };
 
-    const roles = categorizeUsersByRole(users);
+    const roles = categorizeUsersByRole(localUsers);
 
     const tabs = Object.keys(roles).map(role => ({
         id: role.toLowerCase(),
@@ -51,13 +55,13 @@ const RolesAdmin = () => {
     const handleEditClick = (user) => {
         setCurrentUser(user);
         const userRoles = new Set(user.role.map(role => role.name.toLowerCase()));
-        console.log('User roles:', userRoles);
         setSelectedKeys(userRoles);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         // Convert selectedKeys from Set to Array for easier processing
+        setLoading(true);
         const selectedValues = Array.from(selectedKeys);
         const selectedRoles = selectedValues.map(value => {
             switch (value) {
@@ -76,8 +80,12 @@ const RolesAdmin = () => {
 
         try {
             const updatedUser = await restupdate(`/user/update-role`, { sub: currentUser.sub, role: selectedRoles });
-            console.log('Updated user:', updatedUser);
-            console.log('User sub:', currentUser.sub, 'Selected roles:', selectedRoles);
+            setLocalUsers(prevUsers =>
+                prevUsers.map(user =>
+                    user.sub === currentUser.sub ? { ...user, role: selectedRoles } : user
+                )
+            );
+            setLoading(false);
         } catch (error) {
             console.error('Error while updating user roles:', error);
         }
@@ -120,7 +128,9 @@ const RolesAdmin = () => {
                                                             <ListboxItem key="tl">Team Leader</ListboxItem>
                                                             <ListboxItem key="hr">Human Resource</ListboxItem>
                                                         </Listbox>
-                                                        <Button color="primary" size="sm" className="mt-2" type="submit">Save</Button>
+                                                        <Button color="primary" size="sm" className="mt-2" type="submit">
+                                                            {loading ? <Spinner size="sm" color="default" /> : 'Save'}
+                                                        </Button>
                                                     </form>
                                                 </div>
                                             </PopoverContent>
