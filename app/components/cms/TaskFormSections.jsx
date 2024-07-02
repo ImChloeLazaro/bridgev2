@@ -7,13 +7,18 @@ import {
   recurrenceSelectionAtom,
   reviewerSelectionAtom,
 } from "@/app/store/TaskStore";
-import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
+import { Avatar, Chip, Select, SelectItem, TimeInput } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { MdInfoOutline } from "react-icons/md";
+import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
 import { DateRangePicker } from "@nextui-org/react";
-import { parseDateTime, parseZonedDateTime } from "@internationalized/date";
+import {
+  parseDateTime,
+  parseZonedDateTime,
+  Time,
+} from "@internationalized/date";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
+import { BsDashLg } from "react-icons/bs";
 
 const TaskFormSections = ({
   selectedClientForTask,
@@ -60,28 +65,7 @@ const TaskFormSections = ({
     selectedRecurrenceAtom
   );
 
-  const handleClientSelectionChange = (key) => {
-    setSelectedClientForTask(key);
-    clientSelectionChange({ key: Array.from(key).join("") });
-  };
-
-  const handleProcessorSelectionChange = (key) => {
-    setSelectedProcessor(key);
-  };
-
-  const handleReviewerSelectionChange = (key) => {
-    setSelectedReviewer(key);
-  };
-
-  const handleManagerSelectionChange = (key) => {
-    setSelectedManager(key);
-  };
-
-  const handleIntervalSelectionChange = (key) => {
-    setSelectedRecurrence(key);
-  };
-
-   return (
+  return (
     <div className="flex flex-col gap-6">
       {/* People */}
       {/* {!showClientTask && ()} */}
@@ -112,7 +96,10 @@ const TaskFormSections = ({
                 placeholder="Select Client"
                 selectionMode="single"
                 selectedKeys={selectedClientForTask}
-                onSelectionChange={(key) => handleClientSelectionChange(key)}
+                onSelectionChange={(key) => {
+                  setSelectedClientForTask(key);
+                  clientSelectionChange({ key: Array.from(key).join("") });
+                }}
                 isMultiline={true}
                 renderItemPicture={true}
               />
@@ -133,7 +120,7 @@ const TaskFormSections = ({
                 placeholder="Assign Processor/s"
                 selectionMode="multiple"
                 selectedKeys={selectedProcessor}
-                onSelectionChange={(key) => handleProcessorSelectionChange(key)}
+                onSelectionChange={setSelectedProcessor}
                 isMultiline={true}
                 renderType={"chip"}
                 renderItemPicture={true}
@@ -155,7 +142,7 @@ const TaskFormSections = ({
                 placeholder="Assign Reviewer/s"
                 selectionMode="multiple"
                 selectedKeys={selectedReviewer}
-                onSelectionChange={(key) => handleReviewerSelectionChange(key)}
+                onSelectionChange={setSelectedReviewer}
                 isMultiline={true}
                 renderType={"chip"}
                 renderItemPicture={true}
@@ -177,7 +164,7 @@ const TaskFormSections = ({
                 placeholder="Assign Manager/s"
                 selectionMode="single"
                 selectedKeys={selectedManager}
-                onSelectionChange={(key) => handleManagerSelectionChange(key)}
+                onSelectionChange={setSelectedManager}
                 isMultiline={true}
                 renderItemPicture={true}
               />
@@ -209,7 +196,6 @@ const TaskFormSections = ({
               />
             </div>
           </div>
-
           {/* Instruction */}
           <div className="flex justify-between items-center gap-8">
             <p className="text-sm lg:text-base font-medium w-[20%]">
@@ -225,7 +211,6 @@ const TaskFormSections = ({
               />
             </div>
           </div>
-
           {/* Recurrence */}
           <div className="flex justify-between items-center gap-8">
             <p className="text-sm lg:text-base font-medium w-[20%]">
@@ -239,35 +224,93 @@ const TaskFormSections = ({
                 placeholder="Choose Recurrence"
                 selectionMode="single"
                 selectedKeys={selectedRecurrence}
-                onSelectionChange={(key) => handleIntervalSelectionChange(key)}
+                onSelectionChange={setSelectedRecurrence}
                 isMultiline={true}
               />
             </div>
           </div>
 
-          {/* Task Duration"*/}
-          <div className="flex justify-between items-center gap-8">
-            <p className="text-sm lg:text-base font-medium w-[20%]">
-              {"Task Duration"}
-            </p>
-            <div className="w-[80%]">
-              <FormFieldInput
-                isRequired={true}
-                type={"date"}
-                fullWidth={true}
-                value={taskDuration}
-                onValueChange={setTaskDuration}
-                placeholder={"Set a date"}
-                withDate={true}
-                dateRangeValue={dateRange}
-                onDateRangeValueChange={setDateRange}
-                timeStartValue={startTime}
-                onTimeStartValueChange={setStartTime}
-                timeEndValue={endTime}
-                onTimeEndValueChange={setEndTime}
-              />
+          {Array.from(selectedRecurrence).toString() !== "none" ? (
+            <>
+              {/* Start Date */}
+              <div className="flex justify-between items-center gap-8">
+                <p className="text-sm lg:text-base font-medium w-[20%]">
+                  {"Start Date"}
+                </p>
+                <div className="w-[80%]">
+                  <FormFieldInput
+                    isRequired={true}
+                    type={"date"}
+                    fullWidth={true}
+                    value={taskDuration}
+                    onValueChange={setTaskDuration}
+                    placeholder={"Set a date"}
+                    withDate={true}
+                    withTime={false}
+                    dateRangeValue={dateRange}
+                    onDateRangeValueChange={setDateRange}
+                    timeStartValue={startTime}
+                    onTimeStartValueChange={setStartTime}
+                    timeEndValue={endTime}
+                    onTimeEndValueChange={setEndTime}
+                  />
+                </div>
+              </div>
+
+              {/* Task Duration */}
+              <div className="flex justify-between items-center gap-8">
+                <p className="text-sm lg:text-base font-medium w-[20%]">
+                  {"Duration"}
+                </p>
+                <div className="w-[80%] flex items-center gap-3">
+                  <TimeInput
+                    label="Start Time"
+                    minValue={new Time()}
+                    value={startTime}
+                    onChange={(timeStart) => {
+                      setStartTime(timeStart);
+                    }}
+                    startContent={<MdAccessTime size={16} />}
+                    classNames={{ input: "font-medium text-black-default" }}
+                  />
+                  <TimeInput
+                    label="Due Time"
+                    minValue={new Time()}
+                    value={endTime}
+                    onChange={(timeEnd) => {
+                      setEndTime(timeEnd);
+                    }}
+                    startContent={<MdAccessTime size={16} />}
+                    classNames={{ input: "font-medium text-black-default" }}
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="flex justify-between items-center gap-8">
+              <p className="text-sm lg:text-base font-medium w-[20%]">
+                {"Date Range"}
+              </p>
+              <div className="w-[80%]">
+                <FormFieldInput
+                  isRequired={true}
+                  type={"date"}
+                  fullWidth={true}
+                  value={taskDuration}
+                  onValueChange={setTaskDuration}
+                  placeholder={"Set a date"}
+                  withDate={true}
+                  withTime={true}
+                  dateRangeValue={dateRange}
+                  onDateRangeValueChange={setDateRange}
+                  timeStartValue={startTime}
+                  onTimeStartValueChange={setStartTime}
+                  timeEndValue={endTime}
+                  onTimeEndValueChange={setEndTime}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

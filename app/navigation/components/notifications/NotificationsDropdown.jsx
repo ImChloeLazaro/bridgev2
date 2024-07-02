@@ -23,7 +23,6 @@ import {
   notificationSocketRefAtom,
   notificationSocketURLAtom,
   notificationTypeAtom,
-  notifyFromUserAtom,
   pageVisibleAtom,
   showUnreadAtom,
 } from "../../store/NotificationsStore";
@@ -39,7 +38,7 @@ import useSound from "use-sound";
 // @refresh reset
 
 const NotificationsDropdown = () => {
-  const [play] = useSound("/notification_chime_2.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_2.mp3", { volume: 0.9 });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -244,7 +243,7 @@ const NotificationsDropdown = () => {
           showArrow={true}
           isOpen={notificationsOpen}
           onOpenChange={(open) => {
-            play();
+            // play();
             setNotificationsOpen(open);
           }}
         >

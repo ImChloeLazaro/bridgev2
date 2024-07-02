@@ -18,8 +18,17 @@ import {
   TableHeader,
   TableRow,
   useDisclosure,
+  cn,
 } from "@nextui-org/react";
-import { compareAsc, differenceInDays, format } from "date-fns";
+import {
+  compareAsc,
+  addDays,
+  addWeeks,
+  addMonths,
+  addQuarters,
+  addYears,
+  format,
+} from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
@@ -58,7 +67,7 @@ const TaskTableView = ({
   isLoading,
   isMobile,
 }) => {
-  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [taskId, setTaskId] = useState("");
 
@@ -123,22 +132,12 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
-      setTaskId(task._id ? task._id : "");
-      const difference = Boolean(
-        differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
-          task.status === "todo"
-      );
+      // setTaskId(task._id ? task._id : "");
+      const difference =
+        compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
+        task.status === "todo";
 
       const cellValue = task[columnKey];
-      const processorList = task.processor.map((processor) => (
-        <Avatar
-          key={processor.sub}
-          src={processor.picture}
-          classNames={{
-            base: ["w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large"],
-          }}
-        />
-      ));
 
       const actionOptions = [
         {
@@ -208,7 +207,16 @@ const TaskTableView = ({
         case "startDate":
           return (
             <>
-              <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
+              <p
+                className={cn(
+                  "min-w-fit text-sm lg:text-lg font-bold text-black-default",
+                  `${
+                    task.status === "done" || difference
+                      ? "line-through text-darkgrey-default/80"
+                      : ""
+                  }`
+                )}
+              >
                 {format(
                   task.duration.start?.length
                     ? task.duration.start.slice(0, -1)
@@ -217,7 +225,16 @@ const TaskTableView = ({
                   { locale: enAU }
                 )}
               </p>
-              <p className="min-w-fit text-sm lg:text-base font-bold text-black-default">
+              <p
+                className={cn(
+                  "min-w-fit text-sm lg:text-base font-bold text-black-default",
+                  `${
+                    task.status === "done" || difference
+                      ? "line-through text-darkgrey-default/80"
+                      : ""
+                  }`
+                )}
+              >
                 {format(
                   task.duration.start?.length
                     ? task.duration.start.slice(0, -1)
@@ -230,9 +247,32 @@ const TaskTableView = ({
           );
 
         case "endDate":
+          console.log("task name", task.name);
+          console.log("addDays", addDays(task.duration.end.slice(0, -1), 1));
+          console.log("addWeeks", addWeeks(task.duration.end.slice(0, -1), 1));
+          console.log(
+            "addMonths",
+            addMonths(task.duration.end.slice(0, -1), 1)
+          );
+          console.log(
+            "addQuarters",
+            addQuarters(task.duration.end.slice(0, -1), 1)
+          );
+          console.log("addYears", addYears(task.duration.end.slice(0, -1), 1));
+          console.log("\n");
+
           return (
             <>
-              <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
+              <p
+                className={cn(
+                  "min-w-fit text-sm lg:text-lg font-bold text-black-default",
+                  `${
+                    task.status === "done" || difference
+                      ? "line-through text-darkgrey-default/80"
+                      : ""
+                  }`
+                )}
+              >
                 {format(
                   task.duration.end?.length
                     ? task.duration.end.slice(0, -1)
@@ -241,7 +281,16 @@ const TaskTableView = ({
                   { locale: enAU }
                 )}
               </p>
-              <p className="min-w-fit text-sm lg:text-base font-bold text-black-default">
+              <p
+                className={cn(
+                  "min-w-fit text-sm lg:text-base font-bold text-black-default",
+                  `${
+                    task.status === "done" || difference
+                      ? "line-through text-darkgrey-default/80"
+                      : ""
+                  }`
+                )}
+              >
                 {format(
                   task.duration.end?.length
                     ? task.duration.end.slice(0, -1)
@@ -302,17 +351,12 @@ const TaskTableView = ({
             <>
               <TaskOptionsDropdown
                 task_id={task._id}
-                tasks={tasksFromSelectedClient[0]}
                 actions={actionOptions}
                 trigger={<BiDotsVerticalRounded size={24} />}
                 isEscalated={task.escalate}
                 isOverdue={difference}
                 confirmationWindow={confirmationWindow}
                 taskActionWindow={taskActionWindow}
-                selectedProcessorTaskAction={selectedProcessorTaskAction}
-                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-                selectedReviewerTaskAction={selectedReviewerTaskAction}
-                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
               />
             </>
           );
@@ -321,17 +365,7 @@ const TaskTableView = ({
           return cellValue;
       }
     },
-    [
-      actions,
-      confirmationWindow,
-      isMobile,
-      selectedProcessorTaskAction,
-      selectedReviewerTaskAction,
-      setSelectedProcessorTaskAction,
-      setSelectedReviewerTaskAction,
-      taskActionWindow,
-      tasksFromSelectedClient,
-    ]
+    [actions, confirmationWindow, isMobile, taskActionWindow]
   );
 
   return !selectedClientToView?.length ? (
@@ -373,7 +407,10 @@ const TaskTableView = ({
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
         selectionBehavior={"toggle"}
-        // onRowAction={(key) => alert(`Opening item ${key}...`)}
+        // onRowAction={(key) => {
+        //   alert(`Opening item ${key}...`);
+        //   taskActionWindow.onOpen();
+        // }}
         classNames={{
           base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2",
           tbody: "h-full max-h-screen",
@@ -424,7 +461,7 @@ const TaskTableView = ({
           }
         >
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item._id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
@@ -443,7 +480,7 @@ const TaskTableView = ({
         action_params={{
           sound: play,
           tasks: tasksFromSelectedClient[0],
-          task_id: taskId,
+          // task_id: taskId,
           selectedProcessorTaskAction: selectedProcessorTaskAction,
           selectedReviewerTaskAction: selectedReviewerTaskAction,
           setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,

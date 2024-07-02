@@ -10,7 +10,7 @@ import {
   Link,
   Spinner,
 } from "@nextui-org/react";
-import { differenceInDays } from "date-fns";
+import { compareAsc } from "date-fns";
 import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { MdChevronRight } from "react-icons/md";
@@ -48,11 +48,10 @@ const ClientItemCard = ({
   const labelCount = useMemo(() => {
     let overdueCount = tasks
       .filter((task) => task.client?.client_id === clientKey)[0]
-      ?.sla.filter((sla) =>
-        Boolean(
-          differenceInDays(new Date(sla.duration.end), new Date()) < 0 &&
-            sla.status === "todo"
-        )
+      ?.sla.filter(
+        (sla) =>
+          compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0 &&
+          sla.status === "todo"
       ).length;
     let escalateCount = tasks
       .filter((task) => task.client?.client_id === clientKey)[0]

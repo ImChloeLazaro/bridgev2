@@ -50,5 +50,4 @@ export const notificationSocketURLAtom = atom(
 
 export const notificationCountAtom = atom(0);
 export const notificationSocketRefAtom = atom(null);
-export const notifyFromUserAtom = atom({});
 export const pageVisibleAtom = atom(true);

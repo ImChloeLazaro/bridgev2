@@ -7,6 +7,7 @@ import {
 import {
   Button,
   cn,
+  DatePicker,
   Input,
   Popover,
   PopoverContent,
@@ -14,7 +15,7 @@ import {
   RangeCalendar,
   TimeInput,
 } from "@nextui-org/react";
-import { format, isValid } from "date-fns";
+import { format, isValid, isSameDay } from "date-fns";
 import { useCallback, useMemo } from "react";
 import {
   MdAccessTime,
@@ -36,6 +37,7 @@ const FormFieldInput = ({
   isReadOnly = false,
   withFile = false,
   withDate = false,
+  withTime = false,
   isDateRange = false,
   fullWidth = false,
   inputType,
@@ -67,16 +69,21 @@ const FormFieldInput = ({
     // [isDateRange] - Add this prop to specify if picking with date range or not
     date: (
       <Popover
-        placement="bottom"
+        placement="top"
         showArrow={true}
-        classNames={{ base: "bg-white-default/80" }}
+        backdrop="opaque"
+        classNames={{
+          backdrop: "bg-black-default/40",
+        }}
       >
         <PopoverTrigger>
           <Button isIconOnly variant="solid" className="bg-transparent">
             <MdCalendarMonth size={20} />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0">
+        <PopoverContent
+          className={`bg-grey-default ${withTime ? "p-0" : "pb-4 pt-0 px-0"}`}
+        >
           <RangeCalendar
             aria-label={label}
             isRequired={true}
@@ -88,22 +95,33 @@ const FormFieldInput = ({
             onChange={(dateRange) => {
               onDateRangeValueChange(dateRange);
               onValueChange(
-                format(
-                  toCalendarDateTime(
-                    dateRange.start,
-                    timeStartValue
-                  ).toString(),
-                  "PPp"
-                ) +
-                  " - " +
-                  format(
-                    toCalendarDateTime(dateRange.end, timeEndValue).toString(),
-                    "PPp"
-                  )
+                isSameDay(dateRange.start.toString(), dateRange.end.toString())
+                  ? format(
+                      toCalendarDateTime(
+                        dateRange.start,
+                        timeStartValue
+                      ).toString(),
+                      withTime ? "PPp" : "PP"
+                    )
+                  : format(
+                      toCalendarDateTime(
+                        dateRange.start,
+                        timeStartValue
+                      ).toString(),
+                      withTime ? "PPp" : "PP"
+                    ) +
+                      " - " +
+                      format(
+                        toCalendarDateTime(
+                          dateRange.end,
+                          timeEndValue
+                        ).toString(),
+                        withTime ? "PPp" : "PP"
+                      )
               );
             }}
             classNames={{
-              base: "w-[512px] bg-white-default/80",
+              base: "w-[512px] bg-white-default/80 shadow-none",
               content: "w-[512px] bg-white-default/80",
               title: "font-bold text-black-default",
               headerWrapper: "bg-white-default",
@@ -126,70 +144,72 @@ const FormFieldInput = ({
               ],
             }}
             bottomContent={
-              <div className="flex bg-white-default">
-                <TimeInput
-                  label="Start Time"
-                  minValue={new Time()}
-                  value={timeStartValue}
-                  onChange={(timeStart) => {
-                    onTimeStartValueChange(timeStart);
-                    onValueChange(
-                      format(
-                        toCalendarDateTime(
-                          dateRangeValue.start,
-                          timeStart
-                        ).toString(),
-                        "PPp"
-                      ) +
-                        " - " +
+              withTime && (
+                <div className="flex bg-white-default">
+                  <TimeInput
+                    label="Start Time"
+                    minValue={new Time()}
+                    value={timeStartValue}
+                    onChange={(timeStart) => {
+                      onTimeStartValueChange(timeStart);
+                      onValueChange(
                         format(
                           toCalendarDateTime(
-                            dateRangeValue.end,
-                            timeEndValue
+                            dateRangeValue.start,
+                            timeStart
                           ).toString(),
-                          "PPp"
-                        )
-                    );
-                  }}
-                  startContent={<MdAccessTime size={16} />}
-                  classNames={{
-                    label: "text-xs font-medium text-black-default",
-                    inputWrapper:
-                      "pl-6 shadow-none rounded-none bg-white-default",
-                  }}
-                />
-                <TimeInput
-                  label="Due Time"
-                  minValue={new Time()}
-                  value={timeEndValue}
-                  onChange={(timeEnd) => {
-                    onTimeEndValueChange(timeEnd);
-                    onValueChange(
-                      format(
-                        toCalendarDateTime(
-                          dateRangeValue.start,
-                          timeStartValue
-                        ).toString(),
-                        "PPp"
-                      ) +
-                        " - " +
+                          withTime ? "PPp" : "PP"
+                        ) +
+                          " - " +
+                          format(
+                            toCalendarDateTime(
+                              dateRangeValue.end,
+                              timeEndValue
+                            ).toString(),
+                            withTime ? "PPp" : "PP"
+                          )
+                      );
+                    }}
+                    startContent={<MdAccessTime size={16} />}
+                    classNames={{
+                      label: "text-xs font-medium text-black-default",
+                      inputWrapper:
+                        "pl-6 shadow-none rounded-none bg-white-default",
+                    }}
+                  />
+                  <TimeInput
+                    label="Due Time"
+                    minValue={new Time()}
+                    value={timeEndValue}
+                    onChange={(timeEnd) => {
+                      onTimeEndValueChange(timeEnd);
+                      onValueChange(
                         format(
                           toCalendarDateTime(
-                            dateRangeValue.end,
-                            timeEnd
+                            dateRangeValue.start,
+                            timeStartValue
                           ).toString(),
-                          "PPp"
-                        )
-                    );
-                  }}
-                  startContent={<MdAccessTime size={16} />}
-                  classNames={{
-                    label: "text-xs font-medium text-black-default",
-                    inputWrapper:
-                      "pl-6 shadow-none rounded-none bg-white-default",
-                  }}
-                />
-              </div>
+                          withTime ? "PPp" : "PP"
+                        ) +
+                          " - " +
+                          format(
+                            toCalendarDateTime(
+                              dateRangeValue.end,
+                              timeEnd
+                            ).toString(),
+                            withTime ? "PPp" : "PP"
+                          )
+                      );
+                    }}
+                    startContent={<MdAccessTime size={16} />}
+                    classNames={{
+                      label: "text-xs font-medium text-black-default",
+                      inputWrapper:
+                        "pl-6 shadow-none rounded-none bg-white-default",
+                    }}
+                  />
+                </div>
+              )
             }
           />
         </PopoverContent>

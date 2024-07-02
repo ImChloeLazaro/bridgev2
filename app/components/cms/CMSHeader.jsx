@@ -135,7 +135,8 @@ const CMSHeader = ({
           </Tooltip>
         </CTAButtons>
         <SearchBar
-          type={showClientTask && changeView ? "search" : "filter"}
+          type={showClientTask ? "filter" : "search"}
+          endLabel={showClientTask ? "Search Tasks" : "Search Clients"}
           disabledFilter={showClientTask && changeView}
           showSearchBar={showSearchBar}
           searchItem={searchItem}

@@ -346,7 +346,7 @@ const CMSUser = () => {
             isLoading={isLoading}
           />
           <TaskTableView
-            itemTasks={filteredTaskItems}
+            itemTasks={itemTasks}
             showClientTask={showClientTask}
             changeView={changeView}
             sortDescriptor={sortDescriptor}

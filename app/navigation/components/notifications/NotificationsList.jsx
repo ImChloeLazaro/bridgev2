@@ -93,9 +93,9 @@ const NotificationsList = ({ getNotificationId }) => {
         });
 
   const sortedNotifications = useMemo(() => {
-    return filteredNotifications
-      .slice(0, 10)
-      .sort((a, b) => compareAsc(new Date(b.createdBy), new Date(a.createdBy)));
+    return filteredNotifications.sort((a, b) =>
+      compareAsc(new Date(b.createdBy), new Date(a.createdBy))
+    );
   }, [filteredNotifications]);
 
   return !notifications?.length ? (
@@ -104,7 +104,7 @@ const NotificationsList = ({ getNotificationId }) => {
     <Listbox
       items={sortedNotifications}
       aria-label={"Notifications"}
-      className="w-[25.3rem] h-[21.2rem] overflow-auto no-scrollbar"
+      className="w-[25.3rem] h-[21.2rem] overflow-y-auto"
       emptyContent={
         <div className="flex flex-col items-center mt-6">
           <Image
@@ -159,9 +159,7 @@ const NotificationsList = ({ getNotificationId }) => {
               <p className="font-bold text-xs leading-tight">{item.title}</p>
               <p className="font-medium text-xs truncate">{item.description}</p>
               <p className="font-normal text-xs">
-                {handleNotificationDatetime(
-                  item.createdBy ?? new Date()
-                )}
+                {handleNotificationDatetime(item.createdBy ?? new Date())}
               </p>
             </div>
           </div>
