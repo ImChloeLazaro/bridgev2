@@ -6,8 +6,8 @@ import { addHours, format } from 'date-fns';
 // }
 export const listEvents = async (accessToken) => {
   try {
-    const phurl = `https://www.googleapis.com/calendar/v3/calendars/en.philippines%23holiday@group.v.calendar.google.com/events?key=AIzaSyDIrKJqg30Kky4KV4dt9_aLKPR9YoMi6ys`;
-    const auurl = `https://www.googleapis.com/calendar/v3/calendars/en.australian%23holiday@group.v.calendar.google.com/events?maxResults=2500&key=AIzaSyDIrKJqg30Kky4KV4dt9_aLKPR9YoMi6ys`;
+    const phurl = `https://www.googleapis.com/calendar/v3/calendars/en.philippines%23holiday@group.v.calendar.google.com/events?key=AIzaSyDt3PLW-Pp5TozR-AueRGQirUhbGMNp78k`;
+    const auurl = `https://www.googleapis.com/calendar/v3/calendars/en.australian%23holiday@group.v.calendar.google.com/events?maxResults=2500&key=AIzaSyDt3PLW-Pp5TozR-AueRGQirUhbGMNp78k`;
 
     const response = await axios.get(`https://www.googleapis.com/calendar/v3/calendars/primary/events`, {
       headers: {

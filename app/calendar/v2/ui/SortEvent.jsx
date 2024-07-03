@@ -45,6 +45,7 @@ const SortEvent = ({
             handleSetFilteredEvents(newEvents);
         }
     };
+    console.log("bySort session", session);
     return (
         <div className='w-full flex flex-col gap-y-3 m-1'>
             <p className="font-bold">My Calendar</p>
@@ -77,7 +78,7 @@ const SortEvent = ({
                     onChange={(e) => handleSort(e.target.value)}
                     className='checkbox checkbox-md [--chkbg:#928e8e] [--chkfg:white]'
                 />
-                <p className='text-gray-600'>{session}</p>
+                <p className='text-gray-600'>{`Chloe Lazaro`}</p>
             </div>
         </div>
     );
