@@ -60,6 +60,7 @@ import {
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 import AddTaskModal from "@/app/components/cms/AddTaskModal";
+import { getHours, getMinutes, getSeconds } from "date-fns";
 
 // @refresh reset
 
@@ -121,7 +122,7 @@ const CMSAdmin = () => {
   const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
     selectedProcessorTaskActionAtom
   );
-  
+
   const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
     selectedReviewerTaskActionAtom
   );
@@ -322,7 +323,6 @@ const CMSAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
       fetchClient();

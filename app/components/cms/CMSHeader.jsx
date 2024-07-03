@@ -2,10 +2,16 @@ import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
-import { fetchTaskAtom } from "@/app/store/TaskStore";
+import {
+  fetchTaskAtom,
+  deleteTaskAtom,
+  recurrenceTaskAtom,
+  taskBoardColsAtom,
+  updateTaskStatusAtom,
+} from "@/app/store/TaskStore";
 import { Tooltip, cn } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdOutlineChevronLeft,
   MdOutlineDescription,
@@ -15,6 +21,18 @@ import {
   MdSettings,
 } from "react-icons/md";
 import { toast } from "sonner";
+import {
+  compareAsc,
+  addDays,
+  addWeeks,
+  addMonths,
+  addQuarters,
+  addYears,
+  format,
+  getHours,
+  getMinutes,
+  getSeconds,
+} from "date-fns";
 
 const CMSHeader = ({
   searchItem,
@@ -38,7 +56,10 @@ const CMSHeader = ({
   className,
   children,
 }) => {
+  const setRecurrenceTask = useSetAtom(recurrenceTaskAtom);
   const clients = useAtomValue(clientsAtom);
+
+  const deleteTask = useSetAtom(deleteTaskAtom);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
@@ -55,7 +76,13 @@ const CMSHeader = ({
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchTask(), await fetchClient()),
+          async () =>
+            resolve(
+              // await deleteTask(),
+              await setRecurrenceTask(),
+              await fetchTask(),
+              await fetchClient()
+            ),
           2000
         )
       );
@@ -85,6 +112,23 @@ const CMSHeader = ({
   const clientNameToDisplay = clients.filter(
     (client) => client._id === selectedClientToView
   )[0]?.company.name;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let now = new Date();
+      if (
+        getHours(now) === 8 &&
+        getMinutes(now) === 0 &&
+        getSeconds(now) === 1
+      ) {
+        console.log("RECURRENCE");
+        setRecurrenceTask();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="w-full flex-wrap flex gap-2">

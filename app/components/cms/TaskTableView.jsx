@@ -28,10 +28,13 @@ import {
   addQuarters,
   addYears,
   format,
+  getHours,
+  getMinutes,
+  getSeconds,
 } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
 import ConfirmationWindow from "../ConfirmationWindow";
@@ -247,19 +250,24 @@ const TaskTableView = ({
           );
 
         case "endDate":
-          console.log("task name", task.name);
-          console.log("addDays", addDays(task.duration.end.slice(0, -1), 1));
-          console.log("addWeeks", addWeeks(task.duration.end.slice(0, -1), 1));
-          console.log(
-            "addMonths",
-            addMonths(task.duration.end.slice(0, -1), 1)
-          );
-          console.log(
-            "addQuarters",
-            addQuarters(task.duration.end.slice(0, -1), 1)
-          );
-          console.log("addYears", addYears(task.duration.end.slice(0, -1), 1));
-          console.log("\n");
+          // console.log(
+          //   "task name",
+          //   task.name,
+          //   "QUE HORA ES",
+          //   getHours(new Date())
+          // );
+          // console.log("addDays", addDays(task.duration.end.slice(0, -1), 1));
+          // console.log("addWeeks", addWeeks(task.duration.end.slice(0, -1), 1));
+          // console.log(
+          //   "addMonths",
+          //   addMonths(task.duration.end.slice(0, -1), 1)
+          // );
+          // console.log(
+          //   "addQuarters",
+          //   addQuarters(task.duration.end.slice(0, -1), 1)
+          // );
+          // console.log("addYears", addYears(task.duration.end.slice(0, -1), 1));
+          // console.log("\n");
 
           return (
             <>

@@ -277,6 +277,10 @@ function TaskBoardCard({
               >
                 {task.status === "pending"
                   ? "Pending"
+                  : task?.duration?.recurrence !== "none"
+                  ? task?.duration?.start?.length
+                    ? format(task.duration.start.slice(0, -1), "d MMM yyyy")
+                    : ""
                   : task?.duration?.end?.length
                   ? format(task.duration.end.slice(0, -1), "d MMM yyyy")
                   : ""}

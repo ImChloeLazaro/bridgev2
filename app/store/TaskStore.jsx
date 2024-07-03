@@ -8,7 +8,18 @@ import { atom } from "jotai";
 import { toast } from "sonner";
 import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
-import { format } from "date-fns";
+import {
+  compareAsc,
+  addDays,
+  addWeeks,
+  addMonths,
+  addQuarters,
+  addYears,
+  format,
+  getHours,
+  getMinutes,
+  getSeconds,
+} from "date-fns";
 import { sendNotification } from "../utils/notificationUtils";
 import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
 
@@ -89,10 +100,10 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
-  const response = await destroywithparams("/cms/client", {
+  const response = await destroywithparams("/cms/task", {
     // _id of sla #/cms/task
     // _id of client obj #/cms/client
-    _id: "665922e6167b35aedc883977", // "665922e6167b35aedc883977"
+    _id: "667222db41a835187038f0db", // "665922e6167b35aedc883977"
   });
   if (response?.success) {
     return { success: true };
@@ -108,10 +119,16 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client?.client_id === client_id
   );
 
+  const removedDuplicateSLA = [...sla, ...taskToBeUpdated[0].sla].filter(
+    (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
+  );
+
   const response = await restupdate("/cms/task", {
     ...taskToBeUpdated[0],
-    sla: [...sla],
+    sla: [...removedDuplicateSLA],
   });
+
+  console.log("RESPONSE FROM UPDATING TASK STATUS", response);
 
   if (response === undefined) return { success: false };
 
@@ -579,7 +596,7 @@ export const tableColumnsAtom = atom([
   { label: "Description", key: "description", sortable: false },
   { label: "Status", key: "status", sortable: true },
   { label: "Start Date", key: "startDate", sortable: true },
-  { label: "End Date", key: "endDate", sortable: true },
+  { label: "Due Date", key: "endDate", sortable: true },
   { label: "Assignees", key: "assignees", sortable: false },
   { label: "Actions", key: "action", sortable: false },
 ]);
@@ -649,6 +666,87 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
       };
     });
 
+    set(tasksAtom, convertedTasks);
+  } else {
+  }
+});
+
+export const recurrenceStartTimeAtom = atom((get) => {
+  return 8;
+});
+export const recurrenceEndTimeAtom = atom((get) => {
+  return 5;
+});
+
+export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
+  console.log("CALLED RECURRENCE");
+  const tasks = await restread("/cms/task");
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task) => {
+      console.log("task", task.client.name);
+      const updatedEndDateTime = task.sla.map((sla) => {
+        console.log("sla", sla);
+        console.log("duration", sla.duration);
+        console.log("recurrence", sla.duration.recurrence);
+        if (sla.duration.recurrence.toLowerCase() === "daily") {
+          console.log("daily add 1 day to sla");
+          return {
+            ...sla,
+            duration: {
+              ...sla.duration,
+              end: addDays(sla.duration.end.slice(0, -1), 1),
+            },
+          };
+        }
+        if (sla.duration.recurrence.toLowerCase() === "weekly") {
+          console.log("weekly add 1 week to sla");
+          return {
+            ...sla,
+            duration: {
+              ...sla.duration,
+              end: addWeeks(sla.duration.end.slice(0, -1), 1),
+            },
+          };
+        }
+        if (sla.duration.recurrence.toLowerCase() === "monthly") {
+          console.log("monthly add 1 month to sla");
+          return {
+            ...sla,
+            duration: {
+              ...sla.duration,
+              end: addMonths(sla.duration.end.slice(0, -1), 1),
+            },
+          };
+        }
+        if (sla.duration.recurrence.toLowerCase() === "quarterly") {
+          console.log("quarterly add 1 quarter to sla");
+          return {
+            ...sla,
+            duration: {
+              ...sla.duration,
+              end: addQuarters(sla.duration.end.slice(0, -1), 1),
+            },
+          };
+        }
+        if (sla.duration.recurrence.toLowerCase() === "yearly") {
+          console.log("yearly add 1 year to sla");
+          return {
+            ...sla,
+            duration: {
+              ...sla.duration,
+              end: addYears(sla.duration.end.slice(0, -1), 1),
+            },
+          };
+        }
+        console.log("\n");
+        return sla;
+      });
+
+      return { ...task, sla: updatedEndDateTime };
+    });
+
+    console.log("convertedTasks", convertedTasks);
     set(tasksAtom, convertedTasks);
   } else {
   }

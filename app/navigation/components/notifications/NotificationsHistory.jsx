@@ -150,15 +150,15 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
 
   const sortedNotifications = useMemo(
     () =>
-      filteredNotifications
-        .slice(0, 10)
-        .sort((a, b) => new Date(b.createdBy) - new Date(a.createdBy)),
+      filteredNotifications.sort(
+        (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
+      ),
     [filteredNotifications]
   );
 
   const filteredTodayNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy;
+      const datetime = notification.createdBy.slice(0, -1);
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -170,7 +170,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredYesterdayNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy;
+      const datetime = notification.createdBy.slice(0, -1);
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -182,7 +182,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredThisWeekNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy;
+      const datetime = notification.createdBy.slice(0, -1);
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -194,7 +194,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredOlderNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy;
+      const datetime = notification.createdBy.slice(0, -1);
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -327,7 +327,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
                                   </p>
                                   <p className="font-normal text-xs">
                                     {`${handleNotificationDatetime(
-                                      item.createdBy ?? new Date()
+                                      item.createdBy.slice(0, -1) ?? new Date()
                                     )}`}
                                   </p>
                                 </div>
