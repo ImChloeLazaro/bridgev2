@@ -32,20 +32,26 @@ import {
   routesUser,
   externalLinks,
 } from "./RoutesIconDetails";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
+import LabelTagChip from "@/app/components/LabelTagChip";
 // @refresh reset
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userOptions = useAtomValue(userOptionsAtom);
-  const selectedRole = useAtomValue(selectedRoleAtom);
+  // const selectedRole = useAtomValue(selectedRoleAtom);
   const userRoles = useAtomValue(userRolesAtom);
   const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
   const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
-  // console.log("externalLinks", externalLinks);
 
-  const role = useAtomValue(selectedRoleAtom);
+  const user = useAtomValue(userAtom);
+  const selectedRole = useRoles(user.role);
+
+  // const role = useAtomValue(selectedRoleAtom);
+  const role = selectedRole.currentRole.toLowerCase();
 
   const activeRoutes = role.includes("admin")
     ? activeAdminRoute
@@ -124,7 +130,13 @@ const NavigationBar = () => {
           <UserDropdown />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
-          {userRoles.includes(selectedRole) && <RoleBadge />}
+          {selectedRole?.currentRole !== "USER" ? (
+            <LabelTagChip
+              text={selectedRole?.currentRole}
+              color="orange"
+              isFilled={true}
+            />
+          ) : null}
         </NavbarItem>
         <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <NotificationsDropdown />

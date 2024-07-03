@@ -465,7 +465,7 @@ const CMSTL = () => {
             isMobile={isMobile}
           />
           <TaskBoardView
-            itemTasks={itemTasks}
+            itemTasks={filteredTaskItems}
             showClientTask={showClientTask && selectedClientToView !== ""}
             changeView={changeView}
             setShowClientTask={setShowClientTask}

@@ -134,27 +134,44 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
   const {
     sound,
     tasks,
-    task_id,
+    // task_id,
     selectedProcessorTaskAction,
     selectedReviewerTaskAction,
     setSelectedProcessorTaskAction,
     setSelectedReviewerTaskAction,
   } = update;
 
-  const { key, status_id } = get(selectedTaskActionAtom);
+  const { key, status_id, task_id } = get(selectedTaskActionAtom);
   const user = await get(userAtom);
 
+  const taskName = tasks.sla.filter((task) => task._id === task_id)[0]?.name;
+  console.log("taskName", taskName);
+  console.log("key, status_id, task_id", key, status_id, task_id);
   const clientKey = tasks.client.client_id;
   const clientName = tasks.client.name;
   const dateTaskDone = new Date();
 
+  const processors = tasks.processor?.map((user) => user.sub);
+  const reviewers = tasks.reviewer?.map((user) => user.sub);
+  const everyone = [...processors, ...reviewers];
+
+  const assigneeCountMsg = (list) => {
+    let size = list.length;
+
+    if (size > 3) {
+      return `${list.slice(0, 2).join(", ")} and ${size - 2} others`;
+    }
+    if (size == 3) {
+      return `${list.slice(0, 2).join(", ")} and ${list.slice(-1)}`;
+    }
+
+    return list.join(size == 2 ? " & " : ", ");
+  };
+
   if (key === "mark") {
-    let taskName;
     if (status_id === "forReview" || status_id === "done") {
       const updateSelectedTask = tasks.sla.map((task) => {
         if (task._id === task_id) {
-          taskName = task?.name;
-
           if (status_id === "done") {
             return {
               ...task,
@@ -186,8 +203,8 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: tasks.processor?.map((user) => user.sub),
-          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          subs: processors,
+          title: `${user?.name} has completed task [${taskName}] for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
           notified_from: user,
@@ -199,8 +216,8 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: tasks.reviewer?.map((user) => user.sub),
-          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          subs: reviewers,
+          title: `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Marked for Review: ${format(
             dateTaskDone,
@@ -210,16 +227,6 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
           route: "set",
         });
       }
-
-      console.log(
-        `${user?.name} has completed [${taskName}] for ${clientName}.`
-      );
-      console.log(
-        `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`
-      );
-      console.log(
-        `${user?.name} has escalated [${taskName}] for ${clientName}.`
-      );
 
       const promise = async () =>
         new Promise((resolve) =>
@@ -264,31 +271,85 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
       return task;
     });
 
-    const promise = async () =>
-      new Promise((resolve) =>
-        setTimeout(
-          async () =>
-            resolve(
-              await set(updateTaskStatusAtom, {
-                sla: updateSelectedTask,
-                client_id: clientKey,
-              }),
-              await set(fetchTaskAtom, {})
-            ),
-          2000
-        )
-      );
-    toast.promise(promise, {
-      description: `${format(dateTaskDone, "PPpp")}`,
-      loading: `Escalating Task to ${
-        status_id[0].toUpperCase() + status_id.slice(1)
-      }`,
-      success: () => {
-        return "Please wait for further instructions";
-      },
+    const socketRef = get(notificationSocketRefAtom);
+    if (key === "escalate") {
+      sendNotification({
+        socketRef: socketRef,
+        action: "notification",
+        subs: reviewers,
+        title: `${user?.name} has escalated [${taskName}] for ${clientName}.`,
+        type: ["mentioned"],
+        description: `Task Escalation: ${format(dateTaskDone, "PPpp")}`,
+        notified_from: user,
+        route: "set",
+      });
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await set(updateTaskStatusAtom, {
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                }),
+                await set(fetchTaskAtom, {})
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Escalating Task to ${
+          status_id[0].toUpperCase() + status_id.slice(1)
+        }`,
+        success: () => {
+          sound();
+          return "Please wait for further instructions";
+        },
 
-      error: "Error Escalating Task",
-    });
+        error: "Error Escalating Task",
+      });
+    }
+
+    if (key === "resolve") {
+      sendNotification({
+        socketRef: socketRef,
+        action: "notification",
+        subs: processors,
+        title: `${user?.name} has resolved escalation of [${taskName}] for ${clientName}.`,
+        type: ["mentioned"],
+        description: `Task Escalation Resolved: ${format(
+          dateTaskDone,
+          "PPpp"
+        )}`,
+        notified_from: user,
+        route: "set",
+      });
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await set(updateTaskStatusAtom, {
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                }),
+                await set(fetchTaskAtom, {})
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Resolving Task [${taskName}]`,
+        success: () => {
+          sound();
+          return "Task Resolved Successfully";
+        },
+
+        error: "Error Escalating Task",
+      });
+    }
   }
 
   if (key === "assign") {
@@ -302,6 +363,25 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         Array.from(selectedReviewerTaskAction).includes(user.sub) &&
         !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
     );
+
+    const newAssignees = [
+      ...assignProcessorAssignees.map((assignee) => assignee?.name),
+      ...assignReviewerAssignees.map((assignee) => assignee?.name),
+    ];
+
+    const socketRef = get(notificationSocketRefAtom);
+    sendNotification({
+      socketRef: socketRef,
+      action: "notification",
+      subs: everyone,
+      title: `${user?.name} has assigned ${assigneeCountMsg(
+        newAssignees
+      )} for ${clientName}.`,
+      type: ["mentioned"],
+      description: `New Task Assignee: ${format(dateTaskDone, "PPpp")}`,
+      notified_from: user,
+      route: "set",
+    });
 
     const promise = async () =>
       new Promise((resolve) =>
@@ -323,6 +403,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     toast.promise(promise, {
       loading: "Assigning New Member...",
       success: () => {
+        sound();
         return `New Member Assigned successfully`;
       },
       error: "Error assigning new member",
@@ -360,6 +441,25 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     //   return task;
     // });
 
+    const removeAssignees = [
+      ...removeProcessorAssignees.map((assignee) => assignee?.name),
+      ...removeReviewerAssignees.map((assignee) => assignee?.name),
+    ];
+
+    const socketRef = get(notificationSocketRefAtom);
+    sendNotification({
+      socketRef: socketRef,
+      action: "notification",
+      subs: everyone,
+      title: `${user?.name} has removed ${assigneeCountMsg(
+        removeAssignees
+      )} for ${clientName}.`,
+      type: ["mentioned"],
+      description: `Remove Task Assignee: ${format(dateTaskDone, "PPpp")}`,
+      notified_from: user,
+      route: "set",
+    });
+
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
@@ -388,6 +488,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     toast.promise(promise, {
       loading: "Removing Member...",
       success: () => {
+        sound();
         return `Member Removed successfully`;
       },
       error: "Error removing member",
@@ -510,20 +611,20 @@ export const taskFilterKeysAtom = atom([
 
 export const taskBoardColsAtom = atom([
   {
-    id: "forReview",
-    title: "For Review",
-  },
-  {
-    id: "done",
-    title: "Done",
+    id: "pending",
+    title: "Pending",
   },
   {
     id: "todo",
     title: "To Do",
   },
   {
-    id: "pending",
-    title: "Pending",
+    id: "forReview",
+    title: "For Review",
+  },
+  {
+    id: "done",
+    title: "Done",
   },
   // {
   //   id: "undefined",

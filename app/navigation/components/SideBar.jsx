@@ -31,12 +31,12 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import ShortcutsHeader from "./shortcuts/ShortcutsHeader";
 import { usePathname } from "next/navigation";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
 
-const SideBar = () => {
-  const fetchRole = useSetAtom(fetchRoleAtom);
-  useEffect(() => {
-    fetchRole();
-  }, [fetchRole]);
+const SideBar = ({}) => {
+  const user = useAtomValue(userAtom);
+  const selectedRole = useRoles(user.role);
 
   const pathname = usePathname();
 
@@ -55,7 +55,8 @@ const SideBar = () => {
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
 
-  const role = useAtomValue(selectedRoleAtom);
+  // const role = useAtomValue(selectedRoleAtom);
+  const role = selectedRole.currentRole.toLowerCase();
 
   const activeRoutes = role.includes("admin")
     ? activeAdminRoute
@@ -216,14 +217,7 @@ const SideBar = () => {
                           key={subRoute.key}
                           active={activeRoutes[subRoute.key]}
                           icon={subRoute.icon}
-                          component={
-                            <Link
-                              href={subRoute.link}
-                              onPress={() => {
-                                handleSidebarButtonsActive(subRoute.key);
-                              }}
-                            />
-                          }
+                          component={<Link href={subRoute.link} />}
                         >
                           {subRoute.label.toUpperCase()}
                         </MenuItem>

@@ -21,6 +21,7 @@ const FormFieldSelect = ({
   // selectionContent,
   isRequired,
   isDisabled,
+  disabledValidation = false,
   errorMessage,
   renderItemPicture = false,
   renderType = "dropdown",
@@ -90,12 +91,15 @@ const FormFieldSelect = ({
   };
 
   const isInvalid = useMemo(() => {
+    if (disabledValidation) {
+      return false;
+    }
     let validSelections = new Set(
       [...items].map((item) => (item?.sub ? item?.sub : item?.key))
     );
 
     return validSelections.intersection(selected)?.size === 0;
-  }, [items, selected]);
+  }, [disabledValidation, items, selected]);
 
   return (
     <Select

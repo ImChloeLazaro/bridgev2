@@ -7,6 +7,7 @@ const SearchBar = ({
   disabledFilter = false,
   showSearchBar,
   type = "filter",
+  endLabel = "Search",
   searchItem,
   setSearchItem,
   filterKeys,
@@ -35,9 +36,9 @@ const SearchBar = ({
 
             <div
               data-show={Boolean(searchItem?.length)}
-              className="data-[show=true]:invisible hidden md:flex pointer-events-none items-center mx-2"
+              className="data-[show=true]:hidden flex pointer-events-none items-center mx-2 min-w-fit"
             >
-              <span className="text-darkgrey-hover text-small">{"Search"}</span>
+              <p className="text-darkgrey-hover text-small">{endLabel}</p>
             </div>
           </>
         }
@@ -100,16 +101,14 @@ const SearchBar = ({
 
               <div
                 data-show={Boolean(searchItem?.length)}
-                className="data-[show=true]:invisible hidden md:flex pointer-events-none items-center mx-2"
+                className="data-[show=true]:hidden flex pointer-events-none items-center mx-2 min-w-fit"
               >
-                <span className="text-darkgrey-hover text-small">
-                  {"Search"}
-                </span>
+                <p className="text-darkgrey-hover text-small">{endLabel}</p>
               </div>
             </>
           }
           classNames={{
-            base: "w-full min-w-20",
+            base: "w-full lg:w-96",
             inputWrapper: [
               "px-3 bg-white-default rounded-l-none border border-l-0 shadow-sm",
             ],

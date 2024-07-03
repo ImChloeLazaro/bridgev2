@@ -9,7 +9,13 @@ import {
   cn,
   useDisclosure,
 } from "@nextui-org/react";
-import { differenceInDays, format } from "date-fns";
+import {
+  differenceInDays,
+  differenceInHours,
+  compareAsc,
+  getHours,
+  format,
+} from "date-fns";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth, MdCheck } from "react-icons/md";
 import LabelTagChip from "../LabelTagChip";
@@ -39,7 +45,7 @@ function TaskBoardCard({
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
-  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
 
   const confirmationWindow = useDisclosure(); // confirmation window
   const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
@@ -50,11 +56,9 @@ function TaskBoardCard({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  const difference = Boolean(
-    differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
-      task.status === "todo"
-  );
-
+  const difference =
+    compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
+    task.status === "todo";
   const {
     setNodeRef,
     attributes,
@@ -257,7 +261,7 @@ function TaskBoardCard({
           )}
         </div>
         {
-          <div className="flex justify-between">
+          <div className="flex flex-col lg:flex-row justify-between">
             <div className="flex gap-2 justify-start items-center">
               <MdCalendarMonth size={20} />
               <Link
@@ -277,6 +281,13 @@ function TaskBoardCard({
                   ? format(task.duration.end.slice(0, -1), "d MMM yyyy")
                   : ""}
               </Link>
+              <p>{"|"}</p>
+              <p className="flex text-sm font-semibold text-black-default">
+                {task?.duration?.recurrence === "none"
+                  ? "No Recurrence"
+                  : task?.duration?.recurrence[0].toUpperCase() +
+                    task?.duration?.recurrence.slice(1)}
+              </p>
             </div>
             <div className="flex gap-2 justify-start items-center">
               <MdTimer size={20} />
