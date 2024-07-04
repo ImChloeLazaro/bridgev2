@@ -1,19 +1,20 @@
+import { notificationSocketRefAtom } from "@/app/navigation/store/NotificationsStore";
 import {
   fetchTaskAtom,
-  recurrenceTaskAtom,
   taskBoardColsAtom,
   updateTaskStatusAtom,
 } from "@/app/store/TaskStore";
 import { userAtom } from "@/app/store/UserStore";
+import { sendNotification } from "@/app/utils/notificationUtils";
 import {
   closestCorners,
   DndContext,
   DragOverlay,
-  useSensor,
-  useSensors,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { Image, Link } from "@nextui-org/react";
@@ -23,15 +24,9 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { MdRefresh } from "react-icons/md";
 import { toast } from "sonner";
+import useSound from "use-sound";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
-import {
-  restrictToHorizontalAxis,
-  restrictToWindowEdges,
-} from "@dnd-kit/modifiers";
-import { notificationSocketRefAtom } from "@/app/navigation/store/NotificationsStore";
-import { sendNotification } from "@/app/utils/notificationUtils";
-import useSound from "use-sound";
 
 const TaskBoardView = ({
   itemTasks,
@@ -52,8 +47,6 @@ const TaskBoardView = ({
   const user = useAtomValue(userAtom);
   const socketRef = useAtomValue(notificationSocketRefAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
-
-
 
   const [columns, setColumns] = useAtom(taskBoardColsAtom);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
@@ -283,7 +276,7 @@ const TaskBoardView = ({
   // }
 
   function onDragStart(event) {
-    console.log("DRAG START:", event);
+    // console.log("DRAG START:", event);
 
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -299,7 +292,7 @@ const TaskBoardView = ({
   }
 
   function onDragEnd(event) {
-    console.log("DRAG END", event);
+    // console.log("DRAG END", event);
 
     // if (Object.keys(taskStatusIndex).length !== 0) {
     //   updateTaskStatus({
@@ -331,10 +324,7 @@ const TaskBoardView = ({
     );
     const everyone = [...processors, ...reviewers];
 
-    console.log("taskActive?.status", taskActive?.status);
-    console.log("tasksFromSelectedClient[0]", tasksFromSelectedClient[0]);
-
-    if (taskStatusBeforeDone !== taskActive.status) {
+     if (taskStatusBeforeDone !== taskActive.status) {
       if (taskActive?.status === "todo") {
         sendNotification({
           socketRef: socketRef,
@@ -538,7 +528,7 @@ const TaskBoardView = ({
   }
 
   function onDragOver(event) {
-    console.log("DRAG OVER", event);
+    // console.log("DRAG OVER", event);
 
     const { active, over } = event;
     if (!over) return;

@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { Button } from "@nextui-org/react"
 const GoogleOAuth = () => {
   const { data: session } = useSession()
-  console.log("session: ", session);
+  // console.log("session: ", session);
   if (session) {
     return (
       <>

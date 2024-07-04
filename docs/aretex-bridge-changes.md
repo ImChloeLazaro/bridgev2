@@ -1880,3 +1880,19 @@ link: String,
 * Added @use-sound latest `^4.0.3` for handling notifications/actions sounds
 
 * hotfix undefined success value from atoms
+
+* Removed components for @shadcn/ui:
+  * `Button` Component
+  * `Calendar` Component
+  * `Drawer` Component
+  * `Popover` Component
+
+* Removed dependencies for @shadcn/ui:
+  * @radix-ui/react-popover latest `^1.0.7`
+  * @radix-ui/react-slot latest `^1.0.2`
+  * @class-variance-authority latest `^0.7.0`
+  * @clsx latest `^2.1.0`
+  * @lucide-react latest `^0.336.0`
+  * @react-day-picker latest `^8.10.0`
+  * @tailwind-merge latest `^2.2.1`
+  * @tailwindcss-animate latest `^1.0.7`

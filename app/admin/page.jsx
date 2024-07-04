@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
-import PlaceholderContent from "../components/PlaceholderContent";
+import { userAtom } from "@/app/store/UserStore";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/app/store/UserStore";
+import PlaceholderContent from "../components/PlaceholderContent";
 const Admin = () => {
-  const users = useAtomValue(userAtom).role; 
+  const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
   return <PlaceholderContent />;
 };

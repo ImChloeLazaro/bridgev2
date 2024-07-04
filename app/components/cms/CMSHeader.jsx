@@ -3,36 +3,23 @@ import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
-  fetchTaskAtom,
   deleteTaskAtom,
+  fetchTaskAtom,
+  logOverDueTasksAtom,
   recurrenceTaskAtom,
-  taskBoardColsAtom,
-  updateTaskStatusAtom,
 } from "@/app/store/TaskStore";
-import { Tooltip, cn } from "@nextui-org/react";
+import { Tooltip } from "@nextui-org/react";
+import { getHours, getMinutes, getSeconds } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   MdOutlineChevronLeft,
   MdOutlineDescription,
   MdRefresh,
   MdViewColumn,
   MdViewList,
-  MdSettings,
 } from "react-icons/md";
 import { toast } from "sonner";
-import {
-  compareAsc,
-  addDays,
-  addWeeks,
-  addMonths,
-  addQuarters,
-  addYears,
-  format,
-  getHours,
-  getMinutes,
-  getSeconds,
-} from "date-fns";
 
 const CMSHeader = ({
   searchItem,
@@ -57,6 +44,7 @@ const CMSHeader = ({
   children,
 }) => {
   const setRecurrenceTask = useSetAtom(recurrenceTaskAtom);
+  const logOverDueTasks = useSetAtom(logOverDueTasksAtom);
   const clients = useAtomValue(clientsAtom);
 
   const deleteTask = useSetAtom(deleteTaskAtom);
@@ -79,7 +67,6 @@ const CMSHeader = ({
           async () =>
             resolve(
               // await deleteTask(),
-              await setRecurrenceTask(),
               await fetchTask(),
               await fetchClient()
             ),
@@ -116,13 +103,28 @@ const CMSHeader = ({
   useEffect(() => {
     const interval = setInterval(() => {
       let now = new Date();
+      // console.log(getHours(now), ":", getMinutes(now), ":", getSeconds(now));
+
       if (
-        getHours(now) === 8 &&
-        getMinutes(now) === 0 &&
-        getSeconds(now) === 1
+        // 7:30:01AM AU TIME
+        getHours(now) == 7 &&
+        getMinutes(now) == 30 &&
+        getSeconds(now) == 1
       ) {
-        console.log("RECURRENCE");
+        // Reset task progress and set new task due date based on recurrence
         setRecurrenceTask();
+        fetchTask();
+      }
+
+      if (
+        // 5:30:01PM AU TIME
+        getHours(now) == 5 &&
+        getMinutes(now) == 30 &&
+        getSeconds(now) == 1
+      ) {
+        // Logs Overdue tasks
+        logOverDueTasks();
+        fetchTask();
       }
     }, 1000);
 

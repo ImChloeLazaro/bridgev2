@@ -1,6 +1,11 @@
+import IconButton from "@/app/components/IconButton";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
 import { Link, cn } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Suspense, useEffect, useState } from "react";
+import { useAtom, useAtomValue } from "jotai";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import {
   Menu,
   MenuItem,
@@ -14,8 +19,6 @@ import {
   activeTLRouteAtom,
   activeUserRouteAtom,
   cmsPathsAtom,
-  fetchRoleAtom,
-  selectedRoleAtom,
   sidebarToggleAtom,
 } from "../store/NavSideBarStore";
 import {
@@ -25,14 +28,8 @@ import {
   routesUser,
 } from "./RoutesIconDetails";
 import Shortcuts from "./shortcuts/Shortcuts";
-import SideBarHeader from "./sidebar/SideBarHeader";
-import IconButton from "@/app/components/IconButton";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import ShortcutsHeader from "./shortcuts/ShortcutsHeader";
-import { usePathname } from "next/navigation";
-import { userAtom } from "@/app/store/UserStore";
-import { useRoles } from "@/app/utils/roles";
+import SideBarHeader from "./sidebar/SideBarHeader";
 
 const SideBar = ({}) => {
   const user = useAtomValue(userAtom);

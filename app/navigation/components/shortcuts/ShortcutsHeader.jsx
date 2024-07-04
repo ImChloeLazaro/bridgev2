@@ -1,3 +1,5 @@
+import CTAButtons from "@/app/components/CTAButtons";
+import IconButton from "@/app/components/IconButton";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   Button,
@@ -8,10 +10,9 @@ import {
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
+import { BsSortDownAlt, BsSortUpAlt } from "react-icons/bs";
 import { MdAdd, MdClose } from "react-icons/md";
-import CTAButtons from "@/app/components/CTAButtons";
-import { BsSortDownAlt } from "react-icons/bs";
-import { BsSortUpAlt } from "react-icons/bs";
+import { toast } from "sonner";
 import {
   addShortcutAtom,
   fetchShortcutAtom,
@@ -19,8 +20,6 @@ import {
   shortcutURLAtom,
   updateSortedShortcutsAtom,
 } from "../../store/ShortcutsStore";
-import IconButton from "@/app/components/IconButton";
-import { toast } from "sonner";
 
 const ShortcutsHeader = () => {
   const auth = useAtomValue(authenticationAtom);

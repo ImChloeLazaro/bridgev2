@@ -1,7 +1,4 @@
-import { Button, useDisclosure } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { notificationCountAtom } from "../../store/NotificationsStore";
-import NotificationsHistory from "./NotificationsHistory";
+import { Button } from "@nextui-org/react";
 
 const NotificationsFooter = ({
   onOpen,
@@ -9,7 +6,6 @@ const NotificationsFooter = ({
   setNotificationsOpen,
   markAllAsRead,
 }) => {
-
   const handleOpenNotificationHistory = () => {
     setNotificationsOpen(false);
     onOpen();

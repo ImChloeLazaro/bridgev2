@@ -8,8 +8,7 @@ import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
   clientsAtom,
-  clientsCountAtom,
-  fetchClientAtom,
+  fetchClientAtom
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
@@ -19,7 +18,7 @@ import {
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
-import { MdFactCheck, MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 import {
   changeViewAtom,
   pageRowsSelectionAtom,
@@ -43,7 +42,7 @@ const CMSUser = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "endDate",
+    column: "dueDate",
     direction: "descending",
   });
   const user = useAtomValue(authenticationAtom);
@@ -249,7 +248,7 @@ const CMSUser = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log("REFRESH");
+    // console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
       fetchClient();

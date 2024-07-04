@@ -1,33 +1,33 @@
-import {
-  MdDashboard,
-  MdPerson,
-  MdCampaign,
-  MdGroup,
-  MdDiversity3,
-  MdCalendarMonth,
-  MdArticle,
-  MdContactMail,
-  MdAdminPanelSettings,
-  MdSwitchAccount,
-  MdHelp,
-  MdPersonSearch,
-  MdMarkunreadMailbox,
-  MdEmojiEvents,
-  MdAirlineSeatIndividualSuite,
-  MdDirectionsRun,
-  MdOtherHouses,
-  MdOutlineLocalLibrary,
-  MdOutlineDiversity2,
-} from "react-icons/md";
 import { BsPersonCheckFill } from "react-icons/bs";
+import {
+  MdAdminPanelSettings,
+  MdAirlineSeatIndividualSuite,
+  MdArticle,
+  MdCalendarMonth,
+  MdCampaign,
+  MdContactMail,
+  MdDashboard,
+  MdDirectionsRun,
+  MdDiversity3,
+  MdEmojiEvents,
+  MdGroup,
+  MdHelp,
+  MdMarkunreadMailbox,
+  MdOtherHouses,
+  MdOutlineDiversity2,
+  MdOutlineLocalLibrary,
+  MdPerson,
+  MdPersonSearch,
+  MdSwitchAccount,
+} from "react-icons/md";
 import { PiStarBold } from "react-icons/pi";
 
-import AretexWebsite from "../../../public/Aretex.svg";
-import AretexMeet from "../../../public/Aretex Meet.svg";
+import Image from "next/image";
 import AretexChat from "../../../public/Aretex Chat.svg";
+import AretexMeet from "../../../public/Aretex Meet.svg";
 import AretexTeach from "../../../public/Aretex Teach.svg";
 import AretexUniversity from "../../../public/Aretex University.svg";
-import Image from "next/image";
+import AretexWebsite from "../../../public/Aretex.svg";
 
 const ExternalLinksIcons = {
   base: <Image src={AretexWebsite} alt="Aretex Softwares"></Image>,

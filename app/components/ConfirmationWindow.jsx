@@ -4,16 +4,14 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  cn,
 } from "@nextui-org/react";
+import {
+  BsFillInfoCircleFill,
+  BsFillXOctagonFill,
+  BsQuestionCircleFill,
+} from "react-icons/bs";
+import { MdWarning } from "react-icons/md";
 import CTAButtons from "./CTAButtons";
-import { MdCheck, MdInfoOutline, MdWarning } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { MdQuestionMark } from "react-icons/md";
-import { BsFillXOctagonFill } from "react-icons/bs";
-import { BsQuestionOctagonFill } from "react-icons/bs";
-import { BsQuestionCircleFill } from "react-icons/bs";
-import { BsFillInfoCircleFill } from "react-icons/bs";
 const ConfirmationWindow = ({
   message = "message", // main message
   description = "", // description or additional message

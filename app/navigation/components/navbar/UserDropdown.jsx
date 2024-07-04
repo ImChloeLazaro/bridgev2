@@ -1,3 +1,4 @@
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import {
   Dropdown,
@@ -9,10 +10,8 @@ import {
 import { signOut } from "aws-amplify/auth";
 import { useAtomValue } from "jotai";
 import "../../../aws-auth";
-import { userAtom } from "../../../store/UserStore";
-import SwitchRoles from "./SwitchRoles";
 import { userOptionsAtom } from "../../store/NavSideBarStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import SwitchRoles from "./SwitchRoles";
 
 async function handleSignOut() {
   try {

@@ -57,11 +57,11 @@ const ShortcutItem = forwardRef(
           },
         }}
       >
-        <div className='flex justify-between'>
+        <div className="flex justify-between">
           <Link
             isExternal
             href={shortcutURL}
-            className='w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 '
+            className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 "
           >
             {children}
           </Link>

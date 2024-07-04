@@ -7,18 +7,11 @@ import {
   recurrenceSelectionAtom,
   reviewerSelectionAtom,
 } from "@/app/store/TaskStore";
-import { Avatar, Chip, Select, SelectItem, TimeInput } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { Time } from "@internationalized/date";
+import { TimeInput } from "@nextui-org/react";
+import { useAtom, useAtomValue } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
-import { DateRangePicker } from "@nextui-org/react";
-import {
-  parseDateTime,
-  parseZonedDateTime,
-  Time,
-} from "@internationalized/date";
-import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
-import { BsDashLg } from "react-icons/bs";
 
 const TaskFormSections = ({
   selectedClientForTask,
@@ -247,12 +240,9 @@ const TaskFormSections = ({
                     placeholder={"Set a date"}
                     withDate={true}
                     withTime={false}
+                    isDateRange={false}
                     dateRangeValue={dateRange}
                     onDateRangeValueChange={setDateRange}
-                    timeStartValue={startTime}
-                    onTimeStartValueChange={setStartTime}
-                    timeEndValue={endTime}
-                    onTimeEndValueChange={setEndTime}
                   />
                 </div>
               </div>
@@ -264,6 +254,8 @@ const TaskFormSections = ({
                 </p>
                 <div className="w-[80%] flex items-center gap-3">
                   <TimeInput
+                    isInvalid={startTime?.compare(endTime) > 0}
+                    errorMessage={"Invalid Time Range"}
                     label="Start Time"
                     minValue={new Time()}
                     value={startTime}
@@ -274,6 +266,8 @@ const TaskFormSections = ({
                     classNames={{ input: "font-medium text-black-default" }}
                   />
                   <TimeInput
+                    isInvalid={startTime?.compare(endTime) > 0}
+                    errorMessage={"Invalid Time Range"}
                     label="Due Time"
                     minValue={new Time()}
                     value={endTime}
@@ -301,6 +295,7 @@ const TaskFormSections = ({
                   placeholder={"Set a date"}
                   withDate={true}
                   withTime={true}
+                  isDateRange={true}
                   dateRangeValue={dateRange}
                   onDateRangeValueChange={setDateRange}
                   timeStartValue={startTime}
