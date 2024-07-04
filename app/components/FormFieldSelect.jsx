@@ -1,16 +1,6 @@
-import {
-  cn,
-  Divider,
-  Input,
-  Chip,
-  Select,
-  SelectItem,
-  Textarea,
-} from "@nextui-org/react";
-import { Avatar } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
 import { useMemo, useState } from "react";
-import { MdGroups, MdPerson } from "react-icons/md";
+import { MdPerson } from "react-icons/md";
 const FormFieldSelect = ({
   label,
   items = { label: "label", key: "key", value: "value" },

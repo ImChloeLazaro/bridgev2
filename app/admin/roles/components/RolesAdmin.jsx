@@ -1,28 +1,30 @@
 "use client";
-import { useState, useMemo } from "react";
+import IconButton from "@/app/components/IconButton";
+import SearchBar from "@/app/components/SearchBar";
+import { userListAtom } from "@/app/store/UserStore";
+import { restupdate } from "@/app/utils/amplify-rest";
 import {
-  Tabs,
-  Tab,
+  Button,
   Card,
   CardBody,
   CardHeader,
   Chip,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
+  Link,
   Listbox,
   ListboxItem,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Tab,
+  Tabs,
+  User,
 } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import { userListAtom } from "@/app/store/UserStore";
-import { restupdate } from "@/app/utils/amplify-rest";
-import SearchBar from "@/app/components/SearchBar";
-import IconButton from "@/app/components/IconButton";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { MdRefresh, MdEdit } from "react-icons/md";
 import { IoMdMail } from "react-icons/io";
+import { MdEdit, MdRefresh } from "react-icons/md";
 
 const RolesAdmin = () => {
   const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
@@ -60,13 +62,13 @@ const RolesAdmin = () => {
       User: new Set(),
     };
 
-    const filteredUsers = users.filter(user =>
+    const filteredUsers = users.filter((user) =>
       user.name.toLowerCase().includes(searchRole.toLowerCase())
     );
 
     filteredUsers.forEach((user) => {
       roles["All"].add(user);
-      console.log("User roles:", user.role);
+      // console.log("User roles:", user.role);
       user.role.forEach((role) => {
         if (role.name === "ADMIN") roles["Admin"].add(user);
         if (role.name === "TL") roles["TL"].add(user);
@@ -86,7 +88,7 @@ const RolesAdmin = () => {
   const roles = categorizeUsersByRole(users);
 
   roles.Admin.forEach((admin) => {
-    console.log("name" + admin.name);
+    // console.log("name" + admin.name);
   });
 
   const tabs = Object.keys(roles).map((role) => ({
@@ -98,7 +100,7 @@ const RolesAdmin = () => {
   const handleEditClick = (user) => {
     setCurrentUser(user);
     const userRoles = new Set(user.role.map((role) => role.name.toLowerCase()));
-    console.log("User roles:", userRoles);
+    // console.log("User roles:", userRoles);
     setSelectedKeys(userRoles);
   };
 
@@ -126,20 +128,20 @@ const RolesAdmin = () => {
         sub: currentUser.sub,
         role: selectedRoles,
       });
-      console.log("Updated user:", updatedUser);
-      console.log(
-        "User sub:",
-        currentUser.sub,
-        "Selected roles:",
-        selectedRoles
-      );
+      // console.log("Updated user:", updatedUser);
+      // console.log(
+      //   "User sub:",
+      //   currentUser.sub,
+      //   "Selected roles:",
+      //   selectedRoles
+      // );
     } catch (error) {
       console.error("Error while updating user roles:", error);
     }
   };
 
   return (
-    <Card className="flex w-full h-full my-4 px-0 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl h-full">
+    <Card className="flex w-full h-full my-4 px-0 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
       <div className="flex w-full flex-col h-full">
         <div className="py-2 mt-6 mx-2 md:mx-6 md:w-1/2 flex gap-2">
           <SearchBar
@@ -181,18 +183,35 @@ const RolesAdmin = () => {
                         <div className="w-full">
                           <CardHeader className="flex justify-between mt-1 md:mt-0">
                             <div className="flex items-center">
-                              <img
-                                src={user.picture}
-                                alt={user.name}
-                                className="rounded-full w-10 h-10 mr-2"
+                              <User
+                                name={user.name}
+                                description={
+                                  <Link
+                                    href="/"
+                                    size="sm"
+                                    underline="hover"
+                                    className="text-black-default"
+                                  >
+                                    <div className="flex justify-start items-center gap-2">
+                                      <IoMdMail
+                                        className="text-black-default"
+                                        fill="currentColor"
+                                      />
+                                      <p className="font-medium text-black-default">
+                                        {user.email}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                }
+                                avatarProps={{
+                                  src: user.picture,
+                                  alt: user.name,
+                                  className: "w-10 h-10 mr-2",
+                                }}
+                                classNames={{
+                                  name: "text-base font-medium text-black-default",
+                                }}
                               />
-                              <div className="flex flex-col leading-tight mr-20">
-                                <div className="font-bold">{user.name}</div>
-                                <div className="flex justify-start items-center gap-2">
-                                  <IoMdMail />
-                                  {user.email}
-                                </div>
-                              </div>
                             </div>
                             <Popover placement="bottom" offset={20} showArrow>
                               <PopoverTrigger>

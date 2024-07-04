@@ -1,4 +1,5 @@
 import { Chip, cn } from "@nextui-org/react";
+
 const LabelTagChip = ({
   text,
   color = "clear",
@@ -93,7 +94,9 @@ const LabelTagChip = ({
             classNames={{
               base: cn(
                 "bg-white-default/90",
-                `${chipCount >= 10 ? "" : "min-h-2 min-w-2 lg:min-h-6 lg:min-w-6"}`
+                `${
+                  chipCount >= 10 ? "" : "min-h-2 min-w-2 lg:min-h-6 lg:min-w-6"
+                }`
               ),
               content: cn(
                 `${chipCount === 1 ? "pr-1.5 " : ""}`,
@@ -107,7 +110,12 @@ const LabelTagChip = ({
       }
       {...props}
     >
-      <p className={cn(classNameLabel, "mt-0.5 tracking-wider text-xs lg:text-sm")}>
+      <p
+        className={cn(
+          classNameLabel,
+          "mt-0.5 tracking-wider text-xs lg:text-sm"
+        )}
+      >
         {text?.length ? text : ""}
       </p>
     </Chip>

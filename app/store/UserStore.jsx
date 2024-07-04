@@ -23,4 +23,4 @@ export const fetchUserListAtom = atom(null, async (get, set, sub) => {
   if (list.success) {
     set(userListAtom, list.result);
   }
-}); // list of all employees
+});

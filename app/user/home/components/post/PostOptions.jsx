@@ -34,7 +34,11 @@ const PostOptions = ({ trigger }) => {
         classNames={{ content: ["m-0 p-0"] }}
       >
         <PopoverTrigger>
-          <Button aria-label={"Post Options Button"} isIconOnly className="bg-transparent">
+          <Button
+            aria-label={"Post Options Button"}
+            isIconOnly
+            className="bg-transparent"
+          >
             {trigger}
           </Button>
         </PopoverTrigger>
@@ -43,10 +47,9 @@ const PostOptions = ({ trigger }) => {
             aria-label="Actions"
             onAction={(key) => {
               if (key === "hide") {
-                console.log("HIDE");
+                // console.log("HIDE");
               }
               if (key === "report") {
-                console.log("report");
                 setIsOpen(false);
                 reportOnOpen();
               }
@@ -59,7 +62,9 @@ const PostOptions = ({ trigger }) => {
             }}
           >
             {options.map((option) => (
-              <ListboxItem key={option.key} id={option.key}>{option.label}</ListboxItem>
+              <ListboxItem key={option.key} id={option.key}>
+                {option.label}
+              </ListboxItem>
             ))}
           </Listbox>
         </PopoverContent>

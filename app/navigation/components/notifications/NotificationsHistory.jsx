@@ -1,18 +1,18 @@
+import SearchBar from "@/app/components/SearchBar";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   Button,
-  Chip,
   Image,
   Listbox,
   ListboxItem,
   ListboxSection,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
+  Popover,
+  PopoverContent,
+  PopoverTrigger
 } from "@nextui-org/react";
 import {
   differenceInDays,
@@ -21,6 +21,8 @@ import {
   format,
 } from "date-fns";
 import { useAtom, useAtomValue } from "jotai";
+import { useMemo, useState } from "react";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
   notificationFilterKeysAtom,
   notificationsAtom,
@@ -29,14 +31,6 @@ import {
   selectedNotificationFilterKeysAtom,
   showUnreadAtom,
 } from "../../store/NotificationsStore";
-import { MdRefresh } from "react-icons/md";
-import IconButton from "@/app/components/IconButton";
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
-import { Tabs, Tab } from "@nextui-org/react";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import SearchBar from "@/app/components/SearchBar";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 
 // @refresh reset
 

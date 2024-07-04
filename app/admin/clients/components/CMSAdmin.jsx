@@ -1,3 +1,4 @@
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import ClientList from "@/app/components/cms/ClientList";
 import CMSFooter from "@/app/components/cms/CMSFooter";
@@ -8,8 +9,7 @@ import CTAButtons from "@/app/components/CTAButtons";
 import {
   clientFilterKeysAtom,
   clientsAtom,
-  clientsCountAtom,
-  fetchClientAtom,
+  fetchClientAtom
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
@@ -26,41 +26,39 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
+  MdChangeCircle,
   MdFactCheck,
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
   MdRemoveCircleOutline,
-  MdChangeCircle,
 } from "react-icons/md";
 import {
   changeViewAtom,
   clientSelectionChangeAtom,
+  dateRangeAtom,
+  endTimeAtom,
   pageRowsSelectionAtom,
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
   selectedProcessorTaskActionAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
   selectedReviewerTaskActionAtom,
   selectedTaskFilterKeysAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
-  taskDataAtom,
-  taskNameAtom,
-  dateRangeAtom,
   startTimeAtom,
-  endTimeAtom,
-  selectedManagerAtom,
-  selectedProcessorAtom,
-  selectedRecurrenceAtom,
-  selectedReviewerAtom,
+  taskDataAtom,
   taskDurationAtom,
   taskInstructionAtom,
+  taskNameAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
-import AddTaskModal from "@/app/components/cms/AddTaskModal";
-import { getHours, getMinutes, getSeconds } from "date-fns";
 
 // @refresh reset
 
@@ -83,7 +81,7 @@ const CMSAdmin = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "endDate",
+    column: "dueDate",
     direction: "descending",
   });
 

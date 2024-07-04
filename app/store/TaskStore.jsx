@@ -4,24 +4,14 @@ import {
   restread,
   restupdate,
 } from "@/app/utils/amplify-rest";
+import { parseDateTime } from "@internationalized/date";
+import { compareAsc, format } from "date-fns";
 import { atom } from "jotai";
 import { toast } from "sonner";
+import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
+import { sendNotification } from "../utils/notificationUtils";
 import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
-import {
-  compareAsc,
-  addDays,
-  addWeeks,
-  addMonths,
-  addQuarters,
-  addYears,
-  format,
-  getHours,
-  getMinutes,
-  getSeconds,
-} from "date-fns";
-import { sendNotification } from "../utils/notificationUtils";
-import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
 
 export const tasksAtom = atom([]);
 
@@ -128,8 +118,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     sla: [...removedDuplicateSLA],
   });
 
-  console.log("RESPONSE FROM UPDATING TASK STATUS", response);
-
   if (response === undefined) return { success: false };
 
   if (response?.success) {
@@ -162,8 +150,6 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
   const user = await get(userAtom);
 
   const taskName = tasks.sla.filter((task) => task._id === task_id)[0]?.name;
-  console.log("taskName", taskName);
-  console.log("key, status_id, task_id", key, status_id, task_id);
   const clientKey = tasks.client.client_id;
   const clientName = tasks.client.name;
   const dateTaskDone = new Date();
@@ -210,10 +196,6 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         return task;
       });
 
-      console.log("SEND NOTIFICATION TO: ", [
-        tasks.processor.map((user) => user.sub),
-        tasks.reviewer.map((user) => user.sub),
-      ]);
       const socketRef = get(notificationSocketRefAtom);
 
       if (status_id === "done") {
@@ -595,8 +577,7 @@ export const tableColumnsAtom = atom([
   { label: "Task  Name", key: "name", sortable: true },
   { label: "Description", key: "description", sortable: false },
   { label: "Status", key: "status", sortable: true },
-  { label: "Start Date", key: "startDate", sortable: true },
-  { label: "Due Date", key: "endDate", sortable: true },
+  { label: "Due Date", key: "dueDate", sortable: true },
   { label: "Assignees", key: "assignees", sortable: false },
   { label: "Actions", key: "action", sortable: false },
 ]);
@@ -679,76 +660,141 @@ export const recurrenceEndTimeAtom = atom((get) => {
 });
 
 export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
-  console.log("CALLED RECURRENCE");
   const tasks = await restread("/cms/task");
 
   if (tasks?.success) {
     const convertedTasks = tasks.response.map((task) => {
-      console.log("task", task.client.name);
       const updatedEndDateTime = task.sla.map((sla) => {
-        console.log("sla", sla);
-        console.log("duration", sla.duration);
-        console.log("recurrence", sla.duration.recurrence);
-        if (sla.duration.recurrence.toLowerCase() === "daily") {
-          console.log("daily add 1 day to sla");
+        if (sla.progress.toLowerCase() === "overdue") {
           return {
             ...sla,
-            duration: {
-              ...sla.duration,
-              end: addDays(sla.duration.end.slice(0, -1), 1),
-            },
+            progress: "Good",
           };
         }
-        if (sla.duration.recurrence.toLowerCase() === "weekly") {
-          console.log("weekly add 1 week to sla");
+        if (sla.status === "todo") {
+          if (sla.duration.recurrence.toLowerCase() === "daily") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    days: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "weekly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    weeks: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "monthly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    months: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "quarterly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    months: 3,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "yearly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    years: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          return sla;
+        } else {
+          return sla;
+        }
+      });
+
+      // console.log("updatedEndDateTime", updatedEndDateTime);
+
+      return { ...task, sla: updatedEndDateTime };
+    });
+
+    const responseAll = await Promise.all(
+      convertedTasks.map(async (task) => {
+        const response = await restupdate("/cms/task", task);
+        return { success: response?.success ?? false };
+      })
+    );
+    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
+
+export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
+  const tasks = await restread("/cms/task");
+  const user = await get(userAtom);
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task) => {
+      const updatedEndDateTime = task.sla.map((sla) => {
+        if (sla.status === "todo") {
+          let isOverdue =
+            compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
           return {
             ...sla,
-            duration: {
-              ...sla.duration,
-              end: addWeeks(sla.duration.end.slice(0, -1), 1),
-            },
+            progress: isOverdue ? "Overdue" : sla.progress,
           };
+        } else {
+          return sla;
         }
-        if (sla.duration.recurrence.toLowerCase() === "monthly") {
-          console.log("monthly add 1 month to sla");
-          return {
-            ...sla,
-            duration: {
-              ...sla.duration,
-              end: addMonths(sla.duration.end.slice(0, -1), 1),
-            },
-          };
-        }
-        if (sla.duration.recurrence.toLowerCase() === "quarterly") {
-          console.log("quarterly add 1 quarter to sla");
-          return {
-            ...sla,
-            duration: {
-              ...sla.duration,
-              end: addQuarters(sla.duration.end.slice(0, -1), 1),
-            },
-          };
-        }
-        if (sla.duration.recurrence.toLowerCase() === "yearly") {
-          console.log("yearly add 1 year to sla");
-          return {
-            ...sla,
-            duration: {
-              ...sla.duration,
-              end: addYears(sla.duration.end.slice(0, -1), 1),
-            },
-          };
-        }
-        console.log("\n");
-        return sla;
       });
 
       return { ...task, sla: updatedEndDateTime };
     });
 
-    console.log("convertedTasks", convertedTasks);
-    set(tasksAtom, convertedTasks);
+    // console.log("convertedTasks", convertedTasks);
+
+    const responseAll = await Promise.all(
+      convertedTasks.map(async (task) => {
+        const response = await restupdate("/cms/task", task);
+        return { success: response?.success ?? false };
+      })
+    );
+    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+    return { success: true };
   } else {
+    return { success: false };
   }
 });
 
