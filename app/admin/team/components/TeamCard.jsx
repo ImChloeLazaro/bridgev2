@@ -1,16 +1,18 @@
 import {
     Card,
     CardHeader,
-    CardBody
+    CardBody,
+    Tabs,
+    Tab,
 } from "@nextui-org/react";
-const TeamCard = () => {
+const TeamCard = ({ children }) => {
     return (
         <Card>
             <CardHeader>
                 <h2>Team Card</h2>
             </CardHeader>
             <CardBody>
-                <p>for innovation team</p>
+                {children}
             </CardBody>
         </Card>
     );

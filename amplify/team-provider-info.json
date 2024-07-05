@@ -78,7 +78,7 @@
         },
         "teamhandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/teamhandler-7a4b4e50594a36563961-build.zip",
+          "s3Key": "amplify-builds/teamhandler-536550626c6e6433656e-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "todohandler": {
@@ -103,7 +103,7 @@
         },
         "bridgev2layer": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersione0893a50-build.zip"
+          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersioncf7acc37-build.zip"
         }
       },
       "auth": {

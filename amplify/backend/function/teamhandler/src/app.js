@@ -46,18 +46,14 @@ app.get('/teams/*', async function(req, res) {
 });
 
 app.post('/teams', async function(req, res) {
-  const employee = {
-    "sub" : "d0229811-67cc-4fb8-915b-38d8029b85df",
-    "department": "TEAM FAST",
-    "immediate_head": {
-      "sub" : "d0229811-67cc-4fb8-915b-38d8029b85df",
-      "name" : "Dennis Penaredondo",
-      "picture" : "https://m.media-amazon.com/images/M/MV5BZjI1MTU2NGItYTY3Yi00Y2U2LTk0N2ItNTBhNmY0ZWZlZmExXkEyXkFqcGdeQXVyNjMwMzc3MjE@._V1_QL75_UX500_CR0,0,500,281_.jpg"
-    },
-    "client": "Non-Blooms"
-  }
+  const {name, heads, members, client} = req.body
   try {
-    const team = await teamModel.create(employee)
+    const team = await teamModel.create({
+      name: name,
+      heads: heads,
+      members: members,
+      client: client
+    })
     res.status(200).json({ success: true, response: team})
   } catch (error) {
     res.json({ error: error }); 

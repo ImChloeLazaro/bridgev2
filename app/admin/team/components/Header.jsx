@@ -1,8 +1,8 @@
 import { Card } from "@nextui-org/react";
-
-import ArchiveTeam from "./Button/ArchiveTeam";
-import UpdateTeam from "./Button/UpdateTeam";
+import ArchiveTeam from "./Modal/ArchiveTeam";
+import UpdateTeam from "./Modal/UpdateTeam";
 import AddTeam from "./Modal/AddTeam";
+
 const TeamManagementHeader = () => {
     return (
         <Card className="flex flex-row justify-between items-center gap-2 p-2 my-2">
