@@ -1,24 +1,28 @@
 const mongoose = require('mongoose');
 
-const members = mongoose.Schema({
+const memberSchema = new mongoose.Schema({
     sub: String,
     name: String,
     email: String,
     picture: String,
-})
-const teamSchema = mongoose.Schema({
+    position: {default: 'Current Position', type: String},
+    status: {default: 'active', type: String},
+    tenure_status: {default: 'Tenure Status', type: String},
+});
+
+const teamSchema = new mongoose.Schema({
     name: String,
-    heads: [members],
-    members: [members],
+    heads: [memberSchema],
+    members: [memberSchema],
     client: String,
     status: {
-      type: String,
-      default: 'active'
-    }, // active, archived
+        type: String,
+        default: 'active'
+    },
     created_at: {
         type: Date,
         default: Date.now
     }
-  })
-//   const teamModel = mongoose.model("employee_team", teamSchema
-module.exports = mongoose.model('employee_team', teamSchema)
+});
+
+module.exports = mongoose.model('Team', teamSchema);

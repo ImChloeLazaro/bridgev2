@@ -1,40 +1,77 @@
-import {
-    useDisclosure,
-    Input
-} from "@nextui-org/react";
-import UpdateTeamButton from "../Button/UpdateTeamButton";
+import { useEffect, useState } from "react";
+import { Input } from "@nextui-org/react";
 import ModalComponent from "./ModalComponent";
+import MemberSelect from "../MemberSelect";
+import { restupdate } from "@/app/utils/amplify-rest";
 
-const UpdateTeam = () => {
-    const {
-        isOpen,
-        onOpen,
-        onOpenChange
-    } = useDisclosure();
+const UpdateTeam = ({ onOpenChange, isOpen, teamData, updateTeamInList }) => {
+    const [team, setTeam] = useState(teamData || { name: '', client: '', heads: [], members: [] });
 
-    const onsubmit = (e) => {
+    useEffect(() => {
+        if (teamData) {
+            setTeam(teamData);
+        }
+    }, [teamData]);
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-        console.log('update Team');
-    }
+        try {
+            const response = await restupdate('/teams', team);
+            if(response.modifiedCount != 0){
+                updateTeamInList(team); // Update the team in the list
+              } 
+            onOpenChange(false); // Close the modal after submitting
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleTeamMembersSelect = (selected) => {
+        setTeam({ ...team, members: selected });
+    };
+
+    const handleTeamHeadsSelect = (selected) => {
+        setTeam({ ...team, heads: selected });
+    };
 
     return (
-        <>
-            <UpdateTeamButton onClick={onOpenChange} />
-            <ModalComponent
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
-                title={'Update Team'}
-                action={onsubmit}
-                actionName={'Update'}
-            >
+        <ModalComponent
+            isOpen={isOpen}
+            onOpenChange={onOpenChange} // Ensure onOpenChange is correctly passed
+            title={'Update Team'}
+            action={onSubmit}
+            actionName={'Update'}
+        >
+            {team && (
                 <div className="flex flex-col space-y-4">
-                    <Input type="text" label="Enter Team Name" />
-                    <Input type="text" label="Enter Team Head" />
-                    <Input type="text" label="Enter Client" />
+                    <Input 
+                        type="text" 
+                        label="Enter Team Name" 
+                        defaultValue={team.name}
+                        onChange={e => setTeam({ ...team, name: e.target.value })} 
+                    />
+                    <Input 
+                        type="text" 
+                        label="Enter Client" 
+                        defaultValue={team.client} 
+                        onChange={e => setTeam({ ...team, client: e.target.value })} 
+                    />
+                    <MemberSelect
+                        placeholder="Select Team Heads"
+                        name="teamHeads"
+                        handleInvitees={handleTeamHeadsSelect}
+                        defaultSelectedKeys={new Set(team.heads)} // Pass objects directly
+                    />
+                    <MemberSelect
+                        placeholder="Select Team Members"
+                        name="teamMembers"
+                        handleInvitees={handleTeamMembersSelect}
+                        defaultSelectedKeys={new Set(team.members)} // Pass objects directly
+                    />
                 </div>
-            </ModalComponent>
-        </>
-    )
-}
+            )}
+        </ModalComponent>
+    );
+};
 
 export default UpdateTeam;

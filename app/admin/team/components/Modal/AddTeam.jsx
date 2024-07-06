@@ -9,7 +9,8 @@ import ModalComponent from "./ModalComponent";
 import MemberSelect from "../MemberSelect";
 
 import { restinsert } from "@/app/utils/amplify-rest";
-const AddTeam = () => {
+
+const AddTeam = ({ addNewTeamToList }) => {
     const [team, setTeam] = useState({})
     const {
         isOpen,
@@ -21,7 +22,8 @@ const AddTeam = () => {
         e.preventDefault();
         try {
             const addTeam = await restinsert('/teams', team)
-            console.log(addTeam)
+            console.log('REST INSERT', addTeam)
+            addNewTeamToList(addTeam.response); // Update the list
             onOpenChange()
         } catch (error) {
             console.log(error)   
@@ -48,7 +50,7 @@ const AddTeam = () => {
             >
                 <div className="flex flex-col space-y-4">
                     <Input type="text" label="Enter Team Name" onChange={e => setTeam({ ...team, name: e.target.value })} />
-                    <Input type="text" label="Enter Client" />
+                    <Input type="text" label="Enter Client" onChange={e => setTeam({...team, client: e.target.value})} />
                     <MemberSelect
                         placeholder="Select Team Heads"
                         name="teamHeads"

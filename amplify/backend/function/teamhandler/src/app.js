@@ -19,7 +19,6 @@ mongoose.connect(process.env.DATABASE)
 
 app.get('/teams', async function(req, res) {
   try {
-    const {sub} = req.query
     const team = await teamModel.find()
     res.status(200).json({ success: true, response: team})
   } catch (error) {
@@ -48,27 +47,47 @@ app.get('/teams/*', async function(req, res) {
 app.post('/teams', async function(req, res) {
   const {name, heads, members, client} = req.body
   try {
-    const team = await teamModel.create({
-      name: name,
-      heads: heads,
-      members: members,
-      client: client
-    })
-    res.status(200).json({ success: true, response: team})
+    if (!name || !client || !heads || !members) {
+      return res.status(400).json({ error: 'Missing required fields' });
+  }
+    const team = await teamModel.create(req.body)
+    res.status(200).json({ success: true, response: team, body: req.body})
   } catch (error) {
     res.json({ error: error }); 
   }
 });
 
+app.put('/teams/*', async function(req, res) {
+  try {
+    const {status, _id} = req.body;
+    const key = req.path;
+
+    switch (key) {
+      case '/teams/activeOrArchive':
+        const team = await teamModel.updateOne({_id}, {status})
+        res.json({ success: true, response: team });
+        break;
+      default:
+        res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        break;
+    }
+  } catch (error) {
+    res.json({ error: error }); 
+  }
+})
 app.put('/teams', async function(req, res) {
   try {
-    const {sub, department, immediate_head, client} = req.body
-    const team = await teamModel.updateOne({sub: sub}, {department: department, immediate_head: immediate_head, client: client})
+    const {_id, name, heads, members, client} = req.body
+    const team = await teamModel.updateOne({_id}, {
+      name,
+      heads,
+      members,
+      client
+    })
     res.status(200).json({ success: true, response: team})
   } catch (error) {
     res.json({ error: error });
   }
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
 
