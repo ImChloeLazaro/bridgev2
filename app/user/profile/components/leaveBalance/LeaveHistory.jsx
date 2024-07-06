@@ -76,7 +76,7 @@ const LeaveHistory = ({ ...props }) => {
     useEffect(() => {
         const getLeaveHistory = async () => {
             const leave = await readwithparams("/leaverequest/myLeaveRequest", { sub: sub });
-            console.log('Leave history: =>', leave.response);
+            // console.log('Leave history: =>', leave.response);
             setLeaveHistory(leave.response);
         }
         getLeaveHistory();

@@ -4,13 +4,14 @@ import {
   restread,
   restupdate,
 } from "@/app/utils/amplify-rest";
+import { parseDateTime } from "@internationalized/date";
+import { compareAsc, format } from "date-fns";
 import { atom } from "jotai";
 import { toast } from "sonner";
+import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
+import { sendNotification } from "../utils/notificationUtils";
 import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
-import { format } from "date-fns";
-import { sendNotification } from "../utils/notificationUtils";
-import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
 
 export const tasksAtom = atom([]);
 
@@ -89,10 +90,10 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
-  const response = await destroywithparams("/cms/client", {
+  const response = await destroywithparams("/cms/task", {
     // _id of sla #/cms/task
     // _id of client obj #/cms/client
-    _id: "665922e6167b35aedc883977", // "665922e6167b35aedc883977"
+    _id: "667222db41a835187038f0db", // "665922e6167b35aedc883977"
   });
   if (response?.success) {
     return { success: true };
@@ -108,9 +109,13 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
     (task) => task.client?.client_id === client_id
   );
 
+  const removedDuplicateSLA = [...sla, ...taskToBeUpdated[0].sla].filter(
+    (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
+  );
+
   const response = await restupdate("/cms/task", {
     ...taskToBeUpdated[0],
-    sla: [...sla],
+    sla: [...removedDuplicateSLA],
   });
 
   if (response === undefined) return { success: false };
@@ -134,27 +139,42 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
   const {
     sound,
     tasks,
-    task_id,
+    // task_id,
     selectedProcessorTaskAction,
     selectedReviewerTaskAction,
     setSelectedProcessorTaskAction,
     setSelectedReviewerTaskAction,
   } = update;
 
-  const { key, status_id } = get(selectedTaskActionAtom);
+  const { key, status_id, task_id } = get(selectedTaskActionAtom);
   const user = await get(userAtom);
 
+  const taskName = tasks.sla.filter((task) => task._id === task_id)[0]?.name;
   const clientKey = tasks.client.client_id;
   const clientName = tasks.client.name;
   const dateTaskDone = new Date();
 
+  const processors = tasks.processor?.map((user) => user.sub);
+  const reviewers = tasks.reviewer?.map((user) => user.sub);
+  const everyone = [...processors, ...reviewers];
+
+  const assigneeCountMsg = (list) => {
+    let size = list.length;
+
+    if (size > 3) {
+      return `${list.slice(0, 2).join(", ")} and ${size - 2} others`;
+    }
+    if (size == 3) {
+      return `${list.slice(0, 2).join(", ")} and ${list.slice(-1)}`;
+    }
+
+    return list.join(size == 2 ? " & " : ", ");
+  };
+
   if (key === "mark") {
-    let taskName;
     if (status_id === "forReview" || status_id === "done") {
       const updateSelectedTask = tasks.sla.map((task) => {
         if (task._id === task_id) {
-          taskName = task?.name;
-
           if (status_id === "done") {
             return {
               ...task,
@@ -176,18 +196,14 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         return task;
       });
 
-      console.log("SEND NOTIFICATION TO: ", [
-        tasks.processor.map((user) => user.sub),
-        tasks.reviewer.map((user) => user.sub),
-      ]);
       const socketRef = get(notificationSocketRefAtom);
 
       if (status_id === "done") {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: tasks.processor?.map((user) => user.sub),
-          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          subs: processors,
+          title: `${user?.name} has completed task [${taskName}] for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
           notified_from: user,
@@ -199,8 +215,8 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: tasks.reviewer?.map((user) => user.sub),
-          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
+          subs: reviewers,
+          title: `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Marked for Review: ${format(
             dateTaskDone,
@@ -210,16 +226,6 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
           route: "set",
         });
       }
-
-      console.log(
-        `${user?.name} has completed [${taskName}] for ${clientName}.`
-      );
-      console.log(
-        `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`
-      );
-      console.log(
-        `${user?.name} has escalated [${taskName}] for ${clientName}.`
-      );
 
       const promise = async () =>
         new Promise((resolve) =>
@@ -264,31 +270,85 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
       return task;
     });
 
-    const promise = async () =>
-      new Promise((resolve) =>
-        setTimeout(
-          async () =>
-            resolve(
-              await set(updateTaskStatusAtom, {
-                sla: updateSelectedTask,
-                client_id: clientKey,
-              }),
-              await set(fetchTaskAtom, {})
-            ),
-          2000
-        )
-      );
-    toast.promise(promise, {
-      description: `${format(dateTaskDone, "PPpp")}`,
-      loading: `Escalating Task to ${
-        status_id[0].toUpperCase() + status_id.slice(1)
-      }`,
-      success: () => {
-        return "Please wait for further instructions";
-      },
+    const socketRef = get(notificationSocketRefAtom);
+    if (key === "escalate") {
+      sendNotification({
+        socketRef: socketRef,
+        action: "notification",
+        subs: reviewers,
+        title: `${user?.name} has escalated [${taskName}] for ${clientName}.`,
+        type: ["mentioned"],
+        description: `Task Escalation: ${format(dateTaskDone, "PPpp")}`,
+        notified_from: user,
+        route: "set",
+      });
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await set(updateTaskStatusAtom, {
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                }),
+                await set(fetchTaskAtom, {})
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Escalating Task to ${
+          status_id[0].toUpperCase() + status_id.slice(1)
+        }`,
+        success: () => {
+          sound();
+          return "Please wait for further instructions";
+        },
 
-      error: "Error Escalating Task",
-    });
+        error: "Error Escalating Task",
+      });
+    }
+
+    if (key === "resolve") {
+      sendNotification({
+        socketRef: socketRef,
+        action: "notification",
+        subs: processors,
+        title: `${user?.name} has resolved escalation of [${taskName}] for ${clientName}.`,
+        type: ["mentioned"],
+        description: `Task Escalation Resolved: ${format(
+          dateTaskDone,
+          "PPpp"
+        )}`,
+        notified_from: user,
+        route: "set",
+      });
+      const promise = async () =>
+        new Promise((resolve) =>
+          setTimeout(
+            async () =>
+              resolve(
+                await set(updateTaskStatusAtom, {
+                  sla: updateSelectedTask,
+                  client_id: clientKey,
+                }),
+                await set(fetchTaskAtom, {})
+              ),
+            2000
+          )
+        );
+      toast.promise(promise, {
+        description: `${format(dateTaskDone, "PPpp")}`,
+        loading: `Resolving Task [${taskName}]`,
+        success: () => {
+          sound();
+          return "Task Resolved Successfully";
+        },
+
+        error: "Error Escalating Task",
+      });
+    }
   }
 
   if (key === "assign") {
@@ -302,6 +362,25 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         Array.from(selectedReviewerTaskAction).includes(user.sub) &&
         !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
     );
+
+    const newAssignees = [
+      ...assignProcessorAssignees.map((assignee) => assignee?.name),
+      ...assignReviewerAssignees.map((assignee) => assignee?.name),
+    ];
+
+    const socketRef = get(notificationSocketRefAtom);
+    sendNotification({
+      socketRef: socketRef,
+      action: "notification",
+      subs: everyone,
+      title: `${user?.name} has assigned ${assigneeCountMsg(
+        newAssignees
+      )} for ${clientName}.`,
+      type: ["mentioned"],
+      description: `New Task Assignee: ${format(dateTaskDone, "PPpp")}`,
+      notified_from: user,
+      route: "set",
+    });
 
     const promise = async () =>
       new Promise((resolve) =>
@@ -323,6 +402,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     toast.promise(promise, {
       loading: "Assigning New Member...",
       success: () => {
+        sound();
         return `New Member Assigned successfully`;
       },
       error: "Error assigning new member",
@@ -360,6 +440,25 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     //   return task;
     // });
 
+    const removeAssignees = [
+      ...removeProcessorAssignees.map((assignee) => assignee?.name),
+      ...removeReviewerAssignees.map((assignee) => assignee?.name),
+    ];
+
+    const socketRef = get(notificationSocketRefAtom);
+    sendNotification({
+      socketRef: socketRef,
+      action: "notification",
+      subs: everyone,
+      title: `${user?.name} has removed ${assigneeCountMsg(
+        removeAssignees
+      )} for ${clientName}.`,
+      type: ["mentioned"],
+      description: `Remove Task Assignee: ${format(dateTaskDone, "PPpp")}`,
+      notified_from: user,
+      route: "set",
+    });
+
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
@@ -388,6 +487,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     toast.promise(promise, {
       loading: "Removing Member...",
       success: () => {
+        sound();
         return `Member Removed successfully`;
       },
       error: "Error removing member",
@@ -477,8 +577,7 @@ export const tableColumnsAtom = atom([
   { label: "Task  Name", key: "name", sortable: true },
   { label: "Description", key: "description", sortable: false },
   { label: "Status", key: "status", sortable: true },
-  { label: "Start Date", key: "startDate", sortable: true },
-  { label: "End Date", key: "endDate", sortable: true },
+  { label: "Due Date", key: "dueDate", sortable: true },
   { label: "Assignees", key: "assignees", sortable: false },
   { label: "Actions", key: "action", sortable: false },
 ]);
@@ -510,20 +609,20 @@ export const taskFilterKeysAtom = atom([
 
 export const taskBoardColsAtom = atom([
   {
-    id: "forReview",
-    title: "For Review",
-  },
-  {
-    id: "done",
-    title: "Done",
+    id: "pending",
+    title: "Pending",
   },
   {
     id: "todo",
     title: "To Do",
   },
   {
-    id: "pending",
-    title: "Pending",
+    id: "forReview",
+    title: "For Review",
+  },
+  {
+    id: "done",
+    title: "Done",
   },
   // {
   //   id: "undefined",
@@ -550,6 +649,152 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
 
     set(tasksAtom, convertedTasks);
   } else {
+  }
+});
+
+export const recurrenceStartTimeAtom = atom((get) => {
+  return 8;
+});
+export const recurrenceEndTimeAtom = atom((get) => {
+  return 5;
+});
+
+export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
+  const tasks = await restread("/cms/task");
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task) => {
+      const updatedEndDateTime = task.sla.map((sla) => {
+        if (sla.progress.toLowerCase() === "overdue") {
+          return {
+            ...sla,
+            progress: "Good",
+          };
+        }
+        if (sla.status === "todo") {
+          if (sla.duration.recurrence.toLowerCase() === "daily") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    days: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "weekly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    weeks: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "monthly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    months: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "quarterly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    months: 3,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          if (sla.duration.recurrence.toLowerCase() === "yearly") {
+            return {
+              ...sla,
+              duration: {
+                ...sla.duration,
+                end: parseDateTime(sla.duration.end.slice(0, -1))
+                  .add({
+                    years: 1,
+                  })
+                  .toString(),
+              },
+            };
+          }
+          return sla;
+        } else {
+          return sla;
+        }
+      });
+
+      // console.log("updatedEndDateTime", updatedEndDateTime);
+
+      return { ...task, sla: updatedEndDateTime };
+    });
+
+    const responseAll = await Promise.all(
+      convertedTasks.map(async (task) => {
+        const response = await restupdate("/cms/task", task);
+        return { success: response?.success ?? false };
+      })
+    );
+    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
+
+export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
+  const tasks = await restread("/cms/task");
+  const user = await get(userAtom);
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task) => {
+      const updatedEndDateTime = task.sla.map((sla) => {
+        if (sla.status === "todo") {
+          let isOverdue =
+            compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
+          return {
+            ...sla,
+            progress: isOverdue ? "Overdue" : sla.progress,
+          };
+        } else {
+          return sla;
+        }
+      });
+
+      return { ...task, sla: updatedEndDateTime };
+    });
+
+    // console.log("convertedTasks", convertedTasks);
+
+    const responseAll = await Promise.all(
+      convertedTasks.map(async (task) => {
+        const response = await restupdate("/cms/task", task);
+        return { success: response?.success ?? false };
+      })
+    );
+    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+    return { success: true };
+  } else {
+    return { success: false };
   }
 });
 

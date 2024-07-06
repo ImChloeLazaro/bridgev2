@@ -8,6 +8,7 @@ import {
 import {
   Avatar,
   AvatarGroup,
+  cn,
   Image,
   Link,
   Spinner,
@@ -19,16 +20,16 @@ import {
   TableRow,
   useDisclosure,
 } from "@nextui-org/react";
-import { compareAsc, differenceInDays, format } from "date-fns";
+import { compareAsc, format } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
+import useSound from "use-sound";
 import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
-import useSound from "use-sound";
 
 // @refresh reset
 
@@ -58,7 +59,7 @@ const TaskTableView = ({
   isLoading,
   isMobile,
 }) => {
-  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [taskId, setTaskId] = useState("");
 
@@ -101,13 +102,7 @@ const TaskTableView = ({
         }
       }
 
-      if (sortDescriptor.column === "startDate") {
-        first = a["duration"].start;
-        second = b["duration"].start;
-        cmp = compareAsc(new Date(first), new Date(second));
-      }
-
-      if (sortDescriptor.column === "endDate") {
+      if (sortDescriptor.column === "dueDate") {
         first = a["duration"].end;
         second = b["duration"].end;
         cmp = compareAsc(new Date(first), new Date(second));
@@ -123,22 +118,12 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
-      setTaskId(task._id ? task._id : "");
-      const difference = Boolean(
-        differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
-          task.status === "todo"
-      );
+      const isOverdue = task.progress.toLowerCase() === "overdue";
+      const difference =
+        compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
+        task.status === "todo";
 
       const cellValue = task[columnKey];
-      const processorList = task.processor.map((processor) => (
-        <Avatar
-          key={processor.sub}
-          src={processor.picture}
-          classNames={{
-            base: ["w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large"],
-          }}
-        />
-      ));
 
       const actionOptions = [
         {
@@ -191,7 +176,7 @@ const TaskTableView = ({
                   classNameLabel={"text-sm lg:text-md capitalize"}
                 />
               )}
-              {difference && (
+              {isOverdue && (
                 <LabelTagChip
                   size={"md"}
                   text={"Overdue"}
@@ -205,34 +190,19 @@ const TaskTableView = ({
             </div>
           );
 
-        case "startDate":
+        case "dueDate":
           return (
             <>
-              <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
-                {format(
-                  task.duration.start?.length
-                    ? task.duration.start.slice(0, -1)
-                    : "",
-                  "PP",
-                  { locale: enAU }
+              <p
+                className={cn(
+                  "min-w-fit text-sm lg:text-lg font-bold text-black-default",
+                  `${
+                    task.status === "done" || isOverdue
+                      ? "line-through text-darkgrey-default/80"
+                      : ""
+                  }`
                 )}
-              </p>
-              <p className="min-w-fit text-sm lg:text-base font-bold text-black-default">
-                {format(
-                  task.duration.start?.length
-                    ? task.duration.start.slice(0, -1)
-                    : "",
-                  "p",
-                  { locale: enAU }
-                )}
-              </p>
-            </>
-          );
-
-        case "endDate":
-          return (
-            <>
-              <p className="min-w-fit text-sm lg:text-lg font-bold text-black-default">
+              >
                 {format(
                   task.duration.end?.length
                     ? task.duration.end.slice(0, -1)
@@ -241,7 +211,16 @@ const TaskTableView = ({
                   { locale: enAU }
                 )}
               </p>
-              <p className="min-w-fit text-sm lg:text-base font-bold text-black-default">
+              <p
+                className={cn(
+                  "min-w-fit text-sm lg:text-base font-bold text-black-default",
+                  `${
+                    task.status === "done" || isOverdue
+                      ? "line-through text-darkgrey-default/80"
+                      : ""
+                  }`
+                )}
+              >
                 {format(
                   task.duration.end?.length
                     ? task.duration.end.slice(0, -1)
@@ -302,17 +281,12 @@ const TaskTableView = ({
             <>
               <TaskOptionsDropdown
                 task_id={task._id}
-                tasks={tasksFromSelectedClient[0]}
                 actions={actionOptions}
                 trigger={<BiDotsVerticalRounded size={24} />}
                 isEscalated={task.escalate}
-                isOverdue={difference}
+                isOverdue={isOverdue}
                 confirmationWindow={confirmationWindow}
                 taskActionWindow={taskActionWindow}
-                selectedProcessorTaskAction={selectedProcessorTaskAction}
-                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-                selectedReviewerTaskAction={selectedReviewerTaskAction}
-                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
               />
             </>
           );
@@ -321,17 +295,7 @@ const TaskTableView = ({
           return cellValue;
       }
     },
-    [
-      actions,
-      confirmationWindow,
-      isMobile,
-      selectedProcessorTaskAction,
-      selectedReviewerTaskAction,
-      setSelectedProcessorTaskAction,
-      setSelectedReviewerTaskAction,
-      taskActionWindow,
-      tasksFromSelectedClient,
-    ]
+    [actions, confirmationWindow, isMobile, taskActionWindow]
   );
 
   return !selectedClientToView?.length ? (
@@ -373,7 +337,10 @@ const TaskTableView = ({
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
         selectionBehavior={"toggle"}
-        // onRowAction={(key) => alert(`Opening item ${key}...`)}
+        // onRowAction={(key) => {
+        //   alert(`Opening item ${key}...`);
+        //   taskActionWindow.onOpen();
+        // }}
         classNames={{
           base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2",
           tbody: "h-full max-h-screen",
@@ -389,10 +356,9 @@ const TaskTableView = ({
             "text-md lg:text-lg font-extrabold text-darkgrey-hover",
           ],
           td: [
-            "[&:nth-child(8)]:w-1/12", // actions
-            "[&:nth-child(7)]:w-1/12", // assignees
-            "[&:nth-child(6)]:w-2/12", // end date
-            "[&:nth-child(5)]:w-1/12", // start date
+            "[&:nth-child(7)]:w-1/12", // actions
+            "[&:nth-child(6)]:w-1/12", // assignees
+            "[&:nth-child(5)]:w-2/12", // end date
             "[&:nth-child(4)]:w-2/12", // status
             "[&:nth-child(3)]:w-4/12", // description
             "[&:nth-child(2)]:w-2/12", // task name
@@ -424,7 +390,7 @@ const TaskTableView = ({
           }
         >
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item._id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
@@ -443,7 +409,7 @@ const TaskTableView = ({
         action_params={{
           sound: play,
           tasks: tasksFromSelectedClient[0],
-          task_id: taskId,
+          // task_id: taskId,
           selectedProcessorTaskAction: selectedProcessorTaskAction,
           selectedReviewerTaskAction: selectedReviewerTaskAction,
           setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,

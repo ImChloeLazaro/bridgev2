@@ -1,16 +1,6 @@
-import {
-  cn,
-  Divider,
-  Input,
-  Chip,
-  Select,
-  SelectItem,
-  Textarea,
-} from "@nextui-org/react";
-import { Avatar } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
 import { useMemo, useState } from "react";
-import { MdGroups, MdPerson } from "react-icons/md";
+import { MdPerson } from "react-icons/md";
 const FormFieldSelect = ({
   label,
   items = { label: "label", key: "key", value: "value" },
@@ -21,6 +11,7 @@ const FormFieldSelect = ({
   // selectionContent,
   isRequired,
   isDisabled,
+  disabledValidation = false,
   errorMessage,
   renderItemPicture = false,
   renderType = "dropdown",
@@ -90,12 +81,15 @@ const FormFieldSelect = ({
   };
 
   const isInvalid = useMemo(() => {
+    if (disabledValidation) {
+      return false;
+    }
     let validSelections = new Set(
       [...items].map((item) => (item?.sub ? item?.sub : item?.key))
     );
 
     return validSelections.intersection(selected)?.size === 0;
-  }, [items, selected]);
+  }, [disabledValidation, items, selected]);
 
   return (
     <Select

@@ -4,7 +4,7 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
 } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import CTAButtons from "../CTAButtons";
@@ -105,6 +105,7 @@ const TaskActionModal = ({
                       selectionMode={"multiple"}
                       items={processorsSelection}
                       selectedKeys={selectedProcessorTaskAction}
+                      disabledValidation={true}
                       onSelectionChange={setSelectedProcessorTaskAction}
                       renderType={"chip"}
                       renderItemPicture={true}
@@ -120,6 +121,7 @@ const TaskActionModal = ({
                       selectionMode={"multiple"}
                       items={reviewersSelection}
                       selectedKeys={selectedReviewerTaskAction}
+                      disabledValidation={true}
                       onSelectionChange={setSelectedReviewerTaskAction}
                       renderType={"chip"}
                       renderItemPicture={true}
@@ -140,6 +142,7 @@ const TaskActionModal = ({
                       selectionMode={"multiple"}
                       items={processors}
                       selectedKeys={selectedProcessorTaskAction}
+                      disabledValidation={true}
                       onSelectionChange={setSelectedProcessorTaskAction}
                       renderType={"chip"}
                       renderItemPicture={true}
@@ -155,6 +158,7 @@ const TaskActionModal = ({
                       selectionMode={"multiple"}
                       items={reviewers}
                       selectedKeys={selectedReviewerTaskAction}
+                      disabledValidation={true}
                       onSelectionChange={setSelectedReviewerTaskAction}
                       renderType={"chip"}
                       renderItemPicture={true}
@@ -175,7 +179,7 @@ const TaskActionModal = ({
               />
               <CTAButtons
                 type={"submit"}
-                isDisabled={!isDisabled}
+                // isDisabled={!isDisabled}
                 label={windowDetails[selectedTaskAction.key]?.label}
                 color={windowDetails[selectedTaskAction.key]?.color}
                 onPress={() => {

@@ -22,7 +22,7 @@ export const authOptions = {
             if (user) {
                 token = { ...user, ...account, ...profile };
             }
-            console.log("token: ", token);
+            // console.log("token: ", token);
             return token;
         },
         async session(session, token) {

@@ -1,18 +1,20 @@
+import { notificationSocketRefAtom } from "@/app/navigation/store/NotificationsStore";
 import {
   fetchTaskAtom,
   taskBoardColsAtom,
   updateTaskStatusAtom,
 } from "@/app/store/TaskStore";
 import { userAtom } from "@/app/store/UserStore";
+import { sendNotification } from "@/app/utils/notificationUtils";
 import {
   closestCorners,
   DndContext,
   DragOverlay,
-  useSensor,
-  useSensors,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { Image, Link } from "@nextui-org/react";
@@ -22,15 +24,9 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { MdRefresh } from "react-icons/md";
 import { toast } from "sonner";
+import useSound from "use-sound";
 import ColumnContainer from "./ColumnContainer";
 import TaskBoardCard from "./TaskBoardCard";
-import {
-  restrictToHorizontalAxis,
-  restrictToWindowEdges,
-} from "@dnd-kit/modifiers";
-import { notificationSocketRefAtom } from "@/app/navigation/store/NotificationsStore";
-import { sendNotification } from "@/app/utils/notificationUtils";
-import useSound from "use-sound";
 
 const TaskBoardView = ({
   itemTasks,
@@ -47,7 +43,7 @@ const TaskBoardView = ({
   isLoading,
   isMobile,
 }) => {
-  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
   const user = useAtomValue(userAtom);
   const socketRef = useAtomValue(notificationSocketRefAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
@@ -280,7 +276,7 @@ const TaskBoardView = ({
   // }
 
   function onDragStart(event) {
-    console.log("DRAG START:", event);
+    // console.log("DRAG START:", event);
 
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -296,14 +292,14 @@ const TaskBoardView = ({
   }
 
   function onDragEnd(event) {
-    console.log("DRAG END", event);
+    // console.log("DRAG END", event);
 
-    if (Object.keys(taskStatusIndex).length !== 0) {
-      updateTaskStatus({
-        sla: taskStatusIndex,
-        client_id: selectedClientToView,
-      });
-    }
+    // if (Object.keys(taskStatusIndex).length !== 0) {
+    //   updateTaskStatus({
+    //     sla: taskStatusIndex,
+    //     client_id: selectedClientToView,
+    //   });
+    // }
 
     setActiveColumn(null);
     setActiveTask(null);
@@ -315,14 +311,139 @@ const TaskBoardView = ({
     const overId = over.id;
 
     const taskActive = active.data.current?.task;
-    const taskOver = over.data.current?.task?._id;
 
     const taskName = taskActive?.name;
-    const clientName = taskActive?.client?.name;
+    const clientName = tasksFromSelectedClient[0]?.client?.name;
     const dateTaskDone = new Date();
 
-    if (taskActive?.status === "done") {
-      if (taskStatusBeforeDone !== taskActive.status) {
+    const processors = tasksFromSelectedClient[0]?.processor?.map(
+      (user) => user.sub
+    );
+    const reviewers = tasksFromSelectedClient[0]?.reviewer?.map(
+      (user) => user.sub
+    );
+    const everyone = [...processors, ...reviewers];
+
+     if (taskStatusBeforeDone !== taskActive.status) {
+      if (taskActive?.status === "todo") {
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: everyone,
+          title: `${user?.name} has marked this task as To Do [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Marked as ToDo: ${format(dateTaskDone, "PPpp")}`,
+          notified_from: user,
+          route: "set",
+        });
+
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: taskStatusIndex,
+                    client_id: selectedClientToView,
+                  }),
+                  await fetchTask()
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            play();
+            return `Task Status Updated: ${taskActive.name} `;
+          },
+
+          error: "Error Updating Task Status",
+        });
+      }
+      if (taskActive?.status === "pending") {
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: everyone,
+          title: `${user?.name} has marked this task as Pending [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Marked as Pending: ${format(
+            dateTaskDone,
+            "PPpp"
+          )}`,
+          notified_from: user,
+          route: "set",
+        });
+
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: taskStatusIndex,
+                    client_id: selectedClientToView,
+                  }),
+                  await fetchTask()
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            play();
+            return `Task Status Updated: ${taskActive.name} `;
+          },
+
+          error: "Error Updating Task Status",
+        });
+      }
+      if (taskActive?.status === "forReview") {
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: reviewers,
+          title: `${user?.name} has marked this task for review [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Marked for Review: ${format(
+            dateTaskDone,
+            "PPpp"
+          )}`,
+          notified_from: user,
+          route: "set",
+        });
+
+        const promise = async () =>
+          new Promise((resolve) =>
+            setTimeout(
+              async () =>
+                resolve(
+                  await updateTaskStatus({
+                    sla: taskStatusIndex,
+                    client_id: selectedClientToView,
+                  }),
+                  await fetchTask()
+                ),
+              2000
+            )
+          );
+        toast.promise(promise, {
+          description: `${format(dateTaskDone, "PPpp")}`,
+          loading: "Updating Task Status...",
+          success: () => {
+            play();
+            return `Task Status Updated: ${taskActive.name} `;
+          },
+
+          error: "Error Updating Task Status",
+        });
+      }
+
+      if (taskActive?.status === "done") {
         const dateTaskDone = new Date();
 
         const updateSelectedTask = tasksFromSelectedClient[0].sla.map(
@@ -350,6 +471,17 @@ const TaskBoardView = ({
           }
         );
 
+        sendNotification({
+          socketRef: socketRef,
+          action: "notification",
+          subs: processors,
+          title: `${user?.name} has completed task [${taskName}] for ${clientName}.`,
+          type: ["mentioned"],
+          description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
+          notified_from: user,
+          route: "set",
+        });
+
         const promise = async () =>
           new Promise((resolve) =>
             setTimeout(
@@ -369,36 +501,12 @@ const TaskBoardView = ({
           loading: "Updating Task Status...",
           success: () => {
             play();
-            return `Task Completed: ${taskActive.name} `;
+            return `Task Status Updated: ${taskActive.name} `;
           },
 
           error: "Error Updating Task Status",
         });
-
-        sendNotification({
-          socketRef: socketRef,
-          action: "notification",
-          subs: tasks.processor?.map((user) => user.sub),
-          title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
-          type: ["mentioned"],
-          description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
-          notified_from: user,
-          route: "set",
-        });
       }
-    }
-
-    if (taskActive?.status === "forReview") {
-      sendNotification({
-        socketRef: socketRef,
-        action: "notification",
-        subs: tasks.reviewer?.map((user) => user.sub),
-        title: `${user?.name} has completed [${taskName}] for ${clientName}.`,
-        type: ["mentioned"],
-        description: `Task Marked for Review: ${format(dateTaskDone, "PPpp")}`,
-        notified_from: user,
-        route: "set",
-      });
     }
 
     if (activeId === overId) return;
@@ -420,7 +528,7 @@ const TaskBoardView = ({
   }
 
   function onDragOver(event) {
-    console.log("DRAG OVER", event);
+    // console.log("DRAG OVER", event);
 
     const { active, over } = event;
     if (!over) return;

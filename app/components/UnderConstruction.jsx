@@ -1,10 +1,11 @@
 import { Image } from "@nextui-org/react";
+
 export function UnderConstruction({ src }) {
   return (
-    <div className="w-full max-h-screen m-0 p-0">
-      <div className="h-full flex items-center justify-center">
-        <div className="flex flex-col items-center gap-6 lg:gap-12">
-          <p className="text-black-default font-bold text-[2rem] lg:text-[3.5rem] text-center">
+    <div className="flex justify-center items-center h-full w-full p-2 md:p-0 border-2">
+      <div>
+        <div className="my-2 md:hidden block">
+          <p className="text-black-default font-bold text-[2rem] lg:text-[3.5rem] text-center leading-none">
             {"OOPS! WE'RE SORRY!"}
           </p>
           <p className="text-black-default font-bold text-md lg:text-lg text-center">
@@ -12,13 +13,13 @@ export function UnderConstruction({ src }) {
               "We'll be back very soon. We are currently developing this page and will be online soon. Stay tuned."
             }
           </p>
-          <Image
-            src={src}
-            alt="Page under construction"
-            radius="none"
-            className="justify-center h-full object-contain"
-          />
         </div>
+        <Image
+          src={src}
+          alt="Page under construction"
+          removeWrapper
+          className="h-[60%] max-h-80 md:max-h-full md:h-full w-full object-cover md:rounded-none"
+        />
       </div>
     </div>
   );

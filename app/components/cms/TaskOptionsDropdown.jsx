@@ -10,6 +10,7 @@ import {
 import { useSetAtom } from "jotai";
 
 const TaskOptionsDropdown = ({
+  task_id,
   actions,
   trigger,
   isEscalated,
@@ -65,6 +66,7 @@ const TaskOptionsDropdown = ({
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
+                        task_id: task_id,
                       });
                       confirmationWindow.onOpen();
                     }}
@@ -87,6 +89,7 @@ const TaskOptionsDropdown = ({
               //       setSelectedTaskAction({
               //         key: item.key,
               //         status_id: item.status_id,
+              //         task_id: task_id
               //       });
               //       confirmationWindow.onOpen();
               //     }}
@@ -120,12 +123,14 @@ const TaskOptionsDropdown = ({
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
+                        task_id: task_id,
                       });
                       taskActionWindow.onOpen();
                     } else {
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
+                        task_id: task_id,
                       });
                       confirmationWindow.onOpen();
                     }

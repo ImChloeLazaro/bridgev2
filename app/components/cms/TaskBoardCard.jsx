@@ -1,29 +1,28 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import {
-  Avatar,
-  AvatarGroup,
-  Link,
-  Spinner,
-  User,
-  cn,
-  useDisclosure,
-} from "@nextui-org/react";
-import { differenceInDays, format } from "date-fns";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { MdCalendarMonth, MdCheck } from "react-icons/md";
-import LabelTagChip from "../LabelTagChip";
-import TaskActionModal from "./TaskActionModal";
-import TaskOptionsDropdown from "./TaskOptionsDropdown";
 import {
   selectedTaskActionAtom,
   taskActionsAtom,
   taskActionWindowDetailsAtom,
 } from "@/app/store/TaskStore";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  Avatar,
+  AvatarGroup,
+  cn,
+  Link,
+  Spinner,
+  useDisclosure,
+  User,
+} from "@nextui-org/react";
+import { compareAsc, format } from "date-fns";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import ConfirmationWindow from "../ConfirmationWindow";
-import { MdTimer } from "react-icons/md";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { MdCalendarMonth, MdCheck, MdTimer } from "react-icons/md";
 import useSound from "use-sound";
+import ConfirmationWindow from "../ConfirmationWindow";
+import LabelTagChip from "../LabelTagChip";
+import TaskActionModal from "./TaskActionModal";
+import TaskOptionsDropdown from "./TaskOptionsDropdown";
 
 function TaskBoardCard({
   task,
@@ -39,7 +38,7 @@ function TaskBoardCard({
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
-  const [play] = useSound("/notification_chime_1.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
 
   const confirmationWindow = useDisclosure(); // confirmation window
   const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
@@ -50,10 +49,10 @@ function TaskBoardCard({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  const difference = Boolean(
-    differenceInDays(new Date(task.duration.end), new Date()) < 0 &&
-      task.status === "todo"
-  );
+  const isOverdue = task.progress.toLowerCase() === "overdue";
+  const difference =
+    compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
+    task.status === "todo";
 
   const {
     setNodeRef,
@@ -68,7 +67,7 @@ function TaskBoardCard({
       type: "Task",
       task,
     },
-    disabled: task.escalate || difference,
+    disabled: task.escalate || isOverdue,
   });
 
   const actionOptions = [
@@ -150,7 +149,7 @@ function TaskBoardCard({
       style={style}
       // onClick={toggleEditMode}
       data-escalated={task.escalate}
-      data-due={difference}
+      data-due={isOverdue}
       className={cn(
         "data-[escalated=true]:!border-red-default",
         "data-[escalated=true]:border-3",
@@ -196,7 +195,7 @@ function TaskBoardCard({
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
             isEscalated={task.escalate}
-            isOverdue={difference}
+            isOverdue={isOverdue}
             confirmationWindow={confirmationWindow}
             taskActionWindow={taskActionWindow}
             selectedProcessorTaskAction={selectedProcessorTaskAction}
@@ -246,7 +245,7 @@ function TaskBoardCard({
               classNameLabel={"lg:text-xs"}
             />
           )}
-          {difference && (
+          {isOverdue && (
             <LabelTagChip
               text="Overdue"
               color="orange"
@@ -257,36 +256,47 @@ function TaskBoardCard({
           )}
         </div>
         {
-          <div className="flex justify-between">
+          <div className="flex flex-col lg:flex-row justify-between">
             <div className="flex gap-2 justify-start items-center">
               <MdCalendarMonth size={20} />
               <Link
                 href="#"
-                isDisabled={task.status === "done" || difference}
+                isDisabled={task.status === "done" || isOverdue}
                 underline="hover"
                 className={cn(
                   `${
-                    task.status === "done" || difference ? "line-through" : ""
+                    task.status === "done" || isOverdue ? "line-through" : ""
                   }`,
                   "text-sm font-bold text-black-default/80"
                 )}
               >
                 {task.status === "pending"
                   ? "Pending"
+                  : task?.duration?.recurrence !== "none"
+                  ? task?.duration?.start?.length
+                    ? format(task.duration.start.slice(0, -1), "d MMM yyyy")
+                    : ""
                   : task?.duration?.end?.length
                   ? format(task.duration.end.slice(0, -1), "d MMM yyyy")
                   : ""}
               </Link>
+              <p>{"|"}</p>
+              <p className="flex text-sm font-semibold text-black-default">
+                {task?.duration?.recurrence === "none"
+                  ? "No Recurrence"
+                  : task?.duration?.recurrence[0].toUpperCase() +
+                    task?.duration?.recurrence.slice(1)}
+              </p>
             </div>
             <div className="flex gap-2 justify-start items-center">
               <MdTimer size={20} />
               <Link
                 href="#"
-                isDisabled={task.status === "done" || difference}
+                isDisabled={task.status === "done" || isOverdue}
                 underline="hover"
                 className={cn(
                   `${
-                    task.status === "done" || difference ? "line-through" : ""
+                    task.status === "done" || isOverdue ? "line-through" : ""
                   }`,
                   "text-sm font-bold text-black-default/80"
                 )}

@@ -1,159 +1,303 @@
-'use client'
-import { useState, useMemo } from "react";
-import { Tabs, Tab, Card, CardBody, CardHeader, Chip, Popover, PopoverTrigger, PopoverContent, Button, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
+"use client";
+import IconButton from "@/app/components/IconButton";
+import SearchBar from "@/app/components/SearchBar";
 import { userListAtom } from "@/app/store/UserStore";
 import { restupdate } from "@/app/utils/amplify-rest";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Link,
+  Listbox,
+  ListboxItem,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Tab,
+  Tabs,
+  User,
+} from "@nextui-org/react";
+import { useAtomValue } from "jotai";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
+
+import { IoMdMail } from "react-icons/io";
+import { MdEdit, MdRefresh } from "react-icons/md";
 
 const RolesAdmin = () => {
-    const [selectedKeys, setSelectedKeys] = useState(new Set(['text']));
-    const selectedValue = useMemo(() => Array.from(selectedKeys).join(', '), [selectedKeys]);
-    const [currentUser, setCurrentUser] = useState(null);
-    const [localUsers, setLocalUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const users = useAtomValue(userListAtom);
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
+  const [searchRole, setSearchRole] = useState("");
 
-    useMemo(() => {
-        setLocalUsers(users);
-    }, [users]);
+  const selectedValue = useMemo(
+    () => Array.from(selectedKeys).join(", "),
+    [selectedKeys]
+  );
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const categorizeUsersByRole = (users) => {
-        const roles = {
-            "All": new Set(),
-            "Admin": new Set(),
-            "TL": new Set(),
-            "HR": new Set(),
-            "User": new Set()
-        };
+  const users = useAtomValue(userListAtom);
 
-        users.forEach(user => {
-            roles["All"].add(user);
-            user.role.forEach(role => {
-                if (role.name === "ADMIN") roles["Admin"].add(user);
-                if (role.name === "TL") roles["TL"].add(user);
-                if (role.name === "HR") roles["HR"].add(user);
-                if (role.name === "USER") roles["User"].add(user);
-            });
-        });
+  const handleRefreshUser = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await categorizeUsersByRole(users);
 
-        // Convert sets to arrays
-        Object.keys(roles).forEach(role => {
-            roles[role] = Array.from(roles[role]);
-        });
+      toast.success("Refreshed");
+      setIsLoading(false);
+    } catch (error) {
+      toast.error("Error refreshing data" + error);
+      setIsLoading(false);
+    }
+  };
 
-        return roles;
+  const categorizeUsersByRole = (users) => {
+    const roles = {
+      All: new Set(),
+      Admin: new Set(),
+      TL: new Set(),
+      HR: new Set(),
+      User: new Set(),
     };
 
-    const roles = categorizeUsersByRole(localUsers);
-
-    const tabs = Object.keys(roles).map(role => ({
-        id: role.toLowerCase(),
-        label: role,
-        content: roles[role]
-    }));
-
-    const handleEditClick = (user) => {
-        setCurrentUser(user);
-        const userRoles = new Set(user.role.map(role => role.name.toLowerCase()));
-        setSelectedKeys(userRoles);
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        // Convert selectedKeys from Set to Array for easier processing
-        setLoading(true);
-        const selectedValues = Array.from(selectedKeys);
-        const selectedRoles = selectedValues.map(value => {
-            switch (value) {
-                case 'user':
-                    return { name: 'USER' };
-                case 'admin':
-                    return { name: 'ADMIN' };
-                case 'tl':
-                    return { name: 'TL' };
-                case 'hr':
-                    return { name: 'HR' };
-                default:
-                    return { name: value.toUpperCase() };
-            }
-        });
-
-        try {
-            const updatedUser = await restupdate(`/user/update-role`, { sub: currentUser.sub, role: selectedRoles });
-            setLocalUsers(prevUsers =>
-                prevUsers.map(user =>
-                    user.sub === currentUser.sub ? { ...user, role: selectedRoles } : user
-                )
-            );
-            setLoading(false);
-        } catch (error) {
-            console.error('Error while updating user roles:', error);
-        }
-    };
-
-    return (
-        <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl overflow-auto">
-            <div className="flex w-full flex-col">
-                <Tabs aria-label="Role tabs" items={tabs}>
-                    {(item) => (
-                        <Tab key={item.id} title={item.label}>
-                            {item.content.map(user => (
-                                <Card key={user.id} className="my-2">
-                                    <CardHeader className="flex justify-between">
-                                        <div className="flex gap-2 items-center">
-                                            <img src={user.picture} alt={user.name} className="rounded-full w-10 h-10 mr-2" />
-                                            <div className="flex flex-col">
-                                                <div>{user.name}</div>
-                                                <div>{user.email}</div>
-                                            </div>
-                                        </div>
-                                        <Popover placement="bottom" offset={20} showArrow>
-                                            <PopoverTrigger>
-                                                <Button color="primary" onClick={() => handleEditClick(user)}>Edit Role</Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent>
-                                                <div className="w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
-                                                    <form onSubmit={handleSubmit}>
-                                                        <Listbox
-                                                            aria-label="Multiple selection example"
-                                                            variant="flat"
-                                                            disallowEmptySelection
-                                                            selectionMode="multiple"
-                                                            selectedKeys={selectedKeys}
-                                                            onSelectionChange={setSelectedKeys}
-                                                            disabledKeys={['user']}
-                                                        >
-                                                            <ListboxItem key="user">User</ListboxItem>
-                                                            <ListboxItem key="admin">Admin</ListboxItem>
-                                                            <ListboxItem key="tl">Team Leader</ListboxItem>
-                                                            <ListboxItem key="hr">Human Resource</ListboxItem>
-                                                        </Listbox>
-                                                        <Button color="primary" size="sm" className="mt-2" type="submit">
-                                                            {loading ? <Spinner size="sm" color="default" /> : 'Save'}
-                                                        </Button>
-                                                    </form>
-                                                </div>
-                                            </PopoverContent>
-                                        </Popover>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <p>Access: {user.role.map(role => {
-                                            let color = 'default';
-                                            if (role.name === 'ADMIN') color = 'warning';
-                                            if (role.name === 'TL') color = 'danger';
-                                            if (role.name === 'HR') color = 'info';
-                                            if (role.name === 'USER') color = 'success';
-                                            return <Chip key={role.name} color={color} className="mr-1">{role.name}</Chip>;
-                                        })}</p>
-                                    </CardBody>
-                                </Card>
-                            ))}
-                        </Tab>
-                    )}
-                </Tabs>
-            </div>
-        </Card>
+    const filteredUsers = users.filter((user) =>
+      user.name.toLowerCase().includes(searchRole.toLowerCase())
     );
-}
+
+    filteredUsers.forEach((user) => {
+      roles["All"].add(user);
+      // console.log("User roles:", user.role);
+      user.role.forEach((role) => {
+        if (role.name === "ADMIN") roles["Admin"].add(user);
+        if (role.name === "TL") roles["TL"].add(user);
+        if (role.name === "HR") roles["HR"].add(user);
+        if (role.name === "USER") roles["User"].add(user);
+      });
+    });
+
+    // Convert sets to arrays
+    Object.keys(roles).forEach((role) => {
+      roles[role] = Array.from(roles[role]);
+    });
+
+    return roles;
+  };
+
+  const roles = categorizeUsersByRole(users);
+
+  roles.Admin.forEach((admin) => {
+    // console.log("name" + admin.name);
+  });
+
+  const tabs = Object.keys(roles).map((role) => ({
+    id: role.toLowerCase(),
+    label: role,
+    content: roles[role],
+  }));
+
+  const handleEditClick = (user) => {
+    setCurrentUser(user);
+    const userRoles = new Set(user.role.map((role) => role.name.toLowerCase()));
+    // console.log("User roles:", userRoles);
+    setSelectedKeys(userRoles);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // Convert selectedKeys from Set to Array for easier processing
+    const selectedValues = Array.from(selectedKeys);
+    const selectedRoles = selectedValues.map((value) => {
+      switch (value) {
+        case "user":
+          return { name: "USER" };
+        case "admin":
+          return { name: "ADMIN" };
+        case "tl":
+          return { name: "TL" };
+        case "hr":
+          return { name: "HR" };
+        default:
+          return { name: value.toUpperCase() };
+      }
+    });
+
+    try {
+      const updatedUser = await restupdate(`/user/update-role`, {
+        sub: currentUser.sub,
+        role: selectedRoles,
+      });
+      // console.log("Updated user:", updatedUser);
+      // console.log(
+      //   "User sub:",
+      //   currentUser.sub,
+      //   "Selected roles:",
+      //   selectedRoles
+      // );
+    } catch (error) {
+      console.error("Error while updating user roles:", error);
+    }
+  };
+
+  return (
+    <Card className="flex w-full h-full my-4 px-0 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <div className="flex w-full flex-col h-full">
+        <div className="py-2 mt-6 mx-2 md:mx-6 md:w-1/2 flex gap-2">
+          <SearchBar
+            showSearchBar={true}
+            searchItem={searchRole}
+            setSearchItem={setSearchRole}
+            type={"search"}
+          ></SearchBar>
+          <IconButton
+            data-show={true}
+            radius={"sm"}
+            aria-label={"Refresh User Data Button"}
+            onPress={handleRefreshUser}
+            variant="bordered"
+            isLoading={isLoading}
+            className={"hidden data-[show=true]:flex"}
+          >
+            <MdRefresh size={24} />
+          </IconButton>
+        </div>
+        <Tabs
+          aria-label="Role tabs"
+          items={tabs}
+          variant="underlined"
+          className="mx-2 md:mx-6"
+          classNames={{
+            cursor: "w-full bg-blue-default",
+            tab: "max-w-fit px-4",
+            tabContent: "group-data-[selected=true]:text-blue-default",
+          }}
+        >
+          {(item) => (
+            <Tab key={item.id} title={item.label} className="h-full">
+              <div className="overflow-y-auto h-full">
+                <div className="grid md:grid-cols-2 gap-2 mb-32 mx-2 md:mx-8 mt-2">
+                  {item.content.map((user) => (
+                    <Card key={user.id} className="h-40 md:h-36 drop-shadow-md">
+                      <div className="flex items-center justify-center h-full">
+                        <div className="w-full">
+                          <CardHeader className="flex justify-between mt-1 md:mt-0">
+                            <div className="flex items-center">
+                              <User
+                                name={user.name}
+                                description={
+                                  <Link
+                                    href="/"
+                                    size="sm"
+                                    underline="hover"
+                                    className="text-black-default"
+                                  >
+                                    <div className="flex justify-start items-center gap-2">
+                                      <IoMdMail
+                                        className="text-black-default"
+                                        fill="currentColor"
+                                      />
+                                      <p className="font-medium text-black-default">
+                                        {user.email}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                }
+                                avatarProps={{
+                                  src: user.picture,
+                                  alt: user.name,
+                                  className: "w-10 h-10 mr-2",
+                                }}
+                                classNames={{
+                                  name: "text-base font-medium text-black-default",
+                                }}
+                              />
+                            </div>
+                            <Popover placement="bottom" offset={20} showArrow>
+                              <PopoverTrigger>
+                                <Button
+                                  isIconOnly
+                                  size="sm"
+                                  className="bg-blue-default rounded-xl text-white-default absolute top-2 right-2"
+                                  onClick={() => handleEditClick(user)}
+                                >
+                                  <MdEdit size={16} />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent>
+                                <div className="w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
+                                  <form onSubmit={handleSubmit}>
+                                    <Listbox
+                                      aria-label="Multiple selection example"
+                                      variant="flat"
+                                      disallowEmptySelection
+                                      selectionMode="multiple"
+                                      selectedKeys={selectedKeys}
+                                      onSelectionChange={setSelectedKeys}
+                                      disabledKeys={["user"]}
+                                    >
+                                      <ListboxItem key="user">User</ListboxItem>
+                                      <ListboxItem key="admin">
+                                        Admin
+                                      </ListboxItem>
+                                      <ListboxItem key="tl">
+                                        Team Leader
+                                      </ListboxItem>
+                                      <ListboxItem key="hr">
+                                        Human Resource
+                                      </ListboxItem>
+                                    </Listbox>
+                                    <Button
+                                      color="primary"
+                                      size="sm"
+                                      className="mt-2"
+                                      type="submit"
+                                    >
+                                      Save
+                                    </Button>
+                                  </form>
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </CardHeader>
+                          <CardBody>
+                            <p>
+                              <span className="mx-0 md:mx-2 font-medium">
+                                Access:
+                              </span>
+                              {user.role.map((role) => {
+                                let color = "grey-default";
+                                if (role.name === "ADMIN")
+                                  color = "bg-orange-default";
+                                if (role.name === "TL")
+                                  color = "bg-red-default";
+                                if (role.name === "HR")
+                                  color = "bg-blue-default";
+                                if (role.name === "USER")
+                                  color = "bg-green-default";
+                                return (
+                                  <Chip
+                                    key={role.name}
+                                    className={`mx-1 my-1 ${color} rounded-lg text-white-default px-2`}
+                                  >
+                                    {role.name}
+                                  </Chip>
+                                );
+                              })}
+                            </p>
+                          </CardBody>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </Tab>
+          )}
+        </Tabs>
+      </div>
+    </Card>
+  );
+};
 
 export default RolesAdmin;

@@ -1,3 +1,6 @@
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
+import { showNotification } from "@/app/utils/notificationUtils";
 import {
   Badge,
   Button,
@@ -9,37 +12,31 @@ import {
 } from "@nextui-org/react";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   MdNotifications,
   MdNotificationsActive,
   MdNotificationsNone,
 } from "react-icons/md";
-import { toast } from "sonner";
+import useSound from "use-sound";
 import "../../../aws-auth";
 import {
-  notificationCountAtom,
   notificationsAtom,
   notificationSocketRefAtom,
   notificationSocketURLAtom,
   notificationTypeAtom,
-  notifyFromUserAtom,
   pageVisibleAtom,
-  showUnreadAtom,
+  showUnreadAtom
 } from "../../store/NotificationsStore";
 import NotificationsFooter from "./NotificationsFooter";
 import NotificationsHeader from "./NotificationsHeader";
-import NotificationsList from "./NotificationsList";
 import NotificationsHistory from "./NotificationsHistory";
-import { showNotification } from "@/app/utils/notificationUtils";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
-import useSound from "use-sound";
+import NotificationsList from "./NotificationsList";
 
 // @refresh reset
 
 const NotificationsDropdown = () => {
-  const [play] = useSound("/notification_chime_2.mp3", { volume: 1.5 });
+  const [play] = useSound("/notification_chime_2.mp3", { volume: 0.9 });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -72,7 +69,7 @@ const NotificationsDropdown = () => {
     setNotificationSocketRef(socketRef);
 
     socketRef.current.onopen = () => {
-      console.log("connected");
+      // console.log("connected");
       setConnected(true);
       fetchUserAttributes().then((attr) => {
         setUser(attr);
@@ -122,7 +119,7 @@ const NotificationsDropdown = () => {
     };
 
     socketRef.current.onclose = () => {
-      console.log("disconnected");
+      // console.log("disconnected");
       setConnected(false);
     };
 
@@ -244,7 +241,7 @@ const NotificationsDropdown = () => {
           showArrow={true}
           isOpen={notificationsOpen}
           onOpenChange={(open) => {
-            play();
+            // play();
             setNotificationsOpen(open);
           }}
         >

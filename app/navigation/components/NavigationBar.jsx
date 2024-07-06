@@ -1,3 +1,6 @@
+import LabelTagChip from "@/app/components/LabelTagChip";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
 import {
   Image,
   Link,
@@ -18,34 +21,35 @@ import {
   activeHRRouteAtom,
   activeTLRouteAtom,
   activeUserRouteAtom,
-  selectedRoleAtom,
   userOptionsAtom,
   userRolesAtom,
 } from "../store/NavSideBarStore";
-import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
 import {
+  externalLinks,
   routesAdmin,
   routesHR,
   routesTeamLead,
   routesUser,
-  externalLinks,
 } from "./RoutesIconDetails";
 // @refresh reset
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userOptions = useAtomValue(userOptionsAtom);
-  const selectedRole = useAtomValue(selectedRoleAtom);
+  // const selectedRole = useAtomValue(selectedRoleAtom);
   const userRoles = useAtomValue(userRolesAtom);
   const [activeUserRoute, setActiveUserRoute] = useAtom(activeUserRouteAtom);
   const [activeAdminRoute, setActiveAdminRoute] = useAtom(activeAdminRouteAtom);
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
-  // console.log("externalLinks", externalLinks);
 
-  const role = useAtomValue(selectedRoleAtom);
+  const user = useAtomValue(userAtom);
+  const selectedRole = useRoles(user.role);
+
+  // const role = useAtomValue(selectedRoleAtom);
+  const role = selectedRole.currentRole.toLowerCase();
 
   const activeRoutes = role.includes("admin")
     ? activeAdminRoute
@@ -124,7 +128,13 @@ const NavigationBar = () => {
           <UserDropdown />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
-          {userRoles.includes(selectedRole) && <RoleBadge />}
+          {selectedRole?.currentRole !== "USER" ? (
+            <LabelTagChip
+              text={selectedRole?.currentRole}
+              color="orange"
+              isFilled={true}
+            />
+          ) : null}
         </NavbarItem>
         <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <NotificationsDropdown />
