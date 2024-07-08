@@ -67,6 +67,19 @@ app.put('/teams/*', async function(req, res) {
         const team = await teamModel.updateOne({_id}, {status})
         res.json({ success: true, response: team });
         break;
+      case '/teams/updateMember':
+        const teamOne = await teamModel.updateOne(
+          { _id: _id, "members._id": status._id },
+          { 
+            $set: {
+              "members.$.employment_status": status.employment_status,
+              "members.$.position": status.position,
+              "members.$.status": status.status
+            }
+          }
+        );
+        res.json({ success: true, response: teamOne, status: status});
+        break;
       default:
         res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
         break;

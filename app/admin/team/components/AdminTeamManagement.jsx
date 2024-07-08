@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tabs, Tab, Card } from "@nextui-org/react";
 import TeamCard from "./TeamCard";
-import TeamList from "./TeamList";
 import ArchiveTeam from "./Modal/ArchiveTeam";
 import UpdateTeam from "./Modal/UpdateTeam";
 import AddTeam from "./Modal/AddTeam";
