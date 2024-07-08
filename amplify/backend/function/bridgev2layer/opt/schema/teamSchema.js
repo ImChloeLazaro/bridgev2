@@ -7,7 +7,7 @@ const memberSchema = new mongoose.Schema({
     picture: String,
     position: {default: 'Current Position', type: String},
     status: {default: 'active', type: String},
-    tenure_status: {default: 'Tenure Status', type: String},
+    employment_status: {default: 'Employment Status', type: String},
 });
 
 const teamSchema = new mongoose.Schema({
