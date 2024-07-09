@@ -214,7 +214,6 @@ function TaskBoardCard({
             action_params={{
               sound: play,
               tasks: tasksFromSelectedClient[0],
-              task_id: task?._id,
               selectedProcessorTaskAction: selectedProcessorTaskAction,
               selectedReviewerTaskAction: selectedReviewerTaskAction,
               setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,
@@ -272,10 +271,6 @@ function TaskBoardCard({
               >
                 {task.status === "pending"
                   ? "Pending"
-                  : task?.duration?.recurrence !== "none"
-                  ? task?.duration?.start?.length
-                    ? format(task.duration.start.slice(0, -1), "d MMM yyyy")
-                    : ""
                   : task?.duration?.end?.length
                   ? format(task.duration.end.slice(0, -1), "d MMM yyyy")
                   : ""}

@@ -266,7 +266,7 @@ const FormFieldInput = ({
             for={inputID}
             startContent={<MdFileUpload size={18} />}
           >
-            <label for={inputID} className="font-medium text-sm lg:text-base">
+            <label htmlFor={inputID} className="font-medium text-sm lg:text-base">
               {"Upload File"}
             </label>
           </CTAButtons>
