@@ -2,12 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
-
+const workspaceModel = require('/opt/schema/workspaceSchema.js')
+const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -17,32 +18,6 @@ app.use(function(req, res, next) {
 
 mongoose.connect(process.env.DATABASE);
 
-const workspaceSchema = mongoose.Schema({
-  item: String,
-  managers: [
-    {
-      sub : String, 
-      name : String, 
-      email : String, 
-      picture : String
-    }
-  ],
-  processors: [
-    {
-      sub : String, 
-      name : String, 
-      email : String, 
-      picture : String
-    }
-  ],
-  date: Date,
-  dateCompleted: Date,
-  status: String,
-  remarks: String,
-  type: String
-})
-
-const workspaceModel = mongoose.model('workspace', workspaceSchema);
 app.get('/workspace', async function(req, res) {
   try {
     const workspace = await workspaceModel.find();
