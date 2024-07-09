@@ -76,34 +76,34 @@
           "s3Key": "amplify-builds/recruitmenthandler-522b797a437241546b73-build.zip"
         },
         "shortcuthandler": {
-          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
-          "test": "hello world",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/shortcuthandler-4778426c377441644334-build.zip"
+          "s3Key": "amplify-builds/shortcuthandler-61546b625636704a362f-build.zip",
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
+          "test": "hello world"
         },
         "teamhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/teamhandler-6f6a61657a434f486959-build.zip"
+          "s3Key": "amplify-builds/teamhandler-784e786e344f79423153-build.zip"
         },
         "todohandler": {
-          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/todohandler-74553656617177513642-build.zip"
+          "s3Key": "amplify-builds/todohandler-5265373765426c4a457a-build.zip",
+          "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/userhandler-472b69376d743770647a-build.zip"
+          "s3Key": "amplify-builds/userhandler-6e785579424c7142482b-build.zip"
         },
         "workspacehandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/workspacehandler-6d536f74386f6c2f3044-build.zip",
+          "s3Key": "amplify-builds/workspacehandler-5133646b645753476375-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "bridgev2layer": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion8879d299-build.zip"
+          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion6ad1c2ca-build.zip"
         }
       },
       "auth": {
@@ -111,6 +111,9 @@
       },
       "storage": {
         "bridgeProductionStorage": {}
+      },
+      "api": {
+        "bridgeApi": {}
       }
     }
   }

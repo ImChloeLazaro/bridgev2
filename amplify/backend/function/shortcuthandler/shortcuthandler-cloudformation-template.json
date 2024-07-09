@@ -16,6 +16,10 @@
     "s3Key": {
       "Type": "String"
     },
+    "functionbridgev2layerArn": {
+      "Type": "String",
+      "Default": "functionbridgev2layerArn"
+    },
     "database": {
       "Type": "String"
     },
@@ -91,7 +95,11 @@
           ]
         },
         "Runtime": "nodejs18.x",
-        "Layers": [],
+        "Layers": [
+          {
+            "Ref": "functionbridgev2layerArn"
+          }
+        ],
         "Timeout": 25
       }
     },

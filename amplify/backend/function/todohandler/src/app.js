@@ -2,11 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose');
+const todoModel = require('/opt/schema/todoSchema.js');
+const limiter = require('/opt/helpers/limiter.js');
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -15,16 +17,6 @@ app.use(function (req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE);
-
-const todoSchema = new mongoose.Schema({
-  sub: String,
-  title: String,
-  status: { type: String, default: "todo" },
-  created: { type: Date, default: Date.now },
-  finished: Date
-})
-
-const todoModel = mongoose.model('Todo', todoSchema);
 
 app.get('/todo', async function (req, res) {
   try {
