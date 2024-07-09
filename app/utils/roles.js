@@ -7,6 +7,7 @@ export const useRoles = (roles) => {
     const getRoleFromPath = (path) => {
         if (path.startsWith('/admin')) return 'ADMIN';
         if (path.startsWith('/user')) return 'USER';
+        if (path.startsWith('/calendar')) return 'USER';
         if (path.startsWith('/tl')) return 'TL';
         if (path.startsWith('/hr')) return 'HR';
         return 'GUEST';

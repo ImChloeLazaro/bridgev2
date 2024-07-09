@@ -409,7 +409,6 @@ const TaskTableView = ({
         action_params={{
           sound: play,
           tasks: tasksFromSelectedClient[0],
-          // task_id: taskId,
           selectedProcessorTaskAction: selectedProcessorTaskAction,
           selectedReviewerTaskAction: selectedReviewerTaskAction,
           setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,

@@ -324,7 +324,7 @@ const TaskBoardView = ({
     );
     const everyone = [...processors, ...reviewers];
 
-     if (taskStatusBeforeDone !== taskActive.status) {
+     if (taskStatusBeforeDone !== taskActive?.status) {
       if (taskActive?.status === "todo") {
         sendNotification({
           socketRef: socketRef,

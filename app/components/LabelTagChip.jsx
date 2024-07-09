@@ -46,7 +46,7 @@ const LabelTagChip = ({
     },
     grey: {
       filled: "bg-grey-default text-darkgrey-default",
-      unfilled: "text-grey-default bg-grey-default/20",
+      unfilled: "text-darkgrey-default bg-grey-default/20",
     },
     lightgrey: {
       filled: "bg-lightgrey-default text-white-default",
@@ -78,7 +78,7 @@ const LabelTagChip = ({
           `${isFilled ? "py-4 rounded-lg" : "py-2 rounded-md"}`,
           "px-2.5 border-0 h-6 lg:h-8"
         ),
-        content: "font-bold",
+        // content: "font-bold",
         dot: `${
           lightColors.includes(color)
             ? "bg-darkgrey-default"
@@ -113,10 +113,10 @@ const LabelTagChip = ({
       <p
         className={cn(
           classNameLabel,
-          "mt-0.5 tracking-wider text-xs lg:text-sm"
+          "mt-0.5 tracking-wider text-xs lg:text-sm font-bold"
         )}
       >
-        {text?.length ? text : ""}
+        {text ? text : ""}
       </p>
     </Chip>
   );

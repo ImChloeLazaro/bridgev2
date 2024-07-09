@@ -9,6 +9,7 @@ import {
   getLocalTimeZone,
   parseTime,
   Time,
+  toCalendarDateTime,
   today,
 } from "@internationalized/date";
 import { format } from "date-fns";
@@ -112,14 +113,16 @@ export const taskDataAtom = atom((get) => {
             ? "Add Instructions"
             : get(taskInstructionAtom),
         status: "todo", //todo, pending, to review, done
-        progress: "Good", //Good, Overdue, Adhoc
+        progress: "good", //good, overdue, adhoc
         duration: {
-          start: `${get(dateRangeAtom).start.toString()}T${get(
-            startTimeAtom
-          ).toString()}.000Z`,
-          end: `${get(dateRangeAtom).end.toString()}T${get(
-            endTimeAtom
-          ).toString()}.000Z`,
+          start: toCalendarDateTime(
+            get(dateRangeAtom).start,
+            get(startTimeAtom)
+          ).toString(),
+          end: toCalendarDateTime(
+            get(dateRangeAtom).end,
+            get(endTimeAtom)
+          ).toString(),
           recurrence:
             //Daily, Weekly, Monthly, Quarterly, Yearly
             Array.from(selectedRecurrence).join("") === ""
