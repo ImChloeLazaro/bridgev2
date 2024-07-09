@@ -207,6 +207,7 @@ const CMSTL = () => {
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
   // ######################################################
+
   const selectedClient = clients.filter(
     (client) => client._id === selectedClientToView
   );
@@ -231,10 +232,11 @@ const CMSTL = () => {
     }
     if (
       selectedClientFilterKeyString !== "all" &&
-      Array.from(selectedClientFilterKeys).length !== clientFilterKeys.length
+      Array.from(selectedClientFilterKeyString).length !==
+        clientFilterKeys.length
     ) {
       filteredClients = filteredClients.filter((client) =>
-        Array.from(selectedClientFilterKeys).includes(client.name)
+        Array.from(selectedClientFilterKeyString).includes(client.name)
       );
     }
 
@@ -245,7 +247,6 @@ const CMSTL = () => {
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
-    selectedClientFilterKeys,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -319,7 +320,6 @@ const CMSTL = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
       fetchClient();
@@ -357,7 +357,7 @@ const CMSTL = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}

@@ -1,4 +1,8 @@
-import { restinsert, restread } from "@/app/utils/amplify-rest";
+import {
+  destroywithparams,
+  restinsert,
+  restread,
+} from "@/app/utils/amplify-rest";
 import {
   getLocalTimeZone,
   Time,
@@ -83,7 +87,18 @@ export const addClientAtom = atom(null, async (get, set, update) => {
   }
 });
 export const updateClientAtom = atom();
-export const deleteClientAtom = atom();
+export const deleteClientAtom = atom(null, async (get, set, update) => {
+  const response = await destroywithparams("/cms/client", {
+    // _id of sla #/cms/task
+    // _id of client obj #/cms/client
+    _id: "667222db41a835187038f0db", // "665922e6167b35aedc883977"
+  });
+  if (response?.success) {
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
 
 export const tableColumnsAtom = atom([
   { label: "Image", key: "image" },

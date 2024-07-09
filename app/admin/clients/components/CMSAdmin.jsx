@@ -9,7 +9,7 @@ import CTAButtons from "@/app/components/CTAButtons";
 import {
   clientFilterKeysAtom,
   clientsAtom,
-  fetchClientAtom
+  fetchClientAtom,
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
@@ -31,6 +31,7 @@ import {
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
   MdRemoveCircleOutline,
+  MdDelete,
 } from "react-icons/md";
 import {
   changeViewAtom,
@@ -220,10 +221,11 @@ const CMSAdmin = () => {
     }
     if (
       selectedClientFilterKeyString !== "all" &&
-      Array.from(selectedClientFilterKeys).length !== clientFilterKeys.length
+      Array.from(selectedClientFilterKeyString).length !==
+        clientFilterKeys.length
     ) {
       filteredClients = filteredClients.filter((client) =>
-        Array.from(selectedClientFilterKeys).includes(client.name)
+        Array.from(selectedClientFilterKeyString).includes(client.name)
       );
     }
 
@@ -233,7 +235,6 @@ const CMSAdmin = () => {
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
-    selectedClientFilterKeys,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -261,6 +262,13 @@ const CMSAdmin = () => {
 
   const actions = [
     {
+      key: "delete",
+      status_id: "admin",
+      color: "red",
+      label: "Delete task from client",
+      icon: <MdDelete size={18} />,
+    },
+    {
       key: "escalate",
       status_id: "management",
       color: "orange",
@@ -285,14 +293,14 @@ const CMSAdmin = () => {
       key: "assign",
       status_id: "admin",
       color: "blue",
-      label: "Assign a team to the client",
+      label: "Assign a member to the client",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
       status_id: "admin",
       color: "red",
-      label: "Remove a team from the client",
+      label: "Remove a member from the client",
       icon: <MdRemoveCircleOutline size={18} />,
     },
   ];
@@ -358,7 +366,7 @@ const CMSAdmin = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}

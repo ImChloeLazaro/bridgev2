@@ -3,10 +3,9 @@ import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
-  deleteTaskAtom,
   fetchTaskAtom,
   logOverDueTasksAtom,
-  recurrenceTaskAtom,
+  recurrenceTaskAtom
 } from "@/app/store/TaskStore";
 import { Tooltip } from "@nextui-org/react";
 import { getHours, getMinutes, getSeconds } from "date-fns";
@@ -40,14 +39,11 @@ const CMSHeader = ({
   selectedClientToView,
   showClientDetails,
   setShowClientDetails,
-  className,
   children,
 }) => {
-  const setRecurrenceTask = useSetAtom(recurrenceTaskAtom);
+  const recurrenceTask = useSetAtom(recurrenceTaskAtom);
   const logOverDueTasks = useSetAtom(logOverDueTasksAtom);
   const clients = useAtomValue(clientsAtom);
-
-  const deleteTask = useSetAtom(deleteTaskAtom);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
@@ -66,7 +62,8 @@ const CMSHeader = ({
         setTimeout(
           async () =>
             resolve(
-              // await deleteTask(),
+              // await recurrenceTask(),
+              // await logOverDueTasks(),
               await fetchTask(),
               await fetchClient()
             ),
@@ -112,7 +109,7 @@ const CMSHeader = ({
         getSeconds(now) == 1
       ) {
         // Reset task progress and set new task due date based on recurrence
-        setRecurrenceTask();
+        recurrenceTask();
         fetchTask();
       }
 

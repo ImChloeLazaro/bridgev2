@@ -8,7 +8,7 @@ import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
   clientsAtom,
-  fetchClientAtom
+  fetchClientAtom,
 } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
@@ -248,7 +248,6 @@ const CMSUser = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
       fetchClient();
@@ -286,7 +285,7 @@ const CMSUser = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-lg">
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
