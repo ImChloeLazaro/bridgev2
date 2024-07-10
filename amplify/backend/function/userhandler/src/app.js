@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
 // const limiter = require('/opt/helpers/limiter.js')
-const limiter = require('express-rate-limit')
+const { rateLimit } = require('express-rate-limit')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
