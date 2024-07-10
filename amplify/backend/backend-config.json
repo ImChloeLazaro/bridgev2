@@ -144,7 +144,15 @@
   "function": {
     "accounthandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -174,13 +182,29 @@
     },
     "clienthandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "cmstaskhandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
