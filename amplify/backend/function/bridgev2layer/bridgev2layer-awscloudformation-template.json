@@ -20,48 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion6ad1c2ca": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": {
-          "Ref": "runtimes"
-        },
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        },
-        "Description": {
-          "Ref": "description"
-        },
-        "LayerName": {
-          "Fn::Sub": [
-            "bridgev2layer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublic6ad1c2ca": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion6ad1c2ca"
-        },
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersion0532f9d5": {
+    "LambdaLayerVersionbeb37d3d": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": [
@@ -71,9 +30,9 @@
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion0532f9d5-build.zip"
+          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersionbeb37d3d-build.zip"
         },
-        "Description": "Updated layer version 2024-07-09T08:38:14.851Z",
+        "Description": "Updated layer version 2024-07-09T09:16:35.177Z",
         "LayerName": {
           "Fn::Sub": [
             "bridgev2layer-${env}",
@@ -88,116 +47,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublic0532f9d5": {
+    "LambdaLayerPermissionPublicbeb37d3d": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:54",
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersionbe084b81": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersionbe084b81-build.zip"
-        },
-        "Description": "Updated layer version 2024-07-09T08:16:49.671Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "bridgev2layer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublicbe084b81": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:53",
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersion940a4423": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion940a4423-build.zip"
-        },
-        "Description": "Updated layer version 2024-07-09T08:09:18.476Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "bridgev2layer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublic940a4423": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:52",
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersion2268624a": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion2268624a-build.zip"
-        },
-        "Description": "Updated layer version 2024-07-09T08:04:42.016Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "bridgev2layer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublic2268624a": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:51",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:56",
         "Principal": "*"
       }
     }
@@ -205,7 +59,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion6ad1c2ca"
+        "Ref": "LambdaLayerVersionbeb37d3d"
       }
     }
   }

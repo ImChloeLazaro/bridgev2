@@ -37,7 +37,7 @@
         "cmstaskhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/cmstaskhandler-68304742727547613458-build.zip"
+          "s3Key": "amplify-builds/cmstaskhandler-354d4f596d74592b4969-build.zip"
         },
         "departmenthandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
@@ -77,7 +77,7 @@
         },
         "shortcuthandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/shortcuthandler-61546b625636704a362f-build.zip",
+          "s3Key": "amplify-builds/shortcuthandler-542b3054744c466d5655-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "test": "hello world"
         },
@@ -88,17 +88,17 @@
         },
         "todohandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/todohandler-5265373765426c4a457a-build.zip",
+          "s3Key": "amplify-builds/todohandler-63754a42797176364445-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/userhandler-6e785579424c7142482b-build.zip"
+          "s3Key": "amplify-builds/userhandler-2b434367645374644b56-build.zip"
         },
         "workspacehandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/workspacehandler-5133646b645753476375-build.zip",
+          "s3Key": "amplify-builds/workspacehandler-434376686f53356b786b-build.zip",
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge"
         },
         "bridgev2layer": {

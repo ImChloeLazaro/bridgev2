@@ -2,12 +2,19 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
-const limiter = require('/opt/helpers/limiter.js')
-
+// const limiter = require('/opt/helpers/limiter.js')
+const { rateLimit } = require('express-rate-limit')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 100, 
+  message: "Too many requests from this IP, please try again after 15 minutes"
+})
+
 app.use(limiter)
 
 // Enable CORS for all methods
