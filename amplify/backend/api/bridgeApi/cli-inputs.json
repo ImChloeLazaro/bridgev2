@@ -53,19 +53,6 @@
         ]
       }
     },
-    "/notification": {
-      "name": "/notification",
-      "lambdaFunction": "notificationhandler",
-      "permissions": {
-        "setting": "private",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
-    },
     "/leave": {
       "name": "/leave",
       "lambdaFunction": "leavehandler",

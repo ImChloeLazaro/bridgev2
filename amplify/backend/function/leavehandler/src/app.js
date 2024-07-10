@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
 const leaveModel = require('/opt/schema/leaveSchema.js')
+const limiter = require('/opt/helpers/limiter.js')
 // Declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -14,6 +15,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "*")
   next()
 });
+app.use(limiter)
 
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true })
 

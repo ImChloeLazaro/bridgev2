@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const leaveModel = require('/opt/schema/leaveSchema.js');
 const leaveRequestModel = require('/opt/schema/leaverequestSchema.js');
+const limiter = require('/opt/helpers/limiter.js');
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
@@ -9,7 +10,7 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
