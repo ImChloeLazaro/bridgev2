@@ -2,10 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const mongoose = require("mongoose");
+const postModel = require("/opt/schema/postSchema.js");
+const limiter = require("/opt/helpers/limiter.js");
+
 const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
-
+app.use(limiter);
 // Enable CORS for all methods
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -15,50 +18,6 @@ app.use(function (req, res, next) {
 
 mongoose.connect(process.env.DATABASE);
 
-const postSchema = mongoose.Schema({
-  sub: String,
-  caption: String,
-  comments: Number,
-  datetimePublished: Date,
-  datetimeScheduled: Date,
-  id: Number,
-  key: String,
-  media: [String],
-  mediaLayout: String,
-  orientation: String,
-  postKey: String,
-  publisher: String,
-  publisherPicture: String,
-  reacted: [
-    {
-      sub: String,
-      name: String,
-      picture: String,
-      reaction: String,
-      reactedAt: {type: Date, default: Date.now},
-    }
-  ],
-  reactionList: [String],
-  reactions: {
-    star: Number,
-    love: Number,
-    birthday: Number,
-    happy: Number,
-  },
-  status: String,
-  taggedPeople: [
-    {
-      sub: String,
-      name: String,
-      picture: String,
-    },
-  ],
-  team: String,
-  title: String,
-  type: String,
-});
-
-const postModel = mongoose.model("post", postSchema);
 
 app.get("/post", async function (req, res) {
   try {

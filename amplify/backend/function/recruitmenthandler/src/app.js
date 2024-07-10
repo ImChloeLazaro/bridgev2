@@ -2,11 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
+const recruitmentModel = require('/opt/schema/recruitmentSchema.js')
+const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -16,16 +18,6 @@ app.use(function(req, res, next) {
 
 mongoose.connect(process.env.DATABASE)
 
-const recruitmentSchema = mongoose.Schema({
-  sub: String,
-  employee_number: Number,
-  hiredate: String,
-  is_active: Boolean,
-  status: String,
-  position: String,
-})
-
-const recruitmentModel = mongoose.model('recruitment', recruitmentSchema)
 
 app.get('/recruitment', async function(req, res) {
   try {
