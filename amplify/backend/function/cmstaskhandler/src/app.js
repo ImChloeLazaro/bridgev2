@@ -2,12 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
-
+const taskModel = require('/opt/schema/cmsTaskSchema.js')
+const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -16,59 +17,6 @@ app.use(function (req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE);
-
-const taskSchema = mongoose.Schema({
-  index: String,
-  manager: {
-    sub: String,
-    name: String,
-    email: String,
-    picture: String
-  },
-  client: {
-    client_id: String,
-    name: String,
-    email: String,
-    picture: String
-  },
-  processor: [
-    {
-      sub: String,
-      name: String,
-      email: String,
-      picture: String,
-      privilege: String //viewer, editor
-    }
-  ],
-  reviewer: [
-    {
-      sub: String,
-      name: String,
-      email: String,
-      picture: String
-    }
-  ],
-  sla: [{
-    name: String,
-    instruction: String,
-    status: String, //todo, pending, to review, done
-    progress: String, //Good, Overdue, Adhoc
-    escalate: Boolean, // marked as escalated to TL/ Admin
-    duration: {
-      start: Date,
-      end: Date,
-      recurrence: String, //Daily, Weekly, Monthly, Quarterly, Yearly
-    },
-    done_by: {
-      sub: String,
-      name: String,
-      email: String,
-      picture: String
-    } //sub 
-  }]
-})
-
-const taskModel = mongoose.model('Task', taskSchema)
 
 app.get('/cms/task', async function (req, res) {
   try {

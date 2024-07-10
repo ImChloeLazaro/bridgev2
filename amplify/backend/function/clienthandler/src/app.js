@@ -2,11 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require('mongoose')
+const clientModel = require('/opt/schema/cmsClientSchema.js')
+const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -15,60 +17,6 @@ app.use(function(req, res, next) {
 });
 
 mongoose.connect(process.env.DATABASE)
-
-const clientSchema = mongoose.Schema({
-  contact: {
-    name: String,
-    address: String,
-    number: String,
-    email: String,
-  },
-  company: {// Company details
-    name: String,
-    address: String,
-    contact_number: String,
-    email: String,
-    ABN: String,
-    ACN: String,
-    other_owner: Boolean,
-  },
-  business: { // Business details
-    description: String,
-    entity: String,
-    tenure: String,
-    trading_name: String,
-  },
-  financial: { // Financial details
-    monthly_revenue: String,
-    employee_count: Number,
-    contractors_count: Number,
-    has_outsource_payroll: Boolean,
-    accounts: Number,
-    monthly_transactions_count: Number,
-    last_filed_tax: Date,
-    accounting_method: String,
-    invoice_preparation_method: String,
-    bills_paying_method: String,
-    is_GST_registered: Boolean,
-    has_inventory: Boolean,
-  },
-  software: { // Software details
-    accounting: [String],
-    payroll: [String],
-    billing: [String],
-    expense_management: [String],
-    reporting: [String],
-    bookkeeping: [String],
-  },
-  documents: {
-    ASIC: String, //ASIC company registration certificate or trust deed.
-    tax_return: String, //previous year financial year
-  },
-  another_bookkeeper: Boolean,
-  with_accountant: Boolean
-})
-
-const clientModel = mongoose.model('Client', clientSchema)
 
 app.get('/cms/client', async function(req, res) {
   try {
