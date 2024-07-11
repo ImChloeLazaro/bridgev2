@@ -11,7 +11,7 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, 
+	limit: 2000, 
   message: "Too many requests from this IP, please try again after 15 minutes"
 })
 
@@ -59,10 +59,10 @@ const userModel = mongoose.model('User', userSchema)
 app.get('/user', async function(req, res) {
   try {
     const { sub } = req.query;
-    if (!sub) {
-      return res.status(400).json({ error: 'Missing sub parameter' });
+    if (typeof sub !== 'string') {
+      return res.status(400).json({ error: 'Invalid sub parameter' });
     }
-    const read = await userModel.findOne({ sub });
+    const read = await userModel.findOne({ sub : { $eq : sub }});
     if (!read) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -75,7 +75,6 @@ app.get('/user', async function(req, res) {
 
 app.get('/user/*', async function (req, res) {
   try {
-    const sub = req.query.sub; // Extract sub from query parameters
     const proxy = req.path; // Use req.path to get the URL path
 
     switch (proxy) {
@@ -95,7 +94,7 @@ app.get('/user/*', async function (req, res) {
 app.post('/user', async function(req, res) {
   const {sub, name, picture, email} = req.body
   try {
-    const getuserbysub = await userModel.findOne({sub})
+    const getuserbysub = await userModel.findOne({ sub : { $eq : sub }})
     if(!getuserbysub){
       const insert = await userModel.create({
       sub,
@@ -114,9 +113,13 @@ app.post('/user', async function(req, res) {
 
 app.put('/user', async function(req, res) {
   const {sub} = req.query
+
+  if(typeof sub !== 'string'){
+    return res.status(400).json({error: 'Invalid sub parameter'})
+  }
   try {
     const updateonboarding = await userModel.updateOne({
-      sub: sub
+      sub: { $eq: sub}
     }, {
       hasOnboardingData: true
     })
@@ -132,8 +135,13 @@ app.put('/user/*', async function (req, res) {
     
     switch (proxy) {
       case '/user/update-role':
-        const data = await userModel.findOneAndUpdate({ sub }, { role })
+        const data = await userModel.findOneAndUpdate(
+          { sub: { $eq: sub } },
+          { role },
+          { new: true }
+        )
         res.status(200).json({success: true, response: data});
+        
         break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
@@ -143,9 +151,8 @@ app.put('/user/*', async function (req, res) {
     res.status(500).json({ error: error });
   }
 });
-app.delete('/user', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+app.delete('/user', async function(req, res) {
+  res.json({success: 'USER HANDLER DELETE API ROUTE!', url: req.url});
 });
 
 
