@@ -89,7 +89,7 @@
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/userhandler-423737304d3569735447-build.zip"
+          "s3Key": "amplify-builds/userhandler-337367492f4a4e4a7961-build.zip"
         },
         "workspacehandler": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
