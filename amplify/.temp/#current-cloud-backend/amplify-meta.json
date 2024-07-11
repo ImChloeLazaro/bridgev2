@@ -1,0 +1,743 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bridgev2-dev-150517-authRole",
+      "UnauthRoleArn": "arn:aws:iam::675436869821:role/amplify-bridgev2-dev-150517-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::675436869821:role/amplify-bridgev2-dev-150517-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+      "UnauthRoleName": "amplify-bridgev2-dev-150517-unauthRole",
+      "StackName": "amplify-bridgev2-dev-150517",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:675436869821:stack/amplify-bridgev2-dev-150517/a1687390-b4ed-11ee-ae4b-02781317fc18",
+      "AmplifyAppId": "dyk54a7v2s19",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    }
+  },
+  "api": {
+    "bridgeApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "posthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "profilehandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "userhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "leavehandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "benefithandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "recruitmenthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "teamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "clienthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "todohandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "workspacehandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "leaverequesthandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway",
+      "output": {
+        "ApiName": "bridgeApi",
+        "RootUrl": "https://oni3aoa6mf.execute-api.ap-southeast-1.amazonaws.com/dev",
+        "ApiId": "oni3aoa6mf"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.221Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/api/bridgeApi-cloudformation-template.json",
+        "logicalId": "apibridgeApi"
+      },
+      "lastPushDirHash": "HoVtp9lhddLs67x6oQTSClmecFY="
+    }
+  },
+  "auth": {
+    "bridgev2907806c3": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [
+          "GOOGLE"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "UserPoolId": "ap-southeast-1_KuKTZ80WX",
+        "AppClientIDWeb": "4d5oecqenrctcu88nqbhi0hdol",
+        "AppClientID": "2rg0dthah1bbekrfedh75dr6no",
+        "HostedUIDomain": "bridgev2auth-dev",
+        "IdentityPoolId": "ap-southeast-1:10bb21ff-52ad-40a5-85cf-a21007525d1d",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-southeast-1:675436869821:userpool/ap-southeast-1_KuKTZ80WX",
+        "IdentityPoolName": "bridgev2907806c3_identitypool_907806c3__dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/user/\",\"https://main.dyk54a7v2s19.amplifyapp.com/user/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://main.dyk54a7v2s19.amplifyapp.com/\"]}",
+        "UserPoolName": "bridgev2907806c3_userpool_907806c3"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.227Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/auth/bridgev2907806c3-cloudformation-template.json",
+        "logicalId": "authbridgev2907806c3"
+      },
+      "lastPushDirHash": "Hr9Ukbk2z4GCsnIy5d0HJYZOIR0="
+    }
+  },
+  "function": {
+    "accounthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRoled3a4776d-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:accounthandler-dev",
+        "Name": "accounthandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRoled3a4776d-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.233Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/accounthandler-cloudformation-template.json",
+        "logicalId": "functionaccounthandler"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:20.427Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:20.904Z",
+      "distZipFilename": "accounthandler-72633478494945715149-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/accounthandler-72633478494945715149-build.zip"
+      },
+      "lastPushDirHash": "e9HERTE+c8GO3IKMeU/OWET2DXw="
+    },
+    "benefithandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole9c939d1c-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:benefithandler-dev",
+        "Name": "benefithandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole9c939d1c-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.238Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/benefithandler-cloudformation-template.json",
+        "logicalId": "functionbenefithandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/benefithandler-4a465079645069624757-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:21.846Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:22.288Z",
+      "distZipFilename": "benefithandler-4a465079645069624757-build.zip",
+      "lastPushDirHash": "fQwCr3YV746C4xOHA9M5xXBqIsU="
+    },
+    "bridgesocket": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole413c8e16-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:bridgesocket-dev",
+        "Name": "bridgesocket-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole413c8e16-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.243Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/bridgesocket-cloudformation-template.json",
+        "logicalId": "functionbridgesocket"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/bridgesocket-55424e6e7874392f7869-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:24.324Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:27.290Z",
+      "distZipFilename": "bridgesocket-55424e6e7874392f7869-build.zip",
+      "lastPushDirHash": "7CkiXGg13cteej4QeQrYJ/HfWFc="
+    },
+    "bridgev2layer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "output": {
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:74"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:22.677Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/bridgev2layer-awscloudformation-template.json",
+        "logicalId": "functionbridgev2layer"
+      },
+      "lastBuildTimeStamp": "2024-07-11T01:48:33.309Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-11T01:48:36.522Z",
+      "distZipFilename": "bridgev2layer-LambdaLayerVersion8e4bea49-build.zip",
+      "latestPushedVersionHash": "a5be6bf1cdfe9afc1fb0e5829b4577f6b50a44bfcdec3e0fa69eff7807d77d46",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion8e4bea49-build.zip"
+      }
+    },
+    "clienthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole1600b5eb-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:clienthandler-dev",
+        "Name": "clienthandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole1600b5eb-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.253Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/clienthandler-cloudformation-template.json",
+        "logicalId": "functionclienthandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/clienthandler-6d4c61496747576f6c77-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:30.727Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:31.086Z",
+      "distZipFilename": "clienthandler-6d4c61496747576f6c77-build.zip",
+      "lastPushDirHash": "/P1bySSMQoHkMQir9XbhGcNUPLc="
+    },
+    "cmstaskhandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole05298d01-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:cmstaskhandler-dev",
+        "Name": "cmstaskhandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole05298d01-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.258Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/cmstaskhandler-cloudformation-template.json",
+        "logicalId": "functioncmstaskhandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/cmstaskhandler-36366830534254507631-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:31.985Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:32.479Z",
+      "distZipFilename": "cmstaskhandler-36366830534254507631-build.zip",
+      "lastPushDirHash": "wGl/MwxS7uFTyp+CMyyGRkPAsK8="
+    },
+    "leavehandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRoleb1522f4d-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:leavehandler-dev",
+        "Name": "leavehandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRoleb1522f4d-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.264Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/leavehandler-cloudformation-template.json",
+        "logicalId": "functionleavehandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/leavehandler-43394353574463513756-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:33.366Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:33.695Z",
+      "distZipFilename": "leavehandler-43394353574463513756-build.zip",
+      "lastPushDirHash": "IVtqoth0iAudp7B+NohZ4LYdgFc="
+    },
+    "leaverequesthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRolea51c21b4-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:leaverequesthandler-dev",
+        "Name": "leaverequesthandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRolea51c21b4-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.268Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/leaverequesthandler-cloudformation-template.json",
+        "logicalId": "functionleaverequesthandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/leaverequesthandler-59466745697a396d6c30-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:34.555Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:34.896Z",
+      "distZipFilename": "leaverequesthandler-59466745697a396d6c30-build.zip",
+      "lastPushDirHash": "MiwOGiG7CVAAKmABCR4TcvuOjTU="
+    },
+    "posthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRoleee8d1958-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:posthandler-dev",
+        "Name": "posthandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRoleee8d1958-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.273Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/posthandler-cloudformation-template.json",
+        "logicalId": "functionposthandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/posthandler-43465073385a674e2f67-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:35.763Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:36.081Z",
+      "distZipFilename": "posthandler-43465073385a674e2f67-build.zip",
+      "lastPushDirHash": "uD6CbcFLOdSy93uvrWtNJP/YTxQ="
+    },
+    "profilehandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRolef725fe73-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:profilehandler-dev",
+        "Name": "profilehandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRolef725fe73-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.278Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/profilehandler-cloudformation-template.json",
+        "logicalId": "functionprofilehandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/profilehandler-56674b32674231444b41-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:37.021Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:37.347Z",
+      "distZipFilename": "profilehandler-56674b32674231444b41-build.zip",
+      "lastPushDirHash": "DsUHAJcZF283t6j6z6f7YSSxSvk="
+    },
+    "recruitmenthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRolec07ef829-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:recruitmenthandler-dev",
+        "Name": "recruitmenthandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRolec07ef829-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.284Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/recruitmenthandler-cloudformation-template.json",
+        "logicalId": "functionrecruitmenthandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/recruitmenthandler-315667456e6f6944756c-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:38.257Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:38.714Z",
+      "distZipFilename": "recruitmenthandler-315667456e6f6944756c-build.zip",
+      "lastPushDirHash": "cfvVQyqgCFQoHv92FWus74dcmSs="
+    },
+    "shortcuthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRolede707f49-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:shortcuthandler-dev",
+        "Name": "shortcuthandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRolede707f49-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.289Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/shortcuthandler-cloudformation-template.json",
+        "logicalId": "functionshortcuthandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/shortcuthandler-367972354f5a4c2f4c78-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:39.605Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:39.925Z",
+      "distZipFilename": "shortcuthandler-367972354f5a4c2f4c78-build.zip",
+      "lastPushDirHash": "z7aILNH6SlU0JN2aV+dzdRxOqeA="
+    },
+    "teamhandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRolee948dfaa-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:teamhandler-dev",
+        "Name": "teamhandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRolee948dfaa-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.296Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/teamhandler-cloudformation-template.json",
+        "logicalId": "functionteamhandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/teamhandler-6d686363754f4d716470-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:40.843Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:41.174Z",
+      "distZipFilename": "teamhandler-6d686363754f4d716470-build.zip",
+      "lastPushDirHash": "1xzAezTqGAzTLBgdEZPPjsn+otg="
+    },
+    "todohandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole0c9e32a4-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:todohandler-dev",
+        "Name": "todohandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole0c9e32a4-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.301Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/todohandler-cloudformation-template.json",
+        "logicalId": "functiontodohandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/todohandler-56697446745730797a68-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:42.075Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:42.408Z",
+      "distZipFilename": "todohandler-56697446745730797a68-build.zip",
+      "lastPushDirHash": "1HPIPai5i8cL9MAtYiIDvQR5WRA="
+    },
+    "userhandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole3c96e23e-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:userhandler-dev",
+        "Name": "userhandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole3c96e23e-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:22.677Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/userhandler-cloudformation-template.json",
+        "logicalId": "functionuserhandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/userhandler-423737304d3569735447-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-11T01:48:39.244Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-11T01:48:39.826Z",
+      "distZipFilename": "userhandler-423737304d3569735447-build.zip",
+      "lastPushDirHash": "tdQ87fgOTuUDrqs6ovVhE1Q9Zs4="
+    },
+    "workspacehandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::675436869821:role/bridgev2LambdaRole332d476e-dev",
+        "Region": "ap-southeast-1",
+        "Arn": "arn:aws:lambda:ap-southeast-1:675436869821:function:workspacehandler-dev",
+        "Name": "workspacehandler-dev",
+        "LambdaExecutionRole": "bridgev2LambdaRole332d476e-dev"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.312Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/function/workspacehandler-cloudformation-template.json",
+        "logicalId": "functionworkspacehandler"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
+        "s3Key": "amplify-builds/workspacehandler-5133646b645753476375-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-07-10T07:44:44.470Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-07-10T07:44:44.927Z",
+      "distZipFilename": "workspacehandler-5133646b645753476375-build.zip",
+      "lastPushDirHash": "XGxmg+v82DaLwy+47yVbo7wAH9o="
+    }
+  },
+  "storage": {
+    "bridgeProductionStorage": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3",
+      "output": {
+        "BucketName": "bridgebucket150517-dev",
+        "Region": "ap-southeast-1"
+      },
+      "lastPushTimeStamp": "2024-07-11T01:50:16.318Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-bridgev2-dev-150517-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storagebridgeProductionStorage"
+      },
+      "lastPushDirHash": "v3/7/07w/SZj20PyYnYKc1aw1Ps="
+    }
+  }
+}
