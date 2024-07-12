@@ -40,14 +40,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "notificationhandler"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "leavehandler"
         },
         {
@@ -65,14 +57,6 @@
           ],
           "category": "function",
           "resourceName": "recruitmenthandler"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "teamhandler"
         },
         {
           "attributes": [
@@ -113,6 +97,14 @@
           ],
           "category": "function",
           "resourceName": "leaverequesthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "departmenthandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -152,7 +144,15 @@
   "function": {
     "accounthandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -182,13 +182,43 @@
     },
     "clienthandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "cmstaskhandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "departmenthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -220,31 +250,59 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "notificationhandler": {
-      "build": true,
-      "dependsOn": [],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "posthandler": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "profilehandler": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "recruitmenthandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "shortcuthandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -264,7 +322,15 @@
     },
     "todohandler": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -284,6 +350,15 @@
     },
     "workspacehandler": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -433,6 +508,22 @@
         }
       ]
     },
+    "AMPLIFY_function_departmenthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_departmenthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
     "AMPLIFY_function_leavehandler_database": {
       "usedBy": [
         {
@@ -478,30 +569,6 @@
         {
           "category": "function",
           "resourceName": "leaverequesthandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_notificationhandler_database": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "notificationhandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_notificationhandler_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "notificationhandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_notificationhandler_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "notificationhandler"
         }
       ]
     },

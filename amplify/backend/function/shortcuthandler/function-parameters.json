@@ -1,0 +1,22 @@
+{
+  "permissions": {},
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "bridgev2layer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "database",
+      "environmentVariableName": "DATABASE"
+    },
+    {
+      "cloudFormationParameterName": "test",
+      "environmentVariableName": "test"
+    }
+  ]
+}

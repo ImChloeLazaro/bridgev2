@@ -3,11 +3,12 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require("mongoose")
 const teamModel = require('/opt/schema/teamSchema.js')
+const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
-
+app.use(limiter)
 // Enable CORS for all methods
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -19,7 +20,6 @@ mongoose.connect(process.env.DATABASE)
 
 app.get('/teams', async function(req, res) {
   try {
-    const {sub} = req.query
     const team = await teamModel.find()
     res.status(200).json({ success: true, response: team})
   } catch (error) {
@@ -46,33 +46,62 @@ app.get('/teams/*', async function(req, res) {
 });
 
 app.post('/teams', async function(req, res) {
-  const employee = {
-    "sub" : "d0229811-67cc-4fb8-915b-38d8029b85df",
-    "department": "TEAM FAST",
-    "immediate_head": {
-      "sub" : "d0229811-67cc-4fb8-915b-38d8029b85df",
-      "name" : "Dennis Penaredondo",
-      "picture" : "https://m.media-amazon.com/images/M/MV5BZjI1MTU2NGItYTY3Yi00Y2U2LTk0N2ItNTBhNmY0ZWZlZmExXkEyXkFqcGdeQXVyNjMwMzc3MjE@._V1_QL75_UX500_CR0,0,500,281_.jpg"
-    },
-    "client": "Non-Blooms"
-  }
+  const {name, heads, members, client} = req.body
   try {
-    const team = await teamModel.create(employee)
-    res.status(200).json({ success: true, response: team})
+    if (!name || !client || !heads || !members) {
+      return res.status(400).json({ error: 'Missing required fields' });
+  }
+    const team = await teamModel.create(req.body)
+    res.status(200).json({ success: true, response: team, body: req.body})
   } catch (error) {
     res.json({ error: error }); 
   }
 });
 
+app.put('/teams/*', async function(req, res) {
+  try {
+    const {status, _id} = req.body;
+    const key = req.path;
+
+    switch (key) {
+      case '/teams/activeOrArchive':
+        const team = await teamModel.updateOne({_id}, {status})
+        res.json({ success: true, response: team });
+        break;
+      case '/teams/updateMember':
+        const teamOne = await teamModel.updateOne(
+          { _id: _id, "members._id": status._id },
+          { 
+            $set: {
+              "members.$.employment_status": status.employment_status,
+              "members.$.position": status.position,
+              "members.$.status": status.status
+            }
+          }
+        );
+        res.json({ success: true, response: teamOne, status: status});
+        break;
+      default:
+        res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
+        break;
+    }
+  } catch (error) {
+    res.json({ error: error }); 
+  }
+})
 app.put('/teams', async function(req, res) {
   try {
-    const {sub, department, immediate_head, client} = req.body
-    const team = await teamModel.updateOne({sub: sub}, {department: department, immediate_head: immediate_head, client: client})
+    const {_id, name, heads, members, client} = req.body
+    const team = await teamModel.updateOne({_id}, {
+      name,
+      heads,
+      members,
+      client
+    })
     res.status(200).json({ success: true, response: team})
   } catch (error) {
     res.json({ error: error });
   }
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
 

@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "paths": {
+    "/shortcut": {
+      "name": "/shortcut",
+      "lambdaFunction": "shortcuthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/post": {
+      "name": "/post",
+      "lambdaFunction": "posthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/profile": {
+      "name": "/profile",
+      "lambdaFunction": "profilehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/user": {
+      "name": "/user",
+      "lambdaFunction": "userhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/leave": {
+      "name": "/leave",
+      "lambdaFunction": "leavehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/benefits": {
+      "name": "/benefits",
+      "lambdaFunction": "benefithandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/recruitment": {
+      "name": "/recruitment",
+      "lambdaFunction": "recruitmenthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/cms/task": {
+      "name": "/cms/task",
+      "lambdaFunction": "cmstaskhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/cms/client": {
+      "name": "/cms/client",
+      "lambdaFunction": "clienthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/todo": {
+      "name": "/todo",
+      "lambdaFunction": "todohandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/workspace": {
+      "name": "/workspace",
+      "lambdaFunction": "workspacehandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/leaverequest": {
+      "name": "/leaverequest",
+      "lambdaFunction": "leaverequesthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/teams/department": {
+      "name": "/teams/department",
+      "lambdaFunction": "departmenthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}
