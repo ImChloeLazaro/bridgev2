@@ -1,4 +1,3 @@
-import AddTaskModal from "@/app/components/cms/AddTaskModal";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import ClientList from "@/app/components/cms/ClientList";
 import CMSFooter from "@/app/components/cms/CMSFooter";
@@ -6,10 +5,10 @@ import CMSHeader from "@/app/components/cms/CMSHeader";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import CTAButtons from "@/app/components/CTAButtons";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
   clientsAtom,
+  clientsCountAtom,
   fetchClientAtom,
 } from "@/app/store/ClientStore";
 import {
@@ -35,29 +34,31 @@ import {
 import {
   changeViewAtom,
   clientSelectionChangeAtom,
-  dateRangeAtom,
-  endTimeAtom,
   pageRowsSelectionAtom,
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
-  selectedManagerAtom,
-  selectedProcessorAtom,
   selectedProcessorTaskActionAtom,
-  selectedRecurrenceAtom,
-  selectedReviewerAtom,
   selectedReviewerTaskActionAtom,
   selectedTaskFilterKeysAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
-  startTimeAtom,
   taskDataAtom,
+  taskNameAtom,
+  dateRangeAtom,
+  startTimeAtom,
+  endTimeAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
   taskDurationAtom,
   taskInstructionAtom,
-  taskNameAtom,
 } from "../store/CMSTLStore";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
 // @refresh reset
 
@@ -75,7 +76,7 @@ const CMSTL = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "dueDate",
+    column: "endDate",
     direction: "descending",
   });
 
@@ -207,7 +208,6 @@ const CMSTL = () => {
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
   // ######################################################
-
   const selectedClient = clients.filter(
     (client) => client._id === selectedClientToView
   );
@@ -232,11 +232,10 @@ const CMSTL = () => {
     }
     if (
       selectedClientFilterKeyString !== "all" &&
-      Array.from(selectedClientFilterKeyString).length !==
-        clientFilterKeys.length
+      Array.from(selectedClientFilterKeys).length !== clientFilterKeys.length
     ) {
       filteredClients = filteredClients.filter((client) =>
-        Array.from(selectedClientFilterKeyString).includes(client.name)
+        Array.from(selectedClientFilterKeys).includes(client.name)
       );
     }
 
@@ -247,6 +246,7 @@ const CMSTL = () => {
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
+    selectedClientFilterKeys,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -320,6 +320,7 @@ const CMSTL = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
       fetchClient();
@@ -357,7 +358,7 @@ const CMSTL = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}

@@ -1,5 +1,4 @@
 import { Image } from "@nextui-org/react";
-
 export function UnderConstruction({ src }) {
   return (
     <div className="flex justify-center items-center h-full w-full p-2 md:p-0 border-2">

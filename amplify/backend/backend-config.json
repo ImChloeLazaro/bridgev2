@@ -40,6 +40,14 @@
             "Arn"
           ],
           "category": "function",
+          "resourceName": "notificationhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
           "resourceName": "leavehandler"
         },
         {
@@ -144,15 +152,7 @@
   "function": {
     "accounthandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -182,29 +182,13 @@
     },
     "clienthandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "cmstaskhandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -236,59 +220,31 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "notificationhandler": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "posthandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "profilehandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "recruitmenthandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "shortcuthandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -308,15 +264,7 @@
     },
     "todohandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -336,15 +284,6 @@
     },
     "workspacehandler": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "bridgev2layer"
-        }
-      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -539,6 +478,30 @@
         {
           "category": "function",
           "resourceName": "leaverequesthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_notificationhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notificationhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_notificationhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notificationhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_notificationhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notificationhandler"
         }
       ]
     },

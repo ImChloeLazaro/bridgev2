@@ -4,12 +4,10 @@ import RightBar from "@/app/components/RightBar";
 import RightBarCard from "@/app/components/RightBarCard";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
-import { MdFeed, MdGridView } from "react-icons/md";
 import "../aws-auth";
-import NavigationTab from "../navigation/components/NavigationTab";
-import { restinsert } from "../utils/amplify-rest";
+import { userAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
 import CreatePostCard from "./home/components/createPost/CreatePostCard";
 import HRBulletinBoardList from "./home/components/hrBulletinBoard/HRBulletinBoardList";
@@ -17,12 +15,16 @@ import PostFeed from "./home/components/post/PostFeed";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
+import { fetchPostAtom } from "./home/store/PostStore";
+import { restinsert } from "../utils/amplify-rest";
+import NavigationTab from "../navigation/components/NavigationTab";
+import { MdFeed, MdGridView } from "react-icons/md";
 
 const User = () => {
   // const user = useAtomValue(userAtom);
   const user = useAtomValue(authenticationAtom).auth;
 
-  // console.log("first time user", user);
+  console.log("first time user", user);
   useEffect(() => {
     const insertProfile = async () => {
       await restinsert("/user", {
@@ -55,6 +57,7 @@ const User = () => {
               <BirthdayCard />
 
               <RightBarCard
+              
                 title={"What's New"}
                 description={"Shows the latest announcements from HR"}
                 isExpandable={true}

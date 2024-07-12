@@ -1,4 +1,3 @@
-import AddTaskModal from "@/app/components/cms/AddTaskModal";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import ClientList from "@/app/components/cms/ClientList";
 import CMSFooter from "@/app/components/cms/CMSFooter";
@@ -9,6 +8,7 @@ import CTAButtons from "@/app/components/CTAButtons";
 import {
   clientFilterKeysAtom,
   clientsAtom,
+  clientsCountAtom,
   fetchClientAtom,
 } from "@/app/store/ClientStore";
 import {
@@ -26,40 +26,40 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
-  MdChangeCircle,
   MdFactCheck,
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
   MdRemoveCircleOutline,
-  MdDelete,
+  MdChangeCircle,
 } from "react-icons/md";
 import {
   changeViewAtom,
   clientSelectionChangeAtom,
-  dateRangeAtom,
-  endTimeAtom,
   pageRowsSelectionAtom,
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
-  selectedManagerAtom,
-  selectedProcessorAtom,
   selectedProcessorTaskActionAtom,
-  selectedRecurrenceAtom,
-  selectedReviewerAtom,
   selectedReviewerTaskActionAtom,
   selectedTaskFilterKeysAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
-  startTimeAtom,
   taskDataAtom,
+  taskNameAtom,
+  dateRangeAtom,
+  startTimeAtom,
+  endTimeAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
   taskDurationAtom,
   taskInstructionAtom,
-  taskNameAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
 // @refresh reset
 
@@ -82,7 +82,7 @@ const CMSAdmin = () => {
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "dueDate",
+    column: "endDate",
     direction: "descending",
   });
 
@@ -121,7 +121,7 @@ const CMSAdmin = () => {
   const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
     selectedProcessorTaskActionAtom
   );
-
+  
   const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
     selectedReviewerTaskActionAtom
   );
@@ -221,11 +221,10 @@ const CMSAdmin = () => {
     }
     if (
       selectedClientFilterKeyString !== "all" &&
-      Array.from(selectedClientFilterKeyString).length !==
-        clientFilterKeys.length
+      Array.from(selectedClientFilterKeys).length !== clientFilterKeys.length
     ) {
       filteredClients = filteredClients.filter((client) =>
-        Array.from(selectedClientFilterKeyString).includes(client.name)
+        Array.from(selectedClientFilterKeys).includes(client.name)
       );
     }
 
@@ -235,6 +234,7 @@ const CMSAdmin = () => {
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
+    selectedClientFilterKeys,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -262,13 +262,6 @@ const CMSAdmin = () => {
 
   const actions = [
     {
-      key: "delete",
-      status_id: "admin",
-      color: "red",
-      label: "Delete task from client",
-      icon: <MdDelete size={18} />,
-    },
-    {
       key: "escalate",
       status_id: "management",
       color: "orange",
@@ -293,14 +286,14 @@ const CMSAdmin = () => {
       key: "assign",
       status_id: "admin",
       color: "blue",
-      label: "Assign a member to the client",
+      label: "Assign a team to the client",
       icon: <MdOutlineAssignment size={18} />,
     },
     {
       key: "remove",
       status_id: "admin",
       color: "red",
-      label: "Remove a member from the client",
+      label: "Remove a team from the client",
       icon: <MdRemoveCircleOutline size={18} />,
     },
   ];
@@ -329,6 +322,7 @@ const CMSAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("REFRESH");
     const interval = setInterval(() => {
       fetchTask();
       fetchClient();
@@ -366,7 +360,7 @@ const CMSAdmin = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className="flex w-full h-full my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}

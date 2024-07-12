@@ -4,13 +4,15 @@ import { isValidElement } from "react";
 const CTAButtons = ({
   radius = "sm",
   label,
-  color = "grey",
+  color = "grey", 
   size = "sm",
   startContent,
   endContent,
   showButton = true,
   children,
   className,
+  chevron = false,
+  cnLabel,
   ...props
 }) => {
   const colors = {
@@ -51,7 +53,7 @@ const CTAButtons = ({
       {children ? (
         children
       ) : (
-        <p className="font-bold text-sm lg:text-base">{label}</p>
+        <p className={`font-bold text-sm lg:text-base ${cnLabel} ${chevron ? 'mr-auto' : 'mr-0'}`}>{label}</p>
       )}
     </Button>
   );

@@ -1,11 +1,12 @@
 "use client";
+import React from "react";
 
-import { UnderConstruction } from "@/app/components/UnderConstruction";
+import MiniUnderContstruction from "@/app/components/MiniUnderContstruction"
 
 const Dashboard = () => {
   return (
     <div className="h-full w-full ">
-      <UnderConstruction src={"/under-construction1.png"} />
+      <MiniUnderContstruction src={"/imageUnderContstruction.png"} mini={false}/>
     </div>
   );
 };

@@ -1,6 +1,7 @@
+import React from "react";
+import ShortcutItem from "./ShortcutItem";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import ShortcutItem from "./ShortcutItem";
 
 export function SortableItem(props) {
   const { attributes, listeners, setNodeRef, transform, transition } =

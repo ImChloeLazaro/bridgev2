@@ -48,7 +48,8 @@ const TaskOptionsDropdown = ({
             title: "text-base font-medium ",
           }}
           disabledKeys={
-            (isEscalated && ["mark", "escalate"]) || (isOverdue && ["mark"])
+            (isEscalated && ["mark", "escalate"]) ||
+            (isOverdue && ["mark", "escalate"])
           }
         >
           {(item) => {
@@ -65,7 +66,7 @@ const TaskOptionsDropdown = ({
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
-                        sla_id: task_id,
+                        task_id: task_id,
                       });
                       confirmationWindow.onOpen();
                     }}
@@ -107,11 +108,12 @@ const TaskOptionsDropdown = ({
                     item.color === "yellow" && "data-[hover=true]:text-shadow",
                     `${
                       isOverdue &&
-                      ["mark"].includes(item.key) &&
+                      !["reassign", "assign", "remove"].includes(item.key) &&
                       "text-black-default/60 cursor-not-allowed"
                     }`,
                     `${
-                      ["mark", "escalate"].includes(item.key) && isEscalated
+                      (item.key === "mark" || item.key === "escalate") &&
+                      isEscalated
                         ? "text-black-default/60 cursor-not-allowed"
                         : ""
                     }`
@@ -121,14 +123,14 @@ const TaskOptionsDropdown = ({
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
-                        sla_id: task_id,
+                        task_id: task_id,
                       });
                       taskActionWindow.onOpen();
                     } else {
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
-                        sla_id: task_id,
+                        task_id: task_id,
                       });
                       confirmationWindow.onOpen();
                     }

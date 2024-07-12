@@ -45,6 +45,7 @@ export function showNotification(data) {
   const { sound, title, description, body, icon } = data;
   if ("Notification" in window && Notification.permission === "granted") {
     if (document.visibilityState === "hidden") {
+      console.log("PUSH NOTIF");
       var notification = new Notification(title, {
         body: body,
         icon: icon,
@@ -53,7 +54,9 @@ export function showNotification(data) {
         console.log("ERROR NOTIFICATION", e);
         toast("Push Notification Failed");
       });
+      console.log("PUSH PUSH PUSH");
     } else {
+      console.log("TOAST NOTIF");
       toast(title, {
         description: description,
         icon: <Avatar src={icon} size="md" />,
@@ -61,8 +64,10 @@ export function showNotification(data) {
         classNames: { toast: "flex justify-between gap-8", icon: "mr-2" },
       });
       sound();
+      console.log("SOUND DONE");
     }
   } else {
+    console.log("TOAST NOTIF");
     toast.error("Notifications Request Permission Denied", {
       position: "top-center",
       description: "Please grant permission for notifications to be shown.",
@@ -80,6 +85,7 @@ export function showNotification(data) {
 export function requestPermissionNotification() {
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
+      console.log("Notification permission granted");
       var notification = new Notification("Push Notifications Enabled", {
         body: "You can now see your notifications in the bottom-right side of the screen!",
         icon: "/aretex-logo.png",

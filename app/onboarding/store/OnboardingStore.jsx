@@ -1,7 +1,7 @@
+import { atom } from "jotai";
+import { readwithparams } from "@/app/utils/amplify-rest";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { onboardingDataAtom } from "@/app/user/profile/store/ProfileStore";
-import { readwithparams } from "@/app/utils/amplify-rest";
-import { atom } from "jotai";
 
 export const stepsAtom = atom([
   "application",

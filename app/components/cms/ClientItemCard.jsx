@@ -10,9 +10,12 @@ import {
   Link,
   Spinner,
 } from "@nextui-org/react";
+import { compareAsc } from "date-fns";
 import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
-import { MdAdd, MdChevronRight, MdPerson } from "react-icons/md";
+import { MdChevronRight } from "react-icons/md";
+import { MdPerson } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 
 const tagColors = {
   todo: "blue",
@@ -47,7 +50,8 @@ const ClientItemCard = ({
       .filter((task) => task.client?.client_id === clientKey)[0]
       ?.sla.filter(
         (sla) =>
-          sla.progress.toLowerCase() === "overdue" && sla.status === "todo"
+          compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0 &&
+          sla.status === "todo"
       ).length;
     let escalateCount = tasks
       .filter((task) => task.client?.client_id === clientKey)[0]

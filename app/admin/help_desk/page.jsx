@@ -1,12 +1,20 @@
 "use client";
-import { userAtom } from "@/app/store/UserStore";
+import React from "react";
+import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import PlaceholderContent from "../../components/PlaceholderContent";
+import { userAtom } from "@/app/store/UserStore";
 const ITHelpDesk = () => {
   const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
-  return <PlaceholderContent />;
+  return (
+    <div className="h-full w-full ">
+      <MiniUnderContstruction
+        src={"/imageUnderContstruction.png"}
+        mini={false}
+      />
+    </div>
+  );
 };
 
 export default ITHelpDesk;

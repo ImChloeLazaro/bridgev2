@@ -1,9 +1,10 @@
 import CTAButtons from "@/app/components/CTAButtons";
 import { Avatar } from "@nextui-org/react";
-import { MdCameraAlt, MdInsertDriveFile } from "react-icons/md";
+import { MdInsertDriveFile } from "react-icons/md";
 import { RiCheckboxCircleFill, RiCloseCircleFill } from "react-icons/ri";
-import IconButton from "../IconButton";
 import ClientDetailsContent from "./ClientDetailsContent";
+import { MdCameraAlt } from "react-icons/md";
+import IconButton from "../IconButton";
 
 const ClientDetails = ({ showClientDetails, selectedClient }) => {
   const clientInfo = selectedClient[0];

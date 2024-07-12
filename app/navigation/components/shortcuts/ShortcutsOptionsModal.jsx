@@ -20,6 +20,16 @@ import {
   shortcutsAtom,
   updateShortcutAtom,
 } from "../../store/ShortcutsStore";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
   const auth = useAtomValue(authenticationAtom);

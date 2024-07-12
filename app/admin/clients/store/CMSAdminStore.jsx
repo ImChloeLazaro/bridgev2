@@ -70,7 +70,7 @@ export const selectedRecurrenceAtom = atom(new Set(["daily"]));
 export const taskDurationAtom = atom("");
 
 export const dateRangeAtom = atom({
-  start: today(getLocalTimeZone()).set({ hour: 8 }),
+  start: today(getLocalTimeZone()),
   end: today(getLocalTimeZone()).add({ days: 1 }),
 });
 export const startTimeAtom = atom(parseTime(format(new Date(), "HH:mm")));
@@ -113,7 +113,7 @@ export const taskDataAtom = atom((get) => {
             ? "Add Instructions"
             : get(taskInstructionAtom),
         status: "todo", //todo, pending, to review, done
-        progress: "good", //good, overdue, adhoc
+        progress: "Good", //Good, Overdue, Adhoc
         duration: {
           start: toCalendarDateTime(
             get(dateRangeAtom).start,

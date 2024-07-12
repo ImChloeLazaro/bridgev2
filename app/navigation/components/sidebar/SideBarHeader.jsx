@@ -1,6 +1,6 @@
 import NextImage from "next/image";
-import SidebarHeader from "../../../../public/header.webp";
 import ExternalLinks from "./ExternalLinks";
+import SidebarHeader from "../../../../public/header.webp";
 
 const SideBarHeader = () => {
   return (

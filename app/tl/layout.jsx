@@ -1,13 +1,13 @@
 "use client";
-import { cn } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
-import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
-import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
+import dynamic from "next/dynamic";
 import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
+import { cn } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
+import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
 
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,

@@ -37,7 +37,7 @@ const HRBulletinBoardList = () => {
       <Listbox
         items={hrBulletinBoard}
         aria-label="HR Bulletin List"
-        // onAction={(key) => console.log(key)}
+        onAction={(key) => console.log(key)}
         className="hidden"
         emptyContent={
           <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">

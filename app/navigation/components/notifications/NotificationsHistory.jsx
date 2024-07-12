@@ -1,18 +1,18 @@
-import SearchBar from "@/app/components/SearchBar";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   Button,
+  Chip,
   Image,
   Listbox,
   ListboxItem,
   ListboxSection,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Modal,
   ModalBody,
   ModalContent,
+  ModalFooter,
   ModalHeader,
-  Popover,
-  PopoverContent,
-  PopoverTrigger
 } from "@nextui-org/react";
 import {
   differenceInDays,
@@ -21,8 +21,6 @@ import {
   format,
 } from "date-fns";
 import { useAtom, useAtomValue } from "jotai";
-import { useMemo, useState } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
   notificationFilterKeysAtom,
   notificationsAtom,
@@ -31,6 +29,14 @@ import {
   selectedNotificationFilterKeysAtom,
   showUnreadAtom,
 } from "../../store/NotificationsStore";
+import { MdRefresh } from "react-icons/md";
+import IconButton from "@/app/components/IconButton";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import { Tabs, Tab } from "@nextui-org/react";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import SearchBar from "@/app/components/SearchBar";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 // @refresh reset
 
@@ -144,15 +150,15 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
 
   const sortedNotifications = useMemo(
     () =>
-      filteredNotifications.sort(
-        (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
-      ),
+      filteredNotifications
+        .slice(0, 10)
+        .sort((a, b) => new Date(b.createdBy) - new Date(a.createdBy)),
     [filteredNotifications]
   );
 
   const filteredTodayNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -164,7 +170,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredYesterdayNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -176,7 +182,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredThisWeekNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -188,7 +194,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredOlderNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -321,7 +327,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
                                   </p>
                                   <p className="font-normal text-xs">
                                     {`${handleNotificationDatetime(
-                                      item.createdBy.slice(0, -1) ?? new Date()
+                                      item.createdBy ?? new Date()
                                     )}`}
                                   </p>
                                 </div>

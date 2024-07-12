@@ -1,4 +1,3 @@
-import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
 import {
   addClientAtom,
@@ -9,6 +8,7 @@ import {
   selectedClientTabAtom,
 } from "@/app/store/ClientStore";
 import {
+  Chip,
   Modal,
   ModalBody,
   ModalContent,
@@ -16,13 +16,15 @@ import {
   ModalHeader,
   Tab,
   Tabs,
-  useDisclosure
+  useDisclosure,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useMemo } from "react";
-import { MdOutlineError } from "react-icons/md";
-import { toast } from "sonner";
+import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import ClientFormSections from "./ClientFormSections";
+import { toast } from "sonner";
+import ConfirmationWindow from "@/app/components/ConfirmationWindow";
+import { useMemo, useState } from "react";
+import { MdOutlineError } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
   const {
@@ -168,7 +170,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     );
 
     if (submitClientData) {
-      // console.log("submitClientData", submitClientData);
+      console.log("submitClientData", submitClientData);
       onOpenPopup();
     }
 
