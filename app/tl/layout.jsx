@@ -8,6 +8,7 @@ import { authenticationAtom } from "../store/AuthenticationStore";
 import { cn } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
+import { userAtom } from "../store/UserStore";
 
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
@@ -15,7 +16,7 @@ const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
 
 const TLLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);
-
+  const user = useAtomValue(userAtom);
   const pathname = usePathname();
 
   const cmsPaths = useAtomValue(cmsPathsAtom);
@@ -35,7 +36,7 @@ const TLLayout = ({ children }) => {
           )}
         >
           <div className="top-0">
-            {isHasOnboardingData && <OnboardingStatusAlert />}
+            <OnboardingStatusAlert showAlert={user.hasOnboardingData} />
             <NavigationBar />
           </div>
           <div className="flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">

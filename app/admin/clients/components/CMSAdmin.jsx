@@ -146,9 +146,9 @@ const CMSAdmin = () => {
     }
   );
 
-  const selectedTaskFilterKeyString = Array.from(selectedTaskFilterKeys).join(
-    ""
-  );
+  const selectedTaskFilterKeyString = Array.from(
+    selectedTaskFilterKeys
+  ).toString();
 
   const filteredTaskItems = useMemo(() => {
     let filteredTasks = convertedTasksFromSelectedClient?.length

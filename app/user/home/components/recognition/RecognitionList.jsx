@@ -9,7 +9,7 @@ import { useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { recognitionsAtom } from "../../store/RecognitionsStore";
 import RecognitionOptions from "./RecognitionOptions";
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
+import MiniUnderConstruction from "@/app/components/MiniUnderContstruction";
 
 // @refresh reset
 const RecognitionList = () => {
@@ -102,7 +102,7 @@ const RecognitionList = () => {
         }}
       </Listbox>
       <div className="h-full">
-        <MiniUnderContstruction />
+        <MiniUnderConstruction />
       </div>
     </div>
   );

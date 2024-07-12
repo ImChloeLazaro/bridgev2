@@ -52,4 +52,4 @@ const MiniUnderContstruction = ({
   );
 };
 
-export default MiniUnderContstruction;
+export default MiniUnderConstruction;

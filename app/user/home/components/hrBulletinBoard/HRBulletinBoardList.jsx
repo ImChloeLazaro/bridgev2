@@ -8,7 +8,7 @@ import {
 import { useAtomValue } from "jotai";
 import LabelTagChip from "../../../../components/LabelTagChip";
 import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
+import MiniUnderConstruction from "@/app/components/MiniUnderContstruction";
 // @refresh reset
 const HRBulletinBoardList = () => {
   const hrBulletinBoard = useAtomValue(hrBulletinBoardAtom);
@@ -102,7 +102,7 @@ const HRBulletinBoardList = () => {
         }}
       </Listbox>
       <div className="h-full">
-        <MiniUnderContstruction />
+        <MiniUnderConstruction />
       </div>
     </div>
   );

@@ -654,6 +654,209 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   }
 });
 
+export const recurrenceStartTimeAtom = atom((get) => {
+  return 8;
+});
+export const recurrenceEndTimeAtom = atom((get) => {
+  return 5;
+});
+
+export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
+  const tasks = await restread("/cms/task");
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task) => {
+      const updatedEndDateTime = task.sla.map((sla) => {
+        if (sla.progress.toLowerCase() === "overdue") {
+          return {
+            ...sla,
+            progress: "good",
+          };
+        }
+
+        if (sla.status === "todo" || sla.status === "done") {
+          if (sla.duration.recurrence.toLowerCase() === "daily") {
+            let difference = differenceInDays(
+              new Date(),
+              new Date(sla.duration.end.slice(0, -1))
+            );
+            if (difference >= 1) {
+              return {
+                ...sla,
+                duration: {
+                  ...sla.duration,
+                  end: parseDateTime(sla.duration.end.slice(0, -1))
+                    .set({
+                      hour: 17,
+                    })
+                    .add({
+                      days: 1,
+                    })
+                    .toString(),
+                },
+              };
+            }
+          }
+          if (sla.duration.recurrence.toLowerCase() === "weekly") {
+            let difference = differenceInWeeks(
+              new Date(),
+              new Date(sla.duration.end.slice(0, -1))
+            );
+            if (difference >= 1) {
+              return {
+                ...sla,
+                duration: {
+                  ...sla.duration,
+                  end: parseDateTime(sla.duration.end.slice(0, -1))
+                    .set({
+                      hour: 17,
+                    })
+                    .add({
+                      weeks: 1,
+                    })
+                    .toString(),
+                },
+              };
+            }
+          }
+          if (sla.duration.recurrence.toLowerCase() === "monthly") {
+            let difference = differenceInMonths(
+              new Date(),
+              new Date(sla.duration.end.slice(0, -1))
+            );
+            if (difference >= 1) {
+              return {
+                ...sla,
+                duration: {
+                  ...sla.duration,
+                  end: parseDateTime(sla.duration.end.slice(0, -1))
+                    .set({
+                      hour: 17,
+                    })
+                    .add({
+                      months: 1,
+                    })
+                    .toString(),
+                },
+              };
+            }
+          }
+          if (sla.duration.recurrence.toLowerCase() === "quarterly") {
+            let difference = differenceInQuarters(
+              new Date(),
+              new Date(sla.duration.end.slice(0, -1))
+            );
+            if (difference >= 1) {
+              return {
+                ...sla,
+                duration: {
+                  ...sla.duration,
+                  end: parseDateTime(sla.duration.end.slice(0, -1))
+                    .set({
+                      hour: 17,
+                    })
+                    .add({
+                      months: 3,
+                    })
+                    .toString(),
+                },
+              };
+            }
+          }
+          if (sla.duration.recurrence.toLowerCase() === "yearly") {
+            let difference = differenceInYears(
+              new Date(),
+              new Date(sla.duration.end.slice(0, -1))
+            );
+            if (difference >= 1) {
+              return {
+                ...sla,
+                duration: {
+                  ...sla.duration,
+                  end: parseDateTime(sla.duration.end.slice(0, -1))
+                    .set({
+                      hour: 17,
+                    })
+                    .add({
+                      years: 1,
+                    })
+                    .toString(),
+                },
+              };
+            }
+          }
+          return sla;
+        } else if (sla.status === "done") {
+          return {
+            ...sla,
+            status: "todo",
+          };
+        } else {
+          return sla;
+        }
+      });
+
+      console.log("updatedEndDateTime", updatedEndDateTime);
+
+      return { ...task, sla: updatedEndDateTime };
+    });
+
+    const responseAll = await Promise.all(
+      convertedTasks.map(async (task) => {
+        const response = await restupdate("/cms/task", task);
+        return { success: response?.success ?? false };
+      })
+    );
+    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
+
+export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
+  const tasks = await restread("/cms/task");
+  const user = await get(userAtom);
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task) => {
+      const updatedEndDateTime = task.sla.map((sla) => {
+        if (sla.status === "todo") {
+          let isOverdue =
+            compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
+          return {
+            ...sla,
+            progress: isOverdue ? "overdue" : sla.progress,
+          };
+        } else {
+          return sla;
+        }
+      });
+
+      return { ...task, sla: updatedEndDateTime };
+    });
+
+    const doneOverdueCount = convertedTasks.map((task) => {
+      return {
+        client: task.client,
+        overdue: task.sla.filter((sla) => sla.progress === "overdue"),
+        done: task.sla.filter((sla) => sla.status === "done"),
+      };
+    });
+
+    const responseAll = await Promise.all(
+      convertedTasks.map(async (task) => {
+        const response = await restupdate("/cms/task", task);
+        return { success: response?.success ?? false };
+      })
+    );
+    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
+
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
     return {

@@ -1,4 +1,5 @@
-import { Listbox, ListboxItem, Image, cn } from "@nextui-org/react";
+import MiniUnderConstruction from "@/app/components/MiniUnderContstruction";
+import { Image, Listbox, ListboxItem, cn } from "@nextui-org/react";
 import { format } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 import { useAtomValue } from "jotai";
@@ -77,8 +78,7 @@ const TrainingList = () => {
 
   return (
     <>
-      {/* Google Sign-In */}
-      {/* <GoogleOAuth isDisabled={true} />  */}
+      {/* <GoogleOAuth isDisabled={true} /> */}
       {loading ? (
         <div>Loading...</div>
       ) : (
@@ -171,7 +171,7 @@ const TrainingList = () => {
             }}
           </Listbox>
           <div className="h-full">
-            <MiniUnderContstruction />
+            <MiniUnderConstruction />
           </div>
         </div>
       )}

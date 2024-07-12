@@ -143,7 +143,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await addClient(clientData), await fetchClient()),
+          async () => resolve(await fetchClient()), //await addClient(clientData),
           2000
         )
       );

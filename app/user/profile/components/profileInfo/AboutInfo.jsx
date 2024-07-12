@@ -113,9 +113,7 @@ const AboutInfo = () => {
               </p>
             </div>
             <p className="w-1/2">
-              {personalInfo.address === "N/A"
-                ? "No Data Available"
-                : personalInfo.address ?? "No Data Available"}
+              {personalInfo.address ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -129,9 +127,7 @@ const AboutInfo = () => {
               </p>
             </div>
             <p className="w-1/2">
-              {personalInfo.contact === "N/A"
-                ? "No Data Available"
-                : personalInfo.contact ?? "No Data Available"}
+              {personalInfo.contact ?? "No Data Available"}
             </p>
           </div>
           <Divider />

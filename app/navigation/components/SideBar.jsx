@@ -96,6 +96,13 @@ const SideBar = ({}) => {
     }
   };
 
+  // document.addEventListener("keydown", function (event) {
+  //   if (event.key === "q") {
+  //     event.preventDefault();
+  //     alert("Q was pressed!");
+  //   }
+  // });
+
   return (
     <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
       <Sidebar
@@ -107,7 +114,7 @@ const SideBar = ({}) => {
         onBackdropClick={() => setToggled(false)}
         customBreakPoint={`${customBreakPoint}px`}
         onBreakPoint={setBroken}
-        transitionDuration={800}
+        transitionDuration={400}
         rootStyles={{
           width: "14rem",
           height: "100%",

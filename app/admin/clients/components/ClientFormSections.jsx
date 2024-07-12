@@ -244,10 +244,6 @@ const ClientFormSections = () => {
           <FormFieldRadio
             isRequired={true}
             label={"Are there any other owners or directors?"}
-            choices={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
             fullWidth={true}
             value={companyOtherOwner}
             onValueChange={setCompanyOtherOwner}
@@ -378,10 +374,6 @@ const ClientFormSections = () => {
         <FormFieldRadio
           isRequired={true}
           label={"Do you outsource payroll?"}
-          choices={[
-            { value: true, label: "Yes" },
-            { value: false, label: "No" },
-          ]}
           fullWidth={false}
           value={financialOutsourcePayroll}
           onValueChange={setFinancialOutsourcePayroll}

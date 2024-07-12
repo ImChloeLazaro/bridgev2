@@ -10,9 +10,7 @@ import { MdCameraAlt } from "react-icons/md";
 import IconButton from "@/app/components/IconButton";
 
 const ProfileHeader = () => {
-  const isVisibleJobTitle = useAtomValue(isVisibleJobTitleAtom);
   const user = useAtomValue(userAtom);
-
   return (
     <>
       <div className="m-0 p-0 w-full ">
@@ -32,22 +30,10 @@ const ProfileHeader = () => {
           />
         </div>
 
-        {/* <div className="-mt-[10rem] relative z-10">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1440 300"
-            fill="none"
-          >
-            <path
-              d="M734.694 105.556C1067.19 134.837 1239.46 127.176 1440 0V800H0V156.944C232.727 60.7011 392.245 50.5877 734.694 105.556Z"
-              fill="#f9f9f9"
-            />
-          </svg>
-        </div> */}
       </div>
 
-      <div className="w-full px-2 lg:px-6 xl:px-16 -mt-[2rem] mb-4 lg:mb-0 lg:-mt-[2rem] flex flex-col lg:flex-row gap-4 lg:justify-between items-start lg:items-center">
-        <div className="flex flex-col lg:flex-row gap-1 xl:gap-3 px-0 lg:px-2 items-start lg:items-center relative z-20 ">
+      <div className="w-full px-2 lg:px-4 xl:px-12 -mt-[2rem] mb-4 lg:mb-0 lg:-mt-[2rem] flex flex-col lg:flex-row gap-6 lg:justify-between items-start lg:items-center">
+        <div className="flex flex-col lg:flex-row gap-1 xl:gap-3 px-0 items-start lg:items-center relative z-20 ">
           <div className="flex -mr-6">
             <div className="relative z-20 ">
               <Avatar
@@ -73,14 +59,12 @@ const ProfileHeader = () => {
           </div>
 
           <div className="px-2 lg:px-0 flex-col">
-            <p className="text-xl lg:text-2xl font-extrabold text-darkgrey-hover leading-4 mb-3">
+            <p className="text-xl lg:text-2xl font-extrabold text-darkgrey-hover leading-4">
               {user.name}
             </p>
-            {isVisibleJobTitle && (
-              <p className="text-sm lg:text-base font-medium text-darkgrey-hover leading-4">
-                {"Junior Data Anaylst"}
-              </p>
-            )}
+            <p className="text-sm lg:text-base font-medium text-darkgrey-hover leading-4">
+              {"Junior Data Anaylst"}
+            </p>
             <p className="text-base font-medium text-darkgrey-hover leading-5">
               {user.email}
             </p>

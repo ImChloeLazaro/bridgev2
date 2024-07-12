@@ -2,12 +2,12 @@
 import MainContent from "@/app/components/MainContent";
 import RightBar from "@/app/components/RightBar";
 import RightBarCard from "@/app/components/RightBarCard";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 import "../aws-auth";
-import { userAtom } from "../store/UserStore";
+import NavigationTab from "../navigation/components/NavigationTab";
+import { userRegisterAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
 import CreatePostCard from "./home/components/createPost/CreatePostCard";
 import HRBulletinBoardList from "./home/components/hrBulletinBoard/HRBulletinBoardList";
@@ -21,21 +21,11 @@ import NavigationTab from "../navigation/components/NavigationTab";
 import { MdFeed, MdGridView } from "react-icons/md";
 
 const User = () => {
-  // const user = useAtomValue(userAtom);
-  const user = useAtomValue(authenticationAtom).auth;
+  const userRegister = useSetAtom(userRegisterAtom);
 
-  console.log("first time user", user);
   useEffect(() => {
-    const insertProfile = async () => {
-      await restinsert("/user", {
-        sub: user.sub,
-        name: user.name,
-        picture: user.picture,
-        email: user.email,
-      });
-    };
-
-    return () => insertProfile();
+    userRegister();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -47,7 +37,7 @@ const User = () => {
           rightIcon={<MdGridView size={28} />}
           main={
             <>
-              <CreatePostCard data={user} />
+              <CreatePostCard />
               <PostFeed />
             </>
           }
@@ -83,7 +73,7 @@ const User = () => {
             </div>
           }
         />
-        <CreatePostCard data={user} className={"hidden lg:block"} />
+        <CreatePostCard className={"hidden lg:block"} />
         <PostFeed className={"hidden lg:block"} />
       </MainContent>
       <RightBar>

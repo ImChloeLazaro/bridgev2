@@ -32,6 +32,7 @@ const FormFieldInput = ({
   value,
   onValueChange,
   errorMessage,
+  fullWidth = false,
   isRequired = false,
   isDisabled = false,
   isReadOnly = false,
@@ -39,7 +40,7 @@ const FormFieldInput = ({
   withDate = false,
   withTime = false,
   isDateRange = false,
-  fullWidth = false,
+  showPastDates = true,
   inputType,
   inputFileRef,
   inputID,
@@ -86,7 +87,6 @@ const FormFieldInput = ({
         >
           <RangeCalendar
             aria-label={label}
-            isRequired={true}
             variant={"flat"}
             minValue={today(getLocalTimeZone())}
             visibleMonths={2}
@@ -221,17 +221,20 @@ const FormFieldInput = ({
         {!value ? (
           <CTAButtons
             color="clear"
-            for={inputID}
+            htmlFor={inputID}
             startContent={<MdFileUpload size={18} />}
           >
-            <label for={inputID} className="font-medium text-sm lg:text-base">
+            <label
+              htmlFor={inputID}
+              className="font-medium text-sm lg:text-base"
+            >
               {"Upload File"}
             </label>
           </CTAButtons>
         ) : (
           <CTAButtons
             color="clear"
-            for={inputID}
+            htmlFor={inputID}
             startContent={<MdClose size={18} />}
             label={"Remove File"}
             onPress={() => {
@@ -317,7 +320,7 @@ const FormFieldInput = ({
         value={value}
         onValueChange={onValueChange}
         classNames={{
-          base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
+          base: [`${fullWidth ? "w-full" : "w-[370px]"}`, className],
           label: [
             // `${isInvalid ? "!text-red-default" : "!text-black-default/80"}`,
             "after:!text-red-default",
@@ -341,7 +344,7 @@ const FormFieldInput = ({
             //     : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
             // }`,
             "text-sm font-medium",
-            "px-3 py-2"
+            "px-3 py-2 rounded-small"
           ),
           errorMessage: ["font-medium text-red-default"],
         }}

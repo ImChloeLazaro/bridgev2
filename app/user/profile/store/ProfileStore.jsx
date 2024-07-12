@@ -50,13 +50,18 @@ export const teamStatusAtom = atom(async (get) => {
 //Leaves
 export const leaveStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/leave/balance", { sub: auth.sub });
+  const leaveStatus = await readwithparams("/leave/balance", { sub: auth.sub });
+  if (leaveStatus?.success) {
+    return leaveStatus.response;
+  } else {
+    return {};
+  }
 });
 
 export const leaveHistoryAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/leave/history", { sub: auth.sub });
-})
+});
 //Leave Request
 export const leaveRequestAtom = atom();
 

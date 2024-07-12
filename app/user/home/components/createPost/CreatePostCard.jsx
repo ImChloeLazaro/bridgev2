@@ -2,8 +2,11 @@ import { Avatar, Card, CardBody, cn } from "@nextui-org/react";
 import CreatePostButton from "./CreatePostButton";
 import ManagePostMediaButton from "../managePost/ManagePostMediaButton";
 import CreatePostTemplateButton from "./CreatePostTemplateButton";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/app/store/UserStore";
 
-const CreatePostCard = ({ data, className }) => {
+const CreatePostCard = ({ className }) => {
+  const user = useAtomValue(userAtom);
   return (
     <Card
       className={cn(
@@ -18,9 +21,9 @@ const CreatePostCard = ({ data, className }) => {
             <Avatar
               showFallback
               fallback={
-                <div className="text-2xl font-medium ">{data?.name[0]}</div>
+                <div className="text-2xl font-medium ">{user?.name[0]}</div>
               }
-              src={data?.picture}
+              src={user?.picture}
               className="xl:w-[85px] xl:h-[85px] lg:w-[70px] lg:h-[70px] md:w-[65px] md:h-[65px] w-[50px] h-[50px] text-large"
             />
           </div>

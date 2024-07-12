@@ -126,7 +126,7 @@ const FormFieldSelect = ({
       }
       className={className}
       classNames={{
-        base: `h-full ${
+        base: `h-full mb-1 ${
           selection.size === 0 ? "cursor-not-allowed pointer-events-auto" : ""
         }`,
         label: "mt-2",
