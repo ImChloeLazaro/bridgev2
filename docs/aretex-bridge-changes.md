@@ -70,29 +70,6 @@
 * Fixed a bug where draggable shortcuts issue are not updating the UI
 * Fixed a bug causing index conflict of draggable shortcuts by setting unique id for each sortable item(numbers eg. 1,2,3,4,5) does not work and using key prop does not work either
 * Fixed a bug causing unintentional behavior of draggable elements duplicating when double clicking it
-* Changed `shortcuts` object in `ShortcutsStore` from
-
-```javascript
-const shortcuts = [{
-key: String,
-label: String,
-link: String,
-icon: <Icon>
-suffix: <Icon>
-}]
-```
-
-to
-
-```javascript
-const shortcuts = [{
-id: Number,
-key: String,
-label: String,
-link: String,
-}]
-```
-
 * Added routes for `admin`, `team_lead`, and `hr`
 * Changed route name `team_lead` to `tl`
 * Updated Switching Roles Functionality
@@ -334,7 +311,7 @@ link: String,
 * Added `EmergencyContact` Component
 * Added `LeaveBalance` Component
 * Added `UserOnboarding` Component
-* Added `header-profile.png` for default background header photo in profile page
+* Added `header-profile.png` for `default` background header photo in profile page
 * Added `OnboardingHeader.jsx` as a reusable component for displaying to the users that they do not have onboarding data yet
 * Updated `Error` Page to be more verbose
 * Added `error.jpg` illustration for `Error` Page
@@ -424,7 +401,7 @@ link: String,
 * Implemented tabs navigation for `ManagePostMainContent` Component
 * Renamed `templateItemsAtom` to `templateTypeSelectionAtom` in `ManagePostStore`
 * Renamed `selectedTemplateAtom` to `selectedTemplateTypeAtom` in `ManagePostStore`
-* Added default values for `postTemplatesAtom` in `ManagePostStore`
+* Added `default` values for `postTemplatesAtom` in `ManagePostStore`
 * Implemented Functionality for `PostItemCard` Component
 * Implemented Functionality for `TagPersonSelect` Component
 * Implemented Functionality for components in `ManagePostModal` Component
@@ -438,7 +415,7 @@ link: String,
 
 ## v.0.5.11
 
-* Fixed a minor bug all templates are deleted when deleting custom template in `ManagePost` Components
+* Fixed a bug all templates are deleted when deleting custom template in `ManagePost` Components
 * Fixed a bug causing media and template buttons not correctly displaying post template details when creating new posts in `ManagePost` Components
 * Removed left over `console.log()` in `ManagePost` Components
 * Added `grey` variant color for `CTAButtons` Component
@@ -473,7 +450,7 @@ link: String,
 ## v.0.5.12
 
 * Updated `benefits` `backend` handler function to be flexible
-* Added default value for `benefits` `backend` handler function
+* Added `default` value for `benefits` `backend` handler function
 * Renamed `MediaLayout` to `MediaLayoutPost` Component for consistency of naming related components
 * Added `MediaLayoutDisplay` Component for previewing the media layout on `ManagePostSidebarContent` Component
 * Added `MediaLayoutSelect` Component
@@ -543,8 +520,8 @@ link: String,
 
 * Fixed a bug causing issue on `ReactButton` Component not updating reaction count and throws an error
 * Added validation to `ReactButton` Component to check empty or null value for `reactionList` attribute
-* Fixed a bug causing issue on `PostStore` still rendering default/ initial data for `postAtom` before updating to the fetched data from API call
-* Removed default/initial data for `postAtom` from `PostStore`
+* Fixed a bug causing issue on `PostStore` still rendering `default`/ `initial` data for `postAtom` before updating to the fetched data from API call
+* Removed `default`/`initial` data for `postAtom` from `PostStore`
 * Fixed a bug causing issue on `PostHeader` Component not displaying the `user` picture from `user` data
 * Renamed attribute from `picture` to `publisherPicture` to display `user` data on `PostHeader` Component
 * Added `status` attribute for `posts` to optimize filtering `posts` by `status` when rendering to `frontend`
@@ -558,8 +535,8 @@ link: String,
 * Updated `node_modules` to latest
 * Updated @aws-amplify/adapter-nextjs from `^6.0.13` to `^6.0.16`
 * Updated @aws-amplify from `^1.0.13` to `^1.0.16`
-* Removed @jotai/optics
-* Removed @optics-ts
+* Removed @jotai/optics latest `^0.3.1`
+* Removed @optics-ts latest `^2.4.1`
 * Implemented File Upload Functionality on `ManagePostSidebarContent` for uploading media
 * Fixed a bug where reactions not rendering properly and not updating when reacting
 * Updated maintenance image on `UnderConstruction` Component to have no watermarks
@@ -579,7 +556,6 @@ link: String,
 * Moved `recruitmentStatusAtom` from `UserStore` move to `ProfileStore`
 * Updated `active` state of navigation when clicking a route in `NavSideBarStore`
 * Added @shadcn/ui latest `^0.8.0`
-
 * Added dependencies for @shadcn/ui:
   * @radix-ui/react-popover latest `^1.0.7`
   * @radix-ui/react-slot latest `^1.0.2`
@@ -589,7 +565,6 @@ link: String,
   * @react-day-picker latest `^8.10.0`
   * @tailwind-merge latest `^2.2.1`
   * @tailwindcss-animate latest `^1.0.7`
-
 * Configured @shadcn/ui to work with the project
 * Merged changes from @shadcn/ui to `tailwind.config.js` and `globals.css` in order to properly work with existing tailwind configuration
 * @shadcn/ui configuration added `components` folder for storing components from this library
@@ -624,16 +599,13 @@ link: String,
 * Fixed a bug where posts not being updated in real time when `added`, `deleted`, `published`, and `archived`
 * Included `fetchDraftPost`, `fetchPublishPost`, and `fetchArchivePost` when fetching post data for `drafts`, `published`, and `archived` then rendering the data to the component
 * Fixed a bug causing issue on `reactions` on `post` not being updated properly
-
 * Merged Changes from Interns:
   * Add `zoom` functionality on `ImageSwiper` Component
   * Add `keyboard` controls when sliding images on `ImageSwiper` Component
   * Add functionality for changing all `notification` to `read` status on `NotificationsList` Component
   * Add functionality for pressing the `notification` to change it to `read` status on `NotificationsList` Component
-
 * Add functionality for hiding a `notification` via `button` on `NotificationsList` Component
 * Add functionality for marking a `notification` read via `button` on `NotificationsList` Component
-
 * Added the `layout` prop to each media layout component to correctly display the media on post feed(`OneMedia` - `SixPlusMedia`)
 * Refactor posts to use `status` prop as filter for displaying `drafts`, `published`, and `archived` posts and use `user id` prop as filter for user's own posts
 
@@ -683,7 +655,6 @@ link: String,
 
 * Updated `reaction` functionality on `posts`
 * Added additional `reaction` to `posts`, when hovering the `reaction` button it is the same functionality as in Facebook's reactions
-
 * Added components for `CMS` page in `User` Side:
   * Added `ClientDetails` Component
   * Added `ClientInfo` Component
@@ -696,7 +667,6 @@ link: String,
   * Added `TaskBoardCard` Component
   * Added `TaskBoardView` Component
   * Added `TaskTableView` Component
-
 * Added `label` attribute on atom for `ClientItemCard` Component
 * Updated `layout.jsx` to contain content within the viewport of the user by setting the `height` to match the screen of the user
 * Removed unused css in tailwind.config.js
@@ -742,7 +712,6 @@ link: String,
 * Cleaned up unused `imports` and `hooks` on `TaskTableView` Component
 * Renamed Component `Clients` to `CMSUser` to distinguish from `admin` and `tl` side of CMS
 * Renamed Store `CMSStore` to `CMSUserStore` to distinguish from `admin` and `tl` side of CMS
-
 * Added components for `CMS` page in `Admin` Side:
   * Added `ClientDetails` Component
   * Added `ClientInfo` Component
@@ -755,22 +724,17 @@ link: String,
   * Added `TaskBoardCard` Component
   * Added `TaskBoardView` Component
   * Added `TaskTableView` Component
-
 * Added components for Client Onboarding Form in `Admin` Side:
   * Added `AddClientModal` Component
   * Added `AddTaskModal` Component
-
 * Added `CMSAdminStore` for `CMS` admin Page
 * Updated admin `home` page style to be the same as user `home` page style
-
 * Added `FormField` Components for `Form` Components
   * Renamed Component `OnboardingFieldInput` to `FormFieldInput`
   * Added `FormFieldRadio` Component
   * Added `FormFieldTextArea` Component
-
 * Added `store-placeholder.png` as illustration when no data is available to display
 * Added `isReadOnly` prop in `FormFieldInput` Component for its base component and functionality
-
 * Added components for `CMS` page in `TL` Side:
   * Added `ClientDetails` Component
   * Added `ClientInfo` Component
@@ -783,13 +747,10 @@ link: String,
   * Added `TaskBoardCard` Component
   * Added `TaskBoardView` Component
   * Added `TaskTableView` Component
-
 * Added `CMSTLStore` for `CMS` tl Page
 * Updated tl `home` page style to be the same as user `home` page style
-
 * Added components for SLA Form in `Admin` Side:
   * Added `TaskFormSections` Component
-
 * Removed left-over `console.log()` from development
 * Merged and Approved PR of interns to Bridge main source code
   * Merged Notifications changes
@@ -861,7 +822,7 @@ link: String,
 * Fixed a bug where `task` `status` `count` does not update automatically on the list of clients when task is created or updated in `ClientItemCard` Component
 * Removed `ClientInfoCard` Component due to redundancy
 * Fixed a bug when adding task the `filter` function returns `undefined` as a result disrupts the rendering of `data` on components
-* Updated `LabelTagChip` Component to include a default value of its `color` prop
+* Updated `LabelTagChip` Component to include a `default` value of its `color` prop
 * Added sorting functionality for `TaskTableView` Component
 * Updated `key` used in `TableRow` Component for `TaskTableView` Component to instead use `_id` attribute as the `key` of each `TableRow` item
 * Updated manager `select` Component for `TaskFormSection` Component to disallow empty selection
@@ -902,11 +863,9 @@ link: String,
 * Updated `LabelTagChip` Component in `ClientItemCard` Component to display status label for `forReview` to `For Review`
 * Added error handling for `ClientItemCard` Component to handle `LabelTagChip` Component receiving `undefined` as value
 * Added `onPress` functionality for clicking `client` name on `ClientItemCard` Component to view the client's details
-
 * Added dependencies for @shadcn/ui:
   * @next-themes latest `^0.3.0`
   * @sonner latest `^1.4.41`
-
 * Configured `sonner/toaster` Component to be able to `display` throughout the `project` and be able to be called from any `component`
 * Added real `team` data for `clientFilterKeysAtom`
 * Updated `SearchBar` Component to include `disabledSearch` prop to handle `hidden` state of the component via `data-attributes`
@@ -1071,7 +1030,7 @@ link: String,
 * Updated functionality to show a `toast` notification when adding new client `data` is successfully saved on `CMSAdminHeader` Component
 * Added functionality to assign a `task` to a team on `CMSAdminHeader` Component
 * Adjusted font color for `ColumnContainer` Component
-* Updated `ColumnContainer` Component to use `text-white-default text-shadow` as its default text color style
+* Updated `ColumnContainer` Component to use `text-white-default text-shadow` as its `default` text color style
 * Adjusted font decoration for `TaskBoardCard` Component to change its `text-label` to have a line strike through it when the `task` is done
 * Added color, icon, and label for the `selection` list down for `task` options on `TaskBoardCard` Component
 * Updated functionality to show a `toast` notification when dragging a `task` to the done column, hence marking it done on `TaskBoardView` Component
@@ -1192,14 +1151,11 @@ link: String,
 ## v.0.7.3
 
 * Added `drawer` component from @shadcn/ui
-
 * Added dependencies for @shadcn/ui:
   * "@radix-ui/react-dialog": "^1.0.5"
   * "@vaul": "^0.9.0"
-
 * Responsiveness Layout Update for mobile and tablet view
 * Added breakpoints for components to become responsive when changing views (desktop, tablet, mobile)
-
 * Supported Breakpoints:
   * Mobile S  - `min-w-[320px]`
   * Mobile M  - `min-w-[375px]`
@@ -1208,7 +1164,6 @@ link: String,
   * Laptop    - `min-w-[1024px]`
   * Laptop L  - `min-w-[1440px]`
   * 4K onwards- `min-w-[2560px]`
-
 * Added custom breakpoint for `SideBar` Component
 * Moved option details from `UserDropdown` Component to its own atom in `NavSideBarStore` Store
 * Adjusted padding and margin for `ShortcutsHeader` Component
@@ -1437,7 +1392,7 @@ link: String,
 
 * Tailwind `color` classes migration, in favor of a centralized file to change `color` values
 * Configured tailwind to use css variables for `color` classes
-* Updated default `color` classes in all components to match the project's custom `color` classes
+* Updated `default` `color` classes in all components to match the project's custom `color` classes
 * Updated hard-coded `color` values in components that do not support tailwind classes directly in the component to use css variables for tailwind `color` classes
 * Added custom `color` classes for hard-coded `color` values that do not match any available tailwind `color` classes
 * Updated functionality to fetch complete list of signed-in users in `TagPersonSelect` Component
@@ -1557,13 +1512,11 @@ link: String,
 * Adjusted font size for `CreatePostButton` Component
 * Adjusted margin for `CreatePostCard` Component
 * Adjusted font size for `CreatePostTemplateButton` Component
-
 * Responsiveness Layout Update for mobile and tablet view
   * Adjusted alignment, margin, padding, gap, and width for `ManagePostMainContent` Component
   * Adjusted font size for `ManagePostMediaButton` Component
   * Updated layout for breakpoints in mobile and tablet view in `ManagePostModal` Component
   * Adjusted padding for `ManagePostSideBar` Component
-
 * Renamed `textValue` to `value` on `SelectItem` Component on `ReactionSelect` Component
 * Removed `Chip` Component from `ReactionSelect` Component for rendering selected items
 * Adjusted svg size for `user` page
@@ -1729,7 +1682,7 @@ link: String,
 * Adjusted animation, transition, touch event, background color, border radius, height, and width for `ColumnContainer` Component
 * Adjusted max count of `Avatar` rendered in `TaskTableView` Component
 * Adjusted animation for `RightBarCard` Component
-* Added default values for adding task data in `TaskStore` Store
+* Added `default` values for adding task data in `TaskStore` Store
 * Updated functionality to filter tasks only assigned to users in `CMSTL` Component
 * Updated functionality to filter clients only assigned to users in `CMSTL` Component
 * Added initial fetch of task and client data in `CMSTL` Component
@@ -1743,11 +1696,11 @@ link: String,
 * Adjusted props for all components associated with `ConfirmationWindow` Component
 * Adjusted margin for `CMSAdmin` Component
 * Removed left-over `console.log()` from development
-* Adjusted font size in `TaskFormSections` Component
+* Adjusted font size for `TaskFormSections` Component
 * Added null check for checking pathname in `AdminLayout` Component
 * Added null check for checking pathname in `CalendarLayout` Component
-* Adjusted svg color in `ClientDetails` Component
-* Added default values for displaying client details in `ClientDetails` Component
+* Adjusted svg color for `ClientDetails` Component
+* Added `default` values for displaying client details in `ClientDetails` Component
 * Renamed `ClientInfo` Component to `ClientDetailsContent` Component
 * Adjusted breakpoint for `ClientItemCard` Component
 * Added content to render when processors are empty for `ClientItemCard` Component
@@ -1755,9 +1708,9 @@ link: String,
 * Added functionality to handle when a `task` is escalated in `TaskBoardCard` Component
 * Adjusted padding for `TaskBoardView` Component
 * Refactor core functionality of `ConfirmationWindow` Component to handle different variations and customizations of passed custom `props` to the component
-* Added default base style for `CTAButtons` Component
+* Added `default` base style for `CTAButtons` Component
 * Adjusted text shadow and font color for `CTAButtons` Component
-* Added default value for displaying date time in `FormFieldInput` Component
+* Added `default` value for displaying datetime in `FormFieldInput` Component
 * Updated functionality for displaying amount on the `Chip` Component of `LabelTagChip` Component
 * Added null check for checking pathname in `HRLayout` Component
 * Added null check for checking pathname in `SideBar` Component
@@ -1770,8 +1723,8 @@ link: String,
 
 * Updated task actions details in `CMSAdmin` Component
 * Adjusted margin for `CMSAdmin` Component
-* Temporary added default picture for `ClientItemCard` Component
-* Adjusted width in `ClientItemCard` Component
+* Temporary added `default` picture for `ClientItemCard` Component
+* Adjusted width for `ClientItemCard` Component
 * Updated functionality to change the visibility of `CMSFooter` Component in `ClientItemCard` Component
 * Adjusted functionalities for all components associated with the visibility of `CMSFooter` Component
 * Temporary disabled dragging functionality for `ColumnContainer` Component
@@ -1781,7 +1734,7 @@ link: String,
 * Updated layout for breakpoints in mobile and tablet view in `TaskBoardView` Component
 * Added confirmation window for `TaskOptionsDropdown` Component
 * Updated functionality to render the amount of processors in `TaskTableView` Component
-* Added default values for props in `ConfirmationWindow` Component
+* Added `default` values for props in `ConfirmationWindow` Component
 * Removed `className` prop in `FormFieldRadio` Component
 * Adjusted background color and text decoration for `LabelTagChip` Component
 * Updated task actions details in `CMSTL` Component
@@ -1818,29 +1771,30 @@ link: String,
 * Reverted layout changes for breakpoints in mobile and tablet view in `TaskTableView` Component
 * Temporary disabled css variables for color from tailwind in `OnboardingHeader` Component
 * Refactored how user data is fetched from the server in `UserStore` Store
-* Updated default value for `team` attribute in `DraftedStore` Store
+* Updated `default` value for `team` attribute in `DraftedStore` Store
 * Updated all components associated with `user` data
 * Adjusted padding for `AddClientModal` Component
 * Adjusted `FormField` Components for `ClientFormSections` Component to have validation
-* Updated default sort direction for `CMSAdmin` Component
+* Updated `default` sort direction for `CMSAdmin` Component
 * Refactored how labels of tasks are counted in `ClientItemCard` Component
 * Added options/ settings for CMS Components in `CMSHeader` Component - TBA
 * Added functionality to check if the `task` is overdue in `TaskBoardCard` Component
 * Updated all components associated with `task` escalation
 * Updated sorting functionality to include task escalation in `TaskTableView` Component
-* Adjusted padding, font size, font weight, font color, and width in `TaskTableView` Component
+* Adjusted padding, font size, font weight, font color, and width for `TaskTableView` Component
 * Updated content for rows and columns in `TaskTableView` Component
 * Added form validation for `FormFieldInput` Component
 * Added error indicator and message for `FormFieldInput` Component
-* Updated default value for `FormFieldInput` Component
+* Updated `default` value for `FormFieldInput` Component
 * Added form validation for `FormFieldRadio` Component
 * Added error indicator and message for `FormFieldRadio` Component
-* Updated default value for `FormFieldRadio` Component
-* Updated default value for atoms associated with client data in `ClientStore` Store to resolve incorrect validation errors
+* Updated `default` value for `FormFieldRadio` Component
+* Updated `default` value for atoms associated with client data in `ClientStore` Store to resolve incorrect validation errors
 * Removed sorting functionality from `CMSAdmin` Component in favor of `TaskTableView` Component handling the sorting functionality
 * Removed sorting functionality from `CMSTL` Component in favor of `TaskTableView` Component handling the sorting functionality
 * Removed sorting functionality from `CMSUser` Component in favor of `TaskTableView` Component handling the sorting functionality
 * Added `danger` variant color in `tailwind.config.js`
+* Fixed parity issues with both views for tasks, matching task details in both components in both views
 
 ## v.0.9.21
 
@@ -1852,31 +1806,319 @@ link: String,
 * Updated form validation for `FormFieldRadio` Component
 * Added form validation for `FormFieldTextArea` Component
 * Added error indicator and message for `FormFieldTextArea` Component
-* Updated default value for `FormFieldTextArea` Component
-* Updated default value for atoms associated with client data in `ClientStore` Store to resolve incorrect validation errors
+* Updated `default` value for `FormFieldTextArea` Component
+* Updated `default` value for atoms associated with client data in `ClientStore` Store to resolve incorrect validation errors
 
 ## v.0.9.22
 
-* Fixed parity issues with both views for tasks
+* Added validation for `unfilled` fields in `AddClientModal` Component
+* Added the right type of `input` field as prop for `FormField` Components in `ClientFormSections` Component
+* Added form validation for the remaining `FormField` Components in `TaskFormSections` Component
+* Updated functionality to handle file input and validation in `FormFieldInput` Component
+* Updated functionality to handle validation for `date` and `file` in `FormFieldInput` Component
+* Adjusted font color for `FormFieldInput` Component when input is invalid
+* Adjusted font weight for `FormFieldRadio` Component
+* Adjusted font color, font weight, and font size for `FormFieldTextArea` Component when input is invalid
+* Updated `LabelTagChip` Component to render multiple task status(e.g. escalation) in `TaskTableView` Component
+* Updated date type for `role` in `NavSideBarStore` Component
+* Added functionality to reset the `FormField` Components to their `default` values after onboarding clients in `ClientStore` Store
 
-## v.0.9
+## v.0.9.22 - hotfix
+
+* Removed dependecies from zod for form validation:
+  * @zod latest `^3.23.8`
+  * @hookform/resolvers latest `^3.6.0`
+  * @react-hook-form latest `^7.51.5`
+
+## v.0.9.23
+
+* Updated validation for `unfilled` fields in `AddClientModal` Component
+* Added indication that fields are still `unfilled` in `AddClientModal` Component
+* Added `ref` for `FormFieldInput` Components in `ClientFormSection` Component to access the files stored in the `input` component
+* Fixed a bug where the total item `count` on the `footer` displays the unfiltered item `count` instead of the total filtered item `count` in `CMSAdmin` Component
+* Adjusted cursor event for `ColumnContainer` Component
+* Updated functionality to access and clear files in the `input` component in `FormFieldInput` Component
+* Updated functionality to display date in `FormFieldInput` Component
+* Updated functionality to handle `file` in `FormFieldInput` Component
+* Updated error messages for `FormFieldTextArea` Component
+* Added `default` values for `label` in `FormFieldTextArea` Component
+* Added `default` values for `clientTabsAtom` in `ClientStore` Store
+* Fixed a bug where the total item `count` on the `footer` displays the unfiltered item `count` instead of the total filtered item `count` in `CMSTL` Component
+* Fixed a bug where the total item `count` on the `footer` displays the unfiltered item `count` instead of the total filtered item `count` in `CMSUser` Component
+
+## v.0.9.24
+
+* Adjusted padding in `AddTaskModal` Component for `admin`
+* Adjusted font color for `TaskFormSections` Component
+* Added `TaskActionModal` Component for handling task actions in both tasks views
+* Updated affected components associated with `TaskActionModal` Component:
+  * Updated props passed to the children of `CMSAdmin` Component
+  * Updated props passed to the children of `ColumnContainer` Component
+  * Updated props passed to the children of `TaskBoardCard` Component
+  * Updated props passed to the children of `TaskBoardView` Component
+  * Updated props passed to the children of `TaskTableView` Component
+  * Updated props passed to the children of `CMSTL` Component
+* Refactored functionalities for `TaskOptionsDropdown` Component in favor of adding `TaskActionModal` Component
+* Updated functionality to render items as `Chip` component when selected in `FormFieldSelect` Component
+* Updated functionality to render item selection with images in `FormFieldSelect` Component
+* Adjusted padding in `AddTaskModal` Component for `tl`
+* Added task filtering functionality in `CMSUser` Component
+
+## v.0.9.24 - hotfix
+
+* Fixed unclosed brackets caused by `syntax` error
+* Removed unused props that are still passed to children components in `TaskBoardCard` Component
+* Updated props passed to the children of `TaskBoardView` Component
+* Updated functionality for updating task via task actions in `TaskOptionsDropdown` Component
+* Removed unused props that are still passed to children components in`TaskTableView` Component
+* Updated task filtering functionality in `CMSTL` Component
+* Updated task filtering functionality in `CMSUser` Component
+
+## v.0.9.25
+
+* Fixed a bug causing the selection of `processors` and `reviewers` to have `duplicate` values when adding or removing `processors` and `reviewers` due to a bug in the backend where the selected processors and reviewers are not filtered out for duplicates
+* Updated affected components associated with the duplication bug
+* Updated `label` for `FormFieldInput` components in `TaskActionModal` Component
+* Added checking for `overdue` tasks in `TaskBoardCard` Component
+* Updated layout for handling `overdue` task in `TaskBoardCard` Component
+* Removed unused props that are still passed to children components in `TaskBoardView` Component
+* Removed unused props that are still passed to children components in `TaskOptionsDropdown` Component
+* Added functionality to `TaskOptionsDropdown` Component to filter out already assigned users when adding processors and reviewers
+* Added functionality to `TaskOptionsDropdown` Component to render only assigned users when removing processors and reviewers
+* Updated details passed to `ConfirmationWindow` Component in `TaskOptionsDropdown` Component
+* Updated layout for handling `overdue` task in `TaskOptionsDropdown` Component
+* Added checking for `overdue` tasks in `TaskTableView` Component
+* Updated layout for handling `overdue` task in `TaskTableView` Component
+* Removed unused props that are still passed to children components in `TaskTableView` Component
+* Removed `default` value for description prop in `ConfirmationWindow` Component
+* Adjusted font size for `ConfirmationWindow` Component
+* Adjusted alignment, cursor event, margin, and padding for `FormFieldSelect` Component
+
+## v.0.9.26
+
+* Added initial design for leaves in `hr` page
+* Added `ReactBigCalendar` Component
+
+## v.0.9.27
+
+* Fixed a bug where Modal window cannot be opened over Table Component due to stacking issue
+* Updated layout for handling `overdue` task in `ClientItemCard` Component
+* Updated functionality for counting `task` status in `ClientItemCard` Component
+* Refactored functionality to render assignees in `TaskBoardCard` Component
+* Refactored functionalities for updating tasks via `task` action in `TaskOptionsDropdown` Component to be moved into `TaskStore` Store
+* Moved functionalities that are associated with updating tasks via `task` action in `TaskOptionsDropdown` Component to `TaskStore` Store for shared access across multiple components
+* Removed unused imports and dead code
+* Removed left-over `console.log()` from development
+
+## v.0.9.28
+
+* Upgraded backend resources for bridge to use only a single shared node_modules via layers
+* Converted `AddTaskModal` Component to a shared component for `CMSAdmin` and `CMSTL` Component
+* Converted `TaskFormSections` Component to a shared component for `CMSAdmin` and `CMSTL` Component
+* Updated affected components associated with converting `AddTaskModal` and `TaskFormSections` Component to shared components.
+* Updated functionality to render items as `Chip` or `Dropdown` component when selected in `FormFieldSelect` Component
+
+## v.0.9.29
+
+* Updated label for action buttons in `CMSAdmin` Component
+* Adjusted height of task form in `AddTaskModal` Component
+* Updated props passed to the children of `FormFieldSelect` Component
+in `TaskActionModal` Component
+* Adjusted width for `TaskFormSections` Component
+* Adjusted font color, font weight, and font size for `FormFieldInput` Component when input is invalid
+* Added item selected validation for `FormFieldSelect` Component
+* Added check for nullish values for rendering labels of the selected items in `FormFieldSelect` Component
+* Updated label for action buttons in `CMSTL` Component
+
+## v.0.9.29 - hotfix
+
+* Fixed a bug causing added tasks to successfully added but does not have any client data attached to it due to incorrect prop used in selecting client
+* Enabled functionality for onboarding clients
+* Enabled functionality in adding task for clients
+
+## v.0.9.30
+
+* Added leave validation in `LeaveRequest` Component
+* Updated value for selecting a choice in `FormFieldRadio` Component for `ClientFormSections` Component
+* Refactored how client id is attached to each task for tracking purposes in `CMSAdmin`
+* Refactored attributes used in updating task status in `TaskBoardView` Component
+* Updated validation for datetime in `FormFieldInput` Component
+* Refactored validation for valid choices in `FormFieldRadio` Component
+* Removed left-over `console.log()` from development
+* Disabled incomplete or pending features in all components
+* Updated functionality in adding task for clients in `TaskStore` Store to include `manager` and `client` attributes to avoid creating task with incomplete details or empty
+* Renamed attribute `key` to `client_id` to match its object schema for client list in `TaskStore` Store in tracking client data
+* Added `key` attribute for storing client id in each task in `TaskStore` Store
+
+## v.0.9.30 - hotfix
+
+* Updated import path for `AddTaskModal` Component in `CMSTL` Component
+* Added check for nullish values of selected processors and reviewers in `TaskActionModal` Component
+
+## v.0.9.31
 
 * Imported changes tracked here and future changes are tracked now in GitHub Issues
-
-## v.0.9
-
-* CMS Revision
+* Adjusted automatic fetching of `task` and `client` data from an `interval` of `2.5secs` to `10secs`on `CMSAdmin` Component
+* Adjusted automatic fetching of `task` and `client` data from an `interval` of `2.5secs` to `10secs`on `CMSTL` Component
+* Adjusted automatic fetching of `task` and `client` data from an `interval` of `2.5secs` to `10secs`on `CMSUser` Component
+* Adjusted scroll overflow for `ColumnContainer` Component
+* Updated form validation for `TaskActionModal` Component
+* Updated the `FormFieldSelect` Component for selecting clients to be disabled when user already selected a client from overview and the rest of the `FormField` Components are not disabled to allow updating of `processors`, `reviewers`, and `manager` in `TaskFormSections` Component
+* Updated functionality to render assignees in `TaskTableView` Component
+* Updated item selected validation for `FormFieldSelect` Component
+* Renamed attribute `key` to `client_id` to match its object schema for `client` list in `TaskStore` Store to correctly add task to the right clients and avoid creating task without `client` data
+* Added `client` id to each `task` for verification and tracking of the client `data` of the `task` when updating the its details
+* Updated functionality to include the `client` id in filtering tasks that are assigned to the `user` only
+* Removed majority of `console.log()` left from development
 
 ## v.0.10.0
+
+* Updated @nextui-org/react to latest `^2.4.2`
+* Updated all affected components associated with the update from @nextui-org/react
+* Updated validationBehavior for `FormField` Component due to the update from @nextui-org/react
+* Updated form layout of `ClientFormSections` Component due to changes in the `FormField` Component variant that was used e.g. `TextArea` -> `Input`
+* Updated number validation for `FormFieldInput` Component
+* Disabled custom invalid color for `FormFieldInput` Component
+* Adjusted alignment for `FormFieldRadio` Component
+* Updated item selected validation for `FormFieldSelect` Component to check all possible attributes for verification and uniqueness of each item in the selection
+* Added text validation for `FormFieldTextArea` Component
+* Updated mobile layout for `NavigationBar` Component
+* Adjusted gap for `NavigationBar` Component
+* Fixed breakpoint threshold for mobile view in `UserDropdown` Component
+* Cleaned up and refactored source code
+* Organized Project Structure
+* Removed unused imports
+* Removed dead code and unused code blocks
+
+## v.0.10.1
+
+* Employee Leave Update
+* Added backend integration for retrieving and requesting leaves
+
+## v.0.10.1 - hotfix
+
+* Conflict during merging commits slips through deployment
+
+## v.0.10.2
+
+* CMS Revision
+* Refactored how task duration are handled when adding tasks to clients in favor of the update of @nextui-org/react
+* Merge functionality of handling datetime format and manipulation from @date-fns and @internationalized/date
+* Refactored atoms that handles datetime to use @internationalized/date as the default value format and to use @date-fns as the default formatting use for datetime instead
+* Updated affected components associated with the changes of how datetime are being handled
+* Adjusted size for `AddTaskModal` Component
+* Updated date functionality for `FormFieldInput` Component
+* Refactored date handler component as the `endContent` for `FormFieldInput` Component
+* Updated form layout of `TaskFormSections` Component due to changes from the date variant of `FormFieldInput` Component
+* Updated default value for roles in `NavSideBarStore` Store
+* Added `aria-label` for `IconButton` Component in `SideBar` Component
+* Removed unused passed atoms to `FormFieldInput` Component in `ClientFormSections` Component
+* Added display for task due time in `TaskBoardCard` Component
+* Added start and end time of tasks for datetime formatting in `TaskTableView` Component
+* Refactored datetime functionality for `FormFieldInput` Component
+* Added check for nullish values in `UserDropdown` Component
+* Added check for nullish values in `CreatePostCard` Component
+* Updated datetime formatting to use @internationalized/date when adding tasks in `CMSAdminStore`Store
+* Removed inline locale to prevent conflicting datetime formatting in `Trainings` Component in `calendar`
+* Updated datetime formatting for displaying selected date range in `FormFieldInput` Component
+* Updated datetime validation for `FormFieldInput` Component
+* Adjusted font weight for `TaskBoardCard` Component
+* Updated sorting functionality for `NotificationsList` Component
+* Updated datetime formatting for displaying datetime when the notification was received for `NotificationsList` Component
+* Updated datetime formatting for displaying datetime when the post was published for `PostHeader` Component
+* Removed inline locale to prevent conflicting datetime formatting in `TrainingsList` Component in `user`
+
+## v.0.10.2 - hotfix
+
+* Fixed an issue where incompatible datetime format crashes the application in `PostHeader` Component
+
+## v.0.10.3
+
+* Refactored task status count to be responsive in mobile and tablet view
+* Added sounds for receiving notifications and after a task action is executed
+* Added @use-sound latest `^4.0.3` for handling notifications/actions sounds
+* Added functionality to send a notification to the tasks' processors and reviewers for each task action
+* Removed unused imports and dead code
+* Updated sorting functionality to include escalation when sorting task status in `TaskTableView` Component
+* Removed `DatePicker` component in favor of new datetime components from @nextui-org/react
+* Adjusted margin, font color, background color, and height in `LabelTagChip` Component
+* Reverted changes in datetime formatting in `NotificationList` Component
+* Removed redundant functions for handling notifications in `NotificationStore` Store
+* Updated shown notification to display the picture of the sender of the notification as its icon
+
+## v.0.10.3 - hotfix
+
+* Fixed an issue where the value for responses from API calls in atoms results in undefined, hence when accessing the success attribute of the responses it crashes
+
+## v.0.10.4
+
+* Role Based Access Update
+* Refactored how user roles are handled when users login into the application and verification of user's access within the application
+* Added `RolesAdmin` Component to manage user roles access
+* Fixed a bug where manually changing the URL causes the user to access pages despite not having the role specified
+* Added custom hook for roles verification and validation to each pages
+
+## v.0.10.5
+
+* Fixed an issue where tasks items in `TaskBoardView` Component should be the complete task list instead of the filtered tasks that is passed to `TaskTableView` Component in `admin`, `tl` , `user`
+* Updated functionality to count overdue tasks in `ClientItemCard` Component
+* Updated `SearchBar` Component to include an endLabel prop to display label at the end of the component
+* Updated `SearchBar` Component in `CMSHeader` Component
+* Updated `TaskBoardCard` Component to include the task due time
+* Adjusted alignment for `TaskBoardCard` Component
+* Updated the volume of the notifications sound to decrease from 150% -> 90%
+* Updated notification message for task actions in `TaskBoardView` Component
+* Updated form layout of `TaskFormSections` Component due to changes in handling datetime from user input
+* Fixed an issue where the id of tasks is missing, hence the task cannot be tracked
+* Updated functionality to calculate datetime difference for tasks and how to display in `TaskTableView` Component
+* Updated datetime formatting for displaying selected date range in `FormFieldInput` Component
+* Added option to disable selected item validation for `FormFieldSelect` Component
+* Adjusted width for `SearchBar` Component
+* Updated role badge for `NavigationBar` Component to use the new shared component `LabelTagChip` Component
+* Updated role validation for `NavigationBar` Component
+* Adjusted overflow for `NotificationList` Component
+* Updated `SideBar` Component in favor to the new changes to user role access
+* Updated message formatting for notification to fit all the text in the notification e.g. "User and 3 others did something"
+
+## v.0.10.6
+
+* Role Admin Frontend Changes from @dureii
+* Added code scanning tools for Bridge
+* Updated functionality to execute recurrence of tasks based from user input
+* Added functionality to automatically reset tasks before work starts and log tasks that are overdue after work
+* Fixed parity issues with notifications in `TaskBoardView` Component since the dragging functionality of task cards are separated from the functionality of task actions
+* Removed limit of notifications to display in `NotificationHistory` Component
+* Fixed a bug where tasks are deleted when tasks are updated while `SearchBar` Component is active. e.g. a text is inputted in the search bar which filters the tasks then when a task is updated the functionality forgets the other tasks that are not filtered, hence effectively deleting the tasks
+* Added functionality to remove duplicates updating tasks in `TaskStore` Store
+* Added initial backend functionality for team management in `admin` page
+* Fixed merge conflicts changes from @dureii
+
+## v.0.10.7
 
 * Cleaned up and refactored source code
 * Organized Project Structure
 * Removed unused imports
 * Removed dead code and unused code blocks
-* Removed majority of `console.log()` left from development
-* Updated @nextui-org/react to latest `^2.4.2`
+* Removed components for @shadcn/ui:
+  * `Button` Component
+  * `Calendar` Component
+  * `Drawer` Component
+  * `Popover` Component
+* Removed dependencies for @shadcn/ui:
+  * @radix-ui/react-popover latest `^1.0.7`
+  * @radix-ui/react-slot latest `^1.0.2`
+  * @class-variance-authority latest `^0.7.0`
+  * @clsx latest `^2.1.0`
+  * @lucide-react latest `^0.336.0`
+  * @react-day-picker latest `^8.10.0`
+  * @tailwind-merge latest `^2.2.1`
+  * @tailwindcss-animate latest `^1.0.7`
 
-* Added sounds for notifications
-* Added @use-sound latest `^4.0.3` for handling notifications/actions sounds
+## v.0.10.8
 
-* hotfix undefined success value from atoms
+* Team Management Page Update
+* Added `TeamManagement` Component for `admin`
+
+## v.0.10.9
+
+* User Beta Testing

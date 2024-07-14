@@ -16,7 +16,7 @@ import {
   ModalHeader,
   Tab,
   Tabs,
-  useDisclosure
+  useDisclosure,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
@@ -141,7 +141,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchClient()), //await addClient(clientData),
+          async () => resolve(await addClient(clientData), await fetchClient()), //
           2000
         )
       );
