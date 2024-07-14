@@ -2,14 +2,17 @@
 import MainContent from "@/app/components/MainContent";
 import RightBar from "@/app/components/RightBar";
 import RightBarCard from "@/app/components/RightBarCard";
+import NavigationTab from "@/app/navigation/components/NavigationTab";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useAtomValue } from "jotai";
 import {
   MdBolt,
   MdEmojiEvents,
+  MdGridView,
   MdHealing,
   MdMarkunreadMailbox,
+  MdPerson,
 } from "react-icons/md";
 import "../../aws-auth";
 import BenefitsContent from "./components/benefits/BenefitsContent";
@@ -17,8 +20,6 @@ import EmergencyContactContent from "./components/emergencyContact/EmergencyCont
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
-import NavigationTab from "@/app/navigation/components/NavigationTab";
-import { MdPerson, MdGridView } from "react-icons/md";
 
 const Profile = () => {
   const auth = useAtomValue(authenticationAtom);

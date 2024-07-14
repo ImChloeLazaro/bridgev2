@@ -1,4 +1,5 @@
-import { Listbox, ListboxItem, Image } from "@nextui-org/react";
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
+import { Image, Listbox, ListboxItem } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -8,7 +9,6 @@ import {
 import { useAtomValue } from "jotai";
 import LabelTagChip from "../../../../components/LabelTagChip";
 import { hrBulletinBoardAtom } from "../../store/HRBulletinBoardStore";
-import MiniUnderConstruction from "@/app/components/MiniUnderContstruction";
 // @refresh reset
 const HRBulletinBoardList = () => {
   const hrBulletinBoard = useAtomValue(hrBulletinBoardAtom);
@@ -37,7 +37,7 @@ const HRBulletinBoardList = () => {
       <Listbox
         items={hrBulletinBoard}
         aria-label="HR Bulletin List"
-        onAction={(key) => console.log(key)}
+        // onAction={(key) => console.log(key)}
         className="hidden"
         emptyContent={
           <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">

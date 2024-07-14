@@ -1,12 +1,11 @@
 'use client'
-import React, { useEffect, useState } from "react";
-import { Modal, ModalHeader, ModalContent, ModalBody, useDisclosure, Listbox, ListboxSection, ListboxItem } from "@nextui-org/react";
-import { FcOk, FcCancel, FcDisclaimer, FcMinus } from "react-icons/fc";
-import LeaveSummary from "./components/Leave";
-
-import { readwithparams } from "@/app/utils/amplify-rest";
-import { useAtomValue } from "jotai";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { readwithparams } from "@/app/utils/amplify-rest";
+import { Listbox, ListboxItem, ListboxSection, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { useAtomValue } from "jotai";
+import { useEffect, useState } from "react";
+import { FcDisclaimer, FcMinus, FcOk } from "react-icons/fc";
+import LeaveSummary from "./components/Leave";
 
 const LeaveHistory = ({ ...props }) => {
     const { sub } = useAtomValue(authenticationAtom);
@@ -76,7 +75,7 @@ const LeaveHistory = ({ ...props }) => {
     useEffect(() => {
         const getLeaveHistory = async () => {
             const leave = await readwithparams("/leaverequest/myLeaveRequest", { sub: sub });
-            console.log('Leave history: =>', leave.response);
+            // console.log('Leave history: =>', leave.response);
             setLeaveHistory(leave.response);
         }
         getLeaveHistory();

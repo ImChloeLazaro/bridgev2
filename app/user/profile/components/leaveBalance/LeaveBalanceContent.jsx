@@ -1,10 +1,11 @@
-import { Button, Tooltip, Link } from "@nextui-org/react";
+import { Link, Tooltip } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { leaveStatusAtom } from "../../store/ProfileStore";
 import LeaveRequest from "./LeaveRequest";
+
 const LeaveBalanceContent = () => {
   const leaveStatus = useAtomValue(leaveStatusAtom);
-  console.log("leave", leaveStatus);
+  // console.log("leave", leaveStatus);
   return (
     <div className="flex items-center justify-between p-1 lg:p-2">
       <div className="flex flex-col w-full gap-2">

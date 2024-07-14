@@ -1,35 +1,28 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import {
-  Avatar,
-  AvatarGroup,
-  Link,
-  Spinner,
-  User,
-  cn,
-  useDisclosure,
-} from "@nextui-org/react";
-import {
-  differenceInDays,
-  differenceInHours,
-  compareAsc,
-  getHours,
-  format,
-} from "date-fns";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { MdCalendarMonth, MdCheck } from "react-icons/md";
-import LabelTagChip from "../LabelTagChip";
-import TaskActionModal from "./TaskActionModal";
-import TaskOptionsDropdown from "./TaskOptionsDropdown";
 import {
   selectedTaskActionAtom,
   taskActionsAtom,
   taskActionWindowDetailsAtom,
 } from "@/app/store/TaskStore";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  Avatar,
+  AvatarGroup,
+  cn,
+  Link,
+  Spinner,
+  useDisclosure,
+  User,
+} from "@nextui-org/react";
+import { format } from "date-fns";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import ConfirmationWindow from "../ConfirmationWindow";
-import { MdTimer } from "react-icons/md";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { MdCalendarMonth, MdCheck, MdTimer } from "react-icons/md";
 import useSound from "use-sound";
+import ConfirmationWindow from "../ConfirmationWindow";
+import LabelTagChip from "../LabelTagChip";
+import TaskActionModal from "./TaskActionModal";
+import TaskOptionsDropdown from "./TaskOptionsDropdown";
 
 function TaskBoardCard({
   task,
@@ -56,9 +49,8 @@ function TaskBoardCard({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  const difference =
-    compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
-    task.status === "todo";
+  const isOverdue = task.progress.toLowerCase() === "overdue";
+
   const {
     setNodeRef,
     attributes,
@@ -72,7 +64,7 @@ function TaskBoardCard({
       type: "Task",
       task,
     },
-    disabled: task.escalate || difference,
+    disabled: task.escalate || isOverdue,
   });
 
   const actionOptions = [
@@ -154,7 +146,7 @@ function TaskBoardCard({
       style={style}
       // onClick={toggleEditMode}
       data-escalated={task.escalate}
-      data-due={difference}
+      data-due={isOverdue}
       className={cn(
         "data-[escalated=true]:!border-red-default",
         "data-[escalated=true]:border-3",
@@ -200,7 +192,7 @@ function TaskBoardCard({
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
             isEscalated={task.escalate}
-            isOverdue={difference}
+            isOverdue={isOverdue}
             confirmationWindow={confirmationWindow}
             taskActionWindow={taskActionWindow}
             selectedProcessorTaskAction={selectedProcessorTaskAction}
@@ -219,7 +211,6 @@ function TaskBoardCard({
             action_params={{
               sound: play,
               tasks: tasksFromSelectedClient[0],
-              task_id: task?._id,
               selectedProcessorTaskAction: selectedProcessorTaskAction,
               selectedReviewerTaskAction: selectedReviewerTaskAction,
               setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,
@@ -250,7 +241,7 @@ function TaskBoardCard({
               classNameLabel={"lg:text-xs"}
             />
           )}
-          {difference && (
+          {isOverdue && (
             <LabelTagChip
               text="Overdue"
               color="orange"
@@ -266,11 +257,11 @@ function TaskBoardCard({
               <MdCalendarMonth size={20} />
               <Link
                 href="#"
-                isDisabled={task.status === "done" || difference}
+                isDisabled={task.status === "done" || isOverdue}
                 underline="hover"
                 className={cn(
                   `${
-                    task.status === "done" || difference ? "line-through" : ""
+                    task.status === "done" || isOverdue ? "line-through" : ""
                   }`,
                   "text-sm font-bold text-black-default/80"
                 )}
@@ -293,11 +284,11 @@ function TaskBoardCard({
               <MdTimer size={20} />
               <Link
                 href="#"
-                isDisabled={task.status === "done" || difference}
+                isDisabled={task.status === "done" || isOverdue}
                 underline="hover"
                 className={cn(
                   `${
-                    task.status === "done" || difference ? "line-through" : ""
+                    task.status === "done" || isOverdue ? "line-through" : ""
                   }`,
                   "text-sm font-bold text-black-default/80"
                 )}

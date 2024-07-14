@@ -26,7 +26,7 @@ import {
   disableDraggableAtom,
   fetchShortcutAtom,
   shortcutsAtom,
-  updateIndexPositionShortcutsAtom
+  updateIndexPositionShortcutsAtom,
 } from "../../store/ShortcutsStore";
 import { SortableItem } from "./SortableItem";
 

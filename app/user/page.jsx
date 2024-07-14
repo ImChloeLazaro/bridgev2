@@ -5,6 +5,7 @@ import RightBarCard from "@/app/components/RightBarCard";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
+import { MdFeed, MdGridView } from "react-icons/md";
 import "../aws-auth";
 import NavigationTab from "../navigation/components/NavigationTab";
 import { userRegisterAtom } from "../store/UserStore";
@@ -15,10 +16,6 @@ import PostFeed from "./home/components/post/PostFeed";
 import RecognitionList from "./home/components/recognition/RecognitionList";
 import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
-import { fetchPostAtom } from "./home/store/PostStore";
-import { restinsert } from "../utils/amplify-rest";
-import NavigationTab from "../navigation/components/NavigationTab";
-import { MdFeed, MdGridView } from "react-icons/md";
 
 const User = () => {
   const userRegister = useSetAtom(userRegisterAtom);
@@ -47,7 +44,6 @@ const User = () => {
               <BirthdayCard />
 
               <RightBarCard
-              
                 title={"What's New"}
                 description={"Shows the latest announcements from HR"}
                 isExpandable={true}

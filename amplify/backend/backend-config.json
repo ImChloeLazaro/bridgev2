@@ -105,6 +105,14 @@
           ],
           "category": "function",
           "resourceName": "departmenthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "teamhandler"
         }
       ],
       "providerPlugin": "awscloudformation",

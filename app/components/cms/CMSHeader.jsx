@@ -2,17 +2,21 @@ import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
-import { fetchTaskAtom } from "@/app/store/TaskStore";
-import { Tooltip, cn } from "@nextui-org/react";
+import {
+  fetchTaskAtom,
+  logOverDueTasksAtom,
+  recurrenceTaskAtom
+} from "@/app/store/TaskStore";
+import { Tooltip } from "@nextui-org/react";
+import { getHours, getMinutes, getSeconds } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
+import { useEffect } from "react";
 import {
   MdOutlineChevronLeft,
   MdOutlineDescription,
   MdRefresh,
   MdViewColumn,
   MdViewList,
-  MdSettings,
 } from "react-icons/md";
 import { toast } from "sonner";
 
@@ -35,9 +39,10 @@ const CMSHeader = ({
   selectedClientToView,
   showClientDetails,
   setShowClientDetails,
-  className,
   children,
 }) => {
+  const recurrenceTask = useSetAtom(recurrenceTaskAtom);
+  const logOverDueTasks = useSetAtom(logOverDueTasksAtom);
   const clients = useAtomValue(clientsAtom);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
@@ -55,7 +60,13 @@ const CMSHeader = ({
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await fetchTask(), await fetchClient()),
+          async () =>
+            resolve(
+              // await recurrenceTask(),
+              // await logOverDueTasks(),
+              await fetchTask(),
+              await fetchClient()
+            ),
           2000
         )
       );

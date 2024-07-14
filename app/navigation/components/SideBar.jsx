@@ -1,6 +1,11 @@
+import IconButton from "@/app/components/IconButton";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
 import { Link, cn } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { Suspense, useEffect, useState } from "react";
+import { useAtom, useAtomValue } from "jotai";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import {
   Menu,
   MenuItem,
@@ -14,8 +19,6 @@ import {
   activeTLRouteAtom,
   activeUserRouteAtom,
   cmsPathsAtom,
-  fetchRoleAtom,
-  selectedRoleAtom,
   sidebarToggleAtom,
 } from "../store/NavSideBarStore";
 import {
@@ -25,14 +28,8 @@ import {
   routesUser,
 } from "./RoutesIconDetails";
 import Shortcuts from "./shortcuts/Shortcuts";
-import SideBarHeader from "./sidebar/SideBarHeader";
-import IconButton from "@/app/components/IconButton";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import ShortcutsHeader from "./shortcuts/ShortcutsHeader";
-import { usePathname } from "next/navigation";
-import { userAtom } from "@/app/store/UserStore";
-import { useRoles } from "@/app/utils/roles";
+import SideBarHeader from "./sidebar/SideBarHeader";
 
 const SideBar = ({}) => {
   const user = useAtomValue(userAtom);
@@ -55,24 +52,23 @@ const SideBar = ({}) => {
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
 
-  // const role = useAtomValue(selectedRoleAtom);
   const role = selectedRole.currentRole.toLowerCase();
 
-  const activeRoutes = role.includes("admin")
-    ? activeAdminRoute
-    : role.includes("hr")
-    ? activeHRRoute
-    : role.includes("tl")
-    ? activeTLRoute
-    : role.includes("user") && activeUserRoute;
+  // const activeRoutes = role.includes("admin")
+  //   ? activeAdminRoute
+  //   : role.includes("hr")
+  //   ? activeHRRoute
+  //   : role.includes("tl")
+  //   ? activeTLRoute
+  //   : role.includes("user") && activeUserRoute;
 
-  const setActiveRoutes = role.includes("admin")
-    ? setActiveAdminRoute
-    : role.includes("hr")
-    ? setActiveHRRoute
-    : role.includes("tl")
-    ? setActiveTLRoute
-    : role.includes("user") && setActiveUserRoute;
+  // const setActiveRoutes = role.includes("admin")
+  //   ? setActiveAdminRoute
+  //   : role.includes("hr")
+  //   ? setActiveHRRoute
+  //   : role.includes("tl")
+  //   ? setActiveTLRoute
+  //   : role.includes("user") && setActiveUserRoute;
 
   const routes = role.includes("admin")
     ? routesAdmin
@@ -82,26 +78,19 @@ const SideBar = ({}) => {
     ? routesTeamLead
     : role.includes("user") && routesUser;
 
-  const handleSidebarButtonsActive = (sidebarKey) => {
-    for (let key in activeRoutes) {
-      if (key === sidebarKey) {
-        setActiveRoutes((prev) => {
-          return { ...prev, [key]: true };
-        });
-      } else {
-        setActiveRoutes((prev) => {
-          return { ...prev, [key]: false };
-        });
-      }
-    }
-  };
-
-  // document.addEventListener("keydown", function (event) {
-  //   if (event.key === "q") {
-  //     event.preventDefault();
-  //     alert("Q was pressed!");
+  // const handleSidebarButtonsActive = (sidebarKey) => {
+  //   for (let key in activeRoutes) {
+  //     if (key === sidebarKey) {
+  //       setActiveRoutes((prev) => {
+  //         return { ...prev, [key]: true };
+  //       });
+  //     } else {
+  //       setActiveRoutes((prev) => {
+  //         return { ...prev, [key]: false };
+  //       });
+  //     }
   //   }
-  // });
+  // };
 
   return (
     <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
@@ -165,7 +154,7 @@ const SideBar = ({}) => {
                 return (
                   <SubMenu
                     label={sidebarButtons.label.toUpperCase()}
-                    active={activeRoutes[sidebarButtons.key]}
+                    // active={activeRoutes[sidebarButtons.key]}
                     key={sidebarButtons.key}
                     icon={sidebarButtons.icon}
                     component={"div"}
@@ -222,7 +211,7 @@ const SideBar = ({}) => {
                       return (
                         <MenuItem
                           key={subRoute.key}
-                          active={activeRoutes[subRoute.key]}
+                          // active={activeRoutes[subRoute.key]}
                           icon={subRoute.icon}
                           component={<Link href={subRoute.link} />}
                         >
@@ -236,13 +225,13 @@ const SideBar = ({}) => {
                 return (
                   <MenuItem
                     key={sidebarButtons.key}
-                    active={activeRoutes[sidebarButtons.key]}
+                    // active={activeRoutes[sidebarButtons.key]}
                     icon={sidebarButtons.icon}
                     component={
                       <Link
                         href={sidebarButtons.link}
                         onPress={() => {
-                          handleSidebarButtonsActive(sidebarButtons.key);
+                          // handleSidebarButtonsActive(sidebarButtons.key);
                         }}
                       />
                     }

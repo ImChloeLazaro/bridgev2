@@ -6,8 +6,8 @@ import {
 } from "@internationalized/date";
 import {
   Button,
+  Calendar,
   cn,
-  DatePicker,
   Input,
   Popover,
   PopoverContent,
@@ -15,7 +15,7 @@ import {
   RangeCalendar,
   TimeInput,
 } from "@nextui-org/react";
-import { format, isValid, isSameDay } from "date-fns";
+import { format, isSameDay, isValid } from "date-fns";
 import { useCallback, useMemo } from "react";
 import {
   MdAccessTime,
@@ -32,7 +32,6 @@ const FormFieldInput = ({
   value,
   onValueChange,
   errorMessage,
-  fullWidth = false,
   isRequired = false,
   isDisabled = false,
   isReadOnly = false,
@@ -40,7 +39,8 @@ const FormFieldInput = ({
   withDate = false,
   withTime = false,
   isDateRange = false,
-  showPastDates = true,
+  showPastDate = true,
+  fullWidth = false,
   inputType,
   inputFileRef,
   inputID,
@@ -67,13 +67,14 @@ const FormFieldInput = ({
   );
 
   const endContent = {
-    // [isDateRange] - Add this prop to specify if picking with date range or not
     date: (
       <Popover
         placement="top"
         showArrow={true}
         backdrop="opaque"
         classNames={{
+          base: "w-full",
+          content: "w-full",
           backdrop: "bg-black-default/40",
         }}
       >
@@ -85,133 +86,177 @@ const FormFieldInput = ({
         <PopoverContent
           className={`bg-grey-default ${withTime ? "p-0" : "pb-4 pt-0 px-0"}`}
         >
-          <RangeCalendar
-            aria-label={label}
-            variant={"flat"}
-            minValue={today(getLocalTimeZone())}
-            visibleMonths={2}
-            pageBehavior={"single"}
-            value={dateRangeValue}
-            onChange={(dateRange) => {
-              onDateRangeValueChange(dateRange);
-              onValueChange(
-                isSameDay(dateRange.start.toString(), dateRange.end.toString())
-                  ? format(
-                      toCalendarDateTime(
-                        dateRange.start,
-                        timeStartValue
-                      ).toString(),
-                      withTime ? "PPp" : "PP"
-                    )
-                  : format(
-                      toCalendarDateTime(
-                        dateRange.start,
-                        timeStartValue
-                      ).toString(),
-                      withTime ? "PPp" : "PP"
-                    ) +
-                      " - " +
-                      format(
+          {isDateRange ? (
+            <RangeCalendar
+              aria-label={label}
+              variant={"flat"}
+              minValue={showPastDate ? null : today(getLocalTimeZone())}
+              visibleMonths={2}
+              pageBehavior={"single"}
+              value={dateRangeValue}
+              onChange={(dateRange) => {
+                onDateRangeValueChange(dateRange);
+                onValueChange(
+                  isSameDay(
+                    dateRange.start.toString(),
+                    dateRange.end.toString()
+                  )
+                    ? format(
                         toCalendarDateTime(
-                          dateRange.end,
-                          timeEndValue
+                          dateRange.start,
+                          timeStartValue
                         ).toString(),
                         withTime ? "PPp" : "PP"
                       )
-              );
-            }}
-            classNames={{
-              base: "w-[512px] bg-white-default/80 shadow-none",
-              content: "w-[512px] bg-white-default/80",
-              title: "font-bold text-black-default",
-              headerWrapper: "bg-white-default",
-              gridHeader: "bg-white-default",
-              gridHeaderRow: "font-normal text-black-default",
-              gridBody: "bg-grey-default",
-              gridWrapper: "bg-white-default/80 pb-0",
-              cellButton: [
-                "data-[hover=true]:bg-orange-default/60",
-                "data-[hover=true]:text-white-default",
-                "data-[disabled=true]:text-lightgrey-default",
-                "data-[unavailable=true]:text-lightgrey-default/70",
-                "data-[selected=true]:data-[range-selection=true]:data-[outside-month=true]:text-black-default/80",
-                "data-[selected=true]:data-[range-selection=true]:text-blue-default",
-                "data-[selected=true]:data-[range-selection=true]:before:bg-blue-default/20",
-                "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:bg-blue-default/90 ",
-                "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:bg-blue-default/90 ",
-                "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:text-white-default",
-                "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:text-white-default",
-              ],
-            }}
-            bottomContent={
-              withTime && (
-                <div className="flex bg-white-default">
-                  <TimeInput
-                    label="Start Time"
-                    minValue={new Time()}
-                    value={timeStartValue}
-                    onChange={(timeStart) => {
-                      onTimeStartValueChange(timeStart);
-                      onValueChange(
+                    : format(
+                        toCalendarDateTime(
+                          dateRange.start,
+                          timeStartValue
+                        ).toString(),
+                        withTime ? "PPp" : "PP"
+                      ) +
+                        " - " +
                         format(
                           toCalendarDateTime(
-                            dateRangeValue.start,
-                            timeStart
+                            dateRange.end,
+                            timeEndValue
                           ).toString(),
                           withTime ? "PPp" : "PP"
-                        ) +
-                          " - " +
+                        )
+                );
+              }}
+              classNames={{
+                base: "w-[512px] bg-white-default/80 shadow-none",
+                content: "w-[512px] bg-white-default/80",
+                title: "font-bold text-black-default",
+                headerWrapper: "bg-white-default",
+                gridHeader: "bg-white-default",
+                gridHeaderRow: "font-normal text-black-default",
+                gridBody: "bg-grey-default",
+                gridWrapper: "bg-white-default/80 pb-0",
+                cellButton: [
+                  "data-[hover=true]:bg-orange-default/60",
+                  "data-[hover=true]:text-white-default",
+                  "data-[disabled=true]:text-lightgrey-default",
+                  "data-[unavailable=true]:text-lightgrey-default/70",
+                  "data-[selected=true]:data-[range-selection=true]:data-[outside-month=true]:text-black-default/80",
+                  "data-[selected=true]:data-[range-selection=true]:text-blue-default",
+                  "data-[selected=true]:data-[range-selection=true]:before:bg-blue-default/20",
+                  "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:bg-blue-default/90 ",
+                  "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:bg-blue-default/90 ",
+                  "data-[selected=true]:data-[selection-start=true]:data-[range-selection=true]:text-white-default",
+                  "data-[selected=true]:data-[selection-end=true]:data-[range-selection=true]:text-white-default",
+                ],
+              }}
+              bottomContent={
+                withTime && (
+                  <div className="flex bg-white-default">
+                    <TimeInput
+                      label="Start Time"
+                      minValue={new Time()}
+                      value={timeStartValue}
+                      onChange={(timeStart) => {
+                        onTimeStartValueChange(timeStart);
+                        onValueChange(
                           format(
                             toCalendarDateTime(
-                              dateRangeValue.end,
-                              timeEndValue
+                              dateRangeValue.start,
+                              timeStart
                             ).toString(),
                             withTime ? "PPp" : "PP"
-                          )
-                      );
-                    }}
-                    startContent={<MdAccessTime size={16} />}
-                    classNames={{
-                      label: "text-xs font-medium text-black-default",
-                      inputWrapper:
-                        "pl-6 shadow-none rounded-none bg-white-default",
-                    }}
-                  />
-                  <TimeInput
-                    label="Due Time"
-                    minValue={new Time()}
-                    value={timeEndValue}
-                    onChange={(timeEnd) => {
-                      onTimeEndValueChange(timeEnd);
-                      onValueChange(
-                        format(
-                          toCalendarDateTime(
-                            dateRangeValue.start,
-                            timeStartValue
-                          ).toString(),
-                          withTime ? "PPp" : "PP"
-                        ) +
-                          " - " +
+                          ) +
+                            " - " +
+                            format(
+                              toCalendarDateTime(
+                                dateRangeValue.end,
+                                timeEndValue
+                              ).toString(),
+                              withTime ? "PPp" : "PP"
+                            )
+                        );
+                      }}
+                      startContent={<MdAccessTime size={16} />}
+                      classNames={{
+                        label: "text-xs font-medium text-black-default",
+                        inputWrapper:
+                          "pl-6 shadow-none rounded-none bg-white-default",
+                      }}
+                    />
+                    <TimeInput
+                      label="Due Time"
+                      minValue={new Time()}
+                      value={timeEndValue}
+                      onChange={(timeEnd) => {
+                        onTimeEndValueChange(timeEnd);
+                        onValueChange(
                           format(
                             toCalendarDateTime(
-                              dateRangeValue.end,
-                              timeEnd
+                              dateRangeValue.start,
+                              timeStartValue
                             ).toString(),
                             withTime ? "PPp" : "PP"
-                          )
-                      );
-                    }}
-                    startContent={<MdAccessTime size={16} />}
-                    classNames={{
-                      label: "text-xs font-medium text-black-default",
-                      inputWrapper:
-                        "pl-6 shadow-none rounded-none bg-white-default",
-                    }}
-                  />
-                </div>
-              )
-            }
-          />
+                          ) +
+                            " - " +
+                            format(
+                              toCalendarDateTime(
+                                dateRangeValue.end,
+                                timeEnd
+                              ).toString(),
+                              withTime ? "PPp" : "PP"
+                            )
+                        );
+                      }}
+                      startContent={<MdAccessTime size={16} />}
+                      classNames={{
+                        label: "text-xs font-medium text-black-default",
+                        inputWrapper:
+                          "pl-6 shadow-none rounded-none bg-white-default",
+                      }}
+                    />
+                  </div>
+                )
+              }
+            />
+          ) : (
+            <Calendar
+              showMonthAndYearPickers
+              aria-label={label}
+              variant={"flat"}
+              minValue={showPastDate ? null : today(getLocalTimeZone())}
+              value={dateRangeValue?.start}
+              onChange={(dateRange) => {
+                onDateRangeValueChange((prev) => {
+                  return { ...prev, start: dateRange };
+                });
+                onValueChange(
+                  format(
+                    toCalendarDateTime(dateRange).toString(),
+                    withTime ? "PPp" : "PP"
+                  )
+                );
+              }}
+              classNames={{
+                base: "w-full bg-white-default/80 shadow-none",
+                content: "w-full bg-white-default/80",
+                title: "font-bold text-black-default",
+                headerWrapper: "bg-white-default",
+                gridHeader: "bg-white-default",
+                gridHeaderRow: "font-normal text-black-default",
+                gridBody: "bg-grey-default",
+                gridWrapper: "bg-white-default/80 pb-0",
+                cellButton: [
+                  "data-[hover=true]:bg-orange-default/60",
+                  "data-[hover=true]:text-white-default",
+                  "data-[disabled=true]:text-lightgrey-default",
+                  "data-[unavailable=true]:text-lightgrey-default/70",
+                  "data-[selected=true]:bg-blue-default/90",
+                  "data-[selected=true]:text-white-default",
+                  "data-[selected=true]:data-[hover=true]:bg-blue-default/90",
+                  "data-[selected=true]:data-[hover=true]:text-white-default",
+                ],
+              }}
+            />
+          )}
         </PopoverContent>
       </Popover>
     ),
@@ -265,7 +310,7 @@ const FormFieldInput = ({
     email: "Please enter a valid email address",
     text: "No special characters allowed",
     number: "No characters or spaces allowed",
-    date: "Please enter a valid date",
+    date: "Please enter a valid date time",
     file: "PDF file is only accepted",
   };
   // fix validation for datetime
@@ -279,20 +324,27 @@ const FormFieldInput = ({
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
-    console.log("VALUE MATCH", value, typeof value);
-
     if (value === "") return false;
-    console.log("value not object or empty");
+
     if (type === "date") {
-      return !(
-        isValid(
-          toCalendarDateTime(dateRangeValue.start, timeStartValue).toDate()
-        ) &&
-        isValid(
-          toCalendarDateTime(dateRangeValue.end, timeEndValue).toDate()
-        ) &&
-        timeStartValue.compare(timeEndValue) < 0
-      );
+      if (isDateRange) {
+        return !(
+          isValid(
+            toCalendarDateTime(dateRangeValue.start, timeStartValue).toDate()
+          ) &&
+          isValid(
+            toCalendarDateTime(dateRangeValue.end, timeEndValue).toDate()
+          ) &&
+          timeStartValue?.compare(timeEndValue) < 0
+        );
+      } else {
+        return !(
+          isValid(
+            toCalendarDateTime(dateRangeValue.start, timeStartValue).toDate()
+          ) &&
+          isValid(toCalendarDateTime(dateRangeValue.end, timeEndValue).toDate())
+        );
+      }
     }
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -320,7 +372,7 @@ const FormFieldInput = ({
         value={value}
         onValueChange={onValueChange}
         classNames={{
-          base: [`${fullWidth ? "w-full" : "w-[370px]"}`, className],
+          base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
           label: [
             // `${isInvalid ? "!text-red-default" : "!text-black-default/80"}`,
             "after:!text-red-default",
@@ -344,7 +396,7 @@ const FormFieldInput = ({
             //     : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
             // }`,
             "text-sm font-medium",
-            "px-3 py-2 rounded-small"
+            "px-3 py-2"
           ),
           errorMessage: ["font-medium text-red-default"],
         }}

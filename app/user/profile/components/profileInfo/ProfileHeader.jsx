@@ -1,13 +1,11 @@
+import IconButton from "@/app/components/IconButton";
 import { userAtom } from "@/app/store/UserStore";
-import { Avatar, Button } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import NextImage from "next/image";
-import { MdManageAccounts } from "react-icons/md";
+import { MdCameraAlt, MdManageAccounts } from "react-icons/md";
 import ProfileBanner from "../../../../../public/header-profile.webp";
 import CTAButtons from "../../../../components/CTAButtons";
-import { isVisibleJobTitleAtom } from "../../store/ProfileStore";
-import { MdCameraAlt } from "react-icons/md";
-import IconButton from "@/app/components/IconButton";
 
 const ProfileHeader = () => {
   const user = useAtomValue(userAtom);
@@ -29,7 +27,6 @@ const ProfileHeader = () => {
             }}
           />
         </div>
-
       </div>
 
       <div className="w-full px-2 lg:px-4 xl:px-12 -mt-[2rem] mb-4 lg:mb-0 lg:-mt-[2rem] flex flex-col lg:flex-row gap-6 lg:justify-between items-start lg:items-center">
@@ -62,9 +59,10 @@ const ProfileHeader = () => {
             <p className="text-xl lg:text-2xl font-extrabold text-darkgrey-hover leading-4">
               {user.name}
             </p>
-            <p className="text-sm lg:text-base font-medium text-darkgrey-hover leading-4">
+            {/* FEAT: Connected to team of user */}
+            {/* <p className="text-sm lg:text-base font-medium text-darkgrey-hover leading-4">
               {"Junior Data Anaylst"}
-            </p>
+            </p> */}
             <p className="text-base font-medium text-darkgrey-hover leading-5">
               {user.email}
             </p>

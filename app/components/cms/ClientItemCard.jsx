@@ -13,9 +13,7 @@ import {
 import { compareAsc } from "date-fns";
 import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
-import { MdChevronRight } from "react-icons/md";
-import { MdPerson } from "react-icons/md";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdChevronRight, MdPerson } from "react-icons/md";
 
 const tagColors = {
   todo: "blue",

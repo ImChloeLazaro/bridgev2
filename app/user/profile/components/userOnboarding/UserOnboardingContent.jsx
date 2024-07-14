@@ -1,8 +1,7 @@
 import { format } from "date-fns";
 import { useAtomValue } from "jotai";
-import { userAtom } from "../../../../store/UserStore";
-import UserOnboardingModal from "./UserOnboardingModal";
 import { employeeInfoAtom } from "../../store/ProfileStore";
+import UserOnboardingModal from "./UserOnboardingModal";
 
 const UserOnboardingContent = () => {
   const { response: data } = useAtomValue(employeeInfoAtom);

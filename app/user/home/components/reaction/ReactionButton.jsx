@@ -94,26 +94,26 @@ const ReactionButton = ({ id, reactionList, reacted, reactionsCount }) => {
   const handleAddReaction = async (reaction, status) => {
     setSelectedReaction(reaction);
 
-    console.log("BEFORE PASSING TO ATOM", {
-      id: id,
-      selectedReaction: reaction,
-      reacted: {
-        sub: auth?.sub,
-        name: user.name,
-        picture: user.picture,
-        reaction:
-          status === ""
-            ? !isReacted
-              ? reaction
-              : ""
-            : !status
-            ? reaction
-            : "",
-        reactedAt: new Date(),
-      },
-      reactions: reactionsCount,
-      isReacted: status === "" ? !isReacted : !status,
-    });
+    // console.log("BEFORE PASSING TO ATOM", {
+    //   id: id,
+    //   selectedReaction: reaction,
+    //   reacted: {
+    //     sub: auth?.sub,
+    //     name: user.name,
+    //     picture: user.picture,
+    //     reaction:
+    //       status === ""
+    //         ? !isReacted
+    //           ? reaction
+    //           : ""
+    //         : !status
+    //         ? reaction
+    //         : "",
+    //     reactedAt: new Date(),
+    //   },
+    //   reactions: reactionsCount,
+    //   isReacted: status === "" ? !isReacted : !status,
+    // });
 
     const response = await updatePostReaction({
       id: id,

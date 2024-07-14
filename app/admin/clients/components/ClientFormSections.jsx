@@ -363,6 +363,7 @@ const ClientFormSections = () => {
           value={financialLastFiledTax}
           onValueChange={setFinancialLastFiledTax}
           placeholder={"Set a date"}
+          showPastDate={true}
           withDate={true}
           date={financialLastFiledTax}
           onDateChange={setFinancialLastFiledTax}

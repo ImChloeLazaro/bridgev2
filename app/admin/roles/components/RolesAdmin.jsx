@@ -1,32 +1,28 @@
-"use client";
-import { useState, useMemo } from "react";
+import IconButton from "@/app/components/IconButton";
+import SearchBar from "@/app/components/SearchBar";
+import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
+import { restupdate } from "@/app/utils/amplify-rest";
 import {
-  Tabs,
-  Tab,
+  Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Chip,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
   Listbox,
   ListboxItem,
-  CardFooter,
-  Pagination,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Tab,
+  Tabs,
 } from "@nextui-org/react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { userListAtom , fetchUserListAtom } from "@/app/store/UserStore";
-import { restupdate } from "@/app/utils/amplify-rest";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import SearchBar from "@/app/components/SearchBar";
-import IconButton from "@/app/components/IconButton";
 
-import { MdRefresh, MdEdit } from "react-icons/md";
 import { IoMdMail } from "react-icons/io";
-
-import { userAtom } from "@/app/store/UserStore";
+import { MdEdit, MdRefresh } from "react-icons/md";
 
 const RolesAdmin = () => {
   const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
@@ -47,7 +43,7 @@ const RolesAdmin = () => {
     setIsLoading(true);
     try {
       // await new Promise((resolve) => setTimeout(resolve, 2000));
-      await fetchUsers()
+      await fetchUsers();
       toast.success("Refreshed");
 
       setIsLoading(false);
@@ -72,7 +68,6 @@ const RolesAdmin = () => {
 
     filteredUsers.forEach((user) => {
       roles["All"].add(user);
-      console.log("User roles:", user.role);
       user.role.forEach((role) => {
         if (role.name === "ADMIN") roles["Admin"].add(user);
         if (role.name === "TL") roles["TL"].add(user);
@@ -100,7 +95,6 @@ const RolesAdmin = () => {
   const handleEditClick = (user) => {
     setCurrentUser(user);
     const userRoles = new Set(user.role.map((role) => role.name.toLowerCase()));
-    console.log("User roles:", userRoles);
     setSelectedKeys(userRoles);
   };
 
@@ -128,13 +122,12 @@ const RolesAdmin = () => {
         sub: currentUser.sub,
         role: selectedRoles,
       });
-      console.log("Updated user:", updatedUser);
-      console.log(
-        "User sub:",
-        currentUser.sub,
-        "Selected roles:",
-        selectedRoles
-      );
+      // console.log(
+      //   "User sub:",
+      //   currentUser.sub,
+      //   "Selected roles:",
+      //   selectedRoles
+      // );
 
       toast.success("Successfuly updated user " + currentUser.name);
     } catch (error) {
@@ -144,7 +137,7 @@ const RolesAdmin = () => {
       );
     }
 
-    await fetchUsers()
+    await fetchUsers();
   };
 
   return (

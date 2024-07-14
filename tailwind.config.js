@@ -1,6 +1,5 @@
 // tailwind.config.js
 import { nextui } from "@nextui-org/react";
-import { color } from "framer-motion";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -211,6 +210,5 @@ module.exports = {
       };
       addUtilities(newUtilities);
     },
-    require("tailwindcss-animate"),
   ],
 };

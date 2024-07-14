@@ -1,3 +1,4 @@
+import { userAtom } from "@/app/store/UserStore";
 import {
   Accordion,
   AccordionItem,
@@ -6,50 +7,27 @@ import {
 } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { MdChevronRight } from "react-icons/md";
-import { selectedRoleAtom, roleAtom } from "../../store/NavSideBarStore";
-import { userListAtom, userAtom } from "@/app/store/UserStore";
+import { selectedRoleAtom } from "../../store/NavSideBarStore";
 const SwitchRoles = () => {
   const users = useAtomValue(userAtom).role;
   const setRoles = useSetAtom(selectedRoleAtom);
 
-  // const labelRoles = (role) => {
-  //   if (role === "user") {
-  //     return "User";
-  //   }
-  //   if (role === "admin") {
-  //     return "Admin";
-  //   }
-  //   if (role === "hr") {
-  //     return "HR";
-  //   }
-  //   if (role === "tl") {
-  //     return "Team Lead";
-  //   }
-  // };
-
-  // const roleList = roles.map((role) => {
-  //   return { key: role, label: labelRoles(role), link: `/${role}` };
-  // });
-
   const roleList = users.map((user) => {
     const userRoleLowerCase = user.name.toLowerCase();
-    let userRoleUpperCase;
-  
-    switch (user.name) {
-      case "TL":
-        userRoleUpperCase = "Team Leader";
-        break;
-      case "HR":
-        userRoleUpperCase = "Human Resource";
-        break;
-      default:
-        userRoleUpperCase = user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase();
-        break;
-    }
-    return { key: userRoleLowerCase, label: userRoleUpperCase, link: `/${userRoleLowerCase}` };
-  });
-  
 
+    const roleLabels = {
+      user: "User",
+      admin: "Admin",
+      tl: "Team Lead",
+      hr: "Human Resource",
+    };
+
+    return {
+      key: userRoleLowerCase,
+      label: roleLabels[userRoleLowerCase],
+      link: `/${userRoleLowerCase}`,
+    };
+  });
 
   return (
     <Accordion isCompact className="text-base font-medium">

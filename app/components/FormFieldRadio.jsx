@@ -1,4 +1,4 @@
-import { RadioGroup, Radio, cn } from "@nextui-org/react";
+import { Radio, RadioGroup, cn } from "@nextui-org/react";
 
 const FormFieldRadio = ({
   label,

@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import { Card, Image } from "@nextui-org/react";
+import { Card, Image, cn } from "@nextui-org/react";
+import { useState } from "react";
 import { toast } from "sonner";
 
-const MiniUnderContstruction = ({
-  src = "/imageUnderContstruction.png",
-  mini = true,
-}) => {
+const MiniUnderConstruction = ({ mini = true, classNameCard }) => {
   const [info, setInfo] = useState(false);
 
   const stillInProgress = () => {
@@ -20,7 +17,12 @@ const MiniUnderContstruction = ({
     }
   };
   return (
-    <Card className="h-full w-full">
+    <Card
+      className={cn(
+        "h-full w-full shadow-none bg-grey-default rounded-none",
+        classNameCard
+      )}
+    >
       <div
         className="flex justify-center items-center h-full cursor-not-allowed"
         onClick={stillInProgress}
@@ -28,7 +30,7 @@ const MiniUnderContstruction = ({
         <div>
           <div className="flex justify-center items-center">
             <Image
-              src={src}
+              src={"/imageUnderConstruction.png"}
               alt="Under Construction"
               className={`${
                 mini ? "w-32 h-32" : "w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60"

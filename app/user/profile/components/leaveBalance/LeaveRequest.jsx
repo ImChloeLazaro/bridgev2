@@ -1,37 +1,32 @@
 "use client";
-import { useState } from "react";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { restinsert } from "@/app/utils/amplify-rest";
+import { parseDate } from "@internationalized/date";
 import {
   Button,
+  Checkbox,
+  DatePicker,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalContent,
   ModalFooter,
-  useDisclosure,
-  Input,
+  ModalHeader,
   Select,
   SelectItem,
-  DatePicker,
   Textarea,
-  Checkbox,
+  useDisclosure,
 } from "@nextui-org/react";
-
-import { toast } from "sonner";
-import { parseDate } from "@internationalized/date";
-
+import { useAtomValue } from "jotai";
+import { useState } from "react";
 import { FaHistory } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
-import LeaveHistory from "./LeaveHistory";
-
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { toast } from "sonner";
 import { leaveStatusAtom } from "../../store/ProfileStore";
-import { useAtomValue } from "jotai";
-
-import { restinsert, restread } from "@/app/utils/amplify-rest";
+import LeaveHistory from "./LeaveHistory";
 
 const LeaveRequest = () => {
   const leaveStatus = useAtomValue(leaveStatusAtom);
-  console.log("leaveStatus", leaveStatus);
+  // console.log("leaveStatus", leaveStatus);
 
   const { sub } = useAtomValue(authenticationAtom);
   const [leaveConfirmation, setLeaveConfirmation] = useState(false);
@@ -213,8 +208,10 @@ const LeaveRequest = () => {
                   {getLeaveLabel(formdata.leaveType)} -{" "}
                   {formdata.numberOfHours == 8 ? "Full Day" : "Half Day"}
                 </p>
-                {((formdata.leaveType === "sl" && leaveStatus?.SL_BALANCE <= 0) ||
-                  (formdata.leaveType === "vl" && leaveStatus?.VL_BALANCE <= 0)) && (
+                {((formdata.leaveType === "sl" &&
+                  leaveStatus?.SL_BALANCE <= 0) ||
+                  (formdata.leaveType === "vl" &&
+                    leaveStatus?.VL_BALANCE <= 0)) && (
                   <small className="text-red-600 text-justify">
                     Your {getLeaveLabel(formdata.leaveType)} balance is
                     currently 0. If you proceed and your leave is approved by an

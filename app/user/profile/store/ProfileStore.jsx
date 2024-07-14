@@ -1,7 +1,7 @@
-import { atom } from "jotai";
-import "../../../aws-auth";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { readwithparams } from "@/app/utils/amplify-rest";
+import { atom } from "jotai";
+import "../../../aws-auth";
 
 export const profileTabsAtom = atom([
   { key: "about", title: "About" },
@@ -11,14 +11,6 @@ export const profileTabsAtom = atom([
 ]);
 
 export const selectedProfileTabAtom = atom("about");
-export const isVisibleJobTitleAtom = atom(false);
-export const currentPasswordAtom = atom("ooooooooo");
-export const newPasswordAtom = atom("ooooooooo");
-export const confirmPasswordAtom = atom("ooooooooo");
-
-export const isCurrentPasswordVisibleAtom = atom(false);
-export const isNewPasswordVisibleAtom = atom(false);
-export const isConfirmPasswordVisibleAtom = atom(false);
 
 // Personal Information
 export const personalInfoAtom = atom(async (get) => {
@@ -35,16 +27,16 @@ export const employeeInfoAtom = atom(async (get) => {
 //Team
 export const teamStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  const teams = await readwithparams("/teams/employee", {
-    // sub: "d0229811-67cc-4fb8-915b-38d8029b85df",
-    sub: auth.sub,
-  });
+  // const teams = await readwithparams("/teams/employee", {
+  //   // sub: "d0229811-67cc-4fb8-915b-38d8029b85df",
+  //   sub: auth.sub,
+  // });
 
-  if (teams?.success) {
-    return teams.response;
-  } else {
-    return null;
-  }
+  // if (teams?.success) {
+  //   return teams.response;
+  // } else {
+  //   return null;
+  // }
 });
 
 //Leaves

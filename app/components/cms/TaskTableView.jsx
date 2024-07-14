@@ -8,6 +8,7 @@ import {
 import {
   Avatar,
   AvatarGroup,
+  cn,
   Image,
   Link,
   Spinner,
@@ -18,26 +19,17 @@ import {
   TableHeader,
   TableRow,
   useDisclosure,
-  cn,
 } from "@nextui-org/react";
-import {
-  compareAsc,
-  addDays,
-  addWeeks,
-  addMonths,
-  addQuarters,
-  addYears,
-  format,
-} from "date-fns";
+import { compareAsc, format } from "date-fns";
 import { enAU } from "date-fns/locale/en-AU";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdCheck, MdPerson, MdRefresh } from "react-icons/md";
+import useSound from "use-sound";
 import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
-import useSound from "use-sound";
 
 // @refresh reset
 
@@ -110,13 +102,7 @@ const TaskTableView = ({
         }
       }
 
-      if (sortDescriptor.column === "startDate") {
-        first = a["duration"].start;
-        second = b["duration"].start;
-        cmp = compareAsc(new Date(first), new Date(second));
-      }
-
-      if (sortDescriptor.column === "endDate") {
+      if (sortDescriptor.column === "dueDate") {
         first = a["duration"].end;
         second = b["duration"].end;
         cmp = compareAsc(new Date(first), new Date(second));
@@ -132,7 +118,7 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
-      // setTaskId(task._id ? task._id : "");
+      const isOverdue = task.progress.toLowerCase() === "overdue";
       const difference =
         compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
         task.status === "todo";
@@ -190,7 +176,7 @@ const TaskTableView = ({
                   classNameLabel={"text-sm lg:text-md capitalize"}
                 />
               )}
-              {difference && (
+              {isOverdue && (
                 <LabelTagChip
                   size={"md"}
                   text={"Overdue"}
@@ -204,70 +190,14 @@ const TaskTableView = ({
             </div>
           );
 
-        case "startDate":
+        case "dueDate":
           return (
             <>
               <p
                 className={cn(
                   "min-w-fit text-sm lg:text-lg font-bold text-black-default",
                   `${
-                    task.status === "done" || difference
-                      ? "line-through text-darkgrey-default/80"
-                      : ""
-                  }`
-                )}
-              >
-                {format(
-                  task.duration.start?.length
-                    ? task.duration.start.slice(0, -1)
-                    : "",
-                  "PP",
-                  { locale: enAU }
-                )}
-              </p>
-              <p
-                className={cn(
-                  "min-w-fit text-sm lg:text-base font-bold text-black-default",
-                  `${
-                    task.status === "done" || difference
-                      ? "line-through text-darkgrey-default/80"
-                      : ""
-                  }`
-                )}
-              >
-                {format(
-                  task.duration.start?.length
-                    ? task.duration.start.slice(0, -1)
-                    : "",
-                  "p",
-                  { locale: enAU }
-                )}
-              </p>
-            </>
-          );
-
-        case "endDate":
-          console.log("task name", task.name);
-          console.log("addDays", addDays(task.duration.end.slice(0, -1), 1));
-          console.log("addWeeks", addWeeks(task.duration.end.slice(0, -1), 1));
-          console.log(
-            "addMonths",
-            addMonths(task.duration.end.slice(0, -1), 1)
-          );
-          console.log(
-            "addQuarters",
-            addQuarters(task.duration.end.slice(0, -1), 1)
-          );
-          console.log("addYears", addYears(task.duration.end.slice(0, -1), 1));
-          console.log("\n");
-
-          return (
-            <>
-              <p
-                className={cn(
-                  "min-w-fit text-sm lg:text-lg font-bold text-black-default",
-                  `${
-                    task.status === "done" || difference
+                    task.status === "done" || isOverdue
                       ? "line-through text-darkgrey-default/80"
                       : ""
                   }`
@@ -285,7 +215,7 @@ const TaskTableView = ({
                 className={cn(
                   "min-w-fit text-sm lg:text-base font-bold text-black-default",
                   `${
-                    task.status === "done" || difference
+                    task.status === "done" || isOverdue
                       ? "line-through text-darkgrey-default/80"
                       : ""
                   }`
@@ -354,7 +284,7 @@ const TaskTableView = ({
                 actions={actionOptions}
                 trigger={<BiDotsVerticalRounded size={24} />}
                 isEscalated={task.escalate}
-                isOverdue={difference}
+                isOverdue={isOverdue}
                 confirmationWindow={confirmationWindow}
                 taskActionWindow={taskActionWindow}
               />
@@ -426,10 +356,9 @@ const TaskTableView = ({
             "text-md lg:text-lg font-extrabold text-darkgrey-hover",
           ],
           td: [
-            "[&:nth-child(8)]:w-1/12", // actions
-            "[&:nth-child(7)]:w-1/12", // assignees
-            "[&:nth-child(6)]:w-2/12", // end date
-            "[&:nth-child(5)]:w-1/12", // start date
+            "[&:nth-child(7)]:w-1/12", // actions
+            "[&:nth-child(6)]:w-1/12", // assignees
+            "[&:nth-child(5)]:w-2/12", // end date
             "[&:nth-child(4)]:w-2/12", // status
             "[&:nth-child(3)]:w-4/12", // description
             "[&:nth-child(2)]:w-2/12", // task name
@@ -480,7 +409,6 @@ const TaskTableView = ({
         action_params={{
           sound: play,
           tasks: tasksFromSelectedClient[0],
-          // task_id: taskId,
           selectedProcessorTaskAction: selectedProcessorTaskAction,
           selectedReviewerTaskAction: selectedReviewerTaskAction,
           setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,

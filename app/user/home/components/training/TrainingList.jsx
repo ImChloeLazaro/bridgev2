@@ -1,20 +1,16 @@
-import MiniUnderConstruction from "@/app/components/MiniUnderContstruction";
 import { Image, Listbox, ListboxItem, cn } from "@nextui-org/react";
 import { format } from "date-fns";
-import { enAU } from "date-fns/locale/en-AU";
 import { useAtomValue } from "jotai";
+import { useEffect, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { trainingsAtom } from "../../store/TrainingStore";
 import TrainingOptions from "./TrainingOptions";
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
 
 //fetch imports
 import axios from "axios";
 //next auth imports
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
 import { useSession } from "next-auth/react";
-import GoogleOAuth from "@/app/calendar/GoogleOAuth";
 
 // @refresh reset
 const TrainingList = () => {
@@ -87,7 +83,7 @@ const TrainingList = () => {
             items={trainings || []}
             aria-label="Training List"
             className="hidden"
-            onAction={(key) => console.log(key)}
+            // onAction={(key) => console.log(key)}
             emptyContent={
               <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">
                 <Image

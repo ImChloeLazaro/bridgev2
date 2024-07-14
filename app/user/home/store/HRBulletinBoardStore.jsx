@@ -17,7 +17,8 @@ export const hrBulletinBoardAtom = atom([
     key: `bulletin-${index}`,
     title: "New Policy!",
     datetime: "2023-07-07T13:00:00",
-    description: "A new work policy is approved! The work policy is approved! The approved is the work policy because the work policy is approved.",
+    description:
+      "A new work policy is approved! The work policy is approved! The approved is the work policy because the work policy is approved.",
     type: "policy",
     color: "blue",
   },
@@ -26,7 +27,8 @@ export const hrBulletinBoardAtom = atom([
     key: `bulletin-${index}`,
     title: "Look Here!",
     datetime: "2023-03-28T13:00:00",
-    description: "A-News! Here is this month\’s release. This is this month\’s release because it is A-News! The release for this month!",
+    description:
+      "A-News! Here is this month’s release. This is this month’s release because it is A-News! The release for this month!",
     type: "release",
     color: "green",
   },
