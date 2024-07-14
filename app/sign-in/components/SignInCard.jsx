@@ -2,6 +2,9 @@ import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import { signInWithRedirect } from "aws-amplify/auth";
 import "../../aws-auth";
 import SignInGoogle from "./SignInGoogle";
+import CTAButtons from "@/app/components/CTAButtons";
+import { FcGoogle } from "react-icons/fc";
+import { MdChevronRight } from "react-icons/md";
 
 const SignInCard = () => {
   return (
@@ -46,7 +49,24 @@ const SignInCard = () => {
             </div>
           </div>
           {/* // ### BACKEND */}
-          <SignInGoogle handler={signInWithRedirect}/>
+
+          {/* <SignInGoogle handler={signInWithRedirect} /> */}
+
+          {/* updated to use shared components */}
+
+          <CTAButtons
+            onClick={signInWithRedirect}
+            label={"Continue with Google"}
+            size={"lg"}
+            startContent={<FcGoogle className="text-3xl" />}
+            endContent={
+              <MdChevronRight className="text-2xl text-black-default" />
+            }
+            className={"w-full tracking-tight px-4"}
+            chevron={true}
+            radius="lg"
+            cnLabel={"font-medium"}
+          />
         </CardBody>
       </Card>
     </div>

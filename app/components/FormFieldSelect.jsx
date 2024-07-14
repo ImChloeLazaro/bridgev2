@@ -1,6 +1,7 @@
 import { Avatar, Chip, Select, SelectItem } from "@nextui-org/react";
 import { useMemo, useState } from "react";
 import { MdPerson } from "react-icons/md";
+
 const FormFieldSelect = ({
   label,
   items = { label: "label", key: "key", value: "value" },
@@ -8,7 +9,6 @@ const FormFieldSelect = ({
   selectionMode = "single",
   selectedKeys,
   onSelectionChange,
-  // selectionContent,
   isRequired,
   isDisabled,
   disabledValidation = false,
@@ -34,19 +34,13 @@ const FormFieldSelect = ({
                 );
               }}
             >
-              {displayItem.data.picture ? (
+              {
                 <p className="font-sm">
                   {displayItem.data.label
                     ? displayItem.data.label
                     : displayItem.data.name}
                 </p>
-              ) : (
-                <p className="font-bold">
-                  {displayItem.data.label
-                    ? displayItem.data.label
-                    : displayItem.data.name}
-                </p>
-              )}
+              }
             </Chip>
           ))}
         </div>
@@ -94,9 +88,9 @@ const FormFieldSelect = ({
   return (
     <Select
       label={label}
-      aria-label={label}
+      aria-label={label ?? "Selection"}
       items={selection}
-      isRequired={isRequired}
+      isRequired={true}
       isDisabled={isDisabled ? isDisabled : selection.size === 0}
       isInvalid={!isInvalid || !touched ? false : true}
       validationBehavior={"native"}
@@ -116,7 +110,7 @@ const FormFieldSelect = ({
       }
       className={className}
       classNames={{
-        base: `h-full ${
+        base: `h-full mb-1 ${
           selection.size === 0 ? "cursor-not-allowed pointer-events-auto" : ""
         }`,
         label: "mt-2",
@@ -140,7 +134,7 @@ const FormFieldSelect = ({
         return (
           <SelectItem
             key={item.key ? item.key : item.sub ? item.sub : item._id}
-            textValue={item.label}
+            textValue={item.key ? item.key : item.sub ? item.sub : item._id}
           >
             <div className="flex gap-2 items-center">
               {renderItemPicture && item.picture ? (

@@ -1,6 +1,6 @@
-import "../aws-auth";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { atom } from "jotai";
+import "../aws-auth";
 
 export const authenticationAtom = atom(async () => {
   try {

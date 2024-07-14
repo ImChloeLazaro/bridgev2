@@ -1,12 +1,16 @@
 "use client";
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
 import { userAtom } from "@/app/store/UserStore";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import PlaceholderContent from "../../components/PlaceholderContent";
 const Onboarding = () => {
   const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
-  return <PlaceholderContent />;
+  return (
+    <div className="h-full w-full ">
+      <MiniUnderConstruction />
+    </div>
+  );
 };
 
 export default Onboarding;

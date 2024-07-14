@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 
 mongoose.connect(process.env.DATABASE)
 
-app.get('/teams', async function(req, res) {
+app.get('/teams/team', async function(req, res) {
   try {
     const team = await teamModel.find()
     res.status(200).json({ success: true, response: team})
@@ -27,7 +27,7 @@ app.get('/teams', async function(req, res) {
   }
 });
 
-app.get('/teams/*', async function(req, res) {
+app.get('/teams/team/*', async function(req, res) {
   try {
     const sub = req.query.sub; // Extract sub from query parameters
     const key = req.path; // Use req.path to get the URL path
@@ -45,7 +45,7 @@ app.get('/teams/*', async function(req, res) {
   }
 });
 
-app.post('/teams', async function(req, res) {
+app.post('/teams/team', async function(req, res) {
   const {name, heads, members, client} = req.body
   try {
     if (!name || !client || !heads || !members) {
@@ -58,17 +58,17 @@ app.post('/teams', async function(req, res) {
   }
 });
 
-app.put('/teams/*', async function(req, res) {
+app.put('/teams/team/*', async function(req, res) {
   try {
     const {status, _id} = req.body;
     const key = req.path;
 
     switch (key) {
-      case '/teams/activeOrArchive':
+      case '/teams/team/activeOrArchive':
         const team = await teamModel.updateOne({_id}, {status})
         res.json({ success: true, response: team });
         break;
-      case '/teams/updateMember':
+      case '/teams/team/updateMember':
         const teamOne = await teamModel.updateOne(
           { _id: _id, "members._id": status._id },
           { 
@@ -89,7 +89,7 @@ app.put('/teams/*', async function(req, res) {
     res.json({ error: error }); 
   }
 })
-app.put('/teams', async function(req, res) {
+app.put('/teams/team', async function(req, res) {
   try {
     const {_id, name, heads, members, client} = req.body
     const team = await teamModel.updateOne({_id}, {
@@ -105,7 +105,7 @@ app.put('/teams', async function(req, res) {
 });
 
 
-app.delete('/teams', async function(req, res) {
+app.delete('/teams/team', async function(req, res) {
   try {
     const {sub} = req.body
     const team = await teamModel.deleteOne({sub: sub})

@@ -1,7 +1,7 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
+import { Link, Tooltip } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
 import { benefitsStatusAtom } from "../../store/ProfileStore";
-import { Tooltip, Link } from "@nextui-org/react";
 
 const BenefitsContent = () => {
   const benefitsList = useAtomValue(benefitsStatusAtom);

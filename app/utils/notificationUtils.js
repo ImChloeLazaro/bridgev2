@@ -80,13 +80,13 @@ export function showNotification(data) {
 export function requestPermissionNotification() {
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
+      console.log("Notification permission granted");
       var notification = new Notification("Push Notifications Enabled", {
         body: "You can now see your notifications in the bottom-right side of the screen!",
         icon: "/aretex-logo.png",
         tag: "System Notification",
       });
       notification.addEventListener("error", (e) => {
-        console.log("ERROR NOTIFICATION", e);
         toast("Provider Notification Failed");
       });
     }

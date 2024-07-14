@@ -1,6 +1,4 @@
 import { atom } from "jotai";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/utils/authOption";
 let index = 0;
 
 // blue - clients/tasks

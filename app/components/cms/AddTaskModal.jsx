@@ -1,6 +1,10 @@
 import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
-import { addTaskAtom, fetchTaskAtom } from "@/app/store/TaskStore";
+import {
+  addTaskAtom,
+  deleteTaskAtom,
+  fetchTaskAtom,
+} from "@/app/store/TaskStore";
 import {
   Modal,
   ModalBody,
@@ -43,11 +47,14 @@ const AddTaskModal = ({
   const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
+  const deleteTask = useSetAtom(deleteTaskAtom);
 
   const showClientTask = useAtomValue(showClientTaskAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async () => {
+    // console.log("taskData", taskData);addTask(taskData);deleteTask()
+
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(

@@ -2,12 +2,16 @@
 import { userAtom } from "@/app/store/UserStore";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import PlaceholderContent from "../../components/PlaceholderContent";
+import TeamManagement from "./components/TeamManagement";
 
-const TeamManagement = () => {
+const Team = () => {
   const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
-  return <PlaceholderContent />;
+  return (
+    <div className="flex justify-center items-center w-full h-full p-0 lg:p-6 ">
+      <TeamManagement />
+    </div>
+  );
 };
 
-export default TeamManagement;
+export default Team;

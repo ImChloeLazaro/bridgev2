@@ -1,6 +1,7 @@
 import { Button, Link } from "@nextui-org/react";
 import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
+import CTAButtons from "@/app/components/CTAButtons";
 
 const SignInGoogle = ({ handler }) => {
   const handleSignIn = () => {

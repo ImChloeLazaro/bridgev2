@@ -27,7 +27,6 @@ import {
   financialGSTRegisteredAtom,
   financialInventoryAtom,
   financialInvoicePreparationMethodAtom,
-  financialLastFiledDateRangeAtom,
   financialLastFiledTaxAtom,
   financialMonthlyRevenueAtom,
   financialMonthlyTransactionsCountAtom,
@@ -90,9 +89,6 @@ const ClientFormSections = () => {
   ] = useAtom(financialMonthlyTransactionsCountAtom);
   const [financialLastFiledTax, setFinancialLastFiledTax] = useAtom(
     financialLastFiledTaxAtom
-  );
-  const [financialLastFiledDateRange, setFinancialLastFiledDateRange] = useAtom(
-    financialLastFiledDateRangeAtom
   );
   const [financialAccountMethod, setFinancialAccountMethod] = useAtom(
     financialAccountMethodAtom
@@ -248,10 +244,6 @@ const ClientFormSections = () => {
           <FormFieldRadio
             isRequired={true}
             label={"Are there any other owners or directors?"}
-            choices={[
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ]}
             fullWidth={true}
             value={companyOtherOwner}
             onValueChange={setCompanyOtherOwner}
@@ -367,26 +359,22 @@ const ClientFormSections = () => {
         <FormFieldInput
           isRequired={true}
           type={"date"}
-          fullWidth={true}
           label={"When was the last time you filed taxes?"}
           value={financialLastFiledTax}
           onValueChange={setFinancialLastFiledTax}
           placeholder={"Set a date"}
+          showPastDate={true}
           withDate={true}
-          withTime={false}
-          isDateRange={false}
-          dateRangeValue={financialLastFiledDateRange}
-          onDateRangeValueChange={setFinancialLastFiledDateRange}
+          date={financialLastFiledTax}
+          onDateChange={setFinancialLastFiledTax}
+          isDateModal={true}
+          fullWidth={true}
         />
       </div>
       <div className="w-full flex justify-center gap-3">
         <FormFieldRadio
           isRequired={true}
           label={"Do you outsource payroll?"}
-          choices={[
-            { value: true, label: "Yes" },
-            { value: false, label: "No" },
-          ]}
           fullWidth={false}
           value={financialOutsourcePayroll}
           onValueChange={setFinancialOutsourcePayroll}
