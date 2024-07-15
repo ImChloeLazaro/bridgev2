@@ -385,6 +385,448 @@
       "service": "Lambda"
     }
   },
+  "parameters": {
+    "AMPLIFY_function_accounthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "accounthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_accounthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "accounthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_accounthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "accounthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_benefithandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_benefithandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_benefithandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "benefithandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgesocket_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgesocket"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgesocket_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgesocket"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgesocket_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgesocket"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgev2layer_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ]
+    },
+    "AMPLIFY_function_bridgev2layer_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ]
+    },
+    "AMPLIFY_function_clienthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "clienthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_clienthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "clienthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_clienthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "clienthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cmstaskhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_departmenthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_departmenthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_departmenthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leavehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leavehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leavehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leavehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leavehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leavehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leaverequesthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leaverequesthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leaverequesthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leaverequesthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_leaverequesthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "leaverequesthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_posthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_posthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_posthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_posttemplatehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "posttemplatehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_profilehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_profilehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_profilehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "profilehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_recruitmenthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "recruitmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_recruitmenthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "recruitmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_recruitmenthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "recruitmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_shortcuthandler_test": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_teamhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_teamhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_teamhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_todohandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "todohandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_todohandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "todohandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_todohandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "todohandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_workspacehandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "workspacehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_workspacehandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "workspacehandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_workspacehandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "workspacehandler"
+        }
+      ]
+    }
+  },
   "storage": {
     "bridgeProductionStorage": {
       "dependsOn": [],
