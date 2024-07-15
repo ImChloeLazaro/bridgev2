@@ -1,4 +1,3 @@
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
 import { Image, Listbox, ListboxItem, cn } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useAtomValue } from "jotai";
@@ -10,7 +9,7 @@ import TrainingOptions from "./TrainingOptions";
 //fetch imports
 import axios from "axios";
 //next auth imports
-import GoogleOAuth from "@/app/calendar/GoogleOAuth";
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
 import { useSession } from "next-auth/react";
 
 // @refresh reset
@@ -75,7 +74,7 @@ const TrainingList = () => {
 
   return (
     <>
-      <GoogleOAuth isDisabled={true} />
+      {/* <GoogleOAuth isDisabled={true} /> */}
       {loading ? (
         <div>Loading...</div>
       ) : (
@@ -168,7 +167,7 @@ const TrainingList = () => {
             }}
           </Listbox>
           <div className="h-full">
-            <MiniUnderContstruction />
+            <MiniUnderConstruction />
           </div>
         </div>
       )}

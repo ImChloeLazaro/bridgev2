@@ -2118,3 +2118,7 @@ in `TaskActionModal` Component
 
 * Team Management Page Update
 * Added `TeamManagement` Component for `admin`
+
+## v.0.10.9
+
+* User Beta Testing

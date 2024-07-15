@@ -67,21 +67,21 @@ const TLTeamManagement = () => {
             try {
                 const status = item.status === "active" ? "archive" : "active";
                 const response = await restupdate(`/teams/sub-team/activeOrArchive`, {
-                  status,
-                  _id: item._id,
+                    status,
+                    _id: item._id,
                 });
-                
-                if(response.modifiedCount != 0){
+
+                if (response.modifiedCount != 0) {
                     toast.success("Status Changed Successfully!")
-                    setList((prevList) => 
-                        prevList.map((team) => 
+                    setList((prevList) =>
+                        prevList.map((team) =>
                             team._id === item._id ? { ...team, status } : team
                         )
                     );
-                } 
-              } catch (error) {
+                }
+            } catch (error) {
                 console.log("Archive team error", error);
-              }
+            }
         }
     }
 
@@ -95,7 +95,9 @@ const TLTeamManagement = () => {
                     <Card className="flex flex-row justify-between items-center gap-2 p-4 my-2 min-h-[3.5rem]">
                         <h1 className="text-xl font-semibold">Admin Team Management</h1>
                         <div className="flex gap-2">
-                            <AddSubTeamModal addSubTeam={addSubTeam} />
+                            <AddSubTeamModal
+                                addSubTeam={addSubTeam}
+                            />
                         </div>
                     </Card>
                 </header>
@@ -193,7 +195,7 @@ const TLTeamManagement = () => {
                     </Tab>
                     <Tab key="archive" title="Archive Sub Team">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {archiveTeams.map((item) => (
+                            {archiveTeams.map((item) => (
                                 <Card key={item._id || item.key} className="flex flex-col p-4 gap-2">
                                     <CardHeader className="flex justify-between">
                                         <h3 className="text-lg font-semibold">{item.name}</h3>

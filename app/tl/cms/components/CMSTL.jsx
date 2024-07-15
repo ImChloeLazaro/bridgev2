@@ -27,6 +27,7 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
+  MdDelete,
   MdFactCheck,
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
@@ -273,6 +274,13 @@ const CMSTL = () => {
   const fetchClient = useSetAtom(fetchClientAtom);
 
   const actions = [
+    {
+      key: "delete",
+      status_id: "tl",
+      color: "red",
+      label: "Delete task from client",
+      icon: <MdDelete size={18} />,
+    },
     {
       key: "escalate",
       status_id: "admin",

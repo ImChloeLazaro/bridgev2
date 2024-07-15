@@ -6,10 +6,15 @@ import CMSUser from "./components/CMSUser";
 
 const CMS = () => {
   const auth = useAtomValue(authenticationAtom);
+
   return (
-    <div className="flex justify-center items-center w-full h-full p-0 lg:p-6">
-      <CMSUser />
-    </div>
+    auth.isAuthenticated && (
+      <>
+        <div className="flex justify-center items-center w-full h-full p-0 ">
+          <CMSUser />
+        </div>
+      </>
+    )
   );
 };
 

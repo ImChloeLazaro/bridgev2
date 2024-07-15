@@ -1,6 +1,7 @@
 import OnboardingBody from "@/app/onboarding/components/OnboardingBody";
 import OnboardingFooter from "@/app/onboarding/components/OnboardingFooter";
 import OnboardingHeader from "@/app/onboarding/components/OnboardingHeader";
+import { browseOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
 import {
   Button,
   Modal,
@@ -10,10 +11,8 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { useAtomValue, useSetAtom } from "jotai";
 import { onboardingDataAtom } from "../../store/ProfileStore";
-import { useAtomValue, useSetAtom, useAtom } from "jotai";
-import { browseOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
-import { useEffect } from "react";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

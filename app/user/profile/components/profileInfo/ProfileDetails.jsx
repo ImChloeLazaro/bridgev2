@@ -1,4 +1,4 @@
-import { Divider, Tab, Tabs } from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   profileTabsAtom,
@@ -17,7 +17,7 @@ const ProfileDetails = () => {
 
   return (
     <>
-      <div className="relative z-10 px-6 lg:px-16 my-2 lg:my-6 overflow-y-auto bg-white-default">
+      <div className="`relative z-10 px-6 lg:px-16 my-2 lg:my-6 overflow-y-auto bg-white-default">
         <Tabs
           key="Profile Navigation"
           selectedKey={selectedProfileTab}

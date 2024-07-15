@@ -1,4 +1,5 @@
-import { Listbox, ListboxItem, Image } from "@nextui-org/react";
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
+import { Image, Listbox, ListboxItem } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -9,7 +10,6 @@ import { useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { recognitionsAtom } from "../../store/RecognitionsStore";
 import RecognitionOptions from "./RecognitionOptions";
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
 
 // @refresh reset
 const RecognitionList = () => {
@@ -45,7 +45,7 @@ const RecognitionList = () => {
         items={recognitions}
         aria-label="Recognition List"
         className="hidden"
-        // onAction={(key) => console.log(key)}
+        onAction={(key) => console.log(key)}
         emptyContent={
           <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">
             <Image
@@ -102,7 +102,7 @@ const RecognitionList = () => {
         }}
       </Listbox>
       <div className="h-full">
-        <MiniUnderContstruction />
+        <MiniUnderConstruction />
       </div>
     </div>
   );

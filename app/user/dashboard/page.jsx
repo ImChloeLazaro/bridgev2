@@ -1,11 +1,14 @@
 "use client";
-
-import { UnderConstruction } from "@/app/components/UnderConstruction";
-
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
+import { useAtomValue } from "jotai";
 const Dashboard = () => {
+  const users = useAtomValue(userAtom).role;
+  const roles = useRoles(users);
   return (
     <div className="h-full w-full ">
-      <UnderConstruction src={"/under-construction1.png"} />
+      <MiniUnderConstruction />
     </div>
   );
 };

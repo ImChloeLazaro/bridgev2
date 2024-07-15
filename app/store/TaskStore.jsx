@@ -7,12 +7,12 @@ import {
 import { parseDateTime } from "@internationalized/date";
 import {
   compareAsc,
-  format,
   differenceInDays,
-  differenceInWeeks,
   differenceInMonths,
   differenceInQuarters,
+  differenceInWeeks,
   differenceInYears,
+  format,
 } from "date-fns";
 import { atom } from "jotai";
 import { toast } from "sonner";
@@ -100,16 +100,19 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
 
 export const deleteTaskAtom = atom(null, async (get, set, update) => {
   const { task_id, sla_id } = update;
-  console.log("task_id", task_id);
-  console.log("sla_id", sla_id);
+  // console.log("task_id", task_id);
+  // console.log("sla_id", sla_id);
 
   const tasks = get(tasksAtom);
-  console.log("tasks", tasks);
+  // console.log("tasks", tasks);
   const response = await restupdate("/cms/task/remove-sla", {
     _id: task_id,
     sla_id: sla_id,
   });
-  console.log("response", response);
+  // const response = await destroywithparams("/cms/task", {
+  //   _id: "6692445d6cfba3f344a17dc6",
+  // });
+  // console.log("response", response);
   if (response?.success) {
     return { success: true };
   } else {
@@ -697,6 +700,7 @@ export const taskBoardColsCountAtom = atom(
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
+
   if (tasks?.success) {
     const convertedTasks = tasks.response.map((task, index) => {
       return {
@@ -854,7 +858,6 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
         }
       });
 
-      console.log("updatedEndDateTime", updatedEndDateTime);
 
       return { ...task, sla: updatedEndDateTime };
     });

@@ -14,7 +14,7 @@ import {
   useDisclosure,
   User,
 } from "@nextui-org/react";
-import { compareAsc, format } from "date-fns";
+import { format } from "date-fns";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth, MdCheck, MdTimer } from "react-icons/md";
@@ -50,9 +50,6 @@ function TaskBoardCard({
   const taskActions = useSetAtom(taskActionsAtom);
 
   const isOverdue = task.progress.toLowerCase() === "overdue";
-  const difference =
-    compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
-    task.status === "todo";
 
   const {
     setNodeRef,

@@ -69,7 +69,7 @@ const NotificationsDropdown = () => {
     setNotificationSocketRef(socketRef);
 
     socketRef.current.onopen = () => {
-      // console.log("connected");
+      console.log("connected");
       setConnected(true);
       fetchUserAttributes().then((attr) => {
         setUser(attr);
@@ -119,7 +119,7 @@ const NotificationsDropdown = () => {
     };
 
     socketRef.current.onclose = () => {
-      // console.log("disconnected");
+      console.log("disconnected");
       setConnected(false);
     };
 

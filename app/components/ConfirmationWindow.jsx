@@ -12,6 +12,7 @@ import {
 } from "react-icons/bs";
 import { MdWarning } from "react-icons/md";
 import CTAButtons from "./CTAButtons";
+
 const ConfirmationWindow = ({
   message = "message", // main message
   description = "", // description or additional message

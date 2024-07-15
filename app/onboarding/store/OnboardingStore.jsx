@@ -1,7 +1,7 @@
+import { atom } from "jotai";
+import { readwithparams } from "@/app/utils/amplify-rest";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { onboardingDataAtom } from "@/app/user/profile/store/ProfileStore";
-import { readwithparams } from "@/app/utils/amplify-rest";
-import { atom } from "jotai";
 
 export const stepsAtom = atom([
   "application",
@@ -259,22 +259,4 @@ export const browseOnboardingDataAtom = atom(null, (get, set, update) => {
   set(appliedForAtom, "new data");
   set(salaryAtom, "new data");
   set(employeeIDAtom, "new data");
-});
-
-//Fetch Onboarding Status
-export const fetchHasOnboardingDataAtom = atom(async (get) => {
-  const auth = get(authenticationAtom);
-  if (auth.sub) {
-    const data = await readwithparams("/user", { sub: auth.sub });
-    if (!data) {
-      return false;
-    }
-    return data.result.hasOnboardingData;
-  } else {
-    return false;
-  }
-});
-
-export const isSubmittedOnboardingFormAtom = atom(async (get) => {
-  return await get(fetchHasOnboardingDataAtom);
 });

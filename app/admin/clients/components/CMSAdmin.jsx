@@ -27,11 +27,11 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
   MdChangeCircle,
+  MdDelete,
   MdFactCheck,
   MdKeyboardDoubleArrowUp,
   MdOutlineAssignment,
   MdRemoveCircleOutline,
-  MdDelete,
 } from "react-icons/md";
 import {
   changeViewAtom,

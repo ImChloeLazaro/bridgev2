@@ -21,20 +21,7 @@ const SwitchRoles = () => {
       tl: "Team Lead",
       hr: "Human Resource",
     };
-    // let userRoleUpperCase;
 
-    // switch (user.name) {
-    //   case "TL":
-    //     userRoleUpperCase = "Team Leader";
-    //     break;
-    //   case "HR":
-    //     userRoleUpperCase = "Human Resource";
-    //     break;
-    //   default:
-    //     userRoleUpperCase =
-    //       user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase();
-    //     break;
-    // }
     return {
       key: userRoleLowerCase,
       label: roleLabels[userRoleLowerCase],

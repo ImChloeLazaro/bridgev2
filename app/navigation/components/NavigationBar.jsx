@@ -48,7 +48,6 @@ const NavigationBar = () => {
   const user = useAtomValue(userAtom);
   const selectedRole = useRoles(user.role);
 
-  // const role = useAtomValue(selectedRoleAtom);
   const role = selectedRole.currentRole.toLowerCase();
 
   const activeRoutes = role.includes("admin")

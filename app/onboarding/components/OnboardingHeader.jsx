@@ -1,10 +1,13 @@
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { Stepper } from "react-form-stepper";
 import { activeStepAtom, stepsAtom } from "../store/OnboardingStore";
 
+// FEAT: Connect this component to tailwind color system for easier styling
+// UPDATE: Adjust colors depending on the status of each step
+
 const OnboardingHeader = () => {
-  const activeStep = useAtomValue(activeStepAtom);
+  const [activeStep, setActiveStep] = useAtom(activeStepAtom);
   const steps = useAtomValue(stepsAtom);
 
   const stepsContent = useMemo(
@@ -14,27 +17,33 @@ const OnboardingHeader = () => {
           return {
             label: step.toLocaleUpperCase(),
             style: {
+              backgroundColor: `#32449C`,
+              color: `#393939 `,
               borderWidth: "3px",
-              // borderColor: "var(--aretex-blue)",
+              borderColor: `#32449C`,
               borderStyle: "solid",
             },
             onClick: () => {
-              console.log("CLICKED");
+              setActiveStep(index);
+            },
+          };
+        } else {
+          return {
+            active: true,
+            label: step.toLocaleUpperCase(),
+            style: {
+              backgroundColor: `#565656`,
+              borderWidth: "3px",
+              borderColor: `#393939`,
+              borderStyle: "solid",
+            },
+            onClick: () => {
+              setActiveStep(index);
             },
           };
         }
-        return {
-          label: step.toLocaleUpperCase(),
-          style: {
-            borderWidth: "3px",
-            // borderColor: "var(--aretex-blue)",
-          },
-          onClick: () => {
-            console.log("CLICKED");
-          },
-        };
       }),
-    [activeStep, steps]
+    [activeStep, setActiveStep, steps]
   );
 
   return (
@@ -46,21 +55,22 @@ const OnboardingHeader = () => {
           connectorStateColors
           connectorStyleConfig={{
             size: 2,
-            // activeColor: "var(--aretex-blue)",
-            // completedColor: "var(--aretex-blue)",
+            activeColor: `#393939`,
+            completedColor: `#32449C`,
           }}
           styleConfig={{
             size: 24,
-            // activeBgColor: "var(--aretex-white)",
-            // activeTextColor: "var(--aretex-black)",
-            // completedBgColor: "var(--aretex-blue)",
-            // completedTextColor: "var(--aretex-white)",
+            activeBgColor: `#F9F9F9`,
+            // activeTextColor: `#F9F9F9`,
+            completedBgColor: `#32449C`,
+            completedTextColor: `#F9F9F9`,
             circleFontSize: "0.70rem",
             labelFontSize: "0.70rem",
             fontWeight: "700",
           }}
           activeStep={activeStep}
-          stepClassName={"bg-blue-default"}
+          // stepClassName={"!bg-blue-default"}
+          className="text-clip"
         />
       </div>
     </div>

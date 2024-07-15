@@ -114,9 +114,9 @@ const CMSHeader = ({
       }
 
       if (
-        // 5:30:01PM AU TIME
+        // 5:00:01PM AU TIME
         getHours(now) == 5 &&
-        getMinutes(now) == 30 &&
+        getMinutes(now) == 0 &&
         getSeconds(now) == 1
       ) {
         // Logs Overdue tasks

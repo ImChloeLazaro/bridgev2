@@ -1,7 +1,7 @@
-import { UnderConstruction } from "@/app/components/UnderConstruction";
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
 
 const TeamInfo = () => {
-  return <UnderConstruction src={"/under-construction.png"} />;
+  return <MiniUnderConstruction classNameCard={"bg-white-default"} />;
 };
 
 export default TeamInfo;

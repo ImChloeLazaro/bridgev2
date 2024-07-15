@@ -257,6 +257,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
           />
         ) : (
           <CTAButtons
+            // type={"submit"}
             fullWidth={true}
             label={actionButtons.next.label}
             color={actionButtons.next.color}

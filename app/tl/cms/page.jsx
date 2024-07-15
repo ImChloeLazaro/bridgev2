@@ -10,9 +10,13 @@ const CMS = () => {
   const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
   return (
-    <div className="flex justify-center items-center w-full h-full p-0 lg:p-6 ">
-      <CMSTL />
-    </div>
+    auth.isAuthenticated && (
+      <>
+        <div className="flex justify-center items-center w-full h-full p-0 lg:p-6 ">
+          <CMSTL />
+        </div>
+      </>
+    )
   );
 };
 

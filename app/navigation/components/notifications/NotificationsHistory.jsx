@@ -12,7 +12,7 @@ import {
   ModalHeader,
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@nextui-org/react";
 import {
   differenceInDays,
@@ -152,7 +152,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
 
   const filteredTodayNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -164,7 +164,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredYesterdayNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -176,7 +176,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredThisWeekNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -188,7 +188,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
   );
   const filteredOlderNotifications = sortedNotifications.filter(
     (notification) => {
-      const datetime = notification.createdBy.slice(0, -1);
+      const datetime = notification.createdBy;
       const notificationDateTime =
         datetime instanceof Date ? datetime : new Date(datetime);
 
@@ -321,7 +321,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
                                   </p>
                                   <p className="font-normal text-xs">
                                     {`${handleNotificationDatetime(
-                                      item.createdBy.slice(0, -1) ?? new Date()
+                                      item.createdBy ?? new Date()
                                     )}`}
                                   </p>
                                 </div>

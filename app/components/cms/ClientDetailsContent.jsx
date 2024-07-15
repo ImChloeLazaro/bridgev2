@@ -1,12 +1,7 @@
-import { Divider } from "@nextui-org/react";
-import { MdInfoOutline } from "react-icons/md";
-import { useAtomValue } from "jotai";
-import { MdVerified } from "react-icons/md";
-import CTAButtons from "@/app/components/CTAButtons";
-import { IoMdClipboard } from "react-icons/io";
 import IconButton from "@/app/components/IconButton";
-import { MdContentCopy } from "react-icons/md";
+import { Divider } from "@nextui-org/react";
 import { format } from "date-fns";
+import { MdContentCopy, MdInfoOutline } from "react-icons/md";
 
 const ClientDetailsContent = ({ selectedClient }) => {
   const clientInfo = selectedClient[0];

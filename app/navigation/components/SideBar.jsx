@@ -52,24 +52,23 @@ const SideBar = ({}) => {
   const [activeTLRoute, setActiveTLRoute] = useAtom(activeTLRouteAtom);
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
 
-  // const role = useAtomValue(selectedRoleAtom);
   const role = selectedRole.currentRole.toLowerCase();
 
-  const activeRoutes = role.includes("admin")
-    ? activeAdminRoute
-    : role.includes("hr")
-    ? activeHRRoute
-    : role.includes("tl")
-    ? activeTLRoute
-    : role.includes("user") && activeUserRoute;
+  // const activeRoutes = role.includes("admin")
+  //   ? activeAdminRoute
+  //   : role.includes("hr")
+  //   ? activeHRRoute
+  //   : role.includes("tl")
+  //   ? activeTLRoute
+  //   : role.includes("user") && activeUserRoute;
 
-  const setActiveRoutes = role.includes("admin")
-    ? setActiveAdminRoute
-    : role.includes("hr")
-    ? setActiveHRRoute
-    : role.includes("tl")
-    ? setActiveTLRoute
-    : role.includes("user") && setActiveUserRoute;
+  // const setActiveRoutes = role.includes("admin")
+  //   ? setActiveAdminRoute
+  //   : role.includes("hr")
+  //   ? setActiveHRRoute
+  //   : role.includes("tl")
+  //   ? setActiveTLRoute
+  //   : role.includes("user") && setActiveUserRoute;
 
   const routes = role.includes("admin")
     ? routesAdmin
@@ -79,19 +78,19 @@ const SideBar = ({}) => {
     ? routesTeamLead
     : role.includes("user") && routesUser;
 
-  const handleSidebarButtonsActive = (sidebarKey) => {
-    for (let key in activeRoutes) {
-      if (key === sidebarKey) {
-        setActiveRoutes((prev) => {
-          return { ...prev, [key]: true };
-        });
-      } else {
-        setActiveRoutes((prev) => {
-          return { ...prev, [key]: false };
-        });
-      }
-    }
-  };
+  // const handleSidebarButtonsActive = (sidebarKey) => {
+  //   for (let key in activeRoutes) {
+  //     if (key === sidebarKey) {
+  //       setActiveRoutes((prev) => {
+  //         return { ...prev, [key]: true };
+  //       });
+  //     } else {
+  //       setActiveRoutes((prev) => {
+  //         return { ...prev, [key]: false };
+  //       });
+  //     }
+  //   }
+  // };
 
   return (
     <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
@@ -104,7 +103,7 @@ const SideBar = ({}) => {
         onBackdropClick={() => setToggled(false)}
         customBreakPoint={`${customBreakPoint}px`}
         onBreakPoint={setBroken}
-        transitionDuration={800}
+        transitionDuration={400}
         rootStyles={{
           width: "14rem",
           height: "100%",
@@ -155,7 +154,7 @@ const SideBar = ({}) => {
                 return (
                   <SubMenu
                     label={sidebarButtons.label.toUpperCase()}
-                    active={activeRoutes[sidebarButtons.key]}
+                    // active={activeRoutes[sidebarButtons.key]}
                     key={sidebarButtons.key}
                     icon={sidebarButtons.icon}
                     component={"div"}
@@ -212,7 +211,7 @@ const SideBar = ({}) => {
                       return (
                         <MenuItem
                           key={subRoute.key}
-                          active={activeRoutes[subRoute.key]}
+                          // active={activeRoutes[subRoute.key]}
                           icon={subRoute.icon}
                           component={<Link href={subRoute.link} />}
                         >
@@ -226,13 +225,13 @@ const SideBar = ({}) => {
                 return (
                   <MenuItem
                     key={sidebarButtons.key}
-                    active={activeRoutes[sidebarButtons.key]}
+                    // active={activeRoutes[sidebarButtons.key]}
                     icon={sidebarButtons.icon}
                     component={
                       <Link
                         href={sidebarButtons.link}
                         onPress={() => {
-                          handleSidebarButtonsActive(sidebarButtons.key);
+                          // handleSidebarButtonsActive(sidebarButtons.key);
                         }}
                       />
                     }

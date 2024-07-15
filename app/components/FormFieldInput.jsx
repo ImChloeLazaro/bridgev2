@@ -6,6 +6,7 @@ import {
 } from "@internationalized/date";
 import {
   Button,
+  Calendar,
   cn,
   Input,
   Popover,
@@ -13,7 +14,6 @@ import {
   PopoverTrigger,
   RangeCalendar,
   TimeInput,
-  Calendar,
 } from "@nextui-org/react";
 import { format, isSameDay, isValid } from "date-fns";
 import { useCallback, useMemo } from "react";
@@ -39,6 +39,7 @@ const FormFieldInput = ({
   withDate = false,
   withTime = false,
   isDateRange = false,
+  showPastDate = true,
   fullWidth = false,
   inputType,
   inputFileRef,
@@ -72,6 +73,8 @@ const FormFieldInput = ({
         showArrow={true}
         backdrop="opaque"
         classNames={{
+          base: "w-full",
+          content: "w-full",
           backdrop: "bg-black-default/40",
         }}
       >
@@ -87,7 +90,7 @@ const FormFieldInput = ({
             <RangeCalendar
               aria-label={label}
               variant={"flat"}
-              minValue={today(getLocalTimeZone())}
+              minValue={showPastDate ? null : today(getLocalTimeZone())}
               visibleMonths={2}
               pageBehavior={"single"}
               value={dateRangeValue}
@@ -219,7 +222,7 @@ const FormFieldInput = ({
               showMonthAndYearPickers
               aria-label={label}
               variant={"flat"}
-              minValue={today(getLocalTimeZone())}
+              minValue={showPastDate ? null : today(getLocalTimeZone())}
               value={dateRangeValue?.start}
               onChange={(dateRange) => {
                 onDateRangeValueChange((prev) => {
@@ -233,8 +236,8 @@ const FormFieldInput = ({
                 );
               }}
               classNames={{
-                base: "bg-white-default/80 shadow-none",
-                content: "bg-white-default/80",
+                base: "w-full bg-white-default/80 shadow-none",
+                content: "w-full bg-white-default/80",
                 title: "font-bold text-black-default",
                 headerWrapper: "bg-white-default",
                 gridHeader: "bg-white-default",
@@ -263,17 +266,20 @@ const FormFieldInput = ({
         {!value ? (
           <CTAButtons
             color="clear"
-            for={inputID}
+            htmlFor={inputID}
             startContent={<MdFileUpload size={18} />}
           >
-            <label htmlFor={inputID} className="font-medium text-sm lg:text-base">
+            <label
+              htmlFor={inputID}
+              className="font-medium text-sm lg:text-base"
+            >
               {"Upload File"}
             </label>
           </CTAButtons>
         ) : (
           <CTAButtons
             color="clear"
-            for={inputID}
+            htmlFor={inputID}
             startContent={<MdClose size={18} />}
             label={"Remove File"}
             onPress={() => {
