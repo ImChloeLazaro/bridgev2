@@ -25,7 +25,7 @@ import {
       if (key === "delete") {
         try {
           const status = data.status === "active" ? "archive" : "active";
-          const response = await restupdate(`/teams/activeOrArchive`, {
+          const response = await restupdate(`/teams/team/activeOrArchive`, {
             status,
             _id: data._id,
           });
@@ -46,7 +46,7 @@ import {
       <>
         <Popover placement="bottom" showArrow={true} isOpen={isOpen} onOpenChange={onOpenChange}>
           <PopoverTrigger>
-            <Button>
+            <Button size="sm" color="primary">
               <FaHamburger />
             </Button>
           </PopoverTrigger>

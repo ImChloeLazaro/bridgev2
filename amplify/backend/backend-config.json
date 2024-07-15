@@ -64,14 +64,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "teamhandler"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "cmstaskhandler"
         },
         {
@@ -105,6 +97,30 @@
           ],
           "category": "function",
           "resourceName": "leaverequesthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "departmenthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "teamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "subteamhandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -208,6 +224,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "departmenthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "leavehandler": {
       "build": true,
       "dependsOn": [
@@ -279,6 +309,20 @@
       "service": "Lambda"
     },
     "shortcuthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "subteamhandler": {
       "build": true,
       "dependsOn": [
         {
@@ -494,6 +538,22 @@
         }
       ]
     },
+    "AMPLIFY_function_departmenthandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_departmenthandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "departmenthandler"
+        }
+      ]
+    },
     "AMPLIFY_function_leavehandler_database": {
       "usedBy": [
         {
@@ -651,6 +711,30 @@
         {
           "category": "function",
           "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
         }
       ]
     },

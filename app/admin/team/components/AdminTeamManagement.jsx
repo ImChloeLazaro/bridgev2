@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tabs, Tab, Card } from "@nextui-org/react";
 import TeamCard from "./TeamCard";
-import ArchiveTeam from "./Modal/ArchiveTeam";
+import AddDepartment from "./Modal/AddDepartment";
 import UpdateTeam from "./Modal/UpdateTeam";
 import AddTeam from "./Modal/AddTeam";
 import { restread } from "@/app/utils/amplify-rest";
@@ -12,7 +12,7 @@ const AdminTeamManagement = () => {
 
   const getList = async () => {
     try {
-      const teams = await restread('/teams');
+      const teams = await restread('/teams/team');
       setList(teams.response);
     } catch (error) {
       console.log(error);
@@ -48,7 +48,7 @@ const AdminTeamManagement = () => {
         <Card className="flex flex-row justify-between items-center gap-2 p-4 my-2 min-h-[3.5rem]">
           <h1 className="text-xl font-semibold">Admin Team Management</h1>
           <div className="flex gap-2">
-            <ArchiveTeam />
+            <AddDepartment />
             <UpdateTeam
               isOpen={!!selectedTeam}
               onOpenChange={() => setSelectedTeam(null)}

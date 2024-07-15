@@ -92,19 +92,6 @@
         ]
       }
     },
-    "/teams": {
-      "name": "/teams",
-      "lambdaFunction": "teamhandler",
-      "permissions": {
-        "setting": "private",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
-    },
     "/cms/task": {
       "name": "/cms/task",
       "lambdaFunction": "cmstaskhandler",
@@ -160,6 +147,45 @@
     "/leaverequest": {
       "name": "/leaverequest",
       "lambdaFunction": "leaverequesthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/teams/department": {
+      "name": "/teams/department",
+      "lambdaFunction": "departmenthandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/teams/team": {
+      "name": "/teams/team",
+      "lambdaFunction": "teamhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/teams/sub-team": {
+      "name": "/teams/sub-team",
+      "lambdaFunction": "subteamhandler",
       "permissions": {
         "setting": "private",
         "auth": [

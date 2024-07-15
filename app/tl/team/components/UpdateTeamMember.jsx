@@ -38,19 +38,11 @@ const UpdateTeamMember = ({
 
         console.log('current team', team);
         console.log('current person', person);
-        const backend_team = await restupdate("/teams/team/updateMember", {
-            _id: team, 
-        status: {
+       
+        updateOneMember({
             ...selectedPerson,
-                _id: person._id
-        }});    
-        if(backend_team.success){
-            updateOneMember({
-                ...selectedPerson,
-                _id: person._id
-        });
-        }
-        onOpenChange();
+            key: team.key
+    });
     };
 
     return (

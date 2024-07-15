@@ -21,7 +21,7 @@ const TeamCard = ({ data, updateTeamInList }) => {
 
     useEffect(() => {
         setSelectedMembers(data.members);
-    },[data.members])
+    }, [data.members])
     const {
         isOpen: updatePersonIsOpen,
         onOpen: updatePersonOnOpen,
@@ -51,7 +51,9 @@ const TeamCard = ({ data, updateTeamInList }) => {
     return (
         <Card className="m-4">
             <CardHeader className="flex justify-between">
-                <h2>{data.name}</h2>
+                <div>
+                    <h2>{data.name}</h2>
+                </div>
                 <TeamPopover data={data} updateTeamInList={updateTeamInList} />
             </CardHeader>
             <CardBody className="h-64 overflow-auto">
@@ -81,40 +83,39 @@ const TeamCard = ({ data, updateTeamInList }) => {
                     {
                         selectedMembers.map((list) => (
                             <ListboxItem textValue={list.name} key={list._id} onClick={() => openUpdateModal(list)}>
-                            <div className="flex items-center">
-                                <div
-                                    className={cn(
-                                        "py-1.5 rounded-l-md",
-                                        `bg-red-default text-white-default`,
-                                        `p-2`
-                                    )}
-                                >
-                                    <p className="font-extrabold text-lg xl:text-2xl">
-                                        {data.name}
-                                    </p>
-                                    <p className="font-light text-xs">{data.heads[0].name}</p>
-                                </div>
-                                <div className="flex w-full mx-4">
-                                    <div className="flex gap-2 w-3/4">
-                                        <Avatar src={list.picture} size="md" />
-                                        <div>
-                                            <p className="text-sm font-medium">{list.name}</p>
-                                            <p className="text-xs font-light">{list.email}</p>
-                                            <p className="text-xs font-light">{list.position}</p>
+                                <div className="flex items-center">
+                                    <div
+                                        className={cn(
+                                            "py-1.5 rounded-l-md",
+                                            `bg-red-default text-white-default`,
+                                            `p-2`
+                                        )}
+                                    >
+                                        <p className="font-extrabold text-lg xl:text-2xl">
+                                            {data.name}
+                                        </p>
+                                        <p className="font-light text-xs">{data.heads[0].name}</p>
+                                    </div>
+                                    <div className="flex w-full mx-4">
+                                        <div className="flex gap-2 w-3/4">
+                                            <Avatar src={list.picture} size="md" />
+                                            <div>
+                                                <p className="text-sm font-medium">{list.name}</p>
+                                                <p className="text-xs font-light">{list.email}</p>
+                                                <p className="text-xs font-light">{list.position}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-end justify-between w-1/4">
+                                            <Chip size="sm" className="text-slate-50" color={list.employment_status === 'Employment Status' ? 'default' : 'warning'}>
+                                                {list.employment_status || "Employment Status"}
+                                            </Chip>
+                                            <Chip size="sm" className="text-slate-50" color={list.status === 'active' ? 'success' : 'danger'}>
+                                                {list.status === 'active' ? 'Active' : 'Inactive'}
+                                            </Chip>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col items-end justify-between w-1/4">
-                                        <Chip size="sm" className="text-slate-50" color={list.employment_status === 'Employment Status' ? 'default' : 'warning'}>
-                                            {list.employment_status || "Employment Status"}
-                                        </Chip>
-                                        <Chip size="sm" className="text-slate-50" color={list.status === 'active' ? 'success' : 'danger'}>
-                                            {list.status === 'active' ? 'Active' : 'Inactive'}
-                                        </Chip>
-                                    </div>
                                 </div>
-                            </div>
-
-                        </ListboxItem>
+                            </ListboxItem>
                         ))
                     }
                 </Listbox>
