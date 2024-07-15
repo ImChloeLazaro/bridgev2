@@ -103,12 +103,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "bridgev2LambdaRoleb8bbc68e",
+            "bridgev2LambdaRoled3213506",
             {
               "Fn::Join": [
                 "",
                 [
-                  "bridgev2LambdaRoleb8bbc68e",
+                  "bridgev2LambdaRoled3213506",
                   "-",
                   {
                     "Ref": "env"
