@@ -53,7 +53,7 @@ const AddSubTeamModal = ({ addSubTeam }) => {
 
     return (
         <>
-            <Button onClick={onOpenChange}>Open Modal</Button>
+            <Button onClick={onOpenChange} color="primary">Insert Sub Team</Button>
             <ModalComponent
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}

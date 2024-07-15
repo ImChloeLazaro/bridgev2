@@ -64,12 +64,16 @@ app.put('/teams/subteam/*', async function (req, res) {
   try {
     const { sub } = req.query
     const proxy = req.path
-    const { _id, name, head, members, status } = req.body
+    const { _id, name, head, members, clients, status } = req.body
 
     switch (proxy) {
       case '/teams/sub-team/activeOrArchive':
         const team = await SubTeamModel.updateOne({ _id }, { status })
         res.json({ success: true, response: team });
+        break;
+      case '/teams/subteam/update':
+        const updatedTeam = await SubTeamModel.updateOne({ _id }, { name, members, clients })
+        res.json({ success: true, response: updatedTeam });
         break;
       default:
         res.json({ success: 'put call for sub-team!', url: req.url, sub: sub });
