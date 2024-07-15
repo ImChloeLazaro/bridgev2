@@ -105,7 +105,7 @@
         "subteamhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/subteamhandler-4a475a3537717643642f-build.zip"
+          "s3Key": "amplify-builds/subteamhandler-5a4a6c335a456734636b-build.zip"
         }
       },
       "auth": {
