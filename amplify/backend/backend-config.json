@@ -113,6 +113,14 @@
           ],
           "category": "function",
           "resourceName": "teamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "subteamhandler"
         }
       ],
       "providerPlugin": "awscloudformation",

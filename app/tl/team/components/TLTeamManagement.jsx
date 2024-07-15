@@ -30,7 +30,7 @@ const TLTeamManagement = () => {
 
     const fetchTeams = useCallback(async () => {
         try {
-            const teamList = await readwithparams('/teams/sub-team/mySubTeam', { sub });
+            const teamList = await readwithparams('/teams/subteam/mySubTeam', { sub });
             if (teamList.success) setList(teamList.response);
         } catch (error) {
             console.log(error);
@@ -66,7 +66,7 @@ const TLTeamManagement = () => {
         if (key === "delete") {
             try {
                 const status = item.status === "active" ? "archive" : "active";
-                const response = await restupdate(`/teams/sub-team/activeOrArchive`, {
+                const response = await restupdate(`/teams/subteam/activeOrArchive`, {
                     status,
                     _id: item._id,
                 });

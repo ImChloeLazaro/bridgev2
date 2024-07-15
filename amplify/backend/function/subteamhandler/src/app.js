@@ -16,21 +16,21 @@ app.use(function (req, res, next) {
   next()
 });
 
+
 app.use(limiter)
 
 mongoose.connect(process.env.DATABASE)
 
-app.get('/teams/sub-team', async function (req, res) {
-
+app.get('/teams/subteam', async function (req, res) {
   res.json({ success: 'get call for sub-team!', url: req.url });
 });
 
-app.get('/teams/sub-team/*', async function (req, res) {
+app.get('/teams/subteam/*', async function (req, res) {
   const proxy = req.path
   const { sub } = req.query
 
   switch (proxy) {
-    case '/teams/sub-team/mySubTeam':
+    case '/teams/subteam/mySubTeam':
       try {
         const getSubTeam = await SubTeamModel.find({
           "head.sub": req.query.sub
@@ -44,9 +44,10 @@ app.get('/teams/sub-team/*', async function (req, res) {
       res.json({ success: 'get call for sub-team!', url: req.url, sub: sub });
       break;
   }
+
 });
 
-app.post('/teams/sub-team', async function (req, res) {
+app.post('/teams/subteam', async function (req, res) {
   try {
     const newSubTeam = await SubTeamModel.create(req.body);
     res.json({ success: true, response: newSubTeam })
@@ -55,12 +56,11 @@ app.post('/teams/sub-team', async function (req, res) {
   }
 });
 
-app.put('/teams/sub-team', async function (req, res) {
-  // Add your code here
+app.put('/teams/subteam', async function (req, res) {
   res.json({ success: 'put call for sub-team!', url: req.url, body: req.body })
 });
 
-app.put('/teams/sub-team/*', async function (req, res) {
+app.put('/teams/subteam/*', async function (req, res) {
   try {
     const { sub } = req.query
     const proxy = req.path
@@ -68,7 +68,7 @@ app.put('/teams/sub-team/*', async function (req, res) {
 
     switch (proxy) {
       case '/teams/sub-team/activeOrArchive':
-        const team = await SubTeamModel.updateOne({_id}, {status})
+        const team = await SubTeamModel.updateOne({ _id }, { status })
         res.json({ success: true, response: team });
         break;
       default:
@@ -78,11 +78,10 @@ app.put('/teams/sub-team/*', async function (req, res) {
   } catch (error) {
     res.json({ error: error });
   }
+
 });
 
-
-app.delete('/teams/sub-team', async function (req, res) {
-  // Add your code here
+app.delete('/teams/subteam', async function (req, res) {
   res.json({ success: 'delete call for sub-team!', url: req.url });
 });
 

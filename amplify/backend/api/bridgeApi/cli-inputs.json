@@ -183,8 +183,8 @@
         ]
       }
     },
-    "/teams/sub-team": {
-      "name": "/teams/sub-team",
+    "/teams/subteam": {
+      "name": "/teams/subteam",
       "lambdaFunction": "subteamhandler",
       "permissions": {
         "setting": "private",
