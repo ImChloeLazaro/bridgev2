@@ -39,13 +39,12 @@ const AddSubTeamModal = ({ addSubTeam }) => {
             members: updatedMembers
         }
         try {
-            const team = await restinsert('/teams/sub-team/mySubTeam', subteam_entry)
+            const team = await restinsert('/teams/sub-team/', subteam_entry)
             console.log('RESPONSE', team);
-            // if(addSubteam.success) {
-            //     // addSubTeam(addSubteam.response);
-
-            //     console.log('Sub Team Added Successfully', addSubteam.response);
-            // }
+            if(team.success) {
+                addSubTeam(team.response);
+                console.log('Sub Team Added Successfully', team.response);
+            }
         } catch (error) {
             console.log(error);
         }
