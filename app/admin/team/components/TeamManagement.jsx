@@ -273,9 +273,9 @@ const TeamManagement = () => {
                   )
                 ) : (
                   <div className="grid grid-cols-2 xl:grid-cols-1">
-                    {filteredTeamItems?.map((team) => (
-                      <TeamCard key={team.key} team={team} />
-                    ))}
+                    {/* {filteredTeamItems?.map((team) => (
+                      // <TeamCard key={team.key} team={team} />
+                    ))} */}
                   </div>
                 )}
               </div>

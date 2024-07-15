@@ -182,6 +182,19 @@
           "delete"
         ]
       }
+    },
+    "/teams/sub-team": {
+      "name": "/teams/sub-team",
+      "lambdaFunction": "subteamhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

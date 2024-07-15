@@ -32,9 +32,18 @@ app.get('/teams/team/*', async function(req, res) {
     const sub = req.query.sub; // Extract sub from query parameters
     const key = req.path; // Use req.path to get the URL path
     switch (key) {
-      case '/teams/employee':
+      case '/teams/team/employee':
         const employee_team = await teamModel.findOne({sub: sub})
         res.json({ success: true, route: "EMPLOYEE TEAM ROUTE", response: employee_team });
+        break;
+      case '/teams/team/myTeam':
+        const my_team = await teamModel.find({
+          or: [
+            { "heads.sub": sub },
+            { "members.sub": sub }
+          ]
+        })
+        res.json({ success: true, route: "MY TEAM ROUTE", response: my_team });
         break;
       default:
         res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
