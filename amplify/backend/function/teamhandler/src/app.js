@@ -38,7 +38,7 @@ app.get('/teams/team/*', async function(req, res) {
         break;
       case '/teams/team/myTeam':
         const my_team = await teamModel.find({
-          or: [
+          $or: [
             { "heads.sub": sub },
             { "members.sub": sub }
           ]

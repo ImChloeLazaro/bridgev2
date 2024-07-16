@@ -82,3 +82,18 @@ export const onboardingDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
   return await readwithparams("/profile/self_data", { sub: auth.sub });
 });
+
+//get clientsubteam
+export const clientSubItemDataAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  return await readwithparams("/teams/subteam/myUserSubTeam", {
+    sub: auth.sub,
+  });
+});
+export const clientItemDataAtom = atom(async (get) => {
+  const auth = await get(authenticationAtom);
+  console.log("auth: ", auth);
+  return await readwithparams("/teams/team/myTeam", {
+    sub: auth.sub,
+  });
+});
