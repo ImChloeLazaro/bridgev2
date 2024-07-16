@@ -35,9 +35,6 @@ const UpdateTeamMember = ({
 
     const updatePerson = async (e) => {
         e.preventDefault();
-
-        console.log('current team', team);
-        console.log('current person', person);
         const backend_team = await restupdate("/teams/team/updateMember", {
             _id: team, 
         status: {
