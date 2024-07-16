@@ -17,14 +17,13 @@ import {
 } from "@nextui-org/react";
 
 import AddSubTeamModal from "./AddSubTeamModal";
-import UpdateTeamMember from "./UpdateTeamMember";
 import UpdateSubTeam from "./UpdateSubTeam";
 import TeamCard from "./TeamCard";
+import TeamTable from "./TeamTable";
 
 import { readwithparams, restupdate } from "@/app/utils/amplify-rest";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { useAtomValue } from "jotai";
-import { FaHamburger } from "react-icons/fa";
 import { toast } from "sonner";
 const TLTeamManagement = () => {
     const [list, setList] = useState([]);
@@ -49,18 +48,6 @@ const TLTeamManagement = () => {
         setList(prevList => [...prevList, newTeam]);
         console.log('NEW TEAMS', newTeam);
     };
-
-    const {
-        isOpen: updatePersonIsOpen,
-        onOpen: updatePersonOnOpen,
-        onClose: updatePersonOnClose
-    } = useDisclosure();
-
-    const updateOne = useCallback((person) => {
-        console.log(person);
-        setSelectedPerson(person); // Update the selected person
-        updatePersonOnOpen();
-    })
 
     const keyHandler = async (key, item) => {
         if (key === "update") {
@@ -120,6 +107,7 @@ const TLTeamManagement = () => {
                 </header>
                 <Tabs aria-label="Options">
                     <Tab key="active" title="My Team">
+                        <TeamTable sub={sub} />
                     </Tab>
                     <Tab key="sub" title="Sub Team">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
