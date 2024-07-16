@@ -195,6 +195,19 @@
           "delete"
         ]
       }
+    },
+    "/cms/crons": {
+      "name": "/cms/crons",
+      "lambdaFunction": "cronshandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

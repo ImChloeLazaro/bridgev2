@@ -121,6 +121,14 @@
           ],
           "category": "function",
           "resourceName": "subteamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "cronshandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -211,6 +219,20 @@
       "service": "Lambda"
     },
     "cmstaskhandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "cronshandler": {
       "build": true,
       "dependsOn": [
         {
@@ -527,6 +549,30 @@
         {
           "category": "function",
           "resourceName": "cmstaskhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronshandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronshandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronshandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronshandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronshandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronshandler"
         }
       ]
     },
