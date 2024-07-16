@@ -2,5 +2,9 @@
   "runtimes": [
     "nodejs18.x"
   ],
+<<<<<<< HEAD
   "description": "Updated layer version 2024-07-16T07:18:06.156Z"
+=======
+  "description": "Updated layer version 2024-07-15T23:31:12.087Z"
+>>>>>>> 4291801e309e6e8f7525490e4bfa52cf4e63784b
 }
