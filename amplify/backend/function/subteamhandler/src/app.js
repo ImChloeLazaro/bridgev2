@@ -86,6 +86,18 @@ app.put("/teams/subteam/*", async function (req, res) {
         );
         res.json({ success: true, response: updatedTeam });
         break;
+      case "/teams/subteam/updateMember":
+        const updatedMember =  await SubTeamModel.updateOne(
+          { _id: _id, "members._id": status._id },
+          {
+            $set: {
+              "members.$.employment_status": status.employment_status,
+              "members.$.position": status.position,
+              "members.$.status": status.status
+            }
+          })
+        res.json({ success: true, response: updatedMember });
+        break;
       default:
         res.json({ success: "put call for sub-team!", url: req.url, sub: sub });
         break;
