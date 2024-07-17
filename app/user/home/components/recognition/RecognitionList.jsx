@@ -102,7 +102,7 @@ const RecognitionList = () => {
         }}
       </Listbox>
       <div className="h-full">
-        <MiniUnderContstruction card={false}/>
+        <MiniUnderConstruction card={false}/>
       </div>
     </div>
   );
