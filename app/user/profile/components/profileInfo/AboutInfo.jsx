@@ -4,16 +4,20 @@ import { format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import {
-  employeeInfoAtom,
   personalInfoAtom,
   teamStatusAtom,
 } from "../../store/ProfileStore";
 
 const AboutInfo = () => {
-  const personalInfo = useAtomValue(personalInfoAtom);
+  const { response } = useAtomValue(personalInfoAtom);
+  const personalInfo = response?.profileData;
+  const data = response?.recruitment;
   const teamStatus = useAtomValue(teamStatusAtom);
-
-  const { response: data } = useAtomValue(employeeInfoAtom);
+  // const { response: data } = useAtomValue(employeeInfoAtom);
+  console.log("response: ", response);
+  console.log("personal info: ", personalInfo);
+  console.log("teamStatus info: ", teamStatus);
+  console.log("data info: ", data);
   return (
     <>
       {/* // ### EMPLOYEE INFORMATION} */}
@@ -112,7 +116,7 @@ const AboutInfo = () => {
               </p>
             </div>
             <p className='w-1/2'>
-              {personalInfo.address ?? "No Data Available"}
+              {personalInfo?.address ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -126,7 +130,7 @@ const AboutInfo = () => {
               </p>
             </div>
             <p className='w-1/2'>
-              {personalInfo.contact ?? "No Data Available"}
+              {personalInfo?.contact ?? "No Data Available"}
             </p>
           </div>
           <Divider />
@@ -137,9 +141,9 @@ const AboutInfo = () => {
               <p className='font-medium text-base '>{"Birthday"}</p>
             </div>
             <p className='w-1/2'>
-              {personalInfo.birthday === null ||
-              personalInfo.birthday === undefined ||
-              personalInfo.birthday === ""
+              {personalInfo?.birthday === null ||
+              personalInfo?.birthday === undefined ||
+              personalInfo?.birthday === ""
                 ? "No Data Available"
                 : format(new Date(personalInfo.birthday), "MMMM dd yyyy")}
             </p>

@@ -1,29 +1,31 @@
 import { format } from "date-fns";
 import { useAtomValue } from "jotai";
-import { employeeInfoAtom } from "../../store/ProfileStore";
+import {  personalInfoAtom } from "../../store/ProfileStore";
 import UserOnboardingModal from "./UserOnboardingModal";
 
 const UserOnboardingContent = () => {
-  const { response: data } = useAtomValue(employeeInfoAtom);
+  const { response } = useAtomValue(personalInfoAtom);
+  const data = response?.data;
+  // const { response: data } = useAtomValue(employeeInfoAtom);
   // const hiredate = data?.hiredate ?? "";
   return (
-    <div className="flex items-center justify-between p-1 lg:p-2">
-      <div className="flex flex-col w-full gap-2">
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5">
+    <div className='flex items-center justify-between p-1 lg:p-2'>
+      <div className='flex flex-col w-full gap-2'>
+        <div className='flex'>
+          <p className='text-sm sm:text-base font-bold text-black-default w-3/5'>
             {"Start Date:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className='text-sm sm:text-base font-bold text-black-default w-3/5 '>
             {data != null
               ? format(new Date(data.hiredate), "MMM dd yyyy")
               : "No Data Available"}
           </p>
         </div>
-        <div className="flex">
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5">
+        <div className='flex'>
+          <p className='text-sm sm:text-base font-bold text-black-default w-3/5'>
             {"Status:"}
           </p>
-          <p className="text-sm sm:text-base font-bold text-black-default w-3/5 ">
+          <p className='text-sm sm:text-base font-bold text-black-default w-3/5 '>
             {data?.status ?? "No Data Available"}
           </p>
         </div>

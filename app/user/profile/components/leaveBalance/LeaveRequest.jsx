@@ -21,11 +21,13 @@ import { useState } from "react";
 import { FaHistory } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
 import { toast } from "sonner";
-import { leaveStatusAtom } from "../../store/ProfileStore";
+import { personalInfoAtom } from "../../store/ProfileStore";
 import LeaveHistory from "./LeaveHistory";
 
 const LeaveRequest = () => {
-  const leaveStatus = useAtomValue(leaveStatusAtom);
+  const { response } = useAtomValue(personalInfoAtom);
+  const leaveStatus = response?.balance;
+  // const leaveStatus = useAtomValue(leaveStatusAtom);
   // console.log("leaveStatus", leaveStatus);
 
   const { sub } = useAtomValue(authenticationAtom);
@@ -103,7 +105,7 @@ const LeaveRequest = () => {
       <Button
         disableRipple={true}
         disableAnimation={true}
-        className="bg-transparent text-sm sm:text-md lg:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
+        className='bg-transparent text-sm sm:text-md lg:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2'
         onPress={leaveRequestOnOpen}
       >
         {"File a Leave"}
@@ -115,15 +117,15 @@ const LeaveRequest = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className='flex flex-col gap-1'>
                 Request a Leave
               </ModalHeader>
               <ModalBody>
                 <Select
                   isRequired
-                  label="Leave Type"
+                  label='Leave Type'
                   defaultSelectedKeys={["vl"]}
-                  className="w-full"
+                  className='w-full'
                   onChange={(e) =>
                     setFormdata({ ...formdata, leaveType: e.target.value })
                   }
@@ -134,9 +136,9 @@ const LeaveRequest = () => {
                 </Select>
                 <Select
                   isRequired
-                  label="Leave Hour"
+                  label='Leave Hour'
                   defaultSelectedKeys={["full"]}
-                  className="w-full"
+                  className='w-full'
                   onChange={(e) =>
                     setFormdata({ ...formdata, numberOfHours: e.target.value })
                   }
@@ -146,8 +148,8 @@ const LeaveRequest = () => {
                   ))}
                 </Select>
                 <DatePicker
-                  className="w-full"
-                  label="Leave Date"
+                  className='w-full'
+                  label='Leave Date'
                   value={parseDate(new Date().toISOString().split("T")[0])}
                   onChange={(e) =>
                     setFormdata({
@@ -157,27 +159,27 @@ const LeaveRequest = () => {
                   }
                 />
                 <Textarea
-                  label="Reason"
-                  placeholder="Type your reason here"
-                  className="w-full"
+                  label='Reason'
+                  placeholder='Type your reason here'
+                  className='w-full'
                   onChange={(e) =>
                     setFormdata({ ...formdata, reason: e.target.value })
                   }
                 />
               </ModalBody>
-              <ModalFooter className="flex justify-between">
+              <ModalFooter className='flex justify-between'>
                 <Button
-                  color="danger"
-                  variant="secondary"
+                  color='danger'
+                  variant='secondary'
                   onPress={leaveHistoryOnOpen}
                 >
                   <FaHistory /> See history
                 </Button>
-                <div className="flex gap-1">
-                  <Button color="warning" onPress={confirmationOnOpen}>
+                <div className='flex gap-1'>
+                  <Button color='warning' onPress={confirmationOnOpen}>
                     Submit
                   </Button>
-                  <Button variant="secondary" onPress={onClose}>
+                  <Button variant='secondary' onPress={onClose}>
                     Close
                   </Button>
                 </div>
@@ -196,7 +198,7 @@ const LeaveRequest = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex items-center gap-1">
+              <ModalHeader className='flex items-center gap-1'>
                 <IoInformationCircle /> Confirmation
               </ModalHeader>
               <ModalBody>
@@ -212,7 +214,7 @@ const LeaveRequest = () => {
                   leaveStatus?.SL_BALANCE <= 0) ||
                   (formdata.leaveType === "vl" &&
                     leaveStatus?.VL_BALANCE <= 0)) && (
-                  <small className="text-red-600 text-justify">
+                  <small className='text-red-600 text-justify'>
                     Your {getLeaveLabel(formdata.leaveType)} balance is
                     currently 0. If you proceed and your leave is approved by an
                     admin or team leader, it will be considered as borrowed
@@ -220,7 +222,7 @@ const LeaveRequest = () => {
                     leave balance when the leave is reset.
                   </small>
                 )}
-                <div className="flex flex-col gap-2">
+                <div className='flex flex-col gap-2'>
                   <Checkbox
                     isSelected={leaveConfirmation}
                     onValueChange={setLeaveConfirmation}
@@ -229,16 +231,16 @@ const LeaveRequest = () => {
                   </Checkbox>
                 </div>
               </ModalBody>
-              <ModalFooter className="flex gap-1">
+              <ModalFooter className='flex gap-1'>
                 <Button
                   isDisabled={!leaveConfirmation}
-                  className="text-white-default font-semibold"
-                  color="warning"
+                  className='text-white-default font-semibold'
+                  color='warning'
                   onClick={handleFormSubmit}
                 >
                   Yes, I Confirm
                 </Button>
-                <Button variant="secondary" onPress={onClose}>
+                <Button variant='secondary' onPress={onClose}>
                   Close
                 </Button>
               </ModalFooter>
