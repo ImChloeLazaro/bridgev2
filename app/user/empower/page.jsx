@@ -1,10 +1,16 @@
 "use client";
-import React from "react";
-import PlaceholderContent from "../../components/PlaceholderContent";
-import { UnderConstruction } from "@/app/components/UnderConstruction";
-
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
+import { useAtomValue } from "jotai";
 const Empower = () => {
-  return <UnderConstruction src={"/under-construction1.jpg"} />;
+  const users = useAtomValue(userAtom).role;
+  const roles = useRoles(users);
+  return (
+    <div className="h-full w-full ">
+      <MiniUnderConstruction />
+    </div>
+  );
 };
 
 export default Empower;

@@ -1,13 +1,11 @@
-import { get as fetch } from "aws-amplify/api";
-import { atom } from "jotai";
-import "../../aws-auth";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   destroywithparams,
   readwithparams,
   restinsert,
   restupdate,
 } from "@/app/utils/amplify-rest";
+import { atom } from "jotai";
+import "../../aws-auth";
 
 export const shortcutsAtom = atom([]);
 
@@ -53,7 +51,6 @@ export const updateShortcutAtom = atom(null, async (get, set, update) => {
     url: url,
   });
   if (response?.success) {
-    console.log("UPDATED SUCCESSFULLY", response);
     return { success: true };
   } else {
     return { success: false };
@@ -66,7 +63,6 @@ export const deleteShortcutAtom = atom(null, async (get, set, update) => {
     _id: _id,
   });
   if (response?.success) {
-    console.log("DELETED SUCCESSFULLY", response);
     return { success: true };
   } else {
     return { success: false };
@@ -91,7 +87,7 @@ export const updateIndexPositionShortcutsAtom = atom(
     // } else {
     //   return { success: false };
     // }
-    console.log("updatedIndex", updatedIndex);
+    // console.log("updatedIndex", updatedIndex);
   }
 );
 

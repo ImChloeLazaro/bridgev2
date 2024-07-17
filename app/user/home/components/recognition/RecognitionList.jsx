@@ -1,4 +1,5 @@
-import { Listbox, ListboxItem, Image } from "@nextui-org/react";
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
+import { Image, Listbox, ListboxItem } from "@nextui-org/react";
 import {
   differenceInDays,
   differenceInHours,
@@ -9,7 +10,6 @@ import { useAtomValue } from "jotai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { recognitionsAtom } from "../../store/RecognitionsStore";
 import RecognitionOptions from "./RecognitionOptions";
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
 
 // @refresh reset
 const RecognitionList = () => {

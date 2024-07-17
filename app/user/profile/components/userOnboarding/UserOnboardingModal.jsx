@@ -1,6 +1,7 @@
 import OnboardingBody from "@/app/onboarding/components/OnboardingBody";
 import OnboardingFooter from "@/app/onboarding/components/OnboardingFooter";
 import OnboardingHeader from "@/app/onboarding/components/OnboardingHeader";
+import { browseOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
 import {
   Button,
   Modal,
@@ -10,14 +11,14 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { onboardingDataAtom } from "../../store/ProfileStore";
-import { useAtomValue, useSetAtom, useAtom } from "jotai";
-import { browseOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
-import { useEffect } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { personalInfoAtom } from "../../store/ProfileStore";
 
 const UserOnboardingModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { response: data } = useAtomValue(onboardingDataAtom); //temp
+  const { response } = useAtomValue(personalInfoAtom);
+  const data = response?.self_data;
+  // const { response: data } = useAtomValue(onboardingDataAtom); //temp
   const browseOnboardingData = useSetAtom(browseOnboardingDataAtom);
 
   const handleFetchDataWhenOpen = (open) => {
@@ -29,7 +30,7 @@ const UserOnboardingModal = () => {
       <Button
         disableRipple={true}
         disableAnimation={true}
-        className="bg-transparent text-sm sm:text-md lg:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2"
+        className='bg-transparent text-sm sm:text-md lg:text-lg font-medium text-lightblue-default hover:underline hover:underline-offset-2'
         onPress={(open) => handleFetchDataWhenOpen(open)}
       >
         {"View Form"}
@@ -38,10 +39,10 @@ const UserOnboardingModal = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className='flex flex-col gap-1'>
                 <OnboardingHeader />
               </ModalHeader>
-              <ModalBody className="h-[760px]">
+              <ModalBody className='h-[760px]'>
                 <OnboardingBody viewOnly={true} />
               </ModalBody>
               <ModalFooter>

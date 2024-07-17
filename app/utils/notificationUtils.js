@@ -45,7 +45,6 @@ export function showNotification(data) {
   const { sound, title, description, body, icon } = data;
   if ("Notification" in window && Notification.permission === "granted") {
     if (document.visibilityState === "hidden") {
-      console.log("PUSH NOTIF");
       var notification = new Notification(title, {
         body: body,
         icon: icon,
@@ -54,9 +53,7 @@ export function showNotification(data) {
         console.log("ERROR NOTIFICATION", e);
         toast("Push Notification Failed");
       });
-      console.log("PUSH PUSH PUSH");
     } else {
-      console.log("TOAST NOTIF");
       toast(title, {
         description: description,
         icon: <Avatar src={icon} size="md" />,
@@ -64,10 +61,8 @@ export function showNotification(data) {
         classNames: { toast: "flex justify-between gap-8", icon: "mr-2" },
       });
       sound();
-      console.log("SOUND DONE");
     }
   } else {
-    console.log("TOAST NOTIF");
     toast.error("Notifications Request Permission Denied", {
       position: "top-center",
       description: "Please grant permission for notifications to be shown.",
@@ -92,7 +87,6 @@ export function requestPermissionNotification() {
         tag: "System Notification",
       });
       notification.addEventListener("error", (e) => {
-        console.log("ERROR NOTIFICATION", e);
         toast("Provider Notification Failed");
       });
     }

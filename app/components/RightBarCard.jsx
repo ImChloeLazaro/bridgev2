@@ -19,7 +19,9 @@ const RightBarCard = ({
     <Card className="w-full h-min-fit px-2 py-1.5 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
       <CardHeader className="flex justify-between p-0 py-2 px-2 md:px-4">
         <div className="flex flex-col">
-          <p className="font-bold text-base lg:text-lg xl:text-2xl text-black-default ">{title}</p>
+          <p className="font-bold text-base lg:text-lg xl:text-2xl text-black-default ">
+            {title}
+          </p>
           <p className="font-medium text-xs lg:text-sm text-darkgrey-hover">
             {description}
           </p>

@@ -1,3 +1,6 @@
+import LabelTagChip from "@/app/components/LabelTagChip";
+import { userAtom } from "@/app/store/UserStore";
+import { useRoles } from "@/app/utils/roles";
 import {
   Image,
   Link,
@@ -18,23 +21,18 @@ import {
   activeHRRouteAtom,
   activeTLRouteAtom,
   activeUserRouteAtom,
-  selectedRoleAtom,
   userOptionsAtom,
   userRolesAtom,
 } from "../store/NavSideBarStore";
-import RoleBadge from "./navbar/RoleBadge";
 import UserDropdown from "./navbar/UserDropdown";
 import NotificationsDropdown from "./notifications/NotificationsDropdown";
 import {
+  externalLinks,
   routesAdmin,
   routesHR,
   routesTeamLead,
   routesUser,
-  externalLinks,
 } from "./RoutesIconDetails";
-import { userAtom } from "@/app/store/UserStore";
-import { useRoles } from "@/app/utils/roles";
-import LabelTagChip from "@/app/components/LabelTagChip";
 // @refresh reset
 
 const NavigationBar = () => {
@@ -50,7 +48,6 @@ const NavigationBar = () => {
   const user = useAtomValue(userAtom);
   const selectedRole = useRoles(user.role);
 
-  // const role = useAtomValue(selectedRoleAtom);
   const role = selectedRole.currentRole.toLowerCase();
 
   const activeRoutes = role.includes("admin")

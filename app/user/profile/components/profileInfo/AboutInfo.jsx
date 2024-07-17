@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
 import {
-  employeeInfoAtom,
   personalInfoAtom,
   teamStatusAtom,
 } from "../../store/ProfileStore";
@@ -15,11 +14,15 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 const AboutInfo = () => {
-  const personalInfo = useAtomValue(personalInfoAtom);
+  const { response } = useAtomValue(personalInfoAtom);
+  const personalInfo = response?.profileData;
+  const data = response?.recruitment;
   const teamStatus = useAtomValue(teamStatusAtom);
-
-  const { response: data } = useAtomValue(employeeInfoAtom);
-
+  // const { response: data } = useAtomValue(employeeInfoAtom);
+  console.log("response: ", response);
+  console.log("personal info: ", personalInfo);
+  console.log("teamStatus info: ", teamStatus);
+  console.log("data info: ", data);
   return (
     <>
       <div className="mt-2 mb-8 lg:mb-12 py-2 w-full ">

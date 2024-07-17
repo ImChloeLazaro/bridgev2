@@ -1,15 +1,14 @@
 "use client";
-import React from "react";
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction"
+import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
+import { userAtom } from "@/app/store/UserStore";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/app/store/UserStore";
 const Admin = () => {
   const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
   return (
     <div className="h-full w-full">
-      <MiniUnderContstruction src={"/imageUnderContstruction.png"} mini={false}/>
+      <MiniUnderConstruction />
     </div>
   );
 };

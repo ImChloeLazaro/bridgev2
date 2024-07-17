@@ -14,7 +14,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { MdAssignmentAdd } from "react-icons/md";
 import { toast } from "sonner";
 import TaskFormSections from "./TaskFormSections";
 

@@ -179,7 +179,7 @@ const TaskActionModal = ({
               />
               <CTAButtons
                 type={"submit"}
-                isDisabled={!isDisabled}
+                // isDisabled={!isDisabled}
                 label={windowDetails[selectedTaskAction.key]?.label}
                 color={windowDetails[selectedTaskAction.key]?.color}
                 onPress={() => {

@@ -1,5 +1,4 @@
 import { Tab, Tabs, cn } from "@nextui-org/react";
-import { MdFeed, MdGridView } from "react-icons/md";
 
 const NavigationTab = ({ main, right, mainIcon, rightIcon, className }) => {
   return (

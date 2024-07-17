@@ -1,3 +1,4 @@
+import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
 import {
   addClientAtom,
@@ -8,7 +9,6 @@ import {
   selectedClientTabAtom,
 } from "@/app/store/ClientStore";
 import {
-  Chip,
   Modal,
   ModalBody,
   ModalContent,
@@ -18,13 +18,11 @@ import {
   Tabs,
   useDisclosure,
 } from "@nextui-org/react";
-import { useAtom, useSetAtom, useAtomValue } from "jotai";
-import ClientFormSections from "./ClientFormSections";
-import { toast } from "sonner";
-import ConfirmationWindow from "@/app/components/ConfirmationWindow";
-import { useMemo, useState } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useMemo } from "react";
 import { MdOutlineError } from "react-icons/md";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { toast } from "sonner";
+import ClientFormSections from "./ClientFormSections";
 
 const AddClientModal = ({ isOpen, onOpenChange }) => {
   const {
@@ -143,7 +141,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () => resolve(await addClient(clientData), await fetchClient()),
+          async () => resolve(await addClient(clientData), await fetchClient()), //
           2000
         )
       );
@@ -170,7 +168,6 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
     );
 
     if (submitClientData) {
-      console.log("submitClientData", submitClientData);
       onOpenPopup();
     }
 

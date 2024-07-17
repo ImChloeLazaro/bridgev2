@@ -43,10 +43,10 @@ const PostOptions = ({ trigger }) => {
             aria-label="Actions"
             onAction={(key) => {
               if (key === "hide") {
-                console.log("HIDE");
+                // console.log("HIDE");
               }
               if (key === "report") {
-                console.log("report");
+                // console.log("report");
                 setIsOpen(false);
                 reportOnOpen();
               }

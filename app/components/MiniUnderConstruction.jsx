@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Card, Image } from "@nextui-org/react";
+import { Card, Image, cn } from "@nextui-org/react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const MiniUnderContstruction = ({
@@ -91,4 +91,4 @@ const MiniUnderContstruction = ({
   );
 };
 
-export default MiniUnderContstruction;
+export default MiniUnderConstruction;

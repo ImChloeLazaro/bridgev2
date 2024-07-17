@@ -1,6 +1,15 @@
-import { restinsert, restread } from "@/app/utils/amplify-rest";
+import {
+  destroywithparams,
+  restinsert,
+  restread,
+} from "@/app/utils/amplify-rest";
+import {
+  getLocalTimeZone,
+  Time,
+  toCalendarDateTime,
+  today,
+} from "@internationalized/date";
 import { atom } from "jotai";
-import { tasksAtom } from "./TaskStore";
 
 export const clientsAtom = atom([]);
 
@@ -78,7 +87,18 @@ export const addClientAtom = atom(null, async (get, set, update) => {
   }
 });
 export const updateClientAtom = atom();
-export const deleteClientAtom = atom();
+export const deleteClientAtom = atom(null, async (get, set, update) => {
+  const response = await destroywithparams("/cms/client", {
+    // _id of sla #/cms/task
+    // _id of client obj #/cms/client
+    _id: "667222db41a835187038f0db", // "665922e6167b35aedc883977"
+  });
+  if (response?.success) {
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
 
 export const tableColumnsAtom = atom([
   { label: "Image", key: "image" },
@@ -252,6 +272,11 @@ export const financialBillsPayingMethodAtom = atom("");
 export const financialGSTRegisteredAtom = atom(false);
 export const financialInventoryAtom = atom(false);
 
+export const financialLastFiledDateRangeAtom = atom({
+  start: today(getLocalTimeZone()),
+  end: today(getLocalTimeZone()).add({ days: 1 }),
+});
+
 export const softwareAccountingAtom = atom("");
 export const softwarePayrollAtom = atom("");
 export const softwareBillingAtom = atom("");
@@ -298,7 +323,10 @@ export const clientDataAtom = atom((get) => {
       has_outsource_payroll: get(financialOutsourcePayrollAtom),
       accounts: get(financialAccountCountAtom),
       monthly_transactions_count: get(financialMonthlyTransactionsCountAtom),
-      last_filed_tax: get(financialLastFiledTaxAtom),
+      last_filed_tax: toCalendarDateTime(
+        get(financialLastFiledDateRangeAtom).start,
+        new Time()
+      ).toString(),
       accounting_method: get(financialAccountMethodAtom),
       invoice_preparation_method: get(financialInvoicePreparationMethodAtom),
       bills_paying_method: get(financialBillsPayingMethodAtom),

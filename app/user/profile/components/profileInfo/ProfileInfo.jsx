@@ -1,43 +1,10 @@
-import { Avatar, Checkbox, Divider, Input, Button } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
-import { MdInfoOutline } from "react-icons/md";
-import CTAButtons from "../../../../components/CTAButtons";
-import {
-  confirmPasswordAtom,
-  currentPasswordAtom,
-  isConfirmPasswordVisibleAtom,
-  isCurrentPasswordVisibleAtom,
-  isNewPasswordVisibleAtom,
-  isVisibleJobTitleAtom,
-  newPasswordAtom,
-} from "../../store/ProfileStore";
-import { AiOutlineEye } from "react-icons/ai";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
+import CTAButtons from "@/app/components/CTAButtons";
 import { userAtom } from "@/app/store/UserStore";
+import { Avatar, Divider } from "@nextui-org/react";
+import { useAtomValue } from "jotai";
+import { MdInfoOutline } from "react-icons/md";
 
 const ProfileInfo = () => {
-  const [isVisibleJobTitle, setIsVisibleJobTitle] = useAtom(
-    isVisibleJobTitleAtom
-  );
-
-  const [currentPassword, setCurrentPassword] = useAtom(currentPasswordAtom);
-  const [newPassword, setNewPassword] = useAtom(newPasswordAtom);
-  const [confirmPassword, setConfirmPassword] = useAtom(confirmPasswordAtom);
-
-  const [isCurrentPasswordVisible, setIsCurrentPasswordVisible] = useAtom(
-    isCurrentPasswordVisibleAtom
-  );
-  const [isNewPasswordVisible, setIsNewPasswordVisible] = useAtom(
-    isNewPasswordVisibleAtom
-  );
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useAtom(
-    isConfirmPasswordVisibleAtom
-  );
-
-  const toggleVisibility = (setIsVisible, isVisible) => {
-    setIsVisible(!isVisible);
-  };
-
   const user = useAtomValue(userAtom);
 
   return (
@@ -50,7 +17,7 @@ const ProfileInfo = () => {
             <MdInfoOutline />
           </div>
           <p className="font-medium text-sm text-darkgrey-default">
-            {"Update your profile photo and details"}
+            {"Update your profile photo and other details"}
           </p>
         </div>
 
@@ -72,16 +39,8 @@ const ProfileInfo = () => {
                 alt="Profile picture"
               />
               <div className="hidden flex-col md:flex md:flex-row md:gap-6">
-                <CTAButtons
-                  label="Delete"
-                  color="clear"
-                  disableRipple
-                ></CTAButtons>
-                <CTAButtons
-                  label="Update"
-                  color="clear"
-                  disableRipple
-                ></CTAButtons>
+                <CTAButtons label="Delete" color="clear" disableRipple />
+                <CTAButtons label="Update" color="clear" disableRipple />
               </div>
             </div>
           </div>
@@ -107,13 +66,13 @@ const ProfileInfo = () => {
                   color="clear"
                   size="sm"
                   disableRipple
-                ></CTAButtons>
+                />
                 <CTAButtons
                   label="Update"
                   color="clear"
                   size="sm"
                   disableRipple
-                ></CTAButtons>
+                />
               </div>
             </div>
           </div>

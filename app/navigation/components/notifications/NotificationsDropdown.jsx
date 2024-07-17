@@ -1,3 +1,6 @@
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
+import { showNotification } from "@/app/utils/notificationUtils";
 import {
   Badge,
   Button,
@@ -9,31 +12,26 @@ import {
 } from "@nextui-org/react";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   MdNotifications,
   MdNotificationsActive,
   MdNotificationsNone,
 } from "react-icons/md";
-import { toast } from "sonner";
+import useSound from "use-sound";
 import "../../../aws-auth";
 import {
-  notificationCountAtom,
   notificationsAtom,
   notificationSocketRefAtom,
   notificationSocketURLAtom,
   notificationTypeAtom,
   pageVisibleAtom,
-  showUnreadAtom,
+  showUnreadAtom
 } from "../../store/NotificationsStore";
 import NotificationsFooter from "./NotificationsFooter";
 import NotificationsHeader from "./NotificationsHeader";
-import NotificationsList from "./NotificationsList";
 import NotificationsHistory from "./NotificationsHistory";
-import { showNotification } from "@/app/utils/notificationUtils";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
-import useSound from "use-sound";
+import NotificationsList from "./NotificationsList";
 
 // @refresh reset
 

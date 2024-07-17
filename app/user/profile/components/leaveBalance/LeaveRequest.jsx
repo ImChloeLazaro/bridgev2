@@ -1,81 +1,76 @@
-"use client"
-import { useState } from "react";
-import {
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    useDisclosure,
-    Input,
-    Select,
-    SelectItem,
-    DatePicker,
-    Textarea,
-    Checkbox
-} from "@nextui-org/react";
-
-import { toast } from "sonner";
+"use client";
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { restinsert } from "@/app/utils/amplify-rest";
 import { parseDate } from "@internationalized/date";
-
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+  Textarea,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useAtomValue } from "jotai";
+import { useState } from "react";
 import { FaHistory } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
+import { toast } from "sonner";
+import { personalInfoAtom } from "../../store/ProfileStore";
 import LeaveHistory from "./LeaveHistory";
-
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { leaveStatusAtom } from "../../store/ProfileStore";
-import { useAtomValue } from "jotai";
-
-import { restinsert, restread } from "@/app/utils/amplify-rest";
 
 const LeaveRequest = () => {
     const response = useAtomValue(leaveStatusAtom);
     // const { VL_BALANCE, SL_BALANCE } = useAtomValue(leaveStatusAtom).response;
 
-    const { sub } = useAtomValue(authenticationAtom);
-    const [leaveConfirmation, setLeaveConfirmation] = useState(false);
-    const [formdata, setFormdata] = useState({
-        sub: sub,
-        leaveType: "vl",
-        numberOfHours: 8,
-        leaveDate: new Date().toISOString(),
-        reason: "",
-        borrowedLeave: false
-    });
+  const { sub } = useAtomValue(authenticationAtom);
+  const [leaveConfirmation, setLeaveConfirmation] = useState(false);
+  const [formdata, setFormdata] = useState({
+    sub: sub,
+    leaveType: "vl",
+    numberOfHours: 8,
+    leaveDate: new Date().toISOString(),
+    reason: "",
+    borrowedLeave: false,
+  });
 
-    const {
-        isOpen: leaveRequestIsOpen,
-        onOpen: leaveRequestOnOpen,
-        onOpenChange: leaveRequestOnOpenChange
-    } = useDisclosure();
-    const {
-        isOpen: leaveHistoryIsOpen,
-        onOpen: leaveHistoryOnOpen,
-        onOpenChange: leaveHistoryOnOpenChange
-    } = useDisclosure()
-    const {
-        isOpen: confirmationIsOpen,
-        onOpen: confirmationOnOpen,
-        onOpenChange: confirmationOnOpenChange
-    } = useDisclosure()
+  const {
+    isOpen: leaveRequestIsOpen,
+    onOpen: leaveRequestOnOpen,
+    onOpenChange: leaveRequestOnOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: leaveHistoryIsOpen,
+    onOpen: leaveHistoryOnOpen,
+    onOpenChange: leaveHistoryOnOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: confirmationIsOpen,
+    onOpen: confirmationOnOpen,
+    onOpenChange: confirmationOnOpenChange,
+  } = useDisclosure();
 
-    const leaveType = [
-        { key: "vl", label: "Vacation Leave", value: "VL" },
-        { key: "sl", label: "Sick Leave", value: "SL" },
-        { key: "ml", label: "Maternity Leave", value: "ML" },
-        { key: "pl", label: "Paternity Leave", value: "PL" },
-    ]
+  const leaveType = [
+    { key: "vl", label: "Vacation Leave", value: "VL" },
+    { key: "sl", label: "Sick Leave", value: "SL" },
+    { key: "ml", label: "Maternity Leave", value: "ML" },
+    { key: "pl", label: "Paternity Leave", value: "PL" },
+  ];
 
-    const numberOfHours = [
-        { key: "half", label: "4", value: "4" },
-        { key: "full", label: "8", value: "8" }
-    ]
+  const numberOfHours = [
+    { key: "half", label: "4", value: "4" },
+    { key: "full", label: "8", value: "8" },
+  ];
 
-    const getLeaveLabel = (key) => {
-        const leave = leaveType.find((item) => item.key === key);
-        return leave ? leave.label : 'Unknown Leave Type';
-    };
+  const getLeaveLabel = (key) => {
+    const leave = leaveType.find((item) => item.key === key);
+    return leave ? leave.label : "Unknown Leave Type";
+  };
 
     // const handleFormSubmit = async (e) => {
     //     e.preventDefault();

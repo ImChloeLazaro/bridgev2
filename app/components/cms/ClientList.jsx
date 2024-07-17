@@ -1,6 +1,6 @@
-import { ScrollShadow, Image, Spinner } from "@nextui-org/react";
-import ClientItemCard from "./ClientItemCard";
+import { Image, ScrollShadow, Spinner } from "@nextui-org/react";
 import { Suspense } from "react";
+import ClientItemCard from "./ClientItemCard";
 
 const ClientList = ({
   itemClients,

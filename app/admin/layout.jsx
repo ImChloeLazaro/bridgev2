@@ -1,13 +1,13 @@
 "use client";
+import { cn } from "@nextui-org/react";
 import { useAtomValue } from "jotai";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
-import dynamic from "next/dynamic";
-import { fetchHasOnboardingDataAtom } from "../onboarding/store/OnboardingStore";
-import { authenticationAtom } from "../store/AuthenticationStore";
-import { cn } from "@nextui-org/react";
-import { usePathname } from "next/navigation";
 import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
+import { authenticationAtom } from "../store/AuthenticationStore";
+import { userAtom } from "../store/UserStore";
 
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
@@ -15,13 +15,12 @@ const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
 
 const AdminLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);
-
+  const user = useAtomValue(userAtom);
   const pathname = usePathname();
 
   const cmsPaths = useAtomValue(cmsPathsAtom);
   const collapseSidebar = cmsPaths.includes(pathname ?? "/");
 
-  const isHasOnboardingData = useAtomValue(fetchHasOnboardingDataAtom);
   if (auth.isAuthenticated) {
     return (
       <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
@@ -35,7 +34,7 @@ const AdminLayout = ({ children }) => {
           )}
         >
           <div className="top-0">
-            {isHasOnboardingData && <OnboardingStatusAlert />}
+            <OnboardingStatusAlert showAlert={user.hasOnboardingData} />
             <NavigationBar />
           </div>
           <div className="flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">

@@ -1,21 +1,17 @@
 "use client";
-import React from "react";
-
-import MiniUnderContstruction from "@/app/components/MiniUnderContstruction";
+import { userAtom } from "@/app/store/UserStore";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import { userAtom } from "@/app/store/UserStore";
-const TeamManagement = () => {
+// import TeamManagement from "./components/TeamManagement";
+import AdminTeamManagement from "./components/AdminTeamManagement";
+const Team = () => {
   const users = useAtomValue(userAtom).role;
   const roles = useRoles(users);
   return (
-    <div className="h-full w-full ">
-      <MiniUnderContstruction
-        src={"/imageUnderContstruction.png"}
-        mini={false}
-      />
+    <div className="flex justify-center items-center w-full h-full p-0 lg:p-6 ">
+      <AdminTeamManagement />
     </div>
   );
 };
 
-export default TeamManagement;
+export default Team;
