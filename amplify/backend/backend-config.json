@@ -105,6 +105,30 @@
           ],
           "category": "function",
           "resourceName": "departmenthandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "teamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "subteamhandler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "cronshandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -208,6 +232,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "cronshandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "departmenthandler": {
       "build": true,
       "dependsOn": [
@@ -293,6 +331,20 @@
       "service": "Lambda"
     },
     "shortcuthandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bridgev2layer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "subteamhandler": {
       "build": true,
       "dependsOn": [
         {
@@ -500,6 +552,30 @@
         }
       ]
     },
+    "AMPLIFY_function_cronshandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronshandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronshandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronshandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_cronshandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "cronshandler"
+        }
+      ]
+    },
     "AMPLIFY_function_departmenthandler_database": {
       "usedBy": [
         {
@@ -681,6 +757,30 @@
         {
           "category": "function",
           "resourceName": "shortcuthandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_database": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_subteamhandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "subteamhandler"
         }
       ]
     },

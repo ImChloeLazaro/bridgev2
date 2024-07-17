@@ -15,7 +15,7 @@ const LeaveBalanceContent = () => {
             <Tooltip
               showArrow={true}
               content={
-                <p className="">{`You have ${leave.response.VL_BALANCE} VL left`}</p>
+                <p className="">{`You have ${leave?.response?.VL_BALANCE} VL left`}</p>
               }
             >
               <Link
@@ -23,8 +23,8 @@ const LeaveBalanceContent = () => {
                 underline="none"
                 className="text-sm sm:text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
               >
-                {leave.response !== null ? (
-                  leave.response.VL_BALANCE
+                {leave?.response !== null ? (
+                  leave?.response?.VL_BALANCE
                 ) : (
                   <p className='text-red-default'>No VL data</p>
                 )}
@@ -40,7 +40,7 @@ const LeaveBalanceContent = () => {
             <Tooltip
               showArrow={true}
               content={
-                <p className="">{`You have ${leave.response.SL_BALANCE} SL left`}</p>
+                <p className="">{`You have ${leave?.response?.SL_BALANCE} SL left`}</p>
               }
             >
               <Link
@@ -48,8 +48,8 @@ const LeaveBalanceContent = () => {
                 underline="none"
                 className="text-sm sm:text-base font-bold text-black-default w-2/6 hover:underline-offset-1 hover:underline"
               >
-                {leave.response !== null ? (
-                  leave.response.SL_BALANCE
+                {leave?.response !== null ? (
+                  leave?.response?.SL_BALANCE
                 ) : (
                   <p className='text-red-default'>No SL data</p>
                 )}

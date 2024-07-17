@@ -169,6 +169,45 @@
           "delete"
         ]
       }
+    },
+    "/teams/team": {
+      "name": "/teams/team",
+      "lambdaFunction": "teamhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/teams/subteam": {
+      "name": "/teams/subteam",
+      "lambdaFunction": "subteamhandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/cms/crons": {
+      "name": "/cms/crons",
+      "lambdaFunction": "cronshandler",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

@@ -31,7 +31,7 @@ import { restinsert, restread } from "@/app/utils/amplify-rest";
 
 const LeaveRequest = () => {
     const response = useAtomValue(leaveStatusAtom);
-    const { VL_BALANCE, SL_BALANCE } = useAtomValue(leaveStatusAtom).response;
+    // const { VL_BALANCE, SL_BALANCE } = useAtomValue(leaveStatusAtom).response;
 
     const { sub } = useAtomValue(authenticationAtom);
     const [leaveConfirmation, setLeaveConfirmation] = useState(false);
@@ -77,29 +77,29 @@ const LeaveRequest = () => {
         return leave ? leave.label : 'Unknown Leave Type';
     };
 
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        let isBorrowedLeave = false;
-        if ((formdata.leaveType === 'vl' && VL_BALANCE === 0) || (formdata.leaveType === 'sl' && SL_BALANCE === 0)) {
-            isBorrowedLeave = true;
-        }
-        const updatedFormdata = {
-            ...formdata,
-            borrowedLeave: isBorrowedLeave
-        };
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    //     let isBorrowedLeave = false;
+    //     if ((formdata.leaveType === 'vl' && VL_BALANCE === 0) || (formdata.leaveType === 'sl' && SL_BALANCE === 0)) {
+    //         isBorrowedLeave = true;
+    //     }
+    //     const updatedFormdata = {
+    //         ...formdata,
+    //         borrowedLeave: isBorrowedLeave
+    //     };
 
-        setFormdata(updatedFormdata);
-        try {
-            const response = await restinsert("/leaverequest", updatedFormdata);
-            if(response?.success) {
-                toast?.success("Leave request submitted successfully");
-                confirmationOnOpenChange();
-                leaveRequestOnOpenChange();
-            }
-        } catch (error) {
-            console.error('Error saving leave request:', error);
-        }
-    }
+    //     setFormdata(updatedFormdata);
+    //     try {
+    //         const response = await restinsert("/leaverequest", updatedFormdata);
+    //         if(response?.success) {
+    //             toast?.success("Leave request submitted successfully");
+    //             confirmationOnOpenChange();
+    //             leaveRequestOnOpenChange();
+    //         }
+    //     } catch (error) {
+    //         console.error('Error saving leave request:', error);
+    //     }
+    // }
     return (
         <>
             <Button
@@ -182,11 +182,11 @@ const LeaveRequest = () => {
                                 <p>Leave Date {new Date(formdata.leaveDate).toISOString().split('T')[0]}</p>
                                 <p>{getLeaveLabel(formdata.leaveType)} - {formdata.numberOfHours == 8 ? 'Full Day' : 'Half Day'}</p>
                                 {
-                                    (formdata.leaveType === 'sl' && SL_BALANCE <= 0 || formdata.leaveType === 'vl' && VL_BALANCE <= 0) && (
-                                        <small className="text-red-600 text-justify">
-                                            Your {getLeaveLabel(formdata.leaveType)} balance is currently 0. If you proceed and your leave is approved by an admin or team leader, it will be considered as borrowed leave and will automatically be deducted from your future leave balance when the leave is reset.
-                                        </small>
-                                    )
+                                    // (formdata.leaveType === 'sl' && SL_BALANCE <= 0 || formdata.leaveType === 'vl' && VL_BALANCE <= 0) && (
+                                    //     <small className="text-red-600 text-justify">
+                                    //         Your {getLeaveLabel(formdata.leaveType)} balance is currently 0. If you proceed and your leave is approved by an admin or team leader, it will be considered as borrowed leave and will automatically be deducted from your future leave balance when the leave is reset.
+                                    //     </small>
+                                    // )
                                 }
                                 <div className="flex flex-col gap-2">
                                     <Checkbox isSelected={leaveConfirmation} onValueChange={setLeaveConfirmation}>

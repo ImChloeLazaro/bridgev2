@@ -10,12 +10,23 @@ const memberSchema = new mongoose.Schema({
     employment_status: {default: 'Employment Status', type: String},
 });
 
-
 const teamSchema = new mongoose.Schema({
     name: String,
     heads: [memberSchema],
     members: [memberSchema],
-    client: String,
+    department: [
+        {
+            name: String,
+            status: {type: String, default: 'active'}
+        }
+    ],
+    client: [
+        {
+            _id: String,
+            name: String,
+            email: String
+        }
+    ],
     status: {
         type: String,
         default: 'active'

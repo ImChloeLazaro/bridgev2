@@ -146,8 +146,10 @@ const ProfileInfo = () => {
           </div> */}
         </div>
       </div>
+
       {/* // ### PASSWORD */}
-      <div className="mt-2 py-2 w-full">
+
+      {/* <div className="mt-2 py-2 w-full">
         <div className="flex-col justify-start items-center gap-2 mb-5">
           <div className="flex gap-2 items-center">
             <p className="font-bold text-lg">{"Password"}</p>
@@ -156,12 +158,12 @@ const ProfileInfo = () => {
           <p className="font-medium text-sm text-darkgrey-default">
             {"Change your password frequently"}
           </p>
-        </div>
+        </div> */}
 
         {/* // ### LIST */}
-        <div className="flex flex-col items-start gap-4">
+        {/* <div className="flex flex-col items-start gap-4"> */}
           {/* // ### CURRENT PASSWORD */}
-          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+          {/* <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
             <p className="w-1/3 font-medium text-base">{"Current Password"}</p>
             <div className="w-2/3 flex flex-col gap-2">
               <Input
@@ -196,10 +198,10 @@ const ProfileInfo = () => {
               />
             </div>
           </div>
-          <Divider />
+          <Divider /> */}
 
           {/* // ### NEW PASSWORD */}
-          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+          {/* <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
             <p className="w-1/3 font-medium text-base">{"New Password"}</p>
             <div className="w-2/3 flex flex-col gap-2">
               <Input
@@ -232,10 +234,10 @@ const ProfileInfo = () => {
               />
             </div>
           </div>
-          <Divider />
+          <Divider /> */}
 
           {/* // ### CONFIRM PASSWORD */}
-          <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
+          {/* <div className="flex justify-start items-center gap-2 lg:gap-10 w-full">
             <p className="w-1/3 font-medium text-base">{"Confirm Password"}</p>
             <div className="w-2/3 flex flex-col gap-2">
               <Input
@@ -271,7 +273,7 @@ const ProfileInfo = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

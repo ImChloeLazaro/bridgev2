@@ -17,7 +17,7 @@ const applicationDetailsSchema = mongoose.Schema({
     permanent_address: String,
     residence_status: String,
     gender: String,
-    birthdate: String,
+    birthdate: Date,
     civil_status: String,
     age: String,
     email_address: String,

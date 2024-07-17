@@ -102,7 +102,7 @@ const HRBulletinBoardList = () => {
         }}
       </Listbox>
       <div className="h-full">
-        <MiniUnderContstruction />
+        <MiniUnderContstruction card={false}/>
       </div>
     </div>
   );
