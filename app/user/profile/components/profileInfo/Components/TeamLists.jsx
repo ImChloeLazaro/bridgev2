@@ -20,7 +20,6 @@ const TeamLists = ({ selectedData }) => {
     const uniqueUsers = extractUniqueUsers(selectedData);
     setTeamMembers(uniqueUsers);
   }, [selectedData]);
-  console.log("teamMembers:", teamMembers);
   return teamMembers !== null || teamMembers.length > 0 ? (
     <div className='grid grid-cols-2 gap-5'>
       {teamMembers.map((member, index) => (

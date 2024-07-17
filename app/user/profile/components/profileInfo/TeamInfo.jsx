@@ -17,7 +17,6 @@ import { teamColumnData } from "./UserClientStore";
 import TeamLists from "./Components/TeamLists";
 const TeamInfo = () => {
   const newData = useAtomValue(clientItemDataAtom);
-  console.log("Item Data: ", newData);
   const data = newData.response.filter((subTeamNewData) => {
     return subTeamNewData.status === "active";
   });

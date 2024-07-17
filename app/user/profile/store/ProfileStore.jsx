@@ -19,10 +19,10 @@ export const personalInfoAtom = atom(async (get) => {
 });
 
 // Employee Information
-export const employeeInfoAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  return await readwithparams("/recruitment/information", { sub: auth.sub });
-});
+// export const employeeInfoAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   return await readwithparams("/recruitment/information", { sub: auth.sub });
+// });
 
 //Team
 export const teamStatusAtom = atom(async (get) => {
@@ -40,15 +40,15 @@ export const teamStatusAtom = atom(async (get) => {
 });
 
 //Leaves
-export const leaveStatusAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  const leaveStatus = await readwithparams("/leave/balance", { sub: auth.sub });
-  if (leaveStatus?.success) {
-    return leaveStatus.response;
-  } else {
-    return {};
-  }
-});
+// export const leaveStatusAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   const leaveStatus = await readwithparams("/leave/balance", { sub: auth.sub });
+//   if (leaveStatus?.success) {
+//     return leaveStatus.response;
+//   } else {
+//     return {};
+//   }
+// });
 
 export const leaveHistoryAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
@@ -58,30 +58,30 @@ export const leaveHistoryAtom = atom(async (get) => {
 export const leaveRequestAtom = atom();
 
 //Benefits with user params
-export const benefitsStatusAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  const benefits = await readwithparams("/benefits/profile", { sub: auth.sub });
-  if (benefits?.success) {
-    return benefits.response;
-  } else {
-    return {};
-  }
-});
+// export const benefitsStatusAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   const benefits = await readwithparams("/benefits/profile", { sub: auth.sub });
+//   if (benefits?.success) {
+//     return benefits.response;
+//   } else {
+//     return {};
+//   }
+// });
 
 // Emergency Contact
-export const emergencyContactAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  const profile = await readwithparams("/profile/information", {
-    sub: auth.sub,
-  });
-  return profile.emergency;
-});
+// export const emergencyContactAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   const profile = await readwithparams("/profile/information", {
+//     sub: auth.sub,
+//   });
+//   return profile.emergency;
+// });
 
 //Onboarding
-export const onboardingDataAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  return await readwithparams("/profile/self_data", { sub: auth.sub });
-});
+// export const onboardingDataAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   return await readwithparams("/profile/self_data", { sub: auth.sub });
+// });
 
 //get clientsubteam
 export const clientSubItemDataAtom = atom(async (get) => {
