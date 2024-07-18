@@ -196,6 +196,7 @@ export const filteredPeopleList = atom(async (get) => {
   const data = await readwithparams("/teams/team/filterTeam", { sub });
   return data.success ? data.response : [];
 })
+
 export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
