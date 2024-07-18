@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { MdGroups } from "react-icons/md";
 
-import { selectedTaggedPeopleAtom, taggedPeopleListAtom } from "@/app/user/home/store/ManagePostStore";
+import { selectedTaggedPeopleAtom, taggedPeopleListAtom, filteredPeopleList } from "@/app/user/home/store/ManagePostStore";
 
 const MemberSelect = ({
     placeholder,
@@ -11,15 +11,22 @@ const MemberSelect = ({
     handleInvitees,
     defaultSelectedKeys = new Set(),
     useGlobalState = false,
+    method
 }) => {
     const [selectedInvitees, setSelectedInvitees] = useGlobalState ? useAtom(selectedTaggedPeopleAtom) : useState(defaultSelectedKeys);
-    const PeopleList = useAtomValue(taggedPeopleListAtom);
+    // const PeopleList = useAtomValue(taggedPeopleListAtom);
+    // const filteredPeople = useAtomValue(filteredPeopleList);
 
+    let PeopleList = [];
+    if(method === 'filter') {
+        PeopleList = useAtomValue(filteredPeopleList);
+    }else{
+        PeopleList = useAtomValue(taggedPeopleListAtom);
+    }
     const handleSelectionChange = (selectedKeys) => {
         const selectedPeople = Array.from(selectedKeys)
             .map((key) => {
                 const person = PeopleList.find((item) => item.key === key);
-                // Return only the required properties
                 return person ? { sub: person.sub, email: person.email, name: person.name, picture: person.picture } : null;
             })
             .filter(Boolean); // Filter out any null values (in case a person is not found)
