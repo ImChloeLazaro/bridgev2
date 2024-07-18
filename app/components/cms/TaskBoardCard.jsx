@@ -49,8 +49,10 @@ function TaskBoardCard({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  const isOverdue = task.progress.toLowerCase() === "overdue";
-
+  // const isOverdue = task.progress.toLowerCase() === "overdue";
+  const isOverdue =
+    compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0 &&
+    sla.status === "todo";
   const {
     setNodeRef,
     attributes,

@@ -14,12 +14,13 @@ import {
   MdMarkunreadMailbox,
   MdPerson,
 } from "react-icons/md";
-import "../../aws-auth";
 import BenefitsContent from "./components/benefits/BenefitsContent";
 import EmergencyContactContent from "./components/emergencyContact/EmergencyContactContent";
 import LeaveBalanceContent from "./components/leaveBalance/LeaveBalanceContent";
 import ProfileCard from "./components/profileInfo/ProfileCard";
 import UserOnboardingContent from "./components/userOnboarding/UserOnboardingContent";
+import { Suspense } from "react";
+import { Spinner } from "@nextui-org/react";
 
 const Profile = () => {
   const auth = useAtomValue(authenticationAtom);
@@ -41,7 +42,13 @@ const Profile = () => {
                   icon={<MdBolt size={32} />}
                   isExpandable={false}
                 >
-                  <LeaveBalanceContent />
+                  <Suspense
+                    fallback={
+                      <Spinner className="h-full w-full flex items-center justify-center" />
+                    }
+                  >
+                    <LeaveBalanceContent />
+                  </Suspense>
                 </RightBarCard>
 
                 <RightBarCard
@@ -52,7 +59,13 @@ const Profile = () => {
                   icon={<MdEmojiEvents size={32} />}
                   isExpandable={false}
                 >
-                  <BenefitsContent />
+                  <Suspense
+                    fallback={
+                      <Spinner className="h-full w-full flex items-center justify-center" />
+                    }
+                  >
+                    <BenefitsContent />
+                  </Suspense>
                 </RightBarCard>
 
                 <RightBarCard
@@ -61,7 +74,13 @@ const Profile = () => {
                   icon={<MdHealing size={32} />}
                   isExpandable={false}
                 >
-                  <EmergencyContactContent />
+                  <Suspense
+                    fallback={
+                      <Spinner className="h-full w-full flex items-center justify-center" />
+                    }
+                  >
+                    <EmergencyContactContent />
+                  </Suspense>
                 </RightBarCard>
 
                 <RightBarCard
@@ -70,7 +89,13 @@ const Profile = () => {
                   icon={<MdMarkunreadMailbox size={32} />}
                   isExpandable={false}
                 >
-                  <UserOnboardingContent />
+                  <Suspense
+                    fallback={
+                      <Spinner className="h-full w-full flex items-center justify-center" />
+                    }
+                  >
+                    <UserOnboardingContent />
+                  </Suspense>
                 </RightBarCard>
               </div>
             }
@@ -79,44 +104,65 @@ const Profile = () => {
           <ProfileCard className={"hidden lg:block"} />
         </MainContent>
         <RightBar>
-          {/* LEAVE BALANCE */}
           <RightBarCard
             title={"Leave Balance"}
             description={"Shows your current balance for VL & SL"}
             icon={<MdBolt size={32} />}
             isExpandable={false}
           >
-            <LeaveBalanceContent />
+            <Suspense
+              fallback={
+                <Spinner className="h-full w-full flex items-center justify-center" />
+              }
+            >
+              <LeaveBalanceContent />
+            </Suspense>
           </RightBarCard>
 
-          {/* BENEFITS */}
           <RightBarCard
             title={"Benefits"}
             description={"Displays all of your currently unlocked benefits"}
             icon={<MdEmojiEvents size={32} />}
             isExpandable={false}
           >
-            <BenefitsContent />
+            <Suspense
+              fallback={
+                <Spinner className="h-full w-full flex items-center justify-center" />
+              }
+            >
+              <BenefitsContent />
+            </Suspense>
           </RightBarCard>
 
-          {/* EMERGENCY CONTACT */}
           <RightBarCard
             title={"Emergency Contact"}
             description={"In case of emergency; please contact:"}
             icon={<MdHealing size={32} />}
             isExpandable={false}
           >
-            <EmergencyContactContent />
+            <Suspense
+              fallback={
+                <Spinner className="h-full w-full flex items-center justify-center" />
+              }
+            >
+              <EmergencyContactContent />
+            </Suspense>
           </RightBarCard>
 
-          {/* ONBOARDING */}
           <RightBarCard
             title={"Onboarding"}
             description={"Shows your onboarding progress and status"}
             icon={<MdMarkunreadMailbox size={32} />}
             isExpandable={false}
           >
-            <UserOnboardingContent />
+            <Suspense
+              fallback={
+                <Spinner className="h-full w-full flex items-center justify-center" />
+              }
+            >
+              {" "}
+              <UserOnboardingContent />
+            </Suspense>
           </RightBarCard>
         </RightBar>
       </>

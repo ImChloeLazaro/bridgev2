@@ -5,6 +5,7 @@ import {
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
+
 const UserClientTable = ({ data, columns }) => {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   columns;

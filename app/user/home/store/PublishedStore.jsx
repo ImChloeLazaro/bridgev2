@@ -6,7 +6,6 @@ import {
 import { atom } from "jotai";
 import { postAtom, postCountAtom } from "./PostStore";
 import { draftPostListAtom, selectedDraftPostAtom } from "./DraftedStore";
-import { addHours } from "date-fns";
 
 // LIST FOR PUBLISHED POSTS
 export const publishedPostListAtom = atom([]);
@@ -24,14 +23,15 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
   let publishIndex = get(publishedPostCountAtom);
   let postIndex = get(postCountAtom);
 
+
   const toBePosted = await Promise.all(
     selectedToBePublished.map(async (post) => {
       const newPost = {
         ...post,
         // caption: post.caption,
         comments: 0,
-        datetimePublished: addHours(new Date(), 10),
-        datetimeScheduled: addHours(new Date(), 10),
+        datetimePublished: new Date(),
+        datetimeScheduled: new Date(),
         id: (publishIndex += 1),
         key: `publish-${publishIndex}`,
         // media: post.media,
@@ -55,7 +55,6 @@ export const addPublishPostAtom = atom(null, async (get, set, update) => {
         // title: post.title,
         // type: post.type,
       };
-      console.log("NewPorst: ", newPost);
       // return newPost;
       const postedResponse = await restupdate("/post", newPost);
       const isPosted = await postedResponse?.success;

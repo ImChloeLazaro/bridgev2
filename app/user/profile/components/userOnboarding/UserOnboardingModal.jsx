@@ -1,7 +1,6 @@
 import OnboardingBody from "@/app/onboarding/components/OnboardingBody";
 import OnboardingFooter from "@/app/onboarding/components/OnboardingFooter";
 import OnboardingHeader from "@/app/onboarding/components/OnboardingHeader";
-import { browseOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
 import {
   Button,
   Modal,
@@ -19,7 +18,6 @@ const UserOnboardingModal = () => {
   const { response } = useAtomValue(personalInfoAtom);
   const data = response?.self_data;
   // const { response: data } = useAtomValue(onboardingDataAtom); //temp
-  const browseOnboardingData = useSetAtom(browseOnboardingDataAtom);
 
   const handleFetchDataWhenOpen = (open) => {
     onOpen(open);

@@ -3,6 +3,7 @@ import {
   Time,
   toCalendarDateTime,
   today,
+  isWeekend,
 } from "@internationalized/date";
 import {
   Button,
@@ -24,6 +25,7 @@ import {
   MdFileUpload,
 } from "react-icons/md";
 import CTAButtons from "./CTAButtons";
+import { useLocale } from "@react-aria/i18n";
 
 const FormFieldInput = ({
   placeholder = "",
@@ -65,6 +67,10 @@ const FormFieldInput = ({
     },
     [onValueChange]
   );
+
+  let { locale } = useLocale();
+
+  let isDateUnavailable = (date) => isWeekend(date, locale);
 
   const endContent = {
     date: (
@@ -219,6 +225,7 @@ const FormFieldInput = ({
             />
           ) : (
             <Calendar
+              isDateUnavailable={isDateUnavailable}
               showMonthAndYearPickers
               aria-label={label}
               variant={"flat"}
@@ -253,6 +260,7 @@ const FormFieldInput = ({
                   "data-[selected=true]:text-white-default",
                   "data-[selected=true]:data-[hover=true]:bg-blue-default/90",
                   "data-[selected=true]:data-[hover=true]:text-white-default",
+                  "data-[unavailable=true]:no-underline",
                 ],
               }}
             />

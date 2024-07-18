@@ -15,6 +15,7 @@ import { useAtomValue } from "jotai";
 import { clientSubItemDataAtom } from "../../store/ProfileStore";
 import { columnData, subTeamData } from "./UserClientStore";
 import UserClientTable from "./Components/UserClientTable";
+
 const ClientsInfo = () => {
   const newData = useAtomValue(clientSubItemDataAtom);
   const columns = columnData;
@@ -25,7 +26,6 @@ const ClientsInfo = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedClient, setSelectedClient] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
-  console.log("Data : ", data);
   const filterDataOption = () => {
     const clientData = new Set();
     data.map((newData) => {

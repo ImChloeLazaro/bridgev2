@@ -16,6 +16,7 @@ import {
 import { useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import TaskFormSections from "./TaskFormSections";
+import { useEffect } from "react";
 
 const AddTaskModal = ({
   isOpen,
@@ -28,6 +29,9 @@ const AddTaskModal = ({
   taskDataAtom,
   taskNameAtom,
   taskInstructionAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
+  selectedTeamForTaskAtom,
   selectedProcessorAtom,
   selectedReviewerAtom,
   selectedManagerAtom,
@@ -36,6 +40,8 @@ const AddTaskModal = ({
   dateRangeAtom,
   startTimeAtom,
   endTimeAtom,
+  fetchTeamsAtom,
+  clientSelectionForTaskAtom,
 }) => {
   const {
     isOpen: isOpenPopup,
@@ -47,6 +53,7 @@ const AddTaskModal = ({
   const taskName = useAtomValue(taskNameAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
+  const fetchTeams = useSetAtom(fetchTeamsAtom);
   const deleteTask = useSetAtom(deleteTaskAtom);
 
   const showClientTask = useAtomValue(showClientTaskAtom);
@@ -75,6 +82,11 @@ const AddTaskModal = ({
     onOpenPopup();
     return false;
   };
+
+  useEffect(() => {
+    fetchTeams();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Modal
@@ -105,6 +117,9 @@ const AddTaskModal = ({
                   clientSelectionChange={clientSelectionChange}
                   taskNameAtom={taskNameAtom}
                   taskInstructionAtom={taskInstructionAtom}
+                  teamSelectionAtom={teamSelectionAtom}
+                  teamsByClientSelectionAtom={teamsByClientSelectionAtom}
+                  selectedTeamForTaskAtom={selectedTeamForTaskAtom}
                   selectedProcessorAtom={selectedProcessorAtom}
                   selectedReviewerAtom={selectedReviewerAtom}
                   selectedManagerAtom={selectedManagerAtom}
@@ -113,6 +128,7 @@ const AddTaskModal = ({
                   dateRangeAtom={dateRangeAtom}
                   startTimeAtom={startTimeAtom}
                   endTimeAtom={endTimeAtom}
+                  clientSelectionForTaskAtom={clientSelectionForTaskAtom}
                 />
               </div>
             </ModalBody>

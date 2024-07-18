@@ -58,6 +58,11 @@ import {
   taskDurationAtom,
   taskInstructionAtom,
   taskNameAtom,
+  selectedTeamForTaskAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
+  fetchTeamsAtom,
+  clientSelectionForTaskAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 
@@ -427,6 +432,9 @@ const CMSAdmin = () => {
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
+              teamSelectionAtom={teamSelectionAtom}
+              teamsByClientSelectionAtom={teamsByClientSelectionAtom}
+              selectedTeamForTaskAtom={selectedTeamForTaskAtom}
               selectedProcessorAtom={selectedProcessorAtom}
               selectedReviewerAtom={selectedReviewerAtom}
               selectedManagerAtom={selectedManagerAtom}
@@ -435,6 +443,8 @@ const CMSAdmin = () => {
               dateRangeAtom={dateRangeAtom}
               startTimeAtom={startTimeAtom}
               endTimeAtom={endTimeAtom}
+              fetchTeamsAtom={fetchTeamsAtom}
+              clientSelectionForTaskAtom={clientSelectionForTaskAtom}
             />
             <CTAButtons
               radius={"sm"}

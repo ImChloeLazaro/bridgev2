@@ -1,7 +1,6 @@
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
 import {
-  clientSelectionForTaskAtom,
   managerSelectionAtom,
   processorSelectionAtom,
   recurrenceSelectionAtom,
@@ -12,6 +11,7 @@ import { TimeInput } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
+import { teamsAtom } from "@/app/store/TeamManagementStore";
 
 const TaskFormSections = ({
   selectedClientForTask,
@@ -24,10 +24,14 @@ const TaskFormSections = ({
   showClientTaskAtom,
   taskDurationAtom,
   taskInstructionAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
+  selectedTeamForTaskAtom,
   taskNameAtom,
   dateRangeAtom,
   startTimeAtom,
   endTimeAtom,
+  clientSelectionForTaskAtom,
 }) => {
   const showClientTask = useAtomValue(showClientTaskAtom);
 
@@ -36,16 +40,23 @@ const TaskFormSections = ({
 
   const clientSelectionForTask = useAtomValue(clientSelectionForTaskAtom);
 
-  const processorSelection = useAtomValue(processorSelectionAtom);
-  const [selectedProcessor, setSelectedProcessor] = useAtom(
-    selectedProcessorAtom
-  );
-
   const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
 
   const [dateRange, setDateRange] = useAtom(dateRangeAtom);
   const [startTime, setStartTime] = useAtom(startTimeAtom);
   const [endTime, setEndTime] = useAtom(endTimeAtom);
+
+  const teamSelection = useAtomValue(teamSelectionAtom);
+  const [selectedTeamForTask, setSelectedTeamForTask] = useAtom(
+    selectedTeamForTaskAtom
+  );
+
+  const teamsByClientSelection = useAtomValue(teamsByClientSelectionAtom);
+
+  const processorSelection = useAtomValue(processorSelectionAtom);
+  const [selectedProcessor, setSelectedProcessor] = useAtom(
+    selectedProcessorAtom
+  );
 
   const reviewerSelection = useAtomValue(reviewerSelectionAtom);
   const [selectedReviewer, setSelectedReviewer] = useAtom(selectedReviewerAtom);
@@ -58,10 +69,17 @@ const TaskFormSections = ({
     selectedRecurrenceAtom
   );
 
+  console.log("selectedTeamForTask", selectedTeamForTask.size == 0);
+  console.log("teamSelection", teamSelection);
+  console.log("teamsByClientSelection", teamsByClientSelection);
+
+  const teamForTaskSelection = showClientTask
+    ? teamsByClientSelection
+    : teamSelection;
+
   return (
     <div className="flex flex-col gap-6">
       {/* People */}
-      {/* {!showClientTask && ()} */}
       <div className="py-2 w-full">
         <div className="flex justify-start items-center gap-2 mb-8">
           <p className="font-bold text-base lg:text-lg xl:text-xl">
@@ -91,10 +109,48 @@ const TaskFormSections = ({
                 selectedKeys={selectedClientForTask}
                 onSelectionChange={(key) => {
                   setSelectedClientForTask(key);
-                  clientSelectionChange({ key: Array.from(key).join("") });
+                  clientSelectionChange({ key: Array.from(key).toString() });
                 }}
-                isMultiline={true}
                 renderItemPicture={true}
+              />
+            </div>
+          </div>
+
+          {/* Team */}
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">{"Team"}</p>
+            <div className="w-[80%]">
+              <FormFieldSelect
+                isRequired={true}
+                aria-label="Team Selection"
+                items={teamForTaskSelection} //
+                placeholder="Assign Team/s"
+                selectionMode="single"
+                selectedKeys={selectedTeamForTask}
+                onSelectionChange={(key) => {
+                  setSelectedTeamForTask(key);
+                  let assignees = teamForTaskSelection.filter(
+                    (team) => team._id === Array.from(key).toString()
+                  )[0];
+    
+                  if (selectedTeamForTask.size == 0) {
+                    setSelectedProcessor(new Set([]));
+                    setSelectedReviewer(new Set([]));
+                    setSelectedManager(new Set([]));
+                  } else {
+                    setSelectedProcessor(
+                      new Set(assignees?.members.map((member) => member.sub))
+                    );
+                    setSelectedReviewer(
+                      new Set(assignees?.members.map((member) => member.sub))
+                    );
+                    setSelectedManager(
+                      new Set(assignees?.heads.map((head) => head.sub))
+                    );
+                  }
+                }}
+                renderItemPicture={true}
+                disallowEmptySelection={false}
               />
             </div>
           </div>
@@ -106,15 +162,14 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
+                isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
-                // isDisabled={showClientTask}
                 aria-label="Processor Selection"
-                items={processorSelection}
+                items={processorSelection} // showClientTask ? teamsByClientSelection.members :
                 placeholder="Assign Processor/s"
                 selectionMode="multiple"
                 selectedKeys={selectedProcessor}
                 onSelectionChange={setSelectedProcessor}
-                isMultiline={true}
                 renderType={"chip"}
                 renderItemPicture={true}
               />
@@ -128,15 +183,14 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
+                isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
-                // isDisabled={showClientTask}
                 aria-label="Reviewer Selection"
                 items={reviewerSelection}
                 placeholder="Assign Reviewer/s"
                 selectionMode="multiple"
                 selectedKeys={selectedReviewer}
                 onSelectionChange={setSelectedReviewer}
-                isMultiline={true}
                 renderType={"chip"}
                 renderItemPicture={true}
               />
@@ -150,15 +204,14 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
+                isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
-                // isDisabled={showClientTask}
                 aria-label="Manager Selection"
                 items={managerSelection}
                 placeholder="Assign Manager/s"
                 selectionMode="single"
                 selectedKeys={selectedManager}
                 onSelectionChange={setSelectedManager}
-                isMultiline={true}
                 renderItemPicture={true}
               />
             </div>
@@ -218,7 +271,6 @@ const TaskFormSections = ({
                 selectionMode="single"
                 selectedKeys={selectedRecurrence}
                 onSelectionChange={setSelectedRecurrence}
-                isMultiline={true}
               />
             </div>
           </div>
@@ -294,10 +346,10 @@ const TaskFormSections = ({
                   value={taskDuration}
                   onValueChange={setTaskDuration}
                   placeholder={"Set a date"}
-                  showPastDate={true}
                   withDate={true}
                   withTime={true}
                   isDateRange={true}
+                  showPastDate={false}
                   dateRangeValue={dateRange}
                   onDateRangeValueChange={setDateRange}
                   timeStartValue={startTime}

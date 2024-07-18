@@ -24,7 +24,7 @@ const OnboardingHeader = () => {
               borderStyle: "solid",
             },
             onClick: () => {
-              setActiveStep(index);
+              setActiveStep(index - 1);
             },
           };
         } else {
@@ -38,7 +38,7 @@ const OnboardingHeader = () => {
               borderStyle: "solid",
             },
             onClick: () => {
-              setActiveStep(index);
+              setActiveStep(index - 1);
             },
           };
         }
@@ -48,7 +48,7 @@ const OnboardingHeader = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <p className="uppercase text-2xl pt-2 mt-3">{"Onboarding Form"}</p>
+      <p className="font-semibold text-2xl pt-2 mt-3">{"ONBOARDING FORM"}</p>
       <div className="w-full">
         <Stepper
           steps={stepsContent}

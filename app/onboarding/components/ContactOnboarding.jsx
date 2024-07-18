@@ -12,6 +12,7 @@ const ContactOnboarding = ({ viewOnly }) => {
     <>
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         label={"NAME"}
         value={contact.name}
         onValueChange={(text) =>
@@ -23,6 +24,7 @@ const ContactOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         label={"ADDRESS"}
         value={contact.address}
         onValueChange={(text) =>
@@ -34,6 +36,7 @@ const ContactOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         label={"RELATIONSHIP"}
         value={contact.relationship}
         onValueChange={(text) =>
@@ -45,6 +48,7 @@ const ContactOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"number"}
         label={"CONTACT NUMBER"}
         value={contact.contact_number}
         onValueChange={(text) =>

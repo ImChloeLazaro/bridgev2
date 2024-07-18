@@ -1,10 +1,12 @@
+import { clientsAtom } from "@/app/store/ClientStore";
 import {
-  clientSelectionForTaskAtom,
   managerSelectionAtom,
   processorSelectionAtom,
   reviewerSelectionAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
+import { userAtom } from "@/app/store/UserStore";
+import { readwithparams, restread } from "@/app/utils/amplify-rest";
 import {
   getLocalTimeZone,
   parseTime,
@@ -61,11 +63,48 @@ export const selectedPage = atom(1);
 export const selectedProcessorTaskActionAtom = atom(new Set([]));
 export const selectedReviewerTaskActionAtom = atom(new Set([]));
 
+export const selectedTeamForTaskAtom = atom(new Set([]));
+
 export const selectedClientForTaskAtom = atom(new Set([]));
 export const selectedProcessorAtom = atom(new Set([]));
 export const selectedReviewerAtom = atom(new Set([]));
 export const selectedManagerAtom = atom(new Set([]));
 export const selectedRecurrenceAtom = atom(new Set(["daily"]));
+
+export const teamsAtom = atom([]);
+
+export const fetchTeamsAtom = atom(null, async (get, set, update) => {
+  const teams = await restread("/teams/team");
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    set(teamsAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
+
+export const teamSelectionAtom = atom((get) => {
+  let teams = get(teamsAtom).filter((team) => {
+    return team;
+  });
+  return teams;
+});
+
+export const teamsByClientSelectionAtom = atom((get) => {
+  let filteredTeamsByClient = get(teamsAtom).filter((team) =>
+    team.client.some(
+      (client) =>
+        client._id === Array.from(get(selectedClientForTaskAtom)).toString()
+    )
+  );
+  
+
+  console.log("filteredTeamsByClient", filteredTeamsByClient);
+
+  return filteredTeamsByClient;
+});
 
 export const taskDurationAtom = atom("");
 
@@ -135,6 +174,21 @@ export const taskDataAtom = atom((get) => {
 });
 
 // CLIENT ESSENTIALS
+
+export const clientSelectionForTaskAtom = atom((get) => {
+  let selection = get(clientsAtom).map((client) => {
+    return {
+      client_id: client._id, // #[CHANGE KEY]: client_id => key / id
+      key: client._id,
+      name: client.company.name,
+      email: client.company.email,
+      picture: client.company.picture,
+      team: "",
+    };
+  });
+
+  return selection;
+});
 
 export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
   const { key } = update;

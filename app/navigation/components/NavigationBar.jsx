@@ -15,7 +15,6 @@ import { signOut } from "aws-amplify/auth";
 import { useAtom, useAtomValue } from "jotai";
 import { useState } from "react";
 import { MdMenu } from "react-icons/md";
-import "../../aws-auth";
 import {
   activeAdminRouteAtom,
   activeHRRouteAtom,
@@ -46,7 +45,7 @@ const NavigationBar = () => {
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
 
   const user = useAtomValue(userAtom);
-  const selectedRole = useRoles(user?.role);
+  const selectedRole = useRoles(user.role);
 
   const role = selectedRole.currentRole.toLowerCase();
 

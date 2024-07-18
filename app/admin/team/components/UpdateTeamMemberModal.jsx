@@ -16,7 +16,7 @@ import {
   memberPositionAtom,
   memberStatusAtom,
   updateTeamMemberAtom,
-} from "../store/TeamManagementStore";
+} from "../store/TeamManagementAdminStore";
 
 const UpdateTeamMemberModal = ({ selectedMember, isOpen, onOpenChange }) => {
   const [memberPosition, setMemberPosition] = useAtom(memberPositionAtom);

@@ -20,7 +20,6 @@ const ReactionSelect = () => {
       aria-label="Reaction Selection"
       items={reactionsSelection}
       variant="bordered"
-      isMultiline={true}
       selectionMode="single"
       description="This will be the default reaction displayed on your post"
       placeholder="Select reaction"

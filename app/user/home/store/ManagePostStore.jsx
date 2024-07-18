@@ -181,8 +181,7 @@ export const taggedPeopleListAtom = atom((get) => {
   const peopleList = list.map((person) => ({
     ...person,
     id: (taggedIndex += 1),
-    // key: `user-${taggedIndex}`,
-    key: `${person.email}`
+    key: `user-${taggedIndex}`,
   }));
 
   return [all, ...peopleList];
@@ -191,12 +190,6 @@ export const taggedPeopleListAtom = atom((get) => {
 export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
-
-export const filteredPeopleList = atom(async (get) => {
-  const sub = (await get(authenticationAtom)).auth.sub;
-  const data = await readwithparams("/teams/team/filterTeam", { sub });
-  return data.success ? data.response : [];
-})
 
 export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
 export const selectedTaggedPeopleAtom = atom(new Set([]));
