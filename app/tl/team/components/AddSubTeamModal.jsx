@@ -66,8 +66,9 @@ const AddSubTeamModal = ({ addSubTeam }) => {
                         placeholder="Select Team Members"
                         name="teamMembers"
                         handleInvitees={(selected) => setTeamMembers({ ...teamMembers, members: selected.map(item => item) })}
+                        method={'filter'}
                     />
-                    <ClientSelect handleClientSelect={(selected) => setTeamMembers({ ...teamMembers, client: selected.map(item => item)})} />
+                    <ClientSelect method={'filter'} handleClientSelect={(selected) => setTeamMembers({ ...teamMembers, client: selected.map(item => item)})} />
                 </div>
             </ModalComponent>
         </>

@@ -4,14 +4,18 @@ import { useAtomValue } from "jotai";
 import { Select, SelectItem } from "@nextui-org/react";
 
 const ClientSelect = ({
+    method,
     handleClientSelect
 }) => {
 
     const [selectedClients, setSelectedClients] = useState(new Set([]));
-    const clients = useAtomValue(clientsAtom);
-    const filteredClients = useAtomValue(filteredClientAtom);
+    let clients = [];
 
-    console.log('FILTERED CLIENT ATOM', filteredClients);
+    if(method === 'filter') {
+        clients = useAtomValue(filteredClientAtom);
+    }else{
+        clients = useAtomValue(clientsAtom);
+    }
     const handleOnChangeSelect = (selected) => {
         const selectedClients = Array.from(selected).map((key) => {
             const client = clients.find((item) => item._id === key);

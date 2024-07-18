@@ -6,9 +6,9 @@ import { reactionIcons } from "../components/reaction/ReactionIcons";
 import { draftPostCountAtom } from "./DraftedStore";
 import { publishedPostCountAtom } from "./PublishedStore";
 import { archivedPostCountAtom } from "./ArchivedStore";
-import { restread } from "@/app/utils/amplify-rest";
+import { readwithparams, restread } from "@/app/utils/amplify-rest";
 import { userListAtom } from "@/app/store/UserStore";
-
+import { authenticationAtom } from "@/app/store/AuthenticationStore";
 const iconSize = 20;
 export const postTemplateItemsAtom = atom([
   {
@@ -191,6 +191,11 @@ export const taggedPeopleCountAtom = atom(
   (get) => get(taggedPeopleListAtom).length
 );
 
+export const filteredPeopleList = atom(async (get) => {
+  const sub = (await get(authenticationAtom)).auth.sub;
+  const data = await readwithparams("/teams/team/filterTeam", { sub });
+  return data.success ? data.response : [];
+})
 export const fetchTaggedPeopleListAtom = atom(null, (get, set, update) => {});
 export const selectedTaggedPeopleAtom = atom(new Set([]));
 
