@@ -2,7 +2,7 @@ import { Card, Image, cn } from "@nextui-org/react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const MiniUnderContstruction = ({
+const MiniUnderConstruction = ({
   src = "/imageUnderContstruction.png",
   mini = true,
   card = true,
