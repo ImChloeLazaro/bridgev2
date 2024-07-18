@@ -167,7 +167,7 @@ const TrainingList = () => {
             }}
           </Listbox>
           <div className="h-full">
-            <MiniUnderConstruction />
+            <MiniUnderConstruction card={false}/>
           </div>
         </div>
       )}
