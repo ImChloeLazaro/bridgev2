@@ -82,7 +82,7 @@ const UpdateSubTeam = ({ team, isOpen, onOpenChange, setUpdatedSubTeam }) => {
                     handleInvitees={(selected) => setSubTeam({ ...subTeam, members: selected.map(item => item) })}
                 />
                 <ClientSelect
-                    handleClientSelect={(selected) => setSubTeam({ ...subTeam, client: selected.map(item => item) })}
+                   method={'filter'} handleClientSelect={(selected) => setSubTeam({ ...subTeam, client: selected.map(item => item) })}
                 />
                 <button type="submit" className="hidden">Submit</button>
             </form>

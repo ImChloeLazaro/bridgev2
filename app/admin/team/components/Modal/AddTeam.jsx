@@ -47,7 +47,7 @@ const AddTeam = ({ addNewTeamToList }) => {
                 <div className="flex flex-col space-y-4">
                     <Input type="text" label="Team Name" onChange={e => setTeam({ ...team, name: e.target.value })} />
                     <DepartmentSelect handleDepartment={(selected) => setTeam({ ...team, department: selected })} />
-                    <ClientSelect handleClientSelect={(selected) =>  setTeam({ ...team, client: selected.map(item => item)})} />
+                    <ClientSelect method={'all'} handleClientSelect={(selected) =>  setTeam({ ...team, client: selected.map(item => item)})} />
                     <MemberSelect
                         placeholder="Select Team Heads"
                         name="teamHeads"

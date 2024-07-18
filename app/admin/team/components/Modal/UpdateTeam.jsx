@@ -59,6 +59,7 @@ const UpdateTeam = ({ onOpenChange, isOpen, teamData, updateTeamInList }) => {
                         onChange={e => setTeam({ ...team, client: e.target.value })} 
                     /> */}
                     <ClientSelect
+                        method={'all'}
                         placeholder="Select Client"
                         name="client"
                         handleClientSelect={(selected) => setTeam({ ...team, client: selected })}
