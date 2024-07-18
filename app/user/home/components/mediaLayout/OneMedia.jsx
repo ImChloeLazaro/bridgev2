@@ -12,9 +12,9 @@ const OneMedia = ({ data, orientation, layout }) => {
 
   const alignment = {
     landscape:
-      "gap-1.5 grid grid-cols-1 grid-rows-1 bg-white-default/60 h-full px-0 lg:px-4",
+      "gap-1.5 grid grid-cols-1 grid-rows-1 bg-white-default/60 h-[16rem] md:h-[28rem] lg:h-[32rem] xl:h-[54rem] px-0 lg:px-4",
     portrait:
-      "gap-1.5 grid grid-cols-1 grid-rows-1 bg-white-default/60 h-full px-0 lg:px-4",
+      "gap-1.5 grid grid-cols-1 grid-rows-1 bg-white-default/60 h-[16rem] md:h-[28rem] lg:h-[32rem] xl:h-[54rem] px-0 lg:px-4",
   };
 
   const handleOnOpen = (index) => {
@@ -34,10 +34,10 @@ const OneMedia = ({ data, orientation, layout }) => {
         return (
           <Button
             key={index}
-            radius="none"
+            radius='none'
             disableRipple
             disableAnimation
-            className="relative bg-grey-default/60 backdrop-blur-sm flex justify-center items-center overflow-clip h-full w-full p-0"
+            className='relative bg-grey-default/60 backdrop-blur-sm flex justify-center items-center overflow-clip h-[16rem] md:h-[28rem] lg:h-[32rem] xl:h-[54rem] w-full p-0'
             onPress={() => {
               handleOnOpen(index);
               onOpen();
