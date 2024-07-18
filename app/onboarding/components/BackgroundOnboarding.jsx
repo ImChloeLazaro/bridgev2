@@ -6,6 +6,19 @@ import {
   postGraduateAtom,
   selectedTabAtom,
   techVocSpecialAtom,
+  collegeDateOfAttendanceAtom,
+  collegeDateOfAttendanceDateRangeAtom,
+  collegeCourseDateOfAttendanceDateRangeAtom,
+  collegeCourseDateOfAttendanceAtom,
+  postGraduateDateOfAttendanceAtom,
+  postGraduateDateOfAttendanceDateRangeAtom,
+  postGraduateCourseDateOfAttendanceAtom,
+  postGraduateCourseDateOfAttendanceDateRangeAtom,
+  techVocDateOfAttendanceAtom,
+  techVocDateOfAttendanceDateRangeAtom,
+  techVocCourseDateOfAttendanceAtom,
+  techVocCourseDateOfAttendanceDateRangeAtom,
+  examinationTakenDateRangeAtom,
 } from "../store/OnboardingStore";
 
 import { examinationTakenAtom } from "../store/OnboardingStore";
@@ -33,17 +46,70 @@ const BackgroundOnboarding = ({ viewOnly }) => {
 
   // Educational Background
   const [college, setCollege] = useAtom(collegeAtom);
+
+  const [collegeDateOfAttendance, setCollegeDateOfAttendance] = useAtom(
+    collegeDateOfAttendanceAtom
+  );
+  const [collegeCourseDateOfAttendance, setCollegeCourseDateOfAttendance] =
+    useAtom(collegeCourseDateOfAttendanceAtom);
+
+  const [
+    collegeDateOfAttendanceDateRange,
+    setCollegeDateOfAttendanceDateRange,
+  ] = useAtom(collegeDateOfAttendanceDateRangeAtom);
+  const [
+    collegeCourseDateOfAttendanceDateRange,
+    setCollegeCourseDateOfAttendanceDateRange,
+  ] = useAtom(collegeCourseDateOfAttendanceDateRangeAtom);
+
   const [postGraduate, setPostGraduate] = useAtom(postGraduateAtom);
+
+  const [postGraduateDateOfAttendance, setPostGraduateDateOfAttendance] =
+    useAtom(postGraduateDateOfAttendanceAtom);
+  const [
+    postGraduateDateOfAttendanceDateRange,
+    setPostGraduateDateOfAttendanceDateRange,
+  ] = useAtom(postGraduateDateOfAttendanceDateRangeAtom);
+
+  const [
+    postGraduateCourseDateOfAttendance,
+    setPostGraduateCourseDateOfAttendance,
+  ] = useAtom(postGraduateCourseDateOfAttendanceAtom);
+  const [
+    postGraduateCourseDateOfAttendanceDateRange,
+    setPostGraduateCourseDateOfAttendanceDateRange,
+  ] = useAtom(postGraduateCourseDateOfAttendanceDateRangeAtom);
+
   const [techVocSpecial, setTechVocSpecial] = useAtom(techVocSpecialAtom);
+
+  const [techVocDateOfAttendance, setTechVocDateOfAttendance] = useAtom(
+    techVocDateOfAttendanceAtom
+  );
+  const [
+    techVocDateOfAttendanceDateRange,
+    setTechVocDateOfAttendanceDateRange,
+  ] = useAtom(techVocDateOfAttendanceDateRangeAtom);
+
+  const [techVocCourseDateOfAttendance, setTechVocCourseDateOfAttendance] =
+    useAtom(techVocCourseDateOfAttendanceAtom);
+  const [
+    techVocCourseDateOfAttendanceDateRange,
+    setTechVocCourseDateOfAttendanceDateRange,
+  ] = useAtom(techVocCourseDateOfAttendanceDateRangeAtom);
 
   // Examination Taken
   const [examinationTaken, setExaminationTaken] = useAtom(examinationTakenAtom);
+
+  const [examinationTakenDateRange, setExaminationTakenDateRange] = useAtom(
+    examinationTakenDateRangeAtom
+  );
 
   const family_background = (
     <>
       <div className="flex flex-col gap-5 mb-5">
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"FATHER'S NAME"}
           value={father.name}
           onValueChange={(text) =>
@@ -55,6 +121,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"number"}
           label={"AGE"}
           value={father.age}
           onValueChange={(text) =>
@@ -66,6 +133,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"OCCUPATION"}
           value={father.occupation}
           onValueChange={(text) =>
@@ -77,6 +145,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"COMPANY"}
           value={father.company}
           onValueChange={(text) =>
@@ -91,6 +160,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
       <div className="flex flex-col gap-5 mb-5">
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"MOTHER'S NAME"}
           value={mother.name}
           onValueChange={(text) =>
@@ -102,6 +172,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"number"}
           label={"AGE"}
           value={mother.age}
           onValueChange={(text) =>
@@ -113,6 +184,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"OCCUPATION"}
           value={mother.occupation}
           onValueChange={(text) =>
@@ -124,6 +196,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"COMPANY"}
           value={mother.company}
           onValueChange={(text) =>
@@ -139,6 +212,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         <div key={"child" + c_index} className="flex flex-col gap-5">
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"text"}
             key={"name" + c_index}
             label={"NAME/S OF CHILDREN (if applicable)"}
             value={child.name}
@@ -154,6 +228,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           />
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"number"}
             key={"age" + c_index}
             label={"AGE"}
             value={child.age}
@@ -169,6 +244,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           />
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"text"}
             key={"civilStatus" + c_index}
             label={"CIVIL STATUS"}
             value={child.civil_status}
@@ -184,6 +260,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           />
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"text"}
             key={"occupation" + c_index}
             label={"OCCUPATION"}
             value={child.occupation}
@@ -199,6 +276,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           />
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"text"}
             key={"company" + c_index}
             label={"COMPANY"}
             value={child.company}
@@ -219,9 +297,11 @@ const BackgroundOnboarding = ({ viewOnly }) => {
 
   const educational_background = (
     <>
+      {/* COLLEGE */}
       <div className="flex flex-wrap justify-between gap-5 mb-5">
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"COLLEGE"}
           value={college.name}
           onValueChange={(text) =>
@@ -233,6 +313,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"ADDRESS"}
           value={college.address}
           onValueChange={(text) =>
@@ -244,17 +325,19 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"date"}
           label={"DATE OF ATTENDANCE"}
-          value={college.date_of_attendance}
-          onValueChange={(text) =>
-            setCollege((prev) => {
-              return { ...prev, date_of_attendance: text };
-            })
-          }
+          value={collegeDateOfAttendance} // college.date_of_attendance
+          onValueChange={setCollegeDateOfAttendance}
           isRequired={true}
+          showPastDate={true}
+          withDate={true}
+          dateRangeValue={collegeDateOfAttendanceDateRange}
+          onDateRangeValueChange={setCollegeDateOfAttendanceDateRange}
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"DEGREE/MAJOR"}
           value={college.degree_major}
           onValueChange={(text) =>
@@ -266,6 +349,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"OTHER COURSES"}
           value={college.other_courses}
           onValueChange={(text) =>
@@ -277,19 +361,23 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"date"}
           label={"DATE OF ATTENDANCE"}
-          value={college.course_date_of_attendance}
-          onValueChange={(text) =>
-            setCollege((prev) => {
-              return { ...prev, course_date_of_attendance: text };
-            })
-          }
+          value={collegeCourseDateOfAttendance} // college.course_date_of_attendance
+          onValueChange={setCollegeCourseDateOfAttendance}
           isRequired={true}
+          showPastDate={true}
+          withDate={true}
+          dateRangeValue={collegeCourseDateOfAttendanceDateRange}
+          onDateRangeValueChange={setCollegeCourseDateOfAttendanceDateRange}
         />
       </div>
+
+      {/* POST GRADUATE */}
       <div className="flex flex-wrap justify-between gap-5 mb-5">
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"POST GRADUATE"}
           value={postGraduate.name}
           onValueChange={(text) =>
@@ -301,6 +389,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"ADDRESS"}
           value={postGraduate.address}
           onValueChange={(text) =>
@@ -312,17 +401,19 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"date"}
           label={"DATE OF ATTENDANCE"}
-          value={postGraduate.date_of_attendance}
-          onValueChange={(text) =>
-            setPostGraduate((prev) => {
-              return { ...prev, date_of_attendance: text };
-            })
-          }
+          value={postGraduateDateOfAttendance} // postGraduate.date_of_attendance
+          onValueChange={setPostGraduateDateOfAttendance}
           isRequired={true}
+          showPastDate={true}
+          withDate={true}
+          dateRangeValue={postGraduateDateOfAttendanceDateRange}
+          onDateRangeValueChange={setPostGraduateDateOfAttendanceDateRange}
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"DEGREE/MAJOR"}
           value={postGraduate.degree_major}
           onValueChange={(text) =>
@@ -334,8 +425,9 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"OTHER COURSES"}
-          value={college.degree_major}
+          value={postGraduate.degree_major}
           onValueChange={(text) =>
             setCollege((prev) => {
               return { ...prev, degree_major: text };
@@ -345,19 +437,25 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"date"}
           label={"DATE OF ATTENDANCE"}
-          value={college.date_of_attendance}
-          onValueChange={(text) =>
-            setCollege((prev) => {
-              return { ...prev, date_of_attendance: text };
-            })
-          }
+          value={postGraduateCourseDateOfAttendance} // postGraduate.course_date_of_attendance
+          onValueChange={setPostGraduateCourseDateOfAttendance}
           isRequired={true}
+          showPastDate={true}
+          withDate={true}
+          dateRangeValue={postGraduateCourseDateOfAttendanceDateRange}
+          onDateRangeValueChange={
+            setPostGraduateCourseDateOfAttendanceDateRange
+          }
         />
       </div>
+
+      {/* TECHVOC */}
       <div className="flex flex-wrap justify-between gap-5 mb-5">
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"TECHNICAL/VOCATIONAL/SPECIAL COURSES"}
           value={techVocSpecial.name}
           onValueChange={(text) =>
@@ -369,6 +467,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"ADDRESS"}
           value={techVocSpecial.address}
           onValueChange={(text) =>
@@ -380,17 +479,19 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"date"}
           label={"DATE OF ATTENDANCE"}
-          value={techVocSpecial.date_of_attendance}
-          onValueChange={(text) =>
-            setTechVocSpecial((prev) => {
-              return { ...prev, date_of_attendance: text };
-            })
-          }
+          value={techVocDateOfAttendance} // techVocSpecial.course_date_of_attendance
+          onValueChange={setTechVocDateOfAttendance}
           isRequired={true}
+          showPastDate={true}
+          withDate={true}
+          dateRangeValue={techVocDateOfAttendanceDateRange}
+          onDateRangeValueChange={setTechVocDateOfAttendanceDateRange}
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"DEGREE/MAJOR"}
           value={techVocSpecial.degree_major}
           onValueChange={(text) =>
@@ -402,8 +503,9 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"text"}
           label={"OTHER COURSES"}
-          value={college.degree_major}
+          value={techVocSpecial.degree_major}
           onValueChange={(text) =>
             setCollege((prev) => {
               return { ...prev, degree_major: text };
@@ -413,14 +515,15 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         />
         <FormFieldInput
           isDisabled={viewOnly}
+          type={"date"}
           label={"DATE OF ATTENDANCE"}
-          value={college.date_of_attendance}
-          onValueChange={(text) =>
-            setCollege((prev) => {
-              return { ...prev, date_of_attendance: text };
-            })
-          }
+          value={techVocCourseDateOfAttendance} // techVocSpecial.course_date_of_attendance
+          onValueChange={setTechVocCourseDateOfAttendance}
           isRequired={true}
+          showPastDate={true}
+          withDate={true}
+          dateRangeValue={techVocCourseDateOfAttendanceDateRange}
+          onDateRangeValueChange={setTechVocCourseDateOfAttendanceDateRange}
         />
       </div>
     </>
@@ -435,6 +538,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
         >
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"text"}
             key={"government_association" + e_index}
             label={"GOVERNMENT AGENCY/ASSOCIATION"}
             value={exam.government_association}
@@ -451,6 +555,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           />
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"date"}
             key={"date_taken" + e_index}
             label={"DATE TAKEN"}
             value={exam.date_taken}
@@ -464,15 +569,14 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               );
             }}
             isRequired={true}
+            showPastDate={true}
             withDate={true}
-            date={exam.date_taken}
-            onDateChange={{
-              index: e_index + 1,
-              setFunction: setExaminationTaken,
-            }}
+            dateRangeValue={examinationTakenDateRange[e_index]}
+            onDateRangeValueChange={setExaminationTakenDateRange}
           />
           <FormFieldInput
             isDisabled={viewOnly}
+            type={"text"}
             key={"certification" + e_index}
             label={"CERTIFICATION"}
             value={exam.certification}

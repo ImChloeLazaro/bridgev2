@@ -8,19 +8,39 @@ import {
 import dynamic from "next/dynamic";
 import OnboardingBody from "./OnboardingBody";
 import OnboardingFooter from "./OnboardingFooter";
+import {
+  onboardingTabsAtom,
+  activeStepAtom,
+  onboardingDataAtom,
+  selectedStepperAtom,
+  stepsAtom,
+  selectedTabAtom,
+  selectedTabIndexAtom,
+} from "../store/OnboardingStore";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
   ssr: false,
 });
 
-// const handleFormAction = (e) => {
-//   return false;
-// };
-
 const OnboardingForm = () => {
+  const steps = useAtomValue(stepsAtom);
+  const [activeStep, setActiveStep] = useAtom(activeStepAtom);
+  const setSelectedStepper = useSetAtom(selectedStepperAtom);
+
+  const handleFormAction = (e) => {
+    console.log("FORM ACTION", e);
+
+    if (activeStep <= steps.length - 2) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSelectedStepper(steps[activeStep]);
+    }
+
+    return false;
+  };
   return (
     <Card className="w-[850px] h-[760px]">
-      {/* <form action={handleFormAction}> */}
+      <form action={handleFormAction}>
         <CardHeader className="flex justify-center p-1 mt-2">
           <OnboardingHeader />
         </CardHeader>
@@ -32,7 +52,7 @@ const OnboardingForm = () => {
         <CardFooter className="px-8">
           <OnboardingFooter />
         </CardFooter>
-      {/* </form> */}
+      </form>
     </Card>
   );
 };

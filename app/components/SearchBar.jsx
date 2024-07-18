@@ -59,7 +59,6 @@ const SearchBar = ({
           aria-label="SearchBar filter function"
           items={filterKeys}
           variant="flat"
-          isMultiline={true}
           placeholder="All"
           // selectionMode="multiple"
           disallowEmptySelection={true}

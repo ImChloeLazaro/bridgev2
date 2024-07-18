@@ -24,14 +24,19 @@ import {
   teamHeadSelectionAtom,
   teamMemberSelectionAtom,
   teamSelectionAtom,
+  selectedTeamDepartmentNameAtom,
   updateTeamAtom,
-} from "../store/TeamManagementStore";
+  addDepartmentAtom,
+} from "../store/TeamManagementAdminStore";
 
 const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
   const [selectedTeamNameArchive, setSelectedTeamNameArchive] = useAtom(
     selectedTeamNameArchiveAtom
   );
   const [selectedTeamName, setSelectedTeamName] = useAtom(selectedTeamNameAtom);
+  const [selectedTeamDepartmentName, setSelectedTeamDepartmentName] = useAtom(
+    selectedTeamDepartmentNameAtom
+  );
   const [selectedTeamClient, setSelectedTeamClient] = useAtom(
     selectedTeamClientAtom
   );
@@ -46,6 +51,7 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
   );
 
   const addTeam = useSetAtom(addTeamAtom);
+  const addDepartment = useSetAtom(addDepartmentAtom);
   const updateTeam = useSetAtom(updateTeamAtom);
   const archiveTeamMultiple = useSetAtom(archiveTeamMultipleAtom);
   const deleteTeam = useSetAtom(deleteTeamAtom);
@@ -107,11 +113,12 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       actionColor: "red",
       action: archiveTeamMultiple,
     },
-    add: {
+    team: {
       title: "Add Team",
       form: (
         <>
           <FormFieldInput
+            type={"text"}
             fullWidth={true}
             isRequired={true}
             label={"Team Name"}
@@ -176,6 +183,7 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       form: (
         <>
           <FormFieldInput
+            type={"text"}
             fullWidth={true}
             isRequired={true}
             label={"Team Name"}
@@ -234,6 +242,25 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       actionLabel: "Update Team",
       actionColor: "blue",
       action: updateTeam,
+    },
+    department: {
+      title: "Add Department",
+      form: (
+        <>
+          <FormFieldInput
+            type={"text"}
+            fullWidth={true}
+            isRequired={true}
+            label={"Department Name"}
+            value={selectedTeamDepartmentName}
+            onValueChange={setSelectedTeamDepartmentName}
+            className={"mb-1"}
+          />
+        </>
+      ),
+      actionLabel: "Add Department",
+      actionColor: "green",
+      action: addDepartment,
     },
   };
 

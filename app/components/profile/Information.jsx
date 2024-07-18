@@ -1,6 +1,6 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
 import { Avatar, Divider } from "@nextui-org/react";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -15,14 +15,19 @@ const Information = ({
   const content = {
     text: (
       <div>
-        <p>{data === "NA" && data ? data : "No Data Available"}</p>
+        <p>{data?.length ? data : "No Data Available"}</p>
+      </div>
+    ),
+    number: (
+      <div>
+        <p>{!isNaN(data) ? data : "No Data Available"}</p>
       </div>
     ),
     date: (
       <p>
-        {data === null || data === undefined || data === ""
-          ? "No Data Available"
-          : format(new Date(data), "MMMM dd yyyy")}
+        {isValid(new Date(data))
+          ? format(new Date(data), "MMMM dd yyyy")
+          : "No Data Available"}
       </p>
     ),
     chip: (

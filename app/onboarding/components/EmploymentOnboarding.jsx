@@ -1,6 +1,12 @@
 import { useAtom, useAtomValue } from "jotai";
 import FormFieldInput from "../../components/FormFieldInput";
-import { employmentHistoryAtom, referencesAtom, selectedTabAtom, trainingsAttendedAtom } from "../store/OnboardingStore";
+import {
+  employmentHistoryAtom,
+  referencesAtom,
+  selectedTabAtom,
+  trainingsAttendedAtom,
+  employmentHistoryDateRangeAtom,
+} from "../store/OnboardingStore";
 
 const EmploymentOnboarding = ({ viewOnly }) => {
   const selectedTab = useAtomValue(selectedTabAtom);
@@ -18,6 +24,9 @@ const EmploymentOnboarding = ({ viewOnly }) => {
   const [employmentHistory, setEmploymentHistory] = useAtom(
     employmentHistoryAtom
   );
+  const [employmentHistoryDateRange, setEmploymentHistoryDateRange] = useAtom(
+    employmentHistoryDateRangeAtom
+  );
 
   // Training Attended
   const [trainingsAttended, setTrainingsAttended] = useAtom(
@@ -34,6 +43,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
     >
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"employment_position_held" + h_index}
         label={"POSITION HELD"}
         value={history.position_held}
@@ -50,6 +60,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"date"}
         key={"employment_date_of_attendance" + h_index}
         label={"DATE OF ATTENDANCE"}
         value={history.date_of_attendance}
@@ -63,12 +74,14 @@ const EmploymentOnboarding = ({ viewOnly }) => {
           );
         }}
         isRequired={true}
-        // withDate={true}
-        // date={history.date_of_attendance}
-        // onDateChange={setEmploymentHistory}
+        showPastDate={true}
+        withDate={true}
+        dateRangeValue={employmentHistoryDateRange[h_index]}
+        onDateRangeValueChange={setEmploymentHistoryDateRange}
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"employment_duration" + h_index}
         label={"DURATION"}
         value={history.duration}
@@ -86,6 +99,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
 
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"employment_reason_leaving" + h_index}
         label={"REASON FOR LEAVING"}
         value={history.reason_leaving}
@@ -110,6 +124,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
     >
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"training_program_name" + t_index}
         label={"NAME OF PROGRAM"}
         value={training.program_name}
@@ -127,6 +142,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
 
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"training_topic_specialization" + t_index}
         label={"TOPIC/SPECIALIZATION"}
         value={training.topic_specialization}
@@ -143,6 +159,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"training_duration" + t_index}
         label={"DURATION"}
         value={training.duration}
@@ -159,6 +176,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"training_provider" + t_index}
         label={"PROVIDER"}
         value={training.provider}
@@ -182,6 +200,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
     >
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"reference_name" + r_index}
         label={"NAME"}
         value={reference.name}
@@ -198,6 +217,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"reference_company_name_address" + r_index}
         label={"COMPANY NAME AND ADDRESS"}
         value={reference.company_name_address}
@@ -214,6 +234,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"text"}
         key={"reference_position_held" + r_index}
         label={"POSITION HELD"}
         value={reference.position_held}
@@ -230,6 +251,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
+        type={"number"}
         key={"reference_contact_number" + r_index}
         label={"CONTACT NUMBER"}
         value={reference.contact_number}

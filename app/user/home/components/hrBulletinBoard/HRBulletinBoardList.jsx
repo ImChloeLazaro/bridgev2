@@ -33,7 +33,9 @@ const HRBulletinBoardList = () => {
   };
 
   return (
-    <div className="h-full">
+    // <div className="h-full">
+    <>
+      {/* // <div className="h-full"> */}
       <Listbox
         items={hrBulletinBoard}
         aria-label="HR Bulletin List"
@@ -101,10 +103,11 @@ const HRBulletinBoardList = () => {
           );
         }}
       </Listbox>
-      <div className="h-full">
-        <MiniUnderConstruction card={false}/>
+      <div className="h-full rounded-lg">
+      <MiniUnderConstruction />
       </div>
-    </div>
+    </>
+    // </div>
   );
 };
 

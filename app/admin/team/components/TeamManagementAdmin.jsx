@@ -31,12 +31,15 @@ import {
   selectedTeamNameAtom,
   teamFilterKeysAtom,
   teamsAtom,
-} from "../store/TeamManagementStore";
+  selectedTeamDepartmentNameAtom,
+  fetchDepartmentsAtom,
+} from "../store/TeamManagementAdminStore";
 import TeamCard from "./TeamCard";
 import UpdateTeamModal from "./UpdateTeamModal";
 
-const TeamManagement = () => {
+const TeamManagementAdmin = () => {
   const fetchTeams = useSetAtom(fetchTeamsAtom);
+  const fetchDepartments = useSetAtom(fetchDepartmentsAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
   const setTeamName = useSetAtom(selectedTeamNameAtom);
@@ -45,11 +48,13 @@ const TeamManagement = () => {
   const setTeamMembers = useSetAtom(selectedTeamMembersAtom);
   const setTeamNameArchive = useSetAtom(selectedTeamNameArchiveAtom);
   const setTeamDepartment = useSetAtom(selectedTeamDepartmentAtom);
+  const selectedTeamDepartmentName = useSetAtom(selectedTeamDepartmentNameAtom);
 
   useEffect(() => {
     fetchTeams();
+    fetchDepartments();
     fetchClient();
-  }, [fetchClient, fetchTeams]);
+  }, [fetchClient, fetchDepartments, fetchTeams]);
 
   const teams = useAtomValue(teamsAtom);
 
@@ -127,7 +132,10 @@ const TeamManagement = () => {
     if (action === "archive") {
       setTeamNameArchive(new Set([]));
     }
-    if (action === "add") {
+    if (action === "department") {
+      selectedTeamDepartmentName("");
+    }
+    if (action === "team") {
       setTeamName("");
       setTeamClient(new Set([]));
       setTeamHeads(new Set([]));
@@ -217,10 +225,18 @@ const TeamManagement = () => {
                 className={"px-8 py-5 font-medium text-sm"}
               />
               <CTAButtons
+                label={"Add Department"}
+                color={"green"}
+                onPress={() => {
+                  handleTeamUpdate("department");
+                }}
+                className={"px-8 py-5 font-medium text-sm"}
+              />
+              <CTAButtons
                 label={"Add Team"}
                 color={"blue"}
                 onPress={() => {
-                  handleTeamUpdate("add");
+                  handleTeamUpdate("team");
                 }}
                 className={"px-8 py-5 font-medium text-sm"}
               />
@@ -272,10 +288,10 @@ const TeamManagement = () => {
                     </div>
                   )
                 ) : (
-                  <div className="grid grid-cols-2 xl:grid-cols-1">
-                    {/* {filteredTeamItems?.map((team) => (
-                      // <TeamCard key={team.key} team={team} />
-                    ))} */}
+                  <div className="grid grid-cols-3 lg:grid-cols-2 xl:grid-cols-1">
+                    {filteredTeamItems?.map((team) => (
+                      <TeamCard key={team.key} team={team} />
+                    ))}
                   </div>
                 )}
               </div>
@@ -293,4 +309,4 @@ const TeamManagement = () => {
   );
 };
 
-export default TeamManagement;
+export default TeamManagementAdmin;

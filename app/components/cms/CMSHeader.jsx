@@ -4,8 +4,6 @@ import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
   fetchTaskAtom,
-  logOverDueTasksAtom,
-  recurrenceTaskAtom
 } from "@/app/store/TaskStore";
 import { Tooltip } from "@nextui-org/react";
 import { getHours, getMinutes, getSeconds } from "date-fns";
@@ -41,8 +39,7 @@ const CMSHeader = ({
   setShowClientDetails,
   children,
 }) => {
-  const recurrenceTask = useSetAtom(recurrenceTaskAtom);
-  const logOverDueTasks = useSetAtom(logOverDueTasksAtom);
+
   const clients = useAtomValue(clientsAtom);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
@@ -62,8 +59,6 @@ const CMSHeader = ({
         setTimeout(
           async () =>
             resolve(
-              // await recurrenceTask(),
-              // await logOverDueTasks(),
               await fetchTask(),
               await fetchClient()
             ),
@@ -97,37 +92,7 @@ const CMSHeader = ({
     (client) => client._id === selectedClientToView
   )[0]?.company.name;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      let now = new Date();
-      // console.log(getHours(now), ":", getMinutes(now), ":", getSeconds(now));
 
-      if (
-        // 7:30:01AM AU TIME
-        getHours(now) == 7 &&
-        getMinutes(now) == 30 &&
-        getSeconds(now) == 1
-      ) {
-        // Reset task progress and set new task due date based on recurrence
-        recurrenceTask();
-        fetchTask();
-      }
-
-      if (
-        // 5:00:01PM AU TIME
-        getHours(now) == 5 &&
-        getMinutes(now) == 0 &&
-        getSeconds(now) == 1
-      ) {
-        // Logs Overdue tasks
-        logOverDueTasks();
-        fetchTask();
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="w-full flex-wrap flex gap-2">

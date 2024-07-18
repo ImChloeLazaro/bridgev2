@@ -9,7 +9,6 @@ import {
 } from "@nextui-org/react";
 import { signOut } from "aws-amplify/auth";
 import { useAtomValue } from "jotai";
-import "../../../aws-auth";
 import { userOptionsAtom } from "../../store/NavSideBarStore";
 import SwitchRoles from "./SwitchRoles";
 

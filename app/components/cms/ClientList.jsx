@@ -71,14 +71,7 @@ const ClientList = ({
           ) : (
             clients.map((client, index) => {
               return (
-                <Suspense
-                  key={index}
-                  fallback={
-                    <div className="w-full flex justify-center items-center">
-                      {"LOADING"}
-                    </div>
-                  }
-                >
+                <Suspense key={index} fallback={<Spinner label="Loading..." />}>
                   <ClientItemCard
                     key={index}
                     clientName={client.company?.name}

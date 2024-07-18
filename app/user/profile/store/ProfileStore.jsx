@@ -1,7 +1,6 @@
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { readwithparams } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import "../../../aws-auth";
 
 export const profileTabsAtom = atom([
   { key: "about", title: "About" },
@@ -15,7 +14,14 @@ export const selectedProfileTabAtom = atom("about");
 // Personal Information
 export const personalInfoAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  return await readwithparams("/profile/information", { sub: auth.sub });
+  const response = await readwithparams("/profile/information", {
+    sub: auth.sub,
+  });
+  if (response?.success) {
+    return response.response;
+  } else {
+    return {};
+  }
 });
 
 // Employee Information
@@ -27,16 +33,15 @@ export const personalInfoAtom = atom(async (get) => {
 //Team
 export const teamStatusAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  // const teams = await readwithparams("/teams/employee", {
-  //   // sub: "d0229811-67cc-4fb8-915b-38d8029b85df",
-  //   sub: auth.sub,
-  // });
+  const response = await readwithparams("/teams/team/employee", {
+    sub: auth.sub,
+  });
 
-  // if (teams?.success) {
-  //   return teams.response;
-  // } else {
-  //   return null;
-  // }
+  if (response?.success) {
+    return response.response;
+  } else {
+    return {};
+  }
 });
 
 //Leaves
@@ -92,7 +97,6 @@ export const clientSubItemDataAtom = atom(async (get) => {
 });
 export const clientItemDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
-  console.log("auth: ", auth);
   return await readwithparams("/teams/team/myTeam", {
     sub: auth.sub,
   });

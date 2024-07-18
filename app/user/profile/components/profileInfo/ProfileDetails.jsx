@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@nextui-org/react";
+import { Spinner, Tab, Tabs } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   profileTabsAtom,
@@ -8,6 +8,7 @@ import AboutInfo from "./AboutInfo";
 import ClientsInfo from "./ClientsInfo";
 import ProfileInfo from "./ProfileInfo";
 import TeamInfo from "./TeamInfo";
+import { Suspense } from "react";
 
 const ProfileDetails = () => {
   const [selectedProfileTab, setSelectedProfileTab] = useAtom(
@@ -40,10 +41,42 @@ const ProfileDetails = () => {
                 title={<p className="capitalize">{tab.title}</p>}
               >
                 <div className="mt-2">
-                  {selectedProfileTab === "about" && <AboutInfo />}
-                  {selectedProfileTab === "profile" && <ProfileInfo />}
-                  {selectedProfileTab === "clients" && <ClientsInfo />}
-                  {selectedProfileTab === "team" && <TeamInfo />}
+                  {selectedProfileTab === "about" && (
+                    <Suspense
+                      fallback={
+                        <Spinner className="h-full w-full flex items-center justify-center" />
+                      }
+                    >
+                      <AboutInfo />
+                    </Suspense>
+                  )}
+                  {selectedProfileTab === "profile" && (
+                    <Suspense
+                      fallback={
+                        <Spinner className="h-full w-full flex items-center justify-center" />
+                      }
+                    >
+                      <ProfileInfo />
+                    </Suspense>
+                  )}
+                  {selectedProfileTab === "clients" && (
+                    <Suspense
+                      fallback={
+                        <Spinner className="h-full w-full flex items-center justify-center" />
+                      }
+                    >
+                      <ClientsInfo />
+                    </Suspense>
+                  )}
+                  {selectedProfileTab === "team" && (
+                    <Suspense
+                      fallback={
+                        <Spinner className="h-full w-full flex items-center justify-center" />
+                      }
+                    >
+                      <TeamInfo />
+                    </Suspense>
+                  )}
                 </div>
               </Tab>
             );

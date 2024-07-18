@@ -45,7 +45,7 @@ const RecognitionList = () => {
         items={recognitions}
         aria-label="Recognition List"
         className="hidden"
-        onAction={(key) => console.log(key)}
+        // onAction={(key) => console.log(key)}
         emptyContent={
           <div className="w-full p-0 flex flex-col items-center mt-6 xl:mt-8 text-center">
             <Image
@@ -102,7 +102,7 @@ const RecognitionList = () => {
         }}
       </Listbox>
       <div className="h-full">
-        <MiniUnderConstruction card={false}/>
+        <MiniUnderConstruction />
       </div>
     </div>
   );

@@ -24,7 +24,6 @@ const TagPersonSelect = () => {
         aria-label="Tag People Selection"
         items={taggedPeopleList}
         variant="bordered"
-        isMultiline={true}
         selectionMode="multiple"
         placeholder="Tag people"
         labelPlacement="outside"

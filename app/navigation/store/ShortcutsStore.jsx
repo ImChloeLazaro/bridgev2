@@ -5,7 +5,6 @@ import {
   restupdate,
 } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
-import "../../aws-auth";
 
 export const shortcutsAtom = atom([]);
 

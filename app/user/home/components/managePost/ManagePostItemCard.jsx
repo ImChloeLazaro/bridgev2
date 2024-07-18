@@ -8,7 +8,6 @@ import {
   CardHeader,
   User,
 } from "@nextui-org/react";
-import "../../../../aws-auth";
 import MediaLayoutPreview from "../mediaLayout/MediaLayoutPreview";
 import { reactionIcons } from "../reaction/ReactionIcons";
 

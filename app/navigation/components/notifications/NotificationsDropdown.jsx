@@ -19,7 +19,6 @@ import {
   MdNotificationsNone,
 } from "react-icons/md";
 import useSound from "use-sound";
-import "../../../aws-auth";
 import {
   notificationsAtom,
   notificationSocketRefAtom,

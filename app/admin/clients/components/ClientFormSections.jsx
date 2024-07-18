@@ -28,6 +28,7 @@ import {
   financialInventoryAtom,
   financialInvoicePreparationMethodAtom,
   financialLastFiledTaxAtom,
+  financialLastFiledTaxDateRangeAtom,
   financialMonthlyRevenueAtom,
   financialMonthlyTransactionsCountAtom,
   financialOutsourcePayrollAtom,
@@ -90,6 +91,8 @@ const ClientFormSections = () => {
   const [financialLastFiledTax, setFinancialLastFiledTax] = useAtom(
     financialLastFiledTaxAtom
   );
+  const [financialLastFiledTaxDateRange, setFinancialLastFiledTaxDateRange] =
+    useAtom(financialLastFiledTaxDateRangeAtom);
   const [financialAccountMethod, setFinancialAccountMethod] = useAtom(
     financialAccountMethodAtom
   );
@@ -365,9 +368,8 @@ const ClientFormSections = () => {
           placeholder={"Set a date"}
           showPastDate={true}
           withDate={true}
-          date={financialLastFiledTax}
-          onDateChange={setFinancialLastFiledTax}
-          isDateModal={true}
+          dateRangeValue={financialLastFiledTaxDateRange}
+          onDateRangeValueChange={setFinancialLastFiledTaxDateRange}
           fullWidth={true}
         />
       </div>

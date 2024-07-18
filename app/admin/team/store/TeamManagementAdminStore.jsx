@@ -44,6 +44,7 @@ export const teamFilterKeysAtom = atom([
 export const selectedTeamFilterKeysAtom = atom(new Set(["all"]));
 
 export const teamsAtom = atom([]);
+export const departmentAtom = atom([]);
 
 export const fetchTeamsAtom = atom(null, async (get, set, update) => {
   const teams = await restread("/teams/team");
@@ -52,6 +53,18 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
       return { ...team, key: team._id };
     });
     set(teamsAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
+
+export const fetchDepartmentsAtom = atom(null, async (get, set, update) => {
+  const teams = await restread("/teams/department");
+  if (teams?.success) {
+    const convertedDepartments = teams.response.map((department, index) => {
+      return { ...department, key: department._id };
+    });
+    set(departmentAtom, convertedDepartments);
   } else {
     console.error("Failed to fetch teams", teams?.error);
   }
@@ -66,6 +79,7 @@ export const memberStatusAtom = atom(new Set());
 export const memberEmploymentStatusAtom = atom(new Set());
 
 export const selectedTeamNameAtom = atom("");
+export const selectedTeamDepartmentNameAtom = atom("");
 export const selectedTeamClientAtom = atom(new Set([]));
 export const selectedTeamHeadsAtom = atom(new Set([]));
 export const selectedTeamMembersAtom = atom(new Set([]));
@@ -75,16 +89,13 @@ export const selectedTeamNameArchiveAtom = atom(new Set([]));
 export const selectedTeamIDAtom = atom("");
 
 export const teamDepartmentSelectionAtom = atom((get) =>
-  get(teamFilterKeysAtom)
-    .slice(1)
-    .map((team) => {
-      return {
-        ...team,
-        key: team.value,
-        name: team.label,
-        status: "active",
-      };
-    })
+  get(departmentAtom).map((department) => {
+    return {
+      ...department,
+      key: department._id,
+      value: department.name,
+    };
+  })
 );
 
 export const teamSelectionAtom = atom((get) =>
@@ -133,7 +144,6 @@ export const teamDataAtom = atom((get) => {
   const teamHeadSelection = get(teamHeadSelectionAtom);
   const teamMembersSelection = get(teamMemberSelectionAtom);
   const teamDepartmentSelection = get(teamDepartmentSelectionAtom);
-
 
   return {
     _id: selectedTeamID,
@@ -185,6 +195,34 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
   });
 });
 
+export const addDepartmentAtom = atom(null, async (get, set, update) => {
+  let departmentData = {};
+  departmentData = {
+    name: get(selectedTeamDepartmentNameAtom),
+  };
+
+  const promise = async () =>
+    new Promise((resolve) =>
+      setTimeout(
+        async () =>
+          resolve(
+            await restinsert("/teams/department", departmentData),
+            await set(fetchDepartmentsAtom, {})
+          ),
+        2000
+      )
+    );
+  toast.promise(promise, {
+    description: `${format(new Date(), "PPpp")}`,
+    loading: "Adding Department...",
+    success: () => {
+      return `Department added successfully`;
+    },
+
+    error: "Error Adding Department",
+  });
+});
+
 export const updateTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
 
@@ -228,7 +266,6 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
     },
   };
 
-
   const promise = async () =>
     new Promise((resolve) =>
       setTimeout(
@@ -257,7 +294,6 @@ export const archiveTeamAtom = atom(null, async (get, set, update) => {
     status: action,
     _id: team_id,
   };
-
 
   const promise = async () =>
     new Promise((resolve) =>
@@ -292,7 +328,6 @@ export const archiveTeamMultipleAtom = atom(null, async (get, set, update) => {
   const teamsToBeArchived = get(teamsAtom).filter((team) =>
     Array.from(selectedTeamNameArchive).includes(team._id)
   );
-
 
   const promise = async () =>
     new Promise((resolve) =>

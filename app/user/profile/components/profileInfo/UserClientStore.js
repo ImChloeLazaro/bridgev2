@@ -1,3 +1,5 @@
+import { Link } from "@nextui-org/react";
+
 export const subTeamData = [
   {
     name: "Alpha Team",
@@ -308,17 +310,17 @@ export const columnData = [
   {
     header: ({ table }) => (
       <input
-        type='checkbox'
+        type="checkbox"
         checked={table.getIsAllRowsSelected()}
         indeterminate={table.getIsSomeRowsSelected()}
         onChange={table.getToggleAllRowsSelectedHandler()}
       />
     ),
     cell: ({ row }) => (
-      <div className='w-full flex h-full items-center'>
+      <div className="w-full flex h-full items-center">
         <input
-          className='border h-[12px] w-full'
-          type='checkbox'
+          className="border h-[12px] w-full"
+          type="checkbox"
           checked={row.getIsSelected()}
           onChange={row.getToggleSelectedHandler()}
         />
@@ -336,7 +338,9 @@ export const columnData = [
     cell: ({ row }) => (
       <div>
         {row?.original?.client?.map((client, index) => (
-          <p key={index}>{client.name}</p>
+          <Link href="#" underline="hover" key={index} className="text-black-default">
+            {client.name}
+          </Link>
         ))}
       </div>
     ),
@@ -352,19 +356,19 @@ export const columnData = [
     id: "members",
     accessorKey: "members",
     cell: ({ row }) => (
-      <div className='flex flex-wrap w-full items-center'>
-        <div className='relative w-9 h-9'>
+      <div className="flex flex-wrap w-full items-center">
+        <div className="relative w-9 h-9">
           {row?.original?.members?.map((member, index) => (
             <div
               key={index}
-              className='absolute w-8 h-8 rounded-full'
+              className="absolute w-8 h-8 rounded-full"
               title={member.name}
               style={{ right: `${index * -20}px`, zIndex: index }}
             >
               <img
-                className='rounded-full w-full h-full'
+                className="rounded-full w-full h-full"
                 src={member.picture}
-                alt='user'
+                alt="user"
               />
             </div>
           ))}
@@ -378,17 +382,17 @@ export const teamColumnData = [
   {
     header: ({ table }) => (
       <input
-        type='checkbox'
+        type="checkbox"
         checked={table.getIsAllRowsSelected()}
         indeterminate={table.getIsSomeRowsSelected()}
         onChange={table.getToggleAllRowsSelectedHandler()}
       />
     ),
     cell: ({ row }) => (
-      <div className='w-full flex h-full items-center'>
+      <div className="w-full flex h-full items-center">
         <input
-          className='border h-[12px] w-full'
-          type='checkbox'
+          className="border h-[12px] w-full"
+          type="checkbox"
           checked={row.getIsSelected()}
           onChange={row.getToggleSelectedHandler()}
         />
@@ -435,19 +439,19 @@ export const teamColumnData = [
     id: "members",
     accessorKey: "members",
     cell: ({ row }) => (
-      <div className='flex flex-wrap w-full items-center'>
-        <div className='relative w-9 h-9'>
+      <div className="flex flex-wrap w-full items-center">
+        <div className="relative w-9 h-9">
           {row?.original?.members?.map((member, index) => (
             <div
               key={index}
-              className='absolute w-8 h-8 rounded-full'
+              className="absolute w-8 h-8 rounded-full"
               title={member.name}
               style={{ right: `${index * -20}px`, zIndex: index }}
             >
               <img
-                className='rounded-full w-full h-full'
+                className="rounded-full w-full h-full"
                 src={member.picture}
-                alt='user'
+                alt="user"
               />
             </div>
           ))}

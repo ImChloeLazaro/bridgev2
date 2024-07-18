@@ -58,6 +58,12 @@ import {
   taskDurationAtom,
   taskInstructionAtom,
   taskNameAtom,
+  selectedTeamForTaskAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
+  fetchTeamsAtom,
+  filterClientAtom,
+  clientSelectionForTaskAtom,
 } from "../store/CMSTLStore";
 
 // @refresh reset
@@ -81,6 +87,8 @@ const CMSTL = () => {
   });
 
   const user = useAtomValue(authenticationAtom);
+
+  const filterClient = useAtomValue(filterClientAtom);
 
   const clients = useAtomValue(clientsAtom);
   const tasks = useAtomValue(tasksAtom);
@@ -218,11 +226,9 @@ const CMSTL = () => {
   ).join("");
 
   const filteredClientItems = useMemo(() => {
-    const clientIDFromTasks = userTasks.map((task) => task.client?.client_id);
-
-    let filteredClients = [
-      ...clients.filter((client) => clientIDFromTasks.includes(client._id)),
-    ];
+    let filteredClients = clients.filter((client) =>
+      filterClient.map((client) => client._id).includes(client._id)
+    );
 
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
@@ -243,11 +249,11 @@ const CMSTL = () => {
 
     return filteredClients;
   }, [
-    userTasks,
     clients,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
+    filterClient,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -426,6 +432,9 @@ const CMSTL = () => {
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
+              teamSelectionAtom={teamSelectionAtom}
+              teamsByClientSelectionAtom={teamsByClientSelectionAtom}
+              selectedTeamForTaskAtom={selectedTeamForTaskAtom}
               selectedProcessorAtom={selectedProcessorAtom}
               selectedReviewerAtom={selectedReviewerAtom}
               selectedManagerAtom={selectedManagerAtom}
@@ -434,6 +443,8 @@ const CMSTL = () => {
               dateRangeAtom={dateRangeAtom}
               startTimeAtom={startTimeAtom}
               endTimeAtom={endTimeAtom}
+              fetchTeamsAtom={fetchTeamsAtom}
+              clientSelectionForTaskAtom={clientSelectionForTaskAtom}
             />
           </CMSHeader>
         </CardHeader>

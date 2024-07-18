@@ -700,7 +700,6 @@ export const taskBoardColsCountAtom = atom(
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
-
   if (tasks?.success) {
     const convertedTasks = tasks.response.map((task, index) => {
       return {
@@ -717,10 +716,10 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
 });
 
 export const recurrenceStartTimeAtom = atom((get) => {
-  return 8;
+  return { hours: 8, minutes: 0, seconds: 0 };
 });
 export const recurrenceEndTimeAtom = atom((get) => {
-  return 5;
+  return { hours: 17, minutes: 0, seconds: 0 };
 });
 
 export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
@@ -741,21 +740,21 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
             status: "todo",
           };
         }
+        // Add validation for weekends and holidays (array lookup)
         if (sla.status === "todo" || sla.status === "done") {
           if (sla.duration.recurrence.toLowerCase() === "daily") {
             let difference = differenceInDays(
               new Date(),
               new Date(sla.duration.end.slice(0, -1))
             );
+
+            console.log("difference daily", difference);
             if (difference >= 1) {
               return {
                 ...sla,
                 duration: {
                   ...sla.duration,
                   end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .set({
-                      hour: 17,
-                    })
                     .add({
                       days: 1,
                     })
@@ -769,15 +768,14 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
               new Date(),
               new Date(sla.duration.end.slice(0, -1))
             );
+            console.log("difference weekly", difference);
+
             if (difference >= 1) {
               return {
                 ...sla,
                 duration: {
                   ...sla.duration,
                   end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .set({
-                      hour: 17,
-                    })
                     .add({
                       weeks: 1,
                     })
@@ -791,15 +789,14 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
               new Date(),
               new Date(sla.duration.end.slice(0, -1))
             );
+            console.log("difference monthly", difference);
+
             if (difference >= 1) {
               return {
                 ...sla,
                 duration: {
                   ...sla.duration,
                   end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .set({
-                      hour: 17,
-                    })
                     .add({
                       months: 1,
                     })
@@ -813,15 +810,14 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
               new Date(),
               new Date(sla.duration.end.slice(0, -1))
             );
+            console.log("difference quarterly", difference);
+
             if (difference >= 1) {
               return {
                 ...sla,
                 duration: {
                   ...sla.duration,
                   end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .set({
-                      hour: 17,
-                    })
                     .add({
                       months: 3,
                     })
@@ -835,15 +831,14 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
               new Date(),
               new Date(sla.duration.end.slice(0, -1))
             );
+            console.log("difference yearly", difference);
+
             if (difference >= 1) {
               return {
                 ...sla,
                 duration: {
                   ...sla.duration,
                   end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .set({
-                      hour: 17,
-                    })
                     .add({
                       years: 1,
                     })
@@ -858,16 +853,15 @@ export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
         }
       });
 
-
       return { ...task, sla: updatedEndDateTime };
     });
 
-    const responseAll = await Promise.all(
-      convertedTasks.map(async (task) => {
-        const response = await restupdate("/cms/task", task);
-        return { success: response?.success ?? false };
-      })
-    );
+    // const responseAll = await Promise.all(
+    //   convertedTasks.map(async (task) => {
+    //     const response = await restupdate("/cms/task", task);
+    //     return { success: response?.success ?? false };
+    //   })
+    // );
     // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
     return { success: true };
   } else {
@@ -885,6 +879,7 @@ export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
         if (sla.status === "todo") {
           let isOverdue =
             compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
+          console.log("isOverdue", sla, isOverdue);
           return {
             ...sla,
             progress: isOverdue ? "overdue" : sla.progress,
@@ -905,12 +900,12 @@ export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
       };
     });
 
-    const responseAll = await Promise.all(
-      convertedTasks.map(async (task) => {
-        const response = await restupdate("/cms/task", task);
-        return { success: response?.success ?? false };
-      })
-    );
+    // const responseAll = await Promise.all(
+    //   convertedTasks.map(async (task) => {
+    //     const response = await restupdate("/cms/task", task);
+    //     return { success: response?.success ?? false };
+    //   })
+    // );
     // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
     return { success: true };
   } else {
