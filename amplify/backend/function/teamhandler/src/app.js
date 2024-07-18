@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require("mongoose")
 const teamModel = require('/opt/schema/teamSchema.js')
+const clientModel = require('/opt/schema/cmsClientSchema.js')
 const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
 const app = express()
@@ -29,8 +30,8 @@ app.get('/teams/team', async function (req, res) {
 
 app.get('/teams/team/*', async function (req, res) {
   try {
-    const sub = req.query.sub; // Extract sub from query parameters
-    const key = req.path; // Use req.path to get the URL path
+    const {sub, method} = req.query;
+    const key = req.path; 
     switch (key) {
       case '/teams/team/employee':
         const employee_team = await teamModel.findOne({ sub: sub })
@@ -46,8 +47,15 @@ app.get('/teams/team/*', async function (req, res) {
         res.json({ success: true, route: "MY TEAM ROUTE", response: my_team });
         break;
       case '/teams/team/filterClient':
-        const filter_client = await teamModel.find({ "heads.sub": sub })
-        const clients = filter_client.flatMap(team =>
+        let filter_client;
+        let clients = [];
+        if(method === 'all') {
+           filter_client = await clientModel.find();
+        }
+        if(method === 'filtered') {
+           filter_client = await teamModel.find({ "heads.sub": sub });
+        }
+          clients = filter_client.flatMap(team =>
           team.client.map(client => ({
             key: client._id,
             _id: client._id,
@@ -55,8 +63,13 @@ app.get('/teams/team/*', async function (req, res) {
             email: client.email
           }))
         );
-        res.json({ success: true, response: clients });
+        const uniqueClients = clients.filter((client, index, self) =>
+          index === self.findIndex((c) => c._id === client._id)
+        );
+
+        res.json({ success: true, response: uniqueClients });
         break;
+
       default:
         res.json({ success: true, response: "NO ROUTES INCLUDE", url: req.url });
         break;
