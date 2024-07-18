@@ -15,7 +15,7 @@ import {
   const TeamPopover = ({ data, updateTeamInList }) => {
     const { isOpen, onOpenChange } = useDisclosure();
     const [isModalOpen, setModalOpen] = useState(false);
-  
+      
     const keyHandler = async (key) => {
       if (key === "update") {
         setModalOpen(true);

@@ -22,7 +22,7 @@
         "benefithandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/benefithandler-4a465079645069624757-build.zip"
+          "s3Key": "amplify-builds/benefithandler-42377635775973656f67-build.zip"
         },
         "bridgesocket": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -42,7 +42,7 @@
         "cronshandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/cronshandler-4b755764717a44496451-build.zip"
+          "s3Key": "amplify-builds/cronshandler-5979386e384a796a6e43-build.zip"
         },
         "departmenthandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -91,7 +91,7 @@
         "teamhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/teamhandler-424b65326834766e3338-build.zip"
+          "s3Key": "amplify-builds/teamhandler-49364c6b364534437356-build.zip"
         },
         "todohandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -101,7 +101,7 @@
         "userhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/userhandler-337367492f4a4e4a7961-build.zip"
+          "s3Key": "amplify-builds/userhandler-386a56735539552b3744-build.zip"
         },
         "workspacehandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -118,9 +118,6 @@
       },
       "storage": {
         "bridgeProductionStorage": {}
-      },
-      "api": {
-        "bridgeApi": {}
       }
     }
   }
