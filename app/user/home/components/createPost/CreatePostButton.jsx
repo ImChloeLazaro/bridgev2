@@ -9,7 +9,6 @@ import {
   selectedTemplateTypeAtom,
 } from "../../store/ManagePostStore";
 import ManagePostModal from "../managePost/ManagePostModal";
-import CTAButtons from "@/app/components/CTAButtons";
 
 const CreatePostButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -37,7 +36,15 @@ const CreatePostButton = () => {
   };
   return (
     <>
-      <CTAButtons label={"Create a Post"} className={"flex justify-start items-center h-12 bg-transparent"} cnLabel={"font-medium"} variant="ghost" disableRipple onPress={() => handleSelectionChange(new Set(["custom"]))}/>
+      <Button
+        disableRipple
+        disableAnimation
+        isIconOnly
+        className="bg-transparent w-full h-12 lg:h-16 text-sm md:text-base lg:text-lg font-medium text-black-default border-[2.5px] rounded-lg border-grey-hover/80 border-solid flex justify-start items-center pl-4"
+        onPress={() => handleSelectionChange(new Set(["custom"]))}
+      >
+        {"Create a Post"}
+      </Button>
       <ManagePostModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}

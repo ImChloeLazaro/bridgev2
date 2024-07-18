@@ -7,7 +7,6 @@ import {
   Button,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import "../../../../aws-auth";
 import ManagePostMainContent from "./ManagePostMainContent";
 import ManagePostSidebar from "./ManagePostSidebar";
 import { MdKeyboardArrowRight } from "react-icons/md";

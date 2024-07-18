@@ -12,6 +12,7 @@ const FormFieldSelect = ({
   isRequired,
   isDisabled,
   disabledValidation = false,
+  disallowEmptySelection = true,
   errorMessage,
   renderItemPicture = false,
   renderType = "dropdown",
@@ -94,7 +95,8 @@ const FormFieldSelect = ({
       isDisabled={isDisabled ? isDisabled : selection.size === 0}
       isInvalid={!isInvalid || !touched ? false : true}
       validationBehavior={"native"}
-      disallowEmptySelection={true}
+      isMultiline={renderType === "chip"}
+      disallowEmptySelection={disallowEmptySelection}
       placeholder={placeholder}
       selectionMode={selectionMode}
       selectedKeys={selected}

@@ -1,12 +1,8 @@
 import { Tab, Tabs } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
-import { useMemo } from "react";
 import {
   activeStepAtom,
-  applicationTabsAtom,
-  backgroundTabsAtom,
-  contactTabsAtom,
-  employmentTabsAtom,
+  onboardingTabsAtom,
   selectedTabAtom,
 } from "../store/OnboardingStore";
 import ApplicationOnboarding from "./ApplicationOnboarding";
@@ -17,29 +13,7 @@ import EmploymentOnboarding from "./EmploymentOnboarding";
 const OnboardingBody = ({ viewOnly }) => {
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
   const activeStep = useAtomValue(activeStepAtom);
-
-  const applicationTabs = useAtomValue(applicationTabsAtom);
-  const backgroundTabs = useAtomValue(backgroundTabsAtom);
-  const employmentTabs = useAtomValue(employmentTabsAtom);
-  const contactTabs = useAtomValue(contactTabsAtom);
-
-  const onboardingTabs = useMemo(
-    () => [
-      applicationTabs.map((tab) => {
-        return { key: tab, title: tab.replaceAll("_", " ") };
-      }),
-      backgroundTabs.map((tab) => {
-        return { key: tab, title: tab.replaceAll("_", " ") };
-      }),
-      employmentTabs.map((tab) => {
-        return { key: tab, title: tab.replaceAll("_", " ") };
-      }),
-      contactTabs.map((tab) => {
-        return { key: tab, title: tab.replaceAll("_", " ") };
-      }),
-    ],
-    [applicationTabs, backgroundTabs, contactTabs, employmentTabs]
-  );
+  const onboardingTabs = useAtomValue(onboardingTabsAtom);
 
   const onboardingContent = [
     <ApplicationOnboarding viewOnly={viewOnly} key={0} />,
@@ -68,16 +42,7 @@ const OnboardingBody = ({ viewOnly }) => {
         >
           {onboardingTabs[activeStep]?.map((tab) => {
             return (
-              <Tab
-                key={tab.key}
-                title={
-                  <p className="capitalize">
-                    {tab.key === "government_id_information"
-                      ? "Government ID Information"
-                      : tab.title}
-                  </p>
-                }
-              >
+              <Tab key={tab.key} title={tab.title}>
                 <div className="h-80 flex gap-y-6 px-5 mb-6 overflow-y-scroll">
                   {onboardingContent[activeStep]}
                 </div>

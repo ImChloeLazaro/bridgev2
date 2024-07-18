@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Image } from "@nextui-org/react";
-import "../../../../aws-auth";
 
 const MediaLayoutPreview = ({
   mediaFileList = [],

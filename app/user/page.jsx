@@ -6,7 +6,6 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
 import { MdFeed, MdGridView } from "react-icons/md";
-import "../aws-auth";
 import NavigationTab from "../navigation/components/NavigationTab";
 import { userRegisterAtom } from "../store/UserStore";
 import BirthdayCard from "./home/components/birthday/BirthdayCard";
@@ -18,6 +17,13 @@ import RexWinnerCard from "./home/components/rexWinner/RexWinnerCard";
 import TrainingList from "./home/components/training/TrainingList";
 
 const User = () => {
+  const userRegister = useSetAtom(userRegisterAtom);
+
+  useEffect(() => {
+    userRegister();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <MainContent>
@@ -32,7 +38,7 @@ const User = () => {
             </>
           }
           right={
-            <div className='w-full flex flex-col justify-center items-center gap-2'>
+            <div className="w-full flex flex-col justify-center items-center gap-2">
               <RexWinnerCard />
               <BirthdayCard />
 

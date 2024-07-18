@@ -7,7 +7,6 @@ import { Button, Checkbox, CheckboxGroup, Image, cn } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { MdClose, MdMinimize } from "react-icons/md";
-import "../../../../aws-auth";
 import {
   addArchivePostAtom,
   archivedPostListAtom,

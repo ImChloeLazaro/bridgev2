@@ -272,9 +272,9 @@ export const financialBillsPayingMethodAtom = atom("");
 export const financialGSTRegisteredAtom = atom(false);
 export const financialInventoryAtom = atom(false);
 
-export const financialLastFiledDateRangeAtom = atom({
+export const financialLastFiledTaxDateRangeAtom = atom({
   start: today(getLocalTimeZone()),
-  end: today(getLocalTimeZone()).add({ days: 1 }),
+  end: today(getLocalTimeZone()),
 });
 
 export const softwareAccountingAtom = atom("");
@@ -324,7 +324,7 @@ export const clientDataAtom = atom((get) => {
       accounts: get(financialAccountCountAtom),
       monthly_transactions_count: get(financialMonthlyTransactionsCountAtom),
       last_filed_tax: toCalendarDateTime(
-        get(financialLastFiledDateRangeAtom).start,
+        get(financialLastFiledTaxDateRangeAtom).start,
         new Time()
       ).toString(),
       accounting_method: get(financialAccountMethodAtom),

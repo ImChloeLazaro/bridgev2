@@ -11,23 +11,9 @@ const MemberSelect = ({
     handleInvitees,
     defaultSelectedKeys = new Set(),
     useGlobalState = false,
-    action,
 }) => {
     const [selectedInvitees, setSelectedInvitees] = useGlobalState ? useAtom(selectedTaggedPeopleAtom) : useState(defaultSelectedKeys);
     const PeopleList = useAtomValue(taggedPeopleListAtom);
-
-    // console.log("invitees" + [...selectedInvitees])
-
-    // selectedInvitees.forEach(Invitee => {
-    //     console.log(Invitee._id)
-    // })
-
-    // PeopleList.forEach(Invitee => {
-    //     console.log(`People List ${Invitee.key}`)
-    // })
-
-    const selectedInviteArray = [...selectedInvitees]
-    const inviteeNames = selectedInviteArray.map(invitee => invitee.email)
 
     const handleSelectionChange = (selectedKeys) => {
         const selectedPeople = Array.from(selectedKeys)
@@ -60,8 +46,7 @@ const MemberSelect = ({
             selectionMode="multiple"
             placeholder={placeholder}
             labelPlacement="outside"
-            defaultSelectedKeys={action === "update" ? inviteeNames : selectedInvitees}
-            // selectedKeys={selectedInvitees.email}
+            selectedKeys={selectedInvitees}
             onSelectionChange={(selectedKeys) => handleSelectionChange(selectedKeys)}
             classNames={{
                 base: "",
