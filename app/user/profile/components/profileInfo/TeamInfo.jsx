@@ -26,25 +26,27 @@ const TeamInfo = () => {
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex flex-row items-center gap-3 '>
-        <Dropdown>
-          <DropdownTrigger startContent={<FaFilter size={14} />}>
-            <Button variant='bordered' className='capitalize'>
-              {selectedData?.name}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label='Single selection example'
-            variant='flat'
-            disallowEmptySelection
-            selectionMode='single'
-          >
-            {data?.map((head, index) => (
-              <DropdownItem key={index} onClick={() => setSelectedData(head)}>
-                {head.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
+        {data && data.length > 0 && (
+          <Dropdown>
+            <DropdownTrigger startContent={<FaFilter size={14} />}>
+              <Button variant='bordered' className='capitalize'>
+                {selectedData?.name}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label='Single selection example'
+              variant='flat'
+              disallowEmptySelection
+              selectionMode='single'
+            >
+              {data?.map((head, index) => (
+                <DropdownItem key={index} onClick={() => setSelectedData(head)}>
+                  {head?.name}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        )}
         <div className='bg-white rounded-r-lg flex'>
           <Input
             placeholder='Search'
