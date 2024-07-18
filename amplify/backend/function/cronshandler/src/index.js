@@ -1,15 +1,30 @@
-const awsServerlessExpress = require('aws-serverless-express');
-const app = require('./app');
+const mongoose = require('mongoose');
+const taskModel = require('/opt/schema/cmsTaskSchema.js');
+const itemModel = require('/opt/schema/itemSchema.js');
+mongoose.connect(process.env.DATABASE);
 
-/**
- * @type {import('http').Server}
- */
-const server = awsServerlessExpress.createServer(app);
+exports.handler = async (event) => {
+    try {
+        const tasks = await taskModel.find();
+        const dailyTasks = tasks.filter(task => task.sla && task.sla.some(s => s.duration && s.duration.recurrence === "daily")).map(task => ({
+            manager: task.manager,
+            client: task.client,
+            processor: task.processor,
+            reviewer: task.reviewer,
+            sla: task.sla.filter(s => s.duration && s.duration.recurrence === "daily")
+        }));
+        
+        const item = await itemModel.create(dailyTasks);
 
-/**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
- */
-exports.handler = (event, context) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`);
-  return awsServerlessExpress.proxy(server, event, context, 'PROMISE').promise;
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ success: true, response: item }),
+        };
+    } catch (error) {
+        console.error('Error:', error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: error.message }),
+        };
+    }
 };

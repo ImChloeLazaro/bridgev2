@@ -19,6 +19,10 @@ const TeamCard = ({ data, updateTeamInList }) => {
   const [selectedPerson, setSelectedPerson] = useState(null); // State for selected person
   const [selectedMembers, setSelectedMembers] = useState(data.members); // State for selected member
 
+//   selectedMembers.map((member) => {
+//     console.log("selected" + member.name)
+//   })
+
   useEffect(() => {
       setSelectedMembers(data.members);
   },[data.members])
@@ -124,6 +128,7 @@ const TeamCard = ({ data, updateTeamInList }) => {
                   person={selectedPerson}
                   updateOneMember={updateOneMember}
                   team={data._id}
+                  members={data.members}
               />
           </CardBody>
       </Card>

@@ -3,9 +3,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const MiniUnderConstruction = ({
-  src = "/imageUnderContstruction.png",
+  src = "/imageUnderConstruction.png",
   mini = true,
-  card = true,
+  card = true,  
 }) => {
   const [info, setInfo] = useState(false);
 
