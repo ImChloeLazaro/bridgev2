@@ -13,7 +13,8 @@ export const useRoles = (roles) => {
   };
 
   const currentRole = getRoleFromPath(pathname);
-  const roleExists = roles.some((role) => role.name === currentRole);
+  console.log("Current ROle: ", currentRole);
+  const roleExists = roles?.some((role) => role.name === currentRole);
 
   if (!roleExists) {
     router.push("/not-found.jsx");
