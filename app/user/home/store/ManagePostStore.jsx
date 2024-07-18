@@ -6,9 +6,9 @@ import { reactionIcons } from "../components/reaction/ReactionIcons";
 import { draftPostCountAtom } from "./DraftedStore";
 import { publishedPostCountAtom } from "./PublishedStore";
 import { archivedPostCountAtom } from "./ArchivedStore";
-import { readwithparams, restread } from "@/app/utils/amplify-rest";
+import { restread } from "@/app/utils/amplify-rest";
 import { userListAtom } from "@/app/store/UserStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+
 const iconSize = 20;
 export const postTemplateItemsAtom = atom([
   {

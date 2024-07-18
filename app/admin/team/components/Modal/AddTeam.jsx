@@ -47,20 +47,18 @@ const AddTeam = ({ addNewTeamToList }) => {
                 <div className="flex flex-col space-y-4">
                     <Input type="text" label="Team Name" onChange={e => setTeam({ ...team, name: e.target.value })} />
                     <DepartmentSelect handleDepartment={(selected) => setTeam({ ...team, department: selected })} />
-                    <ClientSelect method={'all'} handleClientSelect={(selected) =>  setTeam({ ...team, client: selected.map(item => item)})} />
+                    <ClientSelect handleClientSelect={(selected) =>  setTeam({ ...team, client: selected.map(item => item)})} />
                     <MemberSelect
                         placeholder="Select Team Heads"
                         name="teamHeads"
                         handleInvitees={(selected) => setTeam({ ...team, heads: selected.map(item => item) })}
                         defaultSelectedKeys={new Set(['3', '4'])} // Example keys
-                        method={'all'}
                     />
                     <MemberSelect
                         placeholder="Select Team Members"
                         name="teamMembers"
                         handleInvitees={(selected) => setTeam({ ...team, members: selected.map(item => item) })}
                         defaultSelectedKeys={new Set(['1', '2'])} // Example keys
-                        method={'all'}
                     />
                 </div>
             </ModalComponent>
