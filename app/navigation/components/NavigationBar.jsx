@@ -46,7 +46,7 @@ const NavigationBar = () => {
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
 
   const user = useAtomValue(userAtom);
-  const selectedRole = useRoles(user.role);
+  const selectedRole = useRoles(user?.role);
 
   const role = selectedRole.currentRole.toLowerCase();
 

@@ -27,9 +27,15 @@ export const fetchUserListAtom = atom(null, async (get, set, sub) => {
 
 // User Register (New Users)
 export const userRegisterAtom = atom(null, async (get, set, update) => {
+  console.log("trigger");
   const auth = await get(authenticationAtom);
   if (auth?.sub) {
-    return;
+    await restinsert("/user", {
+      sub: auth.auth.sub,
+      name: auth.auth.name,
+      picture: auth.auth.picture,
+      email: auth.auth.email,
+    });
   } else {
     await restinsert("/user", {
       sub: auth.auth.sub,

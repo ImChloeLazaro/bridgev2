@@ -33,7 +33,7 @@ import SideBarHeader from "./sidebar/SideBarHeader";
 
 const SideBar = ({}) => {
   const user = useAtomValue(userAtom);
-  const selectedRole = useRoles(user.role);
+  const selectedRole = useRoles(user?.role);
 
   const pathname = usePathname();
 
@@ -93,10 +93,10 @@ const SideBar = ({}) => {
   // };
 
   return (
-    <div className="h-full relative z-50 flex lg:justify-start justify-center items-center ">
+    <div className='h-full relative z-50 flex lg:justify-start justify-center items-center '>
       <Sidebar
         width={"300px"}
-        backgroundColor="rgb(var(--aretex-white))"
+        backgroundColor='rgb(var(--aretex-white))'
         collapsed={collapseSidebar && !toggled}
         collapsedWidth={broken ? "300px" : "0px"}
         toggled={toggled}
@@ -117,7 +117,7 @@ const SideBar = ({}) => {
         }}
       >
         <Menu
-          key="navigation"
+          key='navigation'
           rootStyles={{
             [`.${menuClasses.button}`]: {
               borderRadius: "0.313rem",
@@ -144,8 +144,8 @@ const SideBar = ({}) => {
           {!broken ? (
             <SideBarHeader />
           ) : (
-            <div className="flex items-center justify-between mt-6 pl-2 pb-4">
-              <p className="text-xl font-bold">{"NAVIGATION"}</p>
+            <div className='flex items-center justify-between mt-6 pl-2 pb-4'>
+              <p className='text-xl font-bold'>{"NAVIGATION"}</p>
             </div>
           )}
           {routes &&
@@ -279,7 +279,7 @@ const SideBar = ({}) => {
           >
             <IconButton
               aria-label={"SideBarToggleButton"}
-              size="sm"
+              size='sm'
               className={cn(
                 `${toggled ? "" : "pl-2"}`,
                 "h-16 w-10",
@@ -289,7 +289,7 @@ const SideBar = ({}) => {
                 setToggled(!toggled);
               }}
             >
-              <div className="">
+              <div className=''>
                 {toggled ? (
                   <MdKeyboardArrowLeft size={24} />
                 ) : (
