@@ -7,8 +7,9 @@ import OnboardingStatusAlert from "../components/OnboardingStatusAlert";
 import NavigationBar from "../navigation/components/NavigationBar";
 import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
-import { userAtom, userRegisterAtom } from "../store/UserStore";
+import { fetchUserAtom, userAtom, userRegisterAtom } from "../store/UserStore";
 import { useEffect, useState } from "react";
+import { OnBoardingData } from "../onboarding/components/OnBoardingData";
 
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
@@ -20,17 +21,21 @@ const UserLayout = ({ children }) => {
   const pathname = usePathname();
   const userRegister = useSetAtom(userRegisterAtom);
   const [isUserValid, setIsUserValid] = useState(false);
+  const fetchUser = useSetAtom(fetchUserAtom);
+  const onBoardData = OnBoardingData();
+  // console.log("onBoardingData: ", onBoardData);
 
   useEffect(() => {
-    if (auth) {
+    if (auth && auth.sub) {
       const checkRegistration = async () => {
         try {
-          const result = userRegister();
+          const result = await userRegister(onBoardData);
           if (result && result?.result !== null) {
+            console.log("Registration successful: ", result);
+            const fetch = await fetchUser();
             setIsUserValid(true);
           }
         } catch (error) {
-          alert("Error registration", error);
           setIsUserValid(false);
         }
       };
@@ -41,7 +46,7 @@ const UserLayout = ({ children }) => {
   const cmsPaths = useAtomValue(cmsPathsAtom);
   const collapseSidebar = cmsPaths.includes(pathname ?? "/");
 
-  if (auth.isAuthenticated && isUserValid) {
+  if (auth.isAuthenticated && isUserValid && user !== null) {
     return (
       <div className='flex h-screen max-h-screen w-screen max-w-screen top-0'>
         {/* <Suspense fallback={<Loading />}> */}

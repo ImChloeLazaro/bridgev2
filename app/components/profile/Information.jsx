@@ -12,13 +12,6 @@ const Information = ({
   type = "text",
   divider = true,
 }) => {
-  console.log(
-    "data: ",
-    data === null || data === undefined || data === ""
-      ? "No Data Available"
-      : "true"
-  );
-  console.log("dsad: ", data);
   const content = {
     text: (
       <div>
