@@ -5,7 +5,7 @@ import LeaveRequest from "./LeaveRequest";
 
 const LeaveBalanceContent = () => {
   const { response } = useAtomValue(personalInfoAtom);
-  const leaveStatus = response?.balance;
+  const leave = response?.balance;
   // const leaveStatus = useAtomValue(leaveStatusAtom);
   // console.log("leave", leaveStatus);
   return (
@@ -19,7 +19,7 @@ const LeaveBalanceContent = () => {
             <Tooltip
               showArrow={true}
               content={
-                <p className="">{`You have ${leave?.response?.VL_BALANCE} VL left`}</p>
+                <p className=''>{`You have ${leave?.response?.VL_BALANCE} VL left`}</p>
               }
             >
               <Link
@@ -44,7 +44,7 @@ const LeaveBalanceContent = () => {
             <Tooltip
               showArrow={true}
               content={
-                <p className="">{`You have ${leave?.response?.SL_BALANCE} SL left`}</p>
+                <p className=''>{`You have ${leave?.response?.SL_BALANCE} SL left`}</p>
               }
             >
               <Link

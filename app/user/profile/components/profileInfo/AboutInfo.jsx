@@ -3,10 +3,7 @@ import { Avatar, Divider } from "@nextui-org/react";
 import { format } from "date-fns";
 import { useAtomValue } from "jotai";
 import { MdInfoOutline } from "react-icons/md";
-import {
-  personalInfoAtom,
-  teamStatusAtom,
-} from "../../store/ProfileStore";
+import { personalInfoAtom, teamStatusAtom } from "../../store/ProfileStore";
 
 import Information from "@/app/components/profile/Information";
 import { toast } from "sonner";
@@ -25,64 +22,64 @@ const AboutInfo = () => {
   console.log("data info: ", data);
   return (
     <>
-      <div className="mt-2 mb-8 lg:mb-12 py-2 w-full ">
-        <div className="flex justify-start items-center gap-2 mb-8">
-          <p className="font-bold text-lg">{"Employee Information"}</p>
+      <div className='mt-2 mb-8 lg:mb-12 py-2 w-full '>
+        <div className='flex justify-start items-center gap-2 mb-8'>
+          <p className='font-bold text-lg'>{"Employee Information"}</p>
           <MdInfoOutline />
         </div>
 
-        <div className="flex flex-col items-start gap-4 ">
+        <div className='flex flex-col items-start gap-4 '>
           <Information
             data={data?.employee_number}
             title={"ID Number"}
             subTitle={"This is your employee ID"}
-            type="text"
+            type='text'
           />
 
-          <Information data={data?.is_active} title={"Status"} type="chip" />
+          <Information data={data?.is_active} title={"Status"} type='chip' />
 
           <Information
             data={data?.hiredate}
             title={"Regularization"}
             subTitle={"6 months after your start date"}
-            type="date"
+            type='date'
           />
 
           <Information
             data={teamStatus?.immediate_head?.name}
             title={"Immediate Head"}
-            type="avatar"
+            type='avatar'
             picture={teamStatus?.immediate_head?.picture}
             divider={false}
           />
         </div>
       </div>
 
-      <div className="mt-2 py-2 w-full">
-        <div className="flex justify-start items-center gap-2 mb-5">
-          <p className="font-bold text-lg">{"Personal Information"}</p>
+      <div className='mt-2 py-2 w-full'>
+        <div className='flex justify-start items-center gap-2 mb-5'>
+          <p className='font-bold text-lg'>{"Personal Information"}</p>
           <MdInfoOutline />
         </div>
 
-        <div className="flex flex-col items-start gap-4">
+        <div className='flex flex-col items-start gap-4'>
           <Information
-            data={personalInfo.address}
+            data={personalInfo?.address}
             title={"Address"}
             subTitle={"This is your current address"}
-            type="text"
+            type='text'
           />
 
           <Information
-            data={personalInfo.contact}
+            data={personalInfo?.contact}
             title={"Contact Number"}
             subTitle={"This is your current  contact number"}
-            type="text"
+            type='text'
           />
 
           <Information
-            data={personalInfo.birthday}
+            data={personalInfo?.birthday}
             title={"Birthday"}
-            type="date"
+            type='date'
             divider={false}
           />
         </div>

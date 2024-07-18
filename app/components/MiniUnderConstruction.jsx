@@ -2,7 +2,7 @@ import { Card, Image, cn } from "@nextui-org/react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const MiniUnderContstruction = ({
+const MiniUnderConstruction = ({
   src = "/imageUnderContstruction.png",
   mini = true,
   card = true,
@@ -23,17 +23,17 @@ const MiniUnderContstruction = ({
   return (
     <>
       {card ? (
-        <div className="flex justify-center items-center h-full p-8">
-          <Card className="h-full w-full">
+        <div className='flex justify-center items-center h-full p-8'>
+          <Card className='h-full w-full'>
             <div
-              className="flex justify-center items-center h-full cursor-not-allowed"
+              className='flex justify-center items-center h-full cursor-not-allowed'
               onClick={stillInProgress}
             >
               <div>
-                <div className="flex justify-center items-center">
+                <div className='flex justify-center items-center'>
                   <Image
                     src={src}
-                    alt="Under Construction"
+                    alt='Under Construction'
                     className={`${
                       mini
                         ? "w-32 h-32"
@@ -58,14 +58,14 @@ const MiniUnderContstruction = ({
         </div>
       ) : (
         <div
-          className="flex justify-center items-center h-full cursor-not-allowed"
+          className='flex justify-center items-center h-full cursor-not-allowed'
           onClick={stillInProgress}
         >
           <div>
-            <div className="flex justify-center items-center">
+            <div className='flex justify-center items-center'>
               <Image
                 src={src}
-                alt="Under Construction"
+                alt='Under Construction'
                 className={`${
                   mini
                     ? "w-32 h-32"
