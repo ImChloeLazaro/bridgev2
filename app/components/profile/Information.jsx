@@ -43,29 +43,29 @@ const Information = ({
       </div>
     ),
     avatar: (
-      <div className='flex items-center gap-2'>
+      <div className="flex items-center gap-2">
         <Avatar
-          radius='full'
-          size='md'
+          radius="full"
+          size="md"
           src={picture ?? "/male-user-circle.png"}
-          alt='Supervisor Profile picture'
+          alt="Supervisor Profile picture"
         />
-        <p className='w-1/2'>{data ?? "No Team Record"}</p>
+        <p className="w-1/2">{data ?? "No Team Record"}</p>
       </div>
     ),
   };
 
   return (
     <>
-      <div className='flex justify-start items-center gap-16 lg:gap-10 w-full'>
-        <div className='flex-col w-1/2'>
-          <p className='font-medium text-base'>{title}</p>
+      <div className="flex justify-start items-center gap-16 lg:gap-10 w-full">
+        <div className="flex-col w-1/2">
+          <p className="font-medium text-base">{title}</p>
 
-          <p className='font-medium text-sm text-darkgrey-default'>
+          <p className="font-medium text-sm text-darkgrey-default">
             {subTitle}
           </p>
         </div>
-        <div className='w-1/2'>{content[type]}</div>
+        <div className="w-1/2">{content[type]}</div>
       </div>
       <Divider className={`${divider ? "block" : "hidden"}`} />
     </>

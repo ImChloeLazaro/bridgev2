@@ -53,12 +53,14 @@ const AddTeam = ({ addNewTeamToList }) => {
                         name="teamHeads"
                         handleInvitees={(selected) => setTeam({ ...team, heads: selected.map(item => item) })}
                         defaultSelectedKeys={new Set(['3', '4'])} // Example keys
+                        action={"add"}
                     />
                     <MemberSelect
                         placeholder="Select Team Members"
                         name="teamMembers"
                         handleInvitees={(selected) => setTeam({ ...team, members: selected.map(item => item) })}
                         defaultSelectedKeys={new Set(['1', '2'])} // Example keys
+                        action={"add"}
                     />
                 </div>
             </ModalComponent>

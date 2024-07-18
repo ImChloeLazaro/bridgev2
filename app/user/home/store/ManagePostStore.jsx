@@ -181,7 +181,8 @@ export const taggedPeopleListAtom = atom((get) => {
   const peopleList = list.map((person) => ({
     ...person,
     id: (taggedIndex += 1),
-    key: `user-${taggedIndex}`,
+    // key: `user-${taggedIndex}`,
+    key: `${person.email}`
   }));
 
   return [all, ...peopleList];

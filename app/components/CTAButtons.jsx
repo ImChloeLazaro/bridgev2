@@ -13,6 +13,7 @@ const CTAButtons = ({
   className,
   chevron = false,
   cnLabel,
+  variant = "solid",
   ...props
 }) => {
   const colors = {
@@ -40,7 +41,7 @@ const CTAButtons = ({
       }
       endContent={endContent}
       radius={radius}
-      variant="solid"
+      variant={variant}
       className={cn(
         "hidden data-[show=true]:flex items-center",
         "px-4 py-0.5 gap-4",
