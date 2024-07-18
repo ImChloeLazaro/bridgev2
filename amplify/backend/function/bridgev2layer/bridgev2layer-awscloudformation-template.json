@@ -93,6 +93,7 @@
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:104",
+
         "Principal": "*"
       }
     }
