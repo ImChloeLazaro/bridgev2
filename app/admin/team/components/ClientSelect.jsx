@@ -2,11 +2,19 @@ import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { Select, SelectItem } from "@nextui-org/react";
 import { clientsAtom } from "@/app/store/ClientStore";
-
-const ClientSelect = ({ handleClientSelect }) => {
+import { teamsByClientSelectionAtom } from "@/app/tl/cms/store/CMSTLStore";
+const ClientSelect = ({ 
+  handleClientSelect,
+  method = "all",
+ }) => {
   const [selectedClients, setSelectedClients] = useState(new Set([]));
-  const clients = useAtomValue(clientsAtom);
-
+  let clients = []
+  if(method === "all") {  
+    clients = useAtomValue(clientsAtom);
+  }else{
+    clients = useAtomValue(teamsByClientSelectionAtom)
+  }
+  console.log("CLIENTS", clients)
   const handleOnChangeSelect = (selected) => {
     const selectedClients = Array.from(selected)
       .map((key) => {
