@@ -23,15 +23,17 @@ import TeamTable from "./TeamTable";
 
 import { readwithparams, restupdate } from "@/app/utils/amplify-rest";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import { userAtom } from "@/app/store/UserStore";
+import { fetchClientAtom } from "@/app/store/ClientStore";
 
 const TeamManagementTL = () => {
   const [list, setList] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const { sub } = useAtomValue(userAtom);
+  const fetchClient = useSetAtom(fetchClientAtom);
 
   const fetchTeams = useCallback(async () => {
     try {
@@ -46,7 +48,8 @@ const TeamManagementTL = () => {
 
   useEffect(() => {
     fetchTeams();
-  }, [fetchTeams]);
+    fetchClient();
+  }, [fetchClient, fetchTeams]);
 
   const addSubTeam = (newTeam) => {
     setList((prevList) => [...prevList, newTeam]);

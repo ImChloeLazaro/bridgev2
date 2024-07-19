@@ -3,10 +3,11 @@ import { Button, useDisclosure, Input } from "@nextui-org/react";
 import ModalComponent from "@/app/admin/team/components/Modal/ModalComponent";
 import MemberSelect from "@/app/admin/team/components/MemberSelect";
 import ClientSelect from "@/app/admin/team/components/ClientSelect";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { v4 } from "uuid";
 import { restinsert } from "@/app/utils/amplify-rest";
+import { fetchClientAtom } from "@/app/store/ClientStore";
 const AddSubTeamModal = ({ addSubTeam }) => {
   const { sub, name, email, picture } = useAtomValue(authenticationAtom).auth;
 
@@ -88,7 +89,6 @@ const AddSubTeamModal = ({ addSubTeam }) => {
                 client: selected.map((item) => item),
               })
             }
-             method="filtered"
           />
         </div>
       </ModalComponent>

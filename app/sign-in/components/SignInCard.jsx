@@ -1,10 +1,11 @@
-import "../../aws-auth";
 import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import { signInWithRedirect } from "aws-amplify/auth";
 import SignInGoogle from "./SignInGoogle";
 import CTAButtons from "@/app/components/CTAButtons";
 import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
+import "../../aws-auth";
+
 const SignInCard = () => {
   return (
     <div

@@ -230,6 +230,9 @@ const CMSTL = () => {
       filterClient.map((client) => client._id).includes(client._id)
     );
 
+    console.log("clients", clients);
+    console.log("filterClient", filterClient);
+
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
         client.company.name

@@ -30,6 +30,7 @@ import {
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
+  filterClientAtom,
 } from "../store/CMSUserStore";
 
 // @refresh reset
@@ -46,6 +47,8 @@ const CMSUser = () => {
     direction: "descending",
   });
   const user = useAtomValue(authenticationAtom);
+
+  const filterClient = useAtomValue(filterClientAtom);
 
   const clients = useAtomValue(clientsAtom);
   const tasks = useAtomValue(tasksAtom);
@@ -78,7 +81,7 @@ const CMSUser = () => {
   );
 
   // ##########################################
-  const userTasks = tasks.filter((task) => {
+  const userTasks = tasks?.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
     const reviewers = task.reviewer.map((user) => user.sub);
     return (
@@ -86,6 +89,8 @@ const CMSUser = () => {
       task.client?.client_id
     ); // assignees
   });
+
+  console.log("userTasks", userTasks  )
 
   const tasksFromSelectedClient = useMemo(
     () =>
@@ -173,11 +178,9 @@ const CMSUser = () => {
   ).join("");
 
   const filteredClientItems = useMemo(() => {
-    const clientIDFromTasks = userTasks.map((task) => task.client?.client_id);
-
-    let filteredClients = [
-      ...clients.filter((client) => clientIDFromTasks.includes(client._id)),
-    ];
+    let filteredClients = clients.filter((client) =>
+      filterClient.map((client) => client._id).includes(client._id)
+    );
 
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
@@ -198,11 +201,11 @@ const CMSUser = () => {
 
     return filteredClients;
   }, [
-    userTasks,
     clients,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
+    filterClient,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));

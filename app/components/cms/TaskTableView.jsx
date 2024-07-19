@@ -118,9 +118,10 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
-      // const isOverdue = task.progress.toLowerCase() === "overdue";
-      const isOverdue = compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0 &&
-      sla.status === "todo";
+      const isOverdue = task.progress.toLowerCase() === "overdue";
+      // const isOverdue =
+      //   compareAsc(new Date(task?.sla.duration.end.slice(0, -1)), new Date()) < 0 &&
+      //   sla.status === "todo";
 
       const cellValue = task[columnKey];
 
