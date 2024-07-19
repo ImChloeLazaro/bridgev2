@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { toast } from "sonner";
@@ -165,13 +165,13 @@ const ShortcutsOptionsModal = ({ unique_key, title, url }) => {
                 variant="bordered"
                 value={editShortcutURL}
                 onValueChange={setEditShortcutURL}
-                startContent={
-                  <div className="pointer-events-none flex items-center">
-                    <span className="text-darkgrey-default text-sm">
-                      {"https://"}
-                    </span>
-                  </div>
-                }
+                // startContent={
+                //   <div className="pointer-events-none flex items-center">
+                //     <span className="text-darkgrey-default text-sm">
+                //       {"https://"}
+                //     </span>
+                //   </div>
+                // }
                 classNames={{
                   base: "gap-4 flex text-base text-black-default/70 data-[focus=true]:text-black-default",
                   label: "font-medium text-base text-black-default/70 w-16",
