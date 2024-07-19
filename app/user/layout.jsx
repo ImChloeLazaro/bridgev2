@@ -18,6 +18,7 @@ const UserLayout = ({ children }) => {
   const auth = useAtomValue(authenticationAtom);
   const user = useAtomValue(userAtom);
   const pathname = usePathname();
+
   console.log("AUthL ", auth);
   const cmsPaths = useAtomValue(cmsPathsAtom);
   const collapseSidebar = cmsPaths.includes(pathname ?? "/");
