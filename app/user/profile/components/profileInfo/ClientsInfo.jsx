@@ -61,22 +61,24 @@ const ClientsInfo = () => {
 
     setFilteredData(newFilteredData);
   }, [selectedClient, searchQuery]);
+
+  console.log("filteredData", filteredData);
   return (
-    <div className='flex flex-col gap-3'>
-      <div className='flex flex-row items-center gap-3 '>
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-row items-center gap-3 ">
         <Dropdown>
           <DropdownTrigger startContent={<FaFilter size={14} />}>
-            <Button variant='bordered' className='capitalize'>
+            <Button variant="bordered" className="capitalize">
               {selectedClient}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
-            aria-label='Single selection example'
-            variant='flat'
+            aria-label="Single selection example"
+            variant="flat"
             disallowEmptySelection
-            selectionMode='single'
+            selectionMode="single"
           >
-            <DropdownItem key='All' onClick={() => setSelectedClient("All")}>
+            <DropdownItem key="All" onClick={() => setSelectedClient("All")}>
               All
             </DropdownItem>
             {clientOption?.map((client) => (
@@ -89,10 +91,10 @@ const ClientsInfo = () => {
             ))}
           </DropdownMenu>
         </Dropdown>
-        <div className='bg-white rounded-r-lg flex'>
+        <div className="bg-white rounded-r-lg flex">
           <Input
-            placeholder='Search'
-            className='p-2 bg-none rounded-r-lg'
+            placeholder="Search"
+            className="p-2 bg-none rounded-r-lg"
             startContent={<CiSearch size={24} />}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

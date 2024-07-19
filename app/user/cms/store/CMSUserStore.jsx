@@ -1,3 +1,5 @@
+import { userAtom } from "@/app/store/UserStore";
+import { readwithparams } from "@/app/utils/amplify-rest";
 import { atom } from "jotai";
 
 export const changeViewAtom = atom(false);
@@ -41,3 +43,35 @@ export const pageRowsSelectionAtom = atom([
 ]);
 
 export const selectedPage = atom(1);
+
+// CLIENT ESSENTIALS
+
+export const filterClientAtom = atom(async (get) => {
+  const user = await get(userAtom);
+  const filtered = await readwithparams("/teams/team/filterClient", {
+    sub: user.sub,
+    method: "filtered",
+  });
+
+  if (filtered?.success) {
+    return filtered.response;
+  } else {
+    return {};
+  }
+});
+
+export const teamsByClientSelectionAtom = atom(async (get) => {
+  const user = await get(userAtom);
+  let filteredTeamsByClient = get(teamsAtom).filter(
+    (team) =>
+      team.client.some(
+        (client) =>
+          client._id === Array.from(get(selectedClientForTaskAtom)).toString()
+      ) && team.heads.some((head) => head.sub === user.sub)
+  );
+
+  console.log("filteredTeamsByClient", filteredTeamsByClient);
+
+  return filteredTeamsByClient;
+});
+

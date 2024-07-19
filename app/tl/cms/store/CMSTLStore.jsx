@@ -184,12 +184,27 @@ export const taskDataAtom = atom(async (get) => {
 
 // CLIENT ESSENTIALS
 
+export const subTeamMembersAtom = atom(async (get) => {
+  const user = await get(userAtom);
+  const filtered = await readwithparams("/teams/team/myTeam", {
+    sub: user.sub,
+  });
+
+  if (filtered?.success) {
+    return filtered.response;
+  } else {
+    return {};
+  }
+});
+
 export const filterClientAtom = atom(async (get) => {
   const user = await get(userAtom);
   const filtered = await readwithparams("/teams/team/filterClient", {
     sub: user.sub,
     method: "filtered",
   });
+
+  console.log("filtered clients", filtered);
 
   if (filtered?.success) {
     return filtered.response;

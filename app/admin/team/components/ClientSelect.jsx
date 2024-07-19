@@ -2,23 +2,29 @@ import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { Select, SelectItem } from "@nextui-org/react";
 import { clientsAtom } from "@/app/store/ClientStore";
-import { teamsByClientSelectionAtom } from "@/app/tl/cms/store/CMSTLStore";
-const ClientSelect = ({ 
-  handleClientSelect,
-  method = "all",
- }) => {
+import { subTeamMembersAtom } from "@/app/tl/cms/store/CMSTLStore";
+
+const ClientSelect = ({ handleClientSelect }) => {
   const [selectedClients, setSelectedClients] = useState(new Set([]));
-  let clients = []
-  if(method === "all") {  
-    clients = useAtomValue(clientsAtom);
-  }else{
-    clients = useAtomValue(teamsByClientSelectionAtom)
-  }
-  console.log("CLIENTS", clients)
+  const clients = useAtomValue(clientsAtom);
+  const subTeamMembers = useAtomValue(subTeamMembersAtom);
+
+  const filteredTeamClientsSelection = subTeamMembers
+    .map((team) => team.client.map((member) => member))
+    .flat()
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
+    );
+
+  const filteredClients = clients.filter((client) =>
+    filteredTeamClientsSelection
+      .map((client) => client._id)
+      .includes(client._id)
+  );
   const handleOnChangeSelect = (selected) => {
     const selectedClients = Array.from(selected)
       .map((key) => {
-        const client = clients.find((item) => item._id === key);
+        const client = filteredClients.find((item) => item._id === key);
         return client
           ? {
               key: client.key,
@@ -45,7 +51,7 @@ const ClientSelect = ({
       selectedKeys={selectedClients}
       onSelectionChange={(selected) => handleOnChangeSelect(selected)}
     >
-      {clients.map((item) => (
+      {filteredClients.map((item) => (
         <SelectItem key={item._id}>{item.company.name}</SelectItem>
       ))}
     </Select>
