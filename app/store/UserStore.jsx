@@ -3,7 +3,7 @@ import { restinsert, restread } from "../utils/amplify-rest";
 import { authenticationAtom } from "./AuthenticationStore";
 
 // User
-export const userAtom = atom();
+export const userAtom = atom({});
 export const fetchUserAtom = atom(null, async (get, set) => {
   console.log("Fetch Trigger");
   const auth = await get(authenticationAtom);
