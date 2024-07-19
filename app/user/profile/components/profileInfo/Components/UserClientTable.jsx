@@ -20,7 +20,10 @@ const UserClientTable = ({ data, columns }) => {
       pagination,
     },
   });
-
+  const handleClick = (row) => {
+    // row.getToggleSelectedHandler();
+    console.log("Row: ", row?.original);
+  };
   return (
     <>
       <table className='table-auto w-full'>
@@ -50,7 +53,7 @@ const UserClientTable = ({ data, columns }) => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr key={row.id} className='hover:cursor-pointer'>
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}

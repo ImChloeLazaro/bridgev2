@@ -10,7 +10,10 @@ export const profileTabsAtom = atom([
 ]);
 
 export const selectedProfileTabAtom = atom("about");
-
+export const selectedClientAtom = atom("");
+export const selectClientAtom = atom(null, async (get, set, newClient) => {
+  set(selectedClientAtom, newClient);
+});
 // Personal Information
 export const personalInfoAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);
