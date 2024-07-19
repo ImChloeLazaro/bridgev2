@@ -81,7 +81,7 @@ const CMSUser = () => {
   );
 
   // ##########################################
-  const userTasks = tasks.filter((task) => {
+  const userTasks = tasks?.filter((task) => {
     const processors = task.processor.map((user) => user.sub);
     const reviewers = task.reviewer.map((user) => user.sub);
     return (
