@@ -88,6 +88,7 @@ const AddSubTeamModal = ({ addSubTeam }) => {
                 client: selected.map((item) => item),
               })
             }
+             method="filtered"
           />
         </div>
       </ModalComponent>
