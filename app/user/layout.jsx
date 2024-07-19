@@ -30,11 +30,16 @@ const UserLayout = ({ children }) => {
       const checkRegistration = async () => {
         try {
           console.log("trigger here inside");
-          const result = await userRegister(onBoardData);
-          console.log("Registration Result: ", result);
-          if (result && result?.result !== null) {
-            const fetch = await fetchUser();
+          if (user && user.sub) {
+            console.log("User: ", user);
             setIsUserValid(true);
+          } else {
+            const result = await userRegister(onBoardData);
+            console.log("Registration Result: ", result);
+            if (result && result?.result !== null) {
+              const fetch = await fetchUser();
+              setIsUserValid(true);
+            }
           }
         } catch (error) {
           setIsUserValid(false);
@@ -42,7 +47,7 @@ const UserLayout = ({ children }) => {
       };
       checkRegistration();
     }
-  }, [auth]);
+  }, [auth, user, onBoardData, fetchUser, userRegister]);
 
   if (auth.isAuthenticated && isUserValid && user !== null) {
     return (
