@@ -9,7 +9,7 @@ import { cmsPathsAtom } from "../navigation/store/NavSideBarStore";
 import { authenticationAtom } from "../store/AuthenticationStore";
 import { fetchUserAtom, userAtom, userRegisterAtom } from "../store/UserStore";
 import { useEffect, useState } from "react";
-import { OnBoardingData } from "../onboarding/components/onBoardingData";
+import { OnBoardingData } from "../onboarding/components/OnBoardingData";
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
 });
