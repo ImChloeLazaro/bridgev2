@@ -32,7 +32,7 @@ app.get("/teams/subteam/*", async function (req, res) {
     case "/teams/subteam/mySubTeam":
       try {
         const getSubTeam = await SubTeamModel.find({
-          "head.sub": req.query.sub,
+          "tl.sub": sub,
         });
         res.json({ success: true, response: getSubTeam });
       } catch (error) {
@@ -42,7 +42,7 @@ app.get("/teams/subteam/*", async function (req, res) {
     case "/teams/subteam/myUserSubTeam":
       try {
         const getUserSubTeam = await SubTeamModel.find({
-          $or: [{ "members.sub": sub }, { "head.sub": sub }],
+          $or: [{ "members.sub": sub }, { "tl.sub": sub }],
         });
         res.json({ success: true, response: getUserSubTeam });
       } catch (error) {
@@ -64,15 +64,11 @@ app.post("/teams/subteam", async function (req, res) {
   }
 });
 
-app.put("/teams/subteam", async function (req, res) {
-  res.json({ success: "put call for sub-team!", url: req.url, body: req.body });
-});
-
 app.put("/teams/subteam/*", async function (req, res) {
   try {
     const { sub } = req.query;
     const proxy = req.path;
-    const { _id, name, head, members, clients, status } = req.body;
+    const { _id, name, tl, heads, members, clients, status } = req.body;
 
     switch (proxy) {
       case "/teams/sub-team/activeOrArchive":
@@ -82,22 +78,22 @@ app.put("/teams/subteam/*", async function (req, res) {
       case "/teams/subteam/update":
         const updatedTeam = await SubTeamModel.updateOne(
           { _id },
-          { name, members, clients }
+          { name, heads, members, clients }
         );
         res.json({ success: true, response: updatedTeam });
         break;
-      case "/teams/subteam/updateMember":
-        const updatedMember =  await SubTeamModel.updateOne(
-          { _id: _id, "members._id": status._id },
-          {
-            $set: {
-              "members.$.employment_status": status.employment_status,
-              "members.$.position": status.position,
-              "members.$.status": status.status
-            }
-          })
-        res.json({ success: true, response: updatedMember });
-        break;
+      // case "/teams/subteam/updateMember":
+      //   const updatedMember =  await SubTeamModel.updateOne(
+      //     { _id: _id, "members._id": status._id },
+      //     {
+      //       $set: {
+      //         "members.$.employment_status": status.employment_status,
+      //         "members.$.position": status.position,
+      //         "members.$.status": status.status
+      //       }
+      //     })
+      //   res.json({ success: true, response: updatedMember });
+      //   break;
       default:
         res.json({ success: "put call for sub-team!", url: req.url, sub: sub });
         break;
@@ -105,10 +101,6 @@ app.put("/teams/subteam/*", async function (req, res) {
   } catch (error) {
     res.json({ error: error });
   }
-});
-
-app.delete("/teams/subteam", async function (req, res) {
-  res.json({ success: "delete call for sub-team!", url: req.url });
 });
 
 app.listen(3000, function () {

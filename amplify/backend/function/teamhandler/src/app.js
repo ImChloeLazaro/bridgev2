@@ -53,7 +53,7 @@ app.get('/teams/team/*', async function (req, res) {
            filter_client = await clientModel.find();
         }
         if(method === 'filtered') {
-          filter_client = await teamModel.find({
+           filter_client = await teamModel.find({
             $or: [
               { "heads.sub": sub },
               { "members.sub": sub }
