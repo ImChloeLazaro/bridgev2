@@ -80,7 +80,9 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   const [religion, setReligion] = useAtom(religionAtom);
   const [language, setLanguage] = useAtom(languageAtom);
 
-  const [birthdateDateRange, setBirthdateDateRange] = useAtom(birthdateDateRangeAtom)
+  const [birthdateDateRange, setBirthdateDateRange] = useAtom(
+    birthdateDateRangeAtom
+  );
 
   // Government ID Information
   const [TIN, setTIN] = useAtom(tinAtom);
@@ -90,7 +92,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
 
   const application_details = (
     <>
-      <div className="flex flex-wrap justify-between gap-5 mb-5">
+      <div className='flex flex-wrap justify-between gap-5 mb-5'>
         <FormFieldInput
           isDisabled={viewOnly}
           type={"text"}
@@ -338,11 +340,11 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   );
 
   return (
-    <div className="h-fit flex flex-wrap justify-between gap-5 mt-4 ">
+    <div className='h-fit flex flex-wrap justify-between gap-5 mt-4 '>
       {selectedTab === "application_details" && application_details}
       {selectedTab === "employee_information" && employee_information}
       {selectedTab === "government_id_information" && government_id_information}
-      <div className="p-1 m-1 w-full"></div> {/* SPACER FOR LAST ROW*/}
+      <div className='p-1 m-1 w-full'></div> {/* SPACER FOR LAST ROW*/}
     </div>
   );
 };
