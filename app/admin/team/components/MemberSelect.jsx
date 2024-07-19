@@ -29,8 +29,6 @@ const MemberSelect = ({
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
 
-  console.log("filteredTeamMembersSelection", filteredTeamMembersSelection);
-
   const handleSelectionChange = (selectedKeys) => {
     const selectedPeople = Array.from(selectedKeys)
       .map((key) => {
