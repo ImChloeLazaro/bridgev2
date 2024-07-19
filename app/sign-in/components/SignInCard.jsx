@@ -4,6 +4,7 @@ import SignInGoogle from "./SignInGoogle";
 import CTAButtons from "@/app/components/CTAButtons";
 import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
+import "../../aws-auth";
 
 const SignInCard = () => {
   return (
