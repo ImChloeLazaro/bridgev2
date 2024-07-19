@@ -22,7 +22,7 @@ const FormFieldSelect = ({
   const renderItemType = {
     chip: (displayItems) => {
       return (
-        <div className="flex flex-wrap gap-2 py-2 max-h-32 overflow-y-auto">
+        <div className='flex flex-wrap gap-2 py-2 max-h-32 overflow-y-auto'>
           {displayItems.map((displayItem) => (
             <Chip
               key={displayItem.key}
@@ -36,7 +36,7 @@ const FormFieldSelect = ({
               }}
             >
               {
-                <p className="font-sm">
+                <p className='font-sm'>
                   {displayItem.data.label
                     ? displayItem.data.label
                     : displayItem.data.name}
@@ -49,11 +49,11 @@ const FormFieldSelect = ({
     },
     dropdown: (displayItems) => {
       return (
-        <div className="flex flex-wrap gap-2 py-2 max-h-32 overflow-y-auto">
+        <div className='flex flex-wrap gap-2 py-2 max-h-32 overflow-y-auto'>
           {displayItems.map((displayItem) => (
             <p
               key={displayItem.key}
-              className="text-sm font-medium text-black-default"
+              className='text-sm font-medium text-black-default'
             >
               {displayItem.data.label
                 ? displayItem.data.label
@@ -135,27 +135,27 @@ const FormFieldSelect = ({
       {(item) => {
         return (
           <SelectItem
-            key={item.key ? item.key : item.sub ? item.sub : item._id}
+            key={item.key ? item.value : item.sub ? item.sub : item._id}
             textValue={item.key ? item.key : item.sub ? item.sub : item._id}
           >
-            <div className="flex gap-2 items-center">
+            <div className='flex gap-2 items-center'>
               {renderItemPicture && item.picture ? (
                 <Avatar
                   alt={item.name}
-                  size="sm"
+                  size='sm'
                   src={item.picture}
                   showFallback
                   fallback={
                     <MdPerson
                       size={18}
-                      className="text-white-default"
-                      fill="currentColor"
+                      className='text-white-default'
+                      fill='currentColor'
                     />
                   }
-                  className="flex-shrink-0 bg-blue-default text-white-default"
+                  className='flex-shrink-0 bg-blue-default text-white-default'
                 />
               ) : null}
-              <p className="text-sm font-medium text-black-default">
+              <p className='text-sm font-medium text-black-default'>
                 {item.label ? item.label : item.name}
               </p>
             </div>
