@@ -149,14 +149,14 @@ const ManagePostSidebarContent = () => {
 
   return (
     <>
-      <div className="flex justify-start items-center gap-1 mt-2">
-        <p className="font-bold">{"Template Settings"}</p>
+      <div className='flex justify-start items-center gap-1 mt-2'>
+        <p className='font-bold'>{"Template Settings"}</p>
         <MdInfoOutline />
       </div>
-      <div className="flex justify-between items-center gap-5">
-        <p className="font-normal w-24">{"Type"}</p>
+      <div className='flex justify-between items-center gap-5'>
+        <p className='font-normal w-24'>{"Type"}</p>
         <FormFieldSelect
-          label="Template Type Selection"
+          label='Template Type Selection'
           items={templateTypeSelection}
           selectedKeys={selectedTemplateType}
           onSelectionChange={handleSelectionChange}
@@ -164,40 +164,40 @@ const ManagePostSidebarContent = () => {
       </div>
       {(Array.from(selectedTemplateType).join("") === "custom" ||
         !templateOnlyList.includes(selectedTemplateTypeString)) && (
-        <div className="flex justify-between items-center gap-5">
-          <p className="font-normal w-24">{"Name"}</p>
+        <div className='flex justify-between items-center gap-5'>
+          <p className='font-normal w-24'>{"Name"}</p>
           <Input
             fullWidth
-            size="sm"
-            label="Give your custom template a name"
-            className=""
+            size='sm'
+            label='Give your custom template a name'
+            className=''
             value={templateName}
             onValueChange={setTemplateName}
           />
         </div>
       )}
 
-      <div className="flex justify-between items-center gap-5">
-        <p className="font-normal w-24">{"Reaction"}</p>
+      <div className='flex justify-between items-center gap-5'>
+        <p className='font-normal w-24'>{"Reaction"}</p>
         {/* <ReactionSelect /> */}
         <FormFieldSelect
           label={"Reaction Selection"}
           items={reactionsSelection}
-          variant="bordered"
-          selectionMode="single"
-          description="This will be the default reaction displayed on your post"
-          placeholder="Select reaction"
-          labelPlacement="outside"
+          variant='bordered'
+          selectionMode='single'
+          description='This will be the default reaction displayed on your post'
+          placeholder='Select reaction'
+          labelPlacement='outside'
           defaultSelectedKeys={"all"}
           selectedKeys={selectedReactions}
           onSelectionChange={setSelectedReactions}
           renderValue={(displayItems) => {
             return (
-              <div className="flex flex-wrap gap-2 items-center">
+              <div className='flex flex-wrap gap-2 items-center'>
                 {displayItems.map((displayItem) => (
                   <>
-                    <div className="">{displayItem.data.displayIcon}</div>
-                    <div className="text-sm text-black-default">
+                    <div className=''>{displayItem.data.displayIcon}</div>
+                    <div className='text-sm text-black-default'>
                       {displayItem.data.label}
                     </div>
                   </>
@@ -210,20 +210,20 @@ const ManagePostSidebarContent = () => {
 
       {/* Media */}
       <Divider />
-      <div className="flex justify-start items-center gap-1">
-        <p className="font-bold">{"Media"}</p>
+      <div className='flex justify-start items-center gap-1'>
+        <p className='font-bold'>{"Media"}</p>
         <MdInfoOutline />
       </div>
-      <div className="flex justify-start items-center w-full h-fit gap-8">
+      <div className='flex justify-start items-center w-full h-fit gap-8'>
         {/* // Layout & Orientation */}
-        <div className="flex-col justify-center items-center w-full">
-          <div className="flex justify-start items-center gap-5 mb-5">
-            <p className="font-normal w-28">{"Layout"}</p>
+        <div className='flex-col justify-center items-center w-full'>
+          <div className='flex justify-start items-center gap-5 mb-5'>
+            <p className='font-normal w-28'>{"Layout"}</p>
             {/* <MediaLayoutSelect /> */}
             <FormFieldSelect
               label={"Media Layout Selection"}
               items={mediaLayoutSelection}
-              placeholder="Choose Layout"
+              placeholder='Choose Layout'
               selectedKeys={selectedMediaLayout}
               onSelectionChange={(key) => {
                 setSelectedMediaLayout(key);
@@ -233,13 +233,13 @@ const ManagePostSidebarContent = () => {
               }}
             />
           </div>
-          <div className="flex justify-start items-center gap-5 mb-5">
-            <p className="font-normal w-28">{"Orientation"}</p>
+          <div className='flex justify-start items-center gap-5 mb-5'>
+            <p className='font-normal w-28'>{"Orientation"}</p>
             {/* <MediaOrientationSelect /> */}
             <FormFieldSelect
               label={"Media Orientation Selection"}
               items={mediaOrientationSelection}
-              placeholder="Choose Orientation"
+              placeholder='Choose Orientation'
               selectedKeys={
                 selectedMediaLayoutString === "single"
                   ? new Set(["portrait"])
@@ -250,14 +250,14 @@ const ManagePostSidebarContent = () => {
             />
           </div>
           {!mediaFileList?.length && (
-            <p className="text-sm font-medium text-red-default">
+            <p className='text-sm font-medium text-red-default'>
               {"*Note: this will not display any media on your post"}
             </p>
           )}
         </div>
-        <div className="w-60 lg:w-80 h-40 text-center">
+        <div className='w-60 lg:w-80 h-40 text-center'>
           {(selectedMediaLayoutString ? (
-            <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+            <div className='w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover'>
               <MediaLayoutPreview
                 mediaFileList={fileUrlList}
                 layout={selectedMediaLayoutString}
@@ -265,12 +265,12 @@ const ManagePostSidebarContent = () => {
               />
             </div>
           ) : (
-            <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+            <div className='w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover'>
               {"No media to display"}
             </div>
           )) &&
             (selectedMediaOrientationString ? (
-              <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+              <div className='w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover'>
                 <MediaLayoutPreview
                   mediaFileList={fileUrlList}
                   layout={selectedMediaLayoutString}
@@ -278,24 +278,24 @@ const ManagePostSidebarContent = () => {
                 />
               </div>
             ) : (
-              <div className="w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover">
+              <div className='w-full h-full bg-white-default flex justify-center items-center py-2 m-0 rounded-md border-3 border-grey-hover'>
                 {"No media to display"}
               </div>
             ))}
         </div>
       </div>
 
-      <div className="flex justify-start items-center gap-5">
-        <p className="font-normal w-20">{"Files"}</p>
+      <div className='flex justify-start items-center gap-5'>
+        <p className='font-normal w-20'>{"Files"}</p>
         <input
           ref={inputFile}
-          type="file"
-          id="post media"
-          name="post media"
-          accept=".jpg, .jpeg, .png"
-          placeholder="Upload file"
+          type='file'
+          id='post media'
+          name='post media'
+          accept='.jpg, .jpeg, .png'
+          placeholder='Upload file'
           multiple
-          className="border-none"
+          className='border-none'
           onChange={(e) => handleUploadFile(e)}
         />
         {fileList && (
@@ -309,23 +309,23 @@ const ManagePostSidebarContent = () => {
 
       {/* Description */}
       <Divider />
-      <div className="flex justify-start items-center gap-1">
-        <p className="font-bold">{"Description"}</p>
+      <div className='flex justify-start items-center gap-1'>
+        <p className='font-bold'>{"Description"}</p>
         <MdInfoOutline />
       </div>
-      <div className="flex justify-between items-center gap-5">
-        <p className="font-normal w-24">{"Title"}</p>
+      <div className='flex justify-between items-center gap-5'>
+        <p className='font-normal w-24'>{"Title"}</p>
         <Input
           fullWidth
-          size="sm"
-          label="Give your post a name"
-          className=""
+          size='sm'
+          label='Give your post a name'
+          className=''
           value={postTitle}
           onValueChange={setPostTitle}
         />
       </div>
-      <div className="flex justify-between items-center gap-5">
-        <p className="font-normal w-24">{"Tag People"}</p>
+      <div className='flex justify-between items-center gap-5'>
+        <p className='font-normal w-24'>{"Tag People"}</p>
         <TagPersonSelect />
         {/* <FormFieldInput
           label={"Tag People Selection"}
@@ -343,13 +343,13 @@ const ManagePostSidebarContent = () => {
           }          
         /> */}
       </div>
-      <div className="flex justify-between items-center gap-5 mb-2">
-        <p className="font-normal w-24">{"Caption"}</p>
+      <div className='flex justify-between items-center gap-5 mb-2'>
+        <p className='font-normal w-24'>{"Caption"}</p>
         <Textarea
           value={postCaption}
           onValueChange={setPostCaption}
-          label="Give your post a caption"
-          className=""
+          label='Give your post a caption'
+          className=''
         />
       </div>
     </>

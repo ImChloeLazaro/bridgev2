@@ -23,7 +23,7 @@ const MediaLayout = ({
   };
 
   return (
-    <div className=" w-full justify-center items-center p-0 m-0 bg-white-default h-[16rem] md:h-[28rem] lg:h-[32rem] xl:h-[54rem]">
+    <div className=' w-full justify-center items-center p-0 m-0 bg-white-default h-[16rem] md:h-[28rem] lg:h-[32rem] xl:h-[54rem]'>
       {imageCount > 5 ? (
         <SixPlusMedia
           data={mediaList}
