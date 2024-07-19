@@ -59,7 +59,7 @@ export const selectedTabAtom = atom("application_details");
 export const selectedStepperAtom = atom("application");
 
 export const activeStepAtom = atom(0);
-export const selectedTabIndexAtom = atom(0)
+export const selectedTabIndexAtom = atom(0);
 
 // Application Onboarding.
 export const firstNameAtom = atom("");
@@ -449,6 +449,6 @@ export const onboardingDataAtom = atom((get) => {
     contact: {
       emergency_contact: get(contactAtom),
     },
-    sub: user.sub,
+    sub: user?.sub,
   };
 });
