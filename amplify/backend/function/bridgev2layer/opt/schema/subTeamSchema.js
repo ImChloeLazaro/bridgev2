@@ -4,21 +4,26 @@ const subTeamSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    head: {
+    tl: {
         sub: String,
         name: String,
         email: String,
         picture: String,
     },
+    heads: [
+        {
+            sub: String,
+            name: String,
+            email: String,
+            picture: String,
+        },
+    ],
     members: [
         {
             sub: String,
             name: String,
             email: String,
             picture: String,
-            position: { default: 'Current Position', type: String },
-            status: { default: 'active', type: String },
-            employment_status: { default: 'Employment Status', type: String },
         }
     ],
     client: [
