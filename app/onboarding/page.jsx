@@ -8,10 +8,10 @@ const Onboarding = () => {
   const user = useAtomValue(userAtom);
   return (
     <div
-      className="flex items-center justify-center h-screen bg-cover bg-center "
+      className='flex items-center justify-center h-screen bg-cover bg-center '
       style={{ backgroundImage: "url(bg.png)" }}
     >
-      {user.hasOnboardingData ? <OnboardingAlreadyDone /> : <OnboardingForm />}
+      {user?.hasOnboardingData ? <OnboardingAlreadyDone /> : <OnboardingForm />}
     </div>
   );
 };

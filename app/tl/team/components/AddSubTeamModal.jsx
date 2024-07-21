@@ -3,21 +3,23 @@ import { Button, useDisclosure, Input } from "@nextui-org/react";
 import ModalComponent from "@/app/admin/team/components/Modal/ModalComponent";
 import MemberSelect from "@/app/admin/team/components/MemberSelect";
 import ClientSelect from "@/app/admin/team/components/ClientSelect";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { v4 } from "uuid";
 import { restinsert } from "@/app/utils/amplify-rest";
+import { fetchClientAtom } from "@/app/store/ClientStore";
 const AddSubTeamModal = ({ addSubTeam }) => {
   const { sub, name, email, picture } = useAtomValue(authenticationAtom).auth;
 
   const [teamMembers, setTeamMembers] = useState({
-    head: {
+    tl: {
       sub,
       name,
       email,
       picture,
     },
     name: "",
+    heads: [],
     members: [],
     client: [],
   });
@@ -37,6 +39,8 @@ const AddSubTeamModal = ({ addSubTeam }) => {
       ...teamMembers,
       members: updatedMembers,
     };
+
+    console.log("SUBTEAM ENTRY", subteam_entry);
     try {
       const team = await restinsert("/teams/subteam/", subteam_entry);
       console.log("RESPONSE", team);
@@ -69,6 +73,16 @@ const AddSubTeamModal = ({ addSubTeam }) => {
             size="sm"
             onChange={(e) =>
               setTeamMembers({ ...teamMembers, name: e.target.value })
+            }
+          />
+          <MemberSelect
+            placeholder="Select Team Heads"
+            name="heads"
+            handleInvitees={(selected) =>
+              setTeamMembers({
+                ...teamMembers,
+                heads: selected.map((item) => item),
+              })
             }
           />
           <MemberSelect

@@ -24,7 +24,7 @@ const TeamTable = ({sub}) => {
     const fetchUsers = useCallback(async () => {
         try {
             const userList = await readwithparams('/teams/team/myTeam', { sub });
-            console.log('USER LIST', userList);
+            // console.log('USER LIST', userList);
             if (userList.success) setUsers(userList.response);
         } catch (error) {
             console.log(error);

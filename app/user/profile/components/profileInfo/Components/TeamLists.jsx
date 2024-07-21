@@ -39,7 +39,7 @@ const TeamLists = ({ selectedData }) => {
               <p className='font-semibold text-xl'>{member.name}</p>
               {member?.teamLead && (
                 <div className='p-2 rounded-md text-white-default border w-10 bg-orange-600'>
-                  TL
+                  Head
                 </div>
               )}
             </div>
