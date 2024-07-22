@@ -4,6 +4,7 @@ import CMSFooter from "@/app/components/cms/CMSFooter";
 import CMSHeader from "@/app/components/cms/CMSHeader";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import TaskTableView from "@/app/components/cms/TaskTableView";
+import CTAButtons from "@/app/components/CTAButtons";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
@@ -15,7 +16,13 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
@@ -31,8 +38,27 @@ import {
   showFooterAtom,
   showSearchBarAtom,
   filterClientAtom,
+  clientSelectionForTaskAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
+  fetchTeamsAtom,
+  dateRangeAtom,
+  endTimeAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
+  selectedTeamForTaskAtom,
+  startTimeAtom,
+  taskDataAtom,
+  taskDurationAtom,
+  taskNameAtom,
+  taskInstructionAtom,
 } from "../store/CMSUserStore";
+import { clientSubItemDataAtom } from "../../profile/store/ProfileStore";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
+import { clientSelectionChangeAtom } from "@/app/admin/clients/store/CMSAdminStore";
 // @refresh reset
 
 const CMSUser = () => {
@@ -90,7 +116,7 @@ const CMSUser = () => {
     ); // assignees
   });
 
-  console.log("userTasks", userTasks  )
+  console.log("userTasks", userTasks);
 
   const tasksFromSelectedClient = useMemo(
     () =>
@@ -286,19 +312,65 @@ const CMSUser = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  //for task creation if user is a head to a client
+  const {
+    isOpen: isOpenTask,
+    onOpen: onOpenTask,
+    onOpenChange: onOpenChangeTask,
+  } = useDisclosure();
+
+  const subItemData = useAtomValue(clientSubItemDataAtom);
+  const subItemDataAtom = useAtomValue(clientSelectionForTaskAtom);
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+  const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      console.log("View: ", selectedClientToView);
+      clientSelectionChange({ key: selectedClientToView, operator: "USER" });
+    }
+    onOpenTask();
+  };
+  const checkIfUserIsHead = () => {
+    const clientsMap = new Map();
+
+    subItemData?.response?.forEach((itemData) => {
+      if (itemData.heads.some((head) => head.sub === user.sub)) {
+        itemData.client.forEach((client) => {
+          if (!clientsMap.has(client.email)) {
+            clientsMap.set(client.email, {
+              client_id: client._id, // #[CHANGE KEY]: client_id => key / id
+              key: client._id,
+              name: client.name,
+              email: client.email,
+              picture: client?.picture || "",
+              team: "",
+            });
+          }
+        });
+      }
+    });
+    return Array.from(clientsMap.values());
+  };
+  console.log("Is USer Included: ", checkIfUserIsHead());
+  console.log("filterClient: ", filterClient);
+  const actionButtons = {
+    task: {
+      color: "blue",
+      label: "Create Task",
+    },
+  };
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className="
+          className='
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            "
+            '
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -327,9 +399,46 @@ const CMSUser = () => {
             selectedClientToView={selectedClientToView}
             showClientDetails={showClientDetails}
             setShowClientDetails={setShowClientDetails}
-          />
+          >
+            {" "}
+            <CTAButtons
+              isDisabled={checkIfUserIsHead().length <= 0}
+              radius={"sm"}
+              variant={"bordered"}
+              key={actionButtons.task.label}
+              label={actionButtons.task.label}
+              color={actionButtons.task.color}
+              className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
+              onPress={() => handleOpenTaskWindow()}
+            />
+            <AddTaskModal
+              isOpen={isOpenTask}
+              onOpenChange={onOpenChangeTask}
+              selectedClientForTask={selectedClientForTask}
+              setSelectedClientForTask={setSelectedClientForTask}
+              selectedClientToViewAtom={selectedClientToViewAtom}
+              showClientTaskAtom={showClientTaskAtom}
+              clientSelectionChange={clientSelectionChange}
+              taskDataAtom={taskDataAtom}
+              taskNameAtom={taskNameAtom}
+              taskInstructionAtom={taskInstructionAtom}
+              teamSelectionAtom={teamSelectionAtom}
+              teamsByClientSelectionAtom={teamsByClientSelectionAtom}
+              selectedTeamForTaskAtom={selectedTeamForTaskAtom}
+              selectedProcessorAtom={selectedProcessorAtom}
+              selectedReviewerAtom={selectedReviewerAtom}
+              selectedManagerAtom={selectedManagerAtom}
+              selectedRecurrenceAtom={selectedRecurrenceAtom}
+              taskDurationAtom={taskDurationAtom}
+              dateRangeAtom={dateRangeAtom}
+              startTimeAtom={startTimeAtom}
+              endTimeAtom={endTimeAtom}
+              fetchTeamsAtom={fetchTeamsAtom}
+              clientSelectionForTaskAtom={clientSelectionForTaskAtom}
+            />
+          </CMSHeader>
         </CardHeader>
-        <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
+        <CardBody className='p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto'>
           <ClientList
             itemClients={itemClients}
             searchClientItem={searchClientItem}
@@ -375,7 +484,7 @@ const CMSUser = () => {
             selectedClient={selectedClient}
           />
         </CardBody>
-        <CardFooter className="">
+        <CardFooter className=''>
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={

@@ -20,6 +20,7 @@ import { notificationSocketRefAtom } from "../navigation/store/NotificationsStor
 import { sendNotification } from "../utils/notificationUtils";
 import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
+import { authenticationAtom } from "./AuthenticationStore";
 
 export const tasksAtom = atom([]);
 
@@ -38,19 +39,45 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     duration,
     sla = [],
   } = update;
+  console.log("Update: ", update);
+  const user = get(authenticationAtom);
 
   const clientAlreadyHaveTask = get(tasksAtom).filter(
-    (task) => task.client?.client_id === client?.client_id
+    (task) =>
+      task.client?.client_id === client?.client_id &&
+      task.manager.sub === manager.sub
   );
+  const uniqueProcessors = (existingProcessors, newProcessors) => {
+    const existingProcessorIds = new Set(existingProcessors.map((p) => p.sub));
+    return [
+      ...existingProcessors,
+      ...newProcessors.filter((p) => !existingProcessorIds.has(p.sub)),
+    ];
+  };
 
-  if (client && clientAlreadyHaveTask?.length) {
+  const uniqueReviewers = (existingReviewers, newReviewers) => {
+    const existingReviewerIds = new Set(existingReviewers.map((r) => r.sub));
+    return [
+      ...existingReviewers,
+      ...newReviewers.filter((r) => !existingReviewerIds.has(r.sub)),
+    ];
+  };
+
+  if (client && clientAlreadyHaveTask?.length > 0) {
+    const existingTask = clientAlreadyHaveTask[0];
+    const updatedProcessors = uniqueProcessors(
+      existingTask.processor,
+      processor
+    );
+    const updatedReviewers = uniqueReviewers(existingTask.reviewer, reviewer);
+
     const response = await restupdate("/cms/task", {
-      ...clientAlreadyHaveTask[0],
+      ...existingTask,
       manager: manager,
       client: client,
-      processor: [...clientAlreadyHaveTask[0].processor, ...processor],
-      reviewer: [...clientAlreadyHaveTask[0].reviewer, ...reviewer],
-      sla: [...clientAlreadyHaveTask[0].sla, ...sla],
+      processor: updatedProcessors,
+      reviewer: updatedReviewers,
+      sla: [...existingTask.sla, ...sla],
     });
 
     if (response?.success) {
@@ -67,7 +94,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       duration,
       sla,
     });
-
+    console.log("Rest Insert response: ", response);
     if (response?.success) {
       return { success: true };
     } else {
