@@ -204,7 +204,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeamForTask.size == 0}
+                isDisabled={selectedTeamForTask.size == 0 || selectedManager.size > 0}
                 isRequired={true}
                 aria-label="Manager Selection"
                 items={managerSelection}
