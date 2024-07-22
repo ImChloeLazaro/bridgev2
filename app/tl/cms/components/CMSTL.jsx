@@ -329,7 +329,7 @@ const CMSTL = () => {
 
   const handleOpenTaskWindow = () => {
     if (showClientTask) {
-      clientSelectionChange({ key: selectedClientToView });
+      clientSelectionChange({ key: selectedClientToView, operator: "TL" });
     }
     onOpenTask();
   };
@@ -372,19 +372,21 @@ const CMSTL = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  console.log("SelectedClient : ", selectedClientForTask);
+  console.log("SelectedClientToView: ", selectedClientToView);
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className="
+          className='
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            "
+            '
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -451,7 +453,7 @@ const CMSTL = () => {
             />
           </CMSHeader>
         </CardHeader>
-        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
+        <CardBody className='p-0 lg:p-3 h-full w-full overflow-x-auto'>
           <ClientList
             itemClients={itemClients}
             searchClientItem={searchClientItem}
@@ -505,7 +507,7 @@ const CMSTL = () => {
             selectedClient={selectedClient}
           />
         </CardBody>
-        <CardFooter className="">
+        <CardFooter className=''>
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={
