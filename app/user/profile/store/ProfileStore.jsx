@@ -1,6 +1,6 @@
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { readwithparams } from "@/app/utils/amplify-rest";
-import { atom } from "jotai";
+import { atom, useAtomValue } from "jotai";
 
 export const profileTabsAtom = atom([
   { key: "about", title: "About" },
@@ -26,6 +26,8 @@ export const personalInfoAtom = atom(async (get) => {
     return {};
   }
 });
+
+export const selectedMemberFilterKeysAtom = atom(new Set([0]));
 
 // Employee Information
 // export const employeeInfoAtom = atom(async (get) => {
