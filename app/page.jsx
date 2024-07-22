@@ -1,5 +1,4 @@
 "use client";
-import './aws-auth'
 import SignInCard from "./sign-in/components/SignInCard";
 
 function App() {
