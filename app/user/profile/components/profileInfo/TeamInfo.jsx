@@ -30,6 +30,9 @@ const TeamInfo = () => {
   const [selectedData, setSelectedData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
 
+  console.log("print")
+  console.log(data)
+
   const nameArray =
     data?.map((item) => ({ label: item.name, value: item.name, ...item })) ||
     [];
@@ -39,9 +42,7 @@ const TeamInfo = () => {
   );
 
   useEffect(() => {
-    if (nameArray.length > 0) {
-      setSelectedMemberFilterKeys(new Set([nameArray[0].name]));
-    }
+      setSelectedMemberFilterKeys(new Set([data[0].name]));
   }, []);
 
   return (
