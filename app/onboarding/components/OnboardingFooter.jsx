@@ -36,6 +36,13 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
     console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
   };
 
+  const handleNext = () => {
+    if (activeStep < steps.length - 1) {
+      setActiveStep((prev) => prev + 1);
+      setSelectedStepper(steps[activeStep + 1]);
+    }
+  };
+  
   const handleBack = () => {
     if (activeStep >= 1) {
       setActiveStep((prev) => prev - 1);
