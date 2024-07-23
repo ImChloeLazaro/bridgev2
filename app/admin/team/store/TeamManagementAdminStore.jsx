@@ -190,7 +190,6 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
     success: () => {
       return `Team added successfully`;
     },
-
     error: "Error Adding Team",
   });
 });
