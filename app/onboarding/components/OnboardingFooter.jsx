@@ -18,24 +18,31 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
 
   const onboardingData = useAtomValue(onboardingDataAtom);
 
-  // console.log("onboardingData", onboardingData);
+  console.log("onboardingData", onboardingData);
 
-  // const handleSubmit = async () => {
-  //   const profileresponse = await restinsert("/profile", onboardingData);
-  //   const updateonboardingstatus = await updatewithparams("/user", {
-  //     sub: auth.sub,
-  //   });
-  //   const benefitsresponse = await restinsert("/benefits", {
-  //     sub: auth.sub,
-  //   });
-  //   const leaveresponse = await restinsert("/leave", { sub: auth.sub });
-  //   console.log("PROFILE RESPONSE", profileresponse);
-  //   console.log("ONBOARDING STATUS RESPONSE", updateonboardingstatus);
-  //   console.log("BENEFITS RESPONSE", benefitsresponse);
-  //   console.log("LEAVE RESPONSE", leaveresponse);
-  //   console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
-  // };
+  const handleSubmit = async () => {
+    const profileresponse = await restinsert("/profile", onboardingData);
+    const updateonboardingstatus = await updatewithparams("/user", {
+      sub: auth.sub,
+    });
+    const benefitsresponse = await restinsert("/benefits", {
+      sub: auth.sub,
+    });
+    const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+    console.log("PROFILE RESPONSE", profileresponse);
+    console.log("ONBOARDING STATUS RESPONSE", updateonboardingstatus);
+    console.log("BENEFITS RESPONSE", benefitsresponse);
+    console.log("LEAVE RESPONSE", leaveresponse);
+    console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
+  };
 
+  const handleNext = () => {
+    if (activeStep < steps.length - 1) {
+      setActiveStep((prev) => prev + 1);
+      setSelectedStepper(steps[activeStep + 1]);
+    }
+  };
+  
   const handleBack = () => {
     if (activeStep >= 1) {
       setActiveStep((prev) => prev - 1);
@@ -52,7 +59,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
     next: {
       color: activeStep === steps.length - 1 ? "orange" : "blue",
       label: activeStep === steps.length - 1 ? "Submit" : "Next",
-      // action: activeStep === steps.length - 1 ? handleSubmit : handleNext,
+      action: activeStep === steps.length - 1 ? handleSubmit : handleNext,
     },
   };
   return (
@@ -88,7 +95,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
             fullWidth={true}
             label={actionButtons.next.label}
             color={actionButtons.next.color}
-            // onPress={actionButtons.next.action}
+            onPress={actionButtons.next.action}
           />
         )}
       </div>

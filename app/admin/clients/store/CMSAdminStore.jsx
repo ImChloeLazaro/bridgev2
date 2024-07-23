@@ -99,7 +99,6 @@ export const teamsByClientSelectionAtom = atom((get) => {
         client._id === Array.from(get(selectedClientForTaskAtom)).toString()
     )
   );
-  
 
   console.log("filteredTeamsByClient", filteredTeamsByClient);
 

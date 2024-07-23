@@ -17,6 +17,18 @@ export const fetchUserAtom = atom(null, async (get, set) => {
   }
 });
 
+// User
+// export const userAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   const list = await restread("/user/tagged");
+//   if (list?.success) {
+//     const user = list.result.filter((user) => user.sub === auth.sub)[0];
+//     return user;
+//   } else {
+//     return {};
+//   }
+// });
+
 // User List
 export const userListAtom = atom([]);
 
@@ -48,7 +60,6 @@ export const userRegisterAtom = atom(null, async (get, set, onBoardData) => {
       sub: auth.auth.sub,
       name: auth.auth.name,
       picture: auth.auth.picture,
-      email: auth.auth.email,
       email: auth.auth.email,
       application: onBoardData.application,
       background: onBoardData.background,

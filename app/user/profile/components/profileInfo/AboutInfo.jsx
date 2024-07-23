@@ -63,21 +63,21 @@ const AboutInfo = () => {
 
         <div className="flex flex-col items-start gap-4">
           <Information
-            data={profileData.address}
+            data={profileData?.address}
             title={"Address"}
             subTitle={"This is your current address"}
             type="text"
           />
 
           <Information
-            data={profileData.contact}
+            data={profileData?.contact}
             title={"Contact Number"}
             subTitle={"This is your current  contact number"}
             type="text"
           />
 
           <Information
-            data={profileData.birthdate}
+            data={profileData?.birthdate}
             title={"Birthday"}
             type="date"
             divider={false}

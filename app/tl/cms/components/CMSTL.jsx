@@ -6,7 +6,6 @@ import CMSHeader from "@/app/components/cms/CMSHeader";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import CTAButtons from "@/app/components/CTAButtons";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
   clientsAtom,
@@ -17,6 +16,7 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
+import { userAtom } from "@/app/store/UserStore";
 import {
   Card,
   CardBody,
@@ -36,8 +36,11 @@ import {
 import {
   changeViewAtom,
   clientSelectionChangeAtom,
+  clientSelectionForTaskAtom,
   dateRangeAtom,
   endTimeAtom,
+  fetchTeamsAtom,
+  filterClientAtom,
   pageRowsSelectionAtom,
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
@@ -49,6 +52,7 @@ import {
   selectedReviewerAtom,
   selectedReviewerTaskActionAtom,
   selectedTaskFilterKeysAtom,
+  selectedTeamForTaskAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
@@ -58,12 +62,8 @@ import {
   taskDurationAtom,
   taskInstructionAtom,
   taskNameAtom,
-  selectedTeamForTaskAtom,
   teamSelectionAtom,
   teamsByClientSelectionAtom,
-  fetchTeamsAtom,
-  filterClientAtom,
-  clientSelectionForTaskAtom,
 } from "../store/CMSTLStore";
 
 // @refresh reset
@@ -86,7 +86,7 @@ const CMSTL = () => {
     direction: "descending",
   });
 
-  const user = useAtomValue(authenticationAtom);
+  const user = useAtomValue(userAtom);
 
   const filterClient = useAtomValue(filterClientAtom);
 
@@ -132,12 +132,9 @@ const CMSTL = () => {
 
   // ##########################################
   const userTasks = tasks.filter((task) => {
-    const processors = task.processor.map((user) => user.sub);
-    const reviewers = task.reviewer.map((user) => user.sub);
-    return (
-      [...processors, ...reviewers, task.manager?.sub].includes(user.sub) &&
-      task.client?.client_id
-    ); // assignees
+    // const processors = task.processor.map((user) => user.sub);
+    // const reviewers = task.reviewer.map((user) => user.sub);
+    return [task.manager?.sub].includes(user.sub) && task.client?.client_id; // assignees
   });
 
   const tasksFromSelectedClient = useMemo(
@@ -146,6 +143,14 @@ const CMSTL = () => {
         (task) => task.client?.client_id === selectedClientToView
       ),
     [selectedClientToView, userTasks]
+  );
+
+  const tasksFilteredByClient = tasks.filter(
+    (task) =>
+      filterClient
+        .map((client) => client.key)
+        .includes(task.client.client_id) &&
+      [...task.processor, ...task.reviewer, task.manager].includes(user.sub)
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -230,9 +235,6 @@ const CMSTL = () => {
       filterClient.map((client) => client._id).includes(client._id)
     );
 
-    console.log("clients", clients);
-    console.log("filterClient", filterClient);
-
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
         client.company.name
@@ -253,10 +255,10 @@ const CMSTL = () => {
     return filteredClients;
   }, [
     clients,
+    filterClient,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
-    filterClient,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -453,6 +455,7 @@ const CMSTL = () => {
         </CardHeader>
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
+            taskStatusCount={tasksFilteredByClient}
             itemClients={itemClients}
             searchClientItem={searchClientItem}
             selectedClientFilterKeys={selectedClientFilterKeys}

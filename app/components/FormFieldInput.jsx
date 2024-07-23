@@ -336,7 +336,7 @@ const FormFieldInput = ({
 
     if (type === "date") {
       if (isDateRange) {
-        return !(
+        return (
           isValid(
             toCalendarDateTime(dateRangeValue.start, timeStartValue).toDate()
           ) &&

@@ -45,9 +45,11 @@ const NavigationBar = () => {
   const [activeHRRoute, setActiveHRRoute] = useAtom(activeHRRouteAtom);
 
   const user = useAtomValue(userAtom);
-  const selectedRole = useRoles(user.role);
+  const selectedRole = useRoles(user?.role);
 
   const role = selectedRole.currentRole.toLowerCase();
+
+  console.log("ROLE NAVBAR", role);
 
   const activeRoutes = role.includes("admin")
     ? activeAdminRoute
