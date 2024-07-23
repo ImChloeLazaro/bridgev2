@@ -1,3 +1,5 @@
+import { clientSelectionChangeAtom } from "@/app/admin/clients/store/CMSAdminStore";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import ClientList from "@/app/components/cms/ClientList";
 import CMSFooter from "@/app/components/cms/CMSFooter";
@@ -5,7 +7,6 @@ import CMSHeader from "@/app/components/cms/CMSHeader";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import CTAButtons from "@/app/components/CTAButtons";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   clientFilterKeysAtom,
   clientsAtom,
@@ -16,6 +17,7 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
+import { userAtom } from "@/app/store/UserStore";
 import {
   Card,
   CardBody,
@@ -26,39 +28,37 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { clientSubItemDataAtom } from "../../profile/store/ProfileStore";
 import {
   changeViewAtom,
+  clientSelectionForTaskAtom,
+  dateRangeAtom,
+  endTimeAtom,
+  fetchTeamsAtom,
+  filterClientAtom,
   pageRowsSelectionAtom,
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
-  selectedTaskFilterKeysAtom,
-  showClientDetailsAtom,
-  showClientTaskAtom,
-  showFooterAtom,
-  showSearchBarAtom,
-  filterClientAtom,
-  clientSelectionForTaskAtom,
-  teamSelectionAtom,
-  teamsByClientSelectionAtom,
-  fetchTeamsAtom,
-  dateRangeAtom,
-  endTimeAtom,
   selectedManagerAtom,
   selectedProcessorAtom,
   selectedRecurrenceAtom,
   selectedReviewerAtom,
+  selectedTaskFilterKeysAtom,
   selectedTeamForTaskAtom,
+  showClientDetailsAtom,
+  showClientTaskAtom,
+  showFooterAtom,
+  showSearchBarAtom,
   startTimeAtom,
   taskDataAtom,
   taskDurationAtom,
-  taskNameAtom,
   taskInstructionAtom,
+  taskNameAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
 } from "../store/CMSUserStore";
-import { clientSubItemDataAtom } from "../../profile/store/ProfileStore";
-import AddTaskModal from "@/app/components/cms/AddTaskModal";
 
-import { clientSelectionChangeAtom } from "@/app/admin/clients/store/CMSAdminStore";
 // @refresh reset
 
 const CMSUser = () => {
@@ -66,13 +66,20 @@ const CMSUser = () => {
   const [isMobile, setIsMobile] = useState(
     window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
   );
+  const {
+    isOpen: isOpenTask,
+    onOpen: onOpenTask,
+    onOpenChange: onOpenChangeTask,
+  } = useDisclosure();
+
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "dueDate",
     direction: "descending",
   });
-  const user = useAtomValue(authenticationAtom);
+
+  const user = useAtomValue(userAtom);
 
   const filterClient = useAtomValue(filterClientAtom);
 
@@ -116,14 +123,20 @@ const CMSUser = () => {
     ); // assignees
   });
 
-  console.log("userTasks", userTasks);
-
   const tasksFromSelectedClient = useMemo(
     () =>
       userTasks.filter(
         (task) => task.client?.client_id === selectedClientToView
       ),
     [selectedClientToView, userTasks]
+  );
+
+  const tasksFilteredByClient = tasks.filter(
+    (task) =>
+      filterClient
+        .map((client) => client.key)
+        .includes(task.client.client_id) &&
+      [...task.processor, ...task.reviewer, task.manager].includes(user.sub)
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -228,10 +241,10 @@ const CMSUser = () => {
     return filteredClients;
   }, [
     clients,
+    filterClient,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
-    filterClient,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -274,6 +287,20 @@ const CMSUser = () => {
     // },
   ];
 
+  const actionButtons = {
+    task: {
+      color: "blue",
+      label: "Create Task",
+    },
+  };
+
+  const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      clientSelectionChange({ key: selectedClientToView });
+    }
+    onOpenTask();
+  };
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -313,22 +340,16 @@ const CMSUser = () => {
   }, []);
 
   //for task creation if user is a head to a client
-  const {
-    isOpen: isOpenTask,
-    onOpen: onOpenTask,
-    onOpenChange: onOpenChangeTask,
-  } = useDisclosure();
 
   const subItemData = useAtomValue(clientSubItemDataAtom);
   const subItemDataAtom = useAtomValue(clientSelectionForTaskAtom);
-  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
-  const handleOpenTaskWindow = () => {
-    if (showClientTask) {
-      console.log("View: ", selectedClientToView);
-      clientSelectionChange({ key: selectedClientToView, operator: "USER" });
-    }
-    onOpenTask();
-  };
+  // const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+  // const handleOpenTaskWindow = () => {
+  //   if (showClientTask) {
+  //     clientSelectionChange({ key: selectedClientToView });
+  //   }
+  //   onOpenTask();
+  // };
   const checkIfUserIsHead = () => {
     const clientsMap = new Map();
 
@@ -351,26 +372,27 @@ const CMSUser = () => {
     return Array.from(clientsMap.values());
   };
   console.log("Is USer Included: ", checkIfUserIsHead());
-  console.log("filterClient: ", filterClient);
-  const actionButtons = {
-    task: {
-      color: "blue",
-      label: "Create Task",
-    },
-  };
+  // console.log("filterClient: ", filterClient);
+  // const actionButtons = {
+  //   task: {
+  //     color: "blue",
+  //     label: "Create Task",
+  //   },
+  // };
+
   return (
     <>
-      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className='
+          className="
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            '
+            "
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -400,9 +422,8 @@ const CMSUser = () => {
             showClientDetails={showClientDetails}
             setShowClientDetails={setShowClientDetails}
           >
-            {" "}
             <CTAButtons
-              isDisabled={checkIfUserIsHead().length <= 0}
+              // showButton={checkIfUserIsHead().length <= 0}
               radius={"sm"}
               variant={"bordered"}
               key={actionButtons.task.label}
@@ -418,7 +439,7 @@ const CMSUser = () => {
               setSelectedClientForTask={setSelectedClientForTask}
               selectedClientToViewAtom={selectedClientToViewAtom}
               showClientTaskAtom={showClientTaskAtom}
-              clientSelectionChange={clientSelectionChange}
+              // clientSelectionChange={clientSelectionChange}
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
@@ -438,8 +459,9 @@ const CMSUser = () => {
             />
           </CMSHeader>
         </CardHeader>
-        <CardBody className='p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto'>
+        <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
           <ClientList
+            taskStatusCount={tasksFilteredByClient}
             itemClients={itemClients}
             searchClientItem={searchClientItem}
             selectedClientFilterKeys={selectedClientFilterKeys}
@@ -484,7 +506,7 @@ const CMSUser = () => {
             selectedClient={selectedClient}
           />
         </CardBody>
-        <CardFooter className=''>
+        <CardFooter className="">
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={

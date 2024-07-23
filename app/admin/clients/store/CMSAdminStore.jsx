@@ -1,4 +1,3 @@
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import { clientsAtom } from "@/app/store/ClientStore";
 import {
   managerSelectionAtom,
@@ -191,16 +190,12 @@ export const clientSelectionForTaskAtom = atom((get) => {
 });
 
 export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
-  const { key, operator } = update;
-  const user = get(authenticationAtom);
+  const { key } = update;
   const clientSelectionChange = get(tasksAtom).filter(
     (task) => task.client?.client_id === key
   );
 
-  const manager =
-    operator === "USER"
-      ? user.value.sub
-      : clientSelectionChange[0]?.manager?.sub;
+  const manager = clientSelectionChange[0]?.manager?.sub;
 
   if (typeof clientSelectionChange[0]?.client?.client_id === "string") {
     const selectedClient = [clientSelectionChange[0].client?.client_id] ?? [];

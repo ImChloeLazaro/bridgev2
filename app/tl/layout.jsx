@@ -23,7 +23,7 @@ const TLLayout = ({ children }) => {
 
   if (auth.isAuthenticated) {
     return (
-      <div className='flex h-screen max-h-screen w-screen max-w-screen top-0'>
+      <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
         {/* <Suspense fallback={<Loading />}> */}
         <SideBar />
         {/* </Suspense> */}
@@ -33,11 +33,11 @@ const TLLayout = ({ children }) => {
             "flex flex-col w-full h-screen max-h-screen overflow-hidden"
           )}
         >
-          <div className='top-0'>
+          <div className="top-0">
             <OnboardingStatusAlert showAlert={user?.hasOnboardingData} />
             <NavigationBar />
           </div>
-          <div className='flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background '>
+          <div className="flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
             {/* <Suspense fallback={<Loading />}> */}
             {children}
             {/* </Suspense> */}

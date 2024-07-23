@@ -55,12 +55,13 @@ const AddTaskModal = ({
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchTeams = useSetAtom(fetchTeamsAtom);
   const deleteTask = useSetAtom(deleteTaskAtom);
+
   const showClientTask = useAtomValue(showClientTaskAtom);
   const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async () => {
     // console.log("taskData", taskData);addTask(taskData);deleteTask()
-    console.log("Task Data");
+
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
@@ -97,18 +98,18 @@ const AddTaskModal = ({
       <ModalContent>
         {(onClose) => (
           <form action={handleFormAction}>
-            <ModalHeader className='flex flex-col gap-1 my-2 py-0 pt-2'>
-              <div className='flex flex-col'>
-                <p className='font-bold text-base lg:text-lg xl:text-2xl text-black-default '>
+            <ModalHeader className="flex flex-col gap-1 my-2 py-0 pt-2">
+              <div className="flex flex-col">
+                <p className="font-bold text-base lg:text-lg xl:text-2xl text-black-default ">
                   {"Assign New Task"}
                 </p>
-                <p className='font-medium text-xs lg:text-sm text-darkgrey-hover'>
+                <p className="font-medium text-xs lg:text-sm text-darkgrey-hover">
                   {"Creating a task will notify everyone included in the task."}
                 </p>
               </div>
             </ModalHeader>
-            <ModalBody className='h-full overflow-y-scroll overflow-x-hidden'>
-              <div className='h-80'>
+            <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
+              <div className="h-80">
                 <TaskFormSections
                   selectedClientForTask={selectedClientForTask}
                   setSelectedClientForTask={setSelectedClientForTask}
@@ -142,14 +143,14 @@ const AddTaskModal = ({
               />
             </ModalFooter>
             <ConfirmationWindow
-              message='
+              message="
                 Make sure the details of the task is correct.
                 You cannot edit this later.
-                '
-              title='Create this Task?'
-              choice='Create Task'
+                "
+              title="Create this Task?"
+              choice="Create Task"
               action={handleAddTask}
-              type='confirm'
+              type="confirm"
               isOpen={isOpenPopup}
               onOpenChange={onOpenChangePopup}
               onCloseParent={onClose}

@@ -22,12 +22,18 @@ const MemberSelect = ({
   const PeopleList = useAtomValue(taggedPeopleListAtom);
   const subTeamMembers = useAtomValue(subTeamMembersAtom);
 
+  // Use a Set to eliminate duplicates based on 'sub'
+  const uniqueSubsSet = new Set();
   const filteredTeamMembersSelection = subTeamMembers
-    .map((team) => team.members.map((member) => member))
-    .flat()
-    .filter(
-      (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
-    );
+    .flatMap((team) => team.members)
+    .filter((member) => {
+      if (uniqueSubsSet.has(member.sub)) {
+        return false;
+      } else {
+        uniqueSubsSet.add(member.sub);
+        return true;
+      }
+    });
 
   const handleSelectionChange = (selectedKeys) => {
     const selectedPeople = Array.from(selectedKeys)

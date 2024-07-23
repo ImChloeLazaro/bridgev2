@@ -1,6 +1,7 @@
 import IconButton from "@/app/components/IconButton";
 import LabelTagChip from "@/app/components/LabelTagChip";
 import { tasksAtom } from "@/app/store/TaskStore";
+import { userAtom } from "@/app/store/UserStore";
 import {
   Avatar,
   AvatarGroup,
@@ -25,6 +26,7 @@ const tagColors = {
 };
 
 const ClientItemCard = ({
+  taskStatusCount,
   clientName,
   clientKey,
   setShowClientTask,
@@ -41,7 +43,28 @@ const ClientItemCard = ({
     window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
   );
 
-  const tasks = useAtomValue(tasksAtom);
+  const tasks = taskStatusCount;
+  const clientProcessors =
+    tasks.filter((task) => task.client?.client_id === clientKey)[0]
+      ?.processor ?? [];
+
+  const clientReviewers =
+    tasks.filter((task) => task.client?.client_id === clientKey)[0]?.reviewer ??
+    [];
+
+  const clientManager =
+    tasks.filter((task) => task.client?.client_id === clientKey)[0]?.manager ??
+    {};
+
+  const assignees = [
+    ...clientProcessors,
+    ...clientReviewers,
+    clientManager,
+  ].filter(
+    (obj1, i, arr) =>
+      // arr.findIndex((obj2) => obj2._id === obj1._id) === i ||
+      arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+  );
 
   const labelCount = useMemo(() => {
     let overdueCount = tasks
@@ -90,10 +113,6 @@ const ClientItemCard = ({
       };
     }
   }, [clientKey, tasks]);
-
-  const clientProcessors = tasks.filter(
-    (task) => task.client?.client_id === clientKey
-  )[0]?.processor;
 
   useEffect(() => {
     // only execute all the code below in client side
@@ -251,7 +270,7 @@ const ClientItemCard = ({
                 : null}
             </div>
             <div className="w-1/5 flex justify-end items-center gap-2 px-1">
-              {!clientProcessors?.length ? (
+              {!assignees?.length ? (
                 <AvatarGroup>
                   <Avatar
                     isBordered={true}
@@ -280,7 +299,7 @@ const ClientItemCard = ({
                     count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
                   }}
                 >
-                  {clientProcessors.map((processor, index) => (
+                  {assignees.map((processor, index) => (
                     <Avatar
                       isBordered={true}
                       key={index}

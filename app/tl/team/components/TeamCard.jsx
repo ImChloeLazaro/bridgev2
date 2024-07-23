@@ -14,18 +14,54 @@ import {
 } from "@nextui-org/react";
 import { FaHamburger } from "react-icons/fa";
 import { useState } from "react";
+import UpdateTeamMember from "./UpdateTeamMember";
 
 const TeamCard = ({ item, keyHandler }) => {
   const [popoverTrigger, setPopoverTrigger] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState(null);
   const [teamMembers, setTeamMembers] = useState(item.members);
+
+  const {
+    isOpen: updatePersonIsOpen,
+    onOpen: updatePersonOnOpen,
+    onClose: updatePersonOnClose
+  } = useDisclosure();
+
   const handleAction = (key) => {
     keyHandler(key, item);
     if (key === 'update') {
       setPopoverTrigger(false);
     }
   };
+
+  const updateOne = (updated) => {
+    const updatedMembers = teamMembers.map((member) => {
+      if (member._id === updated._id) {
+        return {
+          ...member,
+          ...updated
+        };
+      }
+      return member;
+    });
+    setTeamMembers(updatedMembers);
+  };
+
+  const openUpdateModal = (person) => {
+    console.log('PERSON', person);
+    setSelectedPerson(person); 
+    updatePersonOnOpen();
+  };
+
   return (
     <>
+      <UpdateTeamMember
+        keyObj={item}
+        isOpen={updatePersonIsOpen}
+        onOpenChange={updatePersonOnClose}
+        teamMember={selectedPerson}
+        setUpdatedTeamMember={updateOne}
+      />
       <Card key={item._id || item.key} className="flex flex-col p-4 gap-2">
         <CardHeader className="flex justify-between">
           <h3 className="text-lg font-semibold">{item.name}</h3>
@@ -38,6 +74,7 @@ const TeamCard = ({ item, keyHandler }) => {
             <PopoverContent>
               <div className="px-1 py-2">
                 <Listbox aria-label="Actions" onAction={(key) => handleAction(key)}>
+                  <ListboxItem key="update">Update</ListboxItem>
                   <ListboxItem
                     key="delete"
                     className={`text-${item.status === "active" ? "danger" : "success"}`}
@@ -75,6 +112,7 @@ const TeamCard = ({ item, keyHandler }) => {
               <ListboxItem
                 textValue={member.name}
                 key={member._id}
+                onClick={() => openUpdateModal(member)}
               >
                 <div className="flex items-center">
                   <div className="flex w-full p-1">
@@ -85,6 +123,14 @@ const TeamCard = ({ item, keyHandler }) => {
                         <p className="text-xs font-light">{member.email}</p>
                         <p className="text-xs font-light">{member.position}</p>
                       </div>
+                    </div>
+                    <div className="flex flex-col items-end justify-between w-1/4">
+                      <Chip size="sm" className="text-slate-50" color={member.employment_status === 'Employment Status' ? 'default' : 'warning'}>
+                        {member.employment_status}
+                      </Chip>
+                      <Chip size="sm" className="text-slate-50" color={member.status === 'active' ? 'success' : 'danger'}>
+                        {member.status === 'active' ? 'Active' : 'Inactive'}
+                      </Chip>
                     </div>
                   </div>
                 </div>

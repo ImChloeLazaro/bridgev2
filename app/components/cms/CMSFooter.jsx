@@ -38,6 +38,7 @@ const CMSFooter = ({
           className="max-w-16 mb-0"
           onSelectionChange={(select) => {
             handleRowsPerPage(select);
+            setPage(1);
           }}
           classNames={{ popoverContent: "w-20" }}
         >

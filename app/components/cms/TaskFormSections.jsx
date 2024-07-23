@@ -82,38 +82,38 @@ const TaskFormSections = ({
     : teamSelection;
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className="flex flex-col gap-6">
       {/* People */}
-      <div className='py-2 w-full'>
-        <div className='flex justify-start items-center gap-2 mb-8'>
-          <p className='font-bold text-base lg:text-lg xl:text-xl'>
+      <div className="py-2 w-full">
+        <div className="flex justify-start items-center gap-2 mb-8">
+          <p className="font-bold text-base lg:text-lg xl:text-xl">
             {"People"}
           </p>
           <MdInfoOutline />
         </div>
 
-        <div className='flex flex-col gap-3'>
+        <div className="flex flex-col gap-3">
           {/* Client */}
           <div
             className={`${
               showClientTask ? "cursor-not-allowed" : ""
             } flex justify-between items-center gap-8`}
           >
-            <p className='text-sm lg:text-base font-medium w-[20%]'>
+            <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Client"}
             </p>
-            <div className='w-[80%]'>
+            <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
                 isDisabled={showClientTask}
-                aria-label='Client Selection'
+                aria-label="Client Selection"
                 items={clientSelectionForTask}
-                placeholder='Select Client'
-                selectionMode='single'
+                placeholder="Select Client"
+                selectionMode="single"
                 selectedKeys={selectedClientForTask}
                 onSelectionChange={(key) => {
                   setSelectedClientForTask(key);
-                  clientSelectionChange({ key: Array.from(key).toString() });
+                  // clientSelectionChange({ key: Array.from(key).toString() });
                 }}
                 renderItemPicture={true}
               />
@@ -121,20 +121,20 @@ const TaskFormSections = ({
           </div>
 
           {/* Team */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>{"Team"}</p>
-            <div className='w-[80%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">{"Team"}</p>
+            <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
-                aria-label='Team Selection'
-                items={teamForTaskSelection} //
-                placeholder='Assign Team/s'
-                selectionMode='single'
+                aria-label="Team Selection"
+                items={teamSelection} //
+                placeholder="Assign Team/s"
+                selectionMode="single"
                 selectedKeys={selectedTeamForTask}
                 onSelectionChange={(key) => {
                   setSelectedTeamForTask(key);
 
-                  let assignees = teamForTaskSelection.filter(
+                  let assignees = teamSelection.filter(
                     (team) => team?._id === Array.from(key).toString()
                   )[0];
                   if (
@@ -168,18 +168,18 @@ const TaskFormSections = ({
           </div>
 
           {/* Processor */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Processor"}
             </p>
-            <div className='w-[80%]'>
+            <div className="w-[80%]">
               <FormFieldSelect
                 isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
-                aria-label='Processor Selection'
+                aria-label="Processor Selection"
                 items={processorSelection} // showClientTask ? teamsByClientSelection.members :
-                placeholder='Assign Processor/s'
-                selectionMode='multiple'
+                placeholder="Assign Processor/s"
+                selectionMode="multiple"
                 selectedKeys={selectedProcessor}
                 onSelectionChange={setSelectedProcessor}
                 renderType={"chip"}
@@ -189,18 +189,18 @@ const TaskFormSections = ({
           </div>
 
           {/* Reviewer */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Reviewer"}
             </p>
-            <div className='w-[80%]'>
+            <div className="w-[80%]">
               <FormFieldSelect
                 isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
-                aria-label='Reviewer Selection'
+                aria-label="Reviewer Selection"
                 items={reviewerSelection}
-                placeholder='Assign Reviewer/s'
-                selectionMode='multiple'
+                placeholder="Assign Reviewer/s"
+                selectionMode="multiple"
                 selectedKeys={selectedReviewer}
                 onSelectionChange={setSelectedReviewer}
                 renderType={"chip"}
@@ -210,20 +210,18 @@ const TaskFormSections = ({
           </div>
 
           {/* Manager */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Manager"}
             </p>
-            <div className='w-[80%]'>
+            <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={
-                  selectedTeamForTask.size == 0 || selectedManager.size > 0
-                }
+                isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
-                aria-label='Manager Selection'
+                aria-label="Manager Selection"
                 items={managerSelection}
-                placeholder='Assign Manager/s'
-                selectionMode='single'
+                placeholder="Assign Manager/s"
+                selectionMode="single"
                 selectedKeys={selectedManager}
                 onSelectionChange={setSelectedManager}
                 renderItemPicture={true}
@@ -233,19 +231,19 @@ const TaskFormSections = ({
         </div>
       </div>
       {/* Description */}
-      <div className='py-2 w-full'>
-        <div className='flex justify-start items-center gap-2 mb-8'>
-          <p className='text-black-default font-bold text-base lg:text-lg xl:text-xl'>
+      <div className="py-2 w-full">
+        <div className="flex justify-start items-center gap-2 mb-8">
+          <p className="text-black-default font-bold text-base lg:text-lg xl:text-xl">
             {"Description"}
           </p>
           <MdInfoOutline />
         </div>
 
-        <div className='flex flex-col gap-3'>
+        <div className="flex flex-col gap-3">
           {/* Name */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>{"Name"}</p>
-            <div className='w-[80%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">{"Name"}</p>
+            <div className="w-[80%]">
               <FormFieldInput
                 isRequired={true}
                 type={"text"}
@@ -257,11 +255,11 @@ const TaskFormSections = ({
             </div>
           </div>
           {/* Instruction */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Instruction"}
             </p>
-            <div className='w-[80%]'>
+            <div className="w-[80%]">
               <FormFieldTextArea
                 isRequired={true}
                 value={taskInstruction}
@@ -272,17 +270,17 @@ const TaskFormSections = ({
             </div>
           </div>
           {/* Recurrence */}
-          <div className='flex justify-between items-center gap-8'>
-            <p className='text-sm lg:text-base font-medium w-[20%]'>
+          <div className="flex justify-between items-center gap-8">
+            <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Recurrence"}
             </p>
-            <div className='w-[80%]'>
+            <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
-                aria-label='Recurrence Selection'
+                aria-label="Recurrence Selection"
                 items={recurrenceSelection}
-                placeholder='Choose Recurrence'
-                selectionMode='single'
+                placeholder="Choose Recurrence"
+                selectionMode="single"
                 selectedKeys={selectedRecurrence}
                 onSelectionChange={setSelectedRecurrence}
               />
@@ -292,11 +290,11 @@ const TaskFormSections = ({
           {Array.from(selectedRecurrence).toString() !== "none" ? (
             <>
               {/* Start Date */}
-              <div className='flex justify-between items-center gap-8'>
-                <p className='text-sm lg:text-base font-medium w-[20%]'>
+              <div className="flex justify-between items-center gap-8">
+                <p className="text-sm lg:text-base font-medium w-[20%]">
                   {"Start Date"}
                 </p>
-                <div className='w-[80%]'>
+                <div className="w-[80%]">
                   <FormFieldInput
                     isRequired={true}
                     type={"date"}
@@ -315,15 +313,15 @@ const TaskFormSections = ({
               </div>
 
               {/* Task Duration */}
-              <div className='flex justify-between items-center gap-8'>
-                <p className='text-sm lg:text-base font-medium w-[20%]'>
+              <div className="flex justify-between items-center gap-8">
+                <p className="text-sm lg:text-base font-medium w-[20%]">
                   {"Duration"}
                 </p>
-                <div className='w-[80%] flex items-center gap-3'>
+                <div className="w-[80%] flex items-center gap-3">
                   <TimeInput
                     isInvalid={startTime?.compare(endTime) > 0}
                     errorMessage={"Invalid Time Range"}
-                    label='Start Time'
+                    label="Start Time"
                     minValue={new Time()}
                     value={startTime}
                     onChange={(timeStart) => {
@@ -335,7 +333,7 @@ const TaskFormSections = ({
                   <TimeInput
                     isInvalid={startTime?.compare(endTime) > 0}
                     errorMessage={"Invalid Time Range"}
-                    label='Due Time'
+                    label="Due Time"
                     minValue={new Time()}
                     value={endTime}
                     onChange={(timeEnd) => {
@@ -348,11 +346,11 @@ const TaskFormSections = ({
               </div>
             </>
           ) : (
-            <div className='flex justify-between items-center gap-8'>
-              <p className='text-sm lg:text-base font-medium w-[20%]'>
+            <div className="flex justify-between items-center gap-8">
+              <p className="text-sm lg:text-base font-medium w-[20%]">
                 {"Date Range"}
               </p>
-              <div className='w-[80%]'>
+              <div className="w-[80%]">
                 <FormFieldInput
                   isRequired={true}
                   type={"date"}

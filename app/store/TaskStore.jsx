@@ -20,7 +20,7 @@ import { notificationSocketRefAtom } from "../navigation/store/NotificationsStor
 import { sendNotification } from "../utils/notificationUtils";
 import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
-import { authenticationAtom } from "./AuthenticationStore";
+import { teamsAtom } from "./TeamManagementStore";
 
 export const tasksAtom = atom([]);
 
@@ -39,69 +39,25 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     duration,
     sla = [],
   } = update;
-  console.log("Update: ", update);
-  const user = get(authenticationAtom);
 
-  const clientAlreadyHaveTask = get(tasksAtom).filter(
-    (task) =>
-      task.client?.client_id === client?.client_id &&
-      task.manager.sub === manager.sub
-  );
-  const uniqueProcessors = (existingProcessors, newProcessors) => {
-    const existingProcessorIds = new Set(existingProcessors.map((p) => p.sub));
-    return [
-      ...existingProcessors,
-      ...newProcessors.filter((p) => !existingProcessorIds.has(p.sub)),
-    ];
-  };
+  const response = await restinsert("/cms/task", {
+    manager,
+    client,
+    processor,
+    reviewer,
+    duration,
+    sla,
+  });
 
-  const uniqueReviewers = (existingReviewers, newReviewers) => {
-    const existingReviewerIds = new Set(existingReviewers.map((r) => r.sub));
-    return [
-      ...existingReviewers,
-      ...newReviewers.filter((r) => !existingReviewerIds.has(r.sub)),
-    ];
-  };
+  console.log("response of new adding task logic", response);
 
-  if (client && clientAlreadyHaveTask?.length > 0) {
-    const existingTask = clientAlreadyHaveTask[0];
-    const updatedProcessors = uniqueProcessors(
-      existingTask.processor,
-      processor
-    );
-    const updatedReviewers = uniqueReviewers(existingTask.reviewer, reviewer);
-
-    const response = await restupdate("/cms/task", {
-      ...existingTask,
-      manager: manager,
-      client: client,
-      processor: updatedProcessors,
-      reviewer: updatedReviewers,
-      sla: [...existingTask.sla, ...sla],
-    });
-
-    if (response?.success) {
-      return { success: true };
-    } else {
-      return { success: false };
-    }
+  if (response?.success) {
+    return { success: true };
   } else {
-    const response = await restinsert("/cms/task", {
-      manager,
-      client,
-      processor,
-      reviewer,
-      duration,
-      sla,
-    });
-    console.log("Rest Insert response: ", response);
-    if (response?.success) {
-      return { success: true };
-    } else {
-      return { success: false };
-    }
+    return { success: false };
   }
 });
+
 export const updateTaskAtom = atom(null, async (get, set, update) => {
   const { action, tasks, _id, reviewer, processor } = update;
 
@@ -200,7 +156,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
 
   const processors = tasks.processor?.map((user) => user.sub);
   const reviewers = tasks.reviewer?.map((user) => user.sub);
-  const everyone = [...processors, ...reviewers];
+  const everyone = [...processors, ...reviewers, tasks.manager.sub];
 
   const assigneeCountMsg = (list) => {
     let size = list.length;
@@ -246,7 +202,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: processors,
+          subs: [...processors, tasks.manager.sub],
           title: `${user?.name} has completed task [${taskName}] for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Completed: ${format(dateTaskAction, "PPpp")}`,
@@ -259,7 +215,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: reviewers,
+          subs: [...reviewers, tasks.manager.sub],
           title: `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Marked for Review: ${format(
@@ -531,7 +487,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
     sendNotification({
       socketRef: socketRef,
       action: "notification",
-      subs: reviewers,
+      subs: [...reviewers, tasks.manager.sub],
       title: `${user?.name} has removed ${assigneeCountMsg(
         removeAssignees
       )} for ${clientName}.`,
@@ -742,203 +698,203 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   }
 });
 
-export const recurrenceStartTimeAtom = atom((get) => {
-  return { hours: 8, minutes: 0, seconds: 0 };
-});
-export const recurrenceEndTimeAtom = atom((get) => {
-  return { hours: 17, minutes: 0, seconds: 0 };
-});
+// export const recurrenceStartTimeAtom = atom((get) => {
+//   return { hours: 8, minutes: 0, seconds: 0 };
+// });
+// export const recurrenceEndTimeAtom = atom((get) => {
+//   return { hours: 17, minutes: 0, seconds: 0 };
+// });
 
-export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
-  const tasks = await restread("/cms/task");
+// export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
+//   const tasks = await restread("/cms/task");
 
-  if (tasks?.success) {
-    const convertedTasks = tasks.response.map((task) => {
-      const updatedEndDateTime = task.sla.map((sla) => {
-        if (sla.progress.toLowerCase() === "overdue") {
-          return {
-            ...sla,
-            progress: "good",
-          };
-        }
-        if (sla.status === "done") {
-          return {
-            ...sla,
-            status: "todo",
-          };
-        }
-        // Add validation for weekends and holidays (array lookup)
-        if (sla.status === "todo" || sla.status === "done") {
-          if (sla.duration.recurrence.toLowerCase() === "daily") {
-            let difference = differenceInDays(
-              new Date(),
-              new Date(sla.duration.end.slice(0, -1))
-            );
+//   if (tasks?.success) {
+//     const convertedTasks = tasks.response.map((task) => {
+//       const updatedEndDateTime = task.sla.map((sla) => {
+//         if (sla.progress.toLowerCase() === "overdue") {
+//           return {
+//             ...sla,
+//             progress: "good",
+//           };
+//         }
+//         if (sla.status === "done") {
+//           return {
+//             ...sla,
+//             status: "todo",
+//           };
+//         }
+//         // Add validation for weekends and holidays (array lookup)
+//         if (sla.status === "todo" || sla.status === "done") {
+//           if (sla.duration.recurrence.toLowerCase() === "daily") {
+//             let difference = differenceInDays(
+//               new Date(),
+//               new Date(sla.duration.end.slice(0, -1))
+//             );
 
-            console.log("difference daily", difference);
-            if (difference >= 1) {
-              return {
-                ...sla,
-                duration: {
-                  ...sla.duration,
-                  end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .add({
-                      days: 1,
-                    })
-                    .toString(),
-                },
-              };
-            }
-          }
-          if (sla.duration.recurrence.toLowerCase() === "weekly") {
-            let difference = differenceInWeeks(
-              new Date(),
-              new Date(sla.duration.end.slice(0, -1))
-            );
-            console.log("difference weekly", difference);
+//             console.log("difference daily", difference);
+//             if (difference >= 1) {
+//               return {
+//                 ...sla,
+//                 duration: {
+//                   ...sla.duration,
+//                   end: parseDateTime(sla.duration.end.slice(0, -1))
+//                     .add({
+//                       days: 1,
+//                     })
+//                     .toString(),
+//                 },
+//               };
+//             }
+//           }
+//           if (sla.duration.recurrence.toLowerCase() === "weekly") {
+//             let difference = differenceInWeeks(
+//               new Date(),
+//               new Date(sla.duration.end.slice(0, -1))
+//             );
+//             console.log("difference weekly", difference);
 
-            if (difference >= 1) {
-              return {
-                ...sla,
-                duration: {
-                  ...sla.duration,
-                  end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .add({
-                      weeks: 1,
-                    })
-                    .toString(),
-                },
-              };
-            }
-          }
-          if (sla.duration.recurrence.toLowerCase() === "monthly") {
-            let difference = differenceInMonths(
-              new Date(),
-              new Date(sla.duration.end.slice(0, -1))
-            );
-            console.log("difference monthly", difference);
+//             if (difference >= 1) {
+//               return {
+//                 ...sla,
+//                 duration: {
+//                   ...sla.duration,
+//                   end: parseDateTime(sla.duration.end.slice(0, -1))
+//                     .add({
+//                       weeks: 1,
+//                     })
+//                     .toString(),
+//                 },
+//               };
+//             }
+//           }
+//           if (sla.duration.recurrence.toLowerCase() === "monthly") {
+//             let difference = differenceInMonths(
+//               new Date(),
+//               new Date(sla.duration.end.slice(0, -1))
+//             );
+//             console.log("difference monthly", difference);
 
-            if (difference >= 1) {
-              return {
-                ...sla,
-                duration: {
-                  ...sla.duration,
-                  end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .add({
-                      months: 1,
-                    })
-                    .toString(),
-                },
-              };
-            }
-          }
-          if (sla.duration.recurrence.toLowerCase() === "quarterly") {
-            let difference = differenceInQuarters(
-              new Date(),
-              new Date(sla.duration.end.slice(0, -1))
-            );
-            console.log("difference quarterly", difference);
+//             if (difference >= 1) {
+//               return {
+//                 ...sla,
+//                 duration: {
+//                   ...sla.duration,
+//                   end: parseDateTime(sla.duration.end.slice(0, -1))
+//                     .add({
+//                       months: 1,
+//                     })
+//                     .toString(),
+//                 },
+//               };
+//             }
+//           }
+//           if (sla.duration.recurrence.toLowerCase() === "quarterly") {
+//             let difference = differenceInQuarters(
+//               new Date(),
+//               new Date(sla.duration.end.slice(0, -1))
+//             );
+//             console.log("difference quarterly", difference);
 
-            if (difference >= 1) {
-              return {
-                ...sla,
-                duration: {
-                  ...sla.duration,
-                  end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .add({
-                      months: 3,
-                    })
-                    .toString(),
-                },
-              };
-            }
-          }
-          if (sla.duration.recurrence.toLowerCase() === "yearly") {
-            let difference = differenceInYears(
-              new Date(),
-              new Date(sla.duration.end.slice(0, -1))
-            );
-            console.log("difference yearly", difference);
+//             if (difference >= 1) {
+//               return {
+//                 ...sla,
+//                 duration: {
+//                   ...sla.duration,
+//                   end: parseDateTime(sla.duration.end.slice(0, -1))
+//                     .add({
+//                       months: 3,
+//                     })
+//                     .toString(),
+//                 },
+//               };
+//             }
+//           }
+//           if (sla.duration.recurrence.toLowerCase() === "yearly") {
+//             let difference = differenceInYears(
+//               new Date(),
+//               new Date(sla.duration.end.slice(0, -1))
+//             );
+//             console.log("difference yearly", difference);
 
-            if (difference >= 1) {
-              return {
-                ...sla,
-                duration: {
-                  ...sla.duration,
-                  end: parseDateTime(sla.duration.end.slice(0, -1))
-                    .add({
-                      years: 1,
-                    })
-                    .toString(),
-                },
-              };
-            }
-          }
-          return sla;
-        } else {
-          return sla;
-        }
-      });
+//             if (difference >= 1) {
+//               return {
+//                 ...sla,
+//                 duration: {
+//                   ...sla.duration,
+//                   end: parseDateTime(sla.duration.end.slice(0, -1))
+//                     .add({
+//                       years: 1,
+//                     })
+//                     .toString(),
+//                 },
+//               };
+//             }
+//           }
+//           return sla;
+//         } else {
+//           return sla;
+//         }
+//       });
 
-      return { ...task, sla: updatedEndDateTime };
-    });
+//       return { ...task, sla: updatedEndDateTime };
+//     });
 
-    // const responseAll = await Promise.all(
-    //   convertedTasks.map(async (task) => {
-    //     const response = await restupdate("/cms/task", task);
-    //     return { success: response?.success ?? false };
-    //   })
-    // );
-    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
-    return { success: true };
-  } else {
-    return { success: false };
-  }
-});
+//     // const responseAll = await Promise.all(
+//     //   convertedTasks.map(async (task) => {
+//     //     const response = await restupdate("/cms/task", task);
+//     //     return { success: response?.success ?? false };
+//     //   })
+//     // );
+//     // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+//     return { success: true };
+//   } else {
+//     return { success: false };
+//   }
+// });
 
-export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
-  const tasks = await restread("/cms/task");
-  const user = await get(userAtom);
+// export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
+//   const tasks = await restread("/cms/task");
+//   const user = await get(userAtom);
 
-  if (tasks?.success) {
-    const convertedTasks = tasks.response.map((task) => {
-      const updatedEndDateTime = task.sla.map((sla) => {
-        if (sla.status === "todo") {
-          let isOverdue =
-            compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
-          console.log("isOverdue", sla, isOverdue);
-          return {
-            ...sla,
-            progress: isOverdue ? "overdue" : sla.progress,
-          };
-        } else {
-          return sla;
-        }
-      });
+//   if (tasks?.success) {
+//     const convertedTasks = tasks.response.map((task) => {
+//       const updatedEndDateTime = task.sla.map((sla) => {
+//         if (sla.status === "todo") {
+//           let isOverdue =
+//             compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
+//           console.log("isOverdue", sla, isOverdue);
+//           return {
+//             ...sla,
+//             progress: isOverdue ? "overdue" : sla.progress,
+//           };
+//         } else {
+//           return sla;
+//         }
+//       });
 
-      return { ...task, sla: updatedEndDateTime };
-    });
+//       return { ...task, sla: updatedEndDateTime };
+//     });
 
-    const doneOverdueCount = convertedTasks.map((task) => {
-      return {
-        client: task.client,
-        overdue: task.sla.filter((sla) => sla.progress === "overdue"),
-        done: task.sla.filter((sla) => sla.status === "done"),
-      };
-    });
+//     const doneOverdueCount = convertedTasks.map((task) => {
+//       return {
+//         client: task.client,
+//         overdue: task.sla.filter((sla) => sla.progress === "overdue"),
+//         done: task.sla.filter((sla) => sla.status === "done"),
+//       };
+//     });
 
-    // const responseAll = await Promise.all(
-    //   convertedTasks.map(async (task) => {
-    //     const response = await restupdate("/cms/task", task);
-    //     return { success: response?.success ?? false };
-    //   })
-    // );
-    // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
-    return { success: true };
-  } else {
-    return { success: false };
-  }
-});
+//     // const responseAll = await Promise.all(
+//     //   convertedTasks.map(async (task) => {
+//     //     const response = await restupdate("/cms/task", task);
+//     //     return { success: response?.success ?? false };
+//     //   })
+//     // );
+//     // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
+//     return { success: true };
+//   } else {
+//     return { success: false };
+//   }
+// });
 
 export const clientSelectionForTaskAtom = atom((get) =>
   get(clientsAtom).map((client) => {
@@ -1017,3 +973,22 @@ export const recurrenceSelectionAtom = atom([
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);
+
+export const clientSelectionAtom = atom((get) => {
+  const clientList = get(clientsAtom).map((client) => {
+    return { ...client, key: client._id, value: client._id };
+  });
+  return clientList;
+});
+export const teamSelectionAtom = atom((get) => {
+  const teamList = get(teamsAtom).map((team) => {
+    return { ...team, key: team._id, value: team._id };
+  });
+  return teamList;
+});
+export const userSelectionAtom = atom((get) => {
+  const userList = get(userListAtom).map((user) => {
+    return { ...user, key: user.sub, value: user.sub };
+  });
+  return userList;
+});
