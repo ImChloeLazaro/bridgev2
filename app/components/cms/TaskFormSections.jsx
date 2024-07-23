@@ -12,8 +12,6 @@ import { useAtom, useAtomValue } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
 import { teamsAtom } from "@/app/store/TeamManagementStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
-
 const TaskFormSections = ({
   selectedClientForTask,
   setSelectedClientForTask,
@@ -267,6 +265,7 @@ const TaskFormSections = ({
                 placeholder={"Special Instructions"}
                 fullWidth={true}
               />
+              
             </div>
           </div>
           {/* Recurrence */}

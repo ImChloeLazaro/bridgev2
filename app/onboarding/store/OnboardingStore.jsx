@@ -449,6 +449,6 @@ export const onboardingDataAtom = atom((get) => {
     contact: {
       emergency_contact: get(contactAtom),
     },
-    sub: user.sub,
+    sub: user?.sub,
   };
 });
