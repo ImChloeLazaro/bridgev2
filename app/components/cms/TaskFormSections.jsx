@@ -32,12 +32,14 @@ const TaskFormSections = ({
   endTimeAtom,
   clientSelectionForTaskAtom,
 }) => {
+  const user = useAtomValue(authenticationAtom);
   const showClientTask = useAtomValue(showClientTaskAtom);
 
   const [taskName, setTaskName] = useAtom(taskNameAtom);
   const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
 
   const clientSelectionForTask = useAtomValue(clientSelectionForTaskAtom);
+  console.log("clientSelectionForTask: ", clientSelectionForTask);
 
   const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
 
@@ -71,6 +73,7 @@ const TaskFormSections = ({
   console.log("selectedTeamForTask", selectedTeamForTask.size == 0);
   console.log("teamSelection", teamSelection);
   console.log("teamsByClientSelection", teamsByClientSelection);
+  console.log("Wow taskDuration", taskDuration);
 
   const teamForTaskSelection = showClientTask
     ? teamsByClientSelection
@@ -108,7 +111,7 @@ const TaskFormSections = ({
                 selectedKeys={selectedClientForTask}
                 onSelectionChange={(key) => {
                   setSelectedClientForTask(key);
-                  clientSelectionChange({ key: Array.from(key).toString() });
+                  // clientSelectionChange({ key: Array.from(key).toString() });
                 }}
                 renderItemPicture={true}
               />
@@ -122,17 +125,21 @@ const TaskFormSections = ({
               <FormFieldSelect
                 isRequired={true}
                 aria-label="Team Selection"
-                items={teamForTaskSelection} //
+                items={teamSelection} //
                 placeholder="Assign Team/s"
                 selectionMode="single"
                 selectedKeys={selectedTeamForTask}
                 onSelectionChange={(key) => {
                   setSelectedTeamForTask(key);
-                  let assignees = teamForTaskSelection.filter(
-                    (team) => team._id === Array.from(key).toString()
+
+                  let assignees = teamSelection.filter(
+                    (team) => team?._id === Array.from(key).toString()
                   )[0];
-    
-                  if (selectedTeamForTask.size == 0) {
+                  if (
+                    assignees === undefined ||
+                    assignees?.length === 0 ||
+                    assignees === null
+                  ) {
                     setSelectedProcessor(new Set([]));
                     setSelectedReviewer(new Set([]));
                     setSelectedManager(new Set([]));
@@ -143,9 +150,13 @@ const TaskFormSections = ({
                     setSelectedReviewer(
                       new Set(assignees?.members.map((member) => member.sub))
                     );
-                    setSelectedManager(
-                      new Set(assignees?.heads.map((head) => head.sub))
-                    );
+                    if (assignees && assignees?.userSide === true) {
+                      setSelectedManager(new Set([user?.sub]));
+                    } else {
+                      setSelectedManager(
+                        new Set(assignees?.heads.map((head) => head.sub))
+                      );
+                    }
                   }
                 }}
                 renderItemPicture={true}
@@ -203,7 +214,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeamForTask.size == 0 || selectedManager.size > 0}
+                isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
                 aria-label="Manager Selection"
                 items={managerSelection}

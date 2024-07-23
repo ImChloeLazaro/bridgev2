@@ -33,7 +33,7 @@ import SideBarHeader from "./sidebar/SideBarHeader";
 
 const SideBar = ({}) => {
   const user = useAtomValue(userAtom);
-  const selectedRole = useRoles(user.role);
+  const selectedRole = useRoles(user?.role);
 
   const pathname = usePathname();
 

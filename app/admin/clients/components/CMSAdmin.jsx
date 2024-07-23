@@ -133,31 +133,39 @@ const CMSAdmin = () => {
 
   // ##########################################
   const tasksFromSelectedClient = useMemo(() => {
+    let tasksIndex = 0;
     let client_id = Array.from(selectedClientForTask).join("");
+    let clients = tasks.filter((task) => task.client?.client_id === client_id);
 
-    return tasks.filter((task) => task.client?.client_id === client_id);
+    console.log("clients", clients);
+
+    return clients
+      .map((task) =>
+        task.sla.map((sla) => {
+          return {
+            ...sla,
+            id: (tasksIndex += 1),
+            client_id: task.client?.client_id,
+            escalate: task.escalate,
+            progress: task.progress,
+            manager: task.manager,
+            processor: task.processor,
+            reviewer: task.reviewer,
+          };
+        })
+      )
+      .flat();
   }, [selectedClientForTask, tasks]);
 
-  const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
-    (task, index) => {
-      let client_id = Array.from(selectedClientForTask).join("");
-      return {
-        ...task,
-        id: (index += 1),
-        client_id: client_id,
-        processor: tasksFromSelectedClient[0].processor,
-        reviewer: tasksFromSelectedClient[0].reviewer,
-      };
-    }
-  );
+  console.log("tasksFromSelectedClient", tasksFromSelectedClient);
 
   const selectedTaskFilterKeyString = Array.from(selectedTaskFilterKeys).join(
     ""
   );
 
   const filteredTaskItems = useMemo(() => {
-    let filteredTasks = convertedTasksFromSelectedClient?.length
-      ? [...convertedTasksFromSelectedClient]
+    let filteredTasks = tasksFromSelectedClient?.length
+      ? [...tasksFromSelectedClient]
       : [];
 
     if (Boolean(searchTaskItem)) {
@@ -178,12 +186,14 @@ const CMSAdmin = () => {
 
     return filteredTasks;
   }, [
-    convertedTasksFromSelectedClient,
+    tasksFromSelectedClient,
     searchTaskItem,
     selectedTaskFilterKeyString,
     selectedTaskFilterKeys,
     taskFilterKeys.length,
   ]);
+
+  console.log("filteredTaskItems", filteredTaskItems);
 
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
   const [taskPage, setTaskPage] = useState(1);
@@ -464,6 +474,7 @@ const CMSAdmin = () => {
         </CardHeader>
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
+            taskStatusCount={tasks}
             itemClients={itemClients}
             searchClientItem={searchClientItem}
             selectedClientFilterKeys={selectedClientFilterKeys}

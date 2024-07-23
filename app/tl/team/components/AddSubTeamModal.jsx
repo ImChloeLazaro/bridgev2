@@ -12,14 +12,13 @@ const AddSubTeamModal = ({ addSubTeam }) => {
   const { sub, name, email, picture } = useAtomValue(authenticationAtom).auth;
 
   const [teamMembers, setTeamMembers] = useState({
-    tl: {
+    head: {
       sub,
       name,
       email,
       picture,
     },
     name: "",
-    heads: [],
     members: [],
     client: [],
   });
@@ -39,8 +38,6 @@ const AddSubTeamModal = ({ addSubTeam }) => {
       ...teamMembers,
       members: updatedMembers,
     };
-
-    console.log("SUBTEAM ENTRY", subteam_entry);
     try {
       const team = await restinsert("/teams/subteam/", subteam_entry);
       console.log("RESPONSE", team);
@@ -73,16 +70,6 @@ const AddSubTeamModal = ({ addSubTeam }) => {
             size="sm"
             onChange={(e) =>
               setTeamMembers({ ...teamMembers, name: e.target.value })
-            }
-          />
-          <MemberSelect
-            placeholder="Select Team Heads"
-            name="heads"
-            handleInvitees={(selected) =>
-              setTeamMembers({
-                ...teamMembers,
-                heads: selected.map((item) => item),
-              })
             }
           />
           <MemberSelect

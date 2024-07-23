@@ -143,13 +143,13 @@ const ShortcutsHeader = () => {
                     variant="bordered"
                     value={shortcutURL}
                     onValueChange={setShortcutURL}
-                    startContent={
-                      <div className="pointer-events-none flex items-center">
-                        <span className="text-darkgrey-default text-sm">
-                          {"https://"}
-                        </span>
-                      </div>
-                    }
+                    // startContent={
+                    //   <div className="pointer-events-none flex items-center">
+                    //     <span className="text-darkgrey-default text-sm">
+                    //       {"https://"}
+                    //     </span>
+                    //   </div>
+                    // }
                     classNames={{
                       base: "gap-4 flex ",
                       label: "font-medium text-sm text-black-default/70 w-16",

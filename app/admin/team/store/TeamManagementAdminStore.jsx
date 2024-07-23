@@ -111,7 +111,7 @@ export const teamSelectionAtom = atom((get) =>
 export const teamClientSelectionAtom = atom((get) =>
   get(clientsAtom).map((client) => {
     return {
-      ...client,
+      _id: client._id,
       name: client.company.name,
       email: client.company.email,
       key: client._id,

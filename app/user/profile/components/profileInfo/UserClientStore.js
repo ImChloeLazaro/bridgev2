@@ -341,9 +341,34 @@ export const columnData = [
   },
   {
     Header: "Team Lead",
+    id: "teamlead",
+    accessorKey: "teamlead",
+    cell: ({ row }) => <div>{row?.original?.tl?.name}</div>,
+  },
+  {
+    Header: "Heads",
     id: "head",
     accessorKey: "head",
-    cell: ({ row }) => <div>{row?.original?.head?.name}</div>,
+    cell: ({ row }) => (
+      <div className='flex flex-wrap w-full items-center'>
+        <div className='relative w-9 h-9'>
+          {row?.original?.heads?.map((head, index) => (
+            <div
+              key={index}
+              className='absolute w-8 h-8 rounded-full'
+              title={head?.name}
+              style={{ right: `${index * -20}px`, zIndex: index }}
+            >
+              <img
+                className='rounded-full w-full h-full'
+                src={head?.picture}
+                alt='user'
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
   },
   {
     Header: "Members",

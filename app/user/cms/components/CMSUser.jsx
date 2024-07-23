@@ -1,10 +1,12 @@
+import { clientSelectionChangeAtom } from "@/app/admin/clients/store/CMSAdminStore";
+import AddTaskModal from "@/app/components/cms/AddTaskModal";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import ClientList from "@/app/components/cms/ClientList";
 import CMSFooter from "@/app/components/cms/CMSFooter";
 import CMSHeader from "@/app/components/cms/CMSHeader";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import TaskTableView from "@/app/components/cms/TaskTableView";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import CTAButtons from "@/app/components/CTAButtons";
 import {
   clientFilterKeysAtom,
   clientsAtom,
@@ -15,22 +17,46 @@ import {
   taskFilterKeysAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { userAtom } from "@/app/store/UserStore";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
+import { clientSubItemDataAtom } from "../../profile/store/ProfileStore";
 import {
   changeViewAtom,
+  clientSelectionForTaskAtom,
+  dateRangeAtom,
+  endTimeAtom,
+  fetchTeamsAtom,
+  filterClientAtom,
   pageRowsSelectionAtom,
   selectedClientFilterKeysAtom,
   selectedClientForTaskAtom,
   selectedClientToViewAtom,
+  selectedManagerAtom,
+  selectedProcessorAtom,
+  selectedRecurrenceAtom,
+  selectedReviewerAtom,
   selectedTaskFilterKeysAtom,
+  selectedTeamForTaskAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
-  filterClientAtom,
+  startTimeAtom,
+  taskDataAtom,
+  taskDurationAtom,
+  taskInstructionAtom,
+  taskNameAtom,
+  teamSelectionAtom,
+  teamsByClientSelectionAtom,
 } from "../store/CMSUserStore";
 
 // @refresh reset
@@ -40,13 +66,20 @@ const CMSUser = () => {
   const [isMobile, setIsMobile] = useState(
     window.matchMedia(`(max-width: ${customBreakPoint}px)`).matches
   );
+  const {
+    isOpen: isOpenTask,
+    onOpen: onOpenTask,
+    onOpenChange: onOpenChangeTask,
+  } = useDisclosure();
+
   const [searchClientItem, setSearchClientItem] = useState("");
   const [searchTaskItem, setSearchTaskItem] = useState("");
   const [sortDescriptor, setSortDescriptor] = useState({
     column: "dueDate",
     direction: "descending",
   });
-  const user = useAtomValue(authenticationAtom);
+
+  const user = useAtomValue(userAtom);
 
   const filterClient = useAtomValue(filterClientAtom);
 
@@ -90,14 +123,20 @@ const CMSUser = () => {
     ); // assignees
   });
 
-  console.log("userTasks", userTasks  )
-
   const tasksFromSelectedClient = useMemo(
     () =>
       userTasks.filter(
         (task) => task.client?.client_id === selectedClientToView
       ),
     [selectedClientToView, userTasks]
+  );
+
+  const tasksFilteredByClient = tasks.filter(
+    (task) =>
+      filterClient
+        .map((client) => client.key)
+        .includes(task.client.client_id) &&
+      [...task.processor, ...task.reviewer, task.manager].includes(user.sub)
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -202,10 +241,10 @@ const CMSUser = () => {
     return filteredClients;
   }, [
     clients,
+    filterClient,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
-    filterClient,
   ]);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
@@ -248,6 +287,20 @@ const CMSUser = () => {
     // },
   ];
 
+  const actionButtons = {
+    task: {
+      color: "blue",
+      label: "Create Task",
+    },
+  };
+
+  const handleOpenTaskWindow = () => {
+    if (showClientTask) {
+      clientSelectionChange({ key: selectedClientToView });
+    }
+    onOpenTask();
+  };
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -285,6 +338,47 @@ const CMSUser = () => {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  //for task creation if user is a head to a client
+
+  const subItemData = useAtomValue(clientSubItemDataAtom);
+  const subItemDataAtom = useAtomValue(clientSelectionForTaskAtom);
+  // const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+  // const handleOpenTaskWindow = () => {
+  //   if (showClientTask) {
+  //     clientSelectionChange({ key: selectedClientToView });
+  //   }
+  //   onOpenTask();
+  // };
+  const checkIfUserIsHead = () => {
+    const clientsMap = new Map();
+
+    subItemData?.response?.forEach((itemData) => {
+      if (itemData.heads.some((head) => head.sub === user.sub)) {
+        itemData.client.forEach((client) => {
+          if (!clientsMap.has(client.email)) {
+            clientsMap.set(client.email, {
+              client_id: client._id, // #[CHANGE KEY]: client_id => key / id
+              key: client._id,
+              name: client.name,
+              email: client.email,
+              picture: client?.picture || "",
+              team: "",
+            });
+          }
+        });
+      }
+    });
+    return Array.from(clientsMap.values());
+  };
+  console.log("Is USer Included: ", checkIfUserIsHead());
+  // console.log("filterClient: ", filterClient);
+  // const actionButtons = {
+  //   task: {
+  //     color: "blue",
+  //     label: "Create Task",
+  //   },
+  // };
 
   return (
     <>
@@ -327,10 +421,47 @@ const CMSUser = () => {
             selectedClientToView={selectedClientToView}
             showClientDetails={showClientDetails}
             setShowClientDetails={setShowClientDetails}
-          />
+          >
+            <CTAButtons
+              // showButton={checkIfUserIsHead().length <= 0}
+              radius={"sm"}
+              variant={"bordered"}
+              key={actionButtons.task.label}
+              label={actionButtons.task.label}
+              color={actionButtons.task.color}
+              className={"px-2 h-10 min-w-40 w-full lg:max-w-64"}
+              onPress={() => handleOpenTaskWindow()}
+            />
+            <AddTaskModal
+              isOpen={isOpenTask}
+              onOpenChange={onOpenChangeTask}
+              selectedClientForTask={selectedClientForTask}
+              setSelectedClientForTask={setSelectedClientForTask}
+              selectedClientToViewAtom={selectedClientToViewAtom}
+              showClientTaskAtom={showClientTaskAtom}
+              // clientSelectionChange={clientSelectionChange}
+              taskDataAtom={taskDataAtom}
+              taskNameAtom={taskNameAtom}
+              taskInstructionAtom={taskInstructionAtom}
+              teamSelectionAtom={teamSelectionAtom}
+              teamsByClientSelectionAtom={teamsByClientSelectionAtom}
+              selectedTeamForTaskAtom={selectedTeamForTaskAtom}
+              selectedProcessorAtom={selectedProcessorAtom}
+              selectedReviewerAtom={selectedReviewerAtom}
+              selectedManagerAtom={selectedManagerAtom}
+              selectedRecurrenceAtom={selectedRecurrenceAtom}
+              taskDurationAtom={taskDurationAtom}
+              dateRangeAtom={dateRangeAtom}
+              startTimeAtom={startTimeAtom}
+              endTimeAtom={endTimeAtom}
+              fetchTeamsAtom={fetchTeamsAtom}
+              clientSelectionForTaskAtom={clientSelectionForTaskAtom}
+            />
+          </CMSHeader>
         </CardHeader>
         <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
           <ClientList
+            taskStatusCount={tasksFilteredByClient}
             itemClients={itemClients}
             searchClientItem={searchClientItem}
             selectedClientFilterKeys={selectedClientFilterKeys}

@@ -103,8 +103,8 @@ const TaskTableView = ({
       }
 
       if (sortDescriptor.column === "dueDate") {
-        first = a["duration"].end;
-        second = b["duration"].end;
+        first = a["duration"]?.end;
+        second = b["duration"]?.end;
         cmp = compareAsc(new Date(first), new Date(second));
       }
 
@@ -118,10 +118,10 @@ const TaskTableView = ({
 
   const renderCell = useCallback(
     (task, columnKey) => {
-      const isOverdue = task.progress.toLowerCase() === "overdue";
-      // const isOverdue =
-      //   compareAsc(new Date(task?.sla.duration.end.slice(0, -1)), new Date()) < 0 &&
-      //   sla.status === "todo";
+      // const isOverdue = task.progress.toLowerCase() === "overdue";
+      const isOverdue =
+        compareAsc(new Date(task.duration?.end?.slice(0, -1)), new Date()) < 0 &&
+        task.status === "todo";
 
       const cellValue = task[columnKey];
 
@@ -204,8 +204,8 @@ const TaskTableView = ({
                 )}
               >
                 {format(
-                  task.duration.end?.length
-                    ? task.duration.end.slice(0, -1)
+                  task.duration?.end?.length
+                    ? task.duration?.end?.slice(0, -1)
                     : "",
                   "PP",
                   { locale: enAU }
@@ -222,8 +222,8 @@ const TaskTableView = ({
                 )}
               >
                 {format(
-                  task.duration.end?.length
-                    ? task.duration.end.slice(0, -1)
+                  task.duration?.end?.length
+                    ? task.duration?.end?.slice(0, -1)
                     : "",
                   "p",
                   { locale: enAU }
@@ -390,7 +390,7 @@ const TaskTableView = ({
           }
         >
           {(item) => (
-            <TableRow key={item._id}>
+            <TableRow key={item.index}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

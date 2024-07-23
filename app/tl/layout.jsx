@@ -34,7 +34,7 @@ const TLLayout = ({ children }) => {
           )}
         >
           <div className="top-0">
-            <OnboardingStatusAlert showAlert={user.hasOnboardingData} />
+            <OnboardingStatusAlert showAlert={user?.hasOnboardingData} />
             <NavigationBar />
           </div>
           <div className="flex w-full h-screen max-h-screen overflow-x-hidden overflow-y-auto bg-background ">
