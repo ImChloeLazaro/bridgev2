@@ -47,7 +47,9 @@ const NavigationBar = () => {
   const user = useAtomValue(userAtom);
   const selectedRole = useRoles(user?.role);
 
-  const role = selectedRole?.currentRole.toLowerCase();
+  const role = selectedRole.currentRole.toLowerCase();
+
+  console.log("ROLE NAVBAR", role);
 
   const activeRoutes = role.includes("admin")
     ? activeAdminRoute
@@ -86,7 +88,7 @@ const NavigationBar = () => {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      position='static'
+      position="static"
       classNames={{
         base: "flex justify-end m-0 p-0 bg-white-default lg:bg-blue-default",
         wrapper:
@@ -95,46 +97,46 @@ const NavigationBar = () => {
         menu: "hover:text-white-default text-black-default",
       }}
     >
-      <NavbarContent justify='start'>
+      <NavbarContent justify="start">
         <NavbarMenuToggle
           icon={
             <div>
               <MdMenu
-                className='text-orange-default'
-                fill='currentColor'
+                className="text-orange-default"
+                fill="currentColor"
                 size={36}
               />
             </div>
           }
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className='lg:hidden'
+          className="lg:hidden"
         />
       </NavbarContent>
 
-      <NavbarContent justify='center'>
+      <NavbarContent justify="center">
         <NavbarItem>
           <Image
-            radius='none'
-            alt='Aretex Logo'
-            src='/header.png'
-            className='lg:hidden'
+            radius="none"
+            alt="Aretex Logo"
+            src="/header.png"
+            className="lg:hidden"
           />
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify='end' className='gap-2 lg:gap-4'>
-        <NavbarItem className='flex items-center gap-2 lg:gap-6'>
+      <NavbarContent justify="end" className="gap-2 lg:gap-4">
+        <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <UserDropdown />
         </NavbarItem>
-        <NavbarItem className='hidden lg:flex items-center gap-2 lg:gap-6'>
+        <NavbarItem className="hidden lg:flex items-center gap-2 lg:gap-6">
           {selectedRole?.currentRole !== "USER" ? (
             <LabelTagChip
               text={selectedRole?.currentRole}
-              color='orange'
+              color="orange"
               isFilled={true}
             />
           ) : null}
         </NavbarItem>
-        <NavbarItem className='flex items-center gap-2 lg:gap-6'>
+        <NavbarItem className="flex items-center gap-2 lg:gap-6">
           <NotificationsDropdown />
         </NavbarItem>
       </NavbarContent>
@@ -143,12 +145,12 @@ const NavigationBar = () => {
           return (
             <NavbarMenuItem
               key={externalLink.key}
-              className='hover:bg-orange-default rounded p-2'
+              className="hover:bg-orange-default rounded p-2"
             >
               <Link
                 href={externalLink.link}
-                size='md'
-                className='px-2 text-base font-medium'
+                size="md"
+                className="px-2 text-base font-medium"
               >
                 {externalLink.label}
               </Link>

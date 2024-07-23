@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import ClientItemCard from "./ClientItemCard";
 
 const ClientList = ({
+  taskStatusCount,
   itemClients,
   searchClientItem,
   selectedClientFilterKeys,
@@ -74,6 +75,7 @@ const ClientList = ({
                 <Suspense key={index} fallback={<Spinner label="Loading..." />}>
                   <ClientItemCard
                     key={index}
+                    taskStatusCount={taskStatusCount}
                     clientName={client.company?.name}
                     clientKey={client._id}
                     setShowClientTask={setShowClientTask}

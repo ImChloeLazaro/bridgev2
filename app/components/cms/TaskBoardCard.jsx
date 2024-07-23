@@ -14,7 +14,7 @@ import {
   useDisclosure,
   User,
 } from "@nextui-org/react";
-import { format } from "date-fns";
+import { compareAsc, format } from "date-fns";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdCalendarMonth, MdCheck, MdTimer } from "react-icons/md";
@@ -49,12 +49,10 @@ function TaskBoardCard({
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
   const taskActions = useSetAtom(taskActionsAtom);
 
-  console.log("task", task);
-
-  const isOverdue = task.progress.toLowerCase() === "overdue";
-  // const isOverdue =
-  //   compareAsc(new Date(task.sla.duration.end.slice(0, -1)), new Date()) < 0 &&
-  //   task.sla.status === "todo";
+  // const isOverdue = task.progress.toLowerCase() === "overdue";
+  const isOverdue =
+    compareAsc(new Date(task.duration.end.slice(0, -1)), new Date()) < 0 &&
+    task.status === "todo";
   const {
     setNodeRef,
     attributes,
@@ -273,7 +271,7 @@ function TaskBoardCard({
                 {task.status === "pending"
                   ? "Pending"
                   : task?.duration?.end?.length
-                  ? format(task.duration.end.slice(0, -1), "d MMM yyyy")
+                  ? format(task.duration.end?.slice(0, -1), "d MMM yyyy")
                   : ""}
               </Link>
               <p>{"|"}</p>
@@ -300,7 +298,7 @@ function TaskBoardCard({
                 {task.status === "pending"
                   ? "Pending"
                   : task?.duration?.end?.length
-                  ? format(task.duration.end.slice(0, -1), "hh:mm aa")
+                  ? format(task.duration.end?.slice(0, -1), "hh:mm aa")
                   : ""}
               </Link>
             </div>

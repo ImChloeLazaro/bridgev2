@@ -337,6 +337,7 @@ export const columnData = [
     id: "client",
     accessorKey: "client",
     cell: ClientCell,
+   
   },
   {
     Header: "Team Lead",

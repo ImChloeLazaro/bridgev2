@@ -75,9 +75,9 @@ const FormFieldInput = ({
   const endContent = {
     date: (
       <Popover
-        placement='top'
+        placement="top"
         showArrow={true}
-        backdrop='opaque'
+        backdrop="opaque"
         classNames={{
           base: "w-full",
           content: "w-full",
@@ -85,7 +85,7 @@ const FormFieldInput = ({
         }}
       >
         <PopoverTrigger>
-          <Button isIconOnly variant='solid' className='bg-transparent'>
+          <Button isIconOnly variant="solid" className="bg-transparent">
             <MdCalendarMonth size={20} />
           </Button>
         </PopoverTrigger>
@@ -156,9 +156,9 @@ const FormFieldInput = ({
               }}
               bottomContent={
                 withTime && (
-                  <div className='flex bg-white-default'>
+                  <div className="flex bg-white-default">
                     <TimeInput
-                      label='Start Time'
+                      label="Start Time"
                       minValue={new Time()}
                       value={timeStartValue}
                       onChange={(timeStart) => {
@@ -189,7 +189,7 @@ const FormFieldInput = ({
                       }}
                     />
                     <TimeInput
-                      label='Due Time'
+                      label="Due Time"
                       minValue={new Time()}
                       value={timeEndValue}
                       onChange={(timeEnd) => {
@@ -273,20 +273,20 @@ const FormFieldInput = ({
         {/* Separate input file EndContent Component to its own component so it can be shared */}
         {!value ? (
           <CTAButtons
-            color='clear'
+            color="clear"
             htmlFor={inputID}
             startContent={<MdFileUpload size={18} />}
           >
             <label
               htmlFor={inputID}
-              className='font-medium text-sm lg:text-base'
+              className="font-medium text-sm lg:text-base"
             >
               {"Upload File"}
             </label>
           </CTAButtons>
         ) : (
           <CTAButtons
-            color='clear'
+            color="clear"
             htmlFor={inputID}
             startContent={<MdClose size={18} />}
             label={"Remove File"}
@@ -302,11 +302,11 @@ const FormFieldInput = ({
         )}
         <input
           ref={inputFileRef}
-          type='file'
+          type="file"
           id={inputID}
-          accept='.pdf'
-          placeholder='Upload File'
-          className='border-none hidden'
+          accept=".pdf"
+          placeholder="Upload File"
+          className="border-none hidden"
           onChange={(e) => handleUploadDocuments(e)}
         />
       </>
