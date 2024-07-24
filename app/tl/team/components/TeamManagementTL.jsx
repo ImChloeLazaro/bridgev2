@@ -32,7 +32,7 @@ const TeamManagementTL = () => {
   const [list, setList] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const { sub } = useAtomValue(userAtom);
+  const { sub } = useAtomValue(authenticationAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
   const fetchTeams = useCallback(async () => {
