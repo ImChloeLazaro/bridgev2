@@ -110,7 +110,7 @@
         },
         "bridgev2layer": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion48706fce-build.zip"
+          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersionc131bdbd-build.zip"
         }
       },
       "auth": {
@@ -118,9 +118,6 @@
       },
       "storage": {
         "bridgeProductionStorage": {}
-      },
-      "api": {
-        "bridgeApi": {}
       }
     }
   }
