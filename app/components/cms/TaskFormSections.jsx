@@ -37,7 +37,7 @@ const TaskFormSections = ({
   const showClientTask = useAtomValue(showClientTaskAtom);
 
   const [taskName, setTaskName] = useAtom(taskNameAtom);
-  const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
+  // const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
 
   const clientSelectionForTask = useAtomValue(clientSelectionForTaskAtom);
   console.log("clientSelectionForTask: ", clientSelectionForTask);
@@ -257,7 +257,7 @@ const TaskFormSections = ({
             <p className='text-sm lg:text-base font-medium w-[20%]'>
               {"Instruction"}
             </p>
-            <div className='w-[80%]'>
+            {/* <div className="w-[80%]">
               <FormFieldTextArea
                 isRequired={true}
                 value={taskInstruction}
@@ -265,7 +265,8 @@ const TaskFormSections = ({
                 placeholder={"Special Instructions"}
                 fullWidth={true}
               />
-            </div>
+              
+            </div> */}
           </div>
           {/* Recurrence */}
           <div className='flex justify-between items-center gap-8'>
