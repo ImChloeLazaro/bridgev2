@@ -151,10 +151,7 @@ export const taskDataAtom = atom(async (get) => {
       {
         name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
         escalate: false,
-        instruction:
-          get(taskInstructionAtom) === ""
-            ? "Add Instructions"
-            : get(taskInstructionAtom),
+        instruction: get(taskInstructionAtom) === "" ? "Add Instructions" : get(taskInstructionAtom),
         status: "todo", //todo, pending, to review, done
         progress: "good", //good, overdue, adhoc
         duration: {
