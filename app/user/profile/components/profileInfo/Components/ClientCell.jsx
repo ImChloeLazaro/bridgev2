@@ -34,7 +34,7 @@ const ClientCell = ({ getValue, row, column, table }) => {
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
-  console.log("value", value);
+  // console.log("value", value);
   return (
     <div>
       {value?.map((client, index) => (

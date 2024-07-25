@@ -1,14 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Input,
-} from "@nextui-org/react";
-import { FaFilter } from "react-icons/fa";
-import { CiSearch } from "react-icons/ci";
 import { atom, useAtom, useAtomValue } from "jotai";
 import {
   clientItemDataAtom,
@@ -21,7 +11,7 @@ import SearchBar from "@/app/components/SearchBar";
 import { se } from "date-fns/locale";
 import { ConsoleLogger } from "aws-amplify/utils";
 
-const TeamInfo = () => {
+const TeamInfo = () => { 
   const newData = useAtomValue(clientItemDataAtom);
   const data = newData?.response.filter((subTeamNewData) => {
     return subTeamNewData.status === "active";
@@ -29,9 +19,6 @@ const TeamInfo = () => {
 
   const [selectedData, setSelectedData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
-
-  console.log("print")
-  console.log(data)
 
   const nameArray =
     data?.map((item) => ({ label: item.name, value: item.name, ...item })) ||
@@ -42,7 +29,9 @@ const TeamInfo = () => {
   );
 
   useEffect(() => {
-      setSelectedMemberFilterKeys(new Set([data[0].name]));
+    if (nameArray.length > 0) {
+      setSelectedMemberFilterKeys(new Set([nameArray[0].name]));
+    }
   }, []);
 
   return (
@@ -57,7 +46,7 @@ const TeamInfo = () => {
       />
 
       <TeamLists
-        selectedData={selectedData}
+        selectedData={nameArray}
         filter={selectedMemberFilterKeys}
         searchQuery={searchQuery}
       />
