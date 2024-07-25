@@ -1,6 +1,7 @@
 import { clientsAtom } from "@/app/store/ClientStore";
-import { userListAtom } from "@/app/store/UserStore";
+import { userAtom, userListAtom } from "@/app/store/UserStore";
 import {
+  readwithparams,
   restdestroy,
   restinsert,
   restread,
@@ -44,6 +45,7 @@ export const teamFilterKeysAtom = atom([
 export const selectedTeamFilterKeysAtom = atom(new Set(["all"]));
 
 export const teamsAtom = atom([]);
+export const subTeamsAtom = atom([]);
 export const departmentAtom = atom([]);
 
 export const fetchTeamsAtom = atom(null, async (get, set, update) => {
@@ -53,6 +55,33 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
       return { ...team, key: team._id };
     });
     set(teamsAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
+export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const teams = await readwithparams("/teams/team/myTeam", { sub: user.sub });
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    // console.log("convertedTeams", convertedTeams);
+    set(teamsAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
+export const fetchMySubTeamsAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const teams = await readwithparams("/teams/subteam/mySubTeam", {
+    sub: user.sub,
+  });
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    set(subTeamsAtom, convertedTeams);
   } else {
     console.error("Failed to fetch teams", teams?.error);
   }
@@ -69,6 +98,43 @@ export const fetchDepartmentsAtom = atom(null, async (get, set, update) => {
     console.error("Failed to fetch teams", teams?.error);
   }
 });
+
+export const teamMembersTableRowsAtom = atom([
+  {
+    key: "1",
+    name: "Tony Reichert",
+    role: "CEO",
+    status: "Active",
+  },
+]);
+
+export const teamMembersTableColumnsAtom = atom([
+  {
+    label: "Name",
+    key: "name",
+    sortable: true,
+  },
+  {
+    label: "Clients",
+    key: "clients",
+    sortable: false,
+  },
+  {
+    label: "Heads",
+    key: "heads",
+    sortable: false,
+  },
+  {
+    label: "Status",
+    key: "status",
+    sortable: true,
+  },
+  {
+    label: "Members",
+    key: "members",
+    sortable: true,
+  },
+]);
 
 export const selectedTeamAtom = atom();
 
@@ -108,29 +174,53 @@ export const teamSelectionAtom = atom((get) =>
   })
 );
 
-export const teamClientSelectionAtom = atom((get) =>
-  get(clientsAtom).map((client) => {
-    return {
-      ...client,
-      name: client.company.name,
-      email: client.company.email,
-      key: client._id,
-      value: client.name,
-    };
-  })
-);
+export const teamClientSelectionAtom = atom([]);
 
-export const teamHeadSelectionAtom = atom((get) =>
-  get(userListAtom).map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  })
-);
+export const teamHeadSelectionAtom = atom((get) => {
+  return get(teamsAtom)
+    .map((team) => team.heads)
+    .flat()
+    .map((user) => {
+      return { ...user, key: user.sub, value: user.sub };
+    })
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+});
 
-export const teamMemberSelectionAtom = atom((get) =>
-  get(userListAtom).map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  })
-);
+export const teamMemberSelectionAtom = atom((get) => {
+  return get(teamsAtom)
+    .map((team) => team.members)
+    .flat()
+    .map((user) => {
+      return { ...user, key: user.sub, value: user.sub };
+    })
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+});
+
+export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const filtered = await readwithparams("/teams/team/filterClient", {
+    sub: user.sub,
+    method: "filtered",
+  });
+
+  if (filtered?.success) {
+    const filteredClients = filtered.response.map((client) => {
+      return {
+        ...client,
+        key: client._id,
+        value: client.name,
+      };
+    });
+    set(teamClientSelectionAtom, filteredClients);
+    // return filtered.response;
+  } else {
+    return {};
+  }
+});
 
 export const teamDataAtom = atom((get) => {
   const selectedTeamID = get(selectedTeamIDAtom);
@@ -190,7 +280,6 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
     success: () => {
       return `Team added successfully`;
     },
-
     error: "Error Adding Team",
   });
 });

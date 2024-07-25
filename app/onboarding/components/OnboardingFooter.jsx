@@ -18,7 +18,6 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
 
   const onboardingData = useAtomValue(onboardingDataAtom);
 
-  console.log("onboardingData", onboardingData);
 
   const handleSubmit = async () => {
     const profileresponse = await restinsert("/profile", onboardingData);
@@ -29,11 +28,6 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
       sub: auth.sub,
     });
     const leaveresponse = await restinsert("/leave", { sub: auth.sub });
-    console.log("PROFILE RESPONSE", profileresponse);
-    console.log("ONBOARDING STATUS RESPONSE", updateonboardingstatus);
-    console.log("BENEFITS RESPONSE", benefitsresponse);
-    console.log("LEAVE RESPONSE", leaveresponse);
-    console.log("ONBOARDING FORM SUBMITTED!", onboardingData);
   };
 
   const handleNext = () => {

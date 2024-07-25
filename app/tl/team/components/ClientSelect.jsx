@@ -36,6 +36,7 @@ const ClientSelect = ({ handleClientSelect }) => {
       })
       .filter(Boolean);
     setSelectedClients(selected);
+    console.log("SELECTED CLIENTS", selectedClients);
     if (typeof handleClientSelect === "function") {
       handleClientSelect(selectedClients);
     }

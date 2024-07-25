@@ -377,8 +377,8 @@ const CMSUser = () => {
     });
     return Array.from(clientsMap.values());
   };
-  console.log("SubItemData: ", subItemData);
-  console.log("Is USer Included: ", checkIfUserIsHead());
+  // console.log("SubItemData: ", subItemData);
+  // console.log("Is USer Included: ", checkIfUserIsHead());
   // console.log("filterClient: ", filterClient);
   // const actionButtons = {
   //   task: {
