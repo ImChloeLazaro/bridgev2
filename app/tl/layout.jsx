@@ -21,6 +21,7 @@ const TLLayout = ({ children }) => {
   const cmsPaths = useAtomValue(cmsPathsAtom);
   const collapseSidebar = cmsPaths.includes(pathname ?? "/");
 
+  console.log("user tl side", user);
   if (auth.isAuthenticated) {
     return (
       <div className="flex h-screen max-h-screen w-screen max-w-screen top-0">
