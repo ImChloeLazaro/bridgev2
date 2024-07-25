@@ -107,7 +107,7 @@ export const taskDurationAtom = atom("");
 
 export const dateRangeAtom = atom({
   start: today(getLocalTimeZone()).set({ hour: 8 }),
-  end: today(getLocalTimeZone()).add({ days: 1 }),
+  end: today(getLocalTimeZone()),
 });
 export const startTimeAtom = atom(parseTime(format(new Date(), "HH:mm")));
 export const endTimeAtom = atom(new Time(17));
