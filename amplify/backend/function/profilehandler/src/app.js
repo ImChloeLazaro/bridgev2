@@ -26,15 +26,27 @@ app.get("/profile", function (req, res) {
 app.post("/profile", async function (req, res) {
   try {
     const { application, background, contact, employment, sub } = req.body;
-    const profile = await profileModel.create({
-      profile: {
-        application,
-        background,
-        contact,
-        employment,
-        sub,
-      },
-    });
+    const existingProfile = await profileModel.findOne({ "profile.sub": sub });
+    let profile;
+    if (existingProfile) {
+      // Update the existing profile
+      existingProfile.profile.application = application;
+      existingProfile.profile.background = background;
+      existingProfile.profile.contact = contact;
+      existingProfile.profile.employment = employment;
+      profile = await existingProfile.save();
+    } else {
+      // Create a new profile
+      profile = await profileModel.create({
+        profile: {
+          application,
+          background,
+          contact,
+          employment,
+          sub,
+        },
+      });
+    }
     res.status(200).json({ result: profile });
   } catch (error) {
     console.error("Error processing the request:", error);

@@ -42,7 +42,11 @@ app.get("/teams/subteam/*", async function (req, res) {
     case "/teams/subteam/myUserSubTeam":
       try {
         const getUserSubTeam = await SubTeamModel.find({
-          $or: [{ "members.sub": sub }, { "tl.sub": sub }],
+          $or: [
+            { "members.sub": sub },
+            { "tl.sub": sub },
+            { "heads.sub": sub },
+          ],
         });
         res.json({ success: true, response: getUserSubTeam });
       } catch (error) {
