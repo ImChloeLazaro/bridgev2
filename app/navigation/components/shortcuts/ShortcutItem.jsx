@@ -5,40 +5,40 @@ import { MdBookmark } from "react-icons/md";
 import { MenuItem, menuClasses } from "react-pro-sidebar";
 import ShortcutsOptionsModal from "./ShortcutsOptionsModal";
 
-const shortcutSize = 28; //icon size
+const shortcutSize = 28; // Icon size
 
 const ShortcutItem = forwardRef(
-  ({ children, index, url, unique_key, ...props }, ref) => {
-    let shortcutURL = url;
-
+  ({ children, url, unique_key, ...props }, ref) => {
     const validateURL = (urlString) =>
-      urlString.match(
-        /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/gi.test(
+        urlString
       );
 
-    const isURLvalid = useMemo(() => {
-      return validateURL(shortcutURL) ? true : false;
-    }, [shortcutURL]);
+    const isURLvalid = useMemo(() => validateURL(url), [url]);
 
-    shortcutURL = isURLvalid ? shortcutURL : "";
+    const shortcutURL = isURLvalid
+      ? /^https?:\/\//i.test(url)
+        ? url
+        : "https://" + url
+      : "";
 
     return (
       <MenuItem
         {...props}
-        component={"div"}
+        component="div"
         ref={ref}
         icon={<MdBookmark size={shortcutSize} />}
         rootStyles={{
-          ["." + menuClasses.icon]: {
+          [`.${menuClasses.icon}`]: {
             color: "rgb(var(--aretex-orange))",
           },
-          ["." + menuClasses.label]: {
+          [`.${menuClasses.label}`]: {
             marginLeft: "0.30rem",
             fontSize: "1rem",
             lineHeight: "1.5rem",
             fontWeight: 700,
           },
-          ["." + menuClasses.button]: {
+          [`.${menuClasses.button}`]: {
             paddingRight: "0rem",
             paddingLeft: "0.375rem",
             cursor: "grab",
@@ -61,7 +61,7 @@ const ShortcutItem = forwardRef(
           <Link
             isExternal={isURLvalid}
             href={shortcutURL}
-            className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4 "
+            className="w-full text-black-default hover:underline decoration-2 hover:underline-offset-4"
           >
             {children}
           </Link>
