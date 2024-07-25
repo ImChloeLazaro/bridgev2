@@ -31,10 +31,7 @@ const TeamInfo = () => {
   const [selectedMemberFilterKeys, setSelectedMemberFilterKeys] = useAtom(
     selectedMemberFilterKeysAtom
   );
-
-  console.log("the set")
-  console.log(nameArray)
-
+  
   return (
     <div className="flex flex-col gap-3">
       <SearchBar
