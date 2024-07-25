@@ -18,7 +18,7 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
 
     const result = findByName();
     
-    if (result) {
+    if (!filter.has("All")) {
       const extractUniqueUsers = (data) => {
         const allUsersMap = new Map();
         data.heads.forEach((head) => {
@@ -35,6 +35,7 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
 
       const uniqueUsers = extractUniqueUsers(result);
       setTeamMembers(uniqueUsers);
+      // console.log("filter is true " + filter)
     } else {
       const extractUniqueUsers = (data) => {
         const allUsersMap = new Map();
@@ -50,10 +51,11 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
         return Array.from(allUsersMap.values());
       };
 
-      const uniqueUsers = extractUniqueUsers(selectedData[0]);
+      const uniqueUsers = extractUniqueUsers(selectedData[1]);
       setTeamMembers(uniqueUsers);
+      // console.log("filter is false " + filter)
     }
-  }, [selectedData, filter.anchorKey]);
+  }, [selectedData, filter]);
 
   const filteredMembers = teamMembers.filter((member) =>
     member.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -63,7 +65,7 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
     <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-2">
       {filteredMembers.map((member, index) => (
         <Card
-          className="p-2 flex flex-row  items-center bg-white-default rounded-none md:rounded-md"
+          className="p-4 flex flex-row  items-center bg-white-default rounded-none md:rounded-md"
           key={index}
         >
           <div className="w-full">

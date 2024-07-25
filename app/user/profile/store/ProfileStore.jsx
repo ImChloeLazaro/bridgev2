@@ -27,7 +27,7 @@ export const personalInfoAtom = atom(async (get) => {
   }
 });
 
-export const selectedMemberFilterKeysAtom = atom(new Set([0]));
+export const selectedMemberFilterKeysAtom = atom(new Set(["All"]));
 export const selectedClientFilterKeysAtom = atom(new Set(["All"]));
 
 // Employee Information

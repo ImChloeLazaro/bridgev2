@@ -11,28 +11,29 @@ import SearchBar from "@/app/components/SearchBar";
 import { se } from "date-fns/locale";
 import { ConsoleLogger } from "aws-amplify/utils";
 
-const TeamInfo = () => { 
+const TeamInfo = () => {
   const newData = useAtomValue(clientItemDataAtom);
   const data = newData?.response.filter((subTeamNewData) => {
     return subTeamNewData.status === "active";
   });
 
-  const [selectedData, setSelectedData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const nameArray =
-    data?.map((item) => ({ label: item.name, value: item.name, ...item })) ||
-    [];
+  const nameArray = [
+    { label: "All", value: "All" },
+    ...(data?.map((item) => ({
+      label: item.name,
+      value: item.name,
+      ...item,
+    })) || []),
+  ];
 
   const [selectedMemberFilterKeys, setSelectedMemberFilterKeys] = useAtom(
     selectedMemberFilterKeysAtom
   );
 
-  useEffect(() => {
-    if (nameArray.length > 0) {
-      setSelectedMemberFilterKeys(new Set([nameArray[0].name]));
-    }
-  }, []);
+  console.log("the set")
+  console.log(nameArray)
 
   return (
     <div className="flex flex-col gap-3">
