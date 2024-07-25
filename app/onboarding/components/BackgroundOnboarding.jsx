@@ -357,7 +357,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, other_courses: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -365,7 +365,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"DATE OF ATTENDANCE"}
           value={collegeCourseDateOfAttendance} // college.course_date_of_attendance
           onValueChange={setCollegeCourseDateOfAttendance}
-          isRequired={true}
+          // isRequired={true}
           showPastDate={true}
           withDate={true}
           dateRangeValue={collegeCourseDateOfAttendanceDateRange}
@@ -385,7 +385,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, name: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -397,7 +397,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, address: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -405,7 +405,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"DATE OF ATTENDANCE"}
           value={postGraduateDateOfAttendance} // postGraduate.date_of_attendance
           onValueChange={setPostGraduateDateOfAttendance}
-          isRequired={true}
+          // isRequired={true}
           showPastDate={true}
           withDate={true}
           dateRangeValue={postGraduateDateOfAttendanceDateRange}
@@ -421,19 +421,19 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, degree_major: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
           type={"text"}
           label={"OTHER COURSES"}
-          value={postGraduate.degree_major}
+          value={postGraduate.other_courses}
           onValueChange={(text) =>
             setCollege((prev) => {
-              return { ...prev, degree_major: text };
+              return { ...prev, other_courses: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -441,7 +441,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"DATE OF ATTENDANCE"}
           value={postGraduateCourseDateOfAttendance} // postGraduate.course_date_of_attendance
           onValueChange={setPostGraduateCourseDateOfAttendance}
-          isRequired={true}
+          // isRequired={true}
           showPastDate={true}
           withDate={true}
           dateRangeValue={postGraduateCourseDateOfAttendanceDateRange}
@@ -463,7 +463,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, name: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -475,7 +475,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, address: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -483,7 +483,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"DATE OF ATTENDANCE"}
           value={techVocDateOfAttendance} // techVocSpecial.course_date_of_attendance
           onValueChange={setTechVocDateOfAttendance}
-          isRequired={true}
+          // isRequired={true}
           showPastDate={true}
           withDate={true}
           dateRangeValue={techVocDateOfAttendanceDateRange}
@@ -499,19 +499,19 @@ const BackgroundOnboarding = ({ viewOnly }) => {
               return { ...prev, degree_major: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
           type={"text"}
           label={"OTHER COURSES"}
-          value={techVocSpecial.degree_major}
+          value={techVocSpecial.other_courses}
           onValueChange={(text) =>
             setCollege((prev) => {
-              return { ...prev, degree_major: text };
+              return { ...prev, other_courses: text };
             })
           }
-          isRequired={true}
+          // isRequired={true}
         />
         <FormFieldInput
           isDisabled={viewOnly}
@@ -519,7 +519,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"DATE OF ATTENDANCE"}
           value={techVocCourseDateOfAttendance} // techVocSpecial.course_date_of_attendance
           onValueChange={setTechVocCourseDateOfAttendance}
-          isRequired={true}
+          // isRequired={true}
           showPastDate={true}
           withDate={true}
           dateRangeValue={techVocCourseDateOfAttendanceDateRange}
@@ -551,7 +551,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
                 setExaminationTaken
               );
             }}
-            isRequired={true}
+            // isRequired={true}
           />
           <FormFieldInput
             isDisabled={viewOnly}
@@ -568,7 +568,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
                 setExaminationTaken
               );
             }}
-            isRequired={true}
+            // isRequired={true}
             showPastDate={true}
             withDate={true}
             dateRangeValue={examinationTakenDateRange[e_index]}
@@ -589,7 +589,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
                 setExaminationTaken
               );
             }}
-            isRequired={true}
+            // isRequired={true}
           />
         </div>
       ))}
