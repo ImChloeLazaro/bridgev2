@@ -100,8 +100,6 @@ export const teamsByClientSelectionAtom = atom((get) => {
     )
   );
 
-  console.log("filteredTeamsByClient", filteredTeamsByClient);
-
   return filteredTeamsByClient;
 });
 

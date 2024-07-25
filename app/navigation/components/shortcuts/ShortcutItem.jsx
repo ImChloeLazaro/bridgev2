@@ -20,7 +20,7 @@ const ShortcutItem = forwardRef(
       ? /^https?:\/\//i.test(url)
         ? url
         : "https://" + url
-      : "";
+      : "#";
 
     return (
       <MenuItem

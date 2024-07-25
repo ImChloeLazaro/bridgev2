@@ -20,12 +20,12 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersionc131bdbd": {
+    "LambdaLayerVersion8640ab8d": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs18.x"
-        ],
+        "CompatibleRuntimes": {
+          "Ref": "runtimes"
+        },
         "Content": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
@@ -51,12 +51,12 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublicc131bdbd": {
+    "LambdaLayerPermissionPublic8640ab8d": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersionc131bdbd"
+          "Ref": "LambdaLayerVersion8640ab8d"
         },
         "Principal": "*"
       }
@@ -65,7 +65,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersionc131bdbd"
+        "Ref": "LambdaLayerVersion8640ab8d"
       }
     }
   }

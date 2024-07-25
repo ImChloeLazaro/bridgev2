@@ -328,8 +328,7 @@ const TaskTableView = ({
       className="hidden data-[view=true]:flex data-[change=true]:hidden max-lg:h-full"
     >
       <Table
-        aria-label="Rows actions table example with dynamic content"
-        // isStriped
+        aria-label="Task Table View"
         isHeaderSticky
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
@@ -337,10 +336,6 @@ const TaskTableView = ({
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
         selectionBehavior={"toggle"}
-        // onRowAction={(key) => {
-        //   alert(`Opening item ${key}...`);
-        //   taskActionWindow.onOpen();
-        // }}
         classNames={{
           base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2",
           tbody: "h-full max-h-screen",

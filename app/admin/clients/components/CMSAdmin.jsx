@@ -137,8 +137,6 @@ const CMSAdmin = () => {
     let client_id = Array.from(selectedClientForTask).join("");
     let clients = tasks.filter((task) => task.client?.client_id === client_id);
 
-    console.log("clients", clients);
-
     return clients
       .map((task) =>
         task.sla.map((sla) => {
@@ -156,8 +154,6 @@ const CMSAdmin = () => {
       )
       .flat();
   }, [selectedClientForTask, tasks]);
-
-  console.log("tasksFromSelectedClient", tasksFromSelectedClient);
 
   const selectedTaskFilterKeyString = Array.from(selectedTaskFilterKeys).join(
     ""
@@ -192,8 +188,6 @@ const CMSAdmin = () => {
     selectedTaskFilterKeys,
     taskFilterKeys.length,
   ]);
-
-  console.log("filteredTaskItems", filteredTaskItems);
 
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
   const [taskPage, setTaskPage] = useState(1);

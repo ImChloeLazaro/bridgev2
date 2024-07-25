@@ -178,8 +178,8 @@ export const teamSelectionAtom = atom((get) =>
     .map((team) => {
       const user = get(authenticationAtom);
       const selectedClient = get(selectedClientForTaskAtom);
-      console.log("Selected client", team);
-      console.log("Selected client", [...selectedClient][0]);
+      // console.log("Selected client", team);
+      // console.log("Selected client", [...selectedClient][0]);
       if (
         team.heads.some((team) => team.sub === user.value.sub) &&
         (team.client.some((cl) => cl?._id === selectedClient.anchorKey) ||
@@ -207,7 +207,7 @@ export const filterClientAtom = atom(async (get) => {
     method: "filtered",
   });
 
-  console.log("filtered", filtered);
+  // console.log("filtered", filtered);
 
   if (filtered?.success) {
     return filtered.response
