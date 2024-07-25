@@ -1,4 +1,4 @@
-import { clientSelectionChangeAtom } from "@/app/admin/clients/store/CMSAdminStore";
+//import { clientSelectionChangeAtom } from "@/app/admin/clients/store/CMSAdminStore";
 import AddTaskModal from "@/app/components/cms/AddTaskModal";
 import ClientDetails from "@/app/components/cms/ClientDetails";
 import ClientList from "@/app/components/cms/ClientList";
@@ -57,6 +57,7 @@ import {
   taskNameAtom,
   teamSelectionAtom,
   teamsByClientSelectionAtom,
+  clientSelectionChangeAtom,
 } from "../store/CMSUserStore";
 
 // @refresh reset
@@ -136,7 +137,12 @@ const CMSUser = () => {
       filterClient
         .map((client) => client.key)
         .includes(task.client.client_id) &&
-      [...task.processor, ...task.reviewer, task.manager].includes(user.sub)
+      [
+        ...task.processor,
+        ...task.reviewer,
+        ...task.head,
+        task.manager,
+      ].includes(user.sub)
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -343,7 +349,7 @@ const CMSUser = () => {
 
   const subItemData = useAtomValue(clientSubItemDataAtom);
   const subItemDataAtom = useAtomValue(clientSelectionForTaskAtom);
-  // const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
+  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
   // const handleOpenTaskWindow = () => {
   //   if (showClientTask) {
   //     clientSelectionChange({ key: selectedClientToView });
@@ -371,6 +377,7 @@ const CMSUser = () => {
     });
     return Array.from(clientsMap.values());
   };
+  console.log("SubItemData: ", subItemData);
   console.log("Is USer Included: ", checkIfUserIsHead());
   // console.log("filterClient: ", filterClient);
   // const actionButtons = {
@@ -382,17 +389,17 @@ const CMSUser = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className="
+          className='
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            "
+            '
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -423,7 +430,7 @@ const CMSUser = () => {
             setShowClientDetails={setShowClientDetails}
           >
             <CTAButtons
-              // showButton={checkIfUserIsHead().length <= 0}
+              showButton={checkIfUserIsHead().length > 0}
               radius={"sm"}
               variant={"bordered"}
               key={actionButtons.task.label}
@@ -439,7 +446,7 @@ const CMSUser = () => {
               setSelectedClientForTask={setSelectedClientForTask}
               selectedClientToViewAtom={selectedClientToViewAtom}
               showClientTaskAtom={showClientTaskAtom}
-              // clientSelectionChange={clientSelectionChange}
+              clientSelectionChange={clientSelectionChange}
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
@@ -459,7 +466,7 @@ const CMSUser = () => {
             />
           </CMSHeader>
         </CardHeader>
-        <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
+        <CardBody className='p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto'>
           <ClientList
             taskStatusCount={tasksFilteredByClient}
             itemClients={itemClients}
@@ -506,7 +513,7 @@ const CMSUser = () => {
             selectedClient={selectedClient}
           />
         </CardBody>
-        <CardFooter className="">
+        <CardFooter className=''>
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={
