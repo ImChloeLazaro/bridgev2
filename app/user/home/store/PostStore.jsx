@@ -15,7 +15,6 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
     .find((react) => react.sub === reacted.sub);
   const userOldReaction = isNew?.reaction;
 
-
   const index = selectedPost[0].reacted.findIndex(
     (react) => react.sub === reacted.sub
   );
@@ -64,13 +63,12 @@ export const updatePostReactionAtom = atom(null, async (get, set, update) => {
             : reactions[selectedReaction] - 1,
       };
 
-
   const updatedPostReaction = {
+    _id: id,
     reactionList: [selectedReaction],
     reactions: updatedReactions,
     reacted: updatedReacted,
   };
-
 
   const updateSelectedReaction = get(postAtom).map((post) => {
     if (id === post._id) {
