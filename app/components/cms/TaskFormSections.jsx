@@ -8,11 +8,13 @@ import {
 } from "@/app/store/TaskStore";
 import { Time } from "@internationalized/date";
 import { TimeInput } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
 import { teamsAtom } from "@/app/store/TeamManagementStore";
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { useEffect } from "react";
+
 const TaskFormSections = ({
   selectedClientForTask,
   setSelectedClientForTask,
@@ -25,21 +27,25 @@ const TaskFormSections = ({
   taskDurationAtom,
   taskInstructionAtom,
   teamSelectionAtom,
-  teamsByClientSelectionAtom,
   selectedTeamForTaskAtom,
   taskNameAtom,
   dateRangeAtom,
   startTimeAtom,
   endTimeAtom,
   clientSelectionForTaskAtom,
+  fetchClientSelectionForTaskAtom,
+  fetchTeamSelectionAtom,
 }) => {
   const user = useAtomValue(authenticationAtom);
   const showClientTask = useAtomValue(showClientTaskAtom);
 
   const [taskName, setTaskName] = useAtom(taskNameAtom);
-  // const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
+  const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
 
   const clientSelectionForTask = useAtomValue(clientSelectionForTaskAtom);
+  const fetchClientSelectionForTask = useSetAtom(
+    fetchClientSelectionForTaskAtom
+  );
 
   const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
 
@@ -52,7 +58,7 @@ const TaskFormSections = ({
     selectedTeamForTaskAtom
   );
 
-  const teamsByClientSelection = useAtomValue(teamsByClientSelectionAtom);
+  const fetchTeamSelection = useSetAtom(fetchTeamSelectionAtom);
 
   const processorSelection = useAtomValue(processorSelectionAtom);
   const [selectedProcessor, setSelectedProcessor] = useAtom(
@@ -69,6 +75,12 @@ const TaskFormSections = ({
   const [selectedRecurrence, setSelectedRecurrence] = useAtom(
     selectedRecurrenceAtom
   );
+
+  useEffect(() => {
+    fetchClientSelectionForTask();
+    fetchTeamSelection();
+    console.log("fetching client selection");
+  }, [fetchClientSelectionForTask, fetchTeamSelection]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -205,7 +217,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeamForTask.size >= 1}
+                isDisabled={selectedTeamForTask.size == 0}
                 isRequired={true}
                 aria-label="Manager Selection"
                 items={managerSelection}
@@ -248,7 +260,7 @@ const TaskFormSections = ({
             <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Instruction"}
             </p>
-            {/* <div className="w-[80%]">
+            <div className="w-[80%]">
               <FormFieldTextArea
                 isRequired={true}
                 value={taskInstruction}
@@ -256,8 +268,7 @@ const TaskFormSections = ({
                 placeholder={"Special Instructions"}
                 fullWidth={true}
               />
-              
-            </div> */}
+            </div>
           </div>
           {/* Recurrence */}
           <div className="flex justify-between items-center gap-8">

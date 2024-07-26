@@ -64,6 +64,8 @@ import {
   taskNameAtom,
   teamSelectionAtom,
   teamsByClientSelectionAtom,
+  fetchClientSelectionForTaskAtom,
+  fetchTeamSelectionAtom,
 } from "../store/CMSTLStore";
 
 // @refresh reset
@@ -145,12 +147,8 @@ const CMSTL = () => {
     [selectedClientToView, userTasks]
   );
 
-  const tasksFilteredByClient = tasks.filter(
-    (task) =>
-      filterClient
-        .map((client) => client.key)
-        .includes(task.client.client_id) &&
-      [...task.processor, ...task.reviewer, task.manager].includes(user.sub)
+  const tasksFilteredByClient = tasks.filter((task) =>
+    filterClient.map((client) => client.key).includes(task.client.client_id)
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
@@ -450,6 +448,8 @@ const CMSTL = () => {
               endTimeAtom={endTimeAtom}
               fetchTeamsAtom={fetchTeamsAtom}
               clientSelectionForTaskAtom={clientSelectionForTaskAtom}
+              fetchClientSelectionForTaskAtom={fetchClientSelectionForTaskAtom}
+              fetchTeamSelectionAtom={fetchTeamSelectionAtom}
             />
           </CMSHeader>
         </CardHeader>

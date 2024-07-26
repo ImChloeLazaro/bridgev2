@@ -212,11 +212,11 @@ export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
       return {
         ...client,
         key: client._id,
-        value: client.name,
+        value: client._id,
       };
     });
     set(teamClientSelectionAtom, filteredClients);
-    // return filtered.response;
+    return filtered.response;
   } else {
     return {};
   }
@@ -235,12 +235,13 @@ export const teamDataAtom = atom((get) => {
   const teamMembersSelection = get(teamMemberSelectionAtom);
   const teamDepartmentSelection = get(teamDepartmentSelectionAtom);
 
+  console.log("teamClientSelection", teamClientSelection);
+  console.log("selectedTeamClient", selectedTeamClient);
+
   return {
     _id: selectedTeamID,
+    // tl: user,
     name: selectedTeamName,
-    department: teamDepartmentSelection.filter((department) =>
-      Array.from(selectedTeamDepartment).includes(department.key)
-    ),
     heads: teamHeadSelection.filter((head) =>
       Array.from(selectedTeamHead).includes(head.sub)
     ),
@@ -257,19 +258,21 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
   teamData = {
     name: teamData.name,
-    department: teamData.department,
     heads: teamData.heads,
     members: teamData.members,
     client: teamData.client,
   };
+
+  console.log("teamData", teamData);
 
   const promise = async () =>
     new Promise((resolve) =>
       setTimeout(
         async () =>
           resolve(
-            await restinsert("/teams/team", teamData),
-            await set(fetchTeamsAtom, {})
+            // await restinsert("/teams/subteam", teamData),
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -321,7 +324,8 @@ export const updateTeamAtom = atom(null, async (get, set, update) => {
         async () =>
           resolve(
             await restupdate("/teams/team", teamData),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -361,7 +365,8 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
         async () =>
           resolve(
             await restupdate("/teams/team/updateMember", memberData),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -390,7 +395,8 @@ export const archiveTeamAtom = atom(null, async (get, set, update) => {
         async () =>
           resolve(
             await restupdate("/teams/team/activeOrArchive", teamData),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -475,7 +481,8 @@ export const deleteTeamAtom = atom(null, async (get, set, update) => {
             await restdestroy("/teams/team", {
               sub: team_id,
             }),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )

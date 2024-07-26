@@ -36,16 +36,22 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     client = {},
     processor = [],
     reviewer = [],
-    duration,
     sla = [],
   } = update;
+
+  console.log("ADD TASK", {
+    manager,
+    client,
+    processor,
+    reviewer,
+    sla,
+  });
 
   const response = await restinsert("/cms/task", {
     manager,
     client,
     processor,
     reviewer,
-    duration,
     sla,
   });
 

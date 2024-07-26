@@ -97,6 +97,7 @@ const FormFieldInput = ({
               aria-label={label}
               variant={"flat"}
               minValue={showPastDate ? null : today(getLocalTimeZone())}
+              focusedValue={today(getLocalTimeZone())}
               visibleMonths={2}
               pageBehavior={"single"}
               value={dateRangeValue}
@@ -230,6 +231,7 @@ const FormFieldInput = ({
               aria-label={label}
               variant={"flat"}
               minValue={showPastDate ? null : today(getLocalTimeZone())}
+              focusedValue={today(getLocalTimeZone())}
               value={dateRangeValue?.start}
               onChange={(dateRange) => {
                 onDateRangeValueChange((prev) => {

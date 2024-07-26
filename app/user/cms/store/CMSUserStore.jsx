@@ -202,7 +202,7 @@ export const teamSelectionAtom = atom((get) =>
 
 export const filterClientAtom = atom(async (get) => {
   const user = await get(userAtom);
-  const filtered = await readwithparams("/teams/subteam/myUserSubTeam", {
+  const filtered = await readwithparams("/teams/team/filterClient", {
     sub: user.sub,
     method: "filtered",
   });
@@ -211,11 +211,11 @@ export const filterClientAtom = atom(async (get) => {
 
   if (filtered?.success) {
     return filtered.response
-      .map((filter) => filter.client)
-      .flat()
-      .filter(
-        (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
-      );
+      // .map((filter) => filter.client)
+      // .flat()
+      // .filter(
+      //   (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
+      // );
   } else {
     return {};
   }

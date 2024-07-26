@@ -42,6 +42,8 @@ const AddTaskModal = ({
   endTimeAtom,
   fetchTeamsAtom,
   clientSelectionForTaskAtom,
+  fetchClientSelectionForTaskAtom,
+  fetchTeamSelectionAtom,
 }) => {
   const {
     isOpen: isOpenPopup,
@@ -118,7 +120,6 @@ const AddTaskModal = ({
                   taskNameAtom={taskNameAtom}
                   taskInstructionAtom={taskInstructionAtom}
                   teamSelectionAtom={teamSelectionAtom}
-                  teamsByClientSelectionAtom={teamsByClientSelectionAtom}
                   selectedTeamForTaskAtom={selectedTeamForTaskAtom}
                   selectedProcessorAtom={selectedProcessorAtom}
                   selectedReviewerAtom={selectedReviewerAtom}
@@ -129,6 +130,8 @@ const AddTaskModal = ({
                   startTimeAtom={startTimeAtom}
                   endTimeAtom={endTimeAtom}
                   clientSelectionForTaskAtom={clientSelectionForTaskAtom}
+                  fetchClientSelectionForTaskAtom={fetchClientSelectionForTaskAtom}
+                  fetchTeamSelectionAtom={fetchTeamSelectionAtom}
                 />
               </div>
             </ModalBody>
