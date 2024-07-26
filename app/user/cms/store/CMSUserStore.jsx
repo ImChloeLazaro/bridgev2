@@ -86,12 +86,22 @@ export const teamsAtom = atom([]);
 //   }
 // });
 
-// export const teamSelectionAtom = atom((get) => {
-//   let teams = get(teamsAtom).filter((team) => {
-//     return team;
-//   });
-//   return teams;
-// });
+export const teamSelectionAtom = atom([]);
+
+export const fetchTeamSelectionAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const teams = await readwithparams("/teams/subteam/mySubTeam", {
+    sub: user.sub,
+  });
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    set(teamSelectionAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
 
 export const teamsByClientSelectionAtom = atom(async (get) => {
   const user = await get(userAtom);
@@ -118,14 +128,14 @@ export const endTimeAtom = atom(new Time(17));
 export const taskNameAtom = atom("");
 export const taskInstructionAtom = atom("");
 
-export const taskDataAtom = atom(async (get) => {
+export const taskDataAtom = atom((get) => {
   const selectedClientForTask = get(selectedClientForTaskAtom);
   const selectedProcessor = get(selectedProcessorAtom);
   const selectedReviewer = get(selectedReviewerAtom);
   const selectedManager = get(selectedManagerAtom);
   const selectedRecurrence = get(selectedRecurrenceAtom);
 
-  const clientSelection = await get(clientSelectionForTaskAtom);
+  const clientSelection = get(clientSelectionForTaskAtom);
   const processorSelection = get(processorSelectionAtom);
   const reviewerSelection = get(reviewerSelectionAtom);
   const managerSelection = get(managerSelectionAtom);
@@ -173,30 +183,30 @@ export const taskDataAtom = atom(async (get) => {
   };
 });
 
-export const teamSelectionAtom = atom((get) =>
-  get(teamsAtom)
-    .map((team) => {
-      const user = get(authenticationAtom);
-      const selectedClient = get(selectedClientForTaskAtom);
-      // console.log("Selected client", team);
-      // console.log("Selected client", [...selectedClient][0]);
-      if (
-        team.heads.some((team) => team.sub === user.value.sub) &&
-        (team.client.some((cl) => cl?._id === selectedClient.anchorKey) ||
-          team.client.some((cl) => cl?._id === [...selectedClient][0]))
-      ) {
-        return {
-          ...team,
-          key: team._id,
-          value: team._id,
-          userSide: true,
-        };
-      } else {
-        return undefined;
-      }
-    })
-    .filter((team) => team !== undefined)
-);
+// export const teamSelectionAtom = atom((get) =>
+//   get(teamsAtom)
+//     .map((team) => {
+//       const user = get(authenticationAtom);
+//       const selectedClient = get(selectedClientForTaskAtom);
+//       // console.log("Selected client", team);
+//       // console.log("Selected client", [...selectedClient][0]);
+//       if (
+//         team.heads.some((team) => team.sub === user.value.sub) &&
+//         (team.client.some((cl) => cl?._id === selectedClient.anchorKey) ||
+//           team.client.some((cl) => cl?._id === [...selectedClient][0]))
+//       ) {
+//         return {
+//           ...team,
+//           key: team._id,
+//           value: team._id,
+//           userSide: true,
+//         };
+//       } else {
+//         return undefined;
+//       }
+//     })
+//     .filter((team) => team !== undefined)
+// );
 
 // CLIENT ESSENTIALS
 
@@ -233,26 +243,33 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
     console.error("Failed to fetch teams", subItemData?.error);
   }
 });
-export const clientSelectionForTaskAtom = atom(async (get) => {
-  let filterClient = await get(filterClientAtom);
+export const clientSelectionForTaskAtom = atom([]);
 
-  let filteredClients = get(clientsAtom).filter((client) =>
-    filterClient.map((client) => client._id).includes(client._id)
-  );
+export const fetchClientSelectionForTaskAtom = atom(
+  null,
+  async (get, set, update) => {
+    let filterClient = await get(filterClientAtom);
 
-  let selection = filteredClients.map((client) => {
-    return {
-      client_id: client._id, // #[CHANGE KEY]: client_id => key / id
-      key: client._id,
-      name: client.company.name,
-      email: client.company.email,
-      picture: client.company.picture,
-      team: "",
-    };
-  });
+    console.log("filterClient", filterClient);
 
-  return selection;
-});
+    let filteredClients = get(clientsAtom).filter((client) =>
+      filterClient.map((client) => client._id).includes(client._id)
+    );
+
+    let selection = filteredClients.map((client) => {
+      return {
+        client_id: client._id, // #[CHANGE KEY]: client_id => key / id
+        key: client._id,
+        name: client.company.name,
+        email: client.company.email,
+        picture: client.company.picture,
+      };
+    });
+
+    // return selection;
+    set(clientSelectionForTaskAtom, selection);
+  }
+);
 // export const clientSelectionForTaskAtom = atom(async (get) => {
 //   const subItemData = await get(clientSubItemDataAtom);
 //   const user = await get(userAtom);

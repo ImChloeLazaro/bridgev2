@@ -326,7 +326,7 @@ const FormFieldInput = ({
   // fix validation for datetime
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
-    text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
+    text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-_\\]+$/i,
     number: /^[0-9\s+.,()-]+$/i,
     file: /.*\.pdf$/,
   };
