@@ -435,7 +435,7 @@ const CMSAdmin = () => {
               clientSelectionChange={clientSelectionChange}
               taskDataAtom={taskDataAtom}
               taskNameAtom={taskNameAtom}
-              taskInstructionAtom={(e) => console.log(e)}
+              taskInstructionAtom={taskInstructionAtom}
               teamSelectionAtom={teamSelectionAtom}
               teamsByClientSelectionAtom={teamsByClientSelectionAtom}
               selectedTeamForTaskAtom={selectedTeamForTaskAtom}

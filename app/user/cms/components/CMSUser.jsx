@@ -136,13 +136,14 @@ const CMSUser = () => {
     (task) =>
       filterClient
         .map((client) => client.key)
-        .includes(task.client.client_id) &&
-      [
-        ...task.processor,
-        ...task.reviewer,
-        ...task.head,
-        task.manager,
-      ].includes(user.sub)
+        .includes(task.client.client_id) 
+      //   &&
+      // [
+      //   ...task.processor,
+      //   ...task.reviewer,
+      //   ...task.head,
+      //   task.manager,
+      // ].includes(user.sub)
   );
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
