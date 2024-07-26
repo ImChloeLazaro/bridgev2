@@ -63,6 +63,8 @@ import {
   teamsByClientSelectionAtom,
   fetchTeamsAtom,
   clientSelectionForTaskAtom,
+  fetchClientSelectionForTaskAtom,
+  fetchTeamSelectionAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
 
@@ -449,6 +451,8 @@ const CMSAdmin = () => {
               endTimeAtom={endTimeAtom}
               fetchTeamsAtom={fetchTeamsAtom}
               clientSelectionForTaskAtom={clientSelectionForTaskAtom}
+              fetchClientSelectionForTaskAtom={fetchClientSelectionForTaskAtom}
+              fetchTeamSelectionAtom={fetchTeamSelectionAtom}
             />
             <CTAButtons
               radius={"sm"}

@@ -27,6 +27,7 @@ const protectedRoutes = [
   "/hr/benefits",
   "/hr/leaves",
   "/hr/offboarding",
+  "/onboarding",
 ];
 
 async function middleware(request) {

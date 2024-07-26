@@ -85,11 +85,18 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
   }
 });
 
-export const teamSelectionAtom = atom((get) => {
-  let teams = get(teamsAtom).filter((team) => {
-    return team;
-  });
-  return teams;
+export const teamSelectionAtom = atom([]);
+
+export const fetchTeamSelectionAtom = atom(null, async (get, set, update) => {
+  const teams = await restread("/teams/team");
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    set(teamSelectionAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
 });
 
 export const teamsByClientSelectionAtom = atom((get) => {
@@ -172,20 +179,25 @@ export const taskDataAtom = atom((get) => {
 
 // CLIENT ESSENTIALS
 
-export const clientSelectionForTaskAtom = atom((get) => {
-  let selection = get(clientsAtom).map((client) => {
-    return {
-      client_id: client._id, // #[CHANGE KEY]: client_id => key / id
-      key: client._id,
-      name: client.company.name,
-      email: client.company.email,
-      picture: client.company.picture,
-      team: "",
-    };
-  });
+export const clientSelectionForTaskAtom = atom([]);
 
-  return selection;
-});
+export const fetchClientSelectionForTaskAtom = atom(
+  null,
+  async (get, set, update) => {
+    let selection = get(clientsAtom).map((client) => {
+      return {
+        client_id: client._id, // #[CHANGE KEY]: client_id => key / id
+        key: client._id,
+        name: client.company.name,
+        email: client.company.email,
+        picture: client.company.picture,
+      };
+    });
+
+    // return selection;
+    set(clientSelectionForTaskAtom, selection);
+  }
+);
 
 export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
   const { key } = update;

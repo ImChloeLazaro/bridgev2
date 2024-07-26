@@ -58,6 +58,8 @@ import {
   teamSelectionAtom,
   teamsByClientSelectionAtom,
   clientSelectionChangeAtom,
+  fetchClientSelectionForTaskAtom,
+  fetchTeamSelectionAtom,
 } from "../store/CMSUserStore";
 
 // @refresh reset
@@ -132,19 +134,19 @@ const CMSUser = () => {
     [selectedClientToView, userTasks]
   );
 
+  console.log("user in cms user", user);
   const tasksFilteredByClient = tasks.filter(
     (task) =>
       filterClient
         .map((client) => client.key)
-        .includes(task.client.client_id) 
-      //   &&
-      // [
-      //   ...task.processor,
-      //   ...task.reviewer,
-      //   ...task.head,
-      //   task.manager,
-      // ].includes(user.sub)
+        .includes(task.client.client_id) &&
+      [
+        ...task.processor.map((user) => user.sub),
+        ...task.reviewer.map((user) => user.sub),
+        task.manager.sub,
+      ].includes(user.sub)
   );
+  console.log("tasksFilteredByClient", tasksFilteredByClient);
 
   const convertedTasksFromSelectedClient = tasksFromSelectedClient[0]?.sla.map(
     (task, index) => {
@@ -390,17 +392,17 @@ const CMSUser = () => {
 
   return (
     <>
-      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className='
+          className="
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            '
+            "
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -464,10 +466,12 @@ const CMSUser = () => {
               endTimeAtom={endTimeAtom}
               fetchTeamsAtom={fetchTeamsAtom}
               clientSelectionForTaskAtom={clientSelectionForTaskAtom}
+              fetchClientSelectionForTaskAtom={fetchClientSelectionForTaskAtom}
+              fetchTeamSelectionAtom={fetchTeamSelectionAtom}
             />
           </CMSHeader>
         </CardHeader>
-        <CardBody className='p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto'>
+        <CardBody className="p-0 lg:p-1 xl:p-3 h-full w-full overflow-x-auto">
           <ClientList
             taskStatusCount={tasksFilteredByClient}
             itemClients={itemClients}
@@ -514,7 +518,7 @@ const CMSUser = () => {
             selectedClient={selectedClient}
           />
         </CardBody>
-        <CardFooter className=''>
+        <CardFooter className="">
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={
