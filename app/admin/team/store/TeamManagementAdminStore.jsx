@@ -93,7 +93,7 @@ export const teamDepartmentSelectionAtom = atom((get) =>
     return {
       ...department,
       key: department._id,
-      value: department.name,
+      value: department._id,
     };
   })
 );
@@ -103,7 +103,7 @@ export const teamSelectionAtom = atom((get) =>
     return {
       ...team,
       key: team._id,
-      value: team.name,
+      value: team._id,
     };
   })
 );
@@ -115,7 +115,7 @@ export const teamClientSelectionAtom = atom((get) =>
       name: client.company.name,
       email: client.company.email,
       key: client._id,
-      value: client.name,
+      value: client._id,
     };
   })
 );
@@ -165,6 +165,9 @@ export const teamDataAtom = atom((get) => {
 
 export const addTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
+
+  console.log("teamData", teamData);
+
   teamData = {
     name: teamData.name,
     department: teamData.department,
@@ -172,6 +175,7 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
     members: teamData.members,
     client: teamData.client,
   };
+  console.log("teamData after", teamData);
 
   const promise = async () =>
     new Promise((resolve) =>

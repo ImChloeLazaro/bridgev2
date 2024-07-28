@@ -7,6 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
@@ -28,8 +29,15 @@ import {
   updateTeamAtom,
   addDepartmentAtom,
 } from "../store/TeamManagementAdminStore";
+import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 
 const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
+  const {
+    isOpen: isOpenPopup,
+    onOpen: onOpenPopup,
+    onOpenChange: onOpenChangePopup,
+  } = useDisclosure();
+
   const [selectedTeamNameArchive, setSelectedTeamNameArchive] = useAtom(
     selectedTeamNameArchiveAtom
   );
@@ -68,7 +76,7 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
 
   const teamAction = {
     archive: {
-      title: "Archive Team",
+      label: "Archive Team",
       form: (
         <>
           <FormFieldSelect
@@ -83,38 +91,19 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
             renderType={"chip"}
             selectionMode={"multiple"}
           />
-          {/* <FormFieldSelect
-            fullWidth={true}
-            isRequired={true}
-            disabledValidation={true}
-            items={teamHeadSelection}
-            label={"Select Team Head"}
-            selectedKeys={selectedTeamHeads}
-            onSelectionChange={setSelectedTeamHeads}
-            renderItemPicture={true}
-            renderType={"chip"}
-            selectionMode={"multiple"}
-          />
-          <FormFieldSelect
-            fullWidth={true}
-            isRequired={true}
-            disabledValidation={true}
-            items={teamClientSelection}
-            label={"Select Client/s"}
-            selectedKeys={selectedTeamClient}
-            onSelectionChange={setSelectedTeamClient}
-            renderItemPicture={true}
-            renderType={"chip"}
-            selectionMode={"multiple"}
-          /> */}
         </>
       ),
       actionLabel: "Archive Team",
       actionColor: "red",
       action: archiveTeamMultiple,
+      message:
+        "Make sure the details of the client is correct. You cannot edit this later.",
+      title: "Archive Team",
+      choice: "Archive Team",
+      type: "warning",
     },
     team: {
-      title: "Add Team",
+      label: "Create New Team",
       form: (
         <>
           <FormFieldInput
@@ -174,12 +163,17 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
           />
         </>
       ),
-      actionLabel: "Add Team",
+      actionLabel: "Create Team",
       actionColor: "blue",
       action: addTeam,
+      message:
+        "You are about to create this team. Make sure the details of the team are correct. You can edit this later.",
+      title: `${selectedTeamName}`,
+      choice: "Add Team",
+      type: "confirm",
     },
     update: {
-      title: "Update Team",
+      label: "Update Team",
       form: (
         <>
           <FormFieldInput
@@ -242,9 +236,13 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       actionLabel: "Update Team",
       actionColor: "blue",
       action: updateTeam,
+      message: "You are about to update this team's details. ",
+      title: "Update Team",
+      choice: "Update Team",
+      type: "confirm",
     },
     department: {
-      title: "Add Department",
+      label: "Create New Department",
       form: (
         <>
           <FormFieldInput
@@ -258,24 +256,35 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
           />
         </>
       ),
-      actionLabel: "Add Department",
+      actionLabel: "Create Department",
       actionColor: "green",
       action: addDepartment,
+      message: "You are about to create a new department.",
+      title: `${selectedTeamDepartmentName}`,
+      choice: "Add Department",
+      type: "confirm",
     },
   };
 
   const handleFormAction = (e) => {
+    onOpenPopup();
     return false;
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      isDismissable={false}
+      isKeyboardDismissDisabled={true}
+      // hideCloseButton={true}
+    >
       <ModalContent>
         {(onClose) => (
           <form action={handleFormAction}>
             <ModalHeader className="flex flex-col gap-1 justify-start">
               <p className="text-lg font-bold text-black-default">
-                {teamAction[action].title}
+                {teamAction[action].label}
               </p>
             </ModalHeader>
             <ModalBody className="gap-2">{teamAction[action].form}</ModalBody>
@@ -285,13 +294,19 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
                 type={"submit"}
                 label={teamAction[action].actionLabel}
                 color={teamAction[action].actionColor}
-                onPress={() => {
-                  teamAction[action].action();
-                  onClose();
-                }}
                 className={"px-6"}
               />
             </ModalFooter>
+            <ConfirmationWindow
+              message={teamAction[action].message}
+              title={teamAction[action].title}
+              choice={teamAction[action].choice}
+              action={teamAction[action].action}
+              type={teamAction[action].type}
+              isOpen={isOpenPopup}
+              onOpenChange={onOpenChangePopup}
+              onCloseParent={onClose}
+            />
           </form>
         )}
       </ModalContent>

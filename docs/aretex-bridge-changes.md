@@ -2122,3 +2122,6 @@ in `TaskActionModal` Component
 ## v.0.10.9
 
 * User Beta Testing
+
+  "@nextui-org/react": "^2.4.6",
+    "framer-motion": "^11.3.17",

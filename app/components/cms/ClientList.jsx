@@ -15,85 +15,105 @@ const ClientList = ({
   setShowFooter,
   setShowSearchBar,
   setSelectedClientToView,
-  setSelectedClientForTask,
   setShowClientDetails,
   isLoading,
 }) => {
   const clients = isLoading ? [] : itemClients;
   return (
-    <ScrollShadow
-      size={25}
-      data-details={showClientDetails}
-      data-view={showClientTask}
-      className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-0 lg:px-4"
-    >
-      {isLoading ? (
-        <div className="flex justify-center items-center">
-          <Spinner label="Loading..." />
-        </div>
-      ) : (
-        <div className="flex flex-col w-full gap-y-3">
-          {!clients?.length ? (
-            clients?.length < 1 &&
-            !searchClientItem?.length &&
-            Array.from(selectedClientFilterKeys).join("") === "all" ? (
-              <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
-                <div className="flex flex-col items-center justify-center">
-                  <Image
-                    width={450}
-                    height={450}
-                    alt={"Empty Data"}
-                    src={"/empty-data.png"}
-                    className="w-[10rem] md:w-[18rem] lg:w-[24rem]"
-                  />
-                  <p className="text-sm lg:text-lg font-medium text-black-default/80">
-                    {"No clients are assigned to you yet."}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
-                <div className="flex flex-col items-center justify-center">
-                  <Image
-                    width={450}
-                    height={450}
-                    alt={"No Data"}
-                    src={"/no-data-1.webp"}
-                    className="w-[10rem] md:w-[18rem] lg:w-[24rem]"
-                  />
-                  <p className="text-sm lg:text-lg font-medium text-black-default/80">
-                    {
-                      "Sorry, we didn't found any client matching your criteria!"
-                    }
-                  </p>
-                </div>
-              </div>
-            )
-          ) : (
-            clients.map((client, index) => {
-              return (
-                <Suspense key={index} fallback={<Spinner label="Loading..." />}>
-                  <ClientItemCard
-                    key={index}
-                    taskStatusCount={taskStatusCount}
-                    clientName={client.company?.name}
-                    clientKey={client._id}
-                    setShowClientTask={setShowClientTask}
-                    changeView={changeView}
-                    setChangeView={setChangeView}
-                    setShowFooter={setShowFooter}
-                    setShowSearchBar={setShowSearchBar}
-                    setSelectedClientToView={setSelectedClientToView}
-                    setSelectedClientForTask={setSelectedClientForTask}
-                    setShowClientDetails={setShowClientDetails}
-                  />
-                </Suspense>
-              );
-            })
-          )}
+    <>
+      {!showClientTask && (
+        <div
+          data-show={isLoading}
+          className="data-[show=true]:hidden w-full flex items-center justify-between gap-2"
+        >
+          <p className="w-1/3 flex justify-center text-xl font-semibold text-black-default ">
+            {"Client Name"}
+          </p>
+          <p className="w-1/3 flex justify-center text-xl font-semibold text-black-default ">
+            {"Task Status"}
+          </p>
+          <p className="w-1/3 flex justify-center text-xl font-semibold text-black-default ">
+            {"Assignees"}
+          </p>
         </div>
       )}
-    </ScrollShadow>
+      <ScrollShadow
+        size={25}
+        data-details={showClientDetails}
+        data-view={showClientTask}
+        className="flex data-[view=true]:hidden data-[details=true]:hidden w-full h-screen flex-col items-center gap-4 px-0 lg:px-4"
+      >
+        {isLoading ? (
+          <div className="flex justify-center items-center h-full w-full">
+            <Spinner label="Loading..." />
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col w-full gap-y-3">
+              {!clients?.length ? (
+                clients?.length < 1 &&
+                !searchClientItem?.length &&
+                Array.from(selectedClientFilterKeys).join("") === "all" ? (
+                  <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
+                    <div className="flex flex-col items-center justify-center">
+                      <Image
+                        width={450}
+                        height={450}
+                        alt={"Empty Data"}
+                        src={"/empty-data.png"}
+                        className="w-[10rem] md:w-[18rem] lg:w-[24rem]"
+                      />
+                      <p className="text-sm lg:text-lg font-medium text-black-default/80">
+                        {"No clients are assigned to you yet."}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
+                    <div className="flex flex-col items-center justify-center">
+                      <Image
+                        width={450}
+                        height={450}
+                        alt={"No Data"}
+                        src={"/no-data-1.webp"}
+                        className="w-[10rem] md:w-[18rem] lg:w-[24rem]"
+                      />
+                      <p className="text-sm lg:text-lg font-medium text-black-default/80">
+                        {
+                          "Sorry, we didn't found any client matching your criteria!"
+                        }
+                      </p>
+                    </div>
+                  </div>
+                )
+              ) : (
+                clients.map((client, index) => {
+                  return (
+                    <Suspense
+                      key={index}
+                      fallback={<Spinner label="Loading..." />}
+                    >
+                      <ClientItemCard
+                        key={index}
+                        client={client}
+                        taskStatusCount={taskStatusCount}
+                        setShowClientTask={setShowClientTask}
+                        changeView={changeView}
+                        setChangeView={setChangeView}
+                        setShowFooter={setShowFooter}
+                        setShowSearchBar={setShowSearchBar}
+                        setSelectedClientToView={setSelectedClientToView}
+                        setShowClientDetails={setShowClientDetails}
+                      />
+                    </Suspense>
+                  );
+                })
+              )}
+            </div>
+          </>
+        )}
+      </ScrollShadow>
+    </>
   );
 };
 

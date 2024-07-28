@@ -51,17 +51,26 @@ const TaskTableView = ({
   setShowClientTask,
   selectedClientToView,
   actions,
-  tasksFromSelectedClient,
-  selectedProcessorTaskAction,
-  setSelectedProcessorTaskAction,
-  selectedReviewerTaskAction,
-  setSelectedReviewerTaskAction,
+  selectedTaskAtom,
+  selectedTaskIDAtom,
+  updateSelectedProcessorAtom,
+  updateSelectedReviewerAtom,
   isLoading,
   isMobile,
 }) => {
   const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
+
+  // not destructed to easily passed to components as props
+  const confirmationWindow = useDisclosure(); // confirmation window
+  const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
+
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  const [taskId, setTaskId] = useState("");
+  const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
+  const [selectedTaskID, setSelectedTaskID] = useAtom(selectedTaskIDAtom);
+
+  const slaToBeUpdated = itemTasks.filter(
+    (sla) => sla._id === selectedTask // sla ID
+  )[0];
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
@@ -69,10 +78,14 @@ const TaskTableView = ({
     setShowClientTask(false);
   };
 
-  const confirmationWindow = useDisclosure(); // confirmation window
-  const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
   const [selectedTaskAction, setSelectedTaskAction] = useAtom(
     selectedTaskActionAtom
+  );
+  const [updateSelectedProcessor, setUpdateSelectedProcessor] = useAtom(
+    updateSelectedProcessorAtom
+  );
+  const [updateSelectedReviewer, setUpdateSelectedReviewer] = useAtom(
+    updateSelectedReviewerAtom
   );
 
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
@@ -119,9 +132,10 @@ const TaskTableView = ({
   const renderCell = useCallback(
     (task, columnKey) => {
       // const isOverdue = task.progress.toLowerCase() === "overdue";
+
       const isOverdue =
-        compareAsc(new Date(task.duration?.end?.slice(0, -1)), new Date()) < 0 &&
-        task.status === "todo";
+        compareAsc(new Date(task.duration?.end?.slice(0, -1)), new Date()) <
+          0 && task.status === "todo";
 
       const cellValue = task[columnKey];
 
@@ -213,7 +227,7 @@ const TaskTableView = ({
               </p>
               <p
                 className={cn(
-                  "min-w-fit text-sm lg:text-base font-bold text-black-default",
+                  "min-w-fit text-sm lg:text-base font-bold text-black-default capitalize",
                   `${
                     task.status === "done" || isOverdue
                       ? "line-through text-darkgrey-default/80"
@@ -221,13 +235,13 @@ const TaskTableView = ({
                   }`
                 )}
               >
-                {format(
+                {`${format(
                   task.duration?.end?.length
                     ? task.duration?.end?.slice(0, -1)
                     : "",
                   "p",
                   { locale: enAU }
-                )}
+                )} | ${task.duration.recurrence}`}
               </p>
             </>
           );
@@ -280,7 +294,10 @@ const TaskTableView = ({
           return (
             <>
               <TaskOptionsDropdown
-                task_id={task._id}
+                task_id={task.task_id}
+                sla_id={task._id}
+                setSelectedTask={setSelectedTask}
+                setSelectedTaskID={setSelectedTaskID}
                 actions={actionOptions}
                 trigger={<BiDotsVerticalRounded size={24} />}
                 isEscalated={task.escalate}
@@ -295,7 +312,14 @@ const TaskTableView = ({
           return cellValue;
       }
     },
-    [actions, confirmationWindow, isMobile, taskActionWindow]
+    [
+      actions,
+      confirmationWindow,
+      isMobile,
+      setSelectedTask,
+      setSelectedTaskID,
+      taskActionWindow,
+    ]
   );
 
   return !selectedClientToView?.length ? (
@@ -385,7 +409,7 @@ const TaskTableView = ({
           }
         >
           {(item) => (
-            <TableRow key={item.index}>
+            <TableRow key={item.key}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
@@ -403,25 +427,26 @@ const TaskTableView = ({
         action={taskActions}
         action_params={{
           sound: play,
-          tasks: tasksFromSelectedClient[0],
-          selectedProcessorTaskAction: selectedProcessorTaskAction,
-          selectedReviewerTaskAction: selectedReviewerTaskAction,
-          setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,
-          setSelectedReviewerTaskAction: setSelectedReviewerTaskAction,
+          tasks: slaToBeUpdated,
+          taskId: selectedTaskID,
+          updateSelectedProcessor: updateSelectedProcessor,
+          setUpdateSelectedProcessor: setUpdateSelectedProcessor,
+          updateSelectedReviewer: updateSelectedReviewer,
+          setUpdateSelectedReviewer: setUpdateSelectedReviewer,
         }}
         isOpen={confirmationWindow.isOpen}
         onOpenChange={confirmationWindow.onOpenChange}
       />
       <TaskActionModal
-        tasks={tasksFromSelectedClient[0]}
         isOpen={taskActionWindow.isOpen}
         onOpenChange={taskActionWindow.onOpenChange}
         onOpenAfterClose={confirmationWindow.onOpen}
+        sla={slaToBeUpdated}
         selectedTaskAction={selectedTaskAction}
-        selectedProcessorTaskAction={selectedProcessorTaskAction}
-        setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-        selectedReviewerTaskAction={selectedReviewerTaskAction}
-        setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+        updateSelectedProcessor={updateSelectedProcessor}
+        setUpdateSelectedProcessor={setUpdateSelectedProcessor}
+        updateSelectedReviewer={updateSelectedReviewer}
+        setUpdateSelectedReviewer={setUpdateSelectedReviewer}
       />
     </div>
   );

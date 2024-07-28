@@ -6,15 +6,15 @@ import CMSHeader from "@/app/components/cms/CMSHeader";
 import TaskBoardView from "@/app/components/cms/TaskBoardView";
 import TaskTableView from "@/app/components/cms/TaskTableView";
 import CTAButtons from "@/app/components/CTAButtons";
+import { clientFilterKeysAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
-  clientFilterKeysAtom,
-  clientsAtom,
-  fetchClientAtom,
-} from "@/app/store/ClientStore";
-import {
+  actionButtonsAtom,
   fetchTaskAtom,
+  managerSelectionAtom,
+  processorSelectionAtom,
+  recurrenceSelectionAtom,
+  reviewerSelectionAtom,
   taskFilterKeysAtom,
-  tasksAtom,
 } from "@/app/store/TaskStore";
 import {
   Card,
@@ -26,48 +26,38 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import {
-  MdChangeCircle,
-  MdDelete,
-  MdFactCheck,
-  MdKeyboardDoubleArrowUp,
-  MdOutlineAssignment,
-  MdRemoveCircleOutline,
-} from "react-icons/md";
-import {
   changeViewAtom,
-  clientSelectionChangeAtom,
+  clientListAtom,
+  clientSelectionAtom,
   dateRangeAtom,
   endTimeAtom,
-  pageRowsSelectionAtom,
+  selectedClientAtom,
   selectedClientFilterKeysAtom,
-  selectedClientForTaskAtom,
   selectedClientToViewAtom,
   selectedManagerAtom,
   selectedProcessorAtom,
-  selectedProcessorTaskActionAtom,
   selectedRecurrenceAtom,
   selectedReviewerAtom,
-  selectedReviewerTaskActionAtom,
+  selectedTaskAtom,
   selectedTaskFilterKeysAtom,
+  selectedTaskIDAtom,
+  selectedTeamAtom,
   showClientDetailsAtom,
   showClientTaskAtom,
   showFooterAtom,
   showSearchBarAtom,
   startTimeAtom,
+  taskActionsDetailsAtom,
   taskDataAtom,
   taskDurationAtom,
   taskInstructionAtom,
   taskNameAtom,
-  selectedTeamForTaskAtom,
+  tasksListAtom,
   teamSelectionAtom,
-  teamsByClientSelectionAtom,
-  fetchTeamsAtom,
-  clientSelectionForTaskAtom,
-  fetchClientSelectionForTaskAtom,
-  fetchTeamSelectionAtom,
+  updateSelectedProcessorAtom,
+  updateSelectedReviewerAtom,
 } from "../store/CMSAdminStore";
 import AddClientModal from "./AddClientModal";
-
 // @refresh reset
 
 const CMSAdmin = () => {
@@ -93,13 +83,14 @@ const CMSAdmin = () => {
     direction: "descending",
   });
 
-  const clients = useAtomValue(clientsAtom);
-  const tasks = useAtomValue(tasksAtom);
+  const tasksList = useAtomValue(tasksListAtom);
+  const clientList = useAtomValue(clientListAtom);
+
+  const taskActionsDetails = useAtomValue(taskActionsDetailsAtom);
+  const actionButtons = useAtomValue(actionButtonsAtom);
 
   const clientFilterKeys = useAtomValue(clientFilterKeysAtom);
   const taskFilterKeys = useAtomValue(taskFilterKeysAtom);
-
-  const pageRowsSelection = useAtomValue(pageRowsSelectionAtom);
 
   const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
     selectedClientFilterKeysAtom
@@ -119,35 +110,49 @@ const CMSAdmin = () => {
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
-  const [selectedClientForTask, setSelectedClientForTask] = useAtom(
-    selectedClientForTaskAtom
-  );
-
-  const clientSelectionChange = useSetAtom(clientSelectionChangeAtom);
-
-  const [selectedProcessorTaskAction, setSelectedProcessorTaskAction] = useAtom(
-    selectedProcessorTaskActionAtom
-  );
-
-  const [selectedReviewerTaskAction, setSelectedReviewerTaskAction] = useAtom(
-    selectedReviewerTaskActionAtom
-  );
+  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
 
   // ##########################################
-  const tasksFromSelectedClient = useMemo(() => {
-    let tasksIndex = 0;
-    let client_id = Array.from(selectedClientForTask).join("");
-    let clients = tasks.filter((task) => task.client?.client_id === client_id);
 
-    return clients
+  const selectedTaskFilterKeyString = Array.from(
+    selectedTaskFilterKeys
+  ).toString();
+
+  let tasksIndex = 0;
+  const taskStatusCount = tasksList
+    .map((task) =>
+      task.sla.map((sla) => {
+        return {
+          ...sla,
+          id: (tasksIndex += 1),
+          task_id: task._id,
+          client_id: task.client?.client_id,
+          client_name: task.client?.name,
+          manager: task.manager,
+          processor: task.processor,
+          reviewer: task.reviewer,
+        };
+      })
+    )
+    .flat();
+
+  const filteredTaskItems = useMemo(() => {
+    let filteredTasks = tasksList?.length ? [...tasksList] : [];
+    let tasksIndex = 0;
+
+    filteredTasks = filteredTasks.filter((tasks) => {
+      return tasks.client?.client_id === selectedClientToView;
+    });
+
+    filteredTasks = filteredTasks
       .map((task) =>
         task.sla.map((sla) => {
           return {
             ...sla,
             id: (tasksIndex += 1),
+            task_id: task._id,
             client_id: task.client?.client_id,
-            escalate: task.escalate,
-            progress: task.progress,
+            client_name: task.client?.name,
             manager: task.manager,
             processor: task.processor,
             reviewer: task.reviewer,
@@ -155,16 +160,6 @@ const CMSAdmin = () => {
         })
       )
       .flat();
-  }, [selectedClientForTask, tasks]);
-
-  const selectedTaskFilterKeyString = Array.from(selectedTaskFilterKeys).join(
-    ""
-  );
-
-  const filteredTaskItems = useMemo(() => {
-    let filteredTasks = tasksFromSelectedClient?.length
-      ? [...tasksFromSelectedClient]
-      : [];
 
     if (Boolean(searchTaskItem)) {
       filteredTasks = filteredTasks.filter(
@@ -184,11 +179,12 @@ const CMSAdmin = () => {
 
     return filteredTasks;
   }, [
-    tasksFromSelectedClient,
+    tasksList,
     searchTaskItem,
     selectedTaskFilterKeyString,
     selectedTaskFilterKeys,
     taskFilterKeys.length,
+    selectedClientToView,
   ]);
 
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
@@ -212,24 +208,20 @@ const CMSAdmin = () => {
   }, [taskPage, taskRowsPerPageNumber, filteredTaskItems]);
 
   // ######################################################
-  const selectedClient = clients.filter(
-    (client) => client._id === selectedClientToView
-  );
 
   const selectedClientFilterKeyString = Array.from(
     selectedClientFilterKeys
   ).join("");
 
   const filteredClientItems = useMemo(() => {
-    let filteredClients = [...clients];
+    let filteredClients = clientList?.length ? [...clientList] : [];
 
     if (Boolean(searchClientItem)) {
       filteredClients = filteredClients.filter((client) =>
-        client.company.name
-          .toLowerCase()
-          .includes(searchClientItem.toLowerCase())
+        client.name.toLowerCase().includes(searchClientItem.toLowerCase())
       );
     }
+
     if (
       selectedClientFilterKeyString !== "all" &&
       Array.from(selectedClientFilterKeyString).length !==
@@ -242,7 +234,7 @@ const CMSAdmin = () => {
 
     return filteredClients;
   }, [
-    clients,
+    clientList,
     searchClientItem,
     selectedClientFilterKeyString,
     clientFilterKeys.length,
@@ -271,66 +263,7 @@ const CMSAdmin = () => {
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
 
-  const actions = [
-    {
-      key: "delete",
-      status_id: "admin",
-      color: "red",
-      label: "Delete task from client",
-      icon: <MdDelete size={18} />,
-    },
-    {
-      key: "escalate",
-      status_id: "management",
-      color: "orange",
-      label: "Escalate to management",
-      icon: <MdKeyboardDoubleArrowUp size={18} />,
-    },
-    {
-      key: "resolve",
-      status_id: "admin",
-      color: "green",
-      label: "Resolve Escalation",
-      icon: <MdFactCheck size={18} />,
-    },
-    {
-      key: "reassign",
-      status_id: "admin",
-      color: "green",
-      label: "Re-assign Task",
-      icon: <MdChangeCircle size={18} />,
-    },
-    {
-      key: "assign",
-      status_id: "admin",
-      color: "blue",
-      label: "Assign a member to the client",
-      icon: <MdOutlineAssignment size={18} />,
-    },
-    {
-      key: "remove",
-      status_id: "admin",
-      color: "red",
-      label: "Remove a member from the client",
-      icon: <MdRemoveCircleOutline size={18} />,
-    },
-  ];
-
-  const actionButtons = {
-    task: {
-      color: "blue",
-      label: "Create Task",
-    },
-    client: {
-      color: "orange",
-      label: "Onboard Client",
-    },
-  };
-
   const handleOpenTaskWindow = () => {
-    if (showClientTask) {
-      clientSelectionChange({ key: selectedClientToView });
-    }
     onOpenTask();
   };
   const handleOpenClientWindow = () => {
@@ -430,29 +363,27 @@ const CMSAdmin = () => {
             <AddTaskModal
               isOpen={isOpenTask}
               onOpenChange={onOpenChangeTask}
-              selectedClientForTask={selectedClientForTask}
-              setSelectedClientForTask={setSelectedClientForTask}
-              selectedClientToViewAtom={selectedClientToViewAtom}
-              showClientTaskAtom={showClientTaskAtom}
-              clientSelectionChange={clientSelectionChange}
+              selectedClientToView={selectedClientToView}
+              showClientTask={showClientTask}
               taskDataAtom={taskDataAtom}
+              clientSelectionAtom={clientSelectionAtom}
+              selectedClientAtom={selectedClientAtom}
+              teamSelectionAtom={teamSelectionAtom}
+              selectedTeamAtom={selectedTeamAtom}
+              processorSelectionAtom={processorSelectionAtom}
+              selectedProcessorAtom={selectedProcessorAtom}
+              reviewerSelectionAtom={reviewerSelectionAtom}
+              selectedReviewerAtom={selectedReviewerAtom}
+              managerSelectionAtom={managerSelectionAtom}
+              selectedManagerAtom={selectedManagerAtom}
               taskNameAtom={taskNameAtom}
               taskInstructionAtom={taskInstructionAtom}
-              teamSelectionAtom={teamSelectionAtom}
-              teamsByClientSelectionAtom={teamsByClientSelectionAtom}
-              selectedTeamForTaskAtom={selectedTeamForTaskAtom}
-              selectedProcessorAtom={selectedProcessorAtom}
-              selectedReviewerAtom={selectedReviewerAtom}
-              selectedManagerAtom={selectedManagerAtom}
+              recurrenceSelectionAtom={recurrenceSelectionAtom}
               selectedRecurrenceAtom={selectedRecurrenceAtom}
               taskDurationAtom={taskDurationAtom}
               dateRangeAtom={dateRangeAtom}
               startTimeAtom={startTimeAtom}
               endTimeAtom={endTimeAtom}
-              fetchTeamsAtom={fetchTeamsAtom}
-              clientSelectionForTaskAtom={clientSelectionForTaskAtom}
-              fetchClientSelectionForTaskAtom={fetchClientSelectionForTaskAtom}
-              fetchTeamSelectionAtom={fetchTeamSelectionAtom}
             />
             <CTAButtons
               radius={"sm"}
@@ -472,7 +403,7 @@ const CMSAdmin = () => {
         </CardHeader>
         <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
-            taskStatusCount={tasks}
+            taskStatusCount={taskStatusCount}
             itemClients={itemClients}
             searchClientItem={searchClientItem}
             selectedClientFilterKeys={selectedClientFilterKeys}
@@ -484,7 +415,6 @@ const CMSAdmin = () => {
             setShowFooter={setShowFooter}
             setShowSearchBar={setShowSearchBar}
             setSelectedClientToView={setSelectedClientToView}
-            setSelectedClientForTask={setSelectedClientForTask}
             setShowClientDetails={setShowClientDetails}
             isLoading={isLoading}
           />
@@ -496,12 +426,11 @@ const CMSAdmin = () => {
             setSortDescriptor={setSortDescriptor}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
-            actions={actions}
-            tasksFromSelectedClient={tasksFromSelectedClient}
-            selectedProcessorTaskAction={selectedProcessorTaskAction}
-            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-            selectedReviewerTaskAction={selectedReviewerTaskAction}
-            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+            actions={taskActionsDetails}
+            selectedTaskAtom={selectedTaskAtom}
+            selectedTaskIDAtom={selectedTaskIDAtom}
+            updateSelectedProcessorAtom={updateSelectedProcessorAtom}
+            updateSelectedReviewerAtom={updateSelectedReviewerAtom}
             isLoading={isLoading}
             isMobile={isMobile}
           />
@@ -511,18 +440,17 @@ const CMSAdmin = () => {
             changeView={changeView}
             setShowClientTask={setShowClientTask}
             selectedClientToView={selectedClientToView}
-            actions={actions}
-            tasksFromSelectedClient={tasksFromSelectedClient}
-            selectedProcessorTaskAction={selectedProcessorTaskAction}
-            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-            selectedReviewerTaskAction={selectedReviewerTaskAction}
-            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+            actions={taskActionsDetails}
+            selectedTaskAtom={selectedTaskAtom}
+            selectedTaskIDAtom={selectedTaskIDAtom}
+            updateSelectedProcessorAtom={updateSelectedProcessorAtom}
+            updateSelectedReviewerAtom={updateSelectedReviewerAtom}
             isLoading={isLoading}
             isMobile={isMobile}
           />
           <ClientDetails
             showClientDetails={showClientDetails}
-            selectedClient={selectedClient}
+            selectedClientToView={selectedClientToView}
           />
         </CardBody>
         <CardFooter className="">
@@ -534,7 +462,6 @@ const CMSAdmin = () => {
             totalItemCount={
               showClientTask ? itemTasks?.length : itemClients?.length
             }
-            pageRowsSelection={pageRowsSelection}
             page={showClientTask ? taskPage : clientPage}
             setPage={showClientTask ? setTaskPage : setClientPage}
             rowsPerPage={showClientTask ? taskRowsPerPage : clientRowsPerPage}

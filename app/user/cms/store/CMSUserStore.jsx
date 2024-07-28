@@ -1,12 +1,11 @@
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
 import {
   managerSelectionAtom,
   processorSelectionAtom,
   reviewerSelectionAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
+import { userSubTeamsAtom, teamClientsAtom } from "@/app/store/TeamStore";
 import { userAtom } from "@/app/store/UserStore";
-import { readwithparams } from "@/app/utils/amplify-rest";
 import {
   getLocalTimeZone,
   parseTime,
@@ -16,133 +15,152 @@ import {
 } from "@internationalized/date";
 import { format } from "date-fns";
 import { atom } from "jotai";
-import { clientSubItemDataAtom } from "../../profile/store/ProfileStore";
-import { clientsAtom } from "@/app/store/ClientStore";
+import {
+  MdDelete,
+  MdFactCheck,
+  MdKeyboardDoubleArrowUp,
+  MdOutlineAssignment,
+  MdRemoveCircleOutline,
+} from "react-icons/md";
+
+// Essentials for CMS
 export const changeViewAtom = atom(false);
 export const showClientTaskAtom = atom(false);
 export const showFooterAtom = atom(true);
 export const showSearchBarAtom = atom(true);
-
-export const selectedClientToViewAtom = atom("");
-export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
-export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 export const showClientDetailsAtom = atom(false);
 
-let pageRowIndex = 0;
-export const pageRowsSelectionAtom = atom([
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "10",
-    value: "10",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "20",
-    value: "20",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "50",
-    value: "50",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "100",
-    value: "100",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "200",
-    value: "200",
-  },
-]);
+export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
+export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 
-export const selectedPage = atom(1);
+// from ClientItemCard for selecting clients to view
+export const selectedClientToViewAtom = atom("");
 
-// TASK ESSENTIALS
+// for tracking tasks, per sla ID inside task object
+export const selectedTaskAtom = atom("");
 
-export const selectedTeamForTaskAtom = atom(new Set([]));
+// for tracking tasks, task object ID
+export const selectedTaskIDAtom = atom("");
 
+// Tasks to display on table and board view
+export const tasksListAtom = atom(async (get) => {
+  const clients = get(teamClientsAtom);
+  const user = await get(userAtom);
+
+  const tasksList = get(tasksAtom)
+    .filter(
+      (task) =>
+        clients.map((client) => client._id).includes(task.client.client_id) &&
+        task.manager.sub === user.sub
+    )
+    .map((task) => {
+      return { ...task, key: task._id }; // task ID
+    });
+  return tasksList;
+});
+
+// Clients to display on table and board view
+export const clientListAtom = atom(async (get) => {
+  const clients = get(teamClientsAtom);
+  const user = await get(userAtom);
+  const mySubTeam = get(userSubTeamsAtom).filter((subTeam) =>
+    subTeam.heads.map((head) => head.sub).includes(user.sub)
+  );
+
+  const clientsList = clients
+    .filter((client) =>
+      mySubTeam
+        .map((subTeam) => subTeam.client.map((client) => client._id))
+        .flat()
+        .includes(client._id)
+    )
+    .map((client) => {
+      return {
+        ...client,
+        key: client._id,
+        _id: client._id,
+        client_id: client._id,
+      };
+    });
+  return clientsList;
+});
+
+export const updateSelectedProcessorAtom = atom(new Set([]));
+export const updateSelectedReviewerAtom = atom(new Set([]));
+
+// for selection in clients selection list when adding tasks to clients
 export const selectedClientForTaskAtom = atom(new Set([]));
+
+export const selectedClientAtom = atom(new Set([]));
+export const clientSelectionAtom = atom((get) => {
+  const clients = get(teamClientsAtom);
+  const user = get(userAtom);
+  const mySubTeam = get(userSubTeamsAtom).filter((subTeam) =>
+    subTeam.heads.map((head) => head.sub).includes(user.sub)
+  );
+
+  const clientsList = clients
+    .filter((client) =>
+      mySubTeam
+        .map((subTeam) => subTeam.client.map((client) => client._id))
+        .flat()
+        .includes(client._id)
+    )
+    .map((client) => {
+      return {
+        ...client,
+        key: client._id,
+        _id: client._id,
+        client_id: client._id,
+      };
+    });
+  return clientsList;
+});
+
+export const selectedTeamAtom = atom(new Set([]));
+export const teamSelectionAtom = atom((get) => {
+  const user = get(userAtom);
+  return get(userSubTeamsAtom)
+    .filter((subTeam) =>
+      subTeam.heads.map((head) => head.sub).includes(user.sub)
+    )
+    .map((team) => {
+      return { ...team, key: team._id };
+    });
+});
+
+// selection from task store since admin sees all
 export const selectedProcessorAtom = atom(new Set([]));
 export const selectedReviewerAtom = atom(new Set([]));
 export const selectedManagerAtom = atom(new Set([]));
-export const selectedRecurrenceAtom = atom(new Set(["daily"]));
 
-export const teamsAtom = atom([]);
-
-// export const fetchTeamsAtom = atom(null, async (get, set, update) => {
-//   const user = await get(userAtom);
-//   const teams = await readwithparams("/teams/subteam/myUserSubTeam", {
-//     sub: user.sub,
-//   });
-//   if (teams?.success) {
-//     const convertedTeams = teams.response.map((team, index) => {
-//       return { ...team, key: team._id };
-//     });
-//     set(teamsAtom, convertedTeams);
-//   } else {
-//     console.error("Failed to fetch teams", teams?.error);
-//   }
-// });
-
-export const teamSelectionAtom = atom([]);
-
-export const fetchTeamSelectionAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
-  const teams = await readwithparams("/teams/subteam/mySubTeam", {
-    sub: user.sub,
-  });
-  if (teams?.success) {
-    const convertedTeams = teams.response.map((team, index) => {
-      return { ...team, key: team._id };
-    });
-    set(teamSelectionAtom, convertedTeams);
-  } else {
-    console.error("Failed to fetch teams", teams?.error);
-  }
-});
-
-export const teamsByClientSelectionAtom = atom(async (get) => {
-  const user = await get(userAtom);
-  let filteredTeamsByClient = get(teamsAtom).filter(
-    (team) =>
-      team.client.some(
-        (client) =>
-          client._id === Array.from(get(selectedClientForTaskAtom)).toString()
-      ) && team.heads.some((head) => head.sub === user.sub)
-  );
-
-  return filteredTeamsByClient;
-});
-
+// task details
+export const taskNameAtom = atom("");
+export const taskInstructionAtom = atom("");
+export const selectedRecurrenceAtom = atom(new Set(["daily"])); // selection from task store since admin sees all
 export const taskDurationAtom = atom("");
-
 export const dateRangeAtom = atom({
-  start: today(getLocalTimeZone()),
+  start: today(getLocalTimeZone()).set({ hour: 8 }),
   end: today(getLocalTimeZone()),
 });
 export const startTimeAtom = atom(parseTime(format(new Date(), "HH:mm")));
 export const endTimeAtom = atom(new Time(17));
 
-export const taskNameAtom = atom("");
-export const taskInstructionAtom = atom("");
-
 export const taskDataAtom = atom((get) => {
-  const selectedClientForTask = get(selectedClientForTaskAtom);
+  const selectedClient = get(selectedClientAtom);
   const selectedProcessor = get(selectedProcessorAtom);
   const selectedReviewer = get(selectedReviewerAtom);
   const selectedManager = get(selectedManagerAtom);
   const selectedRecurrence = get(selectedRecurrenceAtom);
 
-  const clientSelection = get(clientSelectionForTaskAtom);
+  const clientSelection = get(clientSelectionAtom);
   const processorSelection = get(processorSelectionAtom);
   const reviewerSelection = get(reviewerSelectionAtom);
   const managerSelection = get(managerSelectionAtom);
 
   return {
     client: clientSelection.filter((client) =>
-      Array.from(selectedClientForTask).includes(client?.key)
+      Array.from(selectedClient).includes(client?.key)
     )[0],
     processor: processorSelection.filter((processor) =>
       Array.from(selectedProcessor).includes(processor.sub)
@@ -169,7 +187,7 @@ export const taskDataAtom = atom((get) => {
             get(startTimeAtom)
           ).toString(),
           end: toCalendarDateTime(
-            get(dateRangeAtom).end,
+            get(dateRangeAtom).start,
             get(endTimeAtom)
           ).toString(),
           recurrence:
@@ -183,142 +201,19 @@ export const taskDataAtom = atom((get) => {
   };
 });
 
-// export const teamSelectionAtom = atom((get) =>
-//   get(teamsAtom)
-//     .map((team) => {
-//       const user = get(authenticationAtom);
-//       const selectedClient = get(selectedClientForTaskAtom);
-//       // console.log("Selected client", team);
-//       // console.log("Selected client", [...selectedClient][0]);
-//       if (
-//         team.heads.some((team) => team.sub === user.value.sub) &&
-//         (team.client.some((cl) => cl?._id === selectedClient.anchorKey) ||
-//           team.client.some((cl) => cl?._id === [...selectedClient][0]))
-//       ) {
-//         return {
-//           ...team,
-//           key: team._id,
-//           value: team._id,
-//           userSide: true,
-//         };
-//       } else {
-//         return undefined;
-//       }
-//     })
-//     .filter((team) => team !== undefined)
-// );
-
-// CLIENT ESSENTIALS
-
-export const filterClientAtom = atom(async (get) => {
-  const user = await get(userAtom);
-  const filtered = await readwithparams("/teams/team/filterClient", {
-    sub: user.sub,
-    method: "filtered",
-  });
-
-  // console.log("filtered", filtered);
-
-  if (filtered?.success) {
-    return filtered.response
-      // .map((filter) => filter.client)
-      // .flat()
-      // .filter(
-      //   (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
-      // );
-  } else {
-    return {};
-  }
-});
-
-// const subTeamsAtom = atom([]);
-export const fetchTeamsAtom = atom(null, async (get, set, update) => {
-  const subItemData = await get(clientSubItemDataAtom);
-  if (subItemData?.success) {
-    const convertedTeams = subItemData?.response?.map((team, index) => {
-      return { ...team, key: team._id };
-    });
-    set(teamsAtom, convertedTeams);
-  } else {
-    console.error("Failed to fetch teams", subItemData?.error);
-  }
-});
-export const clientSelectionForTaskAtom = atom([]);
-
-export const fetchClientSelectionForTaskAtom = atom(
-  null,
-  async (get, set, update) => {
-    let filterClient = await get(filterClientAtom);
-
-    console.log("filterClient", filterClient);
-
-    let filteredClients = get(clientsAtom).filter((client) =>
-      filterClient.map((client) => client._id).includes(client._id)
-    );
-
-    let selection = filteredClients.map((client) => {
-      return {
-        client_id: client._id, // #[CHANGE KEY]: client_id => key / id
-        key: client._id,
-        name: client.company.name,
-        email: client.company.email,
-        picture: client.company.picture,
-      };
-    });
-
-    // return selection;
-    set(clientSelectionForTaskAtom, selection);
-  }
-);
-// export const clientSelectionForTaskAtom = atom(async (get) => {
-//   const subItemData = await get(clientSubItemDataAtom);
-//   const user = await get(userAtom);
-//   const clientsMap = new Map();
-
-//   subItemData?.response?.forEach((itemData) => {
-//     if (itemData.heads.some((head) => head.sub === user.sub)) {
-//       itemData.client.forEach((client) => {
-//         if (!clientsMap.has(client.email)) {
-//           clientsMap.set(client.email, {
-//             client_id: client._id, // #[CHANGE KEY]: client_id => key / id
-//             key: client._id,
-//             name: client.name,
-//             email: client.email,
-//             picture: client?.picture || "",
-//             team: "",
-//           });
-//         }
-//       });
-//     }
-//   });
-
-//   return Array.from(clientsMap.values());
-// });
-
-export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
-  const { key, operator } = update;
-  const user = get(authenticationAtom);
-  const task = get(tasksAtom);
-  const clientSelectionChange = get(tasksAtom).filter(
-    (task) => task.client?.client_id === key
-  );
-  const manager = user.value.sub;
-
-  // if (typeof clientSelectionChange[0]?.client?.client_id === "string") {
-  //   const selectedClient = [clientSelectionChange[0].client?.client_id] ?? [];
-  //   const selectedProcessor =
-  //     clientSelectionChange[0].members.map((processor) => processor?.sub) ?? [];
-  //   const selectedReviewer =
-  //     clientSelectionChange[0].members.map((reviewer) => reviewer?.sub) ?? [];
-  const selectedManager = typeof manager !== "string" ? [] : [manager];
-
-  //   set(selectedClientForTaskAtom, new Set(selectedClient));
-  //   set(selectedProcessorAtom, new Set(selectedProcessor));
-  //   set(selectedReviewerAtom, new Set(selectedReviewer));
-  //   set(selectedManagerAtom, new Set(selectedManager));
-  // } else {
-  // set(selectedProcessorAtom, new Set([]));
-  // set(selectedReviewerAtom, new Set([]));
-  set(selectedManagerAtom, new Set(selectedManager));
-  // }
-});
+export const taskActionsDetailsAtom = atom([
+  {
+    key: "escalate",
+    status_id: "tl",
+    color: "orange",
+    label: "Escalate to TL",
+    icon: <MdKeyboardDoubleArrowUp size={18} />,
+  },
+  // {
+  //   key: "resolve",
+  //   status_id: "user",
+  //   color: "green",
+  //   label: "Resolve Escalation",
+  //   icon: <MdFactCheck size={18} />,
+  // },
+]);

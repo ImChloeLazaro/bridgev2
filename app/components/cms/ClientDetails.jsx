@@ -4,9 +4,14 @@ import { MdCameraAlt, MdInsertDriveFile } from "react-icons/md";
 import { RiCheckboxCircleFill, RiCloseCircleFill } from "react-icons/ri";
 import IconButton from "../IconButton";
 import ClientDetailsContent from "./ClientDetailsContent";
+import { clientsAtom } from "@/app/store/ClientStore";
+import { useAtomValue } from "jotai";
 
-const ClientDetails = ({ showClientDetails, selectedClient }) => {
-  const clientInfo = selectedClient[0];
+const ClientDetails = ({ showClientDetails, selectedClientToView }) => {
+  const clients = useAtomValue(clientsAtom);
+  const clientInfo = clients.filter(
+    (client) => client._id === selectedClientToView
+  )[0];
 
   const checkStatusBookkeeper = (
     <div className="min-w-fit flex items-center gap-2 text-green-default">
@@ -189,7 +194,7 @@ const ClientDetails = ({ showClientDetails, selectedClient }) => {
         </div>
       </div>
       <div className="mx-4 mt-4">
-        <ClientDetailsContent selectedClient={selectedClient} />
+        <ClientDetailsContent clientInfo={clientInfo} />
       </div>
     </div>
   );

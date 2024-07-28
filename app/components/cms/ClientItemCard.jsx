@@ -26,16 +26,14 @@ const tagColors = {
 };
 
 const ClientItemCard = ({
+  client,
   taskStatusCount,
-  clientName,
-  clientKey,
   setShowClientTask,
   changeView,
   setChangeView,
   setShowFooter,
   setShowSearchBar,
   setSelectedClientToView,
-  setSelectedClientForTask,
   setShowClientDetails,
 }) => {
   const customBreakPoint = "1023";
@@ -44,22 +42,29 @@ const ClientItemCard = ({
   );
 
   const tasks = taskStatusCount;
+  // console.log("tasks inside client item card for task status", tasks);
   const clientProcessors =
-    tasks.filter((task) => task.client?.client_id === clientKey)[0]
-      ?.processor ?? [];
+    tasks
+      .filter((task) => task.client_id === client.key)
+      .map((task) => task.processor)
+      .flat() ?? [];
 
   const clientReviewers =
-    tasks.filter((task) => task.client?.client_id === clientKey)[0]?.reviewer ??
-    [];
+    tasks
+      .filter((task) => task.client_id === client.key)
+      .map((task) => task.reviewer)
+      .flat() ?? [];
 
   const clientManager =
-    tasks.filter((task) => task.client?.client_id === clientKey)[0]?.manager ??
-    {};
+    tasks
+      .filter((task) => task.client_id === client.key)
+      .map((task) => task.manager)
+      .flat() ?? [];
 
   const assignees = [
     ...clientProcessors,
     ...clientReviewers,
-    clientManager,
+    ...clientManager,
   ].filter(
     (obj1, i, arr) =>
       // arr.findIndex((obj2) => obj2._id === obj1._id) === i ||
@@ -68,18 +73,18 @@ const ClientItemCard = ({
 
   const labelCount = useMemo(() => {
     let overdueCount = tasks
-      .filter((task) => task.client?.client_id === clientKey)[0]
-      ?.sla.filter(
+      .filter((task) => task.client_id === client.key)
+      .filter(
         (sla) =>
           compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0 &&
           sla.status === "todo"
       ).length;
     let escalateCount = tasks
-      .filter((task) => task.client?.client_id === clientKey)[0]
-      ?.sla.filter((sla) => sla?.escalate).length;
+      .filter((task) => task.client_id === client.key)
+      .filter((sla) => sla?.escalate).length;
     let statusCount = tasks
-      .filter((task) => task.client?.client_id === clientKey)[0]
-      ?.sla.map((sla) => sla?.status)
+      .filter((task) => task.client_id === client.key)
+      .map((sla) => sla?.status)
       .reduce(
         (acc, curr) => {
           return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
@@ -112,7 +117,7 @@ const ClientItemCard = ({
         done: 0,
       };
     }
-  }, [clientKey, tasks]);
+  }, [client.key, tasks]);
 
   useEffect(() => {
     // only execute all the code below in client side
@@ -136,22 +141,21 @@ const ClientItemCard = ({
 
   const handleSelectTask = () => {
     // when user pressed on the tags on client list
-    handleSelectClient(clientKey);
+    handleSelectClient(client.key);
     setChangeView(true);
     setShowFooter(false);
   };
-  const handleSelectClient = (selected) => {
+  const handleSelectClient = () => {
     // when user pressed on the arrow on the right most side on client list
-    setSelectedClientToView(selected);
-    setSelectedClientForTask(new Set([selected]));
+    setSelectedClientToView(client.key);
     setShowClientTask(true);
     setChangeView(false);
     setShowFooter(true && !changeView);
   };
 
-  const handleViewClientDetails = (selected) => {
+  const handleViewClientDetails = () => {
     // when user pressed on the name of the client
-    setSelectedClientToView(selected);
+    setSelectedClientToView(client.key);
     setShowFooter(false);
     setShowClientTask(false);
     setShowClientDetails(true);
@@ -177,9 +181,9 @@ const ClientItemCard = ({
                 href="#"
                 underline="hover"
                 className="text-sm md:text-md lg:text-xl font-semibold text-black-default "
-                onPress={() => handleViewClientDetails(clientKey)}
+                onPress={() => handleViewClientDetails()}
               >
-                {clientName?.length ? clientName : "Client Name"}
+                {client.name?.length ? client.name : "Client Name"}
               </Link>
             </div>
             <div className="hidden w-3/5 min-[425px]:flex justify-center items-center gap-4 p-0">
@@ -293,7 +297,7 @@ const ClientItemCard = ({
                 </AvatarGroup>
               ) : (
                 <AvatarGroup
-                  max={isMobile ? 2 : 3}
+                  max={isMobile ? 2 : 10}
                   classNames={{
                     base: "gap-1",
                     count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
@@ -323,7 +327,7 @@ const ClientItemCard = ({
       <IconButton
         aria-label={"Show Client Tasks Button"}
         className="ml-2 lg:ml-0 bg-transparent w-1/12 h-18 lg:h-32"
-        onPress={() => handleSelectClient(clientKey)}
+        onPress={() => handleSelectClient()}
       >
         <div className="ml-0 hover:ml-6 transition-all duration-200 ease-in-out">
           <MdChevronRight size={32} />

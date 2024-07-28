@@ -56,12 +56,14 @@ import TeamCard from "./TeamCard";
 import UpdateTeamModal from "./UpdateTeamModal";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import LabelTagChip from "@/app/components/LabelTagChip";
+import { fetchUserAtom } from "@/app/store/UserStore";
 
 const TeamManagementTL = () => {
   const fetchMyTeams = useSetAtom(fetchMyTeamsAtom);
   const fetchMySubTeams = useSetAtom(fetchMySubTeamsAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
   const fetchTeamClients = useSetAtom(fetchTeamClientsAtom);
+  const fetchUser = useSetAtom(fetchUserAtom);
 
   const setTeamName = useSetAtom(selectedTeamNameAtom);
   const setTeamClient = useSetAtom(selectedTeamClientAtom);
@@ -76,7 +78,8 @@ const TeamManagementTL = () => {
     fetchMySubTeams();
     fetchTeamClients();
     fetchClient();
-  }, [fetchClient, fetchMySubTeams, fetchMyTeams, fetchTeamClients]);
+    fetchUser();
+  }, [fetchClient, fetchMySubTeams, fetchMyTeams, fetchTeamClients, fetchUser]);
 
   const teams = useAtomValue(teamsAtom);
   const subTeams = useAtomValue(subTeamsAtom);

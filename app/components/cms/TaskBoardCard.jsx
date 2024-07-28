@@ -23,27 +23,43 @@ import ConfirmationWindow from "../ConfirmationWindow";
 import LabelTagChip from "../LabelTagChip";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 function TaskBoardCard({
   task,
-  deleteTask,
-  updateTask,
+  // deleteTask,
+  // updateTask,
   actions,
-  tasksFromSelectedClient,
-  selectedProcessorTaskAction,
-  setSelectedProcessorTaskAction,
-  selectedReviewerTaskAction,
-  setSelectedReviewerTaskAction,
+  selectedTaskAtom,
+  selectedTaskIDAtom,
+  updateSelectedProcessorAtom,
+  updateSelectedReviewerAtom,
   isMobile,
+  itemTasks,
 }) {
   // const [mouseIsOver, setMouseIsOver] = useState(false);
   // const [editMode, setEditMode] = useState(true);
   const [play] = useSound("/notification_chime_1.mp3", { volume: 0.9 });
 
+  // not destructed to easily passed to components as props
   const confirmationWindow = useDisclosure(); // confirmation window
   const taskActionWindow = useDisclosure(); // modal window for selecting processor and reviewer
+
+  const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
+  const [selectedTaskID, setSelectedTaskID] = useAtom(selectedTaskIDAtom);
+
+  const slaToBeUpdated = itemTasks.filter(
+    (sla) => sla._id === selectedTask // sla ID
+  )[0];
+
   const [selectedTaskAction, setSelectedTaskAction] = useAtom(
     selectedTaskActionAtom
+  );
+  const [updateSelectedProcessor, setUpdateSelectedProcessor] = useAtom(
+    updateSelectedProcessorAtom
+  );
+  const [updateSelectedReviewer, setUpdateSelectedReviewer] = useAtom(
+    updateSelectedReviewerAtom
   );
 
   const taskActionWindowDetails = useAtomValue(taskActionWindowDetailsAtom);
@@ -189,18 +205,16 @@ function TaskBoardCard({
             </p>
           </div>
           <TaskOptionsDropdown
-            task_id={task?._id}
-            tasks={tasksFromSelectedClient[0]}
+            task_id={task.task_id}
+            sla_id={task._id}
+            setSelectedTask={setSelectedTask}
+            setSelectedTaskID={setSelectedTaskID}
             actions={actionOptions}
             trigger={<BiDotsHorizontalRounded size={24} />}
             isEscalated={task.escalate}
             isOverdue={isOverdue}
             confirmationWindow={confirmationWindow}
             taskActionWindow={taskActionWindow}
-            selectedProcessorTaskAction={selectedProcessorTaskAction}
-            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-            selectedReviewerTaskAction={selectedReviewerTaskAction}
-            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
           />
           <ConfirmationWindow
             message={taskActionWindowDetails[selectedTaskAction.key]?.message}
@@ -212,25 +226,26 @@ function TaskBoardCard({
             action={taskActions}
             action_params={{
               sound: play,
-              tasks: tasksFromSelectedClient[0],
-              selectedProcessorTaskAction: selectedProcessorTaskAction,
-              selectedReviewerTaskAction: selectedReviewerTaskAction,
-              setSelectedProcessorTaskAction: setSelectedProcessorTaskAction,
-              setSelectedReviewerTaskAction: setSelectedReviewerTaskAction,
+              tasks: slaToBeUpdated,
+              taskId: selectedTaskID,
+              updateSelectedProcessor: updateSelectedProcessor,
+              setUpdateSelectedProcessor: setUpdateSelectedProcessor,
+              updateSelectedReviewer: updateSelectedReviewer,
+              setUpdateSelectedReviewer: setUpdateSelectedReviewer,
             }}
             isOpen={confirmationWindow.isOpen}
             onOpenChange={confirmationWindow.onOpenChange}
           />
           <TaskActionModal
-            tasks={tasksFromSelectedClient[0]}
             isOpen={taskActionWindow.isOpen}
             onOpenChange={taskActionWindow.onOpenChange}
             onOpenAfterClose={confirmationWindow.onOpen}
+            sla={slaToBeUpdated}
             selectedTaskAction={selectedTaskAction}
-            selectedProcessorTaskAction={selectedProcessorTaskAction}
-            setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-            selectedReviewerTaskAction={selectedReviewerTaskAction}
-            setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+            updateSelectedProcessor={updateSelectedProcessor}
+            setUpdateSelectedProcessor={setUpdateSelectedProcessor}
+            updateSelectedReviewer={updateSelectedReviewer}
+            setUpdateSelectedReviewer={setUpdateSelectedReviewer}
           />
         </div>
         <div className="flex items-center justify-start gap-2">

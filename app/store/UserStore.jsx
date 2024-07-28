@@ -3,7 +3,7 @@ import { restinsert, restread } from "../utils/amplify-rest";
 import { authenticationAtom } from "./AuthenticationStore";
 
 // User
-// export const userAtom = atom();
+export const userAtom = atom();
 export const fetchUserAtom = atom(null, async (get, set) => {
   console.log("Fetch Trigger");
   const auth = await get(authenticationAtom);
@@ -18,16 +18,16 @@ export const fetchUserAtom = atom(null, async (get, set) => {
 });
 
 // User
-export const userAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  const list = await restread("/user/tagged");
-  if (list?.success) {
-    const user = list.result.filter((user) => user.sub === auth.sub)[0];
-    return user;
-  } else {
-    return {};
-  }
-});
+// export const userAtom = atom(async (get) => {
+//   const auth = await get(authenticationAtom);
+//   const list = await restread("/user/tagged");
+//   if (list?.success) {
+//     const user = list.result.filter((user) => user.sub === auth.sub)[0];
+//     return user;
+//   } else {
+//     return {};
+//   }
+// });
 
 // User List
 export const userListAtom = atom([]);
