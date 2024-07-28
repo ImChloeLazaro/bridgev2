@@ -4,6 +4,7 @@ import {
   toCalendarDateTime,
   today,
   isWeekend,
+  CalendarDate,
 } from "@internationalized/date";
 import {
   Button,
@@ -71,6 +72,7 @@ const FormFieldInput = ({
   let { locale } = useLocale();
 
   let isDateUnavailable = (date) => isWeekend(date, locale);
+  let minimumDateTime = new CalendarDate(2000, 1, 1);
 
   const endContent = {
     date: (
@@ -227,11 +229,12 @@ const FormFieldInput = ({
           ) : (
             <Calendar
               isDateUnavailable={isDateUnavailable}
-              showMonthAndYearPickers
+              showMonthAndYearPickers={true}
               aria-label={label}
               variant={"flat"}
-              minValue={showPastDate ? null : today(getLocalTimeZone())}
-              focusedValue={today(getLocalTimeZone())}
+              minValue={
+                showPastDate ? minimumDateTime : today(getLocalTimeZone())
+              }
               value={dateRangeValue?.start}
               onChange={(dateRange) => {
                 onDateRangeValueChange((prev) => {

@@ -81,30 +81,6 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
             renderType={"chip"}
             selectionMode={"multiple"}
           />
-          {/* <FormFieldSelect
-            fullWidth={true}
-            isRequired={true}
-            disabledValidation={true}
-            items={teamHeadSelection}
-            label={"Select Team Head"}
-            selectedKeys={selectedTeamHeads}
-            onSelectionChange={setSelectedTeamHeads}
-            renderItemPicture={true}
-            renderType={"chip"}
-            selectionMode={"multiple"}
-          />
-          <FormFieldSelect
-            fullWidth={true}
-            isRequired={true}
-            disabledValidation={true}
-            items={teamClientSelection}
-            label={"Select Client/s"}
-            selectedKeys={selectedTeamClient}
-            onSelectionChange={setSelectedTeamClient}
-            renderItemPicture={true}
-            renderType={"chip"}
-            selectionMode={"multiple"}
-          /> */}
         </>
       ),
       actionLabel: "Archive Team",

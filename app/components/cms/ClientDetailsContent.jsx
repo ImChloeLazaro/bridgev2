@@ -3,9 +3,7 @@ import { Divider } from "@nextui-org/react";
 import { format } from "date-fns";
 import { MdContentCopy, MdInfoOutline } from "react-icons/md";
 
-const ClientDetailsContent = ({ selectedClient }) => {
-  const clientInfo = selectedClient[0];
-
+const ClientDetailsContent = ({ clientInfo }) => {
   return (
     <>
       <div className="flex-col md:flex-row flex justify-center gap-6 lg:gap-4">

@@ -72,6 +72,7 @@ const CMSHeader = ({
   const handleChangeView = () => {
     setChangeView(!changeView);
     setShowFooter(changeView && !showFooter);
+    setSelectedFilterKeys(["all"]);
   };
 
   const handleViewClientDetails = () => {
@@ -86,10 +87,10 @@ const CMSHeader = ({
   )[0]?.company.name;
 
   return (
-    <div className='w-full flex-wrap flex gap-2'>
+    <div className="w-full flex-wrap flex gap-2">
       <div
         data-show={showClientTask}
-        className='data-[show=true]:max-w-2xl w-full max-w-xl flex flex-row items-center gap-2 mr-2 sm:ml-0'
+        className="data-[show=true]:max-w-2xl w-full max-w-xl flex flex-row items-center gap-2 mr-2 sm:ml-0"
       >
         <CTAButtons
           color={"clear"}
@@ -100,7 +101,7 @@ const CMSHeader = ({
           startContent={<MdOutlineChevronLeft size={24} />}
           disableRipple={true}
           disableAnimation={true}
-          className='
+          className="
             data-[details=true]:px-0
             data-[details=true]:ml-0
             data-[task=true]:flex 
@@ -108,7 +109,7 @@ const CMSHeader = ({
             px-1 ml-2 justify-start
             hidden transition-all
             w-48 lg:w-full lg:max-w-fit
-            '
+            "
         >
           <Tooltip
             content={
@@ -117,13 +118,13 @@ const CMSHeader = ({
             delay={1000}
           >
             <p
-              className='
+              className="
                   truncate min-w-0
                   bg-white-default rounded-lg px-2 py-1
                   hover:underline hover:underline-offset-1
                   text-base font-bold text-black-default
                   
-                  '
+                  "
             >
               {!selectedClientToView?.length
                 ? "Client List"
@@ -149,7 +150,7 @@ const CMSHeader = ({
           aria-label={"Refresh Task Client Data Button"}
           data-show={showSearchBar}
           onPress={handleRefreshClient}
-          variant='bordered'
+          variant="bordered"
           isLoading={isLoading}
           className={"hidden data-[show=true]:flex"}
         >
@@ -172,7 +173,7 @@ const CMSHeader = ({
       </div>
       <div
         data-show={showClientTask}
-        className='hidden data-[show=true]:flex flex-row items-center gap-2 ml-4'
+        className="hidden data-[show=true]:flex flex-row items-center gap-2 ml-4"
       >
         <CTAButtons
           isDisabled={showClientDetails}
@@ -199,7 +200,7 @@ const CMSHeader = ({
       <div
         data-show={showClientTask}
         data-details={showClientDetails}
-        className='data-[details=true]:hidden flex flex-row items-center gap-2 data-[show=true]:ml-4 sm:data-[show=true]:ml-0 ml-0 min-[1336px]:data-[show=true]:ml-0 min-[1152px]:data-[show=true]:ml-4 '
+        className="data-[details=true]:hidden flex flex-row items-center gap-2 data-[show=true]:ml-4 sm:data-[show=true]:ml-0 ml-0 min-[1336px]:data-[show=true]:ml-0 min-[1152px]:data-[show=true]:ml-4 "
       >
         {children ? children : null}
       </div>

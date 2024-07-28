@@ -1,5 +1,4 @@
-import { clientsAtom } from "@/app/store/ClientStore";
-import { userAtom, userListAtom } from "@/app/store/UserStore";
+import { userAtom } from "@/app/store/UserStore";
 import {
   readwithparams,
   restdestroy,
@@ -159,7 +158,7 @@ export const teamDepartmentSelectionAtom = atom((get) =>
     return {
       ...department,
       key: department._id,
-      value: department.name,
+      value: department._id,
     };
   })
 );
@@ -169,7 +168,7 @@ export const teamSelectionAtom = atom((get) =>
     return {
       ...team,
       key: team._id,
-      value: team.name,
+      value: team._id,
     };
   })
 );
@@ -226,21 +225,24 @@ export const teamDataAtom = atom((get) => {
   const selectedTeamID = get(selectedTeamIDAtom);
   const selectedTeamName = get(selectedTeamNameAtom);
   const selectedTeamHead = get(selectedTeamHeadsAtom);
-  const selectedTeamDepartment = get(selectedTeamDepartmentAtom);
   const selectedTeamMembers = get(selectedTeamMembersAtom);
   const selectedTeamClient = get(selectedTeamClientAtom);
 
   const teamClientSelection = get(teamClientSelectionAtom);
   const teamHeadSelection = get(teamHeadSelectionAtom);
   const teamMembersSelection = get(teamMemberSelectionAtom);
-  const teamDepartmentSelection = get(teamDepartmentSelectionAtom);
 
   console.log("teamClientSelection", teamClientSelection);
   console.log("selectedTeamClient", selectedTeamClient);
 
   return {
     _id: selectedTeamID,
-    // tl: user,
+    tl: {
+      sub: get(userAtom).sub,
+      name: get(userAtom).name,
+      email: get(userAtom).email,
+      picture: get(userAtom).picture,
+    },
     name: selectedTeamName,
     heads: teamHeadSelection.filter((head) =>
       Array.from(selectedTeamHead).includes(head.sub)
@@ -257,6 +259,7 @@ export const teamDataAtom = atom((get) => {
 export const addTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
   teamData = {
+    tl: teamData.tl,
     name: teamData.name,
     heads: teamData.heads,
     members: teamData.members,
@@ -270,7 +273,7 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
       setTimeout(
         async () =>
           resolve(
-            // await restinsert("/teams/subteam", teamData),
+            await restinsert("/teams/subteam", teamData),
             await set(fetchMyTeamsAtom, {}),
             await set(fetchMySubTeamsAtom, {})
           ),

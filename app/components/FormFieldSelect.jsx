@@ -36,7 +36,7 @@ const FormFieldSelect = ({
               }}
             >
               {
-                <p className='font-sm'>
+                <p className='font-medium'>
                   {displayItem.data.label
                     ? displayItem.data.label
                     : displayItem.data.name}
@@ -117,7 +117,7 @@ const FormFieldSelect = ({
         }`,
         label: "mt-2",
         trigger: [
-          `${renderType === "dropdown" ? "" : "py-2"}`,
+          `${renderType === "dropdown" ? "py-2" : "py-2"}`,
           "justify-start min-h-unit-12 h-full rounded-small",
           ,
         ],

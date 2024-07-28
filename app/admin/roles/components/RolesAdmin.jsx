@@ -1,14 +1,15 @@
+"use client";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
-import { fetchUserListAtom, userListAtom } from "@/app/store/UserStore";
+import { userListAtom } from "@/app/store/UserStore";
 import { restupdate } from "@/app/utils/amplify-rest";
 import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Chip,
+  Link,
   Listbox,
   ListboxItem,
   Popover,
@@ -16,8 +17,9 @@ import {
   PopoverTrigger,
   Tab,
   Tabs,
+  User,
 } from "@nextui-org/react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -32,20 +34,18 @@ const RolesAdmin = () => {
     () => Array.from(selectedKeys).join(", "),
     [selectedKeys]
   );
-
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const users = useAtomValue(userListAtom);
-  const fetchUsers = useSetAtom(fetchUserListAtom);
 
   const handleRefreshUser = async () => {
     setIsLoading(true);
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-      await fetchUsers();
-      toast.success("Refreshed");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await categorizeUsersByRole(users);
 
+      toast.success("Refreshed");
       setIsLoading(false);
     } catch (error) {
       toast.error("Error refreshing data" + error);
@@ -68,6 +68,7 @@ const RolesAdmin = () => {
 
     filteredUsers.forEach((user) => {
       roles["All"].add(user);
+      // console.log("User roles:", user.role);
       user.role.forEach((role) => {
         if (role.name === "ADMIN") roles["Admin"].add(user);
         if (role.name === "TL") roles["TL"].add(user);
@@ -86,6 +87,10 @@ const RolesAdmin = () => {
 
   const roles = categorizeUsersByRole(users);
 
+  roles.Admin.forEach((admin) => {
+    // console.log("name" + admin.name);
+  });
+
   const tabs = Object.keys(roles).map((role) => ({
     id: role.toLowerCase(),
     label: role,
@@ -95,6 +100,7 @@ const RolesAdmin = () => {
   const handleEditClick = (user) => {
     setCurrentUser(user);
     const userRoles = new Set(user.role.map((role) => role.name.toLowerCase()));
+    // console.log("User roles:", userRoles);
     setSelectedKeys(userRoles);
   };
 
@@ -122,28 +128,22 @@ const RolesAdmin = () => {
         sub: currentUser.sub,
         role: selectedRoles,
       });
+      // console.log("Updated user:", updatedUser);
       // console.log(
       //   "User sub:",
       //   currentUser.sub,
       //   "Selected roles:",
       //   selectedRoles
       // );
-
-      toast.success("Successfuly updated user " + currentUser.name);
     } catch (error) {
       console.error("Error while updating user roles:", error);
-      toast.error(
-        "Encountered an error while updating user " + currentUser.name
-      );
     }
-
-    await fetchUsers();
   };
 
   return (
-    <Card className="flex w-full h-full my-4 px-0 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl h-full">
+    <Card className="flex w-full h-full my-4 px-0 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
       <div className="flex w-full flex-col h-full">
-        <CardHeader className="py-2 mt-6 mx-2 md:mx-6 md:w-1/2 flex gap-2">
+        <div className="py-2 mt-6 mx-2 md:mx-6 md:w-1/2 flex gap-2">
           <SearchBar
             showSearchBar={true}
             searchItem={searchRole}
@@ -161,130 +161,140 @@ const RolesAdmin = () => {
           >
             <MdRefresh size={24} />
           </IconButton>
-        </CardHeader>
-        <CardBody className="overflow-y-hidden mx-0 p-0">
-          <Tabs
-            aria-label="Role tabs"
-            items={tabs}
-            variant="underlined"
-            className="mx-2 md:mx-6"
-            classNames={{
-              cursor: "w-full bg-blue-default",
-              tab: "max-w-fit px-4",
-              tabContent: "group-data-[selected=true]:text-blue-default",
-            }}
-          >
-            {(item) => (
-              <Tab key={item.id} title={item.label} className="h-full">
-                <div className="overflow-y-auto h-full">
-                  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-2 mb-8 mx-0 sm:mx-2 md:mx-4 mt-2">
-                    {item.content.map((user) => (
-                      <Card
-                        key={user.id}
-                        className="h-40 md:h-36 drop-shadow-md rounded-none sm:rounded-xl"
-                      >
-                        <div className="flex items-center justify-center h-full">
-                          <div className="w-full">
-                            <CardHeader className="flex justify-between mt-1 md:mt-0">
-                              <div className="flex items-center">
-                                <img
-                                  src={user.picture}
-                                  alt={user.name}
-                                  className="rounded-full w-10 h-10 mr-2"
-                                />
-                                <div className="flex flex-col leading-tight mr-20">
-                                  <div className="font-bold">{user.name}</div>
-                                  <div className="flex justify-start items-center gap-2">
-                                    <IoMdMail />
-                                    {user.email}
-                                  </div>
-                                </div>
-                              </div>
-                              <Popover placement="bottom" offset={20} showArrow>
-                                <PopoverTrigger>
-                                  <Button
-                                    isIconOnly
+        </div>
+        <Tabs
+          aria-label="Role tabs"
+          items={tabs}
+          variant="underlined"
+          className="mx-2 md:mx-6"
+          classNames={{
+            cursor: "w-full bg-blue-default",
+            tab: "max-w-fit px-4",
+            tabContent: "group-data-[selected=true]:text-blue-default",
+          }}
+        >
+          {(item) => (
+            <Tab key={item.id} title={item.label} className="h-full">
+              <div className="overflow-y-auto h-full">
+                <div className="grid md:grid-cols-2 gap-2 mb-32 mx-2 md:mx-8 mt-2">
+                  {item.content.map((user) => (
+                    <Card key={user.id} className="h-40 md:h-36 drop-shadow-md">
+                      <div className="flex items-center justify-center h-full">
+                        <div className="w-full">
+                          <CardHeader className="flex justify-between mt-1 md:mt-0">
+                            <div className="flex items-center">
+                              <User
+                                name={user.name}
+                                description={
+                                  <Link
+                                    href="/"
                                     size="sm"
-                                    className="bg-blue-default rounded-xl text-white-default absolute top-2 right-2"
-                                    onClick={() => handleEditClick(user)}
+                                    underline="hover"
+                                    className="text-black-default"
                                   >
-                                    <MdEdit size={16} />
-                                  </Button>
-                                </PopoverTrigger>
-                                <PopoverContent>
-                                  <div className="w-[260px] px-1 py-2 rounded-small border-default-200 dark:border-default-100">
-                                    <form onSubmit={handleSubmit}>
-                                      <Listbox
-                                        aria-label="Multiple selection example"
-                                        variant="flat"
-                                        disallowEmptySelection
-                                        selectionMode="multiple"
-                                        selectedKeys={selectedKeys}
-                                        onSelectionChange={setSelectedKeys}
-                                        disabledKeys={["user"]}
-                                      >
-                                        <ListboxItem key="user">
-                                          User
-                                        </ListboxItem>
-                                        <ListboxItem key="admin">
-                                          Admin
-                                        </ListboxItem>
-                                        <ListboxItem key="tl">
-                                          Team Leader
-                                        </ListboxItem>
-                                        <ListboxItem key="hr">
-                                          Human Resource
-                                        </ListboxItem>
-                                      </Listbox>
-                                      <Button
-                                        size="sm"
-                                        className="mt-2 bg-blue-default text-white-default"
-                                        type="submit"
-                                      >
-                                        Save
-                                      </Button>
-                                    </form>
-                                  </div>
-                                </PopoverContent>
-                              </Popover>
-                            </CardHeader>
-                            <CardBody>
-                              <p>
-                                <span className="mx-0 md:mx-2 font-medium">
-                                  Access:
-                                </span>
-                                {user.role.map((role) => {
-                                  let color = "grey-default";
-                                  if (role.name === "ADMIN")
-                                    color = "bg-orange-default";
-                                  if (role.name === "TL")
-                                    color = "bg-red-default";
-                                  if (role.name === "HR")
-                                    color = "bg-blue-default";
-                                  if (role.name === "USER")
-                                    color = "bg-green-default";
-                                  return (
-                                    <Chip
-                                      key={role.name}
-                                      className={`mx-1 my-1 ${color} rounded-lg text-white-default px-1`}
+                                    <div className="flex justify-start items-center gap-2">
+                                      <IoMdMail
+                                        className="text-black-default"
+                                        fill="currentColor"
+                                      />
+                                      <p className="font-medium text-black-default">
+                                        {user.email}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                }
+                                avatarProps={{
+                                  src: user.picture,
+                                  alt: user.name,
+                                  className: "w-10 h-10 mr-2",
+                                }}
+                                classNames={{
+                                  name: "text-base font-medium text-black-default",
+                                }}
+                              />
+                            </div>
+                            <Popover placement="bottom" offset={20} showArrow>
+                              <PopoverTrigger>
+                                <Button
+                                  isIconOnly
+                                  size="sm"
+                                  className="bg-blue-default rounded-xl text-white-default absolute top-2 right-2"
+                                  onClick={() => handleEditClick(user)}
+                                >
+                                  <MdEdit size={16} />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent>
+                                <div className="w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">
+                                  <form onSubmit={handleSubmit}>
+                                    <Listbox
+                                      aria-label="Multiple selection example"
+                                      variant="flat"
+                                      disallowEmptySelection
+                                      selectionMode="multiple"
+                                      selectedKeys={selectedKeys}
+                                      onSelectionChange={setSelectedKeys}
+                                      disabledKeys={["user"]}
                                     >
-                                      {role.name}
-                                    </Chip>
-                                  );
-                                })}
-                              </p>
-                            </CardBody>
-                          </div>
+                                      <ListboxItem key="user">User</ListboxItem>
+                                      <ListboxItem key="admin">
+                                        Admin
+                                      </ListboxItem>
+                                      <ListboxItem key="tl">
+                                        Team Leader
+                                      </ListboxItem>
+                                      <ListboxItem key="hr">
+                                        Human Resource
+                                      </ListboxItem>
+                                    </Listbox>
+                                    <Button
+                                      color="primary"
+                                      size="sm"
+                                      className="mt-2"
+                                      type="submit"
+                                    >
+                                      Save
+                                    </Button>
+                                  </form>
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </CardHeader>
+                          <CardBody>
+                            <p>
+                              <span className="mx-0 md:mx-2 font-medium">
+                                Access:
+                              </span>
+                              {user.role.map((role) => {
+                                let color = "grey-default";
+                                if (role.name === "ADMIN")
+                                  color = "bg-orange-default";
+                                if (role.name === "TL")
+                                  color = "bg-red-default";
+                                if (role.name === "HR")
+                                  color = "bg-blue-default";
+                                if (role.name === "USER")
+                                  color = "bg-green-default";
+                                return (
+                                  <Chip
+                                    key={role.name}
+                                    className={`mx-1 my-1 ${color} rounded-lg text-white-default px-2`}
+                                  >
+                                    {role.name}
+                                  </Chip>
+                                );
+                              })}
+                            </p>
+                          </CardBody>
                         </div>
-                      </Card>
-                    ))}
-                  </div>
+                      </div>
+                    </Card>
+                  ))}
                 </div>
-              </Tab>
-            )}
-          </Tabs>
-        </CardBody>
-        <CardFooter></CardFooter>
+              </div>
+            </Tab>
+          )}
+        </Tabs>
       </div>
     </Card>
   );

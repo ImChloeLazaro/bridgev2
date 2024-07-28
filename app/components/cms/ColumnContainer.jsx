@@ -15,12 +15,13 @@ function ColumnContainer({
   deleteTask,
   updateTask,
   actions,
-  tasksFromSelectedClient,
-  selectedProcessorTaskAction,
-  setSelectedProcessorTaskAction,
-  selectedReviewerTaskAction,
-  setSelectedReviewerTaskAction,
+  selectedTaskAtom,
+  selectedTaskIDAtom,
+  updateSelectedProcessorAtom,
+  updateSelectedReviewerAtom,
+  isLoading,
   isMobile,
+  itemTasks,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -193,11 +194,13 @@ function ColumnContainer({
                 deleteTask={deleteTask}
                 updateTask={updateTask}
                 actions={actions}
-                tasksFromSelectedClient={tasksFromSelectedClient}
-                selectedProcessorTaskAction={selectedProcessorTaskAction}
-                setSelectedProcessorTaskAction={setSelectedProcessorTaskAction}
-                selectedReviewerTaskAction={selectedReviewerTaskAction}
-                setSelectedReviewerTaskAction={setSelectedReviewerTaskAction}
+                selectedTaskAtom={selectedTaskAtom}
+                selectedTaskIDAtom={selectedTaskIDAtom}
+                updateSelectedProcessorAtom={updateSelectedProcessorAtom}
+                updateSelectedReviewerAtom={updateSelectedReviewerAtom}
+                isLoading={isLoading}
+                isMobile={isMobile}
+                itemTasks={itemTasks}
               />
             ))
           ) : (
