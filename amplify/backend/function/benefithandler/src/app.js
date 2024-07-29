@@ -36,7 +36,7 @@ app.get("/benefits/*", async function (req, res) {
 app.post("/benefits", async function (req, res) {
   try {
     const { sub } = req.body;
-    let insert = await benefitModel.findOne({ sub: sub });
+    let insert = await benefitModel.findOne({ sub: { $eq: sub } });
 
     if (!insert) {
       insert = await benefitModel.create({ sub });

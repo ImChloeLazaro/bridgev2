@@ -55,7 +55,7 @@ app.get("/leave", async function (req, res) {
 app.post("/leave", async function (req, res) {
   try {
     const { sub } = req.body;
-    let insert = await leaveModel.findOne({ sub: sub });
+    let insert = await leaveModel.findOne({ sub: { $eq: sub } });
     if (!insert) {
       insert = await leaveModel.create({ sub });
     }

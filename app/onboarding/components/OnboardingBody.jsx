@@ -22,10 +22,9 @@ const OnboardingBody = ({ viewOnly }) => {
 
   useEffect(() => {
     if (userInfo && userInfo !== null) {
-      console.log("Trigger onboard");
       fetchOnBoardingData();
     }
-  }, [userInfo]);
+  }, [userInfo, fetchOnBoardingData]);
   const onboardingContent = [
     <ApplicationOnboarding viewOnly={viewOnly} key={0} />,
     <BackgroundOnboarding viewOnly={viewOnly} key={1} />,
