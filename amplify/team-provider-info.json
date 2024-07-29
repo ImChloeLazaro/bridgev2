@@ -22,7 +22,7 @@
         "benefithandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/benefithandler-7a44526e382f32697771-build.zip"
+          "s3Key": "amplify-builds/benefithandler-302b695979314c543955-build.zip"
         },
         "bridgesocket": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -52,7 +52,7 @@
         "leavehandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/leavehandler-43394353574463513756-build.zip"
+          "s3Key": "amplify-builds/leavehandler-392b417172726a2b5078-build.zip"
         },
         "leaverequesthandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -118,6 +118,9 @@
       },
       "storage": {
         "bridgeProductionStorage": {}
+      },
+      "api": {
+        "bridgeApi": {}
       }
     }
   }
