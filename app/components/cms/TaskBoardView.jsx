@@ -322,7 +322,7 @@ const TaskBoardView = ({
       const taskName = taskActive?.name;
 
       console.log("taskActive", taskActive);
-      const clientName = taskActive?.client?.name;
+      const clientName = taskActive?.client_name;
       const dateTaskDone = new Date();
 
       const processors = taskActive?.processor?.map((user) => user.sub);
