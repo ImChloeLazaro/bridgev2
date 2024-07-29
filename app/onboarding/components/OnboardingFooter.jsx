@@ -8,6 +8,7 @@ import {
   selectedStepperAtom,
   stepsAtom,
 } from "../store/OnboardingStore";
+import { toast } from "sonner";
 
 const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -18,16 +19,19 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
 
   const onboardingData = useAtomValue(onboardingDataAtom);
 
-
   const handleSubmit = async () => {
-    const profileresponse = await restinsert("/profile", onboardingData);
-    const updateonboardingstatus = await updatewithparams("/user", {
-      sub: auth.sub,
-    });
-    const benefitsresponse = await restinsert("/benefits", {
-      sub: auth.sub,
-    });
-    const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+    if (auth && auth.sub) {
+      const profileresponse = await restinsert("/profile", onboardingData);
+      const updateonboardingstatus = await updatewithparams("/user", {
+        sub: auth.sub,
+      });
+      const benefitsresponse = await restinsert("/benefits", {
+        sub: auth.sub,
+      });
+      const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+    } else {
+      toast.error("Invalid Authentication");
+    }
   };
 
   const handleNext = () => {
@@ -36,7 +40,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
       setSelectedStepper(steps[activeStep + 1]);
     }
   };
-  
+
   const handleBack = () => {
     if (activeStep >= 1) {
       setActiveStep((prev) => prev - 1);
@@ -58,7 +62,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   };
   return (
     <>
-      <div className="w-full flex justify-between gap-14 py-4">
+      <div className='w-full flex justify-between gap-14 py-4'>
         {activeStep != 0 ? (
           <CTAButtons
             fullWidth={true}

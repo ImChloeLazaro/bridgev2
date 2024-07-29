@@ -36,10 +36,15 @@ app.get("/benefits/*", async function (req, res) {
 app.post("/benefits", async function (req, res) {
   try {
     const { sub } = req.body;
-    const insert = await benefitModel.create({ sub });
+    let insert = await benefitModel.findOne({ sub: sub });
+
+    if (!insert) {
+      insert = await benefitModel.create({ sub });
+    }
+
     res.json({ success: true, response: insert });
   } catch (error) {
-    res.json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 });
 
