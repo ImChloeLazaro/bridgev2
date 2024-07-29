@@ -24,33 +24,20 @@ const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
 });
 
 const OnboardingForm = () => {
-  const steps = useAtomValue(stepsAtom);
-  const [activeStep, setActiveStep] = useAtom(activeStepAtom);
-  const setSelectedStepper = useSetAtom(selectedStepperAtom);
-
-  const handleFormAction = (e) => {
-    if (activeStep <= steps.length - 2) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSelectedStepper(steps[activeStep]);
-    }
-
-    return false;
-  };
+  // console.log("active steps: " + activeStep + " steps lang: " + (steps.length - 2))
   return (
     <Card className="w-[850px] h-[760px]">
-      <form action={handleFormAction}>
-        <CardHeader className="flex justify-center p-1 mt-2">
-          <OnboardingHeader />
-        </CardHeader>
-        <Divider />
-        <CardBody className="gap-6 py-3 ">
-          <OnboardingBody />
-        </CardBody>
-        <Divider />
-        <CardFooter className="px-8">
-          <OnboardingFooter />
-        </CardFooter>
-      </form>
+      <CardHeader className="flex justify-center p-1 mt-2">
+        <OnboardingHeader />
+      </CardHeader>
+      <Divider />
+      <CardBody className="gap-6 py-3 ">
+        <OnboardingBody />
+      </CardBody>
+      <Divider />
+      <CardFooter className="px-8">
+        <OnboardingFooter />
+      </CardFooter>
     </Card>
   );
 };

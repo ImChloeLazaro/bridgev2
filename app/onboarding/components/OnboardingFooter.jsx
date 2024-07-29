@@ -7,6 +7,9 @@ import {
   onboardingDataAtom,
   selectedStepperAtom,
   stepsAtom,
+  onboardingTabsAtom,
+  selectedTabIndexAtom,
+  selectedTabAtom,
 } from "../store/OnboardingStore";
 
 const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
@@ -16,32 +19,54 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const setActiveStep = useSetAtom(activeStepAtom);
   const setSelectedStepper = useSetAtom(selectedStepperAtom);
 
+  const onboardingTabs = useAtomValue(onboardingTabsAtom);
+  const [activeTab, setActiveTab] = useAtom(selectedTabIndexAtom);
+  const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
+
   const onboardingData = useAtomValue(onboardingDataAtom);
 
-
   const handleSubmit = async () => {
-    const profileresponse = await restinsert("/profile", onboardingData);
-    const updateonboardingstatus = await updatewithparams("/user", {
-      sub: auth.sub,
-    });
-    const benefitsresponse = await restinsert("/benefits", {
-      sub: auth.sub,
-    });
-    const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+    // const profileresponse = await restinsert("/profile", onboardingData);
+    // const updateonboardingstatus = await updatewithparams("/user", {
+    //   sub: auth.sub,
+    // });
+    // const benefitsresponse = await restinsert("/benefits", {
+    //   sub: auth.sub,
+    // });
+    // const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+    console.log("submitted sample");
   };
 
   const handleNext = () => {
-    if (activeStep < steps.length - 1) {
-      setActiveStep((prev) => prev + 1);
-      setSelectedStepper(steps[activeStep + 1]);
+    if (activeTab < onboardingTabs[activeStep].length - 1) {
+      setActiveTab((prev) => {
+        const newTabIndex = prev + 1;
+        setSelectedTab(onboardingTabs[activeStep][newTabIndex].key);
+        return newTabIndex;
+      });
+    } else {
+      if (activeStep < steps.length - 1) {
+        setActiveStep((prev) => prev + 1);
+        setSelectedStepper(steps[activeStep + 1]);
+      }
     }
+
+    console.log(activeTab);
   };
-  
+
   const handleBack = () => {
-    if (activeStep >= 1) {
+    if (activeTab !== 0) {
+      setActiveTab((prev) => {
+        const newTabIndex = prev - 1;
+        setSelectedTab(onboardingTabs[activeStep][newTabIndex].key);
+        return newTabIndex;
+      });
+    } else {
       setActiveStep((prev) => prev - 1);
       setSelectedStepper(steps[activeStep]);
     }
+
+    console.log(activeTab);
   };
 
   const actionButtons = {
@@ -59,20 +84,19 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   return (
     <>
       <div className="w-full flex justify-between gap-14 py-4">
-        {activeStep != 0 ? (
-          <CTAButtons
-            fullWidth={true}
-            label={actionButtons.back.label}
-            color={actionButtons.back.color}
-            onPress={actionButtons.back.action}
-            isDisabled={activeStep === 0}
-          />
-        ) : (
+        {activeStep === 0 && activeTab === 0 ? (
           <CTAButtons
             fullWidth={true}
             label={""}
             color={"clear"}
             isDisabled={true}
+          />
+        ) : (
+          <CTAButtons
+            fullWidth={true}
+            label={actionButtons.back.label}
+            color={actionButtons.back.color}
+            onPress={actionButtons.back.action}
           />
         )}
 

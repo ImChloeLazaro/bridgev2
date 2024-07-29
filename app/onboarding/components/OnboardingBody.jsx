@@ -1,9 +1,10 @@
 import { Tab, Tabs } from "@nextui-org/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   activeStepAtom,
   onboardingTabsAtom,
   selectedTabAtom,
+  selectedTabIndexAtom,
 } from "../store/OnboardingStore";
 import ApplicationOnboarding from "./ApplicationOnboarding";
 import BackgroundOnboarding from "./BackgroundOnboarding";
@@ -13,6 +14,7 @@ import EmploymentOnboarding from "./EmploymentOnboarding";
 const OnboardingBody = ({ viewOnly }) => {
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
   const activeStep = useAtomValue(activeStepAtom);
+  const [activeTab, setActiveTab] = useAtom(selectedTabIndexAtom);
   const onboardingTabs = useAtomValue(onboardingTabsAtom);
 
   const onboardingContent = [
@@ -22,13 +24,22 @@ const OnboardingBody = ({ viewOnly }) => {
     <ContactOnboarding viewOnly={viewOnly} key={3} />,
   ];
 
+  const handleSelectionChange = (selectedKey) => {
+    const tabIndex = onboardingTabs[activeStep].findIndex(
+      (tab) => tab.key === selectedKey
+    );
+    
+    setSelectedTab(onboardingTabs[activeStep][tabIndex].key);
+    setActiveTab(tabIndex);
+  };
+
   return (
     <>
       <div className="w-full flex flex-col items-center">
         <Tabs
           key="onboarding navigation"
           selectedKey={selectedTab}
-          onSelectionChange={setSelectedTab}
+          onSelectionChange={handleSelectionChange}
           aria-label="Onboarding Navigation"
           variant="underlined"
           classNames={{
