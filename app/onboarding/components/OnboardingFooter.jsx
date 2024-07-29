@@ -11,6 +11,7 @@ import {
   selectedTabIndexAtom,
   selectedTabAtom,
 } from "../store/OnboardingStore";
+import { toast } from "sonner";
 
 const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const auth = useAtomValue(authenticationAtom);
@@ -26,15 +27,18 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const onboardingData = useAtomValue(onboardingDataAtom);
 
   const handleSubmit = async () => {
-    // const profileresponse = await restinsert("/profile", onboardingData);
-    // const updateonboardingstatus = await updatewithparams("/user", {
-    //   sub: auth.sub,
-    // });
-    // const benefitsresponse = await restinsert("/benefits", {
-    //   sub: auth.sub,
-    // });
-    // const leaveresponse = await restinsert("/leave", { sub: auth.sub });
-    console.log("submitted sample");
+    if (auth && auth.sub) {
+      const profileresponse = await restinsert("/profile", onboardingData);
+      const updateonboardingstatus = await updatewithparams("/user", {
+        sub: auth.sub,
+      });
+      const benefitsresponse = await restinsert("/benefits", {
+        sub: auth.sub,
+      });
+      const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+    } else {
+      toast.error("Invalid Authentication");
+    }
   };
 
   const handleNext = () => {
