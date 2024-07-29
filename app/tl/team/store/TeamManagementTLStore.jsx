@@ -283,7 +283,6 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
     success: () => {
       return `Member details updated successfully`;
     },
-
     error: "Error Updating Member Details",
   });
 });

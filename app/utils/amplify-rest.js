@@ -29,7 +29,6 @@ export const restinsert = async (path, request) => {
         body: request,
       },
     });
-
     const { body } = await insertOperation.response;
     return await body.json();
   } catch (e) {
