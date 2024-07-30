@@ -68,8 +68,10 @@ export const tasksListAtom = atom(async (get) => {
 export const clientListAtom = atom(async (get) => {
   const clients = get(teamClientsAtom);
   const user = await get(userAtom);
-  const mySubTeam = get(userSubTeamsAtom).filter((subTeam) =>
-    subTeam.heads.map((head) => head.sub).includes(user.sub)
+  const mySubTeam = get(userSubTeamsAtom).filter(
+    (subTeam) =>
+      subTeam.heads.map((head) => head.sub).includes(user.sub) ||
+      subTeam.members.map((member) => member.sub).includes(user.sub)
   );
 
   const clientsList = clients
