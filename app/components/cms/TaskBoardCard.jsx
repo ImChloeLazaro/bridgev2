@@ -82,7 +82,7 @@ function TaskBoardCard({
       type: "Task",
       task,
     },
-    disabled: task.escalate || isOverdue,
+    // disabled: task.escalate || isOverdue,
   });
 
   const actionOptions = [
