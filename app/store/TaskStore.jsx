@@ -68,13 +68,15 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       task.client.client_id == client.client_id
   );
 
+  console.log("existingTasks", existingTasks);
+
   if (existingTasks?.length) {
     const response = await restupdate("/cms/task", {
       ...existingTasks[0],
       manager: manager,
       client: client,
-      processor: [...existingTasks[0].processor, ...processor],
-      reviewer: [...existingTasks[0].reviewer, ...reviewer],
+      processor: processor,
+      reviewer: reviewer,
       sla: [...existingTasks[0].sla, ...sla],
     });
     if (response?.success) {
@@ -157,36 +159,31 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
-  const { sla, client_id } = update;
+  const { sla, client_id, task_id } = update;
+
+  const taskObj = get(tasksAtom).filter((task) => task._id === task_id)[0];
 
   console.log("client_id here on updating board", client_id);
   console.log("sla here on updating board", sla);
+  console.log("taskObj here on updating board", taskObj);
 
   const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
   );
 
-  const removedDuplicateSLA = [...sla, ...taskToBeUpdated[0].sla].filter(
+  const removedDuplicateSLA = [...sla, ...taskObj.sla].filter(
     (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
   );
 
   console.log("removedDuplicateSLA after", removedDuplicateSLA);
 
   const response = await restupdate("/cms/task", {
-    ...taskToBeUpdated[0],
+    ...taskObj,
     sla: [...removedDuplicateSLA],
   });
 
-  if (response === undefined) return { success: false };
-
   if (response?.success) {
-    const updatedTask = get(tasksAtom).map((task) => {
-      if (task.client?.client_id === client_id) {
-        return { ...task, sla: sla };
-      }
-      return task;
-    });
-    set(tasksAtom, updatedTask);
+    set(fetchTaskAtom, {});
 
     return { success: true };
   } else {

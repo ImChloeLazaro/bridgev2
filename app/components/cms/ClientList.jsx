@@ -21,7 +21,7 @@ const ClientList = ({
   const clients = isLoading ? [] : itemClients;
   return (
     <>
-      {!showClientTask && (
+      {!showClientTask && !isLoading && clients?.length && (
         <div
           data-show={isLoading}
           className="data-[show=true]:hidden w-full flex items-center justify-between gap-2"

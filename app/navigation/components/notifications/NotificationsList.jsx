@@ -93,9 +93,9 @@ const NotificationsList = ({ getNotificationId }) => {
         });
 
   const sortedNotifications = useMemo(() => {
-    return filteredNotifications.sort((a, b) =>
-      compareAsc(new Date(b.createdBy), new Date(a.createdBy))
-    );
+    return filteredNotifications
+      .sort((a, b) => compareAsc(new Date(b.createdBy), new Date(a.createdBy)))
+      .slice(0, 10);
   }, [filteredNotifications]);
 
   return !notifications?.length ? (

@@ -267,7 +267,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         label={"LANDLINE NUMBER"}
         value={homePhoneNumber}
         onValueChange={setHomePhoneNumber}
-        isRequired={true}
+        isRequired={false}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -279,7 +279,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
-        type={"number"}
+        type={"phone"}
         label={"MOBILE NUMBER"}
         value={mobileNumber}
         onValueChange={setMobileNumber}
@@ -291,7 +291,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         label={"RELIGION"}
         value={religion}
         onValueChange={setReligion}
-        isRequired={true}
+        isRequired={false}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -299,7 +299,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         label={"LANGUAGE"}
         value={language}
         onValueChange={setLanguage}
-        isRequired={true}
+        isRequired={false}
       />
     </>
   );
