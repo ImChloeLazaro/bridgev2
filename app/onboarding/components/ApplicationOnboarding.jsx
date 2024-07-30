@@ -279,7 +279,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
-        type={"number"}
+        type={"phone"}
         label={"MOBILE NUMBER"}
         value={mobileNumber}
         onValueChange={setMobileNumber}
