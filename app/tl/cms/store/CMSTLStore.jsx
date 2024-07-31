@@ -51,11 +51,14 @@ export const tasksListAtom = atom(async (get) => {
     .filter(
       (task) =>
         clients.map((client) => client._id).includes(task.client.client_id) &&
-        task.manager.sub === user.sub
+        (task.manager.sub === user.sub ||
+          task.processor.some((processor) => processor.sub === user.sub) ||
+          task.reviewer.some((reviewer) => reviewer.sub === user.sub))
     )
     .map((task) => {
       return { ...task, key: task._id }; // task ID
     });
+  console.log(tasksList);
   return tasksList;
 });
 

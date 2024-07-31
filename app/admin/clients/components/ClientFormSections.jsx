@@ -152,7 +152,7 @@ const ClientFormSections = () => {
         <div className="w-full flex justify-center gap-3">
           <FormFieldInput
             isRequired={true}
-            type={"number"}
+            type={"phone"}
             inputType={"tel"}
             label={"Primary Contact Number"}
             fullWidth={true}
@@ -193,7 +193,7 @@ const ClientFormSections = () => {
           <div className="w-full flex justify-center gap-3">
             <FormFieldInput
               isRequired={true}
-              type={"number"}
+              type={"phone"}
               inputType={"tel"}
               label={"Company Primary Contact Number"}
               fullWidth={true}

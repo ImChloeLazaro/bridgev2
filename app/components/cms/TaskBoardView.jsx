@@ -322,13 +322,12 @@ const TaskBoardView = ({
       const taskName = taskActive?.name;
 
       console.log("taskActive", taskActive);
-      const clientName = taskActive?.client?.name;
+      const clientName = taskActive?.client_name;
       const dateTaskDone = new Date();
 
       const processors = taskActive?.processor?.map((user) => user.sub);
       const reviewers = taskActive?.reviewer?.map((user) => user.sub);
-      console.log("processors", processors);
-      const everyone = [...processors, ...reviewers];
+      const everyone = [...processors, ...reviewers, taskActive?.manager.sub];
 
       if (taskStatusBeforeDone !== taskActive?.status) {
         if (taskActive?.status === "todo") {
@@ -349,8 +348,9 @@ const TaskBoardView = ({
                 async () =>
                   resolve(
                     await updateTaskStatus({
-                      sla: taskStatusIndex,
+                      sla: [taskActive],
                       client_id: selectedClientToView,
+                      task_id: taskActive.task_id
                     }),
                     await fetchTask()
                   ),
@@ -390,8 +390,9 @@ const TaskBoardView = ({
                 async () =>
                   resolve(
                     await updateTaskStatus({
-                      sla: taskStatusIndex,
+                      sla: [taskActive],
                       client_id: selectedClientToView,
+                      task_id: taskActive.task_id
                     }),
                     await fetchTask()
                   ),
@@ -431,8 +432,9 @@ const TaskBoardView = ({
                 async () =>
                   resolve(
                     await updateTaskStatus({
-                      sla: taskStatusIndex,
+                      sla: [taskActive],
                       client_id: selectedClientToView,
+                      task_id: taskActive.task_id
                     }),
                     await fetchTask()
                   ),
@@ -490,6 +492,7 @@ const TaskBoardView = ({
                     await updateTaskStatus({
                       sla: [updateSelectedTask],
                       client_id: taskActive.client_id,
+                      task_id: taskActive.task_id
                     }),
                     await fetchTask()
                   ),

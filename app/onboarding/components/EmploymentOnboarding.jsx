@@ -251,7 +251,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
-        type={"number"}
+        type={"phone"}
         key={"reference_contact_number" + r_index}
         label={"CONTACT NUMBER"}
         value={reference.contact_number}
