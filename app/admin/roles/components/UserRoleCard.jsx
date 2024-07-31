@@ -19,7 +19,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoMdMail } from "react-icons/io";
-import { roleSelectionAtom, updateUserRolesAtom } from "../store/RoleStore";
+import { roleSelectionAtom, updateUserRolesAtom } from "../store/UserRoleStore";
 
 const UserRoleCard = ({ user }) => {
   const {
