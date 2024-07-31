@@ -42,6 +42,7 @@ const FormFieldInput = ({
   withDate = false,
   withTime = false,
   isDateRange = false,
+  isBusinessDays = false,
   showPastDate = true,
   fullWidth = false,
   inputType,
@@ -231,7 +232,7 @@ const FormFieldInput = ({
             />
           ) : (
             <Calendar
-              isDateUnavailable={isDateUnavailable}
+              isDateUnavailable={isBusinessDays ? isDateUnavailable : undefined}
               showMonthAndYearPickers={true}
               aria-label={label}
               variant={"flat"}
@@ -323,16 +324,14 @@ const FormFieldInput = ({
   };
 
   const errorMessages = {
-    // `${label ? label : "Input"} is invalid or missing`
     email: "Please enter a valid email address",
     text: "No special characters allowed",
     number: "No characters or spaces allowed",
-    date: "Please enter a valid date time",
     file: "PDF file is only accepted",
     phone: "Please enter a valid phone number",
+    date: "Please enter a valid date time",
   };
 
-  // fix validation for datetime
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-_\\]+$/i,
@@ -345,7 +344,6 @@ const FormFieldInput = ({
 
   const isInvalid = useMemo(() => {
     if (value === "") return false;
-
     if (type === "date") {
       if (isDateRange) {
         return !(
@@ -366,6 +364,7 @@ const FormFieldInput = ({
         );
       }
     }
+
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -373,10 +372,15 @@ const FormFieldInput = ({
   return (
     <>
       <Input
+        // Temp change for employee automation by @gerome
+
+        // onKeyDown={(event) => {
+        //   if (type === "date") event.preventDefault();
+        //   return false;
+        // }}
         type={inputType}
         placeholder={placeholder}
         aria-label={label}
-        isReadOnly={withFile || withDate || withTime}
         isDisabled={isDisabled}
         isRequired={isRequired}
         isInvalid={isInvalid}

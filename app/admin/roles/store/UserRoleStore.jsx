@@ -28,7 +28,7 @@ export const fetchUserRolesListAtom = atom(null, async (get, set, sub) => {
 
 export const updateUserRolesAtom = atom(null, async (get, set, update) => {
   const { updatedRoles } = update;
-  const user = await get(userAtom);
+  const user = get(userAtom);
 
   try {
     const updatedUser = await restupdate(`/user/update-role`, {

@@ -60,6 +60,12 @@ const TaskFormSections = ({
   const [startTime, setStartTime] = useAtom(startTimeAtom);
   const [endTime, setEndTime] = useAtom(endTimeAtom);
 
+  const teamSelectionSelectedClient = teamSelection.filter((team) =>
+    team.client.map((client) => client._id).includes(selectedClientToView)
+  );
+
+  console.log("teamSelection", teamSelection)
+
   return (
     <div className="flex flex-col gap-6">
       {/* People */}
@@ -103,7 +109,9 @@ const TaskFormSections = ({
               <FormFieldSelect
                 isRequired={true}
                 aria-label="Team Selection"
-                items={teamSelection} //
+                items={
+                  showClientTask ? teamSelectionSelectedClient : teamSelection
+                }
                 placeholder="Assign Team/s"
                 selectionMode="single"
                 selectedKeys={selectedTeam}
@@ -146,7 +154,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={teamSelection.size == 0}
+                isDisabled={selectedTeam.size == 0}
                 isRequired={true}
                 aria-label="Processor Selection"
                 items={processorSelection}
@@ -167,7 +175,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={teamSelection.size == 0}
+                isDisabled={selectedTeam.size == 0}
                 isRequired={true}
                 aria-label="Reviewer Selection"
                 items={reviewerSelection}
@@ -188,7 +196,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={teamSelection.size == 0}
+                isDisabled={selectedTeam.size == 0}
                 isRequired={true}
                 aria-label="Manager Selection"
                 items={managerSelection}
@@ -275,6 +283,7 @@ const TaskFormSections = ({
                     onValueChange={setTaskDuration}
                     placeholder={"Set a date"}
                     showPastDate={true}
+                    isBusinessDays={true}
                     withDate={true}
                     withTime={false}
                     isDateRange={false}
@@ -333,6 +342,7 @@ const TaskFormSections = ({
                   withDate={true}
                   withTime={true}
                   isDateRange={true}
+                  isBusinessDays={true}
                   showPastDate={false}
                   dateRangeValue={dateRange}
                   onDateRangeValueChange={setDateRange}

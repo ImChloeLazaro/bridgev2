@@ -281,7 +281,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
-        type={"phone"}
+        type={"number"} // Temp change for employee automation by @gerome - phone
         label={"MOBILE NUMBER"}
         value={mobileNumber}
         onValueChange={setMobileNumber}

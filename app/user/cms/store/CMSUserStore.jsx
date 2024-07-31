@@ -1,3 +1,4 @@
+import { clientsAtom } from "@/app/store/ClientStore";
 import {
   managerSelectionAtom,
   processorSelectionAtom,
@@ -43,9 +44,9 @@ export const selectedTaskAtom = atom("");
 export const selectedTaskIDAtom = atom("");
 
 // Tasks to display on table and board view
-export const tasksListAtom = atom(async (get) => {
-  const clients = get(teamClientsAtom);
-  const user = await get(userAtom);
+export const tasksListAtom = atom((get) => {
+  const clients = get(clientsAtom);
+  const user = get(userAtom);
 
   const tasksList = get(tasksAtom)
     .filter(
@@ -65,30 +66,29 @@ export const tasksListAtom = atom(async (get) => {
 });
 
 // Clients to display on table and board view
-export const clientListAtom = atom(async (get) => {
-  const clients = get(teamClientsAtom);
-  const user = await get(userAtom);
+export const clientListAtom = atom((get) => {
+  const user = get(userAtom);
   const mySubTeam = get(userSubTeamsAtom).filter(
     (subTeam) =>
       subTeam.heads.map((head) => head.sub).includes(user.sub) ||
       subTeam.members.map((member) => member.sub).includes(user.sub)
   );
 
-  const clientsList = clients
-    .filter((client) =>
-      mySubTeam
-        .map((subTeam) => subTeam.client.map((client) => client._id))
-        .flat()
-        .includes(client._id)
+  const clientsList = mySubTeam
+    .map((subTeam) =>
+      subTeam.client.map((client) => {
+        return {
+          ...client,
+          key: client._id,
+          _id: client._id,
+          client_id: client._id,
+        };
+      })
     )
-    .map((client) => {
-      return {
-        ...client,
-        key: client._id,
-        _id: client._id,
-        client_id: client._id,
-      };
-    });
+    .flat()
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
+    );
   return clientsList;
 });
 
@@ -100,7 +100,7 @@ export const selectedClientForTaskAtom = atom(new Set([]));
 
 export const selectedClientAtom = atom(new Set([]));
 export const clientSelectionAtom = atom((get) => {
-  const clients = get(teamClientsAtom);
+  const clients = get(clientsAtom);
   const user = get(userAtom);
   const mySubTeam = get(userSubTeamsAtom).filter((subTeam) =>
     subTeam.heads.map((head) => head.sub).includes(user.sub)

@@ -1,5 +1,10 @@
+import CTAButtons from "@/app/components/CTAButtons";
+import LabelTagChip from "@/app/components/LabelTagChip";
 import SearchBar from "@/app/components/SearchBar";
+import { fetchClientAtom } from "@/app/store/ClientStore";
+import { fetchUserAtom } from "@/app/store/UserStore";
 import {
+  Avatar, AvatarGroup,
   Button,
   Card,
   CardBody,
@@ -13,50 +18,38 @@ import {
   PopoverContent,
   PopoverTrigger,
   Spinner,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
-import { Avatar, AvatarGroup } from "@nextui-org/react";
-
-import CTAButtons from "@/app/components/CTAButtons";
-import { fetchClientAtom } from "@/app/store/ClientStore";
+import { Tab, Tabs } from "@nextui-org/tabs";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdSettings } from "react-icons/md";
 import {
-  fetchTeamsAtom,
+  fetchMySubTeamsAtom,
+  fetchMyTeamsAtom,
+  fetchTeamClientsAtom,
   selectedTeamClientAtom,
   selectedTeamDepartmentAtom,
+  selectedTeamDepartmentNameAtom,
   selectedTeamFilterKeysAtom,
   selectedTeamHeadsAtom,
   selectedTeamMembersAtom,
   selectedTeamNameArchiveAtom,
   selectedTeamNameAtom,
-  teamFilterKeysAtom,
-  teamsAtom,
   subTeamsAtom,
-  selectedTeamDepartmentNameAtom,
-  fetchDepartmentsAtom,
-  teamMembersTableRowsAtom,
+  teamFilterKeysAtom,
   teamMembersTableColumnsAtom,
-  fetchMyTeamsAtom,
-  fetchMySubTeamsAtom,
-  fetchTeamClientsAtom,
+  teamsAtom
 } from "../store/TeamManagementTLStore";
 import TeamCard from "./TeamCard";
 import UpdateTeamModal from "./UpdateTeamModal";
-import { Tabs, Tab } from "@nextui-org/tabs";
-import LabelTagChip from "@/app/components/LabelTagChip";
-import { fetchUserAtom } from "@/app/store/UserStore";
 
 const TeamManagementTL = () => {
   const fetchMyTeams = useSetAtom(fetchMyTeamsAtom);
@@ -83,7 +76,6 @@ const TeamManagementTL = () => {
 
   const teams = useAtomValue(teamsAtom);
   const subTeams = useAtomValue(subTeamsAtom);
-  const teamMembersTableRows = useAtomValue(teamMembersTableRowsAtom);
   const teamMembersTableColumns = useAtomValue(teamMembersTableColumnsAtom);
 
   const [selected, setSelected] = useState("myTeam");

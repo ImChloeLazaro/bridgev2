@@ -63,7 +63,7 @@ const OnboardingForm = () => {
     }
   };
   return (
-    <Card className="w-[850px] h-[760px]">
+    <Card className="w-[850px] h-[700px]">
       <form action={handleFormAction}>
         <CardHeader className="flex justify-center p-1 mt-2">
           <OnboardingHeader />

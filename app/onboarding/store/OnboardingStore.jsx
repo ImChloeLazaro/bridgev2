@@ -452,7 +452,7 @@ export const fetchOnboardingDataAtom = atom(null, (get, set) => {
 });
 
 export const onboardingDataAtom = atom((get) => {
-  const user = get(authenticationAtom);
+  const user = get(userAtom);
   console.log("User: ", user);
   return {
     application: {
@@ -544,6 +544,6 @@ export const onboardingDataAtom = atom((get) => {
     contact: {
       emergency_contact: get(contactAtom),
     },
-    sub: user?.value?.sub,
+    sub: "CHANGE SUB AFTER AUTOMATION", // Temp change for employee automation by @gerome - sub: user?.value?.sub,
   };
 });
