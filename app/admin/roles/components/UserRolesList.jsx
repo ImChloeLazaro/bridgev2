@@ -5,7 +5,6 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { MdRefresh } from "react-icons/md";
 import { toast } from "sonner";
-
 import UserRoleCard from "./UserRoleCard";
 import {
   fetchUserRolesListAtom,
@@ -13,6 +12,7 @@ import {
   selectedRoleTabAtom,
   userRolesListAtom,
 } from "../store/RoleStore";
+
 
 const UserRolesList = () => {
   const userRolesList = useAtomValue(userRolesListAtom);
