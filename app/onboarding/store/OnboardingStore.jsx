@@ -22,21 +22,33 @@ export const stepsAtom = atom([
 
 export const onboardingTabsAtom = atom((get) => [
   [
-    { title: "Application Details", key: "application_details" },
-    { title: "Employee Information", key: "employee_information" },
-    { title: "Government ID Information", key: "government_id_information" },
+    { title: "Application Details", key: "application_details", filled: false },
+    {
+      title: "Employee Information",
+      key: "employee_information",
+      filled: false,
+    },
+    {
+      title: "Government ID Information",
+      key: "government_id_information",
+      filled: false,
+    },
   ],
   [
-    { title: "Family Background", key: "family_background" },
-    { title: "Educational Background", key: "educational_background" },
-    { title: "Examination Taken", key: "examination_taken" },
+    { title: "Family Background", key: "family_background", filled: false },
+    {
+      title: "Educational Background",
+      key: "educational_background",
+      filled: false,
+    },
+    { title: "Examination Taken", key: "examination_taken", filled: false },
   ],
   [
-    { title: "Employment History", key: "employment_history" },
-    { title: "Trainings Attended", key: "trainings_attended" },
-    { title: "References", key: "references" },
+    { title: "Employment History", key: "employment_history", filled: false },
+    { title: "Trainings Attended", key: "trainings_attended", filled: false },
+    { title: "References", key: "references", filled: false },
   ],
-  [{ title: "Emergency Contact", key: "emergency_contact" }],
+  [{ title: "Emergency Contact", key: "emergency_contact", filled: false }],
 ]);
 
 export const applicationTabsAtom = atom([
@@ -59,6 +71,8 @@ export const contactTabsAtom = atom(["emergency_contact"]);
 // Indicators
 export const selectedTabAtom = atom("application_details");
 export const selectedStepperAtom = atom("application");
+export const headerClick = atom({ clicked: false, stepper: 0 });
+export const footerClick = atom(false);
 
 export const activeStepAtom = atom(0);
 export const selectedTabIndexAtom = atom(0);
@@ -353,7 +367,11 @@ export const contactAtom = atom({
   contact_number: "",
 });
 const formatDate = (dateData) => {
-  return format(new Date(dateData).toISOString(), "MMM d, yyyy");
+  if (!dateData || dateData === null || dateData === "") {
+    return "";
+  } else {
+    return format(new Date(dateData).toISOString(), "MMM d, yyyy");
+  }
 };
 export const fetchOnboardingDataAtom = atom(null, (get, set) => {
   const boardingData = get(personalInfoAtom);

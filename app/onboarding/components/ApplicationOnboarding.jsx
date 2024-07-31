@@ -80,7 +80,9 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   const [religion, setReligion] = useAtom(religionAtom);
   const [language, setLanguage] = useAtom(languageAtom);
 
-  const [birthdateDateRange, setBirthdateDateRange] = useAtom(birthdateDateRangeAtom)
+  const [birthdateDateRange, setBirthdateDateRange] = useAtom(
+    birthdateDateRangeAtom
+  );
 
   // Government ID Information
   const [TIN, setTIN] = useAtom(tinAtom);

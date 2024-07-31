@@ -10,6 +10,7 @@ import {
   onboardingTabsAtom,
   selectedTabIndexAtom,
   selectedTabAtom,
+  footerClick,
 } from "../store/OnboardingStore";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const onboardingTabs = useAtomValue(onboardingTabsAtom);
   const [activeTab, setActiveTab] = useAtom(selectedTabIndexAtom);
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
+  const [click, setClick] = useAtom(footerClick);
 
   const onboardingData = useAtomValue(onboardingDataAtom);
 
@@ -36,26 +38,14 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
         sub: auth.sub,
       });
       const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+      toast.success("Successfuly Added Onboarding Information");
     } else {
       toast.error("Invalid Authentication");
     }
   };
 
   const handleNext = () => {
-    if (activeTab < onboardingTabs[activeStep].length - 1) {
-      setActiveTab((prev) => {
-        const newTabIndex = prev + 1;
-        setSelectedTab(onboardingTabs[activeStep][newTabIndex].key);
-        return newTabIndex;
-      });
-    } else {
-      if (activeStep < steps.length - 1) {
-        setActiveStep((prev) => prev + 1);
-        setSelectedStepper(steps[activeStep + 1]);
-      }
-    }
-
-    console.log(activeTab);
+    setClick(true);
   };
 
   const handleBack = () => {
@@ -69,8 +59,6 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
       setActiveStep((prev) => prev - 1);
       setSelectedStepper(steps[activeStep]);
     }
-
-    console.log(activeTab);
   };
 
   const actionButtons = {
@@ -94,6 +82,7 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
             label={""}
             color={"clear"}
             isDisabled={true}
+            type={"submit"}
           />
         ) : (
           <CTAButtons
