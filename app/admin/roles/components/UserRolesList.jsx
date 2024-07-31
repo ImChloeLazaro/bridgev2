@@ -11,7 +11,7 @@ import {
   roleTabsAtom,
   selectedRoleTabAtom,
   userRolesListAtom,
-} from "../store/RoleStore";
+} from "../store/UserRoleStore";
 
 
 const UserRolesList = () => {
