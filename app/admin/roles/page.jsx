@@ -2,7 +2,7 @@
 import { userAtom } from "@/app/store/UserStore";
 import { useRoles } from "@/app/utils/roles";
 import { useAtomValue } from "jotai";
-import UserRolesList from "./components/UserRolesList";
+import UserRolesList from "./components/UserRoleList";
 
 const UserRoles = () => {
   const users = useAtomValue(userAtom).role;
