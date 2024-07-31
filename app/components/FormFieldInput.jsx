@@ -376,6 +376,7 @@ const FormFieldInput = ({
         type={inputType}
         placeholder={placeholder}
         aria-label={label}
+        isReadOnly={withFile || withDate || withTime}
         isDisabled={isDisabled}
         isRequired={isRequired}
         isInvalid={isInvalid}
