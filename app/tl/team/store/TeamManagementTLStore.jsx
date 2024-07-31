@@ -59,7 +59,7 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
   }
 });
 export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const teams = await readwithparams("/teams/team/myTeam", { sub: user.sub });
   if (teams?.success) {
     const convertedTeams = teams.response.map((team, index) => {
@@ -72,7 +72,7 @@ export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
   }
 });
 export const fetchMySubTeamsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const teams = await readwithparams("/teams/subteam/mySubTeam", {
     sub: user.sub,
   });
@@ -200,7 +200,7 @@ export const teamMemberSelectionAtom = atom((get) => {
 });
 
 export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const filtered = await readwithparams("/teams/team/filterClient", {
     sub: user.sub,
     method: "filtered",

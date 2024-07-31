@@ -22,11 +22,11 @@ const OnboardingBody = ({ viewOnly }) => {
   const userInfo = useAtomValue(personalInfoAtom);
   const fetchOnBoardingData = useSetAtom(fetchOnboardingDataAtom);
 
-  useEffect(() => {
-    if (userInfo && userInfo !== null) {
-      fetchOnBoardingData();
-    }
-  }, [userInfo, fetchOnBoardingData]);
+  // useEffect(() => {
+  //   if (userInfo && userInfo !== null) {
+  //     fetchOnBoardingData();
+  //   }
+  // }, [userInfo, fetchOnBoardingData]);
 
   const onboardingContent = [
     <ApplicationOnboarding viewOnly={viewOnly} key={0} />,

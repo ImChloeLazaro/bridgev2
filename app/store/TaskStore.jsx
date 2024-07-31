@@ -213,7 +213,7 @@ export const taskStatusUpdateAtom = atom(null, async (get, set, update) => {
   }
 });
 
-export const taskActionsAtom = atom(null, async (get, set, update) => {
+export const taskActionsAtom = atom(null, (get, set, update) => {
   const {
     sound,
     tasks,
@@ -225,7 +225,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
   } = update;
 
   const { key, status_id, sla_id } = get(selectedTaskActionAtom);
-  const user = await get(userAtom);
+  const user = get(userAtom);
 
   console.log("tasks", tasks);
 

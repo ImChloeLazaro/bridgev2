@@ -210,6 +210,7 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
     const convertedClients = clients.response.map((client, index) => {
       return {
         ...client,
+        name: client.company.name,
         // company: { ...client.company, picture: "https://picsum.photos/200" }, // default picture
       };
     });
@@ -323,13 +324,17 @@ export const clientDataAtom = atom((get) => {
       contractors_count: get(financialContractorCountAtom).trim(),
       has_outsource_payroll: get(financialOutsourcePayrollAtom),
       accounts: get(financialAccountCountAtom).trim(),
-      monthly_transactions_count: get(financialMonthlyTransactionsCountAtom).trim(),
+      monthly_transactions_count: get(
+        financialMonthlyTransactionsCountAtom
+      ).trim(),
       last_filed_tax: toCalendarDateTime(
         get(financialLastFiledTaxDateRangeAtom).start,
         new Time()
       ).toString(),
       accounting_method: get(financialAccountMethodAtom),
-      invoice_preparation_method: get(financialInvoicePreparationMethodAtom).trim(),
+      invoice_preparation_method: get(
+        financialInvoicePreparationMethodAtom
+      ).trim(),
       bills_paying_method: get(financialBillsPayingMethodAtom).trim(),
       is_GST_registered: get(financialGSTRegisteredAtom),
       has_inventory: get(financialInventoryAtom),

@@ -21,7 +21,7 @@ const ClientList = ({
   const clients = isLoading ? [] : itemClients;
   return (
     <>
-      {!showClientTask && !isLoading && clients?.length && (
+      {!showClientTask && !isLoading && !showClientDetails && clients?.length ? (
         <div
           data-show={isLoading}
           className="data-[show=true]:hidden w-full flex items-center justify-between gap-2"
@@ -36,7 +36,7 @@ const ClientList = ({
             {"Assignees"}
           </p>
         </div>
-      )}
+      ) : null}
       <ScrollShadow
         size={25}
         data-details={showClientDetails}

@@ -21,7 +21,7 @@ export const addDraftPostAtom = atom(null, async (get, set, update) => {
     return arr.every((element) => element === true);
   };
 
-  const user = await get(userAtom);
+  const user = get(userAtom);
   let draftIndex = get(draftPostCountAtom);
 
   const templateName = selectedDraft.type;
