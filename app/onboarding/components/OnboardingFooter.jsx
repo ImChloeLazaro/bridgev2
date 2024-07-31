@@ -7,6 +7,10 @@ import {
   onboardingDataAtom,
   selectedStepperAtom,
   stepsAtom,
+  onboardingTabsAtom,
+  selectedTabIndexAtom,
+  selectedTabAtom,
+  footerClick,
 } from "../store/OnboardingStore";
 import { toast } from "sonner";
 
@@ -16,6 +20,11 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   const activeStep = useAtomValue(activeStepAtom);
   const setActiveStep = useSetAtom(activeStepAtom);
   const setSelectedStepper = useSetAtom(selectedStepperAtom);
+
+  const onboardingTabs = useAtomValue(onboardingTabsAtom);
+  const [activeTab, setActiveTab] = useAtom(selectedTabIndexAtom);
+  const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
+  const [click, setClick] = useAtom(footerClick);
 
   const onboardingData = useAtomValue(onboardingDataAtom);
 
@@ -29,20 +38,24 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
         sub: auth.sub,
       });
       const leaveresponse = await restinsert("/leave", { sub: auth.sub });
+      toast.success("Successfuly Added Onboarding Information");
     } else {
       toast.error("Invalid Authentication");
     }
   };
 
   const handleNext = () => {
-    if (activeStep < steps.length - 1) {
-      setActiveStep((prev) => prev + 1);
-      setSelectedStepper(steps[activeStep + 1]);
-    }
+    setClick(true);
   };
 
   const handleBack = () => {
-    if (activeStep >= 1) {
+    if (activeTab !== 0) {
+      setActiveTab((prev) => {
+        const newTabIndex = prev - 1;
+        setSelectedTab(onboardingTabs[activeStep][newTabIndex].key);
+        return newTabIndex;
+      });
+    } else {
       setActiveStep((prev) => prev - 1);
       setSelectedStepper(steps[activeStep]);
     }
@@ -62,21 +75,21 @@ const OnboardingFooter = ({ allowSubmit = true, onClose }) => {
   };
   return (
     <>
-      <div className='w-full flex justify-between gap-14 py-4'>
-        {activeStep != 0 ? (
-          <CTAButtons
-            fullWidth={true}
-            label={actionButtons.back.label}
-            color={actionButtons.back.color}
-            onPress={actionButtons.back.action}
-            isDisabled={activeStep === 0}
-          />
-        ) : (
+      <div className="w-full flex justify-between gap-14 py-4">
+        {activeStep === 0 && activeTab === 0 ? (
           <CTAButtons
             fullWidth={true}
             label={""}
             color={"clear"}
             isDisabled={true}
+            type={"submit"}
+          />
+        ) : (
+          <CTAButtons
+            fullWidth={true}
+            label={actionButtons.back.label}
+            color={actionButtons.back.color}
+            onPress={actionButtons.back.action}
           />
         )}
 

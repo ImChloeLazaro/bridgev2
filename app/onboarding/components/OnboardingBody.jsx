@@ -5,6 +5,7 @@ import {
   fetchOnboardingDataAtom,
   onboardingTabsAtom,
   selectedTabAtom,
+  selectedTabIndexAtom,
 } from "../store/OnboardingStore";
 import ApplicationOnboarding from "./ApplicationOnboarding";
 import BackgroundOnboarding from "./BackgroundOnboarding";
@@ -16,6 +17,7 @@ import { useEffect } from "react";
 const OnboardingBody = ({ viewOnly }) => {
   const [selectedTab, setSelectedTab] = useAtom(selectedTabAtom);
   const activeStep = useAtomValue(activeStepAtom);
+  const [activeTab, setActiveTab] = useAtom(selectedTabIndexAtom);
   const onboardingTabs = useAtomValue(onboardingTabsAtom);
   const userInfo = useAtomValue(personalInfoAtom);
   const fetchOnBoardingData = useSetAtom(fetchOnboardingDataAtom);
@@ -25,6 +27,7 @@ const OnboardingBody = ({ viewOnly }) => {
       fetchOnBoardingData();
     }
   }, [userInfo, fetchOnBoardingData]);
+
   const onboardingContent = [
     <ApplicationOnboarding viewOnly={viewOnly} key={0} />,
     <BackgroundOnboarding viewOnly={viewOnly} key={1} />,
@@ -32,15 +35,24 @@ const OnboardingBody = ({ viewOnly }) => {
     <ContactOnboarding viewOnly={viewOnly} key={3} />,
   ];
 
+  const handleSelectionChange = (selectedKey) => {
+    const tabIndex = onboardingTabs[activeStep].findIndex(
+      (tab) => tab.key === selectedKey
+    );
+
+    setSelectedTab(onboardingTabs[activeStep][tabIndex].key);
+    setActiveTab(tabIndex);
+  };
+
   return (
     <>
-      <div className='w-full flex flex-col items-center'>
+      <div className="w-full flex flex-col items-center">
         <Tabs
-          key='onboarding navigation'
+          key="onboarding navigation"
           selectedKey={selectedTab}
-          onSelectionChange={setSelectedTab}
-          aria-label='Onboarding Navigation'
-          variant='underlined'
+          onSelectionChange={handleSelectionChange}
+          aria-label="Onboarding Navigation"
+          variant="underlined"
           classNames={{
             base: "pl-4 py-0 ",
             tabList: "gap-8 w-full relative rounded-none p-0 ",
@@ -53,7 +65,7 @@ const OnboardingBody = ({ viewOnly }) => {
           {onboardingTabs[activeStep]?.map((tab) => {
             return (
               <Tab key={tab.key} title={tab.title}>
-                <div className='h-80 flex gap-y-6 px-5 mb-6 overflow-y-scroll'>
+                <div className="h-80 flex gap-y-6 px-5 mb-6 overflow-y-scroll">
                   {onboardingContent[activeStep]}
                 </div>
               </Tab>
