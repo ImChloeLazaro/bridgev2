@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const taskSchema = mongoose.Schema({
-    index: String,
+    team: String,
     manager: {
       sub: String,
       name: String,

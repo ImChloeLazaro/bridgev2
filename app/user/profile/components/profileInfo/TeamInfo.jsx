@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { atom, useAtom, useAtomValue } from "jotai";
+import SearchBar from "@/app/components/SearchBar";
+import { useAtom, useAtomValue } from "jotai";
+import { useState } from "react";
 import {
-  clientItemDataAtom,
+  clientSubItemDataAtom,
   selectedMemberFilterKeysAtom,
 } from "../../store/ProfileStore";
-import UserClientTable from "./Components/UserClientTable";
-import { teamColumnData } from "./UserClientStore";
 import TeamLists from "./Components/TeamLists";
-import SearchBar from "@/app/components/SearchBar";
-import { se } from "date-fns/locale";
-import { ConsoleLogger } from "aws-amplify/utils";
 
 const TeamInfo = () => {
-  const newData = useAtomValue(clientItemDataAtom);
+  const newData = useAtomValue(clientSubItemDataAtom);
   const data = newData?.response.filter((subTeamNewData) => {
     return subTeamNewData.status === "active";
   });

@@ -22,7 +22,7 @@
         "benefithandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/benefithandler-4e41514a5a6259626b78-build.zip"
+          "s3Key": "amplify-builds/benefithandler-302b695979314c543955-build.zip"
         },
         "bridgesocket": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -37,7 +37,7 @@
         "cmstaskhandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/cmstaskhandler-36366830534254507631-build.zip"
+          "s3Key": "amplify-builds/cmstaskhandler-6d5734447852332f3661-build.zip"
         },
         "cronshandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -52,7 +52,7 @@
         "leavehandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-          "s3Key": "amplify-builds/leavehandler-70704846415955787870-build.zip"
+          "s3Key": "amplify-builds/leavehandler-392b417172726a2b5078-build.zip"
         },
         "leaverequesthandler": {
           "database": "mongodb+srv://aretexIT:iFaYfNi3L4sOGegR@aretex.i5ddvp5.mongodb.net/bridge",
@@ -110,11 +110,7 @@
         },
         "bridgev2layer": {
           "deploymentBucketName": "amplify-bridgev2-dev-150517-deployment",
-<<<<<<< HEAD
-          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion48706fce-build.zip"
-=======
-          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion7a486065-build.zip"
->>>>>>> c87dfecc84713c12a394252d0d04924a84c5299d
+          "s3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion6d5498eb-build.zip"
         }
       },
       "auth": {
@@ -122,6 +118,9 @@
       },
       "storage": {
         "bridgeProductionStorage": {}
+      },
+      "api": {
+        "bridgeApi": {}
       }
     }
   }

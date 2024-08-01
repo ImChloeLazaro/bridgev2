@@ -42,6 +42,7 @@ const FormFieldInput = ({
   withDate = false,
   withTime = false,
   isDateRange = false,
+  isBusinessDays = false,
   showPastDate = true,
   fullWidth = false,
   inputType,
@@ -98,7 +99,9 @@ const FormFieldInput = ({
             <RangeCalendar
               aria-label={label}
               variant={"flat"}
-              minValue={showPastDate ? null : today(getLocalTimeZone())}
+              minValue={
+                showPastDate ? minimumDateTime : today(getLocalTimeZone())
+              }
               focusedValue={today(getLocalTimeZone())}
               visibleMonths={2}
               pageBehavior={"single"}
@@ -140,8 +143,9 @@ const FormFieldInput = ({
                 title: "font-bold text-black-default",
                 headerWrapper: "bg-white-default",
                 gridHeader: "bg-white-default",
-                gridHeaderRow: "font-normal text-black-default",
+                gridHeaderRow: "font-normal text-black-default gap-3",
                 gridBody: "bg-grey-default",
+                gridBodyRow: "gap-3",
                 gridWrapper: "bg-white-default/80 pb-0",
                 cellButton: [
                   "data-[hover=true]:bg-orange-default/60",
@@ -228,7 +232,7 @@ const FormFieldInput = ({
             />
           ) : (
             <Calendar
-              isDateUnavailable={isDateUnavailable}
+              isDateUnavailable={isBusinessDays ? isDateUnavailable : undefined}
               showMonthAndYearPickers={true}
               aria-label={label}
               variant={"flat"}
@@ -253,8 +257,9 @@ const FormFieldInput = ({
                 title: "font-bold text-black-default",
                 headerWrapper: "bg-white-default",
                 gridHeader: "bg-white-default",
-                gridHeaderRow: "font-normal text-black-default",
+                gridHeaderRow: "font-normal text-black-default gap-3",
                 gridBody: "bg-grey-default",
+                gridBodyRow: "gap-3",
                 gridWrapper: "bg-white-default/80 pb-0",
                 cellButton: [
                   "data-[hover=true]:bg-orange-default/60",
@@ -319,29 +324,29 @@ const FormFieldInput = ({
   };
 
   const errorMessages = {
-    // `${label ? label : "Input"} is invalid or missing`
     email: "Please enter a valid email address",
     text: "No special characters allowed",
     number: "No characters or spaces allowed",
-    date: "Please enter a valid date time",
     file: "PDF file is only accepted",
+    phone: "Please enter a valid phone number",
+    date: "Please enter a valid date time",
   };
-  // fix validation for datetime
+
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
     text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-_\\]+$/i,
     number: /^[0-9\s+.,()-]+$/i,
     file: /.*\.pdf$/,
+    phone: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/gm, // with area code e.g. (+63: PH +61: AU)
   };
 
   const inputValidation = (input) => input?.match(inputValidationType[type]);
 
   const isInvalid = useMemo(() => {
     if (value === "") return false;
-
     if (type === "date") {
       if (isDateRange) {
-        return (
+        return !(
           isValid(
             toCalendarDateTime(dateRangeValue.start, timeStartValue).toDate()
           ) &&
@@ -359,6 +364,7 @@ const FormFieldInput = ({
         );
       }
     }
+
     return inputValidation(value) ? false : true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -366,10 +372,15 @@ const FormFieldInput = ({
   return (
     <>
       <Input
+        // Temp change for employee automation by @gerome
+
+        // onKeyDown={(event) => {
+        //   if (type === "date") event.preventDefault();
+        //   return false;
+        // }}
         type={inputType}
         placeholder={placeholder}
         aria-label={label}
-        // isReadOnly={withDate}
         isDisabled={isDisabled}
         isRequired={isRequired}
         isInvalid={isInvalid}
@@ -387,30 +398,12 @@ const FormFieldInput = ({
         classNames={{
           base: [`${fullWidth ? "w-full" : "w-[370px]"}`],
           label: [
-            // `${isInvalid ? "!text-red-default" : "!text-black-default/80"}`,
             "after:!text-red-default",
             "text-sm font-medium",
             "min-w-fit tracking-tight mb-2.5",
           ],
-          input: [
-            // `${
-            //   isInvalid
-            //     ? "!placeholder:text-red-default placeholder:text-red-default"
-            //     : "!placeholder:text-black-default/90 placeholder:text-black-default/90"
-            // }`,
-            // "placeholder:aria-invalid:text-red-default",
-            "aria-invalid:!text-red-default",
-            "text-sm font-medium",
-          ],
-          inputWrapper: cn(
-            // `${
-            //   isInvalid
-            //     ? "!group-data-[focus=true]:bg-red-default/30 !data-[hover=true]:bg-red-default/30 !bg-red-default/10"
-            //     : "group-data-[focus=true]:bg-darkgrey-default/20 data-[hover=true]:bg-darkgrey-default/20 bg-grey-default"
-            // }`,
-            "text-sm font-medium",
-            "px-3 py-2"
-          ),
+          input: ["aria-invalid:!text-red-default", "text-sm font-medium"],
+          inputWrapper: cn("text-sm font-medium", "px-3 py-2"),
           errorMessage: ["font-medium text-red-default"],
         }}
         {...props}

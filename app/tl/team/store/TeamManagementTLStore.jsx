@@ -59,7 +59,7 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
   }
 });
 export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const teams = await readwithparams("/teams/team/myTeam", { sub: user.sub });
   if (teams?.success) {
     const convertedTeams = teams.response.map((team, index) => {
@@ -72,7 +72,7 @@ export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
   }
 });
 export const fetchMySubTeamsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const teams = await readwithparams("/teams/subteam/mySubTeam", {
     sub: user.sub,
   });
@@ -143,7 +143,7 @@ export const memberPositionAtom = atom("");
 export const memberStatusAtom = atom(new Set());
 export const memberEmploymentStatusAtom = atom(new Set());
 
-export const selectedTeamIdentifierAtom = atom([]);
+export const selectedTeamIdentifierAtom = atom(new Set([]));
 export const selectedTeamNameAtom = atom("");
 export const selectedTeamDepartmentNameAtom = atom("");
 export const selectedTeamClientAtom = atom(new Set([]));
@@ -201,7 +201,7 @@ export const teamMemberSelectionAtom = atom((get) => {
 });
 
 export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const filtered = await readwithparams("/teams/team/filterClient", {
     sub: user.sub,
     method: "filtered",
@@ -239,7 +239,7 @@ export const teamDataAtom = atom((get) => {
 
   return {
     _id: selectedTeamID,
-    team: selectedTeam,
+    team: Array.from(selectedTeam).toString(),
     tl: {
       sub: get(userAtom).sub,
       name: get(userAtom).name,
@@ -272,26 +272,26 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
 
   console.log("teamData", teamData);
 
-  // const promise = async () =>
-  //   new Promise((resolve) =>
-  //     setTimeout(
-  //       async () =>
-  //         resolve(
-  //           await restinsert("/teams/subteam", teamData),
-  //           await set(fetchMyTeamsAtom, {}),
-  //           await set(fetchMySubTeamsAtom, {})
-  //         ),
-  //       2000
-  //     )
-  //   );
-  // toast.promise(promise, {
-  //   description: `${format(new Date(), "PPpp")}`,
-  //   loading: "Adding Team...",
-  //   success: () => {
-  //     return `Team added successfully`;
-  //   },
-  //   error: "Error Adding Team",
-  // });
+  const promise = async () =>
+    new Promise((resolve) =>
+      setTimeout(
+        async () =>
+          resolve(
+            await restinsert("/teams/subteam", teamData),
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
+          ),
+        2000
+      )
+    );
+  toast.promise(promise, {
+    description: `${format(new Date(), "PPpp")}`,
+    loading: "Adding Team...",
+    success: () => {
+      return `Team added successfully`;
+    },
+    error: "Error Adding Team",
+  });
 });
 
 export const addDepartmentAtom = atom(null, async (get, set, update) => {

@@ -1,13 +1,19 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { Stepper } from "react-form-stepper";
-import { activeStepAtom, stepsAtom } from "../store/OnboardingStore";
+import {
+  activeStepAtom,
+  stepsAtom,
+  selectedTabIndexAtom,
+  headerClick,
+} from "../store/OnboardingStore";
 
 // FEAT: Connect this component to tailwind color system for easier styling
 // UPDATE: Adjust colors depending on the status of each step
 
 const OnboardingHeader = () => {
   const [activeStep, setActiveStep] = useAtom(activeStepAtom);
+  const [click, setClick] = useAtom(headerClick);
   const steps = useAtomValue(stepsAtom);
 
   const stepsContent = useMemo(
@@ -23,9 +29,6 @@ const OnboardingHeader = () => {
               borderColor: `#32449C`,
               borderStyle: "solid",
             },
-            onClick: () => {
-              setActiveStep(index - 1);
-            },
           };
         } else {
           return {
@@ -38,12 +41,12 @@ const OnboardingHeader = () => {
               borderStyle: "solid",
             },
             onClick: () => {
-              setActiveStep(index - 1);
+              setClick({ clicked: true, stepper: index });
             },
           };
         }
       }),
-    [activeStep, setActiveStep, steps]
+    [activeStep, setClick, steps]
   );
 
   return (

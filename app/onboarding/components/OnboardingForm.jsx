@@ -4,6 +4,7 @@ import {
   CardFooter,
   CardHeader,
   Divider,
+  Button,
 } from "@nextui-org/react";
 import dynamic from "next/dynamic";
 import OnboardingBody from "./OnboardingBody";
@@ -16,6 +17,8 @@ import {
   stepsAtom,
   selectedTabAtom,
   selectedTabIndexAtom,
+  headerClick,
+  footerClick,
 } from "../store/OnboardingStore";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
@@ -25,19 +28,42 @@ const OnboardingHeader = dynamic(() => import("./OnboardingHeader"), {
 
 const OnboardingForm = () => {
   const steps = useAtomValue(stepsAtom);
-  const [activeStep, setActiveStep] = useAtom(activeStepAtom);
+  const onboardingTabs = useAtomValue(onboardingTabsAtom);
+
   const setSelectedStepper = useSetAtom(selectedStepperAtom);
+  const setSelectedTab = useSetAtom(selectedTabAtom);
+
+  const [activeStep, setActiveStep] = useAtom(activeStepAtom);
+  const [activeTab, setActiveTab] = useAtom(selectedTabIndexAtom);
+
+  const [header, setHeader] = useAtom(headerClick);
+  const [footer, setFooter] = useAtom(footerClick);
 
   const handleFormAction = (e) => {
-    if (activeStep <= steps.length - 2) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSelectedStepper(steps[activeStep]);
+    if (header.clicked) {
+      if (activeStep <= steps.length - 1) {
+        setActiveStep(header.stepper);
+        setSelectedStepper(steps[activeStep]);
+      }
+      setHeader((prev) => ({ ...prev, clicked: false }));
+    } else if (footer) {
+      if (activeTab < onboardingTabs[activeStep].length - 1) {
+        setActiveTab((prev) => {
+          const newTabIndex = prev + 1;
+          setSelectedTab(onboardingTabs[activeStep][newTabIndex].key);
+          return newTabIndex;
+        });
+      } else {
+        if (activeStep < steps.length - 1) {
+          setActiveStep((prev) => prev + 1);
+          setSelectedStepper(steps[activeStep + 1]);
+        }
+      }
+      setFooter(false);
     }
-
-    return false;
   };
   return (
-    <Card className="w-[850px] h-[760px]">
+    <Card className="w-[850px] h-[700px]">
       <form action={handleFormAction}>
         <CardHeader className="flex justify-center p-1 mt-2">
           <OnboardingHeader />

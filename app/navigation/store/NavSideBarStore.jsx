@@ -2,8 +2,8 @@ import { userAtom } from "@/app/store/UserStore";
 import { atom } from "jotai";
 
 export const roleAtom = atom([]);
-export const fetchRoleAtom = atom(null, async (get, set) => {
-  const user = await get(userAtom);
+export const fetchRoleAtom = atom(null, (get, set) => {
+  const user = get(userAtom);
   set(roleAtom, [user.role[0]?.name[0].toLowerCase()]);
 });
 

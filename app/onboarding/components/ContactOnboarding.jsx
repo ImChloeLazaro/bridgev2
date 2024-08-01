@@ -48,7 +48,7 @@ const ContactOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
-        type={"number"}
+        type={"number"} // Temp change for employee automation by @gerome - phone
         label={"CONTACT NUMBER"}
         value={contact.contact_number}
         onValueChange={(text) =>

@@ -210,6 +210,7 @@ export const fetchClientAtom = atom(null, async (get, set, sub) => {
     const convertedClients = clients.response.map((client, index) => {
       return {
         ...client,
+        name: client.company.name,
         // company: { ...client.company, picture: "https://picsum.photos/200" }, // default picture
       };
     });
@@ -294,54 +295,58 @@ export const generalWithAccountantAtom = atom(false);
 export const clientDataAtom = atom((get) => {
   return {
     contact: {
-      name: get(contactNameAtom),
-      address: get(contactAddressAtom),
-      number: get(contactNumberAtom),
-      email: get(contactEmailAtom),
+      name: get(contactNameAtom).trim(),
+      address: get(contactAddressAtom).trim(),
+      number: get(contactNumberAtom).trim(),
+      email: get(contactEmailAtom).trim(),
     },
     company: {
       // Company details
-      name: get(companyNameAtom),
-      address: get(companyAddressAtom),
-      contact_number: get(companyNumberAtom),
-      email: get(companyEmailAtom),
-      ABN: get(companyABNAtom),
-      ACN: get(companyACNAtom),
+      name: get(companyNameAtom).trim(),
+      address: get(companyAddressAtom).trim(),
+      contact_number: get(companyNumberAtom).trim(),
+      email: get(companyEmailAtom).trim(),
+      ABN: get(companyABNAtom).trim(),
+      ACN: get(companyACNAtom).trim(),
       other_owner: get(companyOtherOwnerAtom),
     },
     business: {
       // Business details
-      description: get(businessDescriptionAtom),
-      entity: get(businessEntityAtom),
-      tenure: get(businessTenureAtom),
-      trading_name: get(businessTradingNameAtom),
+      description: get(businessDescriptionAtom).trim(),
+      entity: get(businessEntityAtom).trim(),
+      tenure: get(businessTenureAtom).trim(),
+      trading_name: get(businessTradingNameAtom).trim(),
     },
     financial: {
       // Financial details
-      monthly_revenue: get(financialMonthlyRevenueAtom),
-      employee_count: get(financialEmployeeCountAtom),
-      contractors_count: get(financialContractorCountAtom),
+      monthly_revenue: get(financialMonthlyRevenueAtom).trim(),
+      employee_count: get(financialEmployeeCountAtom).trim(),
+      contractors_count: get(financialContractorCountAtom).trim(),
       has_outsource_payroll: get(financialOutsourcePayrollAtom),
-      accounts: get(financialAccountCountAtom),
-      monthly_transactions_count: get(financialMonthlyTransactionsCountAtom),
+      accounts: get(financialAccountCountAtom).trim(),
+      monthly_transactions_count: get(
+        financialMonthlyTransactionsCountAtom
+      ).trim(),
       last_filed_tax: toCalendarDateTime(
         get(financialLastFiledTaxDateRangeAtom).start,
         new Time()
       ).toString(),
       accounting_method: get(financialAccountMethodAtom),
-      invoice_preparation_method: get(financialInvoicePreparationMethodAtom),
-      bills_paying_method: get(financialBillsPayingMethodAtom),
+      invoice_preparation_method: get(
+        financialInvoicePreparationMethodAtom
+      ).trim(),
+      bills_paying_method: get(financialBillsPayingMethodAtom).trim(),
       is_GST_registered: get(financialGSTRegisteredAtom),
       has_inventory: get(financialInventoryAtom),
     },
     software: {
       // Software details
-      accounting: get(softwareAccountingAtom),
-      payroll: get(softwarePayrollAtom),
-      billing: get(softwareBillingAtom),
-      expense_management: get(softwareExpenseManagementAtom),
-      reporting: get(softwareReportingAtom),
-      bookkeeping: get(softwareBookkeepingAtom),
+      accounting: get(softwareAccountingAtom).trim(),
+      payroll: get(softwarePayrollAtom).trim(),
+      billing: get(softwareBillingAtom).trim(),
+      expense_management: get(softwareExpenseManagementAtom).trim(),
+      reporting: get(softwareReportingAtom).trim(),
+      bookkeeping: get(softwareBookkeepingAtom).trim(),
     },
     documents: {
       ASIC: get(documentASICAtom), //ASIC company registration certificate or trust deed.

@@ -80,7 +80,9 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   const [religion, setReligion] = useAtom(religionAtom);
   const [language, setLanguage] = useAtom(languageAtom);
 
-  const [birthdateDateRange, setBirthdateDateRange] = useAtom(birthdateDateRangeAtom)
+  const [birthdateDateRange, setBirthdateDateRange] = useAtom(
+    birthdateDateRangeAtom
+  );
 
   // Government ID Information
   const [TIN, setTIN] = useAtom(tinAtom);
@@ -267,7 +269,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         label={"LANDLINE NUMBER"}
         value={homePhoneNumber}
         onValueChange={setHomePhoneNumber}
-        isRequired={true}
+        isRequired={false}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -279,7 +281,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
       />
       <FormFieldInput
         isDisabled={viewOnly}
-        type={"number"}
+        type={"number"} // Temp change for employee automation by @gerome - phone
         label={"MOBILE NUMBER"}
         value={mobileNumber}
         onValueChange={setMobileNumber}
@@ -291,7 +293,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         label={"RELIGION"}
         value={religion}
         onValueChange={setReligion}
-        isRequired={true}
+        isRequired={false}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -299,7 +301,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         label={"LANGUAGE"}
         value={language}
         onValueChange={setLanguage}
-        isRequired={true}
+        isRequired={false}
       />
     </>
   );

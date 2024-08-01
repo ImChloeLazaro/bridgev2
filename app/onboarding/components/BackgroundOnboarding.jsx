@@ -429,7 +429,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"OTHER COURSES"}
           value={postGraduate.other_courses}
           onValueChange={(text) =>
-            setCollege((prev) => {
+            setPostGraduate((prev) => {
               return { ...prev, other_courses: text };
             })
           }
@@ -507,7 +507,7 @@ const BackgroundOnboarding = ({ viewOnly }) => {
           label={"OTHER COURSES"}
           value={techVocSpecial.other_courses}
           onValueChange={(text) =>
-            setCollege((prev) => {
+            setTechVocSpecial((prev) => {
               return { ...prev, other_courses: text };
             })
           }

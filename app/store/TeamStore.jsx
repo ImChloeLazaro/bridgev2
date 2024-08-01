@@ -33,7 +33,7 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
 export const subTeamsAtom = atom([]); // TL side
 
 export const fetchSubTeamsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const subTeams = await readwithparams("/teams/subteam/mySubTeam", {
     sub: user.sub,
   });
@@ -55,7 +55,7 @@ export const fetchSubTeamsAtom = atom(null, async (get, set, update) => {
 export const userSubTeamsAtom = atom([]); // User side
 
 export const fetchUserSubTeamsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const userSubTeams = await readwithparams("/teams/subteam/myUserSubTeam", {
     sub: user.sub,
   });
@@ -79,7 +79,7 @@ export const fetchUserSubTeamsAtom = atom(null, async (get, set, update) => {
 export const teamClientsAtom = atom([]); // Get team's clients
 
 export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
-  const user = await get(userAtom);
+  const user = get(userAtom);
   const teamClients = await readwithparams("/teams/team/filterClient", {
     sub: user.sub,
     method: "filtered",

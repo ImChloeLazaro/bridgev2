@@ -1,10 +1,15 @@
+import { clientsAtom } from "@/app/store/ClientStore";
 import {
   managerSelectionAtom,
   processorSelectionAtom,
   reviewerSelectionAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { subTeamsAtom, teamClientsAtom } from "@/app/store/TeamStore";
+import {
+  subTeamsAtom,
+  teamClientsAtom,
+  teamsAtom,
+} from "@/app/store/TeamStore";
 import { userAtom } from "@/app/store/UserStore";
 import {
   getLocalTimeZone,
@@ -44,14 +49,15 @@ export const selectedTaskIDAtom = atom("");
 
 // Tasks to display on table and board view
 export const tasksListAtom = atom(async (get) => {
-  const clients = get(teamClientsAtom);
-  const user = await get(userAtom);
+  const clients = get(clientsAtom);
+  const user = get(userAtom);
 
   const tasksList = get(tasksAtom)
     .filter(
       (task) =>
         clients.map((client) => client._id).includes(task.client.client_id) &&
-        task.manager.sub === user.sub
+        // task.manager.sub === user.sub
+        [task.manager.sub].includes(user.sub)
     )
     .map((task) => {
       return { ...task, key: task._id }; // task ID
@@ -61,16 +67,28 @@ export const tasksListAtom = atom(async (get) => {
 
 // Clients to display on table and board view
 export const clientListAtom = atom((get) => {
-  const clients = get(teamClientsAtom);
+  const user = get(userAtom);
+  const myTeam = get(subTeamsAtom).filter(
+    (team) =>
+      team.heads.map((head) => head.sub).includes(user.sub) ||
+      team.members.map((member) => member.sub).includes(user.sub)
+  );
 
-  const clientsList = clients.map((client) => {
-    return {
-      ...client,
-      key: client._id,
-      _id: client._id,
-      client_id: client._id,
-    };
-  });
+  const clientsList = myTeam
+    .map((team) =>
+      team.client.map((client) => {
+        return {
+          ...client,
+          key: client._id,
+          _id: client._id,
+          client_id: client._id,
+        };
+      })
+    )
+    .flat()
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
+    );
   return clientsList;
 });
 
@@ -82,14 +100,27 @@ export const selectedClientForTaskAtom = atom(new Set([]));
 
 export const selectedClientAtom = atom(new Set([]));
 export const clientSelectionAtom = atom((get) => {
-  const clientsList = get(teamClientsAtom).map((client) => {
-    return {
-      ...client,
-      key: client._id,
-      _id: client._id,
-      client_id: client._id,
-    };
-  });
+  const clients = get(clientsAtom);
+  const user = get(userAtom);
+  const myTeam = get(subTeamsAtom).filter((team) =>
+    team.heads.map((head) => head.sub).includes(user.sub)
+  );
+
+  const clientsList = clients
+    .filter((client) =>
+      myTeam
+        .map((team) => team.client.map((client) => client._id))
+        .flat()
+        .includes(client._id)
+    )
+    .map((client) => {
+      return {
+        ...client,
+        key: client._id,
+        _id: client._id,
+        client_id: client._id,
+      };
+    });
   return clientsList;
 });
 
@@ -118,6 +149,7 @@ export const startTimeAtom = atom(parseTime(format(new Date(), "HH:mm")));
 export const endTimeAtom = atom(new Time(17));
 
 export const taskDataAtom = atom((get) => {
+  const selectedTeam = get(selectedTeamAtom);
   const selectedClient = get(selectedClientAtom);
   const selectedProcessor = get(selectedProcessorAtom);
   const selectedReviewer = get(selectedReviewerAtom);
@@ -130,6 +162,7 @@ export const taskDataAtom = atom((get) => {
   const managerSelection = get(managerSelectionAtom);
 
   return {
+    team: Array.from(selectedTeam).toString(),
     client: clientSelection.filter((client) =>
       Array.from(selectedClient).includes(client?.key)
     )[0],
