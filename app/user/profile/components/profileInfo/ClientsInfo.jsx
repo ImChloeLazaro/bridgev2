@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MiniUnderConstruction from "@/app/components/MiniUnderConstruction";
-
 import {
   Dropdown,
   DropdownTrigger,
@@ -11,10 +9,14 @@ import {
 } from "@nextui-org/react";
 import { FaFilter } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
-import { useAtomValue } from "jotai";
-import { clientSubItemDataAtom } from "../../store/ProfileStore";
+import { useAtom, useAtomValue } from "jotai";
+import {
+  clientSubItemDataAtom,
+  selectedClientFilterKeysAtom,
+} from "../../store/ProfileStore";
 import { columnData, subTeamData } from "./UserClientStore";
 import UserClientTable from "./Components/UserClientTable";
+import SearchBar from "@/app/components/SearchBar";
 
 const ClientsInfo = () => {
   const newData = useAtomValue(clientSubItemDataAtom);
@@ -26,21 +28,42 @@ const ClientsInfo = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedClient, setSelectedClient] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
+
   const filterDataOption = () => {
     const clientData = new Set();
+    clientData.add({ label: "All", value: "All" });
     data.map((newData) => {
       newData?.client?.map((newClient) => {
-        clientData.add(newClient?.name);
+        let alreadyExists = false;
+
+        for (let client of clientData) {
+          if (client.label === newClient?.name) {
+            alreadyExists = true;
+            break;
+          }
+        }
+
+        if (!alreadyExists) {
+          clientData.add({ label: newClient?.name, value: newClient?.name });
+        }
       });
     });
     return Array.from(clientData);
   };
+
   const clientOption = filterDataOption();
+
+  const [selectedClientFilterKeys, setSelectedClientFilterKeys] = useAtom(
+    selectedClientFilterKeysAtom
+  );
+
   useEffect(() => {
     let newFilteredData = data;
     if (selectedClient !== "All") {
       newFilteredData = newFilteredData.filter((item) =>
-        item.client.some((client) => client.name === selectedClient)
+        item.client.some(
+          (client) => client.name === selectedClientFilterKeys.anchorKey
+        )
       );
     }
     if (searchQuery) {
@@ -60,47 +83,22 @@ const ClientsInfo = () => {
     }
 
     setFilteredData(newFilteredData);
-  }, [selectedClient, searchQuery]);
 
-  console.log("filteredData", filteredData);
+    if (selectedClientFilterKeys.anchorKey) {
+      setSelectedClient(selectedClientFilterKeys.anchorKey);
+    }
+  }, [selectedClient, searchQuery, selectedClientFilterKeys]);
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-row items-center gap-3 ">
-        <Dropdown>
-          <DropdownTrigger startContent={<FaFilter size={14} />}>
-            <Button variant="bordered" className="capitalize">
-              {selectedClient}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Single selection example"
-            variant="flat"
-            disallowEmptySelection
-            selectionMode="single"
-          >
-            <DropdownItem key="All" onClick={() => setSelectedClient("All")}>
-              All
-            </DropdownItem>
-            {clientOption?.map((client) => (
-              <DropdownItem
-                key={client}
-                onClick={() => setSelectedClient(client)}
-              >
-                {client}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-        <div className="bg-white rounded-r-lg flex">
-          <Input
-            placeholder="Search"
-            className="p-2 bg-none rounded-r-lg"
-            startContent={<CiSearch size={24} />}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </div>
+      <SearchBar
+        searchItem={searchQuery}
+        setSearchItem={setSearchQuery}
+        type="filter"
+        filterKeys={clientOption}
+        selectedFilterKeys={selectedClientFilterKeys}
+        setSelectedFilterKeys={setSelectedClientFilterKeys}
+      />
       <UserClientTable data={filteredData} columns={columns} />
     </div>
   );

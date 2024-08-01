@@ -7,7 +7,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
+  Select,
+  SelectItem
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
@@ -21,23 +22,24 @@ import {
   selectedTeamNameArchiveAtom,
   selectedTeamNameAtom,
   teamClientSelectionAtom,
-  teamDepartmentSelectionAtom,
   teamHeadSelectionAtom,
   teamMemberSelectionAtom,
   teamSelectionAtom,
   selectedTeamDepartmentNameAtom,
   updateTeamAtom,
   addDepartmentAtom,
-} from "../store/TeamManagementAdminStore";
-import ConfirmationWindow from "@/app/components/ConfirmationWindow";
+  teamMembersTableColumnsAtom,
+  selectedTeamIdentifierAtom
+} from "../store/TeamManagementTLStore";
+import { useEffect, useState } from "react";
 
-const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
-  const {
-    isOpen: isOpenPopup,
-    onOpen: onOpenPopup,
-    onOpenChange: onOpenChangePopup,
-  } = useDisclosure();
-
+const UpdateTeamModal = ({
+  isOpen,
+  onOpenChange,
+  action,
+  data = []
+}) => {
+  const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamIdentifierAtom);
   const [selectedTeamNameArchive, setSelectedTeamNameArchive] = useAtom(
     selectedTeamNameArchiveAtom
   );
@@ -58,7 +60,11 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
     selectedTeamDepartmentAtom
   );
 
+  const [newTeamEntry, setNewTeamEntry] = useState({});
   const addTeam = useSetAtom(addTeamAtom);
+  // const addTeam = () =>{
+  //   console.log('addTeam', selectedTeam, selectedTeamName, selectedTeamClient, selectedTeamHeads, selectedTeamMembers)
+  // }
   const addDepartment = useSetAtom(addDepartmentAtom);
   const updateTeam = useSetAtom(updateTeamAtom);
   const archiveTeamMultiple = useSetAtom(archiveTeamMultipleAtom);
@@ -68,7 +74,6 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
   const teamClientSelection = useAtomValue(teamClientSelectionAtom);
   const teamHeadSelection = useAtomValue(teamHeadSelectionAtom);
   const teamMemberSelection = useAtomValue(teamMemberSelectionAtom);
-  const teamDepartmentSelection = useAtomValue(teamDepartmentSelectionAtom);
 
   const activeTeamSelection = teamSelection.filter(
     (team) => team.status === "active"
@@ -76,7 +81,7 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
 
   const teamAction = {
     archive: {
-      label: "Archive Team",
+      title: "Archive Team",
       form: (
         <>
           <FormFieldSelect
@@ -96,16 +101,23 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       actionLabel: "Archive Team",
       actionColor: "red",
       action: archiveTeamMultiple,
-      message:
-        "Make sure the details of the client is correct. You cannot edit this later.",
-      title: "Archive Team",
-      choice: "Archive Team",
-      type: "warning",
     },
-    team: {
-      label: "Create New Team",
+    sub: {
+      title: "Add Sub Team",
       form: (
         <>
+          <Select
+            label="Select Team"
+            className="w-full"
+            selectedKeys={selectedTeam}
+            onSelectionChange={setSelectedTeam}
+          >
+            {data.map((item) => (
+              <SelectItem key={item._id}>
+                {item.name}
+              </SelectItem>
+            ))}
+          </Select>
           <FormFieldInput
             type={"text"}
             fullWidth={true}
@@ -114,18 +126,6 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
             value={selectedTeamName}
             onValueChange={setSelectedTeamName}
             className={"mb-1"}
-          />
-          <FormFieldSelect
-            fullWidth={true}
-            isRequired={true}
-            disabledValidation={true}
-            items={teamDepartmentSelection}
-            label={"Select Department/s"}
-            selectedKeys={selectedTeamDepartment}
-            onSelectionChange={setSelectedTeamDepartment}
-            renderItemPicture={true}
-            renderType={"chip"}
-            selectionMode={"multiple"}
           />
           <FormFieldSelect
             fullWidth={true}
@@ -163,17 +163,12 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
           />
         </>
       ),
-      actionLabel: "Create Team",
+      actionLabel: "Add Team",
       actionColor: "blue",
       action: addTeam,
-      message:
-        "You are about to create this team. Make sure the details of the team are correct. You can edit this later.",
-      title: `${selectedTeamName}`,
-      choice: "Add Team",
-      type: "confirm",
     },
     update: {
-      label: "Update Team",
+      title: "Update Team",
       form: (
         <>
           <FormFieldInput
@@ -184,18 +179,6 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
             value={selectedTeamName}
             onValueChange={setSelectedTeamName}
             className={"mb-1"}
-          />
-          <FormFieldSelect
-            fullWidth={true}
-            isRequired={true}
-            disabledValidation={true}
-            items={teamDepartmentSelection}
-            label={"Select Department/s"}
-            selectedKeys={selectedTeamDepartment}
-            onSelectionChange={setSelectedTeamDepartment}
-            renderItemPicture={true}
-            renderType={"chip"}
-            selectionMode={"multiple"}
           />
           <FormFieldSelect
             fullWidth={true}
@@ -236,13 +219,9 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       actionLabel: "Update Team",
       actionColor: "blue",
       action: updateTeam,
-      message: "You are about to update this team's details. ",
-      title: "Update Team",
-      choice: "Update Team",
-      type: "confirm",
     },
     department: {
-      label: "Create New Department",
+      title: "Add Department",
       form: (
         <>
           <FormFieldInput
@@ -256,35 +235,24 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
           />
         </>
       ),
-      actionLabel: "Create Department",
+      actionLabel: "Add Department",
       actionColor: "green",
       action: addDepartment,
-      message: "You are about to create a new department.",
-      title: `${selectedTeamDepartmentName}`,
-      choice: "Add Department",
-      type: "confirm",
     },
   };
 
   const handleFormAction = (e) => {
-    onOpenPopup();
     return false;
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      isDismissable={false}
-      isKeyboardDismissDisabled={true}
-      // hideCloseButton={true}
-    >
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <form action={handleFormAction}>
             <ModalHeader className="flex flex-col gap-1 justify-start">
               <p className="text-lg font-bold text-black-default">
-                {teamAction[action].label}
+                {teamAction[action].title}
               </p>
             </ModalHeader>
             <ModalBody className="gap-2">{teamAction[action].form}</ModalBody>
@@ -294,19 +262,13 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
                 type={"submit"}
                 label={teamAction[action].actionLabel}
                 color={teamAction[action].actionColor}
+                onPress={() => {
+                  teamAction[action].action();
+                  onClose();
+                }}
                 className={"px-6"}
               />
             </ModalFooter>
-            <ConfirmationWindow
-              message={teamAction[action].message}
-              title={teamAction[action].title}
-              choice={teamAction[action].choice}
-              action={teamAction[action].action}
-              type={teamAction[action].type}
-              isOpen={isOpenPopup}
-              onOpenChange={onOpenChangePopup}
-              onCloseParent={onClose}
-            />
           </form>
         )}
       </ModalContent>

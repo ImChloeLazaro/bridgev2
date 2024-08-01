@@ -28,13 +28,13 @@ const ClientCell = ({ getValue, row, column, table }) => {
     setSelectedClientToView(client._id);
     setSelectedClientForTask(new Set([client._id]));
     setShowClientTask(true);
-    console.log("Client Selected: ", client?.name);
-    console.log("clientValue: ", clientValue);
+    // console.log("Client Selected: ", client?.name);
+    // console.log("clientValue: ", clientValue);
   };
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
-  console.log("value", value);
+  // console.log("value", value);
   return (
     <div>
       {value?.map((client, index) => (

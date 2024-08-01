@@ -56,7 +56,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setEmploymentHistory
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -73,7 +73,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setEmploymentHistory
           );
         }}
-        isRequired={true}
+        // isRequired={true}
         showPastDate={true}
         withDate={true}
         dateRangeValue={employmentHistoryDateRange[h_index]}
@@ -94,7 +94,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setEmploymentHistory
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
 
       <FormFieldInput
@@ -112,7 +112,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setEmploymentHistory
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
     </div>
   ));
@@ -137,7 +137,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setTrainingsAttended
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
 
       <FormFieldInput
@@ -155,7 +155,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setTrainingsAttended
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -172,7 +172,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setTrainingsAttended
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -189,7 +189,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setTrainingsAttended
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
     </div>
   ));
@@ -213,7 +213,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setReferences
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -230,7 +230,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setReferences
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -247,7 +247,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setReferences
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
       <FormFieldInput
         isDisabled={viewOnly}
@@ -264,7 +264,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
             setReferences
           );
         }}
-        isRequired={true}
+        // isRequired={true}
       />
     </div>
   ));

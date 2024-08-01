@@ -8,9 +8,14 @@ import {
   cn,
 } from "@nextui-org/react";
 import { useSetAtom } from "jotai";
+import { fetchUserListAtom } from "@/app/store/UserStore";
+import { useEffect } from "react";
 
 const TaskOptionsDropdown = ({
   task_id,
+  sla_id,
+  setSelectedTask,
+  setSelectedTaskID,
   actions,
   trigger,
   isEscalated,
@@ -19,6 +24,7 @@ const TaskOptionsDropdown = ({
   taskActionWindow,
 }) => {
   const setSelectedTaskAction = useSetAtom(selectedTaskActionAtom);
+  const fetchUserList = useSetAtom(fetchUserListAtom);
 
   const taskOptionsColors = {
     green: "data-[hover=true]:bg-green-default",
@@ -27,6 +33,10 @@ const TaskOptionsDropdown = ({
     blue: "data-[hover=true]:bg-blue-default",
     yellow: "data-[hover=true]:bg-yellow-default",
   };
+
+  useEffect(() => {
+    fetchUserList();
+  }, [fetchUserList]);
 
   return (
     <>
@@ -41,7 +51,11 @@ const TaskOptionsDropdown = ({
           </Button>
         </DropdownTrigger>
         <DropdownMenu
-          aria-label="Action event example"
+          aria-label="Task Options Dropdown"
+          onAction={(key) => {
+            setSelectedTask(sla_id);
+            setSelectedTaskID(task_id);
+          }}
           items={actions}
           itemClasses={{
             base: ["data-[disabled=true]:opacity-100 text-black-default"],
@@ -65,7 +79,7 @@ const TaskOptionsDropdown = ({
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
-                        sla_id: task_id,
+                        sla_id: sla_id,
                       });
                       confirmationWindow.onOpen();
                     }}
@@ -88,7 +102,7 @@ const TaskOptionsDropdown = ({
               //       setSelectedTaskAction({
               //         key: item.key,
               //         status_id: item.status_id,
-              //         task_id: task_id
+              //         task_id: sla_id
               //       });
               //       confirmationWindow.onOpen();
               //     }}
@@ -121,14 +135,14 @@ const TaskOptionsDropdown = ({
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
-                        sla_id: task_id,
+                        sla_id: sla_id,
                       });
                       taskActionWindow.onOpen();
                     } else {
                       setSelectedTaskAction({
                         key: item.key,
                         status_id: item.status_id,
-                        sla_id: task_id,
+                        sla_id: sla_id,
                       });
                       confirmationWindow.onOpen();
                     }

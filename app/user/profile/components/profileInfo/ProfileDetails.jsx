@@ -18,13 +18,14 @@ const ProfileDetails = () => {
 
   return (
     <>
-      <div className="`relative z-10 px-6 lg:px-16 my-2 lg:my-6 overflow-y-auto bg-white-default">
+      <div className="`relative z-10 md:px-4 lg:px-8 my-2 lg:my-6 overflow-y-auto bg-white-default">
         <Tabs
           key="Profile Navigation"
           selectedKey={selectedProfileTab}
           onSelectionChange={setSelectedProfileTab}
           aria-label="Profile Navigation"
           variant="underlined"
+          className="ml-4"
           classNames={{
             base: "py-0 sticky top-0 bg-white-default",
             tabList: "gap-8 w-full relative rounded-none p-0",

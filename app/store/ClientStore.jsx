@@ -86,7 +86,8 @@ export const addClientAtom = atom(null, async (get, set, update) => {
     return { success: false };
   }
 });
-export const updateClientAtom = atom();
+
+// export const updateClientAtom = atom();
 export const deleteClientAtom = atom(null, async (get, set, update) => {
   const response = await destroywithparams("/cms/client", {
     // _id of sla #/cms/task
@@ -106,7 +107,7 @@ export const tableColumnsAtom = atom([
   { label: "Status", key: "status", sortable: true },
   { label: "Assignees", key: "assignees", sortable: true },
 ]);
-export const clientsCountAtom = atom((get) => get(clientsAtom).length);
+
 export const clientFilterKeysAtom = atom([
   {
     label: "All",

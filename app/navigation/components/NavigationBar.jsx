@@ -49,7 +49,7 @@ const NavigationBar = () => {
 
   const role = selectedRole.currentRole.toLowerCase();
 
-  console.log("ROLE NAVBAR", role);
+  // console.log("ROLE NAVBAR", role);
 
   const activeRoutes = role.includes("admin")
     ? activeAdminRoute

@@ -1,59 +1,39 @@
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
-import {
-  managerSelectionAtom,
-  processorSelectionAtom,
-  recurrenceSelectionAtom,
-  reviewerSelectionAtom,
-} from "@/app/store/TaskStore";
+
 import { Time } from "@internationalized/date";
 import { TimeInput } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
-import { teamsAtom } from "@/app/store/TeamManagementStore";
-import { authenticationAtom } from "@/app/store/AuthenticationStore";
+
 const TaskFormSections = ({
-  selectedClientForTask,
-  setSelectedClientForTask,
-  clientSelectionChange,
-  selectedManagerAtom,
-  selectedProcessorAtom,
-  selectedRecurrenceAtom,
-  selectedReviewerAtom,
-  showClientTaskAtom,
-  taskDurationAtom,
-  taskInstructionAtom,
+  selectedClientToView,
+  showClientTask,
+  clientSelectionAtom,
+  selectedClientAtom,
   teamSelectionAtom,
-  teamsByClientSelectionAtom,
-  selectedTeamForTaskAtom,
+  selectedTeamAtom,
+  processorSelectionAtom,
+  selectedProcessorAtom,
+  reviewerSelectionAtom,
+  selectedReviewerAtom,
+  managerSelectionAtom,
+  selectedManagerAtom,
   taskNameAtom,
+  taskInstructionAtom,
+  recurrenceSelectionAtom,
+  selectedRecurrenceAtom,
+  taskDurationAtom,
   dateRangeAtom,
   startTimeAtom,
   endTimeAtom,
-  clientSelectionForTaskAtom,
 }) => {
-  const user = useAtomValue(authenticationAtom);
-  const showClientTask = useAtomValue(showClientTaskAtom);
-
-  const [taskName, setTaskName] = useAtom(taskNameAtom);
-  // const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
-
-  const clientSelectionForTask = useAtomValue(clientSelectionForTaskAtom);
-  console.log("clientSelectionForTask: ", clientSelectionForTask);
-
-  const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
-
-  const [dateRange, setDateRange] = useAtom(dateRangeAtom);
-  const [startTime, setStartTime] = useAtom(startTimeAtom);
-  const [endTime, setEndTime] = useAtom(endTimeAtom);
+  const clientSelection = useAtomValue(clientSelectionAtom);
+  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
 
   const teamSelection = useAtomValue(teamSelectionAtom);
-  const [selectedTeamForTask, setSelectedTeamForTask] = useAtom(
-    selectedTeamForTaskAtom
-  );
-
-  const teamsByClientSelection = useAtomValue(teamsByClientSelectionAtom);
+  const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom);
 
   const processorSelection = useAtomValue(processorSelectionAtom);
   const [selectedProcessor, setSelectedProcessor] = useAtom(
@@ -66,19 +46,19 @@ const TaskFormSections = ({
   const managerSelection = useAtomValue(managerSelectionAtom);
   const [selectedManager, setSelectedManager] = useAtom(selectedManagerAtom);
 
+  const [taskName, setTaskName] = useAtom(taskNameAtom);
+  const [taskInstruction, setTaskInstruction] = useAtom(taskInstructionAtom);
+
   const recurrenceSelection = useAtomValue(recurrenceSelectionAtom);
   const [selectedRecurrence, setSelectedRecurrence] = useAtom(
     selectedRecurrenceAtom
   );
 
-  console.log("selectedTeamForTask", selectedTeamForTask.size == 0);
-  console.log("teamSelection", teamSelection);
-  console.log("teamsByClientSelection", teamsByClientSelection);
-  console.log("Wow taskDuration", taskDuration);
+  const [taskDuration, setTaskDuration] = useAtom(taskDurationAtom);
+  const [dateRange, setDateRange] = useAtom(dateRangeAtom);
 
-  const teamForTaskSelection = showClientTask
-    ? teamsByClientSelection
-    : teamSelection;
+  const [startTime, setStartTime] = useAtom(startTimeAtom);
+  const [endTime, setEndTime] = useAtom(endTimeAtom);
 
   return (
     <div className="flex flex-col gap-6">
@@ -93,26 +73,23 @@ const TaskFormSections = ({
 
         <div className="flex flex-col gap-3">
           {/* Client */}
-          <div
-            className={`${
-              showClientTask ? "cursor-not-allowed" : ""
-            } flex justify-between items-center gap-8`}
-          >
+          <div className={`flex justify-between items-center gap-8`}>
             <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Client"}
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
                 isRequired={true}
-                isDisabled={showClientTask}
                 aria-label="Client Selection"
-                items={clientSelectionForTask}
+                items={clientSelection}
                 placeholder="Select Client"
                 selectionMode="single"
-                selectedKeys={selectedClientForTask}
+                selectedKeys={
+                  showClientTask ? [selectedClientToView] : selectedClient
+                }
+                isDisabled={showClientTask}
                 onSelectionChange={(key) => {
-                  setSelectedClientForTask(key);
-                  // clientSelectionChange({ key: Array.from(key).toString() });
+                  setSelectedClient(key);
                 }}
                 renderItemPicture={true}
               />
@@ -129,9 +106,9 @@ const TaskFormSections = ({
                 items={teamSelection} //
                 placeholder="Assign Team/s"
                 selectionMode="single"
-                selectedKeys={selectedTeamForTask}
+                selectedKeys={selectedTeam}
                 onSelectionChange={(key) => {
-                  setSelectedTeamForTask(key);
+                  setSelectedTeam(key);
 
                   let assignees = teamSelection.filter(
                     (team) => team?._id === Array.from(key).toString()
@@ -151,13 +128,9 @@ const TaskFormSections = ({
                     setSelectedReviewer(
                       new Set(assignees?.members.map((member) => member.sub))
                     );
-                    if (assignees && assignees?.userSide === true) {
-                      setSelectedManager(new Set([user?.sub]));
-                    } else {
-                      setSelectedManager(
-                        new Set(assignees?.heads.map((head) => head.sub))
-                      );
-                    }
+                    setSelectedManager(
+                      new Set(assignees?.heads.map((head) => head.sub))
+                    );
                   }
                 }}
                 renderItemPicture={true}
@@ -173,10 +146,10 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeamForTask.size == 0}
+                isDisabled={teamSelection.size == 0}
                 isRequired={true}
                 aria-label="Processor Selection"
-                items={processorSelection} // showClientTask ? teamsByClientSelection.members :
+                items={processorSelection}
                 placeholder="Assign Processor/s"
                 selectionMode="multiple"
                 selectedKeys={selectedProcessor}
@@ -194,7 +167,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeamForTask.size == 0}
+                isDisabled={teamSelection.size == 0}
                 isRequired={true}
                 aria-label="Reviewer Selection"
                 items={reviewerSelection}
@@ -215,7 +188,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeamForTask.size == 0}
+                isDisabled={teamSelection.size == 0}
                 isRequired={true}
                 aria-label="Manager Selection"
                 items={managerSelection}
@@ -258,7 +231,7 @@ const TaskFormSections = ({
             <p className="text-sm lg:text-base font-medium w-[20%]">
               {"Instruction"}
             </p>
-            {/* <div className="w-[80%]">
+            <div className="w-[80%]">
               <FormFieldTextArea
                 isRequired={true}
                 value={taskInstruction}
@@ -266,8 +239,7 @@ const TaskFormSections = ({
                 placeholder={"Special Instructions"}
                 fullWidth={true}
               />
-              
-            </div> */}
+            </div>
           </div>
           {/* Recurrence */}
           <div className="flex justify-between items-center gap-8">

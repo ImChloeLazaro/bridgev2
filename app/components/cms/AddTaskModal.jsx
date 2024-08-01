@@ -6,6 +6,12 @@ import {
   fetchTaskAtom,
 } from "@/app/store/TaskStore";
 import {
+  fetchTeamsAtom,
+  fetchSubTeamsAtom,
+  fetchUserSubTeamsAtom,
+  fetchTeamClientsAtom,
+} from "@/app/store/TeamStore";
+import {
   Modal,
   ModalBody,
   ModalContent,
@@ -17,31 +23,32 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { toast } from "sonner";
 import TaskFormSections from "./TaskFormSections";
 import { useEffect } from "react";
+import { fetchUserListAtom } from "@/app/store/UserStore";
 
 const AddTaskModal = ({
   isOpen,
   onOpenChange,
-  selectedClientForTask,
-  setSelectedClientForTask,
-  selectedClientToViewAtom,
-  showClientTaskAtom,
-  clientSelectionChange,
+  selectedClientToView,
+  showClientTask,
   taskDataAtom,
+  clientSelectionAtom,
+  selectedClientAtom,
+  teamSelectionAtom,
+  selectedTeamAtom,
+  processorSelectionAtom,
+  selectedProcessorAtom,
+  reviewerSelectionAtom,
+  selectedReviewerAtom,
+  managerSelectionAtom,
+  selectedManagerAtom,
   taskNameAtom,
   taskInstructionAtom,
-  teamSelectionAtom,
-  teamsByClientSelectionAtom,
-  selectedTeamForTaskAtom,
-  selectedProcessorAtom,
-  selectedReviewerAtom,
-  selectedManagerAtom,
+  recurrenceSelectionAtom,
   selectedRecurrenceAtom,
   taskDurationAtom,
   dateRangeAtom,
   startTimeAtom,
   endTimeAtom,
-  fetchTeamsAtom,
-  clientSelectionForTaskAtom,
 }) => {
   const {
     isOpen: isOpenPopup,
@@ -54,10 +61,11 @@ const AddTaskModal = ({
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchTeams = useSetAtom(fetchTeamsAtom);
+  const fetchSubTeams = useSetAtom(fetchSubTeamsAtom);
+  const fetchUserSubTeams = useSetAtom(fetchUserSubTeamsAtom);
+  const fetchTeamClients = useSetAtom(fetchTeamClientsAtom);
+  const fetchUserList = useSetAtom(fetchUserListAtom);
   const deleteTask = useSetAtom(deleteTaskAtom);
-
-  const showClientTask = useAtomValue(showClientTaskAtom);
-  const selectedClientToView = useAtomValue(selectedClientToViewAtom);
 
   const handleAddTask = async () => {
     // console.log("taskData", taskData);addTask(taskData);deleteTask()
@@ -85,8 +93,17 @@ const AddTaskModal = ({
 
   useEffect(() => {
     fetchTeams();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    fetchSubTeams();
+    fetchUserSubTeams();
+    fetchTeamClients();
+    fetchUserList();
+  }, [
+    fetchSubTeams,
+    fetchTeams,
+    fetchUserSubTeams,
+    fetchTeamClients,
+    fetchUserList,
+  ]);
 
   return (
     <Modal
@@ -109,26 +126,28 @@ const AddTaskModal = ({
               </div>
             </ModalHeader>
             <ModalBody className="h-full overflow-y-scroll overflow-x-hidden">
-              <div className="h-80">
+              <div className="h-96">
                 <TaskFormSections
-                  selectedClientForTask={selectedClientForTask}
-                  setSelectedClientForTask={setSelectedClientForTask}
-                  showClientTaskAtom={showClientTaskAtom}
-                  clientSelectionChange={clientSelectionChange}
+                  selectedClientToView={selectedClientToView}
+                  showClientTask={showClientTask}
+                  clientSelectionAtom={clientSelectionAtom}
+                  selectedClientAtom={selectedClientAtom}
+                  teamSelectionAtom={teamSelectionAtom}
+                  selectedTeamAtom={selectedTeamAtom}
+                  processorSelectionAtom={processorSelectionAtom}
+                  selectedProcessorAtom={selectedProcessorAtom}
+                  reviewerSelectionAtom={reviewerSelectionAtom}
+                  selectedReviewerAtom={selectedReviewerAtom}
+                  managerSelectionAtom={managerSelectionAtom}
+                  selectedManagerAtom={selectedManagerAtom}
                   taskNameAtom={taskNameAtom}
                   taskInstructionAtom={taskInstructionAtom}
-                  teamSelectionAtom={teamSelectionAtom}
-                  teamsByClientSelectionAtom={teamsByClientSelectionAtom}
-                  selectedTeamForTaskAtom={selectedTeamForTaskAtom}
-                  selectedProcessorAtom={selectedProcessorAtom}
-                  selectedReviewerAtom={selectedReviewerAtom}
-                  selectedManagerAtom={selectedManagerAtom}
+                  recurrenceSelectionAtom={recurrenceSelectionAtom}
                   selectedRecurrenceAtom={selectedRecurrenceAtom}
                   taskDurationAtom={taskDurationAtom}
                   dateRangeAtom={dateRangeAtom}
                   startTimeAtom={startTimeAtom}
                   endTimeAtom={endTimeAtom}
-                  clientSelectionForTaskAtom={clientSelectionForTaskAtom}
                 />
               </div>
             </ModalBody>
@@ -136,7 +155,6 @@ const AddTaskModal = ({
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
                 type={"submit"}
-                isDisabled={!selectedClientToView?.length && showClientTask}
                 label={"Assign Task"}
                 color={"blue"}
                 className={"px-6"}

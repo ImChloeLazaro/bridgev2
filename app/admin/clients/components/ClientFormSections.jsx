@@ -195,7 +195,7 @@ const ClientFormSections = () => {
               isRequired={true}
               type={"number"}
               inputType={"tel"}
-              label={"Primary Contact Number"}
+              label={"Company Primary Contact Number"}
               fullWidth={true}
               value={companyNumber}
               onValueChange={setCompanyNumber}
@@ -203,7 +203,7 @@ const ClientFormSections = () => {
             <FormFieldInput
               isRequired={true}
               type={"email"}
-              label={"Email Address"}
+              label={"Company Email Address"}
               fullWidth={true}
               value={companyEmail}
               onValueChange={setCompanyEmail}
@@ -215,7 +215,7 @@ const ClientFormSections = () => {
             description={
               "Please include street name, building number, and ZIP code; if any"
             }
-            label={"Complete Address"}
+            label={"Company Complete Address"}
             fullWidth={true}
             value={companyAddress}
             onValueChange={setCompanyAddress}

@@ -99,7 +99,6 @@ const TeamCard = ({ team }) => {
   };
 
   const updateTeamDetails = (action) => {
-    console.log("team card", team);
     if (action === "update") {
       const selectedClient = team.client.map((client) => client._id);
       const selectedTeamMember = team.members.map((member) => member.sub);

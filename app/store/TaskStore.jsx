@@ -1,26 +1,11 @@
-import {
-  destroywithparams,
-  restinsert,
-  restread,
-  restupdate,
-} from "@/app/utils/amplify-rest";
-import { parseDateTime } from "@internationalized/date";
-import {
-  compareAsc,
-  differenceInDays,
-  differenceInMonths,
-  differenceInQuarters,
-  differenceInWeeks,
-  differenceInYears,
-  format,
-} from "date-fns";
+import { restinsert, restread, restupdate } from "@/app/utils/amplify-rest";
+import { format } from "date-fns";
 import { atom } from "jotai";
+
 import { toast } from "sonner";
 import { notificationSocketRefAtom } from "../navigation/store/NotificationsStore";
 import { sendNotification } from "../utils/notificationUtils";
-import { clientsAtom } from "./ClientStore";
 import { userAtom, userListAtom } from "./UserStore";
-import { teamsAtom } from "./TeamManagementStore";
 
 export const tasksAtom = atom([]);
 
@@ -30,42 +15,110 @@ export const selectedTaskActionAtom = atom({
   sla_id: "",
 });
 
+let pageRowIndex = 0;
+export const pageRowsSelectionAtom = atom([
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "10",
+    value: "10",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "20",
+    value: "20",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "50",
+    value: "50",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "100",
+    value: "100",
+  },
+  {
+    key: `pageRow-${(pageRowIndex += 1)}`,
+    label: "200",
+    value: "200",
+  },
+]);
+
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const {
     manager = {},
     client = {},
     processor = [],
     reviewer = [],
-    duration,
     sla = [],
   } = update;
 
-  const response = await restinsert("/cms/task", {
+  console.log("ADD TASK", {
     manager,
     client,
     processor,
     reviewer,
-    duration,
     sla,
   });
 
-  console.log("response of new adding task logic", response);
+  const tasks = get(tasksAtom);
+  const existingTasks = tasks.filter(
+    (task) =>
+      task.manager.sub == manager.sub &&
+      task.client.client_id == client.client_id
+  );
 
-  if (response?.success) {
-    return { success: true };
+  if (existingTasks?.length) {
+    const response = await restupdate("/cms/task", {
+      ...existingTasks[0],
+      manager: manager,
+      client: client,
+      processor: [...existingTasks[0].processor, ...processor],
+      reviewer: [...existingTasks[0].reviewer, ...reviewer],
+      sla: [...existingTasks[0].sla, ...sla],
+    });
+    if (response?.success) {
+      return { success: true };
+    } else {
+      return { success: false };
+    }
   } else {
-    return { success: false };
+    const response = await restinsert("/cms/task", {
+      manager,
+      client,
+      processor,
+      reviewer,
+      sla,
+    });
+
+    console.log("response of new adding task logic", response);
+
+    if (response?.success) {
+      return { success: true };
+    } else {
+      return { success: false };
+    }
   }
+
+  // Potential bug discovered since adding task just inserts a
+  // new task every time, updating it via dragging the task will cause duplication
+  // resulting appending the selected task to an existing task obj and restricts the
+  // user to drag it further since task keys are conflicting
+
+  // When team id is available for tasks, revert functionality from before cleaned up
+  // to insert new tasks to existing teams and create new tasks for new teams
 });
 
 export const updateTaskAtom = atom(null, async (get, set, update) => {
-  const { action, tasks, _id, reviewer, processor } = update;
+  const { action, _id, reviewer, processor } = update;
 
   const updatedAssignees = {
     _id,
     reviewer,
     processor,
   };
+
+  console.log("updatedAssignees", updatedAssignees);
 
   if (action === "remove") {
     const response = await Promise.all([
@@ -106,6 +159,9 @@ export const deleteTaskAtom = atom(null, async (get, set, update) => {
 export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const { sla, client_id } = update;
 
+  console.log("client_id here on updating board", client_id);
+  console.log("sla here on updating board", sla);
+
   const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
   );
@@ -113,6 +169,8 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const removedDuplicateSLA = [...sla, ...taskToBeUpdated[0].sla].filter(
     (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
   );
+
+  console.log("removedDuplicateSLA after", removedDuplicateSLA);
 
   const response = await restupdate("/cms/task", {
     ...taskToBeUpdated[0],
@@ -136,22 +194,62 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   }
 });
 
+export const taskStatusUpdateAtom = atom(null, async (get, set, update) => {
+  const { taskObj, sla } = update;
+
+  console.log("UPDATE SLA", {
+    ...taskObj,
+    sla: sla,
+  });
+
+  const response = await restupdate("/cms/task", {
+    ...taskObj,
+    sla: sla,
+  });
+
+  if (response?.success) {
+    set(fetchTaskAtom, {});
+
+    return { success: true };
+  } else {
+    return { success: false };
+  }
+});
+
 export const taskActionsAtom = atom(null, async (get, set, update) => {
   const {
     sound,
     tasks,
-    selectedProcessorTaskAction,
-    selectedReviewerTaskAction,
-    setSelectedProcessorTaskAction,
-    setSelectedReviewerTaskAction,
+    taskId,
+    updateSelectedProcessor,
+    setUpdateSelectedProcessor,
+    updateSelectedReviewer,
+    setUpdateSelectedReviewer,
   } = update;
 
   const { key, status_id, sla_id } = get(selectedTaskActionAtom);
   const user = await get(userAtom);
 
-  const taskName = tasks.sla.filter((task) => task._id === sla_id)[0]?.name;
-  const clientKey = tasks.client.client_id;
-  const clientName = tasks.client.name;
+  console.log("tasks", tasks);
+
+  const taskObj = get(tasksAtom).filter((task) => task._id === taskId)[0];
+  const slaToBeUpdated = {
+    // done_by: tasks.done_by,
+    duration: tasks.duration,
+    escalate: tasks.escalate,
+    instruction: tasks.instruction,
+    name: tasks.name,
+    progress: tasks.progress,
+    status: tasks.status,
+    _id: tasks._id,
+  };
+
+  console.log("filtered tasks", taskObj.sla);
+
+  // Notifications Details to display
+  const taskName = tasks.name;
+  const clientKey = tasks.client_id;
+  const clientName = tasks.client_name;
   const dateTaskAction = new Date();
 
   const processors = tasks.processor?.map((user) => user.sub);
@@ -173,7 +271,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
 
   if (key === "mark") {
     if (status_id === "forReview" || status_id === "done") {
-      const updateSelectedTask = tasks.sla.map((task) => {
+      const updateSelectedTask = taskObj.sla.map((task) => {
         if (task._id === sla_id) {
           if (status_id === "done") {
             return {
@@ -196,13 +294,15 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         return task;
       });
 
+      console.log("updateSelectedTask", updateSelectedTask);
+
       const socketRef = get(notificationSocketRefAtom);
 
       if (status_id === "done") {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: [...processors, tasks.manager.sub],
+          subs: [...processors, taskObj.manager.sub],
           title: `${user?.name} has completed task [${taskName}] for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Completed: ${format(dateTaskAction, "PPpp")}`,
@@ -215,7 +315,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
         sendNotification({
           socketRef: socketRef,
           action: "notification",
-          subs: [...reviewers, tasks.manager.sub],
+          subs: [...reviewers, taskObj.manager.sub],
           title: `${user?.name} has marked [${taskName}] ready to review for ${clientName}.`,
           type: ["mentioned"],
           description: `Task Marked for Review: ${format(
@@ -232,9 +332,9 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
           setTimeout(
             async () =>
               resolve(
-                await set(updateTaskStatusAtom, {
+                await set(taskStatusUpdateAtom, {
+                  taskObj: taskObj,
                   sla: updateSelectedTask,
-                  client_id: clientKey,
                 }),
                 await set(fetchTaskAtom, {})
               ),
@@ -274,7 +374,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
           async () =>
             resolve(
               await set(deleteTaskAtom, {
-                task_id: tasks._id,
+                task_id: taskId,
                 sla_id: sla_id,
               }),
               await set(fetchTaskAtom, {})
@@ -295,7 +395,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
   }
 
   if (key === "escalate" || key === "resolve") {
-    const updateSelectedTask = tasks.sla.map((task) => {
+    const updateSelectedTask = taskObj.sla.map((task) => {
       if (task._id === sla_id) {
         if (!Boolean(task.escalate)) {
           // if task is not escalated, set true
@@ -325,9 +425,9 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
           setTimeout(
             async () =>
               resolve(
-                await set(updateTaskStatusAtom, {
+                await set(taskStatusUpdateAtom, {
+                  taskObj: taskObj,
                   sla: updateSelectedTask,
-                  client_id: clientKey,
                 }),
                 await set(fetchTaskAtom, {})
               ),
@@ -367,9 +467,9 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
           setTimeout(
             async () =>
               resolve(
-                await set(updateTaskStatusAtom, {
+                await set(taskStatusUpdateAtom, {
+                  taskObj: taskObj,
                   sla: updateSelectedTask,
-                  client_id: clientKey,
                 }),
                 await set(fetchTaskAtom, {})
               ),
@@ -392,12 +492,12 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
   if (key === "assign") {
     const assignProcessorAssignees = get(userListAtom).filter(
       (user) =>
-        Array.from(selectedProcessorTaskAction).includes(user.sub) &&
+        Array.from(updateSelectedProcessor).includes(user.sub) &&
         !tasks.processor.map((processor) => processor.sub).includes(user.sub)
     );
     const assignReviewerAssignees = get(userListAtom).filter(
       (user) =>
-        Array.from(selectedReviewerTaskAction).includes(user.sub) &&
+        Array.from(updateSelectedReviewer).includes(user.sub) &&
         !tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
     );
 
@@ -427,8 +527,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
             resolve(
               await set(updateTaskAtom, {
                 action: key,
-                tasks: tasks,
-                _id: tasks._id,
+                _id: taskId,
                 processor: assignProcessorAssignees,
                 reviewer: assignReviewerAssignees,
               }),
@@ -445,16 +544,16 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
       },
       error: "Error assigning new member",
     });
-    setSelectedProcessorTaskAction(new Set([]));
-    setSelectedReviewerTaskAction(new Set([]));
+    setUpdateSelectedProcessor(new Set([]));
+    setUpdateSelectedReviewer(new Set([]));
   }
 
   if (key === "remove") {
     const removeProcessorAssignees = tasks.processor.filter((user) =>
-      Array.from(selectedProcessorTaskAction).includes(user.sub)
+      Array.from(updateSelectedProcessor).includes(user.sub)
     );
     const removeReviewerAssignees = tasks.reviewer.filter((user) =>
-      Array.from(selectedReviewerTaskAction).includes(user.sub)
+      Array.from(updateSelectedReviewer).includes(user.sub)
     );
 
     /// ### For removing any task done by when removing processor/s and reviewer/s?
@@ -511,8 +610,7 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
 
               await set(updateTaskAtom, {
                 action: key,
-                tasks: tasks,
-                _id: tasks._id,
+                _id: taskId,
                 processor: removeProcessorAssignees,
                 reviewer: removeReviewerAssignees,
               }),
@@ -530,9 +628,20 @@ export const taskActionsAtom = atom(null, async (get, set, update) => {
       },
       error: "Error removing member",
     });
-    setSelectedProcessorTaskAction(new Set([]));
-    setSelectedReviewerTaskAction(new Set([]));
+    setUpdateSelectedProcessor(new Set([]));
+    setUpdateSelectedReviewer(new Set([]));
   }
+});
+
+export const actionButtonsAtom = atom({
+  task: {
+    color: "blue",
+    label: "Create Task",
+  },
+  client: {
+    color: "orange",
+    label: "Onboard Client",
+  },
 });
 
 export const taskActionWindowDetailsAtom = atom((get) => {
@@ -628,8 +737,6 @@ export const tableColumnsAtom = atom([
   { label: "Actions", key: "action", sortable: false },
 ]);
 
-export const tasksCountAtom = atom((get) => get(tasksAtom).length);
-
 export const taskFilterKeysAtom = atom([
   {
     label: "All",
@@ -676,10 +783,6 @@ export const taskBoardColsAtom = atom([
   // },
 ]);
 
-export const taskBoardColsCountAtom = atom(
-  (get) => get(taskBoardColsAtom).length
-);
-
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
@@ -697,217 +800,6 @@ export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   } else {
   }
 });
-
-// export const recurrenceStartTimeAtom = atom((get) => {
-//   return { hours: 8, minutes: 0, seconds: 0 };
-// });
-// export const recurrenceEndTimeAtom = atom((get) => {
-//   return { hours: 17, minutes: 0, seconds: 0 };
-// });
-
-// export const recurrenceTaskAtom = atom(null, async (get, set, sub) => {
-//   const tasks = await restread("/cms/task");
-
-//   if (tasks?.success) {
-//     const convertedTasks = tasks.response.map((task) => {
-//       const updatedEndDateTime = task.sla.map((sla) => {
-//         if (sla.progress.toLowerCase() === "overdue") {
-//           return {
-//             ...sla,
-//             progress: "good",
-//           };
-//         }
-//         if (sla.status === "done") {
-//           return {
-//             ...sla,
-//             status: "todo",
-//           };
-//         }
-//         // Add validation for weekends and holidays (array lookup)
-//         if (sla.status === "todo" || sla.status === "done") {
-//           if (sla.duration.recurrence.toLowerCase() === "daily") {
-//             let difference = differenceInDays(
-//               new Date(),
-//               new Date(sla.duration.end.slice(0, -1))
-//             );
-
-//             console.log("difference daily", difference);
-//             if (difference >= 1) {
-//               return {
-//                 ...sla,
-//                 duration: {
-//                   ...sla.duration,
-//                   end: parseDateTime(sla.duration.end.slice(0, -1))
-//                     .add({
-//                       days: 1,
-//                     })
-//                     .toString(),
-//                 },
-//               };
-//             }
-//           }
-//           if (sla.duration.recurrence.toLowerCase() === "weekly") {
-//             let difference = differenceInWeeks(
-//               new Date(),
-//               new Date(sla.duration.end.slice(0, -1))
-//             );
-//             console.log("difference weekly", difference);
-
-//             if (difference >= 1) {
-//               return {
-//                 ...sla,
-//                 duration: {
-//                   ...sla.duration,
-//                   end: parseDateTime(sla.duration.end.slice(0, -1))
-//                     .add({
-//                       weeks: 1,
-//                     })
-//                     .toString(),
-//                 },
-//               };
-//             }
-//           }
-//           if (sla.duration.recurrence.toLowerCase() === "monthly") {
-//             let difference = differenceInMonths(
-//               new Date(),
-//               new Date(sla.duration.end.slice(0, -1))
-//             );
-//             console.log("difference monthly", difference);
-
-//             if (difference >= 1) {
-//               return {
-//                 ...sla,
-//                 duration: {
-//                   ...sla.duration,
-//                   end: parseDateTime(sla.duration.end.slice(0, -1))
-//                     .add({
-//                       months: 1,
-//                     })
-//                     .toString(),
-//                 },
-//               };
-//             }
-//           }
-//           if (sla.duration.recurrence.toLowerCase() === "quarterly") {
-//             let difference = differenceInQuarters(
-//               new Date(),
-//               new Date(sla.duration.end.slice(0, -1))
-//             );
-//             console.log("difference quarterly", difference);
-
-//             if (difference >= 1) {
-//               return {
-//                 ...sla,
-//                 duration: {
-//                   ...sla.duration,
-//                   end: parseDateTime(sla.duration.end.slice(0, -1))
-//                     .add({
-//                       months: 3,
-//                     })
-//                     .toString(),
-//                 },
-//               };
-//             }
-//           }
-//           if (sla.duration.recurrence.toLowerCase() === "yearly") {
-//             let difference = differenceInYears(
-//               new Date(),
-//               new Date(sla.duration.end.slice(0, -1))
-//             );
-//             console.log("difference yearly", difference);
-
-//             if (difference >= 1) {
-//               return {
-//                 ...sla,
-//                 duration: {
-//                   ...sla.duration,
-//                   end: parseDateTime(sla.duration.end.slice(0, -1))
-//                     .add({
-//                       years: 1,
-//                     })
-//                     .toString(),
-//                 },
-//               };
-//             }
-//           }
-//           return sla;
-//         } else {
-//           return sla;
-//         }
-//       });
-
-//       return { ...task, sla: updatedEndDateTime };
-//     });
-
-//     // const responseAll = await Promise.all(
-//     //   convertedTasks.map(async (task) => {
-//     //     const response = await restupdate("/cms/task", task);
-//     //     return { success: response?.success ?? false };
-//     //   })
-//     // );
-//     // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
-//     return { success: true };
-//   } else {
-//     return { success: false };
-//   }
-// });
-
-// export const logOverDueTasksAtom = atom(null, async (get, set, sub) => {
-//   const tasks = await restread("/cms/task");
-//   const user = await get(userAtom);
-
-//   if (tasks?.success) {
-//     const convertedTasks = tasks.response.map((task) => {
-//       const updatedEndDateTime = task.sla.map((sla) => {
-//         if (sla.status === "todo") {
-//           let isOverdue =
-//             compareAsc(new Date(sla.duration.end.slice(0, -1)), new Date()) < 0;
-//           console.log("isOverdue", sla, isOverdue);
-//           return {
-//             ...sla,
-//             progress: isOverdue ? "overdue" : sla.progress,
-//           };
-//         } else {
-//           return sla;
-//         }
-//       });
-
-//       return { ...task, sla: updatedEndDateTime };
-//     });
-
-//     const doneOverdueCount = convertedTasks.map((task) => {
-//       return {
-//         client: task.client,
-//         overdue: task.sla.filter((sla) => sla.progress === "overdue"),
-//         done: task.sla.filter((sla) => sla.status === "done"),
-//       };
-//     });
-
-//     // const responseAll = await Promise.all(
-//     //   convertedTasks.map(async (task) => {
-//     //     const response = await restupdate("/cms/task", task);
-//     //     return { success: response?.success ?? false };
-//     //   })
-//     // );
-//     // console.log("RESPONSE FROM UPDATING RECURRENCE", responseAll);
-//     return { success: true };
-//   } else {
-//     return { success: false };
-//   }
-// });
-
-export const clientSelectionForTaskAtom = atom((get) =>
-  get(clientsAtom).map((client) => {
-    return {
-      client_id: client._id, // #[CHANGE KEY]: client_id => key / id
-      key: client._id,
-      name: client.company.name,
-      email: client.company.email,
-      picture: client.company.picture,
-      team: "",
-    };
-  })
-);
 
 let processorIndex = 0;
 export const processorSelectionAtom = atom((get) => {
@@ -973,22 +865,3 @@ export const recurrenceSelectionAtom = atom([
   },
   //Daily, Weekly, Monthly, Quarterly, Yearly
 ]);
-
-export const clientSelectionAtom = atom((get) => {
-  const clientList = get(clientsAtom).map((client) => {
-    return { ...client, key: client._id, value: client._id };
-  });
-  return clientList;
-});
-export const teamSelectionAtom = atom((get) => {
-  const teamList = get(teamsAtom).map((team) => {
-    return { ...team, key: team._id, value: team._id };
-  });
-  return teamList;
-});
-export const userSelectionAtom = atom((get) => {
-  const userList = get(userListAtom).map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  });
-  return userList;
-});

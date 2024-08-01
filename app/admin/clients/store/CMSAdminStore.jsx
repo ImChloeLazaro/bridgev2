@@ -5,8 +5,7 @@ import {
   reviewerSelectionAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { userAtom } from "@/app/store/UserStore";
-import { readwithparams, restread } from "@/app/utils/amplify-rest";
+import { teamsAtom } from "@/app/store/TeamStore";
 import {
   getLocalTimeZone,
   parseTime,
@@ -16,122 +15,114 @@ import {
 } from "@internationalized/date";
 import { format } from "date-fns";
 import { atom } from "jotai";
+import {
+  MdChangeCircle,
+  MdDelete,
+  MdFactCheck,
+  MdKeyboardDoubleArrowUp,
+  MdOutlineAssignment,
+  MdRemoveCircleOutline,
+} from "react-icons/md";
 
+// Essentials for CMS
 export const changeViewAtom = atom(false);
 export const showClientTaskAtom = atom(false);
 export const showFooterAtom = atom(true);
 export const showSearchBarAtom = atom(true);
-
-export const selectedClientToViewAtom = atom("");
-export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
-export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 export const showClientDetailsAtom = atom(false);
 
-let pageRowIndex = 0;
-export const pageRowsSelectionAtom = atom([
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "10",
-    value: "10",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "20",
-    value: "20",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "50",
-    value: "50",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "100",
-    value: "100",
-  },
-  {
-    key: `pageRow-${(pageRowIndex += 1)}`,
-    label: "200",
-    value: "200",
-  },
-]);
+export const selectedClientFilterKeysAtom = atom(new Set(["all"]));
+export const selectedTaskFilterKeysAtom = atom(new Set(["all"]));
 
-export const selectedPage = atom(1);
+// from ClientItemCard for selecting clients to view
+export const selectedClientToViewAtom = atom("");
 
-// TASK ESSENTIALS
+// for tracking tasks, per sla ID inside task object
+export const selectedTaskAtom = atom("");
 
-export const selectedProcessorTaskActionAtom = atom(new Set([]));
-export const selectedReviewerTaskActionAtom = atom(new Set([]));
+// for tracking tasks, task object ID
+export const selectedTaskIDAtom = atom("");
 
-export const selectedTeamForTaskAtom = atom(new Set([]));
+// Tasks to display on table and board view
+export const tasksListAtom = atom((get) => {
+  const tasksList = get(tasksAtom).map((task) => {
+    return { ...task, key: task._id }; // task ID
+  });
+  return tasksList;
+});
 
+// Clients to display on table and board view
+export const clientListAtom = atom((get) => {
+  const clientsList = get(clientsAtom).map((client) => {
+    return {
+      key: client._id,
+      _id: client._id,
+      name: client.company.name,
+      email: client.company.email,
+    };
+  });
+  return clientsList;
+});
+
+export const updateSelectedProcessorAtom = atom(new Set([]));
+export const updateSelectedReviewerAtom = atom(new Set([]));
+
+// for selection in clients selection list when adding tasks to clients
 export const selectedClientForTaskAtom = atom(new Set([]));
+
+export const selectedClientAtom = atom(new Set([]));
+export const clientSelectionAtom = atom((get) => {
+  const clientsList = get(clientsAtom).map((client) => {
+    return {
+      key: client._id,
+      _id: client._id,
+      client_id: client._id,
+      name: client.company.name,
+      email: client.company.email,
+    };
+  });
+  return clientsList;
+});
+
+export const selectedTeamAtom = atom(new Set([]));
+export const teamSelectionAtom = atom((get) => {
+  return get(teamsAtom).map((team) => {
+    return { ...team, key: team._id };
+  });
+});
+
+// selection from task store since admin sees all
 export const selectedProcessorAtom = atom(new Set([]));
 export const selectedReviewerAtom = atom(new Set([]));
 export const selectedManagerAtom = atom(new Set([]));
-export const selectedRecurrenceAtom = atom(new Set(["daily"]));
 
-export const teamsAtom = atom([]);
-
-export const fetchTeamsAtom = atom(null, async (get, set, update) => {
-  const teams = await restread("/teams/team");
-  if (teams?.success) {
-    const convertedTeams = teams.response.map((team, index) => {
-      return { ...team, key: team._id };
-    });
-    set(teamsAtom, convertedTeams);
-  } else {
-    console.error("Failed to fetch teams", teams?.error);
-  }
-});
-
-export const teamSelectionAtom = atom((get) => {
-  let teams = get(teamsAtom).filter((team) => {
-    return team;
-  });
-  return teams;
-});
-
-export const teamsByClientSelectionAtom = atom((get) => {
-  let filteredTeamsByClient = get(teamsAtom).filter((team) =>
-    team.client.some(
-      (client) =>
-        client._id === Array.from(get(selectedClientForTaskAtom)).toString()
-    )
-  );
-
-  console.log("filteredTeamsByClient", filteredTeamsByClient);
-
-  return filteredTeamsByClient;
-});
-
+// task details
+export const taskNameAtom = atom("");
+export const taskInstructionAtom = atom("");
+export const selectedRecurrenceAtom = atom(new Set(["daily"])); // selection from task store since admin sees all
 export const taskDurationAtom = atom("");
-
 export const dateRangeAtom = atom({
   start: today(getLocalTimeZone()).set({ hour: 8 }),
-  end: today(getLocalTimeZone()).add({ days: 1 }),
+  end: today(getLocalTimeZone()),
 });
 export const startTimeAtom = atom(parseTime(format(new Date(), "HH:mm")));
 export const endTimeAtom = atom(new Time(17));
 
-export const taskNameAtom = atom("");
-export const taskInstructionAtom = atom("");
-
 export const taskDataAtom = atom((get) => {
-  const selectedClientForTask = get(selectedClientForTaskAtom);
+  const selectedClient = get(selectedClientAtom);
   const selectedProcessor = get(selectedProcessorAtom);
   const selectedReviewer = get(selectedReviewerAtom);
   const selectedManager = get(selectedManagerAtom);
   const selectedRecurrence = get(selectedRecurrenceAtom);
 
-  const clientSelection = get(clientSelectionForTaskAtom);
+  const clientSelection = get(clientSelectionAtom);
   const processorSelection = get(processorSelectionAtom);
   const reviewerSelection = get(reviewerSelectionAtom);
   const managerSelection = get(managerSelectionAtom);
 
   return {
     client: clientSelection.filter((client) =>
-      Array.from(selectedClientForTask).includes(client?.key)
+      Array.from(selectedClient).includes(client?.key)
     )[0],
     processor: processorSelection.filter((processor) =>
       Array.from(selectedProcessor).includes(processor.sub)
@@ -158,7 +149,7 @@ export const taskDataAtom = atom((get) => {
             get(startTimeAtom)
           ).toString(),
           end: toCalendarDateTime(
-            get(dateRangeAtom).end,
+            get(dateRangeAtom).start,
             get(endTimeAtom)
           ).toString(),
           recurrence:
@@ -172,47 +163,47 @@ export const taskDataAtom = atom((get) => {
   };
 });
 
-// CLIENT ESSENTIALS
-
-export const clientSelectionForTaskAtom = atom((get) => {
-  let selection = get(clientsAtom).map((client) => {
-    return {
-      client_id: client._id, // #[CHANGE KEY]: client_id => key / id
-      key: client._id,
-      name: client.company.name,
-      email: client.company.email,
-      picture: client.company.picture,
-      team: "",
-    };
-  });
-
-  return selection;
-});
-
-export const clientSelectionChangeAtom = atom(null, (get, set, update) => {
-  const { key } = update;
-  const clientSelectionChange = get(tasksAtom).filter(
-    (task) => task.client?.client_id === key
-  );
-
-  const manager = clientSelectionChange[0]?.manager?.sub;
-
-  if (typeof clientSelectionChange[0]?.client?.client_id === "string") {
-    const selectedClient = [clientSelectionChange[0].client?.client_id] ?? [];
-    const selectedProcessor =
-      clientSelectionChange[0].processor.map((processor) => processor?.sub) ??
-      [];
-    const selectedReviewer =
-      clientSelectionChange[0].reviewer.map((reviewer) => reviewer?.sub) ?? [];
-    const selectedManager = typeof manager !== "string" ? [] : [manager];
-
-    set(selectedClientForTaskAtom, new Set(selectedClient));
-    set(selectedProcessorAtom, new Set(selectedProcessor));
-    set(selectedReviewerAtom, new Set(selectedReviewer));
-    set(selectedManagerAtom, new Set(selectedManager));
-  } else {
-    set(selectedProcessorAtom, new Set([]));
-    set(selectedReviewerAtom, new Set([]));
-    set(selectedManagerAtom, new Set([]));
-  }
-});
+export const taskActionsDetailsAtom = atom([
+  {
+    key: "delete",
+    status_id: "admin",
+    color: "red",
+    label: "Delete task from client",
+    icon: <MdDelete size={18} />,
+  },
+  {
+    key: "escalate",
+    status_id: "management",
+    color: "orange",
+    label: "Escalate to management",
+    icon: <MdKeyboardDoubleArrowUp size={18} />,
+  },
+  {
+    key: "resolve",
+    status_id: "admin",
+    color: "green",
+    label: "Resolve Escalation",
+    icon: <MdFactCheck size={18} />,
+  },
+  {
+    key: "reassign",
+    status_id: "admin",
+    color: "green",
+    label: "Re-assign Task",
+    icon: <MdChangeCircle size={18} />,
+  },
+  {
+    key: "assign",
+    status_id: "admin",
+    color: "blue",
+    label: "Assign a member to the client",
+    icon: <MdOutlineAssignment size={18} />,
+  },
+  {
+    key: "remove",
+    status_id: "admin",
+    color: "red",
+    label: "Remove a member from the client",
+    icon: <MdRemoveCircleOutline size={18} />,
+  },
+]);

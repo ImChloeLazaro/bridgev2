@@ -1,6 +1,6 @@
-import { clientsAtom } from "@/app/store/ClientStore";
-import { userListAtom } from "@/app/store/UserStore";
+import { userAtom } from "@/app/store/UserStore";
 import {
+  readwithparams,
   restdestroy,
   restinsert,
   restread,
@@ -44,6 +44,7 @@ export const teamFilterKeysAtom = atom([
 export const selectedTeamFilterKeysAtom = atom(new Set(["all"]));
 
 export const teamsAtom = atom([]);
+export const subTeamsAtom = atom([]);
 export const departmentAtom = atom([]);
 
 export const fetchTeamsAtom = atom(null, async (get, set, update) => {
@@ -53,6 +54,33 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
       return { ...team, key: team._id };
     });
     set(teamsAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
+export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const teams = await readwithparams("/teams/team/myTeam", { sub: user.sub });
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    console.log("convertedTeams", convertedTeams);
+    set(teamsAtom, convertedTeams);
+  } else {
+    console.error("Failed to fetch teams", teams?.error);
+  }
+});
+export const fetchMySubTeamsAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const teams = await readwithparams("/teams/subteam/mySubTeam", {
+    sub: user.sub,
+  });
+  if (teams?.success) {
+    const convertedTeams = teams.response.map((team, index) => {
+      return { ...team, key: team._id };
+    });
+    set(subTeamsAtom, convertedTeams);
   } else {
     console.error("Failed to fetch teams", teams?.error);
   }
@@ -70,6 +98,43 @@ export const fetchDepartmentsAtom = atom(null, async (get, set, update) => {
   }
 });
 
+export const teamMembersTableRowsAtom = atom([
+  {
+    key: "1",
+    name: "Tony Reichert",
+    role: "CEO",
+    status: "Active",
+  },
+]);
+
+export const teamMembersTableColumnsAtom = atom([
+  {
+    label: "Name",
+    key: "name",
+    sortable: true,
+  },
+  {
+    label: "Clients",
+    key: "clients",
+    sortable: false,
+  },
+  {
+    label: "Heads",
+    key: "heads",
+    sortable: false,
+  },
+  {
+    label: "Status",
+    key: "status",
+    sortable: true,
+  },
+  {
+    label: "Members",
+    key: "members",
+    sortable: true,
+  },
+]);
+
 export const selectedTeamAtom = atom();
 
 export const selectedMemberAtom = atom({});
@@ -78,6 +143,7 @@ export const memberPositionAtom = atom("");
 export const memberStatusAtom = atom(new Set());
 export const memberEmploymentStatusAtom = atom(new Set());
 
+export const selectedTeamIdentifierAtom = atom([]);
 export const selectedTeamNameAtom = atom("");
 export const selectedTeamDepartmentNameAtom = atom("");
 export const selectedTeamClientAtom = atom(new Set([]));
@@ -93,7 +159,7 @@ export const teamDepartmentSelectionAtom = atom((get) =>
     return {
       ...department,
       key: department._id,
-      value: department.name,
+      value: department._id,
     };
   })
 );
@@ -103,54 +169,84 @@ export const teamSelectionAtom = atom((get) =>
     return {
       ...team,
       key: team._id,
-      value: team.name,
+      value: team._id,
     };
   })
 );
 
-export const teamClientSelectionAtom = atom((get) =>
-  get(clientsAtom).map((client) => {
-    return {
-      ...client,
-      name: client.company.name,
-      email: client.company.email,
-      key: client._id,
-      value: client.name,
-    };
-  })
-);
+export const teamClientSelectionAtom = atom([]);
 
-export const teamHeadSelectionAtom = atom((get) =>
-  get(userListAtom).map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  })
-);
+export const teamHeadSelectionAtom = atom((get) => {
+  return get(teamsAtom)
+    .map((team) => team.heads)
+    .flat()
+    .map((user) => {
+      return { ...user, key: user.sub, value: user.sub };
+    })
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+});
 
-export const teamMemberSelectionAtom = atom((get) =>
-  get(userListAtom).map((user) => {
-    return { ...user, key: user.sub, value: user.sub };
-  })
-);
+export const teamMemberSelectionAtom = atom((get) => {
+  return get(teamsAtom)
+    .map((team) => team.members)
+    .flat()
+    .map((user) => {
+      return { ...user, key: user.sub, value: user.sub };
+    })
+    .filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+});
+
+export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
+  const user = await get(userAtom);
+  const filtered = await readwithparams("/teams/team/filterClient", {
+    sub: user.sub,
+    method: "filtered",
+  });
+
+  if (filtered?.success) {
+    const filteredClients = filtered.response.map((client) => {
+      return {
+        ...client,
+        key: client._id,
+        value: client._id,
+      };
+    });
+    set(teamClientSelectionAtom, filteredClients);
+    return filtered.response;
+  } else {
+    return {};
+  }
+});
 
 export const teamDataAtom = atom((get) => {
   const selectedTeamID = get(selectedTeamIDAtom);
+  const selectedTeam = get(selectedTeamIdentifierAtom);
   const selectedTeamName = get(selectedTeamNameAtom);
   const selectedTeamHead = get(selectedTeamHeadsAtom);
-  const selectedTeamDepartment = get(selectedTeamDepartmentAtom);
   const selectedTeamMembers = get(selectedTeamMembersAtom);
   const selectedTeamClient = get(selectedTeamClientAtom);
 
   const teamClientSelection = get(teamClientSelectionAtom);
   const teamHeadSelection = get(teamHeadSelectionAtom);
   const teamMembersSelection = get(teamMemberSelectionAtom);
-  const teamDepartmentSelection = get(teamDepartmentSelectionAtom);
+
+  console.log("teamClientSelection", teamClientSelection);
+  console.log("selectedTeamClient", selectedTeamClient);
 
   return {
     _id: selectedTeamID,
+    team: selectedTeam,
+    tl: {
+      sub: get(userAtom).sub,
+      name: get(userAtom).name,
+      email: get(userAtom).email,
+      picture: get(userAtom).picture,
+    },
     name: selectedTeamName,
-    department: teamDepartmentSelection.filter((department) =>
-      Array.from(selectedTeamDepartment).includes(department.key)
-    ),
     heads: teamHeadSelection.filter((head) =>
       Array.from(selectedTeamHead).includes(head.sub)
     ),
@@ -166,33 +262,36 @@ export const teamDataAtom = atom((get) => {
 export const addTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
   teamData = {
+    team: teamData.team,
+    tl: teamData.tl,
     name: teamData.name,
-    department: teamData.department,
     heads: teamData.heads,
     members: teamData.members,
     client: teamData.client,
   };
 
-  const promise = async () =>
-    new Promise((resolve) =>
-      setTimeout(
-        async () =>
-          resolve(
-            await restinsert("/teams/team", teamData),
-            await set(fetchTeamsAtom, {})
-          ),
-        2000
-      )
-    );
-  toast.promise(promise, {
-    description: `${format(new Date(), "PPpp")}`,
-    loading: "Adding Team...",
-    success: () => {
-      return `Team added successfully`;
-    },
+  console.log("teamData", teamData);
 
-    error: "Error Adding Team",
-  });
+  // const promise = async () =>
+  //   new Promise((resolve) =>
+  //     setTimeout(
+  //       async () =>
+  //         resolve(
+  //           await restinsert("/teams/subteam", teamData),
+  //           await set(fetchMyTeamsAtom, {}),
+  //           await set(fetchMySubTeamsAtom, {})
+  //         ),
+  //       2000
+  //     )
+  //   );
+  // toast.promise(promise, {
+  //   description: `${format(new Date(), "PPpp")}`,
+  //   loading: "Adding Team...",
+  //   success: () => {
+  //     return `Team added successfully`;
+  //   },
+  //   error: "Error Adding Team",
+  // });
 });
 
 export const addDepartmentAtom = atom(null, async (get, set, update) => {
@@ -232,7 +331,8 @@ export const updateTeamAtom = atom(null, async (get, set, update) => {
         async () =>
           resolve(
             await restupdate("/teams/team", teamData),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -272,7 +372,8 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
         async () =>
           resolve(
             await restupdate("/teams/team/updateMember", memberData),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -300,7 +401,8 @@ export const archiveTeamAtom = atom(null, async (get, set, update) => {
         async () =>
           resolve(
             await restupdate("/teams/team/activeOrArchive", teamData),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
@@ -385,7 +487,8 @@ export const deleteTeamAtom = atom(null, async (get, set, update) => {
             await restdestroy("/teams/team", {
               sub: team_id,
             }),
-            await set(fetchTeamsAtom, {})
+            await set(fetchMyTeamsAtom, {}),
+            await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )

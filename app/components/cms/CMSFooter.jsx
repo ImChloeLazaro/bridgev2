@@ -4,7 +4,6 @@ const CMSFooter = ({
   showFooter = true,
   displayedItemCount,
   totalItemCount = 0,
-  pageRowsSelection,
   page = 1,
   setPage,
   rowsPerPage = [],
@@ -14,6 +13,34 @@ const CMSFooter = ({
   const handleRowsPerPage = (select) => {
     setRowsPerPage(select);
   };
+
+  const pageRowsSelection = [
+    {
+      key: `pageRow-10`,
+      label: "10",
+      value: "10",
+    },
+    {
+      key: `pageRow-20`,
+      label: "20",
+      value: "20",
+    },
+    {
+      key: `pageRow-50`,
+      label: "50",
+      value: "50",
+    },
+    {
+      key: `pageRow-100`,
+      label: "100",
+      value: "100",
+    },
+    {
+      key: `pageRow-200`,
+      label: "200",
+      value: "200",
+    },
+  ];
 
   return (
     <div

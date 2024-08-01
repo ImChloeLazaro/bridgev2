@@ -4,6 +4,7 @@ import {
   toCalendarDateTime,
   today,
   isWeekend,
+  CalendarDate,
 } from "@internationalized/date";
 import {
   Button,
@@ -71,6 +72,7 @@ const FormFieldInput = ({
   let { locale } = useLocale();
 
   let isDateUnavailable = (date) => isWeekend(date, locale);
+  let minimumDateTime = new CalendarDate(2000, 1, 1);
 
   const endContent = {
     date: (
@@ -97,6 +99,7 @@ const FormFieldInput = ({
               aria-label={label}
               variant={"flat"}
               minValue={showPastDate ? null : today(getLocalTimeZone())}
+              focusedValue={today(getLocalTimeZone())}
               visibleMonths={2}
               pageBehavior={"single"}
               value={dateRangeValue}
@@ -226,10 +229,12 @@ const FormFieldInput = ({
           ) : (
             <Calendar
               isDateUnavailable={isDateUnavailable}
-              showMonthAndYearPickers
+              showMonthAndYearPickers={true}
               aria-label={label}
               variant={"flat"}
-              minValue={showPastDate ? null : today(getLocalTimeZone())}
+              minValue={
+                showPastDate ? minimumDateTime : today(getLocalTimeZone())
+              }
               value={dateRangeValue?.start}
               onChange={(dateRange) => {
                 onDateRangeValueChange((prev) => {
@@ -324,7 +329,7 @@ const FormFieldInput = ({
   // fix validation for datetime
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
-    text: /^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i,
+    text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-_\\]+$/i,
     number: /^[0-9\s+.,()-]+$/i,
     file: /.*\.pdf$/,
   };

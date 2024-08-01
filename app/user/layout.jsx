@@ -19,7 +19,6 @@ const UserLayout = ({ children }) => {
   const user = useAtomValue(userAtom);
   const pathname = usePathname();
 
-  console.log("AUthL ", auth);
   const cmsPaths = useAtomValue(cmsPathsAtom);
   const collapseSidebar = cmsPaths.includes(pathname ?? "/");
   const userRegister = useSetAtom(userRegisterAtom);
@@ -30,13 +29,11 @@ const UserLayout = ({ children }) => {
     if (auth && auth.sub) {
       const checkRegistration = async () => {
         try {
-          console.log("trigger here inside");
+        
           if (user && user.sub) {
-            console.log("User: ", user);
             setIsUserValid(true);
           } else {
             const result = await userRegister(onBoardData);
-            console.log("Registration Result: ", result);
             if (result && result?.result !== null) {
               const fetch = await fetchUser();
               setIsUserValid(true);

@@ -9,65 +9,121 @@ import {
 import { useAtomValue } from "jotai";
 import CTAButtons from "../CTAButtons";
 import FormFieldSelect from "../FormFieldSelect";
+import { useState } from "react";
 
 const TaskActionModal = ({
-  tasks,
   isOpen,
   onOpenChange,
   onOpenAfterClose,
+  sla,
   selectedTaskAction,
-  selectedProcessorTaskAction,
-  setSelectedProcessorTaskAction,
-  selectedReviewerTaskAction,
-  setSelectedReviewerTaskAction,
+  updateSelectedProcessor,
+  setUpdateSelectedProcessor,
+  updateSelectedReviewer,
+  setUpdateSelectedReviewer,
   ...props
 }) => {
-  const filterUniqueByKey = (array, key) => {
-    const seen = new Map();
-    array?.forEach((item) => seen.set(item[key], item));
-    return Array.from(seen.values());
-  };
   const userList = useAtomValue(userListAtom);
 
-  const filteredProcessors = filterUniqueByKey(tasks?.processor, "sub");
-  const filteredReviewers = filterUniqueByKey(tasks?.reviewer, "sub");
+  const processorsAssignees = sla?.processor.map((assignee) => assignee.sub);
+  const reviewersAssignees = sla?.reviewer.map((assignee) => assignee.sub);
 
-  const processorsAssignees = [...filteredProcessors].map(
-    (assignee) => assignee.sub
-  );
-
-  const reviewersAssignees = [...filteredReviewers].map(
-    (assignee) => assignee.sub
-  );
-
-  const processorsSelection = userList.map((user) => {
-    if (!processorsAssignees.includes(user.sub)) {
+  const processorsSelection = userList?.map((user) => {
+    if (!processorsAssignees?.includes(user.sub)) {
       return { ...user, key: user.sub, value: user.sub };
     }
   });
-  const reviewersSelection = userList.map((user) => {
-    if (!reviewersAssignees.includes(user.sub)) {
+  const reviewersSelection = userList?.map((user) => {
+    if (!reviewersAssignees?.includes(user.sub)) {
       return { ...user, key: user.sub, value: user.sub };
     }
   });
 
-  let isDisabled =
-    Boolean(selectedProcessorTaskAction?.size) ||
-    Boolean(selectedReviewerTaskAction?.size);
+  const processors = sla?.processor;
+  const reviewers = sla?.reviewer;
 
-  const processors = new Set([...filteredProcessors]) ?? new Set([]); // new Set([...tasks?.processor]) ??
-  const reviewers = new Set([...filteredReviewers]) ?? new Set([]); // new Set([...tasks?.review]) ??
-
-  const windowDetails = {
+  const actionDetails = {
     assign: {
       title: "New Task Assignees",
       label: "Assign Member",
       color: "blue",
+      form: (
+        <>
+          <div className="flex flex-col items-start justify-between gap-2 ">
+            <p className="w-1/3 text-base font-medium text-black-default">
+              {"Processor"}
+            </p>
+            <FormFieldSelect
+              label="Assigned to"
+              placeholder="Select processor/s"
+              selectionMode={"multiple"}
+              items={processorsSelection}
+              selectedKeys={updateSelectedProcessor}
+              disabledValidation={true}
+              onSelectionChange={setUpdateSelectedProcessor}
+              renderType={"chip"}
+              renderItemPicture={true}
+            />
+          </div>
+          <div className="flex flex-col items-start justify-between gap-2 ">
+            <p className="w-1/3 text-base font-medium text-black-default">
+              {"Reviewer"}
+            </p>
+            <FormFieldSelect
+              label="Assigned to"
+              placeholder="Select reviewer/s"
+              selectionMode={"multiple"}
+              items={reviewersSelection}
+              selectedKeys={updateSelectedReviewer}
+              disabledValidation={true}
+              onSelectionChange={setUpdateSelectedReviewer}
+              renderType={"chip"}
+              renderItemPicture={true}
+            />
+          </div>
+        </>
+      ),
     },
     remove: {
       title: "Remove Task Assignees",
       label: "Remove Member",
       color: "red",
+      form: (
+        <>
+          <div className="flex flex-col items-start justify-between gap-4">
+            <p className="w-1/3 text-base font-medium text-black-default">
+              {"Processor"}
+            </p>
+            <FormFieldSelect
+              label="Remove from"
+              placeholder="Select processor/s"
+              selectionMode={"multiple"}
+              items={processors}
+              selectedKeys={updateSelectedProcessor}
+              disabledValidation={true}
+              onSelectionChange={setUpdateSelectedProcessor}
+              renderType={"chip"}
+              renderItemPicture={true}
+            />
+          </div>
+          <div className="flex flex-col items-start justify-between gap-4">
+            <p className="w-1/3 text-base font-medium text-black-default">
+              {"Reviewer"}
+            </p>
+            <FormFieldSelect
+              label="Remove from"
+              placeholder="Select reviewer/s"
+              selectionMode={"multiple"}
+              items={reviewers}
+              selectedKeys={updateSelectedReviewer}
+              disabledValidation={true}
+              onSelectionChange={setUpdateSelectedReviewer}
+              renderType={"chip"}
+              renderItemPicture={true}
+            />
+          </div>
+        </>
+      ),
     },
   };
 
@@ -89,104 +145,29 @@ const TaskActionModal = ({
           <form action={handleFormAction}>
             <ModalHeader className="flex flex-col gap-1">
               <p className="font-bold text-black-default">
-                {windowDetails[selectedTaskAction.key]?.title}
+                {actionDetails[selectedTaskAction.key]?.title}
               </p>
             </ModalHeader>
-            <ModalBody>
-              {selectedTaskAction.key === "assign" && (
-                <>
-                  <div className="flex flex-col items-start justify-between gap-2 ">
-                    <p className="w-1/3 text-base font-medium text-black-default">
-                      {"Processor"}
-                    </p>
-                    <FormFieldSelect
-                      label="Assigned to"
-                      placeholder="Select processor/s"
-                      selectionMode={"multiple"}
-                      items={processorsSelection}
-                      selectedKeys={selectedProcessorTaskAction}
-                      disabledValidation={true}
-                      onSelectionChange={setSelectedProcessorTaskAction}
-                      renderType={"chip"}
-                      renderItemPicture={true}
-                    />
-                  </div>
-                  <div className="flex flex-col items-start justify-between gap-2 ">
-                    <p className="w-1/3 text-base font-medium text-black-default">
-                      {"Reviewer"}
-                    </p>
-                    <FormFieldSelect
-                      label="Assigned to"
-                      placeholder="Select reviewer/s"
-                      selectionMode={"multiple"}
-                      items={reviewersSelection}
-                      selectedKeys={selectedReviewerTaskAction}
-                      disabledValidation={true}
-                      onSelectionChange={setSelectedReviewerTaskAction}
-                      renderType={"chip"}
-                      renderItemPicture={true}
-                    />
-                  </div>
-                </>
-              )}
-
-              {selectedTaskAction.key === "remove" && (
-                <>
-                  <div className="flex flex-col items-start justify-between gap-4">
-                    <p className="w-1/3 text-base font-medium text-black-default">
-                      {"Processor"}
-                    </p>
-                    <FormFieldSelect
-                      label="Remove from"
-                      placeholder="Select processor/s"
-                      selectionMode={"multiple"}
-                      items={processors}
-                      selectedKeys={selectedProcessorTaskAction}
-                      disabledValidation={true}
-                      onSelectionChange={setSelectedProcessorTaskAction}
-                      renderType={"chip"}
-                      renderItemPicture={true}
-                    />
-                  </div>
-                  <div className="flex flex-col items-start justify-between gap-4">
-                    <p className="w-1/3 text-base font-medium text-black-default">
-                      {"Reviewer"}
-                    </p>
-                    <FormFieldSelect
-                      label="Remove from"
-                      placeholder="Select reviewer/s"
-                      selectionMode={"multiple"}
-                      items={reviewers}
-                      selectedKeys={selectedReviewerTaskAction}
-                      disabledValidation={true}
-                      onSelectionChange={setSelectedReviewerTaskAction}
-                      renderType={"chip"}
-                      renderItemPicture={true}
-                    />
-                  </div>
-                </>
-              )}
-            </ModalBody>
+            <ModalBody>{actionDetails[selectedTaskAction.key]?.form}</ModalBody>
             <ModalFooter>
               <CTAButtons
                 label={"Cancel"}
                 color={"clear"}
                 onPress={() => {
-                  setSelectedProcessorTaskAction(new Set([]));
-                  setSelectedReviewerTaskAction(new Set([]));
+                  setUpdateSelectedProcessor(new Set([]));
+                  setUpdateSelectedReviewer(new Set([]));
                   onClose();
                 }}
               />
               <CTAButtons
                 type={"submit"}
-                // isDisabled={!isDisabled}
-                label={windowDetails[selectedTaskAction.key]?.label}
-                color={windowDetails[selectedTaskAction.key]?.color}
+                label={actionDetails[selectedTaskAction.key]?.label}
+                color={actionDetails[selectedTaskAction.key]?.color}
+                className={"px-6"}
                 onPress={() => {
                   onOpenAfterClose();
                   onClose();
                 }}
-                className={"px-6"}
               />
             </ModalFooter>
           </form>

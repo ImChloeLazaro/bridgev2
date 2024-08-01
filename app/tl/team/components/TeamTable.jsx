@@ -55,7 +55,7 @@ const TeamTable = ({sub}) => {
             case "name":
                 return (
                     <div className="flex gap-2">
-                        <Checkbox onValueChange={e => {console.log('hello world')}}/>
+                        {/* <Checkbox onValueChange={e => {console.log('hello world')}}/> */}
                         <div>
                             <p className="text-bold text-sm capitalize">{cellValue}</p>
                                 <small className="text-default-400">

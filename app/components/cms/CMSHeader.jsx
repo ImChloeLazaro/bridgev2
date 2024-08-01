@@ -2,9 +2,7 @@ import CTAButtons from "@/app/components/CTAButtons";
 import IconButton from "@/app/components/IconButton";
 import SearchBar from "@/app/components/SearchBar";
 import { clientsAtom, fetchClientAtom } from "@/app/store/ClientStore";
-import {
-  fetchTaskAtom,
-} from "@/app/store/TaskStore";
+import { fetchTaskAtom } from "@/app/store/TaskStore";
 import { Tooltip } from "@nextui-org/react";
 import { getHours, getMinutes, getSeconds } from "date-fns";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -39,7 +37,6 @@ const CMSHeader = ({
   setShowClientDetails,
   children,
 }) => {
-
   const clients = useAtomValue(clientsAtom);
 
   const fetchTask = useSetAtom(fetchTaskAtom);
@@ -57,11 +54,7 @@ const CMSHeader = ({
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
-          async () =>
-            resolve(
-              await fetchTask(),
-              await fetchClient()
-            ),
+          async () => resolve(await fetchTask(), await fetchClient()),
           2000
         )
       );
@@ -79,6 +72,7 @@ const CMSHeader = ({
   const handleChangeView = () => {
     setChangeView(!changeView);
     setShowFooter(changeView && !showFooter);
+    setSelectedFilterKeys(["all"]);
   };
 
   const handleViewClientDetails = () => {
@@ -91,8 +85,6 @@ const CMSHeader = ({
   const clientNameToDisplay = clients.filter(
     (client) => client._id === selectedClientToView
   )[0]?.company.name;
-
-
 
   return (
     <div className="w-full flex-wrap flex gap-2">

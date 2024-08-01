@@ -29,8 +29,6 @@ const OnboardingForm = () => {
   const setSelectedStepper = useSetAtom(selectedStepperAtom);
 
   const handleFormAction = (e) => {
-    console.log("FORM ACTION", e);
-
     if (activeStep <= steps.length - 2) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSelectedStepper(steps[activeStep]);
