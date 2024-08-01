@@ -117,7 +117,8 @@ const TaskFormSections = ({
                 selectedKeys={selectedTeam}
                 onSelectionChange={(key) => {
                   setSelectedTeam(key);
-
+                  console.log('teamSelection 1', selectedTeam)
+                  console.log('teamSelection 2', teamSelection)
                   let assignees = teamSelection.filter(
                     (team) => team?._id === Array.from(key).toString()
                   )[0];

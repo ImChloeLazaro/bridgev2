@@ -65,7 +65,7 @@ export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
     const convertedTeams = teams.response.map((team, index) => {
       return { ...team, key: team._id };
     });
-    // console.log("convertedTeams", convertedTeams);
+    console.log("convertedTeams", convertedTeams);
     set(teamsAtom, convertedTeams);
   } else {
     console.error("Failed to fetch teams", teams?.error);
@@ -143,6 +143,7 @@ export const memberPositionAtom = atom("");
 export const memberStatusAtom = atom(new Set());
 export const memberEmploymentStatusAtom = atom(new Set());
 
+export const selectedTeamIdentifierAtom = atom(new Set([]));
 export const selectedTeamNameAtom = atom("");
 export const selectedTeamDepartmentNameAtom = atom("");
 export const selectedTeamClientAtom = atom(new Set([]));
@@ -223,6 +224,7 @@ export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
 
 export const teamDataAtom = atom((get) => {
   const selectedTeamID = get(selectedTeamIDAtom);
+  const selectedTeam = get(selectedTeamIdentifierAtom);
   const selectedTeamName = get(selectedTeamNameAtom);
   const selectedTeamHead = get(selectedTeamHeadsAtom);
   const selectedTeamMembers = get(selectedTeamMembersAtom);
@@ -237,6 +239,7 @@ export const teamDataAtom = atom((get) => {
 
   return {
     _id: selectedTeamID,
+    team: Array.from(selectedTeam).toString(),
     tl: {
       sub: get(userAtom).sub,
       name: get(userAtom).name,
@@ -259,6 +262,7 @@ export const teamDataAtom = atom((get) => {
 export const addTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
   teamData = {
+    team: teamData.team,
     tl: teamData.tl,
     name: teamData.name,
     heads: teamData.heads,
@@ -380,7 +384,6 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
     success: () => {
       return `Member details updated successfully`;
     },
-
     error: "Error Updating Member Details",
   });
 });

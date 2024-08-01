@@ -154,6 +154,7 @@ export const startTimeAtom = atom(parseTime(format(new Date(), "HH:mm")));
 export const endTimeAtom = atom(new Time(17));
 
 export const taskDataAtom = atom((get) => {
+  const selectedTeam = get(selectedTeamAtom);
   const selectedClient = get(selectedClientAtom);
   const selectedProcessor = get(selectedProcessorAtom);
   const selectedReviewer = get(selectedReviewerAtom);
@@ -166,6 +167,7 @@ export const taskDataAtom = atom((get) => {
   const managerSelection = get(managerSelectionAtom);
 
   return {
+    team: Array.from(selectedTeam).toString(),
     client: clientSelection.filter((client) =>
       Array.from(selectedClient).includes(client?.key)
     )[0],

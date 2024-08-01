@@ -46,6 +46,7 @@ export const pageRowsSelectionAtom = atom([
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const {
+    team = [],
     manager = {},
     client = {},
     processor = [],
@@ -54,6 +55,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   } = update;
 
   console.log("ADD TASK", {
+    team,
     manager,
     client,
     processor,
@@ -73,6 +75,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   if (existingTasks?.length) {
     const response = await restupdate("/cms/task", {
       ...existingTasks[0],
+      team: team,
       manager: manager,
       client: client,
       processor: processor,
@@ -86,6 +89,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     }
   } else {
     const response = await restinsert("/cms/task", {
+      team,
       manager,
       client,
       processor,

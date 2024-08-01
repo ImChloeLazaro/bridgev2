@@ -69,7 +69,6 @@ const AddTaskModal = ({
 
   const handleAddTask = async () => {
     // console.log("taskData", taskData);addTask(taskData);deleteTask()
-
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(

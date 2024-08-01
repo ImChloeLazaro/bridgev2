@@ -26,8 +26,11 @@ import {
   TableRow,
   Tooltip,
   useDisclosure,
+  Tabs,
+  Tab
 } from "@nextui-org/react";
-import { Tab, Tabs } from "@nextui-org/tabs";
+
+// import { fetchClientAtom } from "@/app/store/ClientStore";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdSettings } from "react-icons/md";
@@ -101,7 +104,7 @@ const TeamManagementTL = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [teamAction, setTeamAction] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
+  const [selectedRow, setSelectedRow] = useState(null);
   const teamOptionsColors = {
     green: "data-[hover=true]:bg-green-default",
     orange: "data-[hover=true]:bg-orange-default",
@@ -222,7 +225,9 @@ const TeamManagementTL = () => {
 
     switch (columnKey) {
       case "name":
-        return <p className="">{team.name}</p>;
+        return (
+          <p className="">{team.name}</p>
+        );
       case "clients":
         return (
           <Tooltip
@@ -313,7 +318,7 @@ const TeamManagementTL = () => {
                     radius={"sm"}
                     aria-label={"Team Settings Button"}
                     variant="bordered"
-                    // onPress={handleTeamSettings}
+                  // onPress={handleTeamSettings}
                   >
                     <MdSettings
                       size={18}
@@ -372,7 +377,7 @@ const TeamManagementTL = () => {
               <Table
                 aria-label="My Team Members"
                 className="px-2"
-                selectionMode="multiple"
+                selectionMode="single"
                 selectionBehavior={"toggle"}
                 classNames={{
                   base: "rounded-none lg:rounded-[1rem] h-full px-0 lg:px-2",
@@ -430,8 +435,8 @@ const TeamManagementTL = () => {
                   <div className="flex flex-col w-full gap-y-3">
                     {!filteredSubTeamItems?.length ? (
                       filteredSubTeamItems?.length < 1 &&
-                      !searchSubTeamItem?.length &&
-                      Array.from(selectedTeamFilterKeys).join("") === "all" ? (
+                        !searchSubTeamItem?.length &&
+                        Array.from(selectedTeamFilterKeys).join("") === "all" ? (
                         <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
                           <div className="flex flex-col items-center justify-center">
                             <Image
@@ -483,6 +488,7 @@ const TeamManagementTL = () => {
         isOpen={isOpenUpdateTeamStatus}
         onOpenChange={onOpenChangeUpdateTeamStatus}
         action={teamAction}
+        data={filteredTeamItems}
       />
     </>
   );

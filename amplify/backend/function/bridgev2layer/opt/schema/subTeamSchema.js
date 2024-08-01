@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const subTeamSchema = new mongoose.Schema({
+    team: String,
     name: {
         type: String,
         required: true

@@ -7,6 +7,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Select,
+  SelectItem
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
@@ -26,9 +28,18 @@ import {
   selectedTeamDepartmentNameAtom,
   updateTeamAtom,
   addDepartmentAtom,
+  teamMembersTableColumnsAtom,
+  selectedTeamIdentifierAtom
 } from "../store/TeamManagementTLStore";
+import { useEffect, useState } from "react";
 
-const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
+const UpdateTeamModal = ({
+  isOpen,
+  onOpenChange,
+  action,
+  data = []
+}) => {
+  const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamIdentifierAtom);
   const [selectedTeamNameArchive, setSelectedTeamNameArchive] = useAtom(
     selectedTeamNameArchiveAtom
   );
@@ -49,7 +60,11 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
     selectedTeamDepartmentAtom
   );
 
+  const [newTeamEntry, setNewTeamEntry] = useState({});
   const addTeam = useSetAtom(addTeamAtom);
+  // const addTeam = () =>{
+  //   console.log('addTeam', selectedTeam, selectedTeamName, selectedTeamClient, selectedTeamHeads, selectedTeamMembers)
+  // }
   const addDepartment = useSetAtom(addDepartmentAtom);
   const updateTeam = useSetAtom(updateTeamAtom);
   const archiveTeamMultiple = useSetAtom(archiveTeamMultipleAtom);
@@ -91,6 +106,18 @@ const UpdateTeamModal = ({ isOpen, onOpenChange, action }) => {
       title: "Add Sub Team",
       form: (
         <>
+          <Select
+            label="Select Team"
+            className="w-full"
+            selectedKeys={selectedTeam}
+            onSelectionChange={setSelectedTeam}
+          >
+            {data.map((item) => (
+              <SelectItem key={item._id}>
+                {item.name}
+              </SelectItem>
+            ))}
+          </Select>
           <FormFieldInput
             type={"text"}
             fullWidth={true}

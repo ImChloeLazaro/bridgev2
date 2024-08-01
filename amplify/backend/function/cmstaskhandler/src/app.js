@@ -75,8 +75,16 @@ app.get('/cms/task/*', async function (req, res) {
 
 app.post('/cms/task', async function (req, res) {
   try {
-    const { index, manager, client, processor, reviewer, duration, sla } = req.body
-    const insert = await taskModel.create({ manager, client, processor, reviewer, duration, sla })
+    const { team, manager, client, processor, reviewer, duration, sla } = req.body
+    const insert = await taskModel.create({ 
+      team, 
+      manager, 
+      client, 
+      processor, 
+      reviewer, 
+      duration, 
+      sla 
+    })
     res.status(200).json({ success: true, response: insert, message: "Task created successfully" })
   } catch (error) {
     res.json({ error: error })
