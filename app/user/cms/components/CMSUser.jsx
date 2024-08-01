@@ -186,7 +186,7 @@ const CMSUser = () => {
     taskFilterKeys.length,
     selectedClientToView,
   ]);
-
+  console.log("Filtered Tasks: ", tasksList);
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
   const [taskPage, setTaskPage] = useState(1);
 
@@ -239,6 +239,7 @@ const CMSUser = () => {
     selectedClientFilterKeyString,
     clientFilterKeys.length,
   ]);
+  console.log("Filtered: ", filteredClientItems);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
   const [clientPage, setClientPage] = useState(1);
@@ -310,17 +311,17 @@ const CMSUser = () => {
 
   return (
     <>
-      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
+      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className="
+          className='
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            "
+            '
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -387,7 +388,7 @@ const CMSUser = () => {
             />
           </CMSHeader>
         </CardHeader>
-        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
+        <CardBody className='p-0 lg:p-3 h-full w-full overflow-x-auto'>
           <ClientList
             taskStatusCount={taskStatusCount}
             itemClients={itemClients}
@@ -439,7 +440,7 @@ const CMSUser = () => {
             selectedClientToView={selectedClientToView}
           />
         </CardBody>
-        <CardFooter className="">
+        <CardFooter className=''>
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={

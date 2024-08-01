@@ -68,6 +68,7 @@ export const tasksListAtom = atom((get) => {
 // Clients to display on table and board view
 export const clientListAtom = atom((get) => {
   const user = get(userAtom);
+  const task = get(tasksListAtom);
   const mySubTeam = get(userSubTeamsAtom).filter(
     (subTeam) =>
       subTeam.heads.map((head) => head.sub).includes(user.sub) ||
@@ -89,7 +90,10 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
-  return clientsList;
+  const filteredClientList = clientsList.filter((client) => {
+    return task.some((task) => task.client.client_id === client._id);
+  });
+  return filteredClientList;
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));
