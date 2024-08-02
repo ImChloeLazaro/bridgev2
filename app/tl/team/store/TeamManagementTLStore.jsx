@@ -395,18 +395,20 @@ export const archiveTeamAtom = atom(null, async (get, set, update) => {
     _id: team_id,
   };
 
+  console.log("teamData", teamData);
   const promise = async () =>
     new Promise((resolve) =>
       setTimeout(
         async () =>
           resolve(
-            await restupdate("/teams/team/activeOrArchive", teamData),
+            await restupdate("/teams/subteam/activeOrArchive", teamData),
             await set(fetchMyTeamsAtom, {}),
             await set(fetchMySubTeamsAtom, {})
           ),
         2000
       )
     );
+  console.log("promise", promise);
   toast.promise(promise, {
     description: `${format(new Date(), "PPpp")}`,
     loading: `${

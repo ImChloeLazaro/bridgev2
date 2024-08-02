@@ -4,6 +4,7 @@ const awsServerlessExpressMiddleware = require("aws-serverless-express/middlewar
 const mongoose = require("mongoose");
 const limiter = require("/opt/helpers/limiter.js");
 const SubTeamModel = require("/opt/schema/subTeamSchema.js");
+const taskModel = require("/opt/schema/cmsTaskSchema.js");
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
@@ -73,11 +74,15 @@ app.put("/teams/subteam/*", async function (req, res) {
     const { sub } = req.query;
     const proxy = req.path;
     const { _id, name, tl, heads, members, clients, status } = req.body;
-
     switch (proxy) {
-      case "/teams/sub-team/activeOrArchive":
+      case "/teams/subteam/activeOrArchive":
         const team = await SubTeamModel.updateOne({ _id }, { status });
-        res.json({ success: true, response: team });
+        const tasksUpdateResult = await taskModel.updateMany({ team: _id }, { status });
+        res.json({
+          success: true,
+          response: team,
+          task: tasksUpdateResult,
+        });
         break;
       case "/teams/subteam/update":
         const updatedTeam = await SubTeamModel.updateOne(
@@ -86,18 +91,6 @@ app.put("/teams/subteam/*", async function (req, res) {
         );
         res.json({ success: true, response: updatedTeam });
         break;
-      // case "/teams/subteam/updateMember":
-      //   const updatedMember =  await SubTeamModel.updateOne(
-      //     { _id: _id, "members._id": status._id },
-      //     {
-      //       $set: {
-      //         "members.$.employment_status": status.employment_status,
-      //         "members.$.position": status.position,
-      //         "members.$.status": status.status
-      //       }
-      //     })
-      //   res.json({ success: true, response: updatedMember });
-      //   break;
       default:
         res.json({ success: "put call for sub-team!", url: req.url, sub: sub });
         break;
