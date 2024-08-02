@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const mongoose = require("mongoose")
 const teamModel = require('/opt/schema/teamSchema.js')
+const subTeamModel = require('/opt/schema/subTeamSchema.js')
+const taskModel = require('/opt/schema/cmsTaskSchema.js')
 const clientModel = require('/opt/schema/cmsClientSchema.js')
 const limiter = require('/opt/helpers/limiter.js')
 // declare a new express app
@@ -30,8 +32,8 @@ app.get('/teams/team', async function (req, res) {
 
 app.get('/teams/team/*', async function (req, res) {
   try {
-    const {sub, method} = req.query;
-    const key = req.path; 
+    const { sub, method } = req.query;
+    const key = req.path;
     switch (key) {
       case '/teams/team/employee':
         const employee_team = await teamModel.findOne({ sub: sub })
@@ -49,18 +51,18 @@ app.get('/teams/team/*', async function (req, res) {
       case '/teams/team/filterClient':
         let filter_client;
         let clients = [];
-        if(method === 'all') {
-           filter_client = await clientModel.find();
+        if (method === 'all') {
+          filter_client = await clientModel.find();
         }
-        if(method === 'filtered') {
-           filter_client = await teamModel.find({
+        if (method === 'filtered') {
+          filter_client = await teamModel.find({
             $or: [
               { "heads.sub": sub },
               { "members.sub": sub }
             ]
-           });
+          });
         }
-          clients = filter_client.flatMap(team =>
+        clients = filter_client.flatMap(team =>
           team.client.map(client => ({
             key: client._id,
             _id: client._id,
@@ -101,11 +103,24 @@ app.put('/teams/team/*', async function (req, res) {
   try {
     const { status, _id } = req.body;
     const key = req.path;
-
     switch (key) {
       case '/teams/team/activeOrArchive':
         const team = await teamModel.updateOne({ _id }, { status })
-        res.json({ success: true, response: team });
+        const subTeams = await subTeamModel.find({ team: _id });
+        const subTeamIds = subTeams.map(subTeam => subTeam._id);
+
+        const updateSubTeam = await subTeamModel.updateMany({ team: _id }, { status });
+        const tasksOnTeam = await taskModel.updateMany(
+          {
+            $or: [
+              { team: _id },
+              { team: { $in: subTeamIds } }
+            ]
+          },
+          { status }
+        );
+
+        res.json({ success: true, response: subTeams, team: team, subteam: updateSubTeam, task: tasksOnTeam, });
         break;
       case '/teams/team/updateMember':
         const teamOne = await teamModel.updateOne(

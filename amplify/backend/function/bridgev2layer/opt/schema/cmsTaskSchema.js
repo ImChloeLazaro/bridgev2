@@ -48,7 +48,8 @@ const taskSchema = mongoose.Schema({
         email: String,
         picture: String
       } //sub 
-    }]
+    }],
+    status: { type: String, default: 'active' }, 
   })
   
   module.exports = mongoose.model('Task', taskSchema)
