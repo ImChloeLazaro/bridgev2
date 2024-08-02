@@ -11,9 +11,9 @@ export const fetchUserAtom = atom(null, async (get, set) => {
   if (list?.success) {
     const user = list.result.filter((user) => user.sub === auth.sub)[0];
     set(userAtom, user);
-    return user;
+    return true;
   } else {
-    return {};
+    return false;
   }
 });
 

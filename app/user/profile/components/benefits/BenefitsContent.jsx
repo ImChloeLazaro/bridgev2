@@ -10,7 +10,7 @@ const BenefitsContent = () => {
     <div className="flex flex-col w-full gap-1">
       {benefits !== null ? (
         <>
-          {benefits?.benefits.map((benefit, index) => {
+          {benefits?.benefits?.map((benefit, index) => {
             return (
               <div
                 key={index}

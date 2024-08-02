@@ -46,7 +46,7 @@ export const pageRowsSelectionAtom = atom([
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const {
-    team = [],
+    team = "",
     manager = {},
     client = {},
     processor = [],
@@ -64,13 +64,9 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   });
 
   const tasks = get(tasksAtom);
-  const existingTasks = tasks.filter(
-    (task) =>
-      task.manager.sub == manager.sub &&
-      task.client.client_id == client.client_id
-  );
+  const existingTasks = tasks.filter((task) => task.team == team);
 
-  console.log("existingTasks", existingTasks);
+  console.log("existingTasks", existingTasks?.length, existingTasks);
 
   if (existingTasks?.length) {
     const response = await restupdate("/cms/task", {

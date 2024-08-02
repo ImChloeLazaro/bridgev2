@@ -94,7 +94,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
     <>
       <div className="flex flex-wrap justify-between gap-5 mb-5">
         <FormFieldInput
-          isDisabled={viewOnly}
+          
           type={"text"}
           label={"FIRST NAME"}
           value={firstName}
@@ -102,7 +102,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
           isRequired={true}
         />
         <FormFieldInput
-          isDisabled={viewOnly}
+          
           type={"text"}
           label={"LAST NAME"}
           value={lastName}
@@ -110,7 +110,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
           isRequired={true}
         />
         <FormFieldInput
-          isDisabled={viewOnly}
+          
           type={"text"}
           label={"MIDDLE NAME (if None type N/A)"}
           value={middleName}
@@ -119,7 +119,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         />
       </div>
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"EMPLOYEE ID"}
         value={employeeID}
@@ -127,7 +127,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"REFERRED BY (if referrals)"}
         value={referredBy}
@@ -135,7 +135,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={false}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"VACANCY THRU"}
         value={vacancyThru}
@@ -143,7 +143,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"APPLIED FOR"}
         value={appliedFor}
@@ -151,7 +151,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"date"}
         label={"DATE OF APPLICATION"}
         value={dateApplication}
@@ -163,7 +163,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         onDateRangeValueChange={setDateApplicationDateRange}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"date"}
         label={"DATE OF AVAILABILITY"}
         value={dateAvailability}
@@ -175,7 +175,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         onDateRangeValueChange={setDateAvailabilityDateRange}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"EXPECTED SALARY"}
         value={salary}
@@ -188,7 +188,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   const employee_information = (
     <>
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"PRESENT ADDRESS: (Complete address & ZIP code)"}
         value={presentAddress}
@@ -196,7 +196,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"PERMANENT ADDRESS: (Complete address & ZIP code)"}
         value={permanentAddress}
@@ -204,7 +204,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"RESIDENCE STATUS"}
         value={residenceStatus}
@@ -212,7 +212,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"GENDER"}
         value={gender}
@@ -220,7 +220,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"date"}
         label={"BIRTHDATE"}
         value={birthdate}
@@ -232,7 +232,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         onDateRangeValueChange={setBirthdateDateRange}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"CIVIL STATUS"}
         value={civilStatus}
@@ -240,7 +240,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"AGE"}
         value={age}
@@ -248,7 +248,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"EMAIL ADDRESS"}
         value={emailAddress}
@@ -256,7 +256,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"BIRTHPLACE"}
         value={birthplace}
@@ -264,15 +264,15 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
-        type={"number"}
+        
+        type={"text"}
         label={"LANDLINE NUMBER"}
         value={homePhoneNumber}
         onValueChange={setHomePhoneNumber}
         isRequired={false}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"CITIZENSHIP"}
         value={citizenship}
@@ -280,7 +280,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"} // Temp change for employee automation by @gerome - phone
         label={"MOBILE NUMBER"}
         value={mobileNumber}
@@ -288,7 +288,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"RELIGION"}
         value={religion}
@@ -296,7 +296,7 @@ const ApplicationOnboarding = ({ viewOnly }) => {
         isRequired={false}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"LANGUAGE"}
         value={language}
@@ -309,28 +309,28 @@ const ApplicationOnboarding = ({ viewOnly }) => {
   const government_id_information = (
     <>
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"TAX IDENTIFICATION NUMBER (if any)"}
         value={TIN}
         onValueChange={setTIN}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"SOCIAL SECURITY NUMBER (if any)"}
         value={SSS}
         onValueChange={setSSS}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"PAG-IBIG NUMBER (if any)"}
         value={pagibig}
         onValueChange={setPagibig}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"}
         label={"PHILHEALTH NUMBER (if any)"}
         value={philhealth}

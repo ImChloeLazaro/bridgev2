@@ -11,7 +11,7 @@ const ContactOnboarding = ({ viewOnly }) => {
   const emergency_contact = (
     <>
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"NAME"}
         value={contact.name}
@@ -23,7 +23,7 @@ const ContactOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"ADDRESS"}
         value={contact.address}
@@ -35,7 +35,7 @@ const ContactOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         label={"RELATIONSHIP"}
         value={contact.relationship}
@@ -47,7 +47,7 @@ const ContactOnboarding = ({ viewOnly }) => {
         isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"} // Temp change for employee automation by @gerome - phone
         label={"CONTACT NUMBER"}
         value={contact.contact_number}

@@ -120,7 +120,7 @@ const ManagePostSidebar = () => {
       setTemplateTypeSelection((prev) => [
         ...prev,
         {
-          key: `template-${templateTypeCount + 1}`,
+          key: templateName.toLowerCase(),
           label: templateName,
           value: templateName.toLowerCase(),
         },

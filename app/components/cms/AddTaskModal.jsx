@@ -6,6 +6,7 @@ import {
   fetchTaskAtom,
 } from "@/app/store/TaskStore";
 import {
+  fetchMyTeamsAtom,
   fetchTeamsAtom,
   fetchSubTeamsAtom,
   fetchUserSubTeamsAtom,
@@ -61,6 +62,7 @@ const AddTaskModal = ({
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchTeams = useSetAtom(fetchTeamsAtom);
+  const fetchMyTeams = useSetAtom(fetchMyTeamsAtom);
   const fetchSubTeams = useSetAtom(fetchSubTeamsAtom);
   const fetchUserSubTeams = useSetAtom(fetchUserSubTeamsAtom);
   const fetchTeamClients = useSetAtom(fetchTeamClientsAtom);
@@ -68,7 +70,7 @@ const AddTaskModal = ({
   const deleteTask = useSetAtom(deleteTaskAtom);
 
   const handleAddTask = async () => {
-    // console.log("taskData", taskData);addTask(taskData);deleteTask()
+    console.log("taskData", taskData);
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
@@ -92,6 +94,7 @@ const AddTaskModal = ({
 
   useEffect(() => {
     fetchTeams();
+    fetchMyTeams();
     fetchSubTeams();
     fetchUserSubTeams();
     fetchTeamClients();
@@ -99,6 +102,7 @@ const AddTaskModal = ({
   }, [
     fetchSubTeams,
     fetchTeams,
+    fetchMyTeams,
     fetchUserSubTeams,
     fetchTeamClients,
     fetchUserList,

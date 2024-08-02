@@ -18,7 +18,11 @@ const Onboarding = () => {
       className="flex items-center justify-center h-screen bg-cover bg-center "
       style={{ backgroundImage: "url(bg.png)" }}
     >
-      {!user?.hasOnboardingData ? <OnboardingAlreadyDone /> : <OnboardingForm />}
+      {user?.hasOnboardingData ? ( // Temp change for employee automation by @gerome - !user?.hasOnboardingData
+        <OnboardingForm />
+      ) : (
+        <OnboardingAlreadyDone />
+      )}
     </div>
   );
 };

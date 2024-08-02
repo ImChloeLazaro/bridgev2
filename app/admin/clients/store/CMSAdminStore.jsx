@@ -48,12 +48,13 @@ export const tasksListAtom = atom((get) => {
   const tasksList = get(tasksAtom).map((task) => {
     return { ...task, key: task._id }; // task ID
   });
-  return tasksList;
+  return tasksList.filter((task) => task.status === "active");
 });
 
 // Clients to display on table and board view
 export const clientListAtom = atom((get) => {
-  const clientsList = get(clientsAtom).map((client) => {
+  const taskList = get(tasksListAtom);
+  const clientList = get(clientsAtom).map((client) => {
     return {
       key: client._id,
       _id: client._id,
@@ -61,7 +62,10 @@ export const clientListAtom = atom((get) => {
       email: client.company.email,
     };
   });
-  return clientsList;
+  const filteredClientList = clientList.filter((client) => {
+    return taskList.some((task) => task.client.client_id === client._id);
+  });
+  return filteredClientList;
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));
@@ -72,7 +76,7 @@ export const selectedClientForTaskAtom = atom(new Set([]));
 
 export const selectedClientAtom = atom(new Set([]));
 export const clientSelectionAtom = atom((get) => {
-  const clientsList = get(clientsAtom).map((client) => {
+  const clientList = get(clientsAtom).map((client) => {
     return {
       key: client._id,
       _id: client._id,
@@ -81,7 +85,7 @@ export const clientSelectionAtom = atom((get) => {
       email: client.company.email,
     };
   });
-  return clientsList;
+  return clientList;
 });
 
 export const selectedTeamAtom = atom(new Set([]));

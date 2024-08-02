@@ -8,7 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   Select,
-  SelectItem
+  SelectItem,
 } from "@nextui-org/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
@@ -29,16 +29,11 @@ import {
   updateTeamAtom,
   addDepartmentAtom,
   teamMembersTableColumnsAtom,
-  selectedTeamIdentifierAtom
+  selectedTeamIdentifierAtom,
 } from "../store/TeamManagementTLStore";
 import { useEffect, useState } from "react";
 
-const UpdateTeamModal = ({
-  isOpen,
-  onOpenChange,
-  action,
-  data = []
-}) => {
+const UpdateTeamModal = ({ isOpen, onOpenChange, action, data = [] }) => {
   const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamIdentifierAtom);
   const [selectedTeamNameArchive, setSelectedTeamNameArchive] = useAtom(
     selectedTeamNameArchiveAtom
@@ -60,11 +55,7 @@ const UpdateTeamModal = ({
     selectedTeamDepartmentAtom
   );
 
-  const [newTeamEntry, setNewTeamEntry] = useState({});
   const addTeam = useSetAtom(addTeamAtom);
-  // const addTeam = () =>{
-  //   console.log('addTeam', selectedTeam, selectedTeamName, selectedTeamClient, selectedTeamHeads, selectedTeamMembers)
-  // }
   const addDepartment = useSetAtom(addDepartmentAtom);
   const updateTeam = useSetAtom(updateTeamAtom);
   const archiveTeamMultiple = useSetAtom(archiveTeamMultipleAtom);
@@ -106,23 +97,21 @@ const UpdateTeamModal = ({
       title: "Add Sub Team",
       form: (
         <>
-          <Select
-            label="Select Team"
-            className="w-full"
+          <FormFieldSelect
+            fullWidth={true}
+            isRequired={true}
+            disabledValidation={true}
+            items={teamSelection}
+            label={"Select Team"}
             selectedKeys={selectedTeam}
             onSelectionChange={setSelectedTeam}
-          >
-            {data.map((item) => (
-              <SelectItem key={item._id}>
-                {item.name}
-              </SelectItem>
-            ))}
-          </Select>
+            renderItemPicture={true}
+          />
           <FormFieldInput
             type={"text"}
             fullWidth={true}
             isRequired={true}
-            label={"Team Name"}
+            label={"Sub Team Name"}
             value={selectedTeamName}
             onValueChange={setSelectedTeamName}
             className={"mb-1"}
@@ -143,8 +132,8 @@ const UpdateTeamModal = ({
             fullWidth={true}
             isRequired={true}
             disabledValidation={true}
-            items={teamHeadSelection}
-            label={"Select Team Head"}
+            items={teamMemberSelection}
+            label={"Select Sub Team Head"}
             selectedKeys={selectedTeamHeads}
             onSelectionChange={setSelectedTeamHeads}
             renderItemPicture={true}
@@ -154,7 +143,7 @@ const UpdateTeamModal = ({
             isRequired={true}
             disabledValidation={true}
             items={teamMemberSelection}
-            label={"Select Team Member/s"}
+            label={"Select Sub Team Member/s"}
             selectedKeys={selectedTeamMembers}
             onSelectionChange={setSelectedTeamMembers}
             renderItemPicture={true}
@@ -163,7 +152,7 @@ const UpdateTeamModal = ({
           />
         </>
       ),
-      actionLabel: "Add Team",
+      actionLabel: "Add Sub Team",
       actionColor: "blue",
       action: addTeam,
     },
@@ -196,7 +185,7 @@ const UpdateTeamModal = ({
             fullWidth={true}
             isRequired={true}
             disabledValidation={true}
-            items={teamHeadSelection}
+            items={teamMemberSelection}
             label={"Select Team Head"}
             selectedKeys={selectedTeamHeads}
             onSelectionChange={setSelectedTeamHeads}
@@ -219,25 +208,6 @@ const UpdateTeamModal = ({
       actionLabel: "Update Team",
       actionColor: "blue",
       action: updateTeam,
-    },
-    department: {
-      title: "Add Department",
-      form: (
-        <>
-          <FormFieldInput
-            type={"text"}
-            fullWidth={true}
-            isRequired={true}
-            label={"Department Name"}
-            value={selectedTeamDepartmentName}
-            onValueChange={setSelectedTeamDepartmentName}
-            className={"mb-1"}
-          />
-        </>
-      ),
-      actionLabel: "Add Department",
-      actionColor: "green",
-      action: addDepartment,
     },
   };
 
