@@ -10,6 +10,7 @@ import { authenticationAtom } from "../store/AuthenticationStore";
 import { fetchUserAtom, userAtom, userRegisterAtom } from "../store/UserStore";
 import { useEffect, useState } from "react";
 import { OnBoardingData } from "../onboarding/components/OnBoardingData";
+import { onboardingDataAtom } from "../onboarding/store/OnboardingStore";
 
 const SideBar = dynamic(() => import("../navigation/components/SideBar"), {
   ssr: false,
@@ -25,7 +26,7 @@ const HRLayout = ({ children }) => {
   const userRegister = useSetAtom(userRegisterAtom);
   const [isUserValid, setIsUserValid] = useState(false);
   const fetchUser = useSetAtom(fetchUserAtom);
-  const onBoardData = OnBoardingData();
+  const onBoardData = useAtomValue(onboardingDataAtom)
   useEffect(() => {
     if (auth && auth.sub) {
       const checkRegistration = async () => {
@@ -36,7 +37,7 @@ const HRLayout = ({ children }) => {
             const result = await userRegister(onBoardData);
             if (result && result?.result !== null) {
               const fetch = await fetchUser();
-              setIsUserValid(true);
+              setIsUserValid(fetch);
             }
           }
         } catch (error) {

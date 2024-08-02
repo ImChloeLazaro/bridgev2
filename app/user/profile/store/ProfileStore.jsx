@@ -1,4 +1,6 @@
 import { authenticationAtom } from "@/app/store/AuthenticationStore";
+import { userSubTeamsAtom } from "@/app/store/TeamStore";
+import { userAtom } from "@/app/store/UserStore";
 import { readwithparams } from "@/app/utils/amplify-rest";
 import { atom, useAtomValue } from "jotai";
 
@@ -95,11 +97,15 @@ export const leaveRequestAtom = atom();
 // });
 
 //get clientsubteam
-export const clientSubItemDataAtom = atom(async (get) => {
-  const auth = await get(authenticationAtom);
-  return await readwithparams("/teams/subteam/myUserSubTeam", {
-    sub: auth.sub,
-  });
+export const userTeamsAtom = atom(async (get) => {
+  const user = get(userAtom);
+  const filteredUserTeams = get(userSubTeamsAtom).filter((team) =>
+    team.heads
+      .map((head) => head.sub)
+      .flat()
+      .includes(user.sub)
+  );
+  return filteredUserTeams;
 });
 export const clientItemDataAtom = atom(async (get) => {
   const auth = await get(authenticationAtom);

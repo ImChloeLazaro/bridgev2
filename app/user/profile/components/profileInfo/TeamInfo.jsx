@@ -1,15 +1,17 @@
 import SearchBar from "@/app/components/SearchBar";
-import { useAtom, useAtomValue } from "jotai";
-import { useState } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useState } from "react";
 import {
-  clientSubItemDataAtom,
+  userTeamsAtom,
   selectedMemberFilterKeysAtom,
 } from "../../store/ProfileStore";
 import TeamLists from "./Components/TeamLists";
+import { fetchUserSubTeamsAtom } from "@/app/store/TeamStore";
 
 const TeamInfo = () => {
-  const newData = useAtomValue(clientSubItemDataAtom);
-  const data = newData?.response.filter((subTeamNewData) => {
+  const userTeams = useAtomValue(userTeamsAtom);
+  const fetchUserSubTeams = useSetAtom(fetchUserSubTeamsAtom);
+  const data = userTeams?.filter((subTeamNewData) => {
     return subTeamNewData.status === "active";
   });
 
@@ -27,7 +29,11 @@ const TeamInfo = () => {
   const [selectedMemberFilterKeys, setSelectedMemberFilterKeys] = useAtom(
     selectedMemberFilterKeysAtom
   );
-  
+
+  useEffect(() => {
+    fetchUserSubTeams();
+  }, [fetchUserSubTeams]);
+
   return (
     <div className="flex flex-col gap-3">
       <SearchBar

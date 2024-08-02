@@ -51,37 +51,37 @@ export const postTemplateItemsAtom = atom([
 let templateIndex = 0;
 export const templateTypeSelectionAtom = atom([
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "custom",
     label: "Custom",
     value: "custom",
   },
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "award",
     label: "Award",
     value: "award",
   },
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "team",
     label: "Team",
     value: "team",
   },
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "feedback",
     label: "Feedback",
     value: "feedback",
   },
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "news",
     label: "News",
     value: "news",
   },
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "events",
     label: "Events",
     value: "events",
   },
   {
-    key: `template-${(templateIndex += 1)}`,
+    key: "birthday",
     label: "Birthday",
     value: "birthday",
   },
@@ -97,28 +97,28 @@ export const templateNameAtom = atom("");
 let reactionIndex = 0;
 export const reactionsSelectionAtom = atom([
   {
-    id: (reactionIndex += 1),
+    // id: (reactionIndex += 1),
     key: "love",
     label: "Love",
     selectIcon: reactionIcons.love.badge,
     displayIcon: reactionIcons.love.borderBadge,
   },
   {
-    id: (reactionIndex += 1),
+    // id: (reactionIndex += 1),
     key: "birthday",
     label: "Birthday",
     selectIcon: reactionIcons.birthday.badge,
     displayIcon: reactionIcons.birthday.borderBadge,
   },
   {
-    id: (reactionIndex += 1),
+    // id: (reactionIndex += 1),
     key: "star",
     label: "Star",
     selectIcon: reactionIcons.star.badge,
     displayIcon: reactionIcons.star.borderBadge,
   },
   {
-    id: (reactionIndex += 1),
+    // id: (reactionIndex += 1),
     key: "happy",
     label: "Happy",
     selectIcon: reactionIcons.happy.badge,
@@ -130,12 +130,12 @@ export const selectedReactionsAtom = atom(new Set([]));
 let mediaLayoutIndex = 0;
 export const mediaLayoutSelectionAtom = atom([
   {
-    key: `mediaLayout-${(mediaLayoutIndex += 1)}`,
+    key: "single",
     label: "Single",
     value: "single",
   },
   {
-    key: `mediaLayout-${(mediaLayoutIndex += 1)}`,
+    key: "multiple",
     label: "Multiple",
     value: "multiple",
   },
@@ -145,12 +145,12 @@ export const selectedMediaLayoutAtom = atom(new Set([]));
 let mediaOrientationIndex = 0;
 export const mediaOrientationSelectionAtom = atom([
   {
-    key: `mediaLayout-${(mediaOrientationIndex += 1)}`,
+    key: "landscape",
     label: "Landscape",
     value: "landscape",
   },
   {
-    key: `mediaLayout-${(mediaOrientationIndex += 1)}`,
+    key: "portrait",
     label: "Portrait",
     value: "portrait",
   },
@@ -168,20 +168,28 @@ let taggedIndex = 0;
 export const taggedPeopleListAtom = atom((get) => {
   const list = get(userListAtom);
 
+  console.log("list", list);
+
   const allEmails = list.map((person) => person.email);
+  const allSubs = list.map((person) => person.sub);
 
   const all = {
-    id: (taggedIndex += 1),
+    // id: (taggedIndex += 1),
     key: "all",
     name: "@all",
     email: allEmails,
+    subs: allSubs,
     picture: null,
   };
 
   const peopleList = list.map((person) => ({
-    ...person,
-    id: (taggedIndex += 1),
-    key: `user-${taggedIndex}`,
+    // id: (taggedIndex += 1),
+    key: person.sub,
+    name: person.name,
+    picture: person.picture,
+    email: person.email,
+    sub: person.sub,
+    _id: person._id,
   }));
 
   return [all, ...peopleList];
@@ -200,6 +208,7 @@ let postTemplatesIndex = 0;
 export const postTemplatesAtom = atom([
   {
     id: (postTemplatesIndex += 1),
+    key: "custom",
     name: "Custom",
     type: "",
     reactionList: [],
@@ -212,6 +221,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    key: "award",
     name: "Award",
     type: "award",
     reactionList: ["star"],
@@ -224,6 +234,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    key: "birthday",
     name: "Birthday",
     type: "birthday",
     reactionList: ["birthday"],
@@ -237,6 +248,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    key: "events",
     name: "Events",
     type: "events",
     reactionList: ["happy"],
@@ -249,6 +261,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    key: "feedback",
     name: "Feedback",
     type: "feedback",
     reactionList: ["star"],
@@ -261,6 +274,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    key: "news",
     name: "News",
     type: "news",
     reactionList: ["love"],
@@ -273,6 +287,7 @@ export const postTemplatesAtom = atom([
   },
   {
     id: (postTemplatesIndex += 1),
+    key: "team",
     name: "Team",
     type: "team",
     reactionList: ["happy"],

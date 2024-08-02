@@ -17,14 +17,14 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
     };
 
     const result = findByName();
-    
+
     if (!filter.has("All")) {
       const extractUniqueUsers = (data) => {
         const allUsersMap = new Map();
-        data.heads.forEach((head) => {
+        data?.heads.forEach((head) => {
           allUsersMap.set(head.sub, { ...head, teamLead: true });
         });
-        data.members.forEach((member) => {
+        data?.members.forEach((member) => {
           if (!allUsersMap.has(member.sub)) {
             allUsersMap.set(member.sub, member);
           }
@@ -39,10 +39,10 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
     } else {
       const extractUniqueUsers = (data) => {
         const allUsersMap = new Map();
-        data.heads.forEach((head) => {
+        data?.heads.forEach((head) => {
           allUsersMap.set(head.sub, { ...head, teamLead: true });
         });
-        data.members.forEach((member) => {
+        data?.members.forEach((member) => {
           if (!allUsersMap.has(member.sub)) {
             allUsersMap.set(member.sub, member);
           }
@@ -58,7 +58,7 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
   }, [selectedData, filter]);
 
   const filteredMembers = teamMembers.filter((member) =>
-    member.name.toLowerCase().includes(searchQuery.toLowerCase())
+    member?.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return filteredMembers !== null || filteredMembers.length > 0 ? (
@@ -86,9 +86,9 @@ const TeamLists = ({ selectedData, searchQuery, filter }) => {
               <p className="flex justify-start items-center text-base">
                 <IoMdMail size={15} className="mr-2" /> {member?.email}
               </p>
-              <p className="flex justify-start items-center">
+              <p className="flex justify-start items-center text-base">
                 <BsFillBriefcaseFill size={14} className="mr-2" />{" "}
-                {member?.position}
+                {member?.position ?? "Not Specified"}
               </p>
             </div>
           </div>

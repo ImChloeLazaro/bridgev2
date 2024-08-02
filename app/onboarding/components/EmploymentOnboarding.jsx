@@ -42,7 +42,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       className="flex flex-wrap justify-between gap-5 mb-5"
     >
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"employment_position_held" + h_index}
         label={"POSITION HELD"}
@@ -59,7 +59,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"date"}
         key={"employment_date_of_attendance" + h_index}
         label={"DATE OF ATTENDANCE"}
@@ -80,7 +80,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         onDateRangeValueChange={setEmploymentHistoryDateRange}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"employment_duration" + h_index}
         label={"DURATION"}
@@ -98,7 +98,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
 
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"employment_reason_leaving" + h_index}
         label={"REASON FOR LEAVING"}
@@ -123,7 +123,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       className="flex flex-wrap justify-between gap-5 mb-5"
     >
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"training_program_name" + t_index}
         label={"NAME OF PROGRAM"}
@@ -141,7 +141,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       />
 
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"training_topic_specialization" + t_index}
         label={"TOPIC/SPECIALIZATION"}
@@ -158,7 +158,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"training_duration" + t_index}
         label={"DURATION"}
@@ -175,7 +175,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"training_provider" + t_index}
         label={"PROVIDER"}
@@ -199,7 +199,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
       className="flex flex-wrap justify-between gap-5 mb-5"
     >
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"reference_name" + r_index}
         label={"NAME"}
@@ -216,7 +216,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"reference_company_name_address" + r_index}
         label={"COMPANY NAME AND ADDRESS"}
@@ -233,7 +233,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"text"}
         key={"reference_position_held" + r_index}
         label={"POSITION HELD"}
@@ -250,7 +250,7 @@ const EmploymentOnboarding = ({ viewOnly }) => {
         // isRequired={true}
       />
       <FormFieldInput
-        isDisabled={viewOnly}
+        
         type={"number"} // Temp change for employee automation by @gerome - phone
         key={"reference_contact_number" + r_index}
         label={"CONTACT NUMBER"}

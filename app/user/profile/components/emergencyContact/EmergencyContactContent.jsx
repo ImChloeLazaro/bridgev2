@@ -11,8 +11,8 @@ const EmergencyContactContent = () => {
             {"Name:"}
           </p>
           <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
-            {profileData.emergency.name?.length
-              ? profileData.emergency?.name
+            {profileData?.emergency?.name?.length
+              ? profileData?.emergency?.name
               : "No Data Available"}
           </p>
         </div>
@@ -21,8 +21,8 @@ const EmergencyContactContent = () => {
             {"Relationship:"}
           </p>
           <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
-            {profileData.emergency.relationship?.length
-              ? profileData.emergency.relationship
+            {profileData?.emergency?.relationship?.length
+              ? profileData?.emergency?.relationship
               : "No Data Available"}
           </p>
         </div>
@@ -31,8 +31,8 @@ const EmergencyContactContent = () => {
             {"Contact No:"}
           </p>
           <p className="w-1/2 text-sm sm:text-base font-bold text-black-default">
-            {profileData.emergency.contact_number?.length
-              ? profileData.emergency?.contact_number
+            {profileData?.emergency?.contact_number?.length
+              ? profileData?.emergency?.contact_number
               : "No Data Available"}
           </p>
         </div>

@@ -378,6 +378,7 @@ const FormFieldInput = ({
         //   if (type === "date") event.preventDefault();
         //   return false;
         // }}
+        isReadOnly={isReadOnly}
         type={inputType}
         placeholder={placeholder}
         aria-label={label}

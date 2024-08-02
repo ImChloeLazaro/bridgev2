@@ -223,7 +223,7 @@ export const fetchTeamClientsAtom = atom(null, async (get, set, update) => {
 });
 
 export const teamDataAtom = atom((get) => {
-  const selectedTeamID = get(selectedTeamIDAtom);
+  const selectedSubTeamID = get(selectedTeamIDAtom);
   const selectedTeam = get(selectedTeamIdentifierAtom);
   const selectedTeamName = get(selectedTeamNameAtom);
   const selectedTeamHead = get(selectedTeamHeadsAtom);
@@ -238,7 +238,7 @@ export const teamDataAtom = atom((get) => {
   console.log("selectedTeamClient", selectedTeamClient);
 
   return {
-    _id: selectedTeamID,
+    _id: selectedSubTeamID,
     team: Array.from(selectedTeam).toString(),
     tl: {
       sub: get(userAtom).sub,
@@ -247,7 +247,7 @@ export const teamDataAtom = atom((get) => {
       picture: get(userAtom).picture,
     },
     name: selectedTeamName,
-    heads: teamHeadSelection.filter((head) =>
+    heads: teamMembersSelection.filter((head) =>
       Array.from(selectedTeamHead).includes(head.sub)
     ),
     members: teamMembersSelection.filter((member) =>
@@ -286,11 +286,11 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
     );
   toast.promise(promise, {
     description: `${format(new Date(), "PPpp")}`,
-    loading: "Adding Team...",
+    loading: "Adding Sub Team...",
     success: () => {
-      return `Team added successfully`;
+      return `Sub Team added successfully`;
     },
-    error: "Error Adding Team",
+    error: "Error Adding Sub Team",
   });
 });
 
@@ -324,13 +324,20 @@ export const addDepartmentAtom = atom(null, async (get, set, update) => {
 
 export const updateTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
+  teamData = {
+    _id: teamData._id,
+    name: teamData.name,
+    heads: teamData.heads,
+    members: teamData.members,
+    clients: teamData.client, // rename clients to client as per schema on sub team collection
+  };
 
   const promise = async () =>
     new Promise((resolve) =>
       setTimeout(
         async () =>
           resolve(
-            await restupdate("/teams/team", teamData),
+            await restupdate("/teams/subteam/update", teamData),
             await set(fetchMyTeamsAtom, {}),
             await set(fetchMySubTeamsAtom, {})
           ),
@@ -371,7 +378,7 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
       setTimeout(
         async () =>
           resolve(
-            await restupdate("/teams/team/updateMember", memberData),
+            await restupdate("/teams/subteam/update", memberData),
             await set(fetchMyTeamsAtom, {}),
             await set(fetchMySubTeamsAtom, {})
           ),
@@ -391,8 +398,8 @@ export const updateTeamMemberAtom = atom(null, async (get, set, update) => {
 export const archiveTeamAtom = atom(null, async (get, set, update) => {
   const { action, team_id } = update;
   let teamData = {
-    status: action,
     _id: team_id,
+    status: action,
   };
 
   console.log("teamData", teamData);
