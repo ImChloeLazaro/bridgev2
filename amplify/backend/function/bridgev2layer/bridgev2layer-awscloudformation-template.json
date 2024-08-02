@@ -20,48 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersione61dfd4d": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": {
-          "Ref": "runtimes"
-        },
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        },
-        "Description": {
-          "Ref": "description"
-        },
-        "LayerName": {
-          "Fn::Sub": [
-            "bridgev2layer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublice61dfd4d": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": {
-          "Ref": "LambdaLayerVersione61dfd4d"
-        },
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersion49f0b7cd": {
+    "LambdaLayerVersion9f17d87a": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": [
@@ -71,9 +30,9 @@
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion49f0b7cd-build.zip"
+          "S3Key": "amplify-builds/bridgev2layer-LambdaLayerVersion9f17d87a-build.zip"
         },
-        "Description": "Updated layer version 2024-08-01T06:04:37.123Z",
+        "Description": "Updated layer version 2024-08-02T02:10:12.847Z",
         "LayerName": {
           "Fn::Sub": [
             "bridgev2layer-${env}",
@@ -88,11 +47,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublic49f0b7cd": {
+    "LambdaLayerPermissionPublic9f17d87a": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:155",
+        "LayerVersionArn": "arn:aws:lambda:ap-southeast-1:675436869821:layer:bridgev2layer-dev:157",
         "Principal": "*"
       }
     }
@@ -100,7 +59,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersione61dfd4d"
+        "Ref": "LambdaLayerVersion9f17d87a"
       }
     }
   }
