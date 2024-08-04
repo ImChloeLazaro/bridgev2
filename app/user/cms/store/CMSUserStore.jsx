@@ -82,10 +82,11 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
-  const filteredClientList = clientList.filter((client) => {
-    return taskList.some((task) => task.client.client_id === client._id);
-  });
-  return filteredClientList;
+  // const filteredClientList = clientList.filter((client) => {
+  //   return taskList.some((task) => task.client.client_id === client._id);
+  // });
+  // return filteredClientList;
+  return clientList
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));

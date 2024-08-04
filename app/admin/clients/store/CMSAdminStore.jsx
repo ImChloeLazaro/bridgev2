@@ -62,10 +62,11 @@ export const clientListAtom = atom((get) => {
       email: client.company.email,
     };
   });
-  const filteredClientList = clientList.filter((client) => {
-    return taskList.some((task) => task.client.client_id === client._id);
-  });
-  return filteredClientList;
+  // const filteredClientList = clientList.filter((client) => {
+  //   return taskList.some((task) => task.client.client_id === client._id);
+  // });
+  // return filteredClientList;
+  return clientList
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));
