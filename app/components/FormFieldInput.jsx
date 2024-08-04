@@ -334,7 +334,7 @@ const FormFieldInput = ({
 
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
-    text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-_\\]+$/i,
+    text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-\\]+$/i,
     number: /^[0-9\s+.,()-]+$/i,
     file: /.*\.pdf$/,
     phone: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/gm, // with area code e.g. (+63: PH +61: AU)
