@@ -139,7 +139,7 @@ const UserRoleCard = ({ user }) => {
           title="Update User Role?"
           choice="Update Role"
           action={updateUserRoles}
-          action_params={{ updatedRoles: updatedRoles }}
+          action_params={{ sub: user.sub, updatedRoles: updatedRoles }}
           type="warning"
           isOpen={isOpenPopup}
           onOpenChange={onOpenChangePopup}
