@@ -462,7 +462,6 @@ export const archiveTeamMultipleAtom = atom(null, async (get, set, update) => {
         2000
       )
     );
-
   toast.promise(promise, {
     description: `${format(new Date(), "PPpp")}`,
     loading: `Archiving Teams...`,

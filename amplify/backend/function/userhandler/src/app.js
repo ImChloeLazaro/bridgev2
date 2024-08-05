@@ -189,11 +189,10 @@ app.put("/user/*", async function (req, res) {
       case "/user/update-role":
         const data = await userModel.findOneAndUpdate(
           { sub: { $eq: sub } },
-          { role },
+          { role: role },
           { new: true }
         );
         res.status(200).json({ success: true, response: data });
-
         break;
       default:
         res
