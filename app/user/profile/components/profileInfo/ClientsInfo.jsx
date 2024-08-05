@@ -11,7 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import { useAtom, useAtomValue } from "jotai";
 import {
-  clientSubItemDataAtom,
+  userTeamsAtom,
   selectedClientFilterKeysAtom,
 } from "../../store/ProfileStore";
 import { columnData, subTeamData } from "./UserClientStore";
@@ -19,9 +19,9 @@ import UserClientTable from "./Components/UserClientTable";
 import SearchBar from "@/app/components/SearchBar";
 
 const ClientsInfo = () => {
-  const newData = useAtomValue(clientSubItemDataAtom);
+  const newData = useAtomValue(userTeamsAtom);
   const columns = columnData;
-  const data = newData.response.filter((subTeamNewData) => {
+  const data = newData.filter((subTeamNewData) => {
     return subTeamNewData.status === "active";
   });
 
@@ -87,7 +87,7 @@ const ClientsInfo = () => {
     if (selectedClientFilterKeys.anchorKey) {
       setSelectedClient(selectedClientFilterKeys.anchorKey);
     }
-  }, [selectedClient, searchQuery, selectedClientFilterKeys]);
+  }, [selectedClient, searchQuery, selectedClientFilterKeys, data]);
 
   return (
     <div className="flex flex-col gap-3">

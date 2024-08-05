@@ -17,14 +17,35 @@ export const fetchTeamsAtom = atom(null, async (get, set, update) => {
   const teams = await restread("/teams/team");
 
   if (teams?.success) {
-    const convertedTasks = teams.response.map((team, index) => {
+    const convertedTeams = teams.response.map((team, index) => {
       return {
         ...team,
         index: index,
       };
     });
 
-    set(teamsAtom, convertedTasks);
+    set(teamsAtom, convertedTeams);
+  } else {
+    set(teamsAtom, []);
+  }
+});
+
+export const myTeamsAtom = atom([]); // admin side
+
+export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
+  const user = get(userAtom);
+  const teams = await readwithparams("/teams/team/myTeam", {
+    sub: user.sub,
+  });
+  if (teams?.success) {
+    const convertedMyTeams = teams.response.map((team, index) => {
+      return {
+        ...team,
+        index: index,
+      };
+    });
+
+    set(myTeamsAtom, convertedMyTeams);
   } else {
     set(teamsAtom, []);
   }

@@ -64,8 +64,6 @@ const TaskFormSections = ({
     team.client.map((client) => client._id).includes(selectedClientToView)
   );
 
-  console.log("teamSelection", teamSelection)
-
   return (
     <div className="flex flex-col gap-6">
       {/* People */}
@@ -117,11 +115,18 @@ const TaskFormSections = ({
                 selectedKeys={selectedTeam}
                 onSelectionChange={(key) => {
                   setSelectedTeam(key);
-                  console.log('teamSelection 1', selectedTeam)
-                  console.log('teamSelection 2', teamSelection)
-                  let assignees = teamSelection.filter(
-                    (team) => team?._id === Array.from(key).toString()
-                  )[0];
+                  if (showClientTask) setSelectedClient([selectedClientToView]);
+                  let assignees = teamSelection
+                    .filter((team) => team?._id === Array.from(key).toString())
+                    .pop();
+                  // console.log(
+                  //   "testing slection:",
+                  //   teamSelection
+                  //     .filter(
+                  //       (team) => team?._id === Array.from(key).toString()
+                  //     )
+                  //     .pop()
+                  // );
                   if (
                     assignees === undefined ||
                     assignees?.length === 0 ||

@@ -1,10 +1,17 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { personalInfoAtom } from "../../store/ProfileStore";
 import UserOnboardingModal from "./UserOnboardingModal";
 import { format, isValid } from "date-fns";
+// import { fetchOnboardingDataAtom } from "@/app/onboarding/store/OnboardingStore";
+// import { useEffect } from "react";
 
 const UserOnboardingContent = () => {
   const { recruitment } = useAtomValue(personalInfoAtom);
+  // const fetchOnBoardingData = useSetAtom(fetchOnboardingDataAtom);
+
+  // useEffect(() => {
+  //   fetchOnBoardingData();
+  // }, [fetchOnBoardingData]);
 
   return (
     <div className="flex items-center justify-between p-1 lg:p-2">

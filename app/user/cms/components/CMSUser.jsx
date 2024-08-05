@@ -57,7 +57,6 @@ import {
   updateSelectedProcessorAtom,
   updateSelectedReviewerAtom,
 } from "../store/CMSUserStore";
-import { fetchUserAtom } from "@/app/store/UserStore";
 // @refresh reset
 
 const CMSUser = () => {
@@ -186,7 +185,7 @@ const CMSUser = () => {
     taskFilterKeys.length,
     selectedClientToView,
   ]);
-  console.log("Filtered Tasks: ", tasksList);
+
   const [taskRowsPerPage, setTaskRowsPerPage] = useState(new Set(["10"]));
   const [taskPage, setTaskPage] = useState(1);
 
@@ -239,7 +238,6 @@ const CMSUser = () => {
     selectedClientFilterKeyString,
     clientFilterKeys.length,
   ]);
-  console.log("Filtered: ", filteredClientItems);
 
   const [clientRowsPerPage, setClientRowsPerPage] = useState(new Set(["10"]));
   const [clientPage, setClientPage] = useState(1);
@@ -263,7 +261,6 @@ const CMSUser = () => {
 
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
-  const fetchUser = useSetAtom(fetchUserAtom);
 
   const handleOpenTaskWindow = () => {
     onOpenTask();
@@ -284,10 +281,6 @@ const CMSUser = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
 
   useEffect(() => {
     // only execute all the code below in client side

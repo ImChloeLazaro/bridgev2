@@ -5,7 +5,7 @@ import {
   reviewerSelectionAtom,
   tasksAtom,
 } from "@/app/store/TaskStore";
-import { userSubTeamsAtom, teamClientsAtom } from "@/app/store/TeamStore";
+import { userSubTeamsAtom } from "@/app/store/TeamStore";
 import { userAtom } from "@/app/store/UserStore";
 import {
   getLocalTimeZone,
@@ -16,13 +16,7 @@ import {
 } from "@internationalized/date";
 import { format } from "date-fns";
 import { atom } from "jotai";
-import {
-  MdDelete,
-  MdFactCheck,
-  MdKeyboardDoubleArrowUp,
-  MdOutlineAssignment,
-  MdRemoveCircleOutline,
-} from "react-icons/md";
+import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 
 // Essentials for CMS
 export const changeViewAtom = atom(false);
@@ -45,37 +39,35 @@ export const selectedTaskIDAtom = atom("");
 
 // Tasks to display on table and board view
 export const tasksListAtom = atom((get) => {
-  const clients = get(clientsAtom);
-  const user = get(userAtom);
+  const userSubTeams = get(userSubTeamsAtom);
 
   const tasksList = get(tasksAtom)
-    .filter(
-      (task) =>
-        clients.map((client) => client._id).includes(task.client.client_id) &&
-        // task.manager.sub === user.sub
-        [
-          ...task.processor.map((user) => user.sub),
-          ...task.reviewer.map((user) => user.sub),
-          task.manager.sub,
-        ].includes(user.sub)
+    .filter((task) =>
+      userSubTeams
+        .filter((userSubTeam) => userSubTeam.team)
+        .map((userSubTeam) => userSubTeam._id)
+        .includes(task.team)
     )
     .map((task) => {
       return { ...task, key: task._id }; // task ID
     });
-  return tasksList;
+  return tasksList.filter((task) => task.status === "active");
 });
 
 // Clients to display on table and board view
 export const clientListAtom = atom((get) => {
   const user = get(userAtom);
-  const task = get(tasksListAtom);
+  const taskList = get(tasksListAtom);
+
   const mySubTeam = get(userSubTeamsAtom).filter(
     (subTeam) =>
       subTeam.heads.map((head) => head.sub).includes(user.sub) ||
       subTeam.members.map((member) => member.sub).includes(user.sub)
   );
 
-  const clientsList = mySubTeam
+  console.log("mySubTeam", mySubTeam)
+
+  const clientList = mySubTeam
     .map((subTeam) =>
       subTeam.client.map((client) => {
         return {
@@ -90,10 +82,11 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
-  const filteredClientList = clientsList.filter((client) => {
-    return task.some((task) => task.client.client_id === client._id);
-  });
-  return filteredClientList;
+  // const filteredClientList = clientList.filter((client) => {
+  //   return taskList.some((task) => task.client.client_id === client._id);
+  // });
+  // return filteredClientList;
+  return clientList
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));
@@ -110,7 +103,7 @@ export const clientSelectionAtom = atom((get) => {
     subTeam.heads.map((head) => head.sub).includes(user.sub)
   );
 
-  const clientsList = clients
+  const clientList = clients
     .filter((client) =>
       mySubTeam
         .map((subTeam) => subTeam.client.map((client) => client._id))
@@ -125,7 +118,7 @@ export const clientSelectionAtom = atom((get) => {
         client_id: client._id,
       };
     });
-  return clientsList;
+  return clientList;
 });
 
 export const selectedTeamAtom = atom(new Set([]));

@@ -9,7 +9,7 @@ import {
   today,
 } from "@internationalized/date";
 import { personalInfoAtom } from "@/app/user/profile/store/ProfileStore";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 
 export const stepsAtom = atom([
   "application",
@@ -367,10 +367,10 @@ export const contactAtom = atom({
   contact_number: "",
 });
 const formatDate = (dateData) => {
-  if (!dateData || dateData === null || dateData === "") {
-    return "";
+  if (isValid(new Date(dateData))) {
+    return format(new Date(dateData), "MMM d, yyyy");
   } else {
-    return format(new Date(dateData).toISOString(), "MMM d, yyyy");
+    return "No date data available";
   }
 };
 export const fetchOnboardingDataAtom = atom(null, (get, set) => {
@@ -379,10 +379,10 @@ export const fetchOnboardingDataAtom = atom(null, (get, set) => {
   const background = boardingData?.value?.self_data?.profile?.background;
   const employment = boardingData?.value?.self_data?.profile?.employment;
   const contact = boardingData?.value?.self_data?.profile?.contact;
-  console.log("application: ", application);
-  console.log("background: ", background);
-  console.log("employment: ", employment);
-  console.log("contact: ", contact);
+  // console.log("application: ", application);
+  // console.log("background: ", background);
+  // console.log("employment: ", employment);
+  // console.log("contact: ", contact);
 
   //application
   //application details
@@ -452,8 +452,9 @@ export const fetchOnboardingDataAtom = atom(null, (get, set) => {
 });
 
 export const onboardingDataAtom = atom((get) => {
-  const user = get(userAtom);
-  console.log("User: ", user);
+  console.log("collegeAtom: ", get(collegeAtom));
+  console.log("postGraduateAtom: ", get(postGraduateAtom));
+  console.log("techVocSpecialAtom: ", get(techVocSpecialAtom));
   return {
     application: {
       application_details: {
@@ -510,6 +511,7 @@ export const onboardingDataAtom = atom((get) => {
             get(collegeCourseDateOfAttendanceDateRangeAtom).start,
             new Time()
           ).toString(),
+          other_courses: "",
         },
         post_graduate: {
           ...get(postGraduateAtom),
@@ -521,6 +523,7 @@ export const onboardingDataAtom = atom((get) => {
             get(postGraduateCourseDateOfAttendanceDateRangeAtom).start,
             new Time()
           ).toString(),
+          other_courses: "",
         },
         technical_vocational: {
           ...get(techVocSpecialAtom),
@@ -532,6 +535,7 @@ export const onboardingDataAtom = atom((get) => {
             get(techVocCourseDateOfAttendanceDateRangeAtom).start,
             new Time()
           ).toString(),
+          other_courses: "",
         },
       },
       examination_taken: get(examinationTakenAtom),
@@ -544,6 +548,8 @@ export const onboardingDataAtom = atom((get) => {
     contact: {
       emergency_contact: get(contactAtom),
     },
-    sub: "CHANGE SUB AFTER AUTOMATION", // Temp change for employee automation by @gerome - sub: user?.value?.sub,
+    sub: `CHANGE SUB AFTER AUTOMATION - ${get(firstNameAtom)} ${get(
+      lastNameAtom
+    )}`, // Temp change for employee automation by @gerome - sub: user?.value?.sub,
   };
 });

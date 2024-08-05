@@ -150,7 +150,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
     [filteredNotifications]
   );
 
-  const filteredTodayNotifications = sortedNotifications.filter(
+  const filteredTodayNotifications = sortedNotifications?.filter(
     (notification) => {
       const datetime = notification.createdBy;
       const notificationDateTime =
@@ -162,7 +162,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
       }
     }
   );
-  const filteredYesterdayNotifications = sortedNotifications.filter(
+  const filteredYesterdayNotifications = sortedNotifications?.filter(
     (notification) => {
       const datetime = notification.createdBy;
       const notificationDateTime =
@@ -174,7 +174,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
       }
     }
   );
-  const filteredThisWeekNotifications = sortedNotifications.filter(
+  const filteredThisWeekNotifications = sortedNotifications?.filter(
     (notification) => {
       const datetime = notification.createdBy;
       const notificationDateTime =
@@ -186,7 +186,7 @@ const NotificationsHistory = ({ isOpen, onOpenChange }) => {
       }
     }
   );
-  const filteredOlderNotifications = sortedNotifications.filter(
+  const filteredOlderNotifications = sortedNotifications?.filter(
     (notification) => {
       const datetime = notification.createdBy;
       const notificationDateTime =

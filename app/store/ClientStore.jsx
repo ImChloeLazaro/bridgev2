@@ -10,6 +10,7 @@ import {
   today,
 } from "@internationalized/date";
 import { atom } from "jotai";
+import { teamsAtom } from "./TeamStore";
 
 export const clientsAtom = atom([]);
 

@@ -176,7 +176,7 @@ const AddClientModal = ({ isOpen, onOpenChange }) => {
 
   return (
     <Modal
-      size={"4xl"}
+      size={"3xl"}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       classNames={{ closeButton: "m-2" }}

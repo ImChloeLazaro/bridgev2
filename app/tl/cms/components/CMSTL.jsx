@@ -112,7 +112,6 @@ const CMSTL = () => {
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
 
   // ##########################################
-  console.log("TaskList: ", tasksList);
   const selectedTaskFilterKeyString = Array.from(
     selectedTaskFilterKeys
   ).toString();
@@ -282,11 +281,6 @@ const CMSTL = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   fetchTask();
-  //   fetchClient();
-  // }, []);
-
   useEffect(() => {
     // only execute all the code below in client side
     // Handler to call on window resize
@@ -309,17 +303,17 @@ const CMSTL = () => {
 
   return (
     <>
-      <Card className='flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl'>
+      <Card className="flex w-full h-full my-0 lg:my-4 px-0 lg:px-2 drop-shadow shadow-none bg-white-default rounded-none lg:rounded-xl">
         <CardHeader
           data-task={showClientTask}
           data-details={showClientDetails}
-          className='
+          className="
             data-[details=true]:py-2 
             data-[task=true]:py-2 
             data-[details=true]:px-1 
             data-[task=true]:px-0 
             p-4 py-4 mt-4 mb-4 lg:mb-2
-            '
+            "
         >
           <CMSHeader
             searchItem={showClientTask ? searchTaskItem : searchClientItem}
@@ -386,7 +380,7 @@ const CMSTL = () => {
             />
           </CMSHeader>
         </CardHeader>
-        <CardBody className='p-0 lg:p-3 h-full w-full overflow-x-auto'>
+        <CardBody className="p-0 lg:p-3 h-full w-full overflow-x-auto">
           <ClientList
             taskStatusCount={taskStatusCount}
             itemClients={itemClients}
@@ -438,7 +432,7 @@ const CMSTL = () => {
             selectedClientToView={selectedClientToView}
           />
         </CardBody>
-        <CardFooter className=''>
+        <CardFooter className="">
           <CMSFooter
             showFooter={showFooter}
             displayedItemCount={

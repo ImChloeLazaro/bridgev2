@@ -100,13 +100,13 @@ const NotificationsDropdown = () => {
           (a, b) => new Date(b.createdBy) - new Date(a.createdBy)
         );
 
-        if (sortedNotifications[0].unread) {
+        if (sortedNotifications[0]?.unread) {
           showNotification({
             sound: play,
-            title: sortedNotifications[0].title,
-            description: sortedNotifications[0].description,
-            body: sortedNotifications[0].description,
-            icon: sortedNotifications[0].notified_from.picture,
+            title: sortedNotifications[0]?.title,
+            description: sortedNotifications[0]?.description,
+            body: sortedNotifications[0]?.description,
+            icon: sortedNotifications[0]?.notified_from.picture,
           });
         }
 
