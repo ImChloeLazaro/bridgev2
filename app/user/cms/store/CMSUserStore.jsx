@@ -40,6 +40,7 @@ export const selectedTaskIDAtom = atom("");
 // Tasks to display on table and board view
 export const tasksListAtom = atom((get) => {
   const userSubTeams = get(userSubTeamsAtom);
+  const user = get(userAtom);
 
   const tasksList = get(tasksAtom)
     .filter((task) =>
@@ -51,7 +52,17 @@ export const tasksListAtom = atom((get) => {
     .map((task) => {
       return { ...task, key: task._id }; // task ID
     });
-  return tasksList.filter((task) => task.status === "active");
+
+  const filteredTasksByUser = tasksList.filter((task) => {
+    let assignees = [
+      task.manager.sub,
+      ...task.processor.map((processor) => processor.sub),
+      ...task.reviewer.map((reviewer) => reviewer.sub),
+    ];
+
+    return new Set(assignees).has(user.sub);
+  });
+  return filteredTasksByUser.filter((task) => task.status === "active");
 });
 
 // Clients to display on table and board view
