@@ -70,7 +70,6 @@ const AddTaskModal = ({
   const deleteTask = useSetAtom(deleteTaskAtom);
 
   const handleAddTask = async () => {
-    console.log("taskData", taskData);
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(

@@ -109,12 +109,10 @@ export const userTeamsAtom = atom((get) => {
       .flat()
       .includes(user.sub)
   );
-  console.log("filteredUserTeams", filteredUserTeams);
   return filteredUserTeams;
 });
 export const userClientsAtom = atom((get) => {
   const filteredUserClients = get(myTeamsAtom);
 
-  console.log("filteredUserClients", filteredUserClients);
   return filteredUserClients;
 });

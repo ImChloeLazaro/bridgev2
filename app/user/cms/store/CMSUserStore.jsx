@@ -40,6 +40,7 @@ export const selectedTaskIDAtom = atom("");
 // Tasks to display on table and board view
 export const tasksListAtom = atom((get) => {
   const userSubTeams = get(userSubTeamsAtom);
+  const user = get(userAtom);
 
   const tasksList = get(tasksAtom)
     .filter((task) =>
@@ -51,7 +52,17 @@ export const tasksListAtom = atom((get) => {
     .map((task) => {
       return { ...task, key: task._id }; // task ID
     });
-  return tasksList.filter((task) => task.status === "active");
+
+  const filteredTasksByUser = tasksList.filter((task) => {
+    let assignees = [
+      task.manager.sub,
+      ...task.processor.map((processor) => processor.sub),
+      ...task.reviewer.map((reviewer) => reviewer.sub),
+    ];
+
+    return new Set(assignees).has(user.sub);
+  });
+  return filteredTasksByUser.filter((task) => task.status === "active");
 });
 
 // Clients to display on table and board view
@@ -64,8 +75,6 @@ export const clientListAtom = atom((get) => {
       subTeam.heads.map((head) => head.sub).includes(user.sub) ||
       subTeam.members.map((member) => member.sub).includes(user.sub)
   );
-
-  console.log("mySubTeam", mySubTeam)
 
   const clientList = mySubTeam
     .map((subTeam) =>
@@ -86,7 +95,7 @@ export const clientListAtom = atom((get) => {
   //   return taskList.some((task) => task.client.client_id === client._id);
   // });
   // return filteredClientList;
-  return clientList
+  return clientList;
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));
