@@ -57,37 +57,37 @@ const ClientsInfo = () => {
     selectedClientFilterKeysAtom
   );
 
-  useEffect(() => {
-    let newFilteredData = data;
-    if (selectedClient !== "All") {
-      newFilteredData = newFilteredData.filter((item) =>
-        item.client.some(
-          (client) => client.name === selectedClientFilterKeys.anchorKey
-        )
-      );
-    }
-    if (searchQuery) {
-      newFilteredData = newFilteredData.filter((item) => {
-        const searchString = searchQuery.toLowerCase();
-        return (
-          item.name.toLowerCase().includes(searchString) ||
-          item.head?.name?.toLowerCase().includes(searchString) ||
-          item.members.some((member) =>
-            member.name.toLowerCase().includes(searchString)
-          ) ||
-          item.client.some((client) =>
-            client.name.toLowerCase().includes(searchString)
-          )
-        );
-      });
-    }
+  // useEffect(() => {
+  //   let newFilteredData = data;
+  //   if (selectedClient !== "All") {
+  //     newFilteredData = newFilteredData.filter((item) =>
+  //       item.client.some(
+  //         (client) => client.name === selectedClientFilterKeys.anchorKey
+  //       )
+  //     );
+  //   }
+  //   if (searchQuery) {
+  //     newFilteredData = newFilteredData.filter((item) => {
+  //       const searchString = searchQuery.toLowerCase();
+  //       return (
+  //         item.name.toLowerCase().includes(searchString) ||
+  //         item.head?.name?.toLowerCase().includes(searchString) ||
+  //         item.members.some((member) =>
+  //           member.name.toLowerCase().includes(searchString)
+  //         ) ||
+  //         item.client.some((client) =>
+  //           client.name.toLowerCase().includes(searchString)
+  //         )
+  //       );
+  //     });
+  //   }
 
-    setFilteredData(newFilteredData);
+  //   setFilteredData(newFilteredData);
 
-    if (selectedClientFilterKeys.anchorKey) {
-      setSelectedClient(selectedClientFilterKeys.anchorKey);
-    }
-  }, [selectedClient, searchQuery, selectedClientFilterKeys, data]);
+  //   if (selectedClientFilterKeys.anchorKey) {
+  //     setSelectedClient(selectedClientFilterKeys.anchorKey);
+  //   }
+  // }, [selectedClient, searchQuery, selectedClientFilterKeys, data]);
 
   return (
     <div className="flex flex-col gap-3">

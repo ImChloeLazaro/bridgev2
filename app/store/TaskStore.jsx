@@ -64,7 +64,9 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   });
 
   const tasks = get(tasksAtom);
-  const existingTasks = tasks.filter((task) => task.team == team);
+  const existingTasks = tasks.filter(
+    (task) => task.team == team && client.client_id === task.client.client_id
+  );
 
   console.log("existingTasks", existingTasks?.length, existingTasks);
 
