@@ -452,9 +452,6 @@ export const fetchOnboardingDataAtom = atom(null, (get, set) => {
 });
 
 export const onboardingDataAtom = atom((get) => {
-  console.log("collegeAtom: ", get(collegeAtom));
-  console.log("postGraduateAtom: ", get(postGraduateAtom));
-  console.log("techVocSpecialAtom: ", get(techVocSpecialAtom));
   return {
     application: {
       application_details: {

@@ -65,7 +65,6 @@ export const fetchMyTeamsAtom = atom(null, async (get, set, update) => {
     const convertedTeams = teams.response.map((team, index) => {
       return { ...team, key: team._id };
     });
-    console.log("convertedTeams", convertedTeams);
     set(teamsAtom, convertedTeams);
   } else {
     console.error("Failed to fetch teams", teams?.error);
@@ -231,11 +230,7 @@ export const teamDataAtom = atom((get) => {
   const selectedTeamClient = get(selectedTeamClientAtom);
 
   const teamClientSelection = get(teamClientSelectionAtom);
-  const teamHeadSelection = get(teamHeadSelectionAtom);
   const teamMembersSelection = get(teamMemberSelectionAtom);
-
-  console.log("teamClientSelection", teamClientSelection);
-  console.log("selectedTeamClient", selectedTeamClient);
 
   return {
     _id: selectedSubTeamID,
@@ -269,8 +264,6 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
     members: teamData.members,
     client: teamData.client,
   };
-
-  console.log("teamData", teamData);
 
   const promise = async () =>
     new Promise((resolve) =>
@@ -402,7 +395,6 @@ export const archiveTeamAtom = atom(null, async (get, set, update) => {
     status: action,
   };
 
-  console.log("teamData", teamData);
   const promise = async () =>
     new Promise((resolve) =>
       setTimeout(
@@ -415,7 +407,6 @@ export const archiveTeamAtom = atom(null, async (get, set, update) => {
         2000
       )
     );
-  console.log("promise", promise);
   toast.promise(promise, {
     description: `${format(new Date(), "PPpp")}`,
     loading: `${

@@ -321,7 +321,6 @@ const ManagePostSidebarContent = () => {
           selectionMode="multiple"
           selectedKeys={selectedTaggedPeople}
           onSelectionChange={(key) => {
-            console.log("selectedTaggedPeople", selectedTaggedPeople);
             if (Array.from(key).includes("all")) {
               setSelectedTaggedPeople(["all"]);
             } else {
