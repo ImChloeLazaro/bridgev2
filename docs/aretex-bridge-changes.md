@@ -2123,5 +2123,29 @@ in `TaskActionModal` Component
 
 * User Beta Testing
 
+## v.0.10.10
+
   "@nextui-org/react": "^2.4.6",
     "framer-motion": "^11.3.17",
+
+## v.0.10.11
+
+* Updated @jotai to latest `^2.9.1`
+* Removed dependencies for @shadcn/ui:
+    @radix-ui/react-dialog
+@vaul
+
+npm uninstall 
+@google-cloud/local-auth
+@radix-ui/react-dialog
+@radix-ui/react-popover 
+@radix-ui/react-slot 
+class-variance-authority 
+clsx 
+jotai-cache
+lucide-react 
+next-themes
+react-day-picker 
+tailwind-merge 
+tailwindcss-animate  
+vaul

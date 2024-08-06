@@ -2,9 +2,9 @@ import CTAButtons from "@/app/components/CTAButtons";
 import LabelTagChip from "@/app/components/LabelTagChip";
 import SearchBar from "@/app/components/SearchBar";
 import { fetchClientAtom } from "@/app/store/ClientStore";
-import { fetchUserAtom } from "@/app/store/UserStore";
 import {
-  Avatar, AvatarGroup,
+  Avatar,
+  AvatarGroup,
   Button,
   Card,
   CardBody,
@@ -27,10 +27,9 @@ import {
   Tooltip,
   useDisclosure,
   Tabs,
-  Tab
+  Tab,
 } from "@nextui-org/react";
 
-// import { fetchClientAtom } from "@/app/store/ClientStore";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { MdSettings } from "react-icons/md";
@@ -49,7 +48,7 @@ import {
   subTeamsAtom,
   teamFilterKeysAtom,
   teamMembersTableColumnsAtom,
-  teamsAtom
+  teamsAtom,
 } from "../store/TeamManagementTLStore";
 import TeamCard from "./TeamCard";
 import UpdateTeamModal from "./UpdateTeamModal";
@@ -59,7 +58,6 @@ const TeamManagementTL = () => {
   const fetchMySubTeams = useSetAtom(fetchMySubTeamsAtom);
   const fetchClient = useSetAtom(fetchClientAtom);
   const fetchTeamClients = useSetAtom(fetchTeamClientsAtom);
-  const fetchUser = useSetAtom(fetchUserAtom);
 
   const setTeamName = useSetAtom(selectedTeamNameAtom);
   const setTeamClient = useSetAtom(selectedTeamClientAtom);
@@ -74,8 +72,7 @@ const TeamManagementTL = () => {
     fetchMySubTeams();
     fetchTeamClients();
     fetchClient();
-    fetchUser();
-  }, [fetchClient, fetchMySubTeams, fetchMyTeams, fetchTeamClients, fetchUser]);
+  }, [fetchClient, fetchMySubTeams, fetchMyTeams, fetchTeamClients]);
 
   const teams = useAtomValue(teamsAtom);
   const subTeams = useAtomValue(subTeamsAtom);
@@ -225,9 +222,7 @@ const TeamManagementTL = () => {
 
     switch (columnKey) {
       case "name":
-        return (
-          <p className="">{team.name}</p>
-        );
+        return <p className="">{team.name}</p>;
       case "clients":
         return (
           <Tooltip
@@ -318,7 +313,7 @@ const TeamManagementTL = () => {
                     radius={"sm"}
                     aria-label={"Team Settings Button"}
                     variant="bordered"
-                  // onPress={handleTeamSettings}
+                    // onPress={handleTeamSettings}
                   >
                     <MdSettings
                       size={18}
@@ -435,8 +430,8 @@ const TeamManagementTL = () => {
                   <div className="flex flex-col w-full gap-y-3">
                     {!filteredSubTeamItems?.length ? (
                       filteredSubTeamItems?.length < 1 &&
-                        !searchSubTeamItem?.length &&
-                        Array.from(selectedTeamFilterKeys).join("") === "all" ? (
+                      !searchSubTeamItem?.length &&
+                      Array.from(selectedTeamFilterKeys).join("") === "all" ? (
                         <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
                           <div className="flex flex-col items-center justify-center">
                             <Image
