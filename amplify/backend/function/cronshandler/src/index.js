@@ -47,7 +47,7 @@ exports.handler = async (event) => {
               if (differenceDays >= 1) {
                 let newDueTime = addDays(
                   new Date(sla.duration.end.toString().slice(0, -1)),
-                  1
+                  differenceDays
                 );
 
                 if (holidaysAU2024.includes(formatISO(newDueTime))) {
@@ -97,6 +97,25 @@ exports.handler = async (event) => {
               );
 
               if (differenceWeeks >= 1) {
+                let newDueTime = addWeeks(
+                  new Date(sla.duration.end.toString().slice(0, -1)),
+                  differenceDays
+                );
+
+                if (holidaysAU2024.includes(formatISO(newDueTime))) {
+                  newDueTime = addWeeks(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    2
+                  );
+                }
+
+                if (isWeekend(newDueTime)) {
+                  newDueTime = nextMonday(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    1
+                  );
+                }
+
                 return {
                   _id: sla._id,
                   name: sla.name,
@@ -106,12 +125,7 @@ exports.handler = async (event) => {
                   escalate: sla.escalate,
                   duration: {
                     start: sla.duration.start,
-                    end: formatISO(
-                      addWeeks(
-                        new Date(sla.duration.end.toString().slice(0, -1)),
-                        1
-                      )
-                    ),
+                    end: formatISO(newDueTime),
                     recurrence: sla.duration.recurrence,
                   },
                   done_by: sla.done_by,
@@ -135,6 +149,24 @@ exports.handler = async (event) => {
               );
 
               if (differenceMonthly >= 1) {
+                let newDueTime = addMonths(
+                  new Date(sla.duration.end.toString().slice(0, -1)),
+                  differenceDays
+                );
+
+                if (holidaysAU2024.includes(formatISO(newDueTime))) {
+                  newDueTime = addMonths(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    2
+                  );
+                }
+
+                if (isWeekend(newDueTime)) {
+                  newDueTime = nextMonday(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    1
+                  );
+                }
                 return {
                   _id: sla._id,
                   name: sla.name,
@@ -144,12 +176,7 @@ exports.handler = async (event) => {
                   escalate: sla.escalate,
                   duration: {
                     start: sla.duration.start,
-                    end: formatISO(
-                      addMonths(
-                        new Date(sla.duration.end.toString().slice(0, -1)),
-                        1
-                      )
-                    ),
+                    end: formatISO(newDueTime),
                     recurrence: sla.duration.recurrence,
                   },
                   done_by: sla.done_by,
@@ -173,6 +200,24 @@ exports.handler = async (event) => {
               );
 
               if (differenceQuarterly >= 1) {
+                let newDueTime = addQuarters(
+                  new Date(sla.duration.end.toString().slice(0, -1)),
+                  differenceDays
+                );
+
+                if (holidaysAU2024.includes(formatISO(newDueTime))) {
+                  newDueTime = addQuarters(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    2
+                  );
+                }
+
+                if (isWeekend(newDueTime)) {
+                  newDueTime = nextMonday(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    1
+                  );
+                }
                 return {
                   _id: sla._id,
                   name: sla.name,
@@ -182,12 +227,7 @@ exports.handler = async (event) => {
                   escalate: sla.escalate,
                   duration: {
                     start: sla.duration.start,
-                    end: formatISO(
-                      addQuarters(
-                        new Date(sla.duration.end.toString().slice(0, -1)),
-                        1
-                      )
-                    ),
+                    end: formatISO(newDueTime),
                     recurrence: sla.duration.recurrence,
                   },
                   done_by: sla.done_by,
@@ -211,6 +251,24 @@ exports.handler = async (event) => {
               );
 
               if (differenceYears >= 1) {
+                let newDueTime = addYears(
+                  new Date(sla.duration.end.toString().slice(0, -1)),
+                  differenceDays
+                );
+
+                if (holidaysAU2024.includes(formatISO(newDueTime))) {
+                  newDueTime = addYears(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    2
+                  );
+                }
+
+                if (isWeekend(newDueTime)) {
+                  newDueTime = nextMonday(
+                    new Date(sla.duration.end.toString().slice(0, -1)),
+                    1
+                  );
+                }
                 return {
                   _id: sla._id,
                   name: sla.name,
@@ -220,12 +278,7 @@ exports.handler = async (event) => {
                   escalate: sla.escalate,
                   duration: {
                     start: sla.duration.start,
-                    end: formatISO(
-                      addYears(
-                        new Date(sla.duration.end.toString().slice(0, -1)),
-                        1
-                      )
-                    ),
+                    end: formatISO(newDueTime),
                     recurrence: sla.duration.recurrence,
                   },
                   done_by: sla.done_by,

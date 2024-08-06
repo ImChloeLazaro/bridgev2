@@ -66,7 +66,7 @@ export const clientListAtom = atom((get) => {
   //   return taskList.some((task) => task.client.client_id === client._id);
   // });
   // return filteredClientList;
-  return clientList
+  return clientList;
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));

@@ -49,10 +49,10 @@ export const userRegisterAtom = atom(null, async (get, set, onBoardData) => {
       name: auth.auth.name,
       picture: auth.auth.picture,
       email: auth.auth.email,
-      application: onBoardData.application,
-      background: onBoardData.background,
-      contact: onBoardData.contact,
-      employment: onBoardData.employment,
+      // application: onBoardData.application,
+      // background: onBoardData.background,
+      // contact: onBoardData.contact,
+      // employment: onBoardData.employment,
     });
     return { result };
   } else {
@@ -61,10 +61,10 @@ export const userRegisterAtom = atom(null, async (get, set, onBoardData) => {
       name: auth.auth.name,
       picture: auth.auth.picture,
       email: auth.auth.email,
-      application: onBoardData.application,
-      background: onBoardData.background,
-      contact: onBoardData.contact,
-      employment: onBoardData.employment,
+      // application: onBoardData.application,
+      // background: onBoardData.background,
+      // contact: onBoardData.contact,
+      // employment: onBoardData.employment,
     });
   }
 });
