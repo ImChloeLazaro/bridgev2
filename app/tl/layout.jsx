@@ -20,7 +20,7 @@ const TLLayout = ({ children }) => {
   const user = useAtomValue(userAtom);
   const pathname = usePathname();
   const cmsPaths = useAtomValue(cmsPathsAtom);
-  const collapseSidebar = cmsPaths.includes(pathname ?? "/");
+  const collapseSidebar = cmsPaths.includes(pathname);
   const [isUserValid, setIsUserValid] = useState(false);
   const userRegister = useSetAtom(userRegisterAtom);
   const fetchUser = useSetAtom(fetchUserAtom);

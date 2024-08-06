@@ -166,8 +166,6 @@ export const teamDataAtom = atom((get) => {
 export const addTeamAtom = atom(null, async (get, set, update) => {
   let teamData = get(teamDataAtom);
 
-  console.log("teamData", teamData);
-
   teamData = {
     name: teamData.name,
     department: teamData.department,
@@ -175,7 +173,6 @@ export const addTeamAtom = atom(null, async (get, set, update) => {
     members: teamData.members,
     client: teamData.client,
   };
-  console.log("teamData after", teamData);
 
   const promise = async () =>
     new Promise((resolve) =>

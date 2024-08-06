@@ -6,6 +6,7 @@ import { TimeInput } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
+import { useState } from "react";
 
 const TaskFormSections = ({
   selectedClientToView,
@@ -29,7 +30,9 @@ const TaskFormSections = ({
   startTimeAtom,
   endTimeAtom,
 }) => {
-  const clientSelection = useAtomValue(clientSelectionAtom);
+  // const clientSelection = useAtomValue(clientSelectionAtom);
+  const [clientSelection, setClientSelection] = useState([]);
+
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
 
   const teamSelection = useAtomValue(teamSelectionAtom);
@@ -76,30 +79,6 @@ const TaskFormSections = ({
         </div>
 
         <div className="flex flex-col gap-3">
-          {/* Client */}
-          <div className={`flex justify-between items-center gap-8`}>
-            <p className="text-sm lg:text-base font-medium w-[20%]">
-              {"Client"}
-            </p>
-            <div className="w-[80%]">
-              <FormFieldSelect
-                isRequired={true}
-                aria-label="Client Selection"
-                items={clientSelection}
-                placeholder="Select Client"
-                selectionMode="single"
-                selectedKeys={
-                  showClientTask ? [selectedClientToView] : selectedClient
-                }
-                isDisabled={showClientTask}
-                onSelectionChange={(key) => {
-                  setSelectedClient(key);
-                }}
-                renderItemPicture={true}
-              />
-            </div>
-          </div>
-
           {/* Team */}
           <div className="flex justify-between items-center gap-8">
             <p className="text-sm lg:text-base font-medium w-[20%]">{"Team"}</p>
@@ -116,39 +95,66 @@ const TaskFormSections = ({
                 onSelectionChange={(key) => {
                   setSelectedTeam(key);
                   if (showClientTask) setSelectedClient([selectedClientToView]);
-                  let assignees = teamSelection
+                  let selectedTeam = teamSelection
                     .filter((team) => team?._id === Array.from(key).toString())
                     .pop();
-                  // console.log(
-                  //   "testing slection:",
-                  //   teamSelection
-                  //     .filter(
-                  //       (team) => team?._id === Array.from(key).toString()
-                  //     )
-                  //     .pop()
-                  // );
+
                   if (
-                    assignees === undefined ||
-                    assignees?.length === 0 ||
-                    assignees === null
+                    selectedTeam === undefined ||
+                    selectedTeam?.length === 0 ||
+                    selectedTeam === null
                   ) {
+                    setClientSelection([]);
+                    setSelectedClient(new Set([]));
                     setSelectedProcessor(new Set([]));
                     setSelectedReviewer(new Set([]));
                     setSelectedManager(new Set([]));
                   } else {
+                    setClientSelection(
+                      selectedTeam.client?.map((client) => {
+                        return {
+                          ...client,
+                          key: client._id,
+                        };
+                      })
+                    );
                     setSelectedProcessor(
-                      new Set(assignees?.members.map((member) => member.sub))
+                      new Set(selectedTeam?.members.map((member) => member.sub))
                     );
                     setSelectedReviewer(
-                      new Set(assignees?.members.map((member) => member.sub))
+                      new Set(selectedTeam?.members.map((member) => member.sub))
                     );
                     setSelectedManager(
-                      new Set(assignees?.heads.map((head) => head.sub))
+                      new Set(selectedTeam?.heads.map((head) => head.sub))
                     );
                   }
                 }}
                 renderItemPicture={true}
                 disallowEmptySelection={false}
+              />
+            </div>
+          </div>
+
+          {/* Client */}
+          <div className={`flex justify-between items-center gap-8`}>
+            <p className="text-sm lg:text-base font-medium w-[20%]">
+              {"Client"}
+            </p>
+            <div className="w-[80%]">
+              <FormFieldSelect
+                isRequired={true}
+                isDisabled={selectedTeam.size == 0 || showClientTask}
+                aria-label="Client Selection"
+                items={clientSelection}
+                placeholder="Select Client"
+                selectionMode="single"
+                selectedKeys={
+                  showClientTask ? [selectedClientToView] : selectedClient
+                }
+                onSelectionChange={(key) => {
+                  setSelectedClient(key);
+                }}
+                renderItemPicture={true}
               />
             </div>
           </div>

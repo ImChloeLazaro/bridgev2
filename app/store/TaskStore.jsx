@@ -54,19 +54,10 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     sla = [],
   } = update;
 
-  console.log("ADD TASK", {
-    team,
-    manager,
-    client,
-    processor,
-    reviewer,
-    sla,
-  });
-
   const tasks = get(tasksAtom);
-  const existingTasks = tasks.filter((task) => task.team == team);
-
-  console.log("existingTasks", existingTasks?.length, existingTasks);
+  const existingTasks = tasks.filter(
+    (task) => task.team == team && client.client_id === task.client.client_id
+  );
 
   if (existingTasks?.length) {
     const response = await restupdate("/cms/task", {
@@ -93,8 +84,6 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       sla,
     });
 
-    console.log("response of new adding task logic", response);
-
     if (response?.success) {
       return { success: true };
     } else {
@@ -119,8 +108,6 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
     reviewer,
     processor,
   };
-
-  console.log("updatedAssignees", updatedAssignees);
 
   if (action === "remove") {
     const response = await Promise.all([
@@ -163,10 +150,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 
   const taskObj = get(tasksAtom).filter((task) => task._id === task_id)[0];
 
-  console.log("client_id here on updating board", client_id);
-  console.log("sla here on updating board", sla);
-  console.log("taskObj here on updating board", taskObj);
-
   const taskToBeUpdated = get(tasksAtom).filter(
     (task) => task.client?.client_id === client_id
   );
@@ -174,8 +157,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
   const removedDuplicateSLA = [...sla, ...taskObj.sla].filter(
     (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
   );
-
-  console.log("removedDuplicateSLA after", removedDuplicateSLA);
 
   const response = await restupdate("/cms/task", {
     ...taskObj,
@@ -193,11 +174,6 @@ export const updateTaskStatusAtom = atom(null, async (get, set, update) => {
 
 export const taskStatusUpdateAtom = atom(null, async (get, set, update) => {
   const { taskObj, sla } = update;
-
-  console.log("UPDATE SLA", {
-    ...taskObj,
-    sla: sla,
-  });
 
   const response = await restupdate("/cms/task", {
     ...taskObj,
@@ -227,8 +203,6 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
   const { key, status_id, sla_id } = get(selectedTaskActionAtom);
   const user = get(userAtom);
 
-  console.log("tasks", tasks);
-
   const taskObj = get(tasksAtom).filter((task) => task._id === taskId)[0];
   const slaToBeUpdated = {
     // done_by: tasks.done_by,
@@ -240,8 +214,6 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
     status: tasks.status,
     _id: tasks._id,
   };
-
-  console.log("filtered tasks", taskObj.sla);
 
   // Notifications Details to display
   const taskName = tasks.name;
@@ -290,8 +262,6 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
         }
         return task;
       });
-
-      console.log("updateSelectedTask", updateSelectedTask);
 
       const socketRef = get(notificationSocketRefAtom);
 

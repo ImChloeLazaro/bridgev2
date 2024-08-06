@@ -39,7 +39,6 @@ const OnboardingFooter = ({ allowUpdateInfo = true, onClose }) => {
   const onboardingData = useAtomValue(onboardingDataAtom);
 
   const handleSubmit = async () => {
-    console.log("clicked here submit button");
     if (auth && auth.sub) {
       const promise = async () =>
         new Promise((resolve) =>
@@ -73,10 +72,6 @@ const OnboardingFooter = ({ allowUpdateInfo = true, onClose }) => {
   };
 
   const handleUpdate = async () => {
-    console.log("clicked here update button, onboardingData", {
-      ...onboardingData,
-      sub: auth.sub,
-    });
     if (auth && auth.sub) {
       setIsLoading(true);
       const promise = async () =>

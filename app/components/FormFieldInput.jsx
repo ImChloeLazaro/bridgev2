@@ -325,7 +325,7 @@ const FormFieldInput = ({
 
   const errorMessages = {
     email: "Please enter a valid email address",
-    text: "No special characters allowed",
+    text: type === "text" && value?.length > 64 ? "Cannot accept more than 64 characters" : "No special characters allowed",
     number: "No characters or spaces allowed",
     file: "PDF file is only accepted",
     phone: "Please enter a valid phone number",
@@ -334,7 +334,7 @@ const FormFieldInput = ({
 
   const inputValidationType = {
     email: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
-    text: /^[\u00D1\u00F1A-Z0-9\s!?.%&#+;:'"()-\\]+$/i,
+    text: /^([\u00D1\u00F1A-Z0-9!-/\;\:\=\?\@\_](\s?)){1,64}$/i,
     number: /^[0-9\s+.,()-]+$/i,
     file: /.*\.pdf$/,
     phone: /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/gm, // with area code e.g. (+63: PH +61: AU)

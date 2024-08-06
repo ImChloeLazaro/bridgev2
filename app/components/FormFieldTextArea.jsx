@@ -19,7 +19,7 @@ const FormFieldTextArea = ({
   // element?.setAttribute("style", "height: 100% !important");
 
   const inputValidation = (input) =>
-    input?.match(/^[A-Z0-9\s!?.%+;:'"()-_\\]+$/i);
+    input?.match(/^([\u00D1\u00F1A-Z0-9!-/\;\:\=\?\@\_](\s?)){1,64}$/i);
 
   const isInvalid = useMemo(() => {
     if (value === "") return false;
@@ -41,6 +41,8 @@ const FormFieldTextArea = ({
         isInvalid
           ? errorMessage
             ? errorMessage
+            : value?.length > 64
+            ? "Cannot accept more than 256 characters"
             : "No special characters allowed"
           : ""
       }

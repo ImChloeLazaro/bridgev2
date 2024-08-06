@@ -52,6 +52,13 @@ const UserRoleCard = ({ user }) => {
     return { name: role.toUpperCase() };
   });
 
+  const roleList = user.role.sort((a, b) => {
+    console.log("a", a.name);
+    console.log("b", b.name);
+    return a.name - b.name;
+  });
+  console.log("Role list", roleList);
+
   return (
     <Card className="p-1">
       <CardHeader className="flex gap-2 justify-between ">
@@ -149,7 +156,7 @@ const UserRoleCard = ({ user }) => {
         <div className="p-0">
           <p className="text-base font-medium">{"Access:"}</p>
           <div className="flex flex-wrap gap-2">
-            {user.role.map((user, index) => (
+            {roleList.map((user, index) => (
               <LabelTagChip
                 key={index}
                 text={user.name}

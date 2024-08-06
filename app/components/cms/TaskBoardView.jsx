@@ -321,7 +321,6 @@ const TaskBoardView = ({
       const taskActive = active.data.current?.task;
       const taskName = taskActive?.name;
 
-      console.log("taskActive", taskActive);
       const clientName = taskActive?.client_name;
       const dateTaskDone = new Date();
 
@@ -350,7 +349,7 @@ const TaskBoardView = ({
                     await updateTaskStatus({
                       sla: [taskActive],
                       client_id: selectedClientToView,
-                      task_id: taskActive.task_id
+                      task_id: taskActive.task_id,
                     }),
                     await fetchTask()
                   ),
@@ -392,7 +391,7 @@ const TaskBoardView = ({
                     await updateTaskStatus({
                       sla: [taskActive],
                       client_id: selectedClientToView,
-                      task_id: taskActive.task_id
+                      task_id: taskActive.task_id,
                     }),
                     await fetchTask()
                   ),
@@ -434,7 +433,7 @@ const TaskBoardView = ({
                     await updateTaskStatus({
                       sla: [taskActive],
                       client_id: selectedClientToView,
-                      task_id: taskActive.task_id
+                      task_id: taskActive.task_id,
                     }),
                     await fetchTask()
                   ),
@@ -492,7 +491,7 @@ const TaskBoardView = ({
                     await updateTaskStatus({
                       sla: [updateSelectedTask],
                       client_id: taskActive.client_id,
-                      task_id: taskActive.task_id
+                      task_id: taskActive.task_id,
                     }),
                     await fetchTask()
                   ),
