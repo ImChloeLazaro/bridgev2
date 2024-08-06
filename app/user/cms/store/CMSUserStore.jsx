@@ -1,10 +1,5 @@
 import { clientsAtom } from "@/app/store/ClientStore";
-import {
-  // managerSelectionAtom,
-  // processorSelectionAtom,
-  // reviewerSelectionAtom,
-  tasksAtom,
-} from "@/app/store/TaskStore";
+import { tasksAtom } from "@/app/store/TaskStore";
 import { myTeamsAtom, userSubTeamsAtom } from "@/app/store/TeamStore";
 import { userAtom } from "@/app/store/UserStore";
 import {
@@ -116,17 +111,16 @@ export const teamSelectionAtom = atom((get) => {
   return teams;
 });
 
-// selection from task store since admin sees all
 export const selectedClientAtom = atom(new Set([]));
 export const clientSelectionAtom = atom((get) => {
   const selectedTeam = get(selectedTeamAtom);
-  const mySubTeam = get(teamSelectionAtom)
+  const team = get(teamSelectionAtom)
     .filter((team) => Array.from(selectedTeam).includes(team?._id))
     .pop();
 
-  if (!mySubTeam?.length) {
+  if (!team?.length) {
     return (
-      mySubTeam?.client?.map((client) => {
+      team?.client?.map((client) => {
         return {
           ...client,
           key: client._id,
@@ -143,13 +137,13 @@ export const clientSelectionAtom = atom((get) => {
 export const selectedProcessorAtom = atom(new Set([]));
 export const processorSelectionAtom = atom((get) => {
   const selectedTeam = get(selectedTeamAtom);
-  const mySubTeam = get(teamSelectionAtom)
+  const team = get(teamSelectionAtom)
     .filter((team) => Array.from(selectedTeam).includes(team?._id))
     .pop();
 
-  if (!mySubTeam?.length) {
+  if (!team?.length) {
     return (
-      mySubTeam?.members?.map((member) => {
+      team?.members?.map((member) => {
         return {
           ...member,
           key: member.sub,
@@ -164,13 +158,13 @@ export const processorSelectionAtom = atom((get) => {
 export const selectedReviewerAtom = atom(new Set([]));
 export const reviewerSelectionAtom = atom((get) => {
   const selectedTeam = get(selectedTeamAtom);
-  const mySubTeam = get(teamSelectionAtom)
+  const team = get(teamSelectionAtom)
     .filter((team) => Array.from(selectedTeam).includes(team?._id))
     .pop();
 
-  if (!mySubTeam?.length) {
+  if (!team?.length) {
     return (
-      mySubTeam?.members?.map((member) => {
+      team?.members?.map((member) => {
         return {
           ...member,
           key: member.sub,
@@ -185,12 +179,23 @@ export const reviewerSelectionAtom = atom((get) => {
 export const selectedManagerAtom = atom(new Set([]));
 export const managerSelectionAtom = atom((get) => {
   const selectedTeam = get(selectedTeamAtom);
-  const mySubTeam = get(teamSelectionAtom)
+  const team = get(teamSelectionAtom)
     .filter((team) => Array.from(selectedTeam).includes(team?._id))
     .pop();
 
-  const managerList = [{ ...mySubTeam?.tl, key: mySubTeam?.tl?.sub ?? "" }];
-  return managerList;
+  if (!team?.length) {
+    const tlList = [{ ...team?.tl, key: team?.tl?.sub ?? "" }];
+    const headsList =
+      team?.heads?.map((head) => {
+        return {
+          ...head,
+          key: head.sub,
+        };
+      }) ?? [];
+    return [tlList, headsList].flat();
+  } else {
+    return [];
+  }
 });
 
 // task details

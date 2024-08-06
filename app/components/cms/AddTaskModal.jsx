@@ -2,16 +2,16 @@ import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
 import {
   addTaskAtom,
-  deleteTaskAtom,
-  fetchTaskAtom,
+  fetchTaskAtom
 } from "@/app/store/TaskStore";
 import {
   fetchMyTeamsAtom,
-  fetchTeamsAtom,
   fetchSubTeamsAtom,
-  fetchUserSubTeamsAtom,
   fetchTeamClientsAtom,
+  fetchTeamsAtom,
+  fetchUserSubTeamsAtom,
 } from "@/app/store/TeamStore";
+import { fetchUserListAtom } from "@/app/store/UserStore";
 import {
   Modal,
   ModalBody,
@@ -21,10 +21,9 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import TaskFormSections from "./TaskFormSections";
-import { useEffect } from "react";
-import { fetchUserListAtom } from "@/app/store/UserStore";
 
 const AddTaskModal = ({
   isOpen,
