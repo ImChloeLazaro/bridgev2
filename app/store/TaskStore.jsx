@@ -9,6 +9,26 @@ import { userAtom, userListAtom } from "./UserStore";
 
 export const tasksAtom = atom([]);
 
+export const fetchTaskAtom = atom(null, async (get, set, sub) => {
+  const tasks = await restread("/cms/task");
+
+  console.log("tasks fetching...", tasks);
+
+  if (tasks?.success) {
+    const convertedTasks = tasks.response.map((task, index) => {
+      return {
+        ...task,
+        key: task.client?.client_id,
+        // id: `${(index += 1)}`, // !important
+        // sla: [...task.sla],
+      };
+    });
+
+    set(tasksAtom, convertedTasks);
+  } else {
+  }
+});
+
 export const selectedTaskActionAtom = atom({
   key: "",
   status_id: "",
@@ -45,19 +65,15 @@ export const pageRowsSelectionAtom = atom([
 ]);
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
-  const {
-    team = "",
-    manager = {},
-    client = {},
-    processor = [],
-    reviewer = [],
-    sla = [],
-  } = update;
+  const { team = "", manager = {}, client = {}, sla = [] } = update;
 
   const tasks = get(tasksAtom);
   const existingTasks = tasks.filter(
     (task) => task.team == team && client.client_id === task.client.client_id
   );
+
+  console.log("update", update);
+  console.log("existingTasks", existingTasks);
 
   if (existingTasks?.length) {
     const response = await restupdate("/cms/task", {
@@ -65,8 +81,6 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       team: team,
       manager: manager,
       client: client,
-      processor: processor,
-      reviewer: reviewer,
       sla: [...existingTasks[0].sla, ...sla],
     });
     if (response?.success) {
@@ -79,8 +93,6 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
       team,
       manager,
       client,
-      processor,
-      reviewer,
       sla,
     });
 
@@ -749,24 +761,6 @@ export const taskBoardColsAtom = atom([
   //   title: "Undefined",
   // },
 ]);
-
-export const fetchTaskAtom = atom(null, async (get, set, sub) => {
-  const tasks = await restread("/cms/task");
-
-  if (tasks?.success) {
-    const convertedTasks = tasks.response.map((task, index) => {
-      return {
-        ...task,
-        key: task.client?.client_id,
-        // id: `${(index += 1)}`, // !important
-        // sla: [...task.sla],
-      };
-    });
-
-    set(tasksAtom, convertedTasks);
-  } else {
-  }
-});
 
 let processorIndex = 0;
 export const processorSelectionAtom = atom((get) => {

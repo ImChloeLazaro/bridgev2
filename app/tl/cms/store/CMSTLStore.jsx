@@ -65,7 +65,6 @@ export const tasksListAtom = atom((get) => {
 export const clientListAtom = atom((get) => {
   const subTeamClients = get(subTeamsAtom);
   const teamClients = get(myTeamsAtom);
-  const taskList = get(tasksListAtom);
 
   const clientList = [teamClients, subTeamClients]
     .flat()
@@ -83,11 +82,7 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
-  // const filteredClientList = clientList.filter((client) => {
-  //   return taskList.some((task) => task.client.client_id === client._id);
-  // });
-  // return filteredClientList;
-  return clientList
+  return clientList;
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));

@@ -53,7 +53,6 @@ export const tasksListAtom = atom((get) => {
 
 // Clients to display on table and board view
 export const clientListAtom = atom((get) => {
-  const taskList = get(tasksListAtom);
   const clientList = get(clientsAtom).map((client) => {
     return {
       key: client._id,
@@ -62,10 +61,6 @@ export const clientListAtom = atom((get) => {
       email: client.company.email,
     };
   });
-  // const filteredClientList = clientList.filter((client) => {
-  //   return taskList.some((task) => task.client.client_id === client._id);
-  // });
-  // return filteredClientList;
   return clientList;
 });
 

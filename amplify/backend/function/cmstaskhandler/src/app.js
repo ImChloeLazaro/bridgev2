@@ -35,12 +35,12 @@ app.get('/cms/task', async function (req, res) {
     const data = read.map(task => {
       return {
         ...task._doc,  // _doc is used to access the actual data object in Mongoose documents
-        processor: removeDuplicates(task.processor, 'sub'),
-        reviewer: removeDuplicates(task.reviewer, 'sub')
+        // processor: removeDuplicates(task.processor, 'sub'),
+        // reviewer: removeDuplicates(task.reviewer, 'sub')
       };
     });
 
-    res.status(200).json({ success: true, response: data });
+    res.status(200).json({ success: true, response: read });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -55,14 +55,11 @@ app.get('/cms/task/*', async function (req, res) {
       case '/cms/task/sla':
         const sla = await taskModel.find({
           $or: [
-            { "processor.sub": processor },
-            { "reviewer.sub": reviewer }
+            { "sla.processor.sub": processor },
+            { "sla.reviewer.sub": reviewer }
           ]
         })
         res.status(200).json({ success: true, response: sla })
-        break;
-      case '/cms/task/processor':
-        res.status(200).json({ success: true, response: 'reassign processor' })
         break;
       default:
         res.status(200).json({ success: true, response: "NO ROUTES INCLUDE" });
@@ -76,14 +73,12 @@ app.get('/cms/task/*', async function (req, res) {
 app.post('/cms/task', async function (req, res) {
   try {
     const { team, manager, client, processor, reviewer, duration, sla } = req.body
-    const insert = await taskModel.create({ 
-      team, 
-      manager, 
-      client, 
-      processor, 
-      reviewer, 
-      duration, 
-      sla 
+    const insert = await taskModel.create({
+      team,
+      manager,
+      client,
+      duration,
+      sla
     })
     res.status(200).json({ success: true, response: insert, message: "Task created successfully" })
   } catch (error) {
@@ -93,8 +88,8 @@ app.post('/cms/task', async function (req, res) {
 
 app.put('/cms/task/', async function (req, res) {
   try {
-    const { _id, index, name, client, processor, reviewer, duration, sla } = req.body
-    const update = await taskModel.updateOne({ _id }, { _id, index, name, client, processor, reviewer, duration, sla })
+    const { _id, index, name, client, duration, sla } = req.body
+    const update = await taskModel.updateOne({ _id }, { _id, index, name, client, duration, sla })
     res.status(200).json({ success: true, response: update, message: "Task Updated successfully" })
   } catch (error) {
     res.json({ error: error })
@@ -103,23 +98,49 @@ app.put('/cms/task/', async function (req, res) {
 
 app.put('/cms/task/*', async function (req, res) {
   try {
-    const { _id, reviewer, processor, sla_id } = req.body
+    // const { _id, reviewer, processor, sla_id } = req.body
+    const _id = "66b18dfef1944162e39bf30e";
+    const sla_id = "66b18dfef1944162e39bf30f";
+    const processor = [
+      {
+        sub: "1234",
+        name: "test 1",
+        email: "test 2",
+        picture: "test 3",
+        privilege: "test 4"
+      },
+      {
+        sub: "12345",
+        name: "test 11",
+        email: "test 22",
+        picture: "test 33",
+        privilege: "test 44"
+      }
+    ];
     const proxy = req.path;
     switch (proxy) {
       case '/cms/task/update-processor':
-        await taskModel.updateOne({ _id }, { $push: { processor: { $each: processor } } })
-        res.status(200).json({ success: true, message: "Processor Added Successfully" })
+        const result = await taskModel.updateOne(
+          { _id, "sla._id": sla_id },
+          { $push: { "sla.$.processor": { $each: processor } } }
+        );
+
+        if (result.modifiedCount === 1) {
+          res.status(200).json({ success: true, message: "Processor Added Successfully" });
+        } else {
+          res.status(404).json({ success: false, message: "SLA or Task not found" });
+        }
         break;
       case '/cms/task/update-reviewer':
-        await taskModel.updateOne({ _id }, { $push: { reviewer: { $each: reviewer } } })
+        await taskModel.updateOne({ _id }, { $push: { "sla.reviewer": { $each: reviewer } } })
         res.status(200).json({ success: true, message: "Reviewer Added Successfully" })
         break;
       case '/cms/task/remove-processor':
-        await taskModel.updateOne({ _id }, { $pull: { processor: { _id: { $in: processor.map(processor => processor._id) } } } });
+        await taskModel.updateOne({ _id }, { $pull: { "sla.processor": { _id: { $in: processor.map(processor => processor._id) } } } });
         res.status(200).json({ success: true, message: "Processor Removed Successfully" });
         break;
       case '/cms/task/remove-reviewer':
-        await taskModel.updateOne({ _id }, { $pull: { reviewer: { _id: { $in: reviewer.map(reviewer => reviewer._id) } } } });
+        await taskModel.updateOne({ _id }, { $pull: { "sla.reviewer": { _id: { $in: reviewer.map(reviewer => reviewer._id) } } } });
         res.status(200).json({ success: true, response: 'Remove Reviewer Successfully' })
         break;
       case '/cms/task/remove-sla':
@@ -132,7 +153,7 @@ app.put('/cms/task/*', async function (req, res) {
     }
   } catch (error) {
     res.json({ error: error })
-  } f
+  }
 });
 
 app.delete('/cms/task', async function (req, res) {

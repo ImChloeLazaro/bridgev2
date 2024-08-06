@@ -6,7 +6,6 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
-import { Button, Dropdown } from "react-day-picker";
 
 const UserClientTable = ({ data, columns }) => {
   const [pagination, setPagination] = useState({
@@ -78,7 +77,7 @@ const UserClientTable = ({ data, columns }) => {
           ))}
         </tbody>
       </table>
-      <div className=" flex grid grid-cols-4">
+      <div className="grid grid-cols-4">
         <div className="flex justify-start items-center text-sm text-darkgrey-default">
           Page {table.getState().pagination.pageIndex + 1} out of{" "}
           {table.getPageCount().toLocaleString()}

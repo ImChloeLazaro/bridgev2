@@ -45,7 +45,10 @@ const ProfileDetails = () => {
                   {selectedProfileTab === "about" && (
                     <Suspense
                       fallback={
-                        <Spinner className="h-full w-full flex items-center justify-center" />
+                        <Spinner
+                          className="h-full w-full flex items-center justify-center"
+                          label="Loading User Information..."
+                        />
                       }
                     >
                       <AboutInfo />
@@ -54,7 +57,10 @@ const ProfileDetails = () => {
                   {selectedProfileTab === "profile" && (
                     <Suspense
                       fallback={
-                        <Spinner className="h-full w-full flex items-center justify-center" />
+                        <Spinner
+                          className="h-full w-full flex items-center justify-center"
+                          label="Loading Profile Information..."
+                        />
                       }
                     >
                       <ProfileInfo />
@@ -63,7 +69,10 @@ const ProfileDetails = () => {
                   {selectedProfileTab === "clients" && (
                     <Suspense
                       fallback={
-                        <Spinner className="h-full w-full flex items-center justify-center" />
+                        <Spinner
+                          className="h-full w-full flex items-center justify-center"
+                          label="Loading Client Information..."
+                        />
                       }
                     >
                       <ClientsInfo />
@@ -72,7 +81,10 @@ const ProfileDetails = () => {
                   {selectedProfileTab === "team" && (
                     <Suspense
                       fallback={
-                        <Spinner className="h-full w-full flex items-center justify-center" />
+                        <Spinner
+                          className="h-full w-full flex items-center justify-center"
+                          label="Loading Team Information..."
+                        />
                       }
                     >
                       <TeamInfo />

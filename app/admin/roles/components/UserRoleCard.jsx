@@ -53,11 +53,11 @@ const UserRoleCard = ({ user }) => {
   });
 
   const roleList = user.role.sort((a, b) => {
-    console.log("a", a.name);
-    console.log("b", b.name);
-    return a.name - b.name;
+    let first = a.name;
+    let second = b.name;
+
+    return (parseInt(second) || second) < (parseInt(first) || first) ? -1 : 1;
   });
-  console.log("Role list", roleList);
 
   return (
     <Card className="p-1">
