@@ -124,7 +124,6 @@ app.put('/cms/task/*', async function (req, res) {
           { _id, "sla._id": sla_id },
           { $push: { "sla.$.processor": { $each: processor } } }
         );
-
         if (result.modifiedCount === 1) {
           res.status(200).json({ success: true, message: "Processor Added Successfully" });
         } else {
@@ -132,16 +131,53 @@ app.put('/cms/task/*', async function (req, res) {
         }
         break;
       case '/cms/task/update-reviewer':
-        await taskModel.updateOne({ _id }, { $push: { "sla.reviewer": { $each: reviewer } } })
-        res.status(200).json({ success: true, message: "Reviewer Added Successfully" })
+        // await taskModel.updateOne({ _id }, { $push: { "sla.reviewer": { $each: reviewer } } })
+        await taskModel.updateOne(
+          { _id, "sla._id": sla_id },
+          { $push: { "sla.$.reviewer": { $each: reviewer } } }
+        );
+        if (result.modifiedCount === 1) {
+          res.status(200).json({ success: true, message: "Reviewer Added Successfully" });
+        }
+        else {
+          res.status(404).json({ success: false, message: "SLA or Task not found" });
+        }
         break;
       case '/cms/task/remove-processor':
-        await taskModel.updateOne({ _id }, { $pull: { "sla.processor": { _id: { $in: processor.map(processor => processor._id) } } } });
-        res.status(200).json({ success: true, message: "Processor Removed Successfully" });
+        const removeprocessor = await taskModel.updateOne(
+          { _id, "sla._id": sla_id },
+          {
+            $pull: {
+              "sla.$.processor": {
+                _id: { $in: processor.map(processor => processor._id) }
+              }
+            }
+          }
+        );
+
+        if (removeprocessor.modifiedCount === 1) {
+          res.status(200).json({ success: true, message: "Processors Removed Successfully" });
+        } else {
+          res.status(404).json({ success: false, message: "SLA or Task not found" });
+        }
         break;
       case '/cms/task/remove-reviewer':
-        await taskModel.updateOne({ _id }, { $pull: { "sla.reviewer": { _id: { $in: reviewer.map(reviewer => reviewer._id) } } } });
-        res.status(200).json({ success: true, response: 'Remove Reviewer Successfully' })
+        const removereviewer = await taskModel.updateOne(
+          { _id, "sla._id": sla_id },
+          {
+            $pull: {
+              "sla.$.reviewer": {
+                _id: { $in: reviewer.map(reviewer => reviewer._id) }
+              }
+            }
+          }
+        );
+        if (removereviewer.modifiedCount === 1) {
+          res.status(200).json({ success: true, message: "Reviewers Removed Successfully" });
+        }
+        else {
+          res.status(404).json({ success: false, message: "SLA or Task not found" });
+        }
         break;
       case '/cms/task/remove-sla':
         await taskModel.updateOne({ _id }, { $pull: { sla: { _id: sla_id } } });
