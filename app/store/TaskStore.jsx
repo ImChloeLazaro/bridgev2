@@ -12,8 +12,6 @@ export const tasksAtom = atom([]);
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
-  console.log("tasks fetching...", tasks);
-
   if (tasks?.success) {
     const convertedTasks = tasks.response.map((task, index) => {
       return {
@@ -66,13 +64,17 @@ export const pageRowsSelectionAtom = atom([
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const { team = "", manager = {}, client = {}, sla = [] } = update;
+  console.log("update", update);
+
+  if (!client?.length) {
+    return;
+  }
 
   const tasks = get(tasksAtom);
   const existingTasks = tasks.filter(
-    (task) => task.team == team && client.client_id === task.client.client_id
+    (task) => task?.team == team && client?.client_id === task?.client.client_id
   );
 
-  console.log("update", update);
   console.log("existingTasks", existingTasks);
 
   if (existingTasks?.length) {
@@ -97,9 +99,9 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     });
 
     if (response?.success) {
-      return { success: true };
+      return true;
     } else {
-      return { success: false };
+      return false;
     }
   }
 

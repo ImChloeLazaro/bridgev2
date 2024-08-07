@@ -1,12 +1,10 @@
 import FormFieldInput from "@/app/components/FormFieldInput";
 import FormFieldTextArea from "@/app/components/FormFieldTextArea";
-
 import { Time } from "@internationalized/date";
 import { TimeInput } from "@nextui-org/react";
 import { useAtom, useAtomValue } from "jotai";
 import { MdAccessTime, MdInfoOutline } from "react-icons/md";
 import FormFieldSelect from "../FormFieldSelect";
-import { useState } from "react";
 
 const TaskFormSections = ({
   selectedClientToView,
@@ -33,37 +31,18 @@ const TaskFormSections = ({
   const teamSelection = useAtomValue(teamSelectionAtom);
   const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom);
 
-  const team = teamSelection
-    ?.filter((team) => Array.from(selectedTeam).includes(team._id))
-    ?.pop();
-
   const clientSelection = useAtomValue(clientSelectionAtom);
-  // const [clientSelection, setClientSelection] = useState([]);
-
-  // const clientSelection =
-  //   team?.client.map((client) => {
-  //     return { ...client, key: client._id };
-  //   }) ?? [];
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
 
   const processorSelection = useAtomValue(processorSelectionAtom);
-  // const processorSelection =
-  //   team?.members.map((user) => {
-  //     return { ...user, key: user.sub };
-  //   }) ?? [];
   const [selectedProcessor, setSelectedProcessor] = useAtom(
     selectedProcessorAtom
   );
 
   const reviewerSelection = useAtomValue(reviewerSelectionAtom);
-  // const reviewerSelection =
-  //   team?.members.map((user) => {
-  //     return { ...user, key: user.sub };
-  //   }) ?? [];
   const [selectedReviewer, setSelectedReviewer] = useAtom(selectedReviewerAtom);
 
   const managerSelection = useAtomValue(managerSelectionAtom);
-  // const managerSelection = [{ ...team?.tl, key: team?.tl.sub ?? "" }] ?? [];
   const [selectedManager, setSelectedManager] = useAtom(selectedManagerAtom);
 
   const [taskName, setTaskName] = useAtom(taskNameAtom);
@@ -83,6 +62,8 @@ const TaskFormSections = ({
   const teamSelectionSelectedClient = teamSelection.filter((team) =>
     team.client.map((client) => client._id).includes(selectedClientToView)
   );
+
+  console.log("selectedTeam", selectedTeam);
 
   return (
     <div className="flex flex-col gap-6">
@@ -116,15 +97,10 @@ const TaskFormSections = ({
                 selectedKeys={selectedTeam}
                 onSelectionChange={(key) => {
                   setSelectedTeam(key);
-                  console.log("showClientTask", showClientTask);
-                  console.log("selectedClientToView", selectedClientToView);
-                  if (showClientTask) {
-                    setSelectedClient([selectedClientToView]);
-                  }
+
                   let selectedTeam = teamSelection
                     ?.filter((team) => team?._id === Array.from(key).toString())
                     .pop();
-                  console.log("selectedTeam", selectedTeam);
 
                   if (
                     selectedTeam === undefined ||
@@ -136,13 +112,9 @@ const TaskFormSections = ({
                     setSelectedReviewer(new Set([]));
                     setSelectedManager(new Set([]));
                   } else {
-                    // setSelectedClient(
-                    //   new Set([
-                    //     selectedTeam?.client?.filter(
-                    //       (client) => client._id === selectedClientToView
-                    //     )[0]._id,
-                    //   ])
-                    // );
+                    setSelectedClient(
+                      showClientTask ? [selectedClientToView] : new Set([])
+                    );
                     setSelectedProcessor(
                       new Set(selectedTeam?.members.map((member) => member.sub))
                     );
@@ -176,9 +148,7 @@ const TaskFormSections = ({
                   "This selection is based from the selected team's assigned clients only"
                 }
                 selectionMode="single"
-                selectedKeys={
-                  showClientTask ? [selectedClientToView] : selectedClient
-                }
+                selectedKeys={selectedClient}
                 onSelectionChange={(key) => {
                   setSelectedClient(key);
                 }}
@@ -194,7 +164,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={selectedTeam.size == 0}
+                isDisabled={Boolean(selectedTeam?.length)}
                 isRequired={true}
                 aria-label="Processor Selection"
                 items={processorSelection}
@@ -251,7 +221,10 @@ const TaskFormSections = ({
         </div>
       </div>
       {/* Description */}
-      <div className="py-2 w-full">
+      <div
+        data-show={selectedTeam.size == 0}
+        className="data-[show=true]:hidden block py-2 w-full"
+      >
         <div className="flex justify-start items-center gap-2 mb-8">
           <p className="text-black-default font-bold text-base lg:text-lg xl:text-xl">
             {"Description"}

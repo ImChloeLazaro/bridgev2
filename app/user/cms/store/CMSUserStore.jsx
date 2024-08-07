@@ -39,13 +39,12 @@ export const tasksListAtom = atom((get) => {
   const user = get(userAtom);
 
   const tasksList = get(tasksAtom)
-    .filter(
-      (task) =>
-        userSubTeams
-          .filter((userSubTeam) => userSubTeam.team)
-          .map((userSubTeam) => userSubTeam._id)
-          .includes(task.team) ||
-        myTeams.map((myTeam) => myTeam._id).includes(task.team)
+    .filter((task) =>
+      [userSubTeams, myTeams]
+        .flat()
+        .filter((userSubTeam) => userSubTeam.team)
+        .map((userSubTeam) => userSubTeam._id)
+        .includes(task.team)
     )
     .map((task) => {
       return { ...task, key: task._id }; // task ID
@@ -56,10 +55,11 @@ export const tasksListAtom = atom((get) => {
       task.manager.sub,
       task.sla.map((sla) => sla.processor.map((user) => user.sub)).flat(),
       task.sla.map((sla) => sla.reviewer.map((user) => user.sub)).flat(),
-    ];
+    ].flat();
 
     return new Set(assignees).has(user.sub);
   });
+
   return filteredTasksByUser.filter((task) => task.status === "active");
 });
 
@@ -88,6 +88,7 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
+
   return clientList;
 });
 
@@ -96,6 +97,43 @@ export const updateSelectedReviewerAtom = atom(new Set([]));
 
 // for selection in clients selection list when adding tasks to clients
 export const selectedClientForTaskAtom = atom(new Set([]));
+
+export const isUserHeadAtom = atom((get) => {
+  const user = get(userAtom);
+  const teams = get(userSubTeamsAtom)
+    .filter((subTeam) =>
+      subTeam.heads.map((head) => head.sub).includes(user.sub)
+    )
+    .map((team) => {
+      return { ...team, key: team._id };
+    });
+
+  if (teams?.length) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
+export const isUserHeadByClientAtom = atom((get) => {
+  const user = get(userAtom);
+  const selectedClient = get(selectedClientToViewAtom);
+  const teams = get(userSubTeamsAtom)
+    .filter(
+      (subTeam) =>
+        subTeam.heads.map((head) => head.sub).includes(user.sub) &&
+        subTeam.client.map((client) => client._id).includes(selectedClient)
+    )
+    .map((team) => {
+      return { ...team, key: team._id };
+    });
+
+  if (teams?.length) {
+    return true;
+  } else {
+    return false;
+  }
+});
 
 export const selectedTeamAtom = atom(new Set([]));
 export const teamSelectionAtom = atom((get) => {
@@ -283,3 +321,11 @@ export const taskActionsDetailsAtom = atom([
   //   icon: <MdFactCheck size={18} />,
   // },
 ]);
+
+export const handleViewUserAtom = atom(null, (get, set, item) => {
+  const id = item?.location_id;
+  const newID = new Set([id]);
+  set(selectedClientToViewAtom, id);
+  set(selectedClientForTaskAtom, newID);
+  set(showClientTaskAtom, true);
+});

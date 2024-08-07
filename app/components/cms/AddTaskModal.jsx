@@ -1,9 +1,6 @@
 import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
-import {
-  addTaskAtom,
-  fetchTaskAtom
-} from "@/app/store/TaskStore";
+import { addTaskAtom, fetchTaskAtom } from "@/app/store/TaskStore";
 import {
   fetchMyTeamsAtom,
   fetchSubTeamsAtom,
@@ -68,7 +65,7 @@ const AddTaskModal = ({
   const fetchTeamClients = useSetAtom(fetchTeamClientsAtom);
   const fetchUserList = useSetAtom(fetchUserListAtom);
 
-  const handleAddTask = async () => {
+  const handleAddTask = () => {
     const promise = async () =>
       new Promise((resolve) =>
         setTimeout(
@@ -155,7 +152,7 @@ const AddTaskModal = ({
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
-              isDisabled={selectedTeam.size === 0}
+                isDisabled={selectedTeam.size === 0}
                 type={"submit"}
                 label={"Assign Task"}
                 color={"blue"}
