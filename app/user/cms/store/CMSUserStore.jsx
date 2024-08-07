@@ -88,7 +88,7 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
- 
+
   return clientList;
 });
 
@@ -321,3 +321,11 @@ export const taskActionsDetailsAtom = atom([
   //   icon: <MdFactCheck size={18} />,
   // },
 ]);
+
+export const handleViewUserAtom = atom(null, (get, set, item) => {
+  const id = item?.location_id;
+  const newID = new Set([id]);
+  set(selectedClientToViewAtom, id);
+  set(selectedClientForTaskAtom, newID);
+  set(showClientTaskAtom, true);
+});

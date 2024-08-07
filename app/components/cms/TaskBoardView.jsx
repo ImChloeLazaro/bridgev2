@@ -98,18 +98,18 @@ const TaskBoardView = ({
     <div
       data-change={changeView}
       data-view={showClientTask}
-      className="hidden data-[view=true]:flex data-[change=true]:hidden w-full h-full justify-center items-center text-clip"
+      className='hidden data-[view=true]:flex data-[change=true]:hidden w-full h-full justify-center items-center text-clip'
     >
-      <div className="flex flex-col items-center justify-center">
+      <div className='flex flex-col items-center justify-center'>
         <Image width={450} height={450} alt={"No Data"} src={"/no-data.webp"} />
-        <p className="text-lg font-medium text-black-default/80">
+        <p className='text-lg font-medium text-black-default/80'>
           {"No Data to Display"}
         </p>
 
         <Link
-          href="#"
-          underline="hover"
-          className="text-lg font-medium text-black-default/80 flex gap-1"
+          href='#'
+          underline='hover'
+          className='text-lg font-medium text-black-default/80 flex gap-1'
           onPress={handleRefreshTable}
         >
           <MdRefresh size={20} />
@@ -121,7 +121,7 @@ const TaskBoardView = ({
     <div
       data-view={showClientTask}
       data-change={changeView}
-      className="hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 lg:px-0 "
+      className='hidden data-[view=true]:flex data-[change=false]:hidden w-full h-full items-center overflow-x-auto px-4 lg:px-0 '
     >
       <DndContext
         // modifiers={[restrictToHorizontalAxis]}
@@ -131,7 +131,7 @@ const TaskBoardView = ({
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <div className="flex flex-col lg:flex-row gap-4 w-full h-full">
+        <div className='flex flex-col lg:flex-row gap-4 w-full h-full'>
           <SortableContext items={columnsId}>
             {columns.map((col) => (
               <ColumnContainer
@@ -322,6 +322,8 @@ const TaskBoardView = ({
       const taskName = taskActive?.name;
 
       const clientName = taskActive?.client_name;
+      const clientId = taskActive?.client_id;
+      console.log("Task Active: ", clientId);
       const dateTaskDone = new Date();
 
       const processors = taskActive?.processor?.map((user) => user.sub);
@@ -338,6 +340,8 @@ const TaskBoardView = ({
             type: ["mentioned"],
             description: `Task Marked as ToDo: ${format(dateTaskDone, "PPpp")}`,
             notified_from: user,
+            location_id: clientId,
+            location: "cms",
             route: "set",
           });
 
@@ -380,6 +384,8 @@ const TaskBoardView = ({
               "PPpp"
             )}`,
             notified_from: user,
+            location_id: clientId,
+            location: "cms",
             route: "set",
           });
 
@@ -422,6 +428,8 @@ const TaskBoardView = ({
               "PPpp"
             )}`,
             notified_from: user,
+            location_id: clientId,
+            location: "cms",
             route: "set",
           });
 
@@ -480,6 +488,8 @@ const TaskBoardView = ({
             type: ["mentioned"],
             description: `Task Completed: ${format(dateTaskDone, "PPpp")}`,
             notified_from: user,
+            location_id: clientId,
+            location: "cms",
             route: "set",
           });
 
