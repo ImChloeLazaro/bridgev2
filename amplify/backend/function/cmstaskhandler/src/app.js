@@ -40,7 +40,7 @@ app.get('/cms/task', async function (req, res) {
       };
     });
 
-    res.status(200).json({ success: true, response: data });
+    res.status(200).json({ success: true, response: read });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -98,7 +98,25 @@ app.put('/cms/task/', async function (req, res) {
 
 app.put('/cms/task/*', async function (req, res) {
   try {
-    const { _id, reviewer, processor, sla_id } = req.body
+    // const { _id, reviewer, processor, sla_id } = req.body
+    const _id = "66b18dfef1944162e39bf30e";
+    const sla_id = "66b18dfef1944162e39bf30f";
+    const processor = [
+      {
+        sub: "1234",
+        name: "test 1",
+        email: "test 2",
+        picture: "test 3",
+        privilege: "test 4"
+      },
+      {
+        sub: "12345",
+        name: "test 11",
+        email: "test 22",
+        picture: "test 33",
+        privilege: "test 44"
+      }
+    ];
     const proxy = req.path;
     switch (proxy) {
       case '/cms/task/update-processor':

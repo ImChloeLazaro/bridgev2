@@ -30,23 +30,40 @@ const TaskFormSections = ({
   startTimeAtom,
   endTimeAtom,
 }) => {
-  // const clientSelection = useAtomValue(clientSelectionAtom);
-  const [clientSelection, setClientSelection] = useState([]);
-
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
-
   const teamSelection = useAtomValue(teamSelectionAtom);
   const [selectedTeam, setSelectedTeam] = useAtom(selectedTeamAtom);
 
+  const team = teamSelection
+    ?.filter((team) => Array.from(selectedTeam).includes(team._id))
+    ?.pop();
+
+  const clientSelection = useAtomValue(clientSelectionAtom);
+  // const [clientSelection, setClientSelection] = useState([]);
+
+  // const clientSelection =
+  //   team?.client.map((client) => {
+  //     return { ...client, key: client._id };
+  //   }) ?? [];
+  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+
   const processorSelection = useAtomValue(processorSelectionAtom);
+  // const processorSelection =
+  //   team?.members.map((user) => {
+  //     return { ...user, key: user.sub };
+  //   }) ?? [];
   const [selectedProcessor, setSelectedProcessor] = useAtom(
     selectedProcessorAtom
   );
 
   const reviewerSelection = useAtomValue(reviewerSelectionAtom);
+  // const reviewerSelection =
+  //   team?.members.map((user) => {
+  //     return { ...user, key: user.sub };
+  //   }) ?? [];
   const [selectedReviewer, setSelectedReviewer] = useAtom(selectedReviewerAtom);
 
   const managerSelection = useAtomValue(managerSelectionAtom);
+  // const managerSelection = [{ ...team?.tl, key: team?.tl.sub ?? "" }] ?? [];
   const [selectedManager, setSelectedManager] = useAtom(selectedManagerAtom);
 
   const [taskName, setTaskName] = useAtom(taskNameAtom);
@@ -90,34 +107,42 @@ const TaskFormSections = ({
                   showClientTask ? teamSelectionSelectedClient : teamSelection
                 }
                 placeholder="Assign Team/s"
+                description={
+                  selectedTeam.size === 0
+                    ? "Create a new team first before creating tasks for clients."
+                    : ""
+                }
                 selectionMode="single"
                 selectedKeys={selectedTeam}
                 onSelectionChange={(key) => {
                   setSelectedTeam(key);
-                  if (showClientTask) setSelectedClient([selectedClientToView]);
+                  console.log("showClientTask", showClientTask);
+                  console.log("selectedClientToView", selectedClientToView);
+                  if (showClientTask) {
+                    setSelectedClient([selectedClientToView]);
+                  }
                   let selectedTeam = teamSelection
-                    .filter((team) => team?._id === Array.from(key).toString())
+                    ?.filter((team) => team?._id === Array.from(key).toString())
                     .pop();
+                  console.log("selectedTeam", selectedTeam);
 
                   if (
                     selectedTeam === undefined ||
                     selectedTeam?.length === 0 ||
                     selectedTeam === null
                   ) {
-                    setClientSelection([]);
                     setSelectedClient(new Set([]));
                     setSelectedProcessor(new Set([]));
                     setSelectedReviewer(new Set([]));
                     setSelectedManager(new Set([]));
                   } else {
-                    setClientSelection(
-                      selectedTeam.client?.map((client) => {
-                        return {
-                          ...client,
-                          key: client._id,
-                        };
-                      })
-                    );
+                    // setSelectedClient(
+                    //   new Set([
+                    //     selectedTeam?.client?.filter(
+                    //       (client) => client._id === selectedClientToView
+                    //     )[0]._id,
+                    //   ])
+                    // );
                     setSelectedProcessor(
                       new Set(selectedTeam?.members.map((member) => member.sub))
                     );
@@ -147,6 +172,9 @@ const TaskFormSections = ({
                 aria-label="Client Selection"
                 items={clientSelection}
                 placeholder="Select Client"
+                description={
+                  "This selection is based from the selected team's assigned clients only"
+                }
                 selectionMode="single"
                 selectedKeys={
                   showClientTask ? [selectedClientToView] : selectedClient
@@ -272,6 +300,9 @@ const TaskFormSections = ({
                 aria-label="Recurrence Selection"
                 items={recurrenceSelection}
                 placeholder="Choose Recurrence"
+                description={
+                  "Note: Recurrence of tasks are automatically done every day"
+                }
                 selectionMode="single"
                 selectedKeys={selectedRecurrence}
                 onSelectionChange={setSelectedRecurrence}

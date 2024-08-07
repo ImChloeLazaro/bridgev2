@@ -168,7 +168,7 @@ let taggedIndex = 0;
 export const taggedPeopleListAtom = atom((get) => {
   const list = get(userListAtom);
 
-  console.log("list", list);
+  // console.log("list", list);
 
   const allEmails = list.map((person) => person.email);
   const allSubs = list.map((person) => person.sub);

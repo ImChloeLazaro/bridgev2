@@ -44,7 +44,10 @@ const Profile = () => {
                 >
                   <Suspense
                     fallback={
-                      <Spinner className="h-full w-full flex items-center justify-center" />
+                      <Spinner
+                        className="h-full w-full flex items-center justify-center"
+                        label="Loading Leave Information..."
+                      />
                     }
                   >
                     <LeaveBalanceContent />
@@ -61,7 +64,10 @@ const Profile = () => {
                 >
                   <Suspense
                     fallback={
-                      <Spinner className="h-full w-full flex items-center justify-center" />
+                      <Spinner
+                        className="h-full w-full flex items-center justify-center"
+                        label="Loading Benefits Information..."
+                      />
                     }
                   >
                     <BenefitsContent />
@@ -76,7 +82,10 @@ const Profile = () => {
                 >
                   <Suspense
                     fallback={
-                      <Spinner className="h-full w-full flex items-center justify-center" />
+                      <Spinner
+                        className="h-full w-full flex items-center justify-center"
+                        label="Loading User Information..."
+                      />
                     }
                   >
                     <EmergencyContactContent />
@@ -91,7 +100,10 @@ const Profile = () => {
                 >
                   <Suspense
                     fallback={
-                      <Spinner className="h-full w-full flex items-center justify-center" />
+                      <Spinner
+                        className="h-full w-full flex items-center justify-center"
+                        label="Loading Onboarding Information..."
+                      />
                     }
                   >
                     <UserOnboardingContent />
@@ -112,7 +124,10 @@ const Profile = () => {
           >
             <Suspense
               fallback={
-                <Spinner className="h-full w-full flex items-center justify-center" />
+                <Spinner
+                  className="h-full w-full flex items-center justify-center"
+                  label="Loading Leave Information..."
+                />
               }
             >
               <LeaveBalanceContent />
@@ -127,7 +142,10 @@ const Profile = () => {
           >
             <Suspense
               fallback={
-                <Spinner className="h-full w-full flex items-center justify-center" />
+                <Spinner
+                  className="h-full w-full flex items-center justify-center"
+                  label="Loading Benefits Information..."
+                />
               }
             >
               <BenefitsContent />
@@ -142,7 +160,10 @@ const Profile = () => {
           >
             <Suspense
               fallback={
-                <Spinner className="h-full w-full flex items-center justify-center" />
+                <Spinner
+                  className="h-full w-full flex items-center justify-center"
+                  label="Loading User Information..."
+                />
               }
             >
               <EmergencyContactContent />
@@ -157,7 +178,10 @@ const Profile = () => {
           >
             <Suspense
               fallback={
-                <Spinner className="h-full w-full flex items-center justify-center" />
+                <Spinner
+                  className="h-full w-full flex items-center justify-center"
+                  label="Loading Onboarding Information..."
+                />
               }
             >
               <UserOnboardingContent />

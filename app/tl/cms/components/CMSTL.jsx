@@ -10,10 +10,7 @@ import { clientFilterKeysAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
   actionButtonsAtom,
   fetchTaskAtom,
-  managerSelectionAtom,
-  processorSelectionAtom,
   recurrenceSelectionAtom,
-  reviewerSelectionAtom,
   taskFilterKeysAtom,
 } from "@/app/store/TaskStore";
 import {
@@ -31,6 +28,9 @@ import {
   clientSelectionAtom,
   dateRangeAtom,
   endTimeAtom,
+  managerSelectionAtom,
+  processorSelectionAtom,
+  reviewerSelectionAtom,
   selectedClientAtom,
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
@@ -112,6 +112,7 @@ const CMSTL = () => {
   const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
 
   // ##########################################
+
   const selectedTaskFilterKeyString = Array.from(
     selectedTaskFilterKeys
   ).toString();
@@ -127,8 +128,6 @@ const CMSTL = () => {
           client_id: task.client?.client_id,
           client_name: task.client?.name,
           manager: task.manager,
-          processor: task.processor,
-          reviewer: task.reviewer,
         };
       })
     )
@@ -152,8 +151,6 @@ const CMSTL = () => {
             client_id: task.client?.client_id,
             client_name: task.client?.name,
             manager: task.manager,
-            processor: task.processor,
-            reviewer: task.reviewer,
           };
         })
       )

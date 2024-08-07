@@ -2,16 +2,16 @@ import ConfirmationWindow from "@/app/components/ConfirmationWindow";
 import CTAButtons from "@/app/components/CTAButtons";
 import {
   addTaskAtom,
-  deleteTaskAtom,
-  fetchTaskAtom,
+  fetchTaskAtom
 } from "@/app/store/TaskStore";
 import {
   fetchMyTeamsAtom,
-  fetchTeamsAtom,
   fetchSubTeamsAtom,
-  fetchUserSubTeamsAtom,
   fetchTeamClientsAtom,
+  fetchTeamsAtom,
+  fetchUserSubTeamsAtom,
 } from "@/app/store/TeamStore";
+import { fetchUserListAtom } from "@/app/store/UserStore";
 import {
   Modal,
   ModalBody,
@@ -21,10 +21,9 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import TaskFormSections from "./TaskFormSections";
-import { useEffect } from "react";
-import { fetchUserListAtom } from "@/app/store/UserStore";
 
 const AddTaskModal = ({
   isOpen,
@@ -59,6 +58,7 @@ const AddTaskModal = ({
 
   const taskData = useAtomValue(taskDataAtom);
   const taskName = useAtomValue(taskNameAtom);
+  const selectedTeam = useAtomValue(selectedTeamAtom);
   const addTask = useSetAtom(addTaskAtom);
   const fetchTask = useSetAtom(fetchTaskAtom);
   const fetchTeams = useSetAtom(fetchTeamsAtom);
@@ -67,7 +67,6 @@ const AddTaskModal = ({
   const fetchUserSubTeams = useSetAtom(fetchUserSubTeamsAtom);
   const fetchTeamClients = useSetAtom(fetchTeamClientsAtom);
   const fetchUserList = useSetAtom(fetchUserListAtom);
-  const deleteTask = useSetAtom(deleteTaskAtom);
 
   const handleAddTask = async () => {
     const promise = async () =>
@@ -156,6 +155,7 @@ const AddTaskModal = ({
             <ModalFooter>
               <CTAButtons label={"Cancel"} color={"clear"} onPress={onClose} />
               <CTAButtons
+              isDisabled={selectedTeam.size === 0}
                 type={"submit"}
                 label={"Assign Task"}
                 color={"blue"}

@@ -10,10 +10,7 @@ import { clientFilterKeysAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
   actionButtonsAtom,
   fetchTaskAtom,
-  managerSelectionAtom,
-  processorSelectionAtom,
   recurrenceSelectionAtom,
-  reviewerSelectionAtom,
   taskFilterKeysAtom,
 } from "@/app/store/TaskStore";
 import {
@@ -31,6 +28,9 @@ import {
   clientSelectionAtom,
   dateRangeAtom,
   endTimeAtom,
+  managerSelectionAtom,
+  processorSelectionAtom,
+  reviewerSelectionAtom,
   selectedClientAtom,
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
@@ -83,6 +83,25 @@ const CMSUser = () => {
   });
 
   const tasksList = useAtomValue(tasksListAtom);
+
+  // console.log(
+  //   "tasksList",
+  //   tasksList
+  //     .map((task) =>
+  //       task.sla
+  //         .map((sla) => sla.processor.map((processor) => processor.sub))
+  //         .flat()
+  //     )
+  //     .flat(),
+  //   tasksList
+  //     .map((task) =>
+  //       task.sla
+  //         .map((sla) => sla.reviewer.map((reviewer) => reviewer.sub))
+  //         .flat()
+  //     )
+  //     .flat()
+  // );
+
   const clientList = useAtomValue(clientListAtom);
 
   const taskActionsDetails = useAtomValue(taskActionsDetailsAtom);
@@ -128,8 +147,6 @@ const CMSUser = () => {
           client_id: task.client?.client_id,
           client_name: task.client?.name,
           manager: task.manager,
-          processor: task.processor,
-          reviewer: task.reviewer,
         };
       })
     )
@@ -153,8 +170,6 @@ const CMSUser = () => {
             client_id: task.client?.client_id,
             client_name: task.client?.name,
             manager: task.manager,
-            processor: task.processor,
-            reviewer: task.reviewer,
           };
         })
       )

@@ -10,10 +10,7 @@ import { clientFilterKeysAtom, fetchClientAtom } from "@/app/store/ClientStore";
 import {
   actionButtonsAtom,
   fetchTaskAtom,
-  managerSelectionAtom,
-  processorSelectionAtom,
   recurrenceSelectionAtom,
-  reviewerSelectionAtom,
   taskFilterKeysAtom,
 } from "@/app/store/TaskStore";
 import {
@@ -31,6 +28,9 @@ import {
   clientSelectionAtom,
   dateRangeAtom,
   endTimeAtom,
+  managerSelectionAtom,
+  processorSelectionAtom,
+  reviewerSelectionAtom,
   selectedClientAtom,
   selectedClientFilterKeysAtom,
   selectedClientToViewAtom,
@@ -129,8 +129,6 @@ const CMSAdmin = () => {
           client_id: task.client?.client_id,
           client_name: task.client?.name,
           manager: task.manager,
-          processor: task.processor,
-          reviewer: task.reviewer,
         };
       })
     )
@@ -154,8 +152,6 @@ const CMSAdmin = () => {
             client_id: task.client?.client_id,
             client_name: task.client?.name,
             manager: task.manager,
-            processor: task.processor,
-            reviewer: task.reviewer,
           };
         })
       )
@@ -282,11 +278,6 @@ const CMSAdmin = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   fetchTask();
-  //   fetchClient();
-  // }, []);
 
   useEffect(() => {
     // only execute all the code below in client side

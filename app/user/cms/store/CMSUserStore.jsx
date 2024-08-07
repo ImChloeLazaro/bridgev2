@@ -1,10 +1,5 @@
 import { clientsAtom } from "@/app/store/ClientStore";
-import {
-  managerSelectionAtom,
-  processorSelectionAtom,
-  reviewerSelectionAtom,
-  tasksAtom,
-} from "@/app/store/TaskStore";
+import { tasksAtom } from "@/app/store/TaskStore";
 import { myTeamsAtom, userSubTeamsAtom } from "@/app/store/TeamStore";
 import { userAtom } from "@/app/store/UserStore";
 import {
@@ -59,8 +54,8 @@ export const tasksListAtom = atom((get) => {
   const filteredTasksByUser = tasksList.filter((task) => {
     let assignees = [
       task.manager.sub,
-      ...task.processor.map((processor) => processor.sub),
-      ...task.reviewer.map((reviewer) => reviewer.sub),
+      task.sla.map((sla) => sla.processor.map((user) => user.sub)).flat(),
+      task.sla.map((sla) => sla.reviewer.map((user) => user.sub)).flat(),
     ];
 
     return new Set(assignees).has(user.sub);
@@ -71,7 +66,6 @@ export const tasksListAtom = atom((get) => {
 // Clients to display on table and board view
 export const clientListAtom = atom((get) => {
   const user = get(userAtom);
-  const taskList = get(tasksListAtom);
 
   const mySubTeam = get(userSubTeamsAtom).filter(
     (subTeam) =>
@@ -79,13 +73,7 @@ export const clientListAtom = atom((get) => {
       subTeam.members.map((member) => member.sub).includes(user.sub)
   );
 
-  const myTeam = get(myTeamsAtom).filter(
-    (team) =>
-      team.heads.map((head) => head.sub).includes(user.sub) ||
-      team.members.map((member) => member.sub).includes(user.sub)
-  );
-  console.log("[...myTeam, ...mySubTeam]", [...myTeam, ...mySubTeam]);
-  const clientList = [...myTeam, ...mySubTeam]
+  const clientList = [...mySubTeam]
     .map((subTeam) =>
       subTeam.client.map((client) => {
         return {
@@ -100,14 +88,7 @@ export const clientListAtom = atom((get) => {
     .filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2._id === obj1._id) === i
     );
-  console.log("clientList", clientList);
-  console.log("taskList", taskList);
-  const filteredClientList = clientList.filter((client) => {
-    return taskList.some((task) => task.client.client_id === client._id);
-  });
-  console.log("filteredClientList", filteredClientList);
-  return filteredClientList;
-  // return clientList;
+  return clientList;
 });
 
 export const updateSelectedProcessorAtom = atom(new Set([]));
@@ -116,48 +97,106 @@ export const updateSelectedReviewerAtom = atom(new Set([]));
 // for selection in clients selection list when adding tasks to clients
 export const selectedClientForTaskAtom = atom(new Set([]));
 
-export const selectedClientAtom = atom(new Set([]));
-export const clientSelectionAtom = atom((get) => {
-  const clients = get(clientsAtom);
-  const user = get(userAtom);
-  const mySubTeam = get(userSubTeamsAtom).filter((subTeam) =>
-    subTeam.heads.map((head) => head.sub).includes(user.sub)
-  );
-
-  const clientList = clients
-    .filter((client) =>
-      mySubTeam
-        .map((subTeam) => subTeam.client.map((client) => client._id))
-        .flat()
-        .includes(client._id)
-    )
-    .map((client) => {
-      return {
-        ...client,
-        key: client._id,
-        _id: client._id,
-        client_id: client._id,
-      };
-    });
-  return clientList;
-});
-
 export const selectedTeamAtom = atom(new Set([]));
 export const teamSelectionAtom = atom((get) => {
   const user = get(userAtom);
-  return get(userSubTeamsAtom)
+  const teams = get(userSubTeamsAtom)
     .filter((subTeam) =>
       subTeam.heads.map((head) => head.sub).includes(user.sub)
     )
     .map((team) => {
       return { ...team, key: team._id };
     });
+
+  return teams;
 });
 
-// selection from task store since admin sees all
+export const selectedClientAtom = atom(new Set([]));
+export const clientSelectionAtom = atom((get) => {
+  const selectedTeam = get(selectedTeamAtom);
+  const team = get(teamSelectionAtom)
+    .filter((team) => Array.from(selectedTeam).includes(team?._id))
+    .pop();
+
+  if (!team?.length) {
+    return (
+      team?.client?.map((client) => {
+        return {
+          ...client,
+          key: client._id,
+          _id: client._id,
+          client_id: client._id,
+        };
+      }) ?? []
+    );
+  } else {
+    return [];
+  }
+});
+
 export const selectedProcessorAtom = atom(new Set([]));
+export const processorSelectionAtom = atom((get) => {
+  const selectedTeam = get(selectedTeamAtom);
+  const team = get(teamSelectionAtom)
+    .filter((team) => Array.from(selectedTeam).includes(team?._id))
+    .pop();
+
+  if (!team?.length) {
+    return (
+      team?.members?.map((member) => {
+        return {
+          ...member,
+          key: member.sub,
+        };
+      }) ?? []
+    );
+  } else {
+    return [];
+  }
+});
+
 export const selectedReviewerAtom = atom(new Set([]));
+export const reviewerSelectionAtom = atom((get) => {
+  const selectedTeam = get(selectedTeamAtom);
+  const team = get(teamSelectionAtom)
+    .filter((team) => Array.from(selectedTeam).includes(team?._id))
+    .pop();
+
+  if (!team?.length) {
+    return (
+      team?.members?.map((member) => {
+        return {
+          ...member,
+          key: member.sub,
+        };
+      }) ?? []
+    );
+  } else {
+    return [];
+  }
+});
+
 export const selectedManagerAtom = atom(new Set([]));
+export const managerSelectionAtom = atom((get) => {
+  const selectedTeam = get(selectedTeamAtom);
+  const team = get(teamSelectionAtom)
+    .filter((team) => Array.from(selectedTeam).includes(team?._id))
+    .pop();
+
+  if (!team?.length) {
+    const tlList = [{ ...team?.tl, key: team?.tl?.sub ?? "" }];
+    const headsList =
+      team?.heads?.map((head) => {
+        return {
+          ...head,
+          key: head.sub,
+        };
+      }) ?? [];
+    return [tlList, headsList].flat();
+  } else {
+    return [];
+  }
+});
 
 // task details
 export const taskNameAtom = atom("");
@@ -186,22 +225,22 @@ export const taskDataAtom = atom((get) => {
 
   return {
     team: Array.from(selectedTeam).toString(),
-    client: clientSelection.filter((client) =>
+    client: clientSelection?.filter((client) =>
       Array.from(selectedClient).includes(client?.key)
     )[0],
-    processor: processorSelection.filter((processor) =>
-      Array.from(selectedProcessor).includes(processor.sub)
-    ),
-    reviewer: reviewerSelection.filter((reviewer) =>
-      Array.from(selectedReviewer).includes(reviewer.sub)
-    ),
-    manager: managerSelection.filter((manager) =>
+    manager: managerSelection?.filter((manager) =>
       Array.from(selectedManager).includes(manager?.sub)
     )[0],
     sla: [
       {
         name: get(taskNameAtom) === "" ? "Task Name" : get(taskNameAtom),
         escalate: false,
+        processor: processorSelection?.filter((processor) =>
+          Array.from(selectedProcessor).includes(processor.sub)
+        ),
+        reviewer: reviewerSelection?.filter((reviewer) =>
+          Array.from(selectedReviewer).includes(reviewer.sub)
+        ),
         instruction:
           get(taskInstructionAtom) === ""
             ? "Add Instructions"
