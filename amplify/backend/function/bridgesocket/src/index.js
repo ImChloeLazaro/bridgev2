@@ -209,7 +209,10 @@ exports.handler = async (event) => {
             if (route === "setread") {
               // Mark the notification as read
               const { id } = body;
-              await Notification.updateOne({ _id: id }, { unread: false });
+              await Notification.updateOne(
+                { _id: { $eq: id } },
+                { unread: false }
+              );
               await sendOne(connectionId, {
                 system: "Marked as read id " + id,
               });
@@ -217,7 +220,10 @@ exports.handler = async (event) => {
             if (route === "setunread") {
               // Mark the notification as read
               const { id } = body;
-              await Notification.updateOne({ _id: id }, { unread: true });
+              await Notification.updateOne(
+                { _id: { $eq: id } },
+                { unread: true }
+              );
               await sendOne(connectionId, {
                 system: "Marked as unread id " + id,
               });
@@ -226,19 +232,25 @@ exports.handler = async (event) => {
             if (route === "sethide") {
               // Mark the notification as hidden
               const { id } = body;
-              await Notification.updateOne({ _id: id }, { hidden: true });
+              await Notification.updateOne(
+                { _id: { $eq: id } },
+                { hidden: true }
+              );
               await sendOne(connectionId, { system: "hide, id " + id });
             }
             if (route === "setshow") {
               // Mark the notification as hidden
               const { id } = body;
-              await Notification.updateOne({ _id: id }, { hidden: false });
+              await Notification.updateOne(
+                { _id: { $eq: id } },
+                { hidden: false }
+              );
               await sendOne(connectionId, { system: "unhide, id " + id });
             }
 
             if (route === "delete") {
               const { id } = body;
-              await Notification.deleteOne({ _id: id });
+              await Notification.deleteOne({ _id: { $eq: id } });
               await sendOne(connectionId, { system: "delete, id " + id });
             }
           } catch (error) {
