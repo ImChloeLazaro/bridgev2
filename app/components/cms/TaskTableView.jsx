@@ -68,9 +68,11 @@ const TaskTableView = ({
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [selectedTaskID, setSelectedTaskID] = useAtom(selectedTaskIDAtom);
 
-  const slaToBeUpdated = itemTasks.filter(
-    (sla) => sla._id === selectedTask // sla ID
-  )[0];
+  const slaToBeUpdated = itemTasks
+    .filter(
+      (sla) => sla._id === selectedTask // sla ID
+    )
+    .pop();
 
   const tableColumns = useAtomValue(tableColumnsAtom);
 
