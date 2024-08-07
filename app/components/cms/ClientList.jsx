@@ -1,5 +1,5 @@
 import { Image, ScrollShadow, Spinner } from "@nextui-org/react";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import ClientItemCard from "./ClientItemCard";
 
 const ClientList = ({
@@ -18,10 +18,30 @@ const ClientList = ({
   setShowClientDetails,
   isLoading,
 }) => {
-  const clients = isLoading ? [] : itemClients;
+  const sortedItemClients = useMemo(() => {
+    let clients = isLoading ? [] : itemClients;
+    return clients.sort((a, b) => {
+      let checkTaskCount = new Set(
+        taskStatusCount.map((task) => task.client_id)
+      );
+      // sort by tasks count
+      // sort by name alphabetically
+      // sort by date ascending
+      // console.log("taskStatusCount", taskStatusCount);
+
+      let first = checkTaskCount.has(a._id);
+      let second = checkTaskCount.has(b._id);
+
+      return first === second ? 0 : first ? -1 : 1;
+    });
+  }, [isLoading, itemClients, taskStatusCount]);
+
   return (
     <>
-      {!showClientTask && !isLoading && !showClientDetails && clients?.length ? (
+      {!showClientTask &&
+      !isLoading &&
+      !showClientDetails &&
+      sortedItemClients?.length ? (
         <div
           data-show={isLoading}
           className="data-[show=true]:hidden w-full flex items-center justify-between gap-2"
@@ -50,8 +70,8 @@ const ClientList = ({
         ) : (
           <>
             <div className="flex flex-col w-full gap-y-3">
-              {!clients?.length ? (
-                clients?.length < 1 &&
+              {!sortedItemClients?.length ? (
+                sortedItemClients?.length < 1 &&
                 !searchClientItem?.length &&
                 Array.from(selectedClientFilterKeys).join("") === "all" ? (
                   <div className="w-full h-full flex justify-center p-0 lg:p-4 text-lg font-medium text-black-default">
@@ -87,7 +107,7 @@ const ClientList = ({
                   </div>
                 )
               ) : (
-                clients.map((client, index) => {
+                sortedItemClients.map((client, index) => {
                   return (
                     <Suspense
                       key={index}
