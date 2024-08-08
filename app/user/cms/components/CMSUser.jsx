@@ -59,6 +59,7 @@ import {
   updateSelectedProcessorAtom,
   updateSelectedReviewerAtom,
 } from "../store/CMSUserStore";
+import { userAtom } from "@/app/store/UserStore";
 // @refresh reset
 
 const CMSUser = () => {
@@ -86,6 +87,7 @@ const CMSUser = () => {
 
   const tasksList = useAtomValue(tasksListAtom);
 
+  const user = useAtomValue(userAtom);
   const isUserHead = useAtomValue(isUserHeadAtom);
   const isUserHeadByClient = useAtomValue(isUserHeadByClientAtom);
 
@@ -115,7 +117,7 @@ const CMSUser = () => {
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  const setSelectedTeam = useSetAtom(selectedTeamAtom);
 
   // ##########################################
 
@@ -164,6 +166,12 @@ const CMSUser = () => {
       )
       .flat();
 
+    filteredTasks = filteredTasks.filter(
+      (tasks) =>
+        tasks.processor.map((processor) => processor.sub).includes(user.sub) ||
+        tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
+    );
+
     if (Boolean(searchTaskItem)) {
       filteredTasks = filteredTasks.filter(
         (task) =>
@@ -183,6 +191,7 @@ const CMSUser = () => {
     return filteredTasks;
   }, [
     tasksList,
+    user.sub,
     searchTaskItem,
     selectedTaskFilterKeyString,
     selectedTaskFilterKeys,
@@ -267,6 +276,7 @@ const CMSUser = () => {
   const fetchClient = useSetAtom(fetchClientAtom);
 
   const handleOpenTaskWindow = () => {
+    setSelectedTeam(new Set([]));
     onOpenTask();
   };
   const handleOpenClientWindow = () => {
@@ -414,6 +424,7 @@ const CMSUser = () => {
             actions={taskActionsDetails}
             selectedTaskAtom={selectedTaskAtom}
             selectedTaskIDAtom={selectedTaskIDAtom}
+            teamSelectionAtom={teamSelectionAtom}
             updateSelectedProcessorAtom={updateSelectedProcessorAtom}
             updateSelectedReviewerAtom={updateSelectedReviewerAtom}
             isLoading={isLoading}
@@ -428,6 +439,7 @@ const CMSUser = () => {
             actions={taskActionsDetails}
             selectedTaskAtom={selectedTaskAtom}
             selectedTaskIDAtom={selectedTaskIDAtom}
+            teamSelectionAtom={teamSelectionAtom}
             updateSelectedProcessorAtom={updateSelectedProcessorAtom}
             updateSelectedReviewerAtom={updateSelectedReviewerAtom}
             isLoading={isLoading}

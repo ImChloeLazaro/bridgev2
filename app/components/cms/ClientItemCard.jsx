@@ -42,7 +42,7 @@ const ClientItemCard = ({
   );
 
   const tasks = taskStatusCount;
-  // console.log("tasks", tasks)
+
   const clientProcessors =
     tasks
       .filter((task) => task.client_id === client.key)
@@ -70,6 +70,13 @@ const ClientItemCard = ({
       // arr.findIndex((obj2) => obj2._id === obj1._id) === i ||
       arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
   );
+
+  // const isReviewer = (user) => {
+  //   let reviewer = clientReviewers.filter(
+  //     (reviewer) => reviewer.sub === user.sub
+  //   );
+  //   return Boolean(reviewer?.length);
+  // };
 
   const labelCount = useMemo(() => {
     let overdueCount = tasks

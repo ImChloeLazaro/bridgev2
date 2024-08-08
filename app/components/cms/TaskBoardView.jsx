@@ -38,6 +38,7 @@ const TaskBoardView = ({
   actions,
   selectedTaskAtom,
   selectedTaskIDAtom,
+  teamSelectionAtom,
   updateSelectedProcessorAtom,
   updateSelectedReviewerAtom,
   isLoading,
@@ -151,6 +152,7 @@ const TaskBoardView = ({
                 actions={actions}
                 selectedTaskAtom={selectedTaskAtom}
                 selectedTaskIDAtom={selectedTaskIDAtom}
+                teamSelectionAtom={teamSelectionAtom}
                 updateSelectedProcessorAtom={updateSelectedProcessorAtom}
                 updateSelectedReviewerAtom={updateSelectedReviewerAtom}
                 isMobile={isMobile}
@@ -203,6 +205,7 @@ const TaskBoardView = ({
                 actions={actions}
                 selectedTaskAtom={selectedTaskAtom}
                 selectedTaskIDAtom={selectedTaskIDAtom}
+                teamSelectionAtom={teamSelectionAtom}
                 updateSelectedProcessorAtom={updateSelectedProcessorAtom}
                 updateSelectedReviewerAtom={updateSelectedReviewerAtom}
                 isMobile={isMobile}
@@ -218,6 +221,7 @@ const TaskBoardView = ({
                 actions={actions}
                 selectedTaskAtom={selectedTaskAtom}
                 selectedTaskIDAtom={selectedTaskIDAtom}
+                teamSelectionAtom={teamSelectionAtom}
                 updateSelectedProcessorAtom={updateSelectedProcessorAtom}
                 updateSelectedReviewerAtom={updateSelectedReviewerAtom}
                 isLoading={isLoading}
