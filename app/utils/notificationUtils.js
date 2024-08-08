@@ -12,6 +12,8 @@ export function sendNotification(data) {
     type,
     description,
     notified_from,
+    location_id,
+    location,
     route,
   } = data;
   socketRef.current.send(
@@ -23,6 +25,8 @@ export function sendNotification(data) {
       description: description, // String
       notified_from: notified_from, // {user}
       route: route, // 'set' String
+      location_id: location_id,
+      location: location,
     })
   );
 }
@@ -56,7 +60,7 @@ export function showNotification(data) {
     } else {
       toast(title, {
         description: description,
-        icon: <Avatar src={icon} size="md" />,
+        icon: <Avatar src={icon} size='md' />,
         duration: 6000, // 6 seconds * 1000 = 6000 milliseconds
         classNames: { toast: "flex justify-between gap-8", icon: "mr-2" },
       });

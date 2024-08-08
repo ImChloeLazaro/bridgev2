@@ -12,8 +12,6 @@ export const tasksAtom = atom([]);
 export const fetchTaskAtom = atom(null, async (get, set, sub) => {
   const tasks = await restread("/cms/task");
 
-  console.log("tasks fetching...", tasks);
-
   if (tasks?.success) {
     const convertedTasks = tasks.response.map((task, index) => {
       return {
@@ -66,13 +64,17 @@ export const pageRowsSelectionAtom = atom([
 
 export const addTaskAtom = atom(null, async (get, set, update) => {
   const { team = "", manager = {}, client = {}, sla = [] } = update;
+  console.log("update", update);
+
+  if (!client?.length) {
+    return;
+  }
 
   const tasks = get(tasksAtom);
   const existingTasks = tasks.filter(
-    (task) => task.team == team && client.client_id === task.client.client_id
+    (task) => task?.team == team && client?.client_id === task?.client.client_id
   );
 
-  console.log("update", update);
   console.log("existingTasks", existingTasks);
 
   if (existingTasks?.length) {
@@ -97,9 +99,9 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     });
 
     if (response?.success) {
-      return { success: true };
+      return true;
     } else {
-      return { success: false };
+      return false;
     }
   }
 
@@ -114,12 +116,13 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const updateTaskAtom = atom(null, async (get, set, update) => {
-  const { action, _id, reviewer, processor } = update;
+  const { action, _id, reviewer, processor, sla_id } = update;
 
   const updatedAssignees = {
     _id,
     reviewer,
     processor,
+    sla_id
   };
 
   if (action === "remove") {
@@ -212,6 +215,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
     updateSelectedReviewer,
     setUpdateSelectedReviewer,
   } = update;
+
+  // console.log("task actions", update);
 
   const { key, status_id, sla_id } = get(selectedTaskActionAtom);
   const user = get(userAtom);
@@ -486,6 +491,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
       ...assignReviewerAssignees.map((assignee) => assignee?.name),
     ];
 
+    // console.log("newAssignees", newAssignees);
+
     const socketRef = get(notificationSocketRefAtom);
     sendNotification({
       socketRef: socketRef,
@@ -510,6 +517,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 _id: taskId,
                 processor: assignProcessorAssignees,
                 reviewer: assignReviewerAssignees,
+                sla_id: sla_id
               }),
               await set(fetchTaskAtom, {})
             ),
@@ -535,6 +543,9 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
     const removeReviewerAssignees = tasks.reviewer.filter((user) =>
       Array.from(updateSelectedReviewer).includes(user.sub)
     );
+
+    // console.log("removeProcessorAssignees", removeProcessorAssignees);
+    // console.log("removeReviewerAssignees", removeReviewerAssignees);
 
     /// ### For removing any task done by when removing processor/s and reviewer/s?
     /// ### Checks whether the soon to be removed processor/s and reviewer/s has any task done by and removes it
@@ -593,6 +604,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 _id: taskId,
                 processor: removeProcessorAssignees,
                 reviewer: removeReviewerAssignees,
+                sla_id: sla_id
               }),
 
               await set(fetchTaskAtom, {})

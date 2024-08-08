@@ -42,6 +42,7 @@ const ClientItemCard = ({
   );
 
   const tasks = taskStatusCount;
+  // console.log("tasks", tasks)
   const clientProcessors =
     tasks
       .filter((task) => task.client_id === client.key)

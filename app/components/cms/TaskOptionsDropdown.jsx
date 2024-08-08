@@ -40,7 +40,12 @@ const TaskOptionsDropdown = ({
 
   return (
     <>
-      <Dropdown>
+      <Dropdown
+        onOpenChange={(key) => {
+          setSelectedTask(sla_id);
+          setSelectedTaskID(task_id);
+        }}
+      >
         <DropdownTrigger>
           <Button
             aria-label={"Shortcut Options"}
@@ -52,10 +57,6 @@ const TaskOptionsDropdown = ({
         </DropdownTrigger>
         <DropdownMenu
           aria-label="Task Options Dropdown"
-          onAction={(key) => {
-            setSelectedTask(sla_id);
-            setSelectedTaskID(task_id);
-          }}
           items={actions}
           itemClasses={{
             base: ["data-[disabled=true]:opacity-100 text-black-default"],

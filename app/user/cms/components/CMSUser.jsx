@@ -28,6 +28,8 @@ import {
   clientSelectionAtom,
   dateRangeAtom,
   endTimeAtom,
+  isUserHeadAtom,
+  isUserHeadByClientAtom,
   managerSelectionAtom,
   processorSelectionAtom,
   reviewerSelectionAtom,
@@ -84,23 +86,8 @@ const CMSUser = () => {
 
   const tasksList = useAtomValue(tasksListAtom);
 
-  // console.log(
-  //   "tasksList",
-  //   tasksList
-  //     .map((task) =>
-  //       task.sla
-  //         .map((sla) => sla.processor.map((processor) => processor.sub))
-  //         .flat()
-  //     )
-  //     .flat(),
-  //   tasksList
-  //     .map((task) =>
-  //       task.sla
-  //         .map((sla) => sla.reviewer.map((reviewer) => reviewer.sub))
-  //         .flat()
-  //     )
-  //     .flat()
-  // );
+  const isUserHead = useAtomValue(isUserHeadAtom);
+  const isUserHeadByClient = useAtomValue(isUserHeadByClientAtom);
 
   const clientList = useAtomValue(clientListAtom);
 
@@ -144,6 +131,7 @@ const CMSUser = () => {
           ...sla,
           id: (tasksIndex += 1),
           task_id: task._id,
+          team_id: task.team,
           client_id: task.client?.client_id,
           client_name: task.client?.name,
           manager: task.manager,
@@ -167,6 +155,7 @@ const CMSUser = () => {
             ...sla,
             id: (tasksIndex += 1),
             task_id: task._id,
+            team_id: task.team,
             client_id: task.client?.client_id,
             client_name: task.client?.name,
             manager: task.manager,
@@ -361,6 +350,7 @@ const CMSUser = () => {
           >
             <CTAButtons
               isDisabled={Boolean(!itemClients?.length)}
+              showButton={showClientTask ? isUserHeadByClient : isUserHead}
               radius={"sm"}
               variant={"bordered"}
               key={actionButtons.task.label}

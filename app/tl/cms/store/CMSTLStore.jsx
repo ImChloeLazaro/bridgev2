@@ -275,3 +275,11 @@ export const taskActionsDetailsAtom = atom([
     icon: <MdRemoveCircleOutline size={18} />,
   },
 ]);
+
+export const handleViewTLAtom = atom(null, (get, set, item) => {
+  const id = item?.location_id;
+  const newID = new Set([id]);
+  set(selectedClientToViewAtom, id);
+  set(selectedClientForTaskAtom, newID);
+  set(showClientTaskAtom, true);
+});

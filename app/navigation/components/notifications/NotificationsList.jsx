@@ -13,7 +13,7 @@ import {
   differenceInMinutes,
   format,
 } from "date-fns";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
@@ -25,6 +25,16 @@ import {
   showUnreadAtom,
 } from "../../store/NotificationsStore";
 import NotificationsOptions from "./NotificationsOptions";
+import {
+  handleViewTLAtom,
+  selectedClientForTaskAtom,
+  selectedClientToViewAtom,
+  showClientTaskAtom,
+} from "@/app/tl/cms/store/CMSTLStore";
+import { usePathname, useRouter } from "next/navigation";
+import { userAtom } from "@/app/store/UserStore";
+import { handleViewUserAtom } from "@/app/user/cms/store/CMSUserStore";
+import { handleViewAdminAtom } from "@/app/admin/clients/store/CMSAdminStore";
 
 const NotificationsList = ({ getNotificationId }) => {
   const showUnread = useAtomValue(showUnreadAtom);
@@ -34,16 +44,49 @@ const NotificationsList = ({ getNotificationId }) => {
   const [notificationCount, setNotificationCount] = useAtom(
     notificationCountAtom
   );
+  const pathName = usePathname();
+  console.log("Path: ", pathName);
 
+  //view notification TL side
+  const handleViewTL = useSetAtom(handleViewTLAtom);
+  //view notification for user
+  const handleViewUser = useSetAtom(handleViewUserAtom);
+  //view notification for admin
+  const handleViewAdmin = useSetAtom(handleViewAdminAtom);
+
+  const setSelectedClientToViewUser = useSetAtom();
+  const router = useRouter();
   const options = [
     { key: "hide", label: "Hide this notification" },
     { key: "mark", label: "Mark as " },
   ];
 
-  const handleReadNotification = (id, unread) => {
+  const handleReadNotification = (item) => {
+    const id = item._id;
+    const unread = item?.unread;
+    const location = item?.location;
+    const location_id = item?.location_id;
+    let path = "";
     if (unread) {
       getNotificationId(`read`, id);
     }
+    if (pathName?.startsWith("/tl")) {
+      handleViewTL(item);
+      path = path + "/tl";
+    } else if (pathName?.startsWith("/user")) {
+      handleViewUser(item);
+      path = path + "/user";
+    } else if (pathName?.startsWith("/admin")) {
+      handleViewAdmin(item);
+      path = path + "/admin";
+    } else if (pathName?.startsWith("/hr")) {
+      path = path + "/hr";
+    }
+    if (location === "cms") {
+      path = path + "/cms";
+    }
+    console.log("path: ", path);
+    router.push(path);
   };
 
   const handleNotificationDatetime = (datetime) => {
@@ -99,24 +142,24 @@ const NotificationsList = ({ getNotificationId }) => {
   }, [filteredNotifications]);
 
   return !notifications?.length ? (
-    <div className="w-full h-[20rem] flex justify-center">{<Spinner />}</div>
+    <div className='w-full h-[20rem] flex justify-center'>{<Spinner />}</div>
   ) : (
     <Listbox
       items={sortedNotifications}
       aria-label={"Notifications"}
-      className="w-[25.3rem] h-[21.2rem] overflow-y-auto"
+      className='w-[25.3rem] h-[21.2rem] overflow-y-auto'
       emptyContent={
-        <div className="flex flex-col items-center mt-6">
+        <div className='flex flex-col items-center mt-6'>
           <Image
             width={180}
             height={180}
             alt={"No Notifications"}
             src={"/no-notifications.png"}
           />
-          <p className="font-medium text-black-default/80">
+          <p className='font-medium text-black-default/80'>
             {"No notifications yet!"}
           </p>
-          <p className="font-medium text-black-default/80">
+          <p className='font-medium text-black-default/80'>
             {"We'll notify you when something arrives"}
           </p>
         </div>
@@ -130,11 +173,11 @@ const NotificationsList = ({ getNotificationId }) => {
           aria-label={`Notifications ${index}`}
           startContent={
             item.unread ? (
-              <div className="text-blue-default">
+              <div className='text-blue-default'>
                 <RxDotFilled size={18} />
               </div>
             ) : (
-              <div className="text-blue-default">
+              <div className='text-blue-default'>
                 <VscBlank size={18} />
               </div>
             )
@@ -149,16 +192,16 @@ const NotificationsList = ({ getNotificationId }) => {
               id={item._id}
             />
           }
-          onPress={() => handleReadNotification(item._id, item.unread)}
+          onPress={() => handleReadNotification(item)}
         >
-          <div className="flex gap-4 items-center">
-            <div className="flex-col">
-              <Avatar src={item.notified_from.picture} size="md" />
+          <div className='flex gap-4 items-center'>
+            <div className='flex-col'>
+              <Avatar src={item.notified_from.picture} size='md' />
             </div>
-            <div className="flex flex-col gap-1 overflow-hidden whitespace-pre-line">
-              <p className="font-bold text-xs leading-tight">{item.title}</p>
-              <p className="font-medium text-xs truncate">{item.description}</p>
-              <p className="font-normal text-xs">
+            <div className='flex flex-col gap-1 overflow-hidden whitespace-pre-line'>
+              <p className='font-bold text-xs leading-tight'>{item.title}</p>
+              <p className='font-medium text-xs truncate'>{item.description}</p>
+              <p className='font-normal text-xs'>
                 {handleNotificationDatetime(item.createdBy ?? new Date())}
               </p>
             </div>
