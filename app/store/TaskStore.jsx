@@ -105,6 +105,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     }
   }
 
+  //test for uploading new tasks
   // Potential bug discovered since adding task just inserts a
   // new task every time, updating it via dragging the task will cause duplication
   // resulting appending the selected task to an existing task obj and restricts the
