@@ -140,7 +140,12 @@ const CMSUser = () => {
         };
       })
     )
-    .flat();
+    .flat()
+    .filter(
+      (tasks) =>
+        tasks.processor.map((processor) => processor.sub).includes(user.sub) ||
+        tasks.reviewer.map((reviewer) => reviewer.sub).includes(user.sub)
+    );
 
   const filteredTaskItems = useMemo(() => {
     let filteredTasks = tasksList?.length ? [...tasksList] : [];
