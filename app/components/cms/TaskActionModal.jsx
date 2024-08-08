@@ -9,7 +9,7 @@ import {
 import { useAtomValue } from "jotai";
 import CTAButtons from "../CTAButtons";
 import FormFieldSelect from "../FormFieldSelect";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const TaskActionModal = ({
   isOpen,
@@ -23,24 +23,15 @@ const TaskActionModal = ({
   setUpdateSelectedReviewer,
   ...props
 }) => {
-  const userList = useAtomValue(userListAtom);
-
-  const processorsAssignees = sla?.processor.map((assignee) => assignee.sub);
-  const reviewersAssignees = sla?.reviewer.map((assignee) => assignee.sub);
-
-  const processorsSelection = userList?.map((user) => {
-    if (!processorsAssignees?.includes(user.sub)) {
-      return { ...user, key: user.sub, value: user.sub };
-    }
-  });
-  const reviewersSelection = userList?.map((user) => {
-    if (!reviewersAssignees?.includes(user.sub)) {
-      return { ...user, key: user.sub, value: user.sub };
-    }
-  });
-
   const processors = sla?.processor;
   const reviewers = sla?.reviewer;
+
+  const newProcessors = processors?.map((processor) => {
+    return { ...processor, key: processor.sub };
+  });
+  const newReviewers = reviewers?.map((reviewer) => {
+    return { ...reviewer, key: reviewer.sub };
+  });
 
   const actionDetails = {
     assign: {
@@ -57,7 +48,7 @@ const TaskActionModal = ({
               label="Assigned to"
               placeholder="Select processor/s"
               selectionMode={"multiple"}
-              items={processorsSelection}
+              items={newProcessors ?? []}
               selectedKeys={updateSelectedProcessor}
               disabledValidation={true}
               onSelectionChange={setUpdateSelectedProcessor}
@@ -73,7 +64,7 @@ const TaskActionModal = ({
               label="Assigned to"
               placeholder="Select reviewer/s"
               selectionMode={"multiple"}
-              items={reviewersSelection}
+              items={newReviewers ?? []}
               selectedKeys={updateSelectedReviewer}
               disabledValidation={true}
               onSelectionChange={setUpdateSelectedReviewer}
@@ -98,7 +89,7 @@ const TaskActionModal = ({
               label="Remove from"
               placeholder="Select processor/s"
               selectionMode={"multiple"}
-              items={processors}
+              items={processors ?? []}
               selectedKeys={updateSelectedProcessor}
               disabledValidation={true}
               onSelectionChange={setUpdateSelectedProcessor}
@@ -114,7 +105,7 @@ const TaskActionModal = ({
               label="Remove from"
               placeholder="Select reviewer/s"
               selectionMode={"multiple"}
-              items={reviewers}
+              items={reviewers ?? []}
               selectedKeys={updateSelectedReviewer}
               disabledValidation={true}
               onSelectionChange={setUpdateSelectedReviewer}
@@ -160,6 +151,7 @@ const TaskActionModal = ({
                 }}
               />
               <CTAButtons
+                isDisabled={!processors?.length || !reviewers?.length}
                 type={"submit"}
                 label={actionDetails[selectedTaskAction.key]?.label}
                 color={actionDetails[selectedTaskAction.key]?.color}

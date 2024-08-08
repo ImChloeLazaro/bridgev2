@@ -105,6 +105,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
     }
   }
 
+  //test for uploading new tasks
   // Potential bug discovered since adding task just inserts a
   // new task every time, updating it via dragging the task will cause duplication
   // resulting appending the selected task to an existing task obj and restricts the
@@ -115,12 +116,13 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
 });
 
 export const updateTaskAtom = atom(null, async (get, set, update) => {
-  const { action, _id, reviewer, processor } = update;
+  const { action, _id, reviewer, processor, sla_id } = update;
 
   const updatedAssignees = {
     _id,
     reviewer,
     processor,
+    sla_id
   };
 
   if (action === "remove") {
@@ -213,6 +215,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
     updateSelectedReviewer,
     setUpdateSelectedReviewer,
   } = update;
+
+  // console.log("task actions", update);
 
   const { key, status_id, sla_id } = get(selectedTaskActionAtom);
   const user = get(userAtom);
@@ -487,6 +491,8 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
       ...assignReviewerAssignees.map((assignee) => assignee?.name),
     ];
 
+    // console.log("newAssignees", newAssignees);
+
     const socketRef = get(notificationSocketRefAtom);
     sendNotification({
       socketRef: socketRef,
@@ -511,6 +517,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 _id: taskId,
                 processor: assignProcessorAssignees,
                 reviewer: assignReviewerAssignees,
+                sla_id: sla_id
               }),
               await set(fetchTaskAtom, {})
             ),
@@ -536,6 +543,9 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
     const removeReviewerAssignees = tasks.reviewer.filter((user) =>
       Array.from(updateSelectedReviewer).includes(user.sub)
     );
+
+    // console.log("removeProcessorAssignees", removeProcessorAssignees);
+    // console.log("removeReviewerAssignees", removeReviewerAssignees);
 
     /// ### For removing any task done by when removing processor/s and reviewer/s?
     /// ### Checks whether the soon to be removed processor/s and reviewer/s has any task done by and removes it
@@ -594,6 +604,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 _id: taskId,
                 processor: removeProcessorAssignees,
                 reviewer: removeReviewerAssignees,
+                sla_id: sla_id
               }),
 
               await set(fetchTaskAtom, {})
