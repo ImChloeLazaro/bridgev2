@@ -5,7 +5,9 @@ import CTAButtons from "@/app/components/CTAButtons";
 import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
 import "../../aws-auth";
-
+//subject for testing transfer repo
+//test 7
+//test 8
 const SignInCard = () => {
   return (
     <div
