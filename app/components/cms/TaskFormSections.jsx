@@ -63,8 +63,6 @@ const TaskFormSections = ({
     team.client.map((client) => client._id).includes(selectedClientToView)
   );
 
-  console.log("selectedTeam", selectedTeam);
-
   return (
     <div className="flex flex-col gap-6">
       {/* People */}
@@ -164,7 +162,7 @@ const TaskFormSections = ({
             </p>
             <div className="w-[80%]">
               <FormFieldSelect
-                isDisabled={Boolean(selectedTeam?.length)}
+                isDisabled={selectedTeam.size == 0}
                 isRequired={true}
                 aria-label="Processor Selection"
                 items={processorSelection}

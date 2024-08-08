@@ -222,7 +222,6 @@ export const managerSelectionAtom = atom((get) => {
     .pop();
 
   if (!team?.length) {
-    const tlList = [{ ...team?.tl, key: team?.tl?.sub ?? "" }];
     const headsList =
       team?.heads?.map((head) => {
         return {
@@ -230,7 +229,9 @@ export const managerSelectionAtom = atom((get) => {
           key: head.sub,
         };
       }) ?? [];
-    return [tlList, headsList].flat();
+    return headsList.filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );;
   } else {
     return [];
   }

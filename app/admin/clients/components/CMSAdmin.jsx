@@ -110,7 +110,7 @@ const CMSAdmin = () => {
   const [selectedClientToView, setSelectedClientToView] = useAtom(
     selectedClientToViewAtom
   );
-  const [selectedClient, setSelectedClient] = useAtom(selectedClientAtom);
+  const setSelectedTeam = useSetAtom(selectedTeamAtom);
 
   // ##########################################
 
@@ -262,6 +262,7 @@ const CMSAdmin = () => {
   const fetchClient = useSetAtom(fetchClientAtom);
 
   const handleOpenTaskWindow = () => {
+    setSelectedTeam(new Set([]));
     onOpenTask();
   };
   const handleOpenClientWindow = () => {
@@ -422,6 +423,7 @@ const CMSAdmin = () => {
             actions={taskActionsDetails}
             selectedTaskAtom={selectedTaskAtom}
             selectedTaskIDAtom={selectedTaskIDAtom}
+            teamSelectionAtom={teamSelectionAtom}
             updateSelectedProcessorAtom={updateSelectedProcessorAtom}
             updateSelectedReviewerAtom={updateSelectedReviewerAtom}
             isLoading={isLoading}
@@ -436,6 +438,7 @@ const CMSAdmin = () => {
             actions={taskActionsDetails}
             selectedTaskAtom={selectedTaskAtom}
             selectedTaskIDAtom={selectedTaskIDAtom}
+            teamSelectionAtom={teamSelectionAtom}
             updateSelectedProcessorAtom={updateSelectedProcessorAtom}
             updateSelectedReviewerAtom={updateSelectedReviewerAtom}
             isLoading={isLoading}

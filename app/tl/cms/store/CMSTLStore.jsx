@@ -165,8 +165,20 @@ export const managerSelectionAtom = atom((get) => {
     .filter((team) => Array.from(selectedTeam).includes(team?._id))
     .pop();
 
-  const managerList = [{ ...team?.tl, key: team?.tl?.sub ?? "" }];
-  return managerList;
+  if (!team?.length) {
+    const headsList =
+      team?.heads?.map((head) => {
+        return {
+          ...head,
+          key: head.sub,
+        };
+      }) ?? [];
+    return headsList.filter(
+      (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+    );
+  } else {
+    return [];
+  }
 });
 
 // task details

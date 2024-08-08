@@ -32,6 +32,7 @@ function TaskBoardCard({
   actions,
   selectedTaskAtom,
   selectedTaskIDAtom,
+  teamSelectionAtom,
   updateSelectedProcessorAtom,
   updateSelectedReviewerAtom,
   isMobile,
@@ -241,6 +242,7 @@ function TaskBoardCard({
             onOpenChange={taskActionWindow.onOpenChange}
             onOpenAfterClose={confirmationWindow.onOpen}
             sla={slaToBeUpdated}
+            teamSelectionAtom={teamSelectionAtom}
             selectedTaskAction={selectedTaskAction}
             updateSelectedProcessor={updateSelectedProcessor}
             setUpdateSelectedProcessor={setUpdateSelectedProcessor}
