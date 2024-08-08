@@ -66,7 +66,7 @@ export const addTaskAtom = atom(null, async (get, set, update) => {
   const { team = "", manager = {}, client = {}, sla = [] } = update;
   console.log("update", update);
 
-  if (!client?.length) {
+  if (!team?.length) {
     return;
   }
 
@@ -121,7 +121,7 @@ export const updateTaskAtom = atom(null, async (get, set, update) => {
     _id,
     reviewer,
     processor,
-    sla_id
+    sla_id,
   };
 
   if (action === "remove") {
@@ -516,7 +516,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 _id: taskId,
                 processor: assignProcessorAssignees,
                 reviewer: assignReviewerAssignees,
-                sla_id: sla_id
+                sla_id: sla_id,
               }),
               await set(fetchTaskAtom, {})
             ),
@@ -603,7 +603,7 @@ export const taskActionsAtom = atom(null, (get, set, update) => {
                 _id: taskId,
                 processor: removeProcessorAssignees,
                 reviewer: removeReviewerAssignees,
-                sla_id: sla_id
+                sla_id: sla_id,
               }),
 
               await set(fetchTaskAtom, {})

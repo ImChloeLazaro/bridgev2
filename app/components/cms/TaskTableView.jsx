@@ -1,5 +1,6 @@
 import LabelTagChip from "@/app/components/LabelTagChip";
 import {
+  reviewerSelectionAtom,
   selectedTaskActionAtom,
   tableColumnsAtom,
   taskActionsAtom,
@@ -8,6 +9,7 @@ import {
 import {
   Avatar,
   AvatarGroup,
+  Badge,
   cn,
   Image,
   Link,
@@ -30,6 +32,7 @@ import useSound from "use-sound";
 import ConfirmationWindow from "../ConfirmationWindow";
 import TaskActionModal from "./TaskActionModal";
 import TaskOptionsDropdown from "./TaskOptionsDropdown";
+import { FaStar } from "react-icons/fa";
 
 // @refresh reset
 
@@ -53,6 +56,7 @@ const TaskTableView = ({
   actions,
   selectedTaskAtom,
   selectedTaskIDAtom,
+  teamSelectionAtom,
   updateSelectedProcessorAtom,
   updateSelectedReviewerAtom,
   isLoading,
@@ -134,10 +138,22 @@ const TaskTableView = ({
   const renderCell = useCallback(
     (task, columnKey) => {
       // const isOverdue = task.progress.toLowerCase() === "overdue";
-
       const isOverdue =
         compareAsc(new Date(task.duration?.end?.slice(0, -1)), new Date()) <
           0 && task.status === "todo";
+
+      const isReviewer = (user) => {
+        let reviewer = task.reviewer.filter(
+          (reviewer) => reviewer.sub === user.sub
+        );
+        return Boolean(reviewer?.length);
+      };
+
+      const assignees = [task.processor, task.reviewer]
+        .flat()
+        .filter(
+          (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
+        );
 
       const cellValue = task[columnKey];
 
@@ -254,21 +270,52 @@ const TaskTableView = ({
               max={isMobile ? 2 : 3}
               classNames={{
                 base: "flex justify-start gap-1",
-                count: "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12",
+                count: "w-8 h-8 sm:w-10 sm:h-10",
               }}
             >
-              {task.processor?.length ? (
-                task.processor.map((processor) => (
-                  <Avatar
-                    key={processor.sub}
-                    src={processor.picture}
-                    classNames={{
-                      base: [
-                        "w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-large",
-                      ],
-                    }}
-                  />
-                ))
+              {assignees?.length ? (
+                assignees.map((assignee) =>
+                  isReviewer(assignee) ? (
+                    // <Badge
+                    //   key={assignee.sub}
+                    //   isOneChar
+                    //   showOutline={false}
+                    //   placement={"bottom-right"}
+                    //   content={
+                    //     <FaStar
+                    //       fill="currentColor"
+                    //       className="text-orange-default"
+                    //       size={28}
+                    //     />
+                    //   }
+                    //   classNames={{ badge: "bg-transparent" }}
+                    // >
+                    // </Badge>
+                    <Avatar
+                      isBordered
+                      key={assignee.sub}
+                      src={assignee.picture}
+                      classNames={{
+                        base: [
+                          "w-8 h-8 sm:w-10 sm:h-10 text-large",
+                          "ring-orange-default",
+                        ],
+                      }}
+                    />
+                  ) : (
+                    <Avatar
+                      isBordered
+                      key={assignee.sub}
+                      src={assignee.picture}
+                      classNames={{
+                        base: [
+                          "w-8 h-8 sm:w-10 sm:h-10 text-large",
+                          // "ring-blue-default",
+                        ],
+                      }}
+                    />
+                  )
+                )
               ) : (
                 <Avatar
                   isBordered={true}
@@ -444,6 +491,7 @@ const TaskTableView = ({
         onOpenChange={taskActionWindow.onOpenChange}
         onOpenAfterClose={confirmationWindow.onOpen}
         sla={slaToBeUpdated}
+        teamSelectionAtom={teamSelectionAtom}
         selectedTaskAction={selectedTaskAction}
         updateSelectedProcessor={updateSelectedProcessor}
         setUpdateSelectedProcessor={setUpdateSelectedProcessor}

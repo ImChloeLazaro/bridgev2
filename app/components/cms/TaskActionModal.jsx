@@ -6,7 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useAtom } from "jotai";
 import CTAButtons from "../CTAButtons";
 import FormFieldSelect from "../FormFieldSelect";
 import { useMemo, useState } from "react";
@@ -16,6 +16,7 @@ const TaskActionModal = ({
   onOpenChange,
   onOpenAfterClose,
   sla,
+  teamSelectionAtom,
   selectedTaskAction,
   updateSelectedProcessor,
   setUpdateSelectedProcessor,
@@ -23,15 +24,17 @@ const TaskActionModal = ({
   setUpdateSelectedReviewer,
   ...props
 }) => {
+  const teamSelection = useAtomValue(teamSelectionAtom);
+
+  const assignees = teamSelection
+    .filter((team) => team._id === sla?.team_id)
+    .pop()
+    ?.members.map((member) => {
+      return { ...member, key: member.sub };
+    });
+
   const processors = sla?.processor;
   const reviewers = sla?.reviewer;
-
-  const newProcessors = processors?.map((processor) => {
-    return { ...processor, key: processor.sub };
-  });
-  const newReviewers = reviewers?.map((reviewer) => {
-    return { ...reviewer, key: reviewer.sub };
-  });
 
   const actionDetails = {
     assign: {
@@ -48,7 +51,7 @@ const TaskActionModal = ({
               label="Assigned to"
               placeholder="Select processor/s"
               selectionMode={"multiple"}
-              items={newProcessors ?? []}
+              items={assignees ?? []}
               selectedKeys={updateSelectedProcessor}
               disabledValidation={true}
               onSelectionChange={setUpdateSelectedProcessor}
@@ -64,7 +67,7 @@ const TaskActionModal = ({
               label="Assigned to"
               placeholder="Select reviewer/s"
               selectionMode={"multiple"}
-              items={newReviewers ?? []}
+              items={assignees ?? []}
               selectedKeys={updateSelectedReviewer}
               disabledValidation={true}
               onSelectionChange={setUpdateSelectedReviewer}
@@ -151,7 +154,6 @@ const TaskActionModal = ({
                 }}
               />
               <CTAButtons
-                isDisabled={!processors?.length || !reviewers?.length}
                 type={"submit"}
                 label={actionDetails[selectedTaskAction.key]?.label}
                 color={actionDetails[selectedTaskAction.key]?.color}

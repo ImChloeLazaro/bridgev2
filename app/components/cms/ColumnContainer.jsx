@@ -17,6 +17,7 @@ function ColumnContainer({
   actions,
   selectedTaskAtom,
   selectedTaskIDAtom,
+  teamSelectionAtom,
   updateSelectedProcessorAtom,
   updateSelectedReviewerAtom,
   isLoading,
@@ -196,6 +197,7 @@ function ColumnContainer({
                 actions={actions}
                 selectedTaskAtom={selectedTaskAtom}
                 selectedTaskIDAtom={selectedTaskIDAtom}
+                teamSelectionAtom={teamSelectionAtom}
                 updateSelectedProcessorAtom={updateSelectedProcessorAtom}
                 updateSelectedReviewerAtom={updateSelectedReviewerAtom}
                 isLoading={isLoading}
