@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdChevronRight } from "react-icons/md";
 import "../../aws-auth";
 //test 10
+// testing new config
 const SignInCard = () => {
   return (
     <div
