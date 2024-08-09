@@ -42,8 +42,8 @@ export const tasksListAtom = atom((get) => {
     .filter((task) =>
       [userSubTeams, myTeams]
         .flat()
-        .filter((userSubTeam) => userSubTeam.team)
-        .map((userSubTeam) => userSubTeam._id)
+        .filter((teamTask) => teamTask.team || teamTask._id)
+        .map((teamTask) => teamTask._id)
         .includes(task.team)
     )
     .map((task) => {
@@ -231,7 +231,7 @@ export const managerSelectionAtom = atom((get) => {
       }) ?? [];
     return headsList.filter(
       (obj1, i, arr) => arr.findIndex((obj2) => obj2.sub === obj1.sub) === i
-    );;
+    );
   } else {
     return [];
   }
